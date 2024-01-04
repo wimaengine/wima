@@ -42,6 +42,7 @@ export class TransformPlugin {
         .registerType(Orientation2D)
         .registerType(Scale2D)
         .registerType(GlobalTransform2D)
+        .registerSystem(AppSchedule.Update, synctransform2D)
     }
     if (
       dimension === Dimension.Three ||
@@ -54,6 +55,17 @@ export class TransformPlugin {
         .registerType(GlobalTransform3D)
     }
   }
+}
+
+/**
+ * @param {World} world
+ */
+function synctransform2D(world) {
+  const query = new Query(world, ['position2d', 'orientation2d', 'scale2d', 'globaltransform2d'])
+
+  query.each(([position, orientation, scale, transform]) => {
+    transform.compose(position, orientation, scale)
+  })
 }
 
 /**
