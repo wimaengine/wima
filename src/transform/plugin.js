@@ -53,6 +53,8 @@ export class TransformPlugin {
         .registerType(Orientation3D)
         .registerType(Scale3D)
         .registerType(GlobalTransform3D)
+        .registerSystem(AppSchedule.Update, synctransform3D)
+
     }
   }
 }
@@ -62,6 +64,17 @@ export class TransformPlugin {
  */
 function synctransform2D(world) {
   const query = new Query(world, ['position2d', 'orientation2d', 'scale2d', 'globaltransform2d'])
+
+  query.each(([position, orientation, scale, transform]) => {
+    transform.compose(position, orientation, scale)
+  })
+}
+
+/**
+ * @param {World} world
+ */
+function synctransform3D(world) {
+  const query = new Query(world, ['position3d', 'orientation3d', 'scale3d', 'globaltransform3d'])
 
   query.each(([position, orientation, scale, transform]) => {
     transform.compose(position, orientation, scale)
