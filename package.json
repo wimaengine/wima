@@ -24,7 +24,7 @@
   "scripts": {
     "init": "husky .husky",
     "rollup": "rollup --config .config/rollup.config.js",
-    "eslint":"eslint --config .config/eslint.config.js",
+    "eslint": "eslint --config .config/eslint.config.js",
     "typedoc": "typedoc -options .config/typedoc.json --tsconfig .config/tsc.lint.json",
     "types": "tsc -p .config/tsc.type.json",
     "typedef": "node scripts/typedef.js",
@@ -37,7 +37,7 @@
     "watch:src": "npm run rollup -- --watch",
     "watch:docs": "npm run typedoc -- --watch",
     "lint:src": "npm run eslint -- src",
-    "lint:demos":"npm run eslint -- demos",
+    "lint:demos": "npm run eslint -- demos",
     "lint:fix": "npm run lint:fix-src & npm run lint:fix-demos",
     "lint:fix-src": "npm run lint:src -- --fix",
     "lint:fix-demos": "npm run lint:demos -- --fix",
@@ -58,6 +58,7 @@
   "devDependencies": {
     "@stylistic/eslint-plugin": "^2.3.0",
     "eslint": "^9.7.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsdoc": "^48.7.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
