@@ -1,0 +1,12 @@
+{
+    "include": [
+        "../src"
+    ],
+    "exclude":["../**/test/**/*.js","../*.test.js","../*.spec.js"],
+    "compilerOptions": {
+        "types":[],
+        "checkJs": true,
+        "target":"ES2020",
+        "noEmit":true
+    }
+}
