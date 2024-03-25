@@ -1,0 +1,12 @@
+{
+    "include": [
+        "../dist/index.module.js"
+    ],
+    "compilerOptions": {
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "allowJs": true,
+        "removeComments":true,
+        "lib": ["ES2017"]
+    }
+}
