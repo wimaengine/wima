@@ -25,6 +25,7 @@ export function swapRemove(arr, index) {
   if (index === -1) return
   if (arr.length - 1 === index){
      arr.pop()
+     
      return
     }
 
@@ -48,7 +49,7 @@ export function swapRemove(arr, index) {
 export function noop(..._args){}
 
 /**
- * Represents the dimension
+ * Represents the dimension.
  * 
  * @readonly
  * @enum {number}
