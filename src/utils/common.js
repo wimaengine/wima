@@ -8,3 +8,31 @@ let tmpID = 0
 export function generateIDBasic() {
   return (tmpID += 1)
 }
+
+/**
+ * Removes an element by its index from an array by 
+ * swapping it with the last element and popping it
+ * off the array.
+ * Use this when order of elements in the array do 
+ * not matter.
+ *
+ * @template T
+ * @param {T[]} arr
+ * @param {number} index
+ * @returns {void}
+ */
+export function swapRemove(arr, index) {
+  if (index === -1) return
+  if (arr.length - 1 === index){
+     arr.pop()
+     return
+    }
+
+  const temp2 = arr.pop()
+
+  if(!temp2)return
+
+  arr[index] = temp2
+
+  return
+}
