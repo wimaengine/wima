@@ -36,3 +36,13 @@ export function swapRemove(arr, index) {
 
   return
 }
+
+/**
+ * Performs no operations on any given input.
+ * Used as a callback function where no operaion
+ * is required.
+ * 
+ * @template {Tuple} T
+ * @param {T} _args
+ */
+export function noop(..._args){}
