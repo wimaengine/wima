@@ -5,3 +5,7 @@
 /**
  * @typedef {number} ComponentId
  */
+
+/**
+ * @typedef {string} ComponentName
+ */
