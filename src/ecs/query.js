@@ -204,3 +204,10 @@ export class Query {
     return sum
   }
 }
+
+/**
+ * @template {Tuple} T
+ * @callback EachFunc
+ * @param {T} components
+ * @returns {void}
+ */
