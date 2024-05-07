@@ -211,3 +211,11 @@ export class Query {
  * @param {T} components
  * @returns {void}
  */
+
+/**
+ * @template {Tuple} T
+ * @callback EachCombinationFunc
+ * @param {T} components1
+ * @param {T} components2
+ * @returns {void}
+ */
