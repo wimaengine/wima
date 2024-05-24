@@ -43,7 +43,7 @@ export function swapRemove(arr, index) {
  * Used as a callback function where no operaion
  * is required.
  * 
- * @template {Tuple} T
+ * @template {any[]} T
  * @param {T} _args
  */
 export function noop(..._args){}
