@@ -2,6 +2,15 @@ const marker = '🚀Chaos Engine:\n\n'
 const mess = ['']
 
 /**
+ * Logs out a message to the console.
+ *
+ * @param {string} message
+ */
+export function log(message) {
+  console.log(marker + message)
+}
+
+/**
  * Logs out a warning to the console.
  *
  * @param {string} message
