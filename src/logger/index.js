@@ -29,4 +29,14 @@ export function warnOnce(message) {
 
   mess.push(message)
   warn(message)
+
+}
+
+/**
+ * Logs out a non fatal error to the console.
+ *
+ * @param {string} message
+ */
+export function error(message) {
+  console.error(marker + message)
 }
