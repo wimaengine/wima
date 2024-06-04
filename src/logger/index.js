@@ -40,3 +40,13 @@ export function warnOnce(message) {
 export function error(message) {
   console.error(marker + message)
 }
+
+/**
+ * Throws a fatal error.
+ *
+ * @param {string} message
+ * @throws {Error}
+ */
+export function throws(message) {
+  throw new Error(marker + message)
+}
