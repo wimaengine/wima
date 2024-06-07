@@ -50,3 +50,16 @@ export function error(message) {
 export function throws(message) {
   throw new Error(marker + message)
 }
+
+
+/**
+ * Logs out a message,warning or error to the console according to the supplied log function.
+ *
+ * @template T
+ * @param {T} test
+ * @param {string} message
+ * @returns {asserts test is true }
+ */
+export function assert(test, message) {
+  if (!test) throws(message)
+}
