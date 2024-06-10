@@ -63,3 +63,17 @@ export function throws(message) {
 export function assert(test, message) {
   if (!test) throws(message)
 }
+
+/**
+ * Logs out a warning to the console.
+ *
+ * @param {string} original
+ * @param {string} [replacement]
+ */
+export function deprecate(original, replacement = '') {
+  let message = `\`${original}\` has been depreciated.`
+
+  if (replacement !== '') message += `Use \`${replacement}\` instead.`
+
+  warnOnce(message)
+}
