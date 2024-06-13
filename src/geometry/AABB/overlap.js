@@ -1,4 +1,5 @@
 import { BoundingBox2D } from './boundingbox.js'
+import { BoundingCircle } from './boundingcircle.js'
 
 /**
  * Checks if two AABB overlap.
@@ -13,4 +14,17 @@ export function intersectAABB2D(a, b) {
     a.min.y <= b.max.y &&
     a.max.y >= b.min.y
   )
+}
+
+/**
+ * Checks if two BoundingCircles overlap.
+ *
+ * @param {BoundingCircle} a
+ * @param {BoundingCircle} b
+ */
+export function intersectCircle(a, b) {
+  const distance = (a.pos.x - b.pos.x) * (a.pos.x - b.pos.x) +
+    (a.pos.y - b.pos.y) * (a.pos.y - b.pos.y)
+
+  return distance < a.r * a.r + b.r * b.r
 }
