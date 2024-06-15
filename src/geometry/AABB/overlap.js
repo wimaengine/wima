@@ -28,3 +28,19 @@ export function intersectCircle(a, b) {
 
   return distance < a.r * a.r + b.r * b.r
 }
+
+/**
+ * Checks if An AABB and a CircleBound overlap.
+ *
+ * @param {BoundingBox2D} a
+ * @param {BoundingCircle} b
+ */
+export function intersectAABB2DvsCircle(a, b) {
+  const x = Math.max(a.min.x, Math.min(b.pos.x, a.max.x))
+  const y = Math.max(a.min.y, Math.min(b.pos.y, a.max.y))
+  const distance =
+    (x - b.pos.x) * (x - b.pos.x) +
+    (y - b.pos.y) * (y - b.pos.y)
+
+  return distance < b.r * b.r
+}
