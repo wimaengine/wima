@@ -62,3 +62,12 @@ export class Timer {
     timer.finished = false
   }
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const TimerMode = {
+  Once: 0,
+  Repeat: 1
+}
