@@ -4,4 +4,9 @@
  * @returns {void}
  */
 
+/**
+ * @typedef ChaosPlugin
+ * @property {RegisterFunc} register
+ */
+
 export default {}
