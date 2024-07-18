@@ -7,3 +7,10 @@ import { Velocity3D, Rotation3D, Acceleration3D, Torque3D } from '../components/
 export function createMovable3D() {
   return [new Position3D(), new Orientation3D(), new Velocity3D(), new Scale3D(), new Rotation3D(), new Acceleration3D(), new Torque3D()]
 }
+
+/**
+ * @returns {[Velocity3D,Rotation3D,Acceleration3D,Torque3D]}
+ */
+export function createRawMovable3D() {
+  return [new Velocity3D(), new Rotation3D(), new Acceleration3D(), new Torque3D()]
+}
