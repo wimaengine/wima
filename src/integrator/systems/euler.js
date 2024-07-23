@@ -17,3 +17,16 @@ export function updateVelocityEuler2D(world) {
     Vector2.set(acceleration, 0, 0)
   })
 }
+
+/**
+ * @param {World} world
+ */
+export function updateAngularEuler2D(world) {
+  const query = new Query(world, ['rotation2d', 'torque2d'])
+  const dt = 1 / 60
+
+  query.each(([rotation, torque]) => {  
+    rotation.value += torque.value * dt
+    torque.value = 0
+  })
+}
