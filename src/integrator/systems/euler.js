@@ -30,3 +30,19 @@ export function updateAngularEuler2D(world) {
     torque.value = 0
   })
 }
+
+/**
+ * @param {World} world
+ */
+export function updatePositionEuler2D(world) {
+  const query = new Query(world, ['position2d', 'velocity2d'])
+  const dt = 1 / 60
+
+  query.each(([position, velocity]) => {
+    Vector2.set(
+      position,
+      position.x + velocity.x * dt,
+      position.y + velocity.y * dt
+    )
+  })
+}
