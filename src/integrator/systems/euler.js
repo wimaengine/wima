@@ -46,3 +46,15 @@ export function updatePositionEuler2D(world) {
     )
   })
 }
+
+/**
+ * @param {World} world
+ */
+export function updateOrientationEuler2D(world) {
+  const query = new Query(world, ['orientation2d', 'rotation2d'])
+  const dt = 1 / 60
+
+  query.each(([orientation, rotation]) => {
+    orientation.value += rotation.value * dt
+  })
+}
