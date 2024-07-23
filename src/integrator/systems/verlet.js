@@ -20,3 +20,19 @@ export function updatePositionVerlet2D(world) {
     Vector2.set(acceleration, 0, 0)
   })
 }
+
+/**
+ * @param {World} world
+ */
+export function updateOrientationVerlet2D(world) {
+  const query = new Query(world, ['orientation2d', 'rotation2d', 'torque2d'])
+  const dt = 1 / 60
+
+  query.each(([orientation, rotation, torque]) => {
+    torque.value *= dt * 0.5
+    rotation.value += torque.value
+    orientation.value += rotation.value * dt + torque.value * dt
+    rotation.value += torque.value * dt * 0.5
+    torque.value = 0
+  })
+}
