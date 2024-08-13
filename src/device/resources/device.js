@@ -25,3 +25,55 @@ export class Device {
      */
     browser = Browser.Unknown
 }
+
+export class DeviceCapabilities {
+
+    /**
+     * Whether this device supports WebGPU.
+     *
+     * @type {boolean}
+     */
+    webgpu = false
+
+    /**
+     * Whether this device supports WebGL.
+     *
+     * @type {boolean}
+     */
+    webgl = false
+
+    /**
+     * Whether this device supports 2D canvas.
+     *
+     * @type {boolean}
+     */
+    canvas = !!window.CanvasRenderingContext2D
+
+    /**
+     * Whether this device supports WebAudio.
+     *
+     * @type {boolean}
+     */
+    webAudio = false
+
+    /**
+     * Whether this device supports Audio tag.
+     *
+     * @type {boolean}
+     */
+    audio = !!new Audio().canPlayType
+
+    /**
+     * A list of audio extensions this device supports.
+     *
+     * @type {string[]}
+     */
+    supportedAudioFormats = []
+
+    /**
+     * A list of image extensions this device supports.
+     *
+     * @type {string[]}
+     */
+    supportedImageFormats = []
+}
