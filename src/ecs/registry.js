@@ -257,14 +257,6 @@ export class World {
   }
 
   /**
-   * @param {string} name
-   * @returns {boolean}
-   */
-  hasResource(name) {
-    return !!this.resources[name]
-  }
-
-  /**
    * @template {object} T
    * @param {T} resource
    */
