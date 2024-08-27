@@ -257,6 +257,16 @@ export class World {
   }
 
   /**
+   * @template T
+   * @param {string} name
+   * @param {T} resource
+   * @returns {void}
+   */
+  setResourceByName(name, resource) {
+    this.resources[name] = resource
+  }
+
+  /**
    * @template {object} T
    * @param {T} resource
    */
