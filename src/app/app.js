@@ -1,6 +1,7 @@
 /** @import { ChaosPlugin } from './typedef/index.js' */
 /** @import { SystemFunc } from '../ecs/index.js' */
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
+import { EventDispatch } from '../event/index.js'
 import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
 
@@ -110,6 +111,21 @@ export class App {
   }
 
   /**
+   * @template {Function} T
+   * @param {T} event
+   */
+  registerEvent(event) {
+    const name = `events<${event.name.toLowerCase()}>`
+
+    this
+      .registerType(event)
+      .registerSystem(AppSchedule.Update, makeEventClear(name))
+      .world.setResourceByName(name, new EventDispatch())
+
+      return this
+  }
+
+  /**
    * @param {Function} component
    * @param {ComponentHooks} hooks
    */
@@ -128,5 +144,17 @@ export class App {
     this.world.setResource(resource)
 
     return this
+  }
+}
+
+/**
+ * @param {string} name 
+ * @returns {SystemFunc}
+ */
+function makeEventClear(name) {
+  return function clearEvents(world) {
+    const dispatch = world.getResource(name)
+
+    dispatch.clear()
   }
 }
