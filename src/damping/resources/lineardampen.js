@@ -1,0 +1,1 @@
+export class Linear2DDamping extends Number {}
