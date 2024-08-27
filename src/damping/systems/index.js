@@ -1,6 +1,6 @@
 import { Query, World } from '../../ecs/index.js'
 import { Vector2, Vector3 } from '../../math/index.js'
-import { Velocity2D, Velocity3D } from '../../movable/index.js'
+import { Rotation2D, Velocity2D, Velocity3D } from '../../movable/index.js'
 
 /**
  * @param {World} world
@@ -29,5 +29,19 @@ export function dampenVelocity3D(world) {
   
   query.each(([velocity]) => {
     Vector3.multiplyScalar(velocity, linear, velocity)
+  })
+}
+
+/**
+ * @param {World} world
+ */
+export function dampenRotation2D(world) {
+
+  /** @type {Query<[Rotation2D]>} */
+  const query = new Query(world, ['rotation2d'])
+  const angular = 1 - world.getResource('angulardamping')
+  
+  query.each(([rotation]) => {
+    rotation.value *= angular
   })
 }
