@@ -8,11 +8,4 @@ export class Sound {
     this.audiobuffer = audiobuffer
     this.raw = raw
   }
-  static PLACEHOLDER = new Sound(
-    new AudioBuffer({
-      sampleRate: 44100,
-      length: 512
-    }),
-    new ArrayBuffer(0)
-  )
 }
