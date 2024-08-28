@@ -21,8 +21,4 @@ export class Picture {
     this.raw = buffer
     this.dimensions = dimensions
   }
-  static PLACEHOLDER = new Picture(
-    new ArrayBuffer(0),
-    new Vector2()
-  )
 }
