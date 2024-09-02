@@ -1,9 +1,11 @@
-/** @import { ChaosPlugin } from './typedef/index.js' */
+/** @import { ChaosPlugin,Default } from './typedef/index.js' */
 /** @import { SystemFunc } from '../ecs/index.js' */
+/** @import { HandleProvider, Parser } from '../asset/index.js' */
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
 import { EventDispatch } from '../event/index.js'
 import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
+import { Assets, generateParserSystem } from '../asset/index.js'
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
 
@@ -126,9 +128,39 @@ export class App {
   }
 
   /**
-   * @param {Function} component
-   * @param {ComponentHooks} hooks
+   * @template T
+   * @param {Function} asset
+   * @param {HandleProvider<T>} [handleprovider]
    */
+  registerAsset(asset, handleprovider){
+    const name = asset.name.toLowerCase() 
+    
+    // @ts-ignore
+    // ill deal with this later
+    this.world.setResourceByName(`assets<${name}>`, new Assets(asset.default, handleprovider))
+
+    return this
+  }
+  
+  /**
+   * @template T
+   * @param {Function} asset 
+   * @param {Parser<T>} parser 
+   */
+ registerAssetParser(asset, parser){
+   const name = asset.name.toLowerCase()   
+
+   this
+     .registerSystem(AppSchedule.Update, generateParserSystem(name))
+     .world.setResourceByName(`parser<${name}>`, parser)
+
+   return this
+}
+
+/**
+ * @param {Function} component
+ * @param {ComponentHooks} hooks
+ */
   setComponentHooks(component, hooks) {
     this.world.setComponentHooks(component.name.toLowerCase(), hooks)
 
