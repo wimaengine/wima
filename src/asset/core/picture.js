@@ -4,7 +4,7 @@ import { Vector2 } from '../../math/index.js'
 export class Picture {
 
   /**
-   * @type {ArrayBuffer}
+   * @type {Uint8ClampedArray}
    */
   raw
 
@@ -14,7 +14,7 @@ export class Picture {
   dimensions
 
   /**
-   * @param {ArrayBuffer} buffer
+   * @param {Uint8ClampedArray} buffer
    * @param {Vector2} dimensions
    */
   constructor(buffer, dimensions) {
