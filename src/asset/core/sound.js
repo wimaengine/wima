@@ -8,4 +8,11 @@ export class Sound {
     this.audiobuffer = audiobuffer
     this.raw = raw
   }
+
+  static default(){
+    return new Sound(new AudioBuffer({
+      sampleRate:44800,
+      length:1
+    }), new ArrayBuffer(0))
+  }
 }
