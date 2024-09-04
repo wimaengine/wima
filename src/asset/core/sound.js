@@ -1,4 +1,4 @@
-export class Sound {
+export class Audio {
 
   /**
    * @param {AudioBuffer} audiobuffer
@@ -10,7 +10,7 @@ export class Sound {
   }
 
   static default(){
-    return new Sound(new AudioBuffer({
+    return new Audio(new AudioBuffer({
       sampleRate:44800,
       length:1
     }), new ArrayBuffer(0))
