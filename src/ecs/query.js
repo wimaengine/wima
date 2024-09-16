@@ -100,22 +100,25 @@ export class Query {
    */
   get(entity) {
     const entities = this.registry.getEntities()
+    const location = entities.get(entity)
+
+    if(!location) return null
+
+    const { archid, index } = location
     const tableid = this.archmapper.get(
-      entities[entity]
+      archid
     )
 
     if (tableid === undefined) return null
 
-    const index = entities[entity + 1]
     const components = new Array(this.descriptors.length)
 
     for (let i = 0; i < this.descriptors.length; i++) {
       components[i] = this.components[i][tableid][index]
     }
 
-    // @ts-ignore
-    // SAFETY: Components are type cast to the expected return value
-    return components
+    // SAFETY: Components are fetched in same order and types as the generic.
+    return /** @type {T}*/(components)
   }
   
   /**
