@@ -1,4 +1,4 @@
-import { Vector2 } from '../math/index.js'
+import { Vector2 } from '../../math/index.js'
 
 // This is supposed to be `Image()` but that is already taken.
 export class Picture {
