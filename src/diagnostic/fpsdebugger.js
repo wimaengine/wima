@@ -1,6 +1,6 @@
 import { App, AppSchedule } from '../app/index.js'
 import { World } from '../ecs/index.js'
-import { Timer, TimerMode } from '../time/index.js'
+import { Timer, TimerMode, VirtualClock } from '../time/index.js'
 import { RAFTimer } from './resources/index.js'
 
 export class FPSDebugger {
@@ -38,13 +38,17 @@ function setUpUI() {
  * @param {World} world
  */
 function updateFPSCounter(world) {
+
+  /** @type {VirtualClock} */
   const clock = world.getResource('virtualclock')
+
+  /** @type {RAFTimer} */
   const timer = world.getResource('raftimer')
 
   if (!timer.finished) return
 
   const container = document.querySelector('#fps-container')
-  const fps = Math.round(clock.fps)
+  const fps = Math.round(clock.getFrameRate())
 
   if (container) container.innerHTML = `${fps} fps`
 }
