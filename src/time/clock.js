@@ -23,12 +23,6 @@ export class Clock {
   delta = 0
 
   /**
-   * @private
-   * @type {number}
-   */
-  fps = 0
-
-  /**
    * 
    */
   start() {
@@ -109,7 +103,6 @@ export class Clock {
    */
   static update(clock, accumulate = performance.now()) {
     clock.delta = (accumulate - clock.lastTick) / 1000
-    clock.fps = clock.delta ? 1 / clock.delta : 0
     clock.elapsed += clock.delta
     clock.lastTick = accumulate
 
