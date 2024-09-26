@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * @callback RegisterFunc
  * @param {App} app
