@@ -99,7 +99,7 @@ export class Graph {
     const node1 = this.nodes[start]
     const node2 = this.nodes[end]
 
-    this.existsNode(node1, node2)
+    return this.existsNode(node1, node2)
   }
 
   /**
