@@ -33,4 +33,7 @@ export class IndexAllocator {
 
         return index
     }
+    count(){
+        return (this.nextid - 1)
+    }
 }
