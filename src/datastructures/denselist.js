@@ -1,3 +1,4 @@
+import { assert } from '../logger/index.js'
 import { IndexAllocator } from './indexallocator.js'
 
 /**
@@ -42,5 +43,21 @@ export class DenseList {
      */
     get(index){
         return this.list[index]
+    }
+
+    /**
+     * @param {number} index 
+     * @param {T} object 
+     */
+    set(index, object){
+        assert(index <= this.allocator.count(), 'The index provided has never been allocated' )
+        this.list[index] = object    
+    }
+
+    /**
+     * @returns {number}
+     */
+    reserve(){
+        return this.allocator.reserve()
     }
 }
