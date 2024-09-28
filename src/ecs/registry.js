@@ -305,7 +305,6 @@ export class World {
   }
 
   /**
-   * @template T
    * @param {string} componentname
    * @param {ComponentHooks} hooks
    */
