@@ -5,16 +5,16 @@
  */
 export class CEvent {
 
-    /**
-     * @readonly
-     * @type {T}
-     */
-    data
+  /**
+   * @readonly
+   * @type {T}
+   */
+  data
     
-    /**
-     * @param {T} data
-     */
-    constructor(data) {
-      this.data = data
-    }
+  /**
+   * @param {T} data
+   */
+  constructor(data) {
+    this.data = data
   }
+}
