@@ -24,10 +24,10 @@ export function generateIDBasic() {
 export function swapRemove(arr, index) {
   if (index === -1) return
   if (arr.length - 1 === index){
-     arr.pop()
+    arr.pop()
      
-     return
-    }
+    return
+  }
 
   const temp2 = arr.pop()
 
