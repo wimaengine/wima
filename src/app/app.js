@@ -124,7 +124,7 @@ export class App {
       .registerSystem(AppSchedule.Update, makeEventClear(name))
       .world.setResourceByName(name, new EventDispatch())
 
-      return this
+    return this
   }
 
   /**
@@ -147,20 +147,20 @@ export class App {
    * @param {Function} asset 
    * @param {Parser<T>} parser 
    */
- registerAssetParser(asset, parser){
-   const name = asset.name.toLowerCase()   
+  registerAssetParser(asset, parser){
+    const name = asset.name.toLowerCase()   
 
-   this
-     .registerSystem(AppSchedule.Update, generateParserSystem(name))
-     .world.setResourceByName(`parser<${name}>`, parser)
+    this
+      .registerSystem(AppSchedule.Update, generateParserSystem(name))
+      .world.setResourceByName(`parser<${name}>`, parser)
 
-   return this
-}
+    return this
+  }
 
-/**
- * @param {Function} component
- * @param {ComponentHooks} hooks
- */
+  /**
+   * @param {Function} component
+   * @param {ComponentHooks} hooks
+   */
   setComponentHooks(component, hooks) {
     this.world.setComponentHooks(component.name.toLowerCase(), hooks)
 
