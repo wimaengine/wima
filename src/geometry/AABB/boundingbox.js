@@ -8,69 +8,69 @@ import { deprecate } from '../../logger/index.js'
 export class BoundingBox2D {
   type = BoundType.Box2D
 
-/**
- * The upper limit of the bounding box.
- *
- * @type {Vector2}
- */
+  /**
+   * The upper limit of the bounding box.
+   *
+   * @type {Vector2}
+   */
   max
 
-/**
- * The lower limit of the bounding box.
- *
- * @type {Vector2}
- */
+  /**
+   * The lower limit of the bounding box.
+   *
+   * @type {Vector2}
+   */
   min
 
-/**
- * @param {number} [minX=0]
- * @param {number} [minY=0]
- * @param {number} [maxX=0]
- * @param {number} [maxY=0]
- */
+  /**
+   * @param {number} [minX=0]
+   * @param {number} [minY=0]
+   * @param {number} [maxX=0]
+   * @param {number} [maxY=0]
+   */
   constructor(minX = 0, minY = 0, maxX = 0, maxY = 0) {
     this.max = new Vector2(maxX, maxY)
     this.min = new Vector2(minX, minY)
   }
 
-/**
- * @deprecated
- * @param {number} x
- * @param {number} y
- */
+  /**
+   * @deprecated
+   * @param {number} x
+   * @param {number} y
+   */
   translate(x, y) {
     deprecate('BoundingBox2D().translate()', 'BoundingBox2D.translate()')
 
     return BoundingBox2D.translate(this, x, y, this)
   }
 
-/**
- * Deep copies a bounding box to a new one.
- *
- * @deprecated
- * @returns {BoundingBox2D}
- */
+  /**
+   * Deep copies a bounding box to a new one.
+   *
+   * @deprecated
+   * @returns {BoundingBox2D}
+   */
   clone() {
     deprecate('BoundingBox2D().clone()', 'BoundingBox2D.copy()')
 
     return BoundingBox2D.copy(this)
   }
 
-/**
- * Deep copies another bounding box.
- *
- * @deprecated
- * @param {BoundingBox2D} bounds
- */
+  /**
+   * Deep copies another bounding box.
+   *
+   * @deprecated
+   * @param {BoundingBox2D} bounds
+   */
   copy(bounds) {
     deprecate('BoundingBox2D().copy()', 'BoundingBox2D.copy()')
     BoundingBox2D.copy(bounds, this)
   }
 
-/**
- * @param {BoundingBox2D} bound
- * @param {BoundingBox2D} [out]
- */
+  /**
+   * @param {BoundingBox2D} bound
+   * @param {BoundingBox2D} [out]
+   */
   static copy(bound, out = new BoundingBox2D()) {
     out.min.x = bound.min.x
     out.min.y = bound.min.y
@@ -80,12 +80,12 @@ export class BoundingBox2D {
     return out
   }
 
-/**
- * @param {BoundingBox2D} bound
- * @param {number} x
- * @param {number} y
- * @param {BoundingBox2D} [out]
- */
+  /**
+   * @param {BoundingBox2D} bound
+   * @param {number} x
+   * @param {number} y
+   * @param {BoundingBox2D} [out]
+   */
   static translate(bound, x, y, out = new BoundingBox2D()) {
     out.min.x = bound.min.x + x
     out.min.y = bound.min.y + y
@@ -95,14 +95,14 @@ export class BoundingBox2D {
     return out
   }
 
-/**
- * Combines two bounds to create a new one that covers the previous two.
- *
- * @param {BoundingBox2D} bound1
- * @param {BoundingBox2D} bound2
- * @param {BoundingBox2D} out - Bound to store results into.
- * @returns {BoundingBox2D}
- */
+  /**
+   * Combines two bounds to create a new one that covers the previous two.
+   *
+   * @param {BoundingBox2D} bound1
+   * @param {BoundingBox2D} bound2
+   * @param {BoundingBox2D} out - Bound to store results into.
+   * @returns {BoundingBox2D}
+   */
   static union(bound1, bound2, out = new BoundingBox2D()) {
     out.max.x = bound1.max.x > bound2.max.x ? bound1.max.x : bound2.max.x
     out.max.y = bound1.max.y > bound2.max.y ? bound1.max.y : bound2.max.y

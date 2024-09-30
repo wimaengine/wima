@@ -15,11 +15,11 @@ export class Noise {
     return 1.0 - w / 1073741824
   }
 
-/**
- * @param {number} x
- * @param {number} y
- * @param {number} seed
- */
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @param {number} seed
+   */
   static get2D(x, y, seed) {
     const intX = Math.floor(x)
     const intY = Math.floor(y)
