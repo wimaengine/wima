@@ -1,5 +1,5 @@
- /**
-  * @typedef Tuple
-  * @type {any[]}
-  */
- export default {}
+/**
+ * @typedef Tuple
+ * @type {any[]}
+ */
+export default {}

@@ -29,7 +29,7 @@ export class RAFExecutor extends Executor{
       this.tick = requestAnimationFrame(execute.bind(this))
     }
   }
-stop() {
+  stop() {
     cancelAnimationFrame(this.tick)
   }
 }
