@@ -1,7 +1,7 @@
 import { Vector2 } from '../../math/index.js'
 
 // This is supposed to be `Image()` but that is already taken.
-export class Picture {
+export class Image {
 
   /**
    * @type {Uint8ClampedArray}
@@ -25,6 +25,6 @@ export class Picture {
   static default(){
     const array = new Uint8ClampedArray([1, 0, 1, 1])
 
-    return new Picture(array, new Vector2(1, 1))
+    return new Image(array, new Vector2(1, 1))
   }
 }
