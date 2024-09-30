@@ -19,5 +19,5 @@ export function createTransform2D(
     new Position2D(dx, dy),
     new Orientation2D(a),
     new Scale2D(sx, sy)
-    ]
+  ]
 }

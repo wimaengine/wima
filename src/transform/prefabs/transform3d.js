@@ -27,5 +27,5 @@ export function createTransform3D(
     new Position3D(x, y, z),
     new Orientation3D().fromEuler(ox, oy, oz),
     new Scale3D(sx, sy, sz)
-    ]
+  ]
 }

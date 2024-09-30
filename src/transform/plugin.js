@@ -16,17 +16,17 @@ export class TransformPlugin {
    */
   options
 
-/**
- * @param {TransformPluginOptions} options
- */
+  /**
+   * @param {TransformPluginOptions} options
+   */
   constructor(options = {}) {
     options.dimension = options.dimension ?? Dimension.Both
     this.options = options
   }
 
-/**
- * @param {App} app
- */
+  /**
+   * @param {App} app
+   */
   register(app) {
     const { dimension } = this.options
 
