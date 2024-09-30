@@ -11,8 +11,8 @@ export class TimePlugin {
    */
   register(app) {
     app
-    .setResource(new VirtualClock())
-    .registerSystem(AppSchedule.Update, updateVirtualClock)
+      .setResource(new VirtualClock())
+      .registerSystem(AppSchedule.Update, updateVirtualClock)
   }
 }
 
