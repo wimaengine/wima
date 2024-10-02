@@ -92,7 +92,7 @@ export class Clock {
    * @param {Clock} clock
    */
   static getFrameRate(clock) {
-    return 1000 / clock.delta
+    return 1 / clock.delta
   }
 
   /**
