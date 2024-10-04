@@ -5,193 +5,304 @@ export class Vector3 {
     this.z = z
   }
 
-/**
- * @param {number} x
- * @param {number} y
- * @param {number} z
- */
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @param {number} z
+   */
   set(x, y, z) {
-    this.x = x
-    this.y = y
-    this.z = z
+    Vector3.set(this, x, y, z)
 
     return this
   }
 
-/**
- * @param {number} scalar
- */
+  /**
+   * @param {number} scalar
+   */
   splat(scalar) {
-    this.x = scalar
-    this.y = scalar
-    this.z = scalar
+    Vector3.splat(this, scalar)
 
     return this
   }
-clone() {
-    return new Vector3(this.x, this.y, this.z)
+  clone() {
+    return Vector3.copy(this)
   }
 
-/**
- * @param {Vector3} v
- */
+  /**
+   * @param {Vector3} v
+   */
   copy(v) {
-    this.x = v.x
-    this.y = v.y
-    this.z = v.z
+    Vector3.copy(v, this)
 
     return this
   }
 
-/**
- * @param {Vector3} v
- */
+  /**
+   * @param {Vector3} v
+   */
   add(v) {
-    this.x += v.x
-    this.y += v.y
-    this.z += v.z
+    Vector3.add(this, v, this)
 
     return this
   }
 
-/**
- * @param {number} s
- */
+  /**
+   * @param {number} s
+   */
   addScalar(s) {
-    this.x += s
-    this.y += s
-    this.z += s
+    Vector3.addScalar(this, s, this)
 
     return this
   }
 
-/**
- * @param {Vector3} v
- */
+  /**
+   * @param {Vector3} v
+   */
   sub(v) {
-    this.x -= v.x
-    this.y -= v.y
-    this.z -= v.z
+    Vector3.sub(this, v, this)
 
     return this
   }
 
-/**
- * @param {number} s
- */
+  /**
+   * @param {number} s
+   */
   subScalar(s) {
-    this.x -= s
-    this.y -= s
-    this.z -= s
+    Vector3.subScalar(this, s, this)
 
     return this
   }
 
-/**
- * @param {Vector3} v
- */
+  /**
+   * @param {Vector3} v
+   */
   multiply(v) {
-    this.x *= v.x
-    this.y *= v.y
-    this.z *= v.z
+    Vector3.multiply(this, v, this)
 
     return this
 
   }
 
-/**
- * @param {number} s
- */
+  /**
+   * @param {number} s
+   */
   multiplyScalar(s) {
-    this.x -= s
-    this.y -= s
-    this.z -= s
+    Vector3.multiplyScalar(this, s, this)
 
     return this
   }
 
-/**
- * @param {Vector3} v
- */
+  /**
+   * @param {Vector3} v
+   */
   divide(v) {
-    this.x /= v.x
-    this.y /= v.y
-    this.z /= v.z
+    Vector3.divide(this, v, this)
 
     return this
   }
 
-/**
- * @param {number} scalar
- */
+  /**
+   * @param {number} scalar
+   */
   divideScalar(scalar) {
-    return this.multiplyScalar(1 / scalar)
+    Vector3.divideScalar(this, scalar, this)
+
+    return this
   }
 
-/**
- * @param {number} min
- * @param {number} max
- */
+  /**
+   * @param {number} min
+   * @param {number} max
+   */
   clampMagnitude(min, max) {
-    const length = this.magnitude()
+    Vector3.clampMagnitude(this, min, max, this)
 
-    return this.divideScalar(length || 1).multiplyScalar(Math.max(min, Math.min(max, length)))
+    return this
   }
-reverse() {
-    this.x = -this.x
-    this.y = -this.y
-    this.z = -this.z
+  reverse() {
+    Vector3.reverse(this, this)
 
     return this
   }
 
-/**
- * @param {Vector3} v
- */
+  /**
+   * @param {Vector3} v
+   */
   dot(v) {
-    return this.x * v.x + this.y * v.y + this.z * v.z
+    return Vector3.dot(this, v)
   }
-magnitudeSq() {
-    return this.x * this.x + this.y * this.y + this.z * this.z
+  magnitudeSquared() {
+    return Vector3.magnitudeSquared(this)
   }
-magnitude() {
-    return Math.sqrt(this.magnitudeSq())
+  magnitude() {
+    return Vector3.magnitude(this)
   }
-normalize() {
-    return this.divideScalar(this.magnitude() || 1)
-  }
-
-/**
- * @param {number} length
- */
-  setMagnitude(length) {
-    return this.normalize().multiplyScalar(length)
-  }
-
-/**
- * @param {Vector3} v
- * @param {number} t
- */
-  lerp(v, t) {
-    this.x += (v.x - this.x) * t
-    this.y += (v.y - this.y) * t
-    this.z += (v.z - this.z) * t
+  normalize() {
+    Vector3.normalize(this, this)
 
     return this
   }
 
-/**
- * @param {Vector3} v
- */
+
+  /**
+   * @param {number} length
+   */
+  setMagnitude(length) {
+    Vector3.setMagnitude(this, length, this)
+
+    return this
+  }
+
+  /**
+   * @param {Vector3} v
+   * @param {number} t
+   */
+  lerp(v, t) {
+    Vector3.lerp(this, v, t, this)
+
+    return this
+  }
+
+
+  /**
+   * @param {Vector3} v
+   */
   cross(v) {
     return Vector3.cross(this, v, this)
   }
 
-/**
- * @param {Vector3} a
- * @param {Vector3} b
- * @param {Vector3} [out]
- */
+
+  /**
+   * @param {Vector3} normal
+   */
+  reflect(normal) {
+    Vector3.reflect(this, normal, this)
+  }
+
+
+  /**
+   * @param {Vector3} v
+   */
+  distanceTo(v) {
+    return Vector3.distanceToSquared(v, this)
+  }
+
+  /**
+   * @param {Vector3} v
+   */
+  distanceToSquared(v) {
+    return Vector3.distanceToSquared(this, v)
+  }
+
+  /**
+   * @param {Vector3} v1
+   * @param {Vector3} v2
+   */
+  static distanceToSquared(v1, v2) {
+    const dx = v1.x - v2.x,
+      dy = v1.y - v2.y,
+      dz = v1.z - v2.z
+
+    return dx * dx + dy * dy + dz * dz
+  }
+
+  /**
+   * @param {Vector3} v1
+   * @param {Vector3} v2
+   */
+  static distanceTo(v1, v2) {
+    return Math.sqrt(Vector3.distanceToSquared(v1, v2))
+  }
+
+  /**
+   * @param {Vector3} v1
+   * @param {Vector3} v2
+   * @param {Vector3} out
+   */
+  static add(v1, v2, out = new Vector3()) {
+    out.x = v1.x + v2.x
+    out.y = v1.y + v2.y
+    out.z = v1.z + v2.z
+  }
+
+  /**
+   * @param {Vector3} v1
+   * @param {number} scalar
+   * @param {Vector3} out
+   */
+  static addScalar(v1, scalar, out = new Vector3()) {
+    out.x = v1.x + scalar
+    out.y = v1.y + scalar
+    out.z = v1.z + scalar
+  }
+
+  /**
+   * @param {Vector3} v1
+   * @param {Vector3} v2
+   * @param {Vector3} out
+   */
+  static sub(v1, v2, out = new Vector3()) {
+    out.x = v1.x + v2.x
+    out.y = v1.y + v2.y
+    out.z = v1.z + v2.z
+  }
+
+  /**
+   * @param {Vector3} v1
+   * @param {number} scalar
+   * @param {Vector3} out
+   */
+  static subScalar(v1, scalar, out = new Vector3()) {
+    out.x = v1.x - scalar
+    out.y = v1.y - scalar
+    out.z = v1.z - scalar
+  }
+
+  /**
+   * @param {Vector3} v1
+   * @param {Vector3} v2
+   * @param {Vector3} out
+   */
+  static multiply(v1, v2, out = new Vector3()) {
+    out.x = v1.x * v2.x
+    out.y = v1.y * v2.y
+    out.z = v1.z * v2.z
+  }
+
+  /**
+   * @param {Vector3} v1
+   * @param {number} scalar
+   * @param {Vector3} out
+   */
+  static multiplyScalar(v1, scalar, out = new Vector3()) {
+    out.x = v1.x * scalar
+    out.y = v1.y * scalar
+    out.z = v1.z * scalar
+  }
+
+  /**
+   * @param {Vector3} v1
+   * @param {Vector3} v2
+   * @param {Vector3} out
+   */
+  static divide(v1, v2, out = new Vector3()) {
+    return Vector3.multiply(v1, v2, out)
+  }
+
+  /**
+   * @param {Vector3} v1
+   * @param {number} scalar
+   * @param {Vector3} out
+   */
+  static divideScalar(v1, scalar, out = new Vector3()) {
+    return Vector3.multiplyScalar(v1, scalar, out)
+  }
+
+  /**
+   * @param {Vector3} a
+   * @param {Vector3} b
+   * @param {Vector3} [out]
+   */
   static cross(a, b, out = new Vector3()) {
     const ax = a.x,
       ay = a.y,
@@ -207,18 +318,67 @@ normalize() {
     return out
   }
 
-/**
- * @param {Vector3} normal
- */
-  reflect(normal) {
-    Vector3.reflect(this, normal, this)
+  /**
+   * @param {Vector3} v1
+   * @param {Vector3} v2
+   */
+  static dot(v1, v2) {
+    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z
   }
 
-/**
- * @param {Vector3} v
- * @param {Vector3} normal
- * @param {Vector3} [out]
- */
+  /**
+   * @param {Vector3} v
+   */
+  static magnitudeSquared(v) {
+    return v.x * v.x + v.y * v.y + v.z * v.z
+  }
+
+  /**
+   * @param {Vector3} v
+   */
+  static magnitude(v) {
+    return Math.sqrt(Vector3.magnitudeSquared(v))
+  }
+
+  /**
+   * @param {Vector3} v
+   * @param {number} length
+   * @param {Vector3} out
+   */
+  static setMagnitude(v, length, out = new Vector3()) {
+    Vector3.normalize(v, out)
+    Vector3.multiplyScalar(out, length, out)
+  }
+
+  /**
+   * @param {Vector3} v
+   * @param {Vector3} out
+   */
+  static normalize(v, out = new Vector3()) {
+    const length = Vector3.magnitude(v) || 1
+
+    Vector3.divideScalar(v, length, out)
+
+    return out
+  }
+
+  /**
+   * @param {Vector3} a
+   * @param {Vector3} b
+   * @param {number} t
+   * @param {Vector3} out
+   */
+  static lerp(a, b, t, out = new Vector3()) {
+    out.x += (a.x - b.x) * t
+    out.y += (a.y - b.y) * t
+    out.z += (a.z - b.z) * t
+  }
+
+  /**
+   * @param {Vector3} v
+   * @param {Vector3} normal
+   * @param {Vector3} out
+   */
   static reflect(v, normal, out = new Vector3()) {
     const multiplier = v.dot(normal) * 2
 
@@ -229,62 +389,109 @@ normalize() {
     return out
   }
 
-/**
- * @param {Vector3} v1
- * @param {Vector3} v2
- */
+  /**
+   * @param {Vector3} v1
+   * @param {Vector3} v2
+   */
   static angleTo(v1, v2) {
     return Math.acos(v1.dot(v1) / (v1.magnitude() * v2.magnitude()))
-
   }
 
-/**
- * @param {Vector3} v
- */
-  distanceTo(v) {
-    return Math.sqrt(this.distanceToSquared(v))
+  /**
+   * @param {Vector3} v
+   * @param {number} min
+   * @param {number} max
+   * @param {Vector3} out
+   */
+  static clampMagnitude(v, min, max, out = new Vector3()) {
+    const length = Vector3.magnitude(v) || 1
+
+    if (length < min) return Vector3.multiplyScalar(v, min / length, out)
+    if (length > max) return Vector3.multiplyScalar(v, max / length, out)
+
+    return Vector3.copy(v, out)
   }
 
-/**
- * @param {Vector3} v
- */
-  distanceToSquared(v) {
-    const dx = this.x - v.x,
-      dy = this.y - v.y,
-      dz = this.z - v.z
-
-    return dx * dx + dy * dy + dz * dz
+  /**
+   * @param {Vector3} v
+   * @param {Vector3} out
+   */
+  static reverse(v, out = new Vector3()) {
+    out.x = -v.x
+    out.y = -v.y
+    out.z = -v.z
   }
-random() {
+
+  /**
+   * @param {Vector3} v
+   * @param {number} scalar
+   */
+  static splat(v, scalar) {
+    v.x = scalar
+    v.y = scalar
+    v.z = scalar
+  }
+
+  /**
+   * @param {Vector3} v
+   * @param {number} x
+   * @param {number} y
+   * @param {number} z
+   */
+  static set(v, x, y, z) {
+    v.x = x
+    v.y = y
+    v.z = z
+  }
+
+  /**
+   * @param {Vector3} v1
+   * @param {Vector3} out
+   */
+  static copy(v1, out = new Vector3()) {
+    out.x = v1.x
+    out.y = v1.y
+    out.z = v1.z
+  }
+
+  /**
+   * @param {Vector3} out 
+   * @returns 
+   */
+  static random(out) {
     const theta = Math.random() * Math.PI * 2
     const u = Math.random() * 2 - 1
     const c = Math.sqrt(1 - u * u)
 
-    this.x = c * Math.cos(theta)
-    this.y = u
-    this.z = c * Math.sin(theta)
+    out.x = c * Math.cos(theta)
+    out.y = u
+    out.z = c * Math.sin(theta)
 
     return this
   }
-* [Symbol.iterator]() {
+
+  /**
+   * @yields {number}
+   */
+  * [Symbol.iterator]() {
     yield this.x
     yield this.y
     yield this.z
   }
 
-/**
- * A vector whose x and y values will remain 0.
- *
- * @readonly
- * @type {Vector3}
- */
+  /**
+   * A vector whose x and y values will remain 0.
+   *
+   * @readonly
+   * @type {Vector3}
+   */
   static ZERO = new Vector3()
 
-/**
- * Default up direction.
- *
- * @readonly
- * @type {Vector3}
- */
-  static UP = new Vector3(0, 0, 1)
+  /**
+   * Default up direction.
+   *
+   * @readonly
+   * @type {Vector3}
+   */
+  static UP = new Vector3(0, 1, 0)
 }
