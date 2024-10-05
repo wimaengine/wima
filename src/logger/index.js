@@ -61,7 +61,7 @@ export function throws(message) {
  * @returns {asserts test is true }
  */
 export function assert(test, message) {
-  if (!test) throws(message)
+  if (test === undefined || test === null) throws(message)
 }
 
 /**
