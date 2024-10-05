@@ -1,3 +1,5 @@
+import { lerp } from './math.js'
+
 /**
  * Wrapper class since JavaScript doesn't support references to numbers explicitly.
  * Keeps record of the orientation of an entity.
@@ -16,6 +18,16 @@ export class Angle {
    */
   constructor(rad = 0) {
     this.value = rad
+  }
+
+  /**
+   * @param {Angle} a
+   * @param {Angle} b
+   * @param {number} t
+   * @param {Angle} out
+   */
+  static lerp(a, b, t, out){
+    out.value = lerp(a.value, b.value, t)
   }
 
   /**
