@@ -6,6 +6,7 @@ import { EventDispatch } from '../event/index.js'
 import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
 import { Assets, generateParserSystem } from '../asset/index.js'
+import { SchedulerBuilder, SystemConfig } from './core/index.js'
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
 
@@ -28,6 +29,18 @@ export class App {
    * @type {boolean}
    */
   initialized = false
+
+  /**
+   * @private
+   * @type {SystemConfig[]}
+   */
+  systemsevents = []
+
+  /**
+   * @private
+   * @type {SchedulerBuilder}
+   */
+  systemBuilder = new SchedulerBuilder()
 
   constructor() {
     this.createSchedule(
