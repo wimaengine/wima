@@ -80,6 +80,16 @@ export class App {
    */
   run() {
     this.initialized = true
+
+    for (let i = 0; i < this.systemsevents.length; i++) {
+      const ev = this.systemsevents[i]
+
+      this.systemBuilder.add(ev)
+    }
+
+    this.systemsevents = []
+    
+    this.systemBuilder.pushToScheduler(this.scheduler)
     this.scheduler.run(this.world)
 
     return this
