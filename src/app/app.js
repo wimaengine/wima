@@ -129,8 +129,8 @@ export class App {
 
     this
       .registerType(event)
-      .registerSystem(AppSchedule.Update, makeEventClear(name))
       .world.setResourceByName(name, new EventDispatch())
+    this.systemsevents.push(new SystemConfig(makeEventClear(name), AppSchedule.Update))
 
     return this
   }
