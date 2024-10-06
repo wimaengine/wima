@@ -1,4 +1,4 @@
-/** @import { ChaosPlugin,Default } from './typedef/index.js' */
+/** @import { ChaosPlugin } from './typedef/index.js' */
 /** @import { SystemFunc } from '../ecs/index.js' */
 /** @import { HandleProvider, Parser } from '../asset/index.js' */
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
@@ -45,7 +45,7 @@ export class App {
    * 
    * @returns {World}
    */
-  getWorld(){
+  getWorld() {
     return this.world
   }
 
@@ -132,23 +132,23 @@ export class App {
    * @param {Function} asset
    * @param {HandleProvider<T>} [handleprovider]
    */
-  registerAsset(asset, handleprovider){
-    const name = asset.name.toLowerCase() 
-    
+  registerAsset(asset, handleprovider) {
+    const name = asset.name.toLowerCase()
+
     // @ts-ignore
     // ill deal with this later
     this.world.setResourceByName(`assets<${name}>`, new Assets(asset.default, handleprovider))
 
     return this
   }
-  
+
   /**
    * @template T
    * @param {Function} asset 
    * @param {Parser<T>} parser 
    */
-  registerAssetParser(asset, parser){
-    const name = asset.name.toLowerCase()   
+  registerAssetParser(asset, parser) {
+    const name = asset.name.toLowerCase()
 
     this
       .registerSystem(AppSchedule.Update, generateParserSystem(name))
