@@ -106,12 +106,7 @@ export class App {
    * @param {SystemFunc} system
    */
   registerSystem(label, system) {
-    const schedule = this.scheduler.get(label)
-
-    assert(!this.initialized, registererror)
-    assert(schedule, `The system ${system.name} cannot be added to schedule "${label}" as the schedule doesn't exist.`)
-
-    schedule.add(system)
+    this.systemBuilder.add(new SystemConfig(system, label))
 
     return this
   }
