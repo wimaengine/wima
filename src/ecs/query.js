@@ -179,7 +179,7 @@ export class Query {
   single() {
     const components = new Array(this.descriptors.length)
 
-    if (!this.components[0] || !this.components[0][0] || !this.components[0][0][0]) return null
+    if (!this.components[0] || !this.components[0][0] || this.components[0][0][0] === undefined) return null
 
     for (let i = 0; i < this.descriptors.length; i++) {
       components[i] = this.components[i][0][0]
