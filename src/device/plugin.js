@@ -53,20 +53,23 @@ export class DevicePlugin {
       device.capabilities.webAudio = true
     }
     if (ae.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.push('ogg')
+      device.capabilities.supportedAudioFormats.add('ogg')
     }
     if (ae.canPlayType('audio/mpeg;').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.push('mp3')
+      device.capabilities.supportedAudioFormats.add('mp3')
     }
     if (ae.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.push('wav')
+      device.capabilities.supportedAudioFormats.add('wav')
     }
     if (ae.canPlayType('audio/x-m4a;').replace(/^no$/, '') || ae.canPlayType('audio/aac;').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.push('m4a')
+      device.capabilities.supportedAudioFormats.add('m4a')
     }
 
     // image formats supported
     // TODO - actually check supported image formats
-    device.capabilities.supportedImageFormats.push('png', 'jpeg', 'svg', 'jpg')
+    device.capabilities.supportedImageFormats.add('png')
+    device.capabilities.supportedImageFormats.add('jpeg')
+    device.capabilities.supportedImageFormats.add( 'svg')
+    device.capabilities.supportedImageFormats.add('jpg')
   }
 }
