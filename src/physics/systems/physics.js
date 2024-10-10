@@ -1,5 +1,7 @@
 import { PhysicsHitbox } from '../../broadphase/index.js'
 import { Query, World } from '../../ecs/index.js'
+import { CollisionManifold } from '../../narrowphase/index.js'
+import { PhysicsSettings } from '../settings.js'
 import { Collider2D } from '../components/index.js'
 import { Orientation2D, Position2D, Scale2D } from '../../transform/index.js'
 
@@ -64,4 +66,42 @@ export function updateBounds(world) {
     bound.min.y = minY
     bound.max.y = maxY
   })
+}
+
+/**
+ * @param {World} world
+ */
+export function collisionResponse(world) {
+  const invDt = 60
+  const contacts = world.getResource('contacts')
+
+  for (let i = 0; i < contacts.length; i++) {
+    const {
+      positionA,
+      positionB,
+      velocityA,
+      velocityB,
+      rotationA,
+      rotationB
+    } = contacts[i]
+
+    CollisionManifold.prepare(
+      contacts[i],
+      positionA,
+      positionB,
+      velocityA,
+      velocityB,
+      rotationA,
+      rotationB,
+      invDt
+    )
+  }
+
+  for (let i = 0; i < PhysicsSettings.velocitySolverIterations; i++) {
+    for (let j = 0; j < contacts.length; j++) {
+      CollisionManifold.solve(
+        contacts[j]
+      )
+    }
+  }
 }
