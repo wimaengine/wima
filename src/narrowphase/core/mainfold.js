@@ -1,6 +1,39 @@
 /** @import { Entity } from '../../ecs/index.js'*/
 import { Vector2 } from '../../math/index.js'
 
+
+export class CollisionData {
+
+  /**
+   * @type {number}
+   */
+  overlap = 0
+
+  /**
+   * @type {boolean}
+   */
+  done = false
+
+  /**
+   * @type {Vector2}
+   */
+  axis = new Vector2()
+
+  /**
+   * @type {Vector2}
+   */
+  tangent = new Vector2()
+
+  /**
+   * @type {Vector2[]}
+   */
+  contactPoints = [new Vector2(), new Vector2()]
+
+  /**
+   * @type {number}
+   */
+  contactNo = 0
+}
 export class Jacobian {
 
   /**
