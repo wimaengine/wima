@@ -18,3 +18,21 @@ export function createDropDown( options, onChange) {
 
   return select
 }
+
+/**
+ * @param {string} text
+ * @param {(this: HTMLInputElement, ev: Event) => any} onInput
+ */
+export function createCheckbox(text, onInput) {
+  const p = document.createElement('p')
+
+  p.classList.add('checkbox')
+  const box = p.appendChild(document.createElement('input'))
+  const label = p.appendChild(document.createElement('label'))
+
+  box.type = 'checkbox'
+  box.addEventListener('change', onInput)
+  label.appendChild(document.createTextNode(text))
+
+  return p
+}
