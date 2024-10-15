@@ -36,3 +36,25 @@ export function createCheckbox(text, onInput) {
 
   return p
 }
+
+/**
+ * @param {string} text
+ * @param {number} min
+ * @param {number} max
+ * @param {((this: GlobalEventHandlers, ev: Event) => any) | null} onInput
+ */
+export function createSlider(text, min, max, onInput) {
+  const p = document.createElement('p')
+
+  p.classList.add('checkbox')
+  const slider = p.appendChild(document.createElement('input'))
+  const label = p.appendChild(document.createElement('label'))
+
+  label.appendChild(document.createTextNode(text))
+  slider.oninput = onInput
+  slider.type = 'range'
+  slider.min = min.toString()
+  slider.max = max.toString()
+
+  return p
+}
