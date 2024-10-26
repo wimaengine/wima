@@ -77,3 +77,17 @@ export function updateVelocityEuler3D(world) {
     Vector3.set(acceleration, 0, 0, 0)
   })
 }
+
+/**
+ * @param {World} world
+ */
+export function updateAngularEuler3D(world) {
+  const query = new Query(world, ['rotation3d', 'torque3d'])
+
+  query.each(([rotation, torque]) => {
+
+    // doesnt integrate dt,find a way to do that.
+    rotation.multiply(torque)
+    torque.set(0, 0, 0, 0)
+  })
+}
