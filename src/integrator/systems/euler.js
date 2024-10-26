@@ -108,3 +108,16 @@ export function updatePositionEuler3D(world) {
     )
   })
 }
+
+/**
+ * @param {World} world
+ */
+export function updateOrientationEuler3D(world) {
+  const query = new Query(world, ['orientation3d', 'rotation3d'])
+
+  query.each(([orientation, rotation]) => {
+
+    // doesnt integrate dt,find a way to do that.
+    orientation.multiply(rotation)
+  })
+}
