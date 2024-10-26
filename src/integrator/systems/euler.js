@@ -1,5 +1,5 @@
 import { Query, World } from '../../ecs/index.js'
-import { Vector2 } from '../../math/index.js'
+import { Vector2, Vector3 } from '../../math/index.js'
 
 /**
  * @param {World} world
@@ -8,7 +8,7 @@ export function updateVelocityEuler2D(world) {
   const query = new Query(world, ['velocity2d', 'acceleration2d'])
   const dt = 1 / 60
 
-  query.each(([velocity, acceleration]) => {    
+  query.each(([velocity, acceleration]) => {
     Vector2.set(
       velocity,
       velocity.x + acceleration.x * dt,
@@ -25,7 +25,7 @@ export function updateAngularEuler2D(world) {
   const query = new Query(world, ['rotation2d', 'torque2d'])
   const dt = 1 / 60
 
-  query.each(([rotation, torque]) => {  
+  query.each(([rotation, torque]) => {
     rotation.value += torque.value * dt
     torque.value = 0
   })
@@ -56,5 +56,24 @@ export function updateOrientationEuler2D(world) {
 
   query.each(([orientation, rotation]) => {
     orientation.value += rotation.value * dt
+  })
+}
+
+
+/**
+ * @param {World} world
+ */
+export function updateVelocityEuler3D(world) {
+  const query = new Query(world, ['velocity3d', 'acceleration3d'])
+  const dt = 1 / 60
+
+  query.each(([velocity, acceleration]) => {
+    Vector3.set(
+      velocity,
+      velocity.x + acceleration.x * dt,
+      velocity.y + acceleration.y * dt,
+      velocity.z + acceleration.z * dt
+    )
+    Vector3.set(acceleration, 0, 0, 0)
   })
 }
