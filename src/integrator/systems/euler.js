@@ -91,3 +91,20 @@ export function updateAngularEuler3D(world) {
     torque.set(0, 0, 0, 0)
   })
 }
+
+/**
+ * @param {World} world
+ */
+export function updatePositionEuler3D(world) {
+  const query = new Query(world, ['position3d', 'velocity3d'])
+  const dt = 1 / 60
+
+  query.each(([position, velocity]) => {
+    Vector3.set(
+      position,
+      position.x + velocity.x * dt,
+      position.y + velocity.y * dt,
+      position.z + velocity.z * dt
+    )
+  })
+}
