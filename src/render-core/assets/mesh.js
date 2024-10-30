@@ -169,4 +169,10 @@ export class Mesh {
     GlDataType.Float,
     3
   )
+  static Tangent2DLocation = new AttributeLocation(
+    'tangent2d',
+    6,
+    GlDataType.Float,
+    2
+  )
 }
