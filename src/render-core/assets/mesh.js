@@ -17,6 +17,13 @@ export class Mesh {
   attributes = new Map()
 
   /**
+   * @returns {Uint16Array | undefined}
+   */
+  getIndices(){
+    return this.indices
+  }
+
+  /**
    * @param {string} name
    * @returns {Attribute | undefined} 
    */
