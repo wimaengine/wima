@@ -6,6 +6,12 @@ export class Mesh {
 
   /**
    * @private
+   * @type {Uint16Array | undefined}
+   */
+  indices
+
+  /**
+   * @private
    * @type {Map<string,Attribute>}
    */
   attributes = new Map()
