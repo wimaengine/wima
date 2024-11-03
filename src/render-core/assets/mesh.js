@@ -24,6 +24,13 @@ export class Mesh {
   }
 
   /**
+   * @param {Uint16Array | undefined} indices
+   */
+  setIndices(indices){
+    this.indices = indices
+  }
+
+  /**
    * @param {string} name
    * @returns {Attribute | undefined} 
    */
