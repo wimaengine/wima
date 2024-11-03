@@ -33,6 +33,13 @@ export class Mesh {
   }
 
   /**
+   * @returns {Readonly<Map<string,Attribute>>}
+   */
+  getAttributes(){
+    return this.attributes
+  }
+
+  /**
    * @param {string} name 
    */
   deleteAttribute(name) {
