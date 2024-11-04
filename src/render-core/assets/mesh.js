@@ -127,7 +127,7 @@ export class Mesh {
     return geometry
   }
 
-  static default(){
+  static default() {
     return new Mesh()
   }
 }
