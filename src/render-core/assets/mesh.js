@@ -163,4 +163,10 @@ export class Mesh {
     GlDataType.Float,
     2
   )  
+  static Normal3DLocation = new AttributeLocation(
+    'normal3d',
+    5,
+    GlDataType.Float,
+    3
+  )
 }
