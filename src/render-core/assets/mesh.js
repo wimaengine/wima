@@ -1,4 +1,6 @@
 import { Vector2 } from '../../math/index.js'
+import { GlDataType } from '../../render-webgl/index.js'
+import { AttributeLocation } from '../core/atributelocation.js'
 import { Attribute } from '../core/attribute.js'
 
 /** */
@@ -130,4 +132,12 @@ export class Mesh {
   static default() {
     return new Mesh()
   }
+  
+  static Position2DLocation = new AttributeLocation(
+    'position2d',
+    0,
+    GlDataType.Float,
+    2
+  )
+
 }
