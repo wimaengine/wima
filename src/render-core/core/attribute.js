@@ -2,12 +2,6 @@ export class Attribute{
 
   /**
    * @private
-   * @type {number}
-   */
-  size
-
-  /**
-   * @private
    * @type {Float32Array}
    */
   /**
