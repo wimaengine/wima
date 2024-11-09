@@ -21,14 +21,14 @@ export class Mesh {
   /**
    * @returns {Uint16Array | undefined}
    */
-  getIndices(){
+  getIndices() {
     return this.indices
   }
 
   /**
    * @param {Uint16Array | undefined} indices
    */
-  setIndices(indices){
+  setIndices(indices) {
     this.indices = indices
   }
 
@@ -51,7 +51,7 @@ export class Mesh {
   /**
    * @returns {Readonly<Map<string,Attribute>>}
    */
-  getAttributes(){
+  getAttributes() {
     return this.attributes
   }
 
@@ -87,10 +87,10 @@ export class Mesh {
 
   /**
    * @param {number} radius
-   * @param {number} resolution
+   * @param {number} _resolution
    * @returns {Mesh}
    */
-  static circle2D(radius, resolution = 16) {
+  static circle2D(radius, _resolution = 16) {
     const geometry = new Mesh()
     const positions = new Float32Array([radius, radius])
 
@@ -132,7 +132,7 @@ export class Mesh {
   static default() {
     return new Mesh()
   }
-  
+
   static Position2DLocation = new AttributeLocation(
     'position2d',
     0,
@@ -162,7 +162,7 @@ export class Mesh {
     4,
     GlDataType.Float,
     2
-  )  
+  )
   static Normal3DLocation = new AttributeLocation(
     'normal3d',
     5,
