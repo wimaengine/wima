@@ -80,7 +80,7 @@ export class Mesh {
       -height / 2
     ])
 
-    geometry.setAttribute('position', new Attribute(positions, 2))
+    geometry.setAttribute('position2d', new Attribute(positions))
 
     return geometry
   }
@@ -96,7 +96,7 @@ export class Mesh {
 
 
     // TODO - fix up resolution
-    geometry.setAttribute('position', new Attribute(positions, 2))
+    geometry.setAttribute('position2d', new Attribute(positions))
 
     return geometry
   }
@@ -124,7 +124,7 @@ export class Mesh {
       l2.y + y
     ])
 
-    geometry.setAttribute('position', new Attribute(positions, 2))
+    geometry.setAttribute('position2d', new Attribute(positions))
 
     return geometry
   }
