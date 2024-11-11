@@ -1,4 +1,4 @@
-import { Vector2 } from '../../math/index.js'
+import { Vector2, Vector3 } from '../../math/index.js'
 import { GlDataType } from '../../render-webgl/index.js'
 import { AttributeLocation } from '../core/atributelocation.js'
 import { Attribute } from '../core/attribute.js'
@@ -129,6 +129,26 @@ export class Mesh {
     return geometry
   }
 
+  static triangle3D(base = 1, height = 1, baseL = 0) {
+    const mesh = new Mesh()
+
+    mesh
+      .setIndices(new Uint16Array([0, 1, 2]))
+      .setAttribute('position3d', new Attribute(new Float32Array([
+        -base / 2,
+        -height / 2,
+        0,
+        +base / 2,
+        -height / 2,
+        0,
+        base / 2 * baseL,
+        height / 2,
+        0
+      ])))
+
+    return mesh
+  }
+  
   static default() {
     return new Mesh()
   }
