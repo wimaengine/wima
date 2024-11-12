@@ -48,6 +48,8 @@ export class Mesh {
    */
   setAttribute(name, attribute) {
     this.attributes.set(name, attribute)
+
+    return this
   }
 
   /**
