@@ -205,6 +205,6 @@ export class Mesh {
     'color',
     8,
     GlDataType.Float,
-    3
+    4
   )
 }
