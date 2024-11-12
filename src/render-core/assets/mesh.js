@@ -30,6 +30,8 @@ export class Mesh {
    */
   setIndices(indices) {
     this.indices = indices
+
+    return this
   }
 
   /**
