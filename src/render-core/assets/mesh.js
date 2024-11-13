@@ -692,6 +692,122 @@ export class Mesh {
     return mesh
 
   }
+
+  static cylinder(radiusTop = 0.5, radiusBottom = 0.5, height = 1, radialSegments = 32, heightSegments = 1, openEnded = false, thetaStart = 0, thetaLength = Math.PI * 2) {
+    const mesh = new Mesh()
+    const indices = []
+    const vertices = []
+    const normals = []
+    const uvs = []
+    const indexArray = []
+
+    let offset = 0
+    const halfHeight = height / 2
+
+    const normal = new Vector3()
+    const slope = (radiusBottom - radiusTop) / height
+
+    for (let y = 0; y <= heightSegments; y++) {
+      const indexRow = []
+      const v = y / heightSegments
+      const radius = v * (radiusBottom - radiusTop) + radiusTop
+
+      for (let x = 0; x <= radialSegments; x++) {
+        const u = x / radialSegments
+        const theta = u * thetaLength + thetaStart
+        const sinTheta = Math.sin(theta)
+        const cosTheta = Math.cos(theta)
+
+        vertices.push(
+          radius * sinTheta,
+          -v * height + halfHeight,
+          radius * cosTheta
+        )
+        normal.set(sinTheta, slope, cosTheta).normalize()
+        normals.push(normal.x, normal.y, normal.z)
+        uvs.push(u, 1 - v)
+        indexRow.push(offset += 1)
+      }
+
+      indexArray.push(indexRow)
+    }
+
+    for (let x = 0; x < radialSegments; x++) {
+      for (let y = 0; y < heightSegments; y++) {
+        const a = indexArray[y][x]
+        const b = indexArray[y + 1][x]
+        const c = indexArray[y + 1][x + 1]
+        const d = indexArray[y][x + 1]
+
+        indices.push(a, b, d)
+        indices.push(b, c, d)
+      }
+    }
+
+    if (openEnded === false) {
+
+      if (radiusTop > 0) generateCap(true)
+      if (radiusBottom > 0) generateCap(false)
+
+    }
+
+    mesh
+      .setIndices(new Uint16Array(indices))
+      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
+      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
+      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+
+    /**
+     * @param {boolean} top
+     */
+    function generateCap(top) {
+      const centerIndexStart = offset
+
+      const uv = new Vector2()
+      const vertex = new Vector3()
+      const radius = (top === true) ? radiusTop : radiusBottom
+      const sign = (top === true) ? 1 : -1
+
+      for (let x = 1; x <= radialSegments; x++) {
+        vertices.push(0, halfHeight * sign, 0)
+        normals.push(0, sign, 0)
+        uvs.push(0.5, 0.5)
+        offset += 1
+      }
+
+      const centerIndexEnd = offset
+
+      for (let x = 0; x <= radialSegments; x++) {
+        const u = x / radialSegments
+        const theta = u * thetaLength + thetaStart
+        const cosTheta = Math.cos(theta)
+        const sinTheta = Math.sin(theta)
+
+        vertex.x = radius * sinTheta
+        vertex.y = halfHeight * sign
+        vertex.z = radius * cosTheta
+        vertices.push(vertex.x, vertex.y, vertex.z)
+        normals.push(0, sign, 0)
+        uv.x = (cosTheta * 0.5) + 0.5
+        uv.y = (sinTheta * 0.5 * sign) + 0.5
+        uvs.push(uv.x, uv.y)
+        offset += 1
+      }
+
+      for (let x = 0; x < radialSegments; x++) {
+        const c = centerIndexStart + x
+        const i = centerIndexEnd + x
+
+        if (top === true) {
+          indices.push(i, i + 1, c)
+        } else {
+          indices.push(i + 1, i, c)
+        }
+      }
+    }
+
+    return mesh
+  }
   
   static default() {
     return new Mesh()
