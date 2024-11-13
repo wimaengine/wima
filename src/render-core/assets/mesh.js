@@ -434,6 +434,207 @@ export class Mesh {
 
     return mesh
   }
+
+  static cube(width = 1, height = 1, depth = 1, widthSegments = 1, heightSegments = 1, depthSegments = 1) {
+    const mesh = new Mesh()
+
+    // SAFETY:We already know they number arrays.
+    // @ts-ignore
+    const indices = [],
+
+      // @ts-ignore
+      vertices = [],
+
+      // @ts-ignore
+
+      normals = [], 
+
+      // @ts-ignore
+      uvs = []
+
+    let numberOfVertices = 0
+
+    // px
+    buildPlane('z', 'y', 'x', -1, -1, depth, height, width, depthSegments, heightSegments)
+
+    // nx
+    buildPlane('z', 'y', 'x', 1, -1, depth, height, -width, depthSegments, heightSegments) 
+
+    // py
+    buildPlane('x', 'z', 'y', 1, 1, width, depth, height, widthSegments, depthSegments) 
+
+    // ny
+    buildPlane('x', 'z', 'y', 1, -1, width, depth, -height, widthSegments, depthSegments)
+
+    // pz
+    buildPlane('x', 'y', 'z', 1, -1, width, height, depth, widthSegments, heightSegments) 
+
+    // nz
+    buildPlane('x', 'y', 'z', -1, -1, width, height, -depth, widthSegments, heightSegments) 
+
+    // SAFETY: Already guaranteed arrays contain number type.
+    mesh
+
+      // @ts-ignore
+      .setIndices(new Uint16Array(indices))
+
+      // @ts-ignore
+      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
+
+      // @ts-ignore
+      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
+
+      // @ts-ignore
+      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+
+    /**
+     * @param {string} u
+     * @param {string} v
+     * @param {string} w
+     * @param {number}udir
+     * @param {number}vdir
+     * @param {number}width
+     * @param {number}height
+     * @param {number}depth
+     * @param {number}gridX
+     * @param {number} gridY
+     */
+    function buildPlane(u, v, w, udir, vdir, width, height, depth, gridX, gridY) {
+      const segmentWidth = width / gridX
+      const segmentHeight = height / gridY
+
+      const widthHalf = width / 2
+      const heightHalf = height / 2
+      const depthHalf = depth / 2
+
+      const gridX1 = gridX + 1
+      const gridY1 = gridY + 1
+
+      let vertexCounter = 0
+
+      const vector = new Vector3()
+
+      for (let iy = 0; iy < gridY1; iy++) {
+        const y = iy * segmentHeight - heightHalf
+
+        for (let ix = 0; ix < gridX1; ix++) {
+          const x = ix * segmentWidth - widthHalf
+
+          // SAFETY: only used in `Mesh.cube()`,should be fine
+          // @ts-ignore
+          vector[u] = x * udir
+
+          // @ts-ignore
+          vector[v] = y * vdir
+
+          // @ts-ignore
+          vector[w] = depthHalf
+
+          vertices.push(vector.x, vector.y, vector.z)
+
+          // SAFETY: only used in `Mesh.cube()`,should be fine
+          // @ts-ignore
+          vector[u] = 0
+
+          // @ts-ignore
+          vector[v] = 0
+
+          // @ts-ignore
+          vector[w] = depth > 0 ? 1 : -1
+
+          normals.push(vector.x, vector.y, vector.z)
+
+          uvs.push(ix / gridX)
+          uvs.push(1 - (iy / gridY))
+
+          vertexCounter += 1
+        }
+      }
+
+      for (let iy = 0; iy < gridY; iy++) {
+        for (let ix = 0; ix < gridX; ix++) {
+
+          const a = numberOfVertices + ix + gridX1 * iy
+          const b = numberOfVertices + ix + gridX1 * (iy + 1)
+          const c = numberOfVertices + (ix + 1) + gridX1 * (iy + 1)
+          const d = numberOfVertices + (ix + 1) + gridX1 * iy
+
+          indices.push(a, b, d)
+          indices.push(b, c, d)
+        }
+      }
+
+      numberOfVertices += vertexCounter
+    }
+
+    return mesh
+  }
+
+  static uvSphere(radius = 0.5, widthSegments = 32, heightSegments = 16, phiStart = 0, phiLength = Math.PI * 2, thetaStart = 0, thetaLength = Math.PI) {
+    const mesh = new Mesh()
+    const thetaEnd = Math.min(thetaStart + thetaLength, Math.PI)
+    let index = 0
+    const grid = []
+    const vertex = new Vector3()
+    const normal = new Vector3()
+
+    const indices = []
+    const vertices = []
+    const normals = []
+    const uvs = []
+
+    for (let iy = 0; iy <= heightSegments; iy++) {
+      const verticesRow = []
+      const v = iy / heightSegments
+      let uOffset = 0
+
+      if (iy === 0 && thetaStart === 0) {
+        uOffset = 0.5 / widthSegments
+      } else if (iy === heightSegments && thetaEnd === Math.PI) {
+        uOffset = -0.5 / widthSegments
+      }
+
+      for (let ix = 0; ix <= widthSegments; ix++) {
+        const u = ix / widthSegments
+
+        vertex.x = -radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength)
+        vertex.y = radius * Math.cos(thetaStart + v * thetaLength)
+        vertex.z = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength)
+
+        vertices.push(vertex.x, vertex.y, vertex.z)
+
+        normal.copy(vertex).normalize()
+        normals.push(normal.x, normal.y, normal.z)
+
+        uvs.push(u + uOffset, 1 - v)
+        verticesRow.push(index += 1)
+      }
+
+      grid.push(verticesRow)
+    }
+
+    for (let iy = 0; iy < heightSegments; iy++) {
+      for (let ix = 0; ix < widthSegments; ix++) {
+        const a = grid[iy][ix + 1]
+        const b = grid[iy][ix]
+        const c = grid[iy + 1][ix]
+        const d = grid[iy + 1][ix + 1]
+
+        if (iy !== 0 || thetaStart > 0) indices.push(a, b, d)
+        if (iy !== heightSegments - 1 || thetaEnd < Math.PI) indices.push(b, c, d)
+      }
+
+    }
+
+    mesh
+      .setIndices(new Uint16Array(indices))
+      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
+      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
+      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+
+    return mesh
+
+  }
   
   static default() {
     return new Mesh()
