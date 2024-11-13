@@ -198,6 +198,242 @@ export class Mesh {
 
     return mesh
   }
+
+  static plane3D(width = 1, height = 1, widthSegments = 1, heightSegments = 1) {
+    const mesh = new Mesh()
+    const widthHalf = width / 2
+    const heightHalf = height / 2
+
+    const gridX = Math.floor(widthSegments)
+    const gridY = Math.floor(heightSegments)
+
+    const gridX1 = gridX + 1
+    const gridY1 = gridY + 1
+
+    const segmentWidth = width / gridX
+    const segmentHeight = height / gridY
+
+    //
+
+    const indices = []
+    const vertices = []
+    const normals = []
+    const uvs = []
+
+    for (let iy = 0; iy < gridY1; iy++) {
+      const y = iy * segmentHeight - heightHalf
+
+      for (let ix = 0; ix < gridX1; ix++) {
+        const x = ix * segmentWidth - widthHalf
+
+        vertices.push(x, -y, 0)
+        normals.push(0, 0, 1)
+        uvs.push(ix / gridX)
+        uvs.push(1 - (iy / gridY))
+
+      }
+
+    }
+
+    for (let iy = 0; iy < gridY; iy++) {
+      for (let ix = 0; ix < gridX; ix++) {
+        const a = ix + gridX1 * iy
+        const b = ix + gridX1 * (iy + 1)
+        const c = (ix + 1) + gridX1 * (iy + 1)
+        const d = (ix + 1) + gridX1 * iy
+
+        indices.push(a, b, d)
+        indices.push(b, c, d)
+      }
+    }
+
+    mesh
+      .setIndices(new Uint16Array(indices))
+      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
+      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
+      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+
+    return mesh
+  }
+
+  static ring3D(innerRadius = 0.25, outerRadius = 0.5, thetaSegments = 32, phiSegments = 1, thetaStart = 0, thetaLength = Math.PI * 2) {
+    const mesh = new Mesh()
+    const indices = []
+    const vertices = []
+    const normals = []
+    const uvs = []
+
+    let radius = innerRadius
+    const radiusStep = ((outerRadius - innerRadius) / phiSegments)
+    const vertex = new Vector3()
+    const uv = new Vector2()
+
+    for (let j = 0; j <= phiSegments; j++) {
+      for (let i = 0; i <= thetaSegments; i++) {
+
+        const segment = thetaStart + i / thetaSegments * thetaLength
+
+        vertex.x = radius * Math.cos(segment)
+        vertex.y = radius * Math.sin(segment)
+
+        vertices.push(vertex.x, vertex.y, vertex.z)
+
+        normals.push(0, 0, 1)
+
+        uv.x = (vertex.x / outerRadius + 1) / 2
+        uv.y = (vertex.y / outerRadius + 1) / 2
+
+        uvs.push(uv.x, uv.y)
+      }
+
+      radius += radiusStep
+    }
+
+    for (let j = 0; j < phiSegments; j++) {
+      const thetaSegmentLevel = j * (thetaSegments + 1)
+
+      for (let i = 0; i < thetaSegments; i++) {
+        const segment = i + thetaSegmentLevel
+        const a = segment
+        const b = segment + thetaSegments + 1
+        const c = segment + thetaSegments + 2
+        const d = segment + 1
+
+        indices.push(a, b, d)
+        indices.push(b, c, d)
+      }
+    }
+
+    mesh
+      .setIndices(new Uint16Array(indices))
+      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
+      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
+      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+
+    return mesh
+  }
+
+  static lathe3D(points = [new Vector2(0, -0.5), new Vector2(0.5, 0), new Vector2(0, 0.5)], segments = 12, phiStart = 0, phiLength = Math.PI * 2) {
+    const mesh = new Mesh()
+    const indices = []
+    const vertices = []
+    const uvs = []
+    const initNormals = []
+    const normals = []
+
+    const inverseSegments = 1.0 / segments
+    const vertex = new Vector3()
+    const uv = new Vector2()
+    const normal = new Vector3()
+    const curNormal = new Vector3()
+    const prevNormal = new Vector3()
+    let dx
+    let dy
+
+    for (let j = 0; j <= (points.length - 1); j++) {
+      switch (j) {
+
+        // special handling for 1st vertex on path
+        case 0: 
+          dx = points[j + 1].x - points[j].x
+          dy = points[j + 1].y - points[j].y
+
+          normal.x = dy * 1.0
+          normal.y = -dx
+          normal.z = dy * 0.0
+
+          prevNormal.copy(normal)
+
+          normal.normalize()
+
+          initNormals.push(normal.x, normal.y, normal.z)
+
+          break
+
+          // special handling for last Vertex on path
+        case (points.length - 1): 
+
+          initNormals.push(prevNormal.x, prevNormal.y, prevNormal.z)
+
+          break
+
+        // default handling for all vertices in between
+        default: 
+
+          dx = points[j + 1].x - points[j].x
+          dy = points[j + 1].y - points[j].y
+
+          normal.x = dy * 1.0
+          normal.y = -dx
+          normal.z = dy * 0.0
+
+          curNormal.copy(normal)
+
+          normal.x += prevNormal.x
+          normal.y += prevNormal.y
+          normal.z += prevNormal.z
+
+          normal.normalize()
+
+          initNormals.push(normal.x, normal.y, normal.z)
+
+          prevNormal.copy(curNormal)
+
+      }
+
+    }
+
+    for (let i = 0; i <= segments; i++) {
+      const phi = phiStart + i * inverseSegments * phiLength
+
+      const sin = Math.sin(phi)
+      const cos = Math.cos(phi)
+
+      for (let j = 0; j <= (points.length - 1); j++) {
+        vertex.x = points[j].x * sin
+        vertex.y = points[j].y
+        vertex.z = points[j].x * cos
+
+        vertices.push(vertex.x, vertex.y, vertex.z)
+
+        uv.x = i / segments
+        uv.y = j / (points.length - 1)
+
+        uvs.push(uv.x, uv.y)
+
+        const x = initNormals[3 * j + 0] * sin
+        const y = initNormals[3 * j + 1]
+        const z = initNormals[3 * j + 0] * cos
+
+        normals.push(x, y, z)
+
+      }
+
+    }
+
+    for (let i = 0; i < segments; i++) {
+      for (let j = 0; j < (points.length - 1); j++) {
+        const base = j + i * points.length
+
+        const a = base
+        const b = base + points.length
+        const c = base + points.length + 1
+        const d = base + 1
+
+        indices.push(a, b, d)
+        indices.push(c, d, b)
+      }
+
+    }
+
+    mesh
+      .setIndices(new Uint16Array(indices))
+      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
+      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
+      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+
+    return mesh
+  }
   
   static default() {
     return new Mesh()
