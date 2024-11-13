@@ -808,6 +808,11 @@ export class Mesh {
 
     return mesh
   }
+
+  static cone(radius = 0.5, height = 1, radialSegments = 32, heightSegments = 1, openEnded = false, thetaStart = 0, thetaLength = Math.PI * 2) {
+
+    return Mesh.cylinder(0, radius, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength)
+  }
   
   static default() {
     return new Mesh()
