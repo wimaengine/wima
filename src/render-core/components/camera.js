@@ -11,4 +11,7 @@ export class Camera {
     this.near = near
     this.far = far
   }
+  projectionMatrix() {
+    return this.projection.asProjectionMatrix(this.near, this.far)
+  }
 }
