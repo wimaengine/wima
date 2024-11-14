@@ -1,1 +1,7 @@
-export class Camera {}
+export class Camera {
+
+  /**
+   * @type {Projection}
+   */
+  projection
+}
