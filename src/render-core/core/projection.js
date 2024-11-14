@@ -111,3 +111,76 @@ export class PerspectiveProjection extends Projection {
     return out
   }
 }
+
+export class OrthographicProjection extends Projection {
+
+  /**
+   * @readonly
+   * @type {ProjectionType}
+   */
+  type = ProjectionType.Orthographic
+  constructor(left = -1, right = 1, top = 1, bottom = -1) {
+    super()
+    this.left = left
+    this.right = right
+    this.top = top
+    this.bottom = bottom
+  }
+
+  isOrthographic() {
+    return true
+  }
+
+  /**
+   * @param {number} near
+   * @param {number} far
+   * @returns {Matrix4}
+   */
+  asProjectionMatrix(near, far) {
+    return OrthographicProjection.from(this.left, this.right, this.top, this.bottom, near, far)
+  }
+
+  /**
+   * @param {number} left
+   * @param {number} right
+   * @param {number} top
+   * @param {number} bottom
+   * @param {number} near
+   * @param {number} far
+   * @param out
+   */
+  static from(left, right, top, bottom, near, far, out = new Matrix4()) {
+
+    const w = 1.0 / (right - left)
+    const h = 1.0 / (top - bottom)
+    const p = 1.0 / (far - near)
+
+    const x = (right + left) * w
+    const y = (top + bottom) * h
+
+    const z = (far + near) * p
+    const zInv = -2 * p
+
+    out.a = 2 * w
+    out.b = 0
+    out.c = 0
+    out.d = 0
+
+    out.e = 0
+    out.f = 2 * h
+    out.g = 0
+    out.h = 0
+
+    out.i = 0
+    out.j = 0
+    out.k = zInv
+    out.l = 0
+
+    out.m = -x
+    out.n = -y
+    out.o = -z
+    out.p = 1
+
+    return out
+  }
+}
