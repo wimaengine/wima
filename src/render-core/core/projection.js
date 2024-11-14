@@ -184,3 +184,12 @@ export class OrthographicProjection extends Projection {
     return out
   }
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const ProjectionType = {
+  Perspective: 0,
+  Orthographic: 1
+}
