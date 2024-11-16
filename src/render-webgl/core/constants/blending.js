@@ -19,3 +19,9 @@ export const BlendMode = {
   CONSTANT_ALPHA: 0x8003,
   ONE_MINUS_CONSTANT_ALPHA: 0x8004
 }
+
+export const BlendEquation = {
+  ADD: 0x8006,
+  SUBTRACT: 0x800A,
+  REVERSE_SUBTRACT: 0x800B
+}
