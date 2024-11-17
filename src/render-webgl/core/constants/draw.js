@@ -11,3 +11,13 @@ export const DrawPrimitive = {
   TriangleStrip: 0x0005,
   TriangleFan: 0x0006
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const DrawUsage = {
+  Static: 0x88E4,
+  Dynamic: 0x88E8,
+  Stream: 0x88E0
+}
