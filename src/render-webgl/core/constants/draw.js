@@ -21,3 +21,23 @@ export const DrawUsage = {
   Dynamic: 0x88E8,
   Stream: 0x88E0
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const CullFace = {
+  None:0,
+  Front: 0x0404,
+  Back: 0x0405,
+  Both: 0x0408
+}
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const FrontFace = {
+  ClockWise: 0x0900,
+  CounterClockWise: 0x0901
+}
