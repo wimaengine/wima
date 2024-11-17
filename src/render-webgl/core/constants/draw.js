@@ -56,3 +56,18 @@ export const DepthFunc = {
   GEqual: 0x0206,
   Always: 0x0207
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const StencilOperation = {
+  Keep: 0x1E00,
+  Replace: 0x1E01,
+  Equal: 0x1E02,
+  Increase: 0x1E03,
+  Decrease: 0x1E04,
+  Invert: 0x150A,
+  IncreaseWrap: 0x8507,
+  DecreaseWrap: 0x8508
+}
