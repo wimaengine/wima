@@ -39,3 +39,13 @@ export const GlUniformType = {
   Matrix4x2: 0x8B69,
   Matrix4x3: 0x8B6A,
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const ClearBit = {
+  Depth: 0x00000100,
+  Stencil: 0x00000400,
+  Color: 0x00004000
+}
