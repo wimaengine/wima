@@ -71,3 +71,17 @@ export const StencilOperation = {
   IncreaseWrap: 0x8507,
   DecreaseWrap: 0x8508
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const BufferType = {
+  Array:0x8892,
+  ElementArray:0x8893,
+  CopyRead:0x8F36,
+  CopyWrite:0x8F37,
+  Uniform:0x8A11,
+  PixelPack:0x88EB,
+  PixelUnpack:0x88EC
+}
