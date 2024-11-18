@@ -63,3 +63,18 @@ export const GLError = {
   OutOfMemory: 0x0505,
   ContextLost: 0x9242
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const GLEnable = {
+  Blend: 0x0BE2,
+  DepthTest: 0x0B71,
+  StencilTest: 0x0B90,
+  ScissorTest: 0x0C11,
+  Dither: 0x0BD0,
+  PolygonOffsetFill: 0x8037,
+  SampleCoverage: 0x80A0,
+  SampleAlphaToCoverage: 0x809E
+}
