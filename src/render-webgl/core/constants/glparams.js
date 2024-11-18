@@ -49,3 +49,17 @@ export const ClearBit = {
   Stencil: 0x00000400,
   Color: 0x00004000
 }
+
+/**
+ * Return type of `gl.getError()`.
+ * @readonly
+ * @enum {number}
+ */
+export const GLError = {
+  None: 0,
+  InvalidEnum: 0x0500,
+  InvalidValue: 0x0501,
+  InvalidOperation: 0x0502,
+  OutOfMemory: 0x0505,
+  ContextLost: 0x9242
+}
