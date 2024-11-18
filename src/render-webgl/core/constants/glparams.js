@@ -11,3 +11,31 @@ export const GlDataType = {
   UnsignedInt: 0x1405,
   Float: 0x1406
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const GlUniformType = {
+  Vec2:0x8B50,
+  Vec3:0x8B51,
+  Vec4:0x8B52,
+  Ivec2:0x8B53,
+  Ivec3:0x8B54,
+  Ivec4:0x8B55,
+  Bool:0x8B56,
+  Bvec2:0x8B57,
+  Bvec3:0x8B58,
+  Bvec4:0x8B59,
+  Matrix2:0x8B5A,
+  Matrix3:0x8B5B,
+  Matrix4:0x8B5C,
+  Sampler:0x8B5E,
+  SamplerCube:0x8B60,
+  Matrix2x3: 0x8B65,
+  Matrix2x4: 0x8B66,
+  Matrix3x2: 0x8B67,
+  Matrix3x4: 0x8B68,
+  Matrix4x2: 0x8B69,
+  Matrix4x3: 0x8B6A,
+}
