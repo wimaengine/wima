@@ -38,3 +38,13 @@ export const TextureFilter = {
   NEAREST_MIPMAP_LINEAR: 0x2702,
   LINEAR_MIPMAP_LINEAR: 0x2703
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const TextureWrap = {
+  Repeat: 0x2901,
+  Clamp: 0x812F,
+  MirrorRepeat: 0x8370
+}
