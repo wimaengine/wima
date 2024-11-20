@@ -25,3 +25,16 @@ export const TextureFormat = {
   RGBA8I: 0x8D8E,
   RGB8I: 0x8D8F
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const TextureFilter = {
+  Nearest: 0x2600,
+  Linear: 0x2601,
+  NEAREST_MIPMAP_NEAREST: 0x2700,
+  LINEAR_MIPMAP_NEAREST: 0x2701,
+  NEAREST_MIPMAP_LINEAR: 0x2702,
+  LINEAR_MIPMAP_LINEAR: 0x2703
+}
