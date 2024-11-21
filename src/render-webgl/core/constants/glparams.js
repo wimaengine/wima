@@ -78,3 +78,14 @@ export const GLEnable = {
   SampleCoverage: 0x80A0,
   SampleAlphaToCoverage: 0x809E
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const GLStatus = {
+  Delete: 0x8B80,
+  Compile: 0x8B81,
+  Link: 0x8B82,
+  Validate: 0x8B83
+}
