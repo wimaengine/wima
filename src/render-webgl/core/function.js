@@ -165,3 +165,17 @@ export function createVAO(gl, mesh, attributemap) {
 
   return vao
 }
+
+/**
+ * @param {WebGL2RenderingContext} gl
+ * @param {string} vertex
+ * @param {string} fragment
+ * @param {Readonly<Map<string,AttributeLocation>>} attributemap
+ */
+export function createProgramFromSrc(gl, vertex, fragment, attributemap) {
+  const v = createShader(gl, vertex, gl.VERTEX_SHADER)
+  const f = createShader(gl, fragment, gl.FRAGMENT_SHADER)
+  const program = createProgram(gl, v, f, attributemap)
+
+  return program
+}
