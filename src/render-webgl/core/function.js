@@ -52,3 +52,21 @@ export function createShader(gl, src, type) {
 
   return shader
 }
+
+/**
+ * @param {WebGLRenderingContext} gl
+ * @param {WebGLShader} shader
+ * @param {string} label
+ */
+export function validateShader(gl, shader, label = '') {
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    console.log(
+      `Shader "${label}" could not compile:
+      ${gl.getShaderInfoLog(shader)}`
+    )
+
+    return false
+  }
+
+  return true
+}
