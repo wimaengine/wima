@@ -1,6 +1,6 @@
 /** @import {TypeArray} from '../../utils/index'*/
 import { assert } from '../../logger/index.js'
-import { ShaderStage } from '../../render-core/index.js'
+import { ShaderStage, AttributeLocation } from '../../render-core/index.js'
 import { DrawUsage, BufferType } from './constants/index.js'
 
 /**
@@ -90,4 +90,25 @@ export function createTexture(gl, img, flipY) {
   if (flipY) gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false)
 
   return tex
+}
+
+/**
+ * @param {WebGLRenderingContext} gl
+ * @param {WebGLShader} vertex
+ * @param {WebGLShader} fragment
+ * @param {Readonly<Map<string,AttributeLocation>>} attributemap
+ */
+export function createProgram(gl, vertex, fragment, attributemap) {
+  const program = gl.createProgram()
+
+  assert(program, 'Could not create a program.')
+
+  gl.attachShader(program, vertex)
+  gl.attachShader(program, fragment)
+  attributemap.forEach((attribute) => {
+    gl.bindAttribLocation(program, attribute.id, attribute.name)
+  })
+  gl.linkProgram(program)
+
+  return program
 }
