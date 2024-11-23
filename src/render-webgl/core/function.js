@@ -1,5 +1,6 @@
 /** @import {TypeArray} from '../../utils/index'*/
 import { assert } from '../../logger/index.js'
+import { ShaderStage } from '../../render-core/index.js'
 import { DrawUsage, BufferType } from './constants/index.js'
 
 /**
@@ -34,4 +35,20 @@ export function createBufferData(gl, type, data, bufferUsage) {
   gl.bufferData(type, data, bufferUsage)
 
   return buffer
+}
+
+/**
+ * @param {WebGLRenderingContext} gl
+ * @param {string} src
+ * @param {ShaderStage} type
+ * @returns {WebGLShader}
+ */
+export function createShader(gl, src, type) {
+  const shader = gl.createShader(type)
+  
+  assert(shader, 'Shader could not be created.')
+  gl.shaderSource(shader, src)
+  gl.compileShader(shader)
+
+  return shader
 }
