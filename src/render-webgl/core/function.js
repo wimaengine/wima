@@ -112,3 +112,27 @@ export function createProgram(gl, vertex, fragment, attributemap) {
 
   return program
 }
+
+/**
+ * @param {WebGLRenderingContext} gl
+ * @param {WebGLProgram} program
+ */
+export function validateProgram(gl, program) {
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.log(
+      `Program could not be linked: 
+      ${gl.getProgramInfoLog(program)}
+      `
+    )
+  }
+
+  gl.validateProgram(program)
+
+  if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
+    console.log(
+      `Program could not be validated: 
+       ${gl.getProgramInfoLog(program)}
+        `
+    )
+  }
+}
