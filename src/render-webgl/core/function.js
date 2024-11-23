@@ -1,6 +1,6 @@
 /** @import {TypeArray} from '../../utils/index'*/
 import { assert } from '../../logger/index.js'
-import { ShaderStage, AttributeLocation } from '../../render-core/index.js'
+import { ShaderStage, AttributeLocation, Mesh } from '../../render-core/index.js'
 import { DrawUsage, BufferType } from './constants/index.js'
 
 /**
@@ -135,4 +135,33 @@ export function validateProgram(gl, program) {
         `
     )
   }
+}
+
+/**
+ * @param {WebGL2RenderingContext} gl
+ * @param {Mesh} mesh
+ * @param {Map<string,AttributeLocation>} attributemap
+ */
+export function createVAO(gl, mesh, attributemap) {
+  const vao = gl.createVertexArray()
+  const indices = mesh.getIndices()
+  const attributedata = mesh.getAttributes()
+
+  gl.bindVertexArray(vao)
+
+  if (indices !== undefined) {
+    createBufferData(gl, BufferType.ElementArray, indices, DrawUsage.Static)
+  }
+
+  for (const [name, data] of attributedata) {
+    const attribute = attributemap.get(name)
+
+    assert(attribute, `The attribute "${name}" is not defined in the\`AttributeMap()\``)
+    createBufferData(gl, BufferType.Array, data.data, DrawUsage.Static)
+
+    gl.enableVertexAttribArray(attribute.id)
+    gl.vertexAttribPointer(attribute.id, attribute.size, attribute.type, false, 0, 0)
+  }
+
+  return vao
 }
