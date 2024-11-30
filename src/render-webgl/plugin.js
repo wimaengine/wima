@@ -18,6 +18,7 @@ export class WebglRendererPlugin {
   register(app) {
     const attribute = new AttributeMap()
 
+    registerDefaultAttributeLocs(attribute)
     app
       .setResource(new ProgramCache())
       .setResource(new MeshCache())
@@ -27,4 +28,20 @@ export class WebglRendererPlugin {
       .setComponentHooks(MaterialHandle, new ComponentHooks(materialAddHook))
       .setComponentHooks(MeshHandle, new ComponentHooks(meshAddHook))
   }
+}
+
+/**
+ * @param {AttributeMap} attributeMap
+ */
+function registerDefaultAttributeLocs(attributeMap) {
+  attributeMap
+    .set(Mesh.Position2DLocation.name, Mesh.Position2DLocation)
+    .set(Mesh.Position3DLocation.name, Mesh.Position3DLocation)
+    .set(Mesh.Normal2DLocation.name, Mesh.Normal2DLocation)
+    .set(Mesh.Normal3DLocation.name, Mesh.Normal3DLocation)
+    .set(Mesh.Tangent2DLocation.name, Mesh.Tangent2DLocation)
+    .set(Mesh.Tangent3DLocation.name, Mesh.Tangent3DLocation)
+    .set(Mesh.UVLocation.name, Mesh.UVLocation)
+    .set(Mesh.UVBLocation.name, Mesh.UVBLocation)
+    .set(Mesh.ColorLocation.name, Mesh.ColorLocation)
 }
