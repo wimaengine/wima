@@ -26,6 +26,7 @@ export class WebglRendererPlugin {
       .setResource(new ClearColor())
       .setResource(attribute)
       .registerSystem(AppSchedule.Update, render)
+      .registerSystem(AppSchedule.Update, resizegl)
       .setComponentHooks(MaterialHandle, new ComponentHooks(materialAddHook))
       .setComponentHooks(MeshHandle, new ComponentHooks(meshAddHook))
   }
@@ -138,5 +139,33 @@ function render(world) {
         gl.drawArrays(gl.TRIANGLES, 0, count / 3)
       }
     })
+  })
+}
+
+/**
+ * @param {World} world
+ */
+function resizegl(world) {
+
+  /** @type {Query<[Entity,Window,MainWindow]>} */
+  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
+
+  /** @type {Windows} */
+  const canvases = world.getResource('windows')
+
+  /** @type {EventDispatch<WindowResize>} */
+  const resizeEvents = world.getResource('events<windowresize>')
+
+  const window = windows.single()
+
+  if (!window) return
+
+  const canvas = canvases.getWindow(window[0])
+  const gl = canvas.getContext('webgl2')
+
+  if (!gl) return
+
+  resizeEvents.each((ev) => {
+    gl.viewport(0, 0, ev.data.width, ev.data.height)
   })
 }
