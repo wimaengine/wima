@@ -25,6 +25,7 @@ export class WebglRendererPlugin {
       .setResource(new UBOCache())
       .setResource(new ClearColor())
       .setResource(attribute)
+      .registerSystem(AppSchedule.Update, render)
       .setComponentHooks(MaterialHandle, new ComponentHooks(materialAddHook))
       .setComponentHooks(MeshHandle, new ComponentHooks(meshAddHook))
   }
@@ -44,4 +45,98 @@ function registerDefaultAttributeLocs(attributeMap) {
     .set(Mesh.UVLocation.name, Mesh.UVLocation)
     .set(Mesh.UVBLocation.name, Mesh.UVBLocation)
     .set(Mesh.ColorLocation.name, Mesh.ColorLocation)
+}
+
+/**
+ * @param {World} world
+ */
+function render(world) {
+
+  /** @type {Assets<Mesh>} */
+  const meshes = world.getResource('assets<mesh>')
+
+  /** @type {Assets<Material>} */
+  const materials = world.getResource('assets<material>')
+
+  /** @type {ProgramCache<WebGLProgram>} */
+  const programs = world.getResource('programcache')
+
+  /** @type {MeshCache<WebGLVertexArrayObject>} */
+  const gpumeshes = world.getResource('meshcache')
+
+  /** @type {UBOCache} */
+  const ubos = world.getResource('ubocache')
+
+  /** @type {Windows} */
+  const canvases = world.getResource('windows')
+
+  /** @type {ClearColor} */
+  const clearColor = world.getResource('clearcolor')
+
+  /** @type {Query<[GlobalTransform3D,Handle<Mesh>,Handle<Material>]>} */
+  const query = new Query(world, ['globaltransform3d', 'meshhandle', 'materialhandle'])
+
+  /** @type {Query<[Entity,Window,MainWindow]>} */
+  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
+
+  /** @type {Query<[GlobalTransform3D,Camera]>} */
+  const cameras = new Query(world, ['globaltransform3d', 'camera'])
+
+  const window = windows.single()
+
+  if (!window) return warn('Please define the main window for rendering.')
+
+
+  /** @type {HTMLCanvasElement}*/
+  const canvas = canvases.getWindow(window[0])
+  const gl = canvas.getContext('webgl2')
+
+  if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
+
+  gl.clearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a)
+  gl.clear(gl.COLOR_BUFFER_BIT)
+  
+  cameras.each(([transform, camera]) => {
+    const projection = camera.projectionMatrix()
+    const cameraUniform = ubos.get('Camera')
+    const camData = new Float32Array([
+      ...transform.toMatrix4().inverse(),
+      ...projection
+    ])
+
+    assert(cameraUniform, 'The uniform buffer for the camera is not set up.')
+    gl.bindBuffer(gl.UNIFORM_BUFFER, cameraUniform.buffer)
+    gl.bufferSubData(gl.UNIFORM_BUFFER, 0, camData)
+
+    query.each(([transform, meshhandle, materialhandle]) => {
+      const mesh = meshes.getByHandle(meshhandle)
+      const material = materials.getByHandle(materialhandle)
+      const gpumesh = gpumeshes.get(meshhandle.handle)
+      const pipeline = programs.get(materialhandle.handle)
+
+      // @ts-ignore
+      // SAFETY: BasicMaterial has the method.
+      // To ensure that this works on all materials,make `Material` have this method.
+      const data = material.asUniformBind()
+      const ubo = ubos.get(material.constructor.name)
+
+      assert(ubo, `The uniform buffer for material '${material.constructor.name}' is not set up.` )
+
+      pipeline.setUniformMatrix3x4(gl, 'model', transform)
+      gl.bindBuffer(gl.UNIFORM_BUFFER, ubo.buffer)
+      gl.bufferSubData(gl.UNIFORM_BUFFER, 0, data)
+      gl.bindVertexArray(gpumesh)
+      gl.useProgram(pipeline.program)
+
+      const indices = mesh.getIndices()
+      const count = mesh.getAttribute('position3d')?.data.length
+
+      if (count === undefined) return
+      if (indices) {
+        gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0)
+      } else {
+        gl.drawArrays(gl.TRIANGLES, 0, count / 3)
+      }
+    })
+  })
 }
