@@ -27,6 +27,7 @@ export class WebglRendererPlugin {
       .setResource(attribute)
       .registerSystem(AppSchedule.Update, render)
       .registerSystem(AppSchedule.Update, resizegl)
+      .registerSystem(AppSchedule.Startup, registerBuffers)
       .setComponentHooks(MaterialHandle, new ComponentHooks(materialAddHook))
       .setComponentHooks(MeshHandle, new ComponentHooks(meshAddHook))
   }
@@ -168,4 +169,33 @@ function resizegl(world) {
   resizeEvents.each((ev) => {
     gl.viewport(0, 0, ev.data.width, ev.data.height)
   })
+}
+
+/**
+ * @param {World} world
+ */
+function registerBuffers(world) {
+
+  /** @type {UBOCache} */
+  const ubos = world.getResource('ubocache')
+  
+  /** @type {Windows} */
+  const canvases = world.getResource('windows')
+
+  /** @type {Query<[Entity,Window,MainWindow]>} */
+  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
+
+  const window = windows.single()
+
+  if (!window) return warn('Please define the main window for rendering.')
+
+
+  /** @type {HTMLCanvasElement}*/
+  const canvas = canvases.getWindow(window[0])
+  const gl = canvas.getContext('webgl2')
+
+  if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
+
+  ubos.create(gl, 'Camera', 128)
+  ubos.create(gl, 'WebglBasicMaterial', 32)
 }
