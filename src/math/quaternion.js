@@ -129,7 +129,7 @@ export class Quaternion {
    * @returns {this}
    */
   multiply(q) {
-    Quaternion.multiply(this, q)
+    Quaternion.multiply(this, q, this)
 
     return this
   }
