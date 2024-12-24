@@ -244,17 +244,18 @@ export class Quaternion {
   }
 
   /**
+   * @param {Quaternion} q
    * @param {Vector3} v
    * @returns {Vector3}
    */
-  transformVector2(v) {
+  static transformVector3(q, v) {
     const vx = v.x,
       vy = v.y,
       vz = v.z
-    const qx = this.x,
-      qy = this.y,
-      qz = this.z,
-      qw = this.w
+    const qx = q.x,
+      qy = q.y,
+      qz = q.z,
+      qw = q.w
 
     const tx = 2 * (qy * vz - qz * vy)
     const ty = 2 * (qz * vx - qx * vz)
