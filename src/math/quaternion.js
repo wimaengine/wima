@@ -159,6 +159,21 @@ export class Quaternion {
   }
 
   /**
+   * @param {Quaternion} q
+   * @param {number} s
+   * @param {Quaternion} [out]
+   * @returns {Quaternion}
+   */
+  static multiplyScalar(q, s, out = new Quaternion()) {
+    out.x = q.x * s
+    out.y = q.y * s
+    out.z = q.z * s
+    out.w = q.w * s
+
+    return out
+  }
+
+  /**
    * @param {Quaternion} qa
    * @param {Quaternion} qb
    * @param {number} t
