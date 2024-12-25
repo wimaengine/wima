@@ -1,6 +1,7 @@
 export * from './math.js'
 export * from './vector2.js'
 export * from './vector3.js'
+export * from './vector4.js'
 export * from './quaternion.js'
 export * from './angle.js'
 export * from './matrix2x3.js'
