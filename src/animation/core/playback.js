@@ -1,3 +1,9 @@
+import { AnimationRepeat } from "./repeat.js"
+
 export class AnimationPlayback {
-  seek = 0
+  speed = 1
+  elapsed = 0
+  seekTime = 0
+  repeatMode = AnimationRepeat.None
+  paused = false
 }

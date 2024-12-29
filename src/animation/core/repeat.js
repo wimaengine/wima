@@ -1,4 +1,4 @@
 export const AnimationRepeat = {
-  Once:0,
-  Repeat:1
+  None: 0,
+  Repeat: 1
 }

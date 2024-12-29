@@ -16,6 +16,7 @@ import {
   WindowPlugin,
   RenderCorePlugin,
   Canvas2DRendererPlugin,
+  AnimationPlugin,
   DemoPlugin,
   MainWindow,
   Query,
@@ -40,6 +41,7 @@ app
   .registerPlugin(new WindowPlugin())
   .registerPlugin(new DOMWindowPlugin())
   .registerPlugin(new InputPlugin())
+  .registerPlugin(new AnimationPlugin())
   .registerPlugin(new TransformPlugin())
   .registerPlugin(new RenderCorePlugin())
   .registerPlugin(new StoragePlugin())
