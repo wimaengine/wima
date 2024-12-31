@@ -5,7 +5,8 @@ import {
   Position3D,
   Orientation3D,
   Scale3D,
-  GlobalTransform2D,  
+  GlobalTransform2D,
+  GlobalTransform3D
 } from './components/index.js'
 import { Dimension } from '../utils/index.js'
 import { App, AppSchedule } from '../app/index.js'
@@ -50,6 +51,7 @@ export class TransformPlugin {
         .registerType(Position3D)
         .registerType(Orientation3D)
         .registerType(Scale3D)
+        .registerType(GlobalTransform3D)
     }
   }
 }
