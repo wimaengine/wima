@@ -4,10 +4,12 @@ import {
   Scale2D,
   Position3D,
   Orientation3D,
-  Scale3D
+  Scale3D,
+  GlobalTransform2D,  
 } from './components/index.js'
 import { Dimension } from '../utils/index.js'
-import { App } from '../app/index.js'
+import { App, AppSchedule } from '../app/index.js'
+import { Query, World } from '../ecs/index.js'
 
 export class TransformPlugin {
 
@@ -38,6 +40,7 @@ export class TransformPlugin {
         .registerType(Position2D)
         .registerType(Orientation2D)
         .registerType(Scale2D)
+        .registerType(GlobalTransform2D)
     }
     if (
       dimension === Dimension.Three ||
