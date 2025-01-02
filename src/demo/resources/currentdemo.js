@@ -11,26 +11,24 @@ export class CurrentDemo {
   /**
    * @param {Demo} initial
    */
-  constructor(initial){
+  constructor(initial) {
     this.inner = initial
   }
 
   /**
    * @returns {Demo}
    */
-  get(){
+  get() {
     return this.inner
   }
-  getName(){
+  getName() {
     return this.inner.name
   }
 
   /**
-   * @param {string} name
    * @param {Demo} demo
    */
-  set(name, demo){
-    this.name = name
+  set(demo) {
     this.inner = demo
   }
 }
