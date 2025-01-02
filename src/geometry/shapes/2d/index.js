@@ -1,0 +1,6 @@
+export * from './shape2.js'
+export * from './box2.js'
+export * from './circle.js'
+export * from './convexpolygon.js'
+export * from './line2.js'
+export * from './triangle2.js'
