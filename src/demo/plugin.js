@@ -29,7 +29,7 @@ export class DemoPlugin {
    * @param {App} app
    */
   register(app) {
-    const namedDemos = /** @type {[string,Demo][]}*/(this.demos.map((e) => [e.name, e]))
+    const namedDemos = /** @type {[string,Demo][]}*/ (this.demos.map((e) => [e.name, e]))
 
     app
       .registerType(Cleanup)
@@ -45,49 +45,51 @@ export class DemoPlugin {
  * @param {World} world
  */
 function initDemo(world) {
-  const demolist = /** @type {DemoList} */(world.getResource('demolist'))
-  const current = /** @type {CurrentDemo} */(world.getResource('currentdemo'))
-  const storage = /** @type {Storage} */(world.getResource('storage'))
-  const demoName = /** @type {string | undefined} */(storage.get(storageLabel))
-  /** @type {[string,Demo]} */
-  const [defaultDemoName, defaultDemo] = demolist.entries().next().value
+  const demolist = /** @type {DemoList} */ (world.getResource('demolist'))
+  const current = /** @type {CurrentDemo} */ (world.getResource('currentdemo'))
+  const storage = /** @type {Storage} */ (world.getResource('storage'))
 
-  if (defaultDemo) {
-    current.set(defaultDemoName, defaultDemo)
-    defaultDemo.init.forEach((init) => init(world))
-  }
+  const demoName = /** @type {string | undefined} */ (storage.get(storageLabel))
+
+  
   if (demoName) {
     const demo = demolist.get(demoName)
 
     if (demo) {
-      current.set(demoName, demo)
-      demo.init.forEach((init) => init(world))
+      current.set(demo)
     }
+  } else {
+    const defaultDemo = demolist.entries().next().value
+
+    if(defaultDemo) current.set(defaultDemo[1])
   }
+
+  current.get().init.forEach((init) => init(world))
 }
 
 /**
  * @param {World} world
  */
 function initDemoUI(world) {
-  const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
-  const demolist = /** @type {DemoList} */(world.getResource('demolist'))
-  const currentdemo = /** @type {CurrentDemo} */(world.getResource('currentdemo'))
-  const storage = /** @type {Storage} */(world.getResource('storage'))
+  const commands = /** @type {EntityCommands} */ (world.getResource('entitycommands'))
+  const demolist = /** @type {DemoList} */ (world.getResource('demolist'))
+  const currentdemo = /** @type {CurrentDemo} */ (world.getResource('currentdemo'))
+  const storage = /** @type {Storage} */ (world.getResource('storage'))
 
   const optionTab = document.createElement('div')
   const option = createDropDown(demolist.keys(), (e) => {
-    const entities = /** @type {Query<[Entity]>} */(new Query(world, ['entity', 'cleanup']))
-    const name = /** @type {HTMLOptionElement} */(e.target).value
+    const entities = /** @type {Query<[Entity]>} */ (new Query(world, ['entity', 'cleanup']))
+    const name = /** @type {HTMLOptionElement} */ (e.target).value
     const demo = demolist.get(name)
 
     entities.each(([entity]) => {
-      commands.despawn(entity)
+      world.remove(entity)
     })
+    commands.clear()
 
     if (demo) {
       storage.set(storageLabel, name)
-      currentdemo.set(name, demo)
+      currentdemo.set(demo)
       demo.init.forEach((init) => init(world))
     }
   })
