@@ -23,6 +23,8 @@ export function executeWindowCommands(world) {
 
     execute(command, canvas, window)
   }
+
+  commands.clear()
 }
 
 /**
@@ -57,7 +59,6 @@ function execute(command, canvas, window) {
 
     case WindowRequest.PointerLock:
       canvas.requestPointerLock()
-
       break
 
     default:
