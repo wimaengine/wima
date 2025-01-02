@@ -47,6 +47,18 @@ export class Assets {
     this.def = defaulter()
     this.createHandle = handler
   }
+  
+  /**
+   * @param {string} name
+   * @returns {T | undefined}
+   */
+  get(name){
+    const id = this.paths.get(name)
+
+    if(id === undefined) return undefined
+
+    return this.assets.get(id)
+  }
 
   /**
    * @param {Handle<T>} handle
