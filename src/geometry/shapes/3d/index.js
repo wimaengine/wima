@@ -1,6 +1,6 @@
 export * from './cuboid.js'
 export * from './sphere.js'
-export * from './line.js'
+export * from './line3.js'
 export * from './convexpolyhedron.js'
 export * from './plane.js'
 export * from './frustum.js'

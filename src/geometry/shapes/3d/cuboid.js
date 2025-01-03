@@ -6,7 +6,8 @@ export class Cuboid extends Shape3 {
     x = 0.5,
     y = 0.5,
     z = 0.5
-    ) {
-    this.extents = new Vector3(x,y,z)
+  ) {
+    super()
+    this.extents = new Vector3(x, y, z)
   }
 }

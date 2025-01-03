@@ -1,4 +1,3 @@
-import { Vector3 } from '../../../math/index.js'
 import { Shape3 } from './shape3.js'
 
 export class Sphere extends Shape3{

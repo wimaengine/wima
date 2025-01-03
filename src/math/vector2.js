@@ -758,12 +758,19 @@ export class Vector2 {
    * @type { Vector2}
    */
   static ZERO = new Vector2()
-
+  
   /**
-   * Default up direction.
+   * Default X direction.
    *
    * @readonly
    * @type { Vector2}
    */
-  static UP = new Vector2(0, 1)
+  static X = new Vector2(1, 0)
+  /**
+   * Default Y direction.
+   *
+   * @readonly
+   * @type { Vector2}
+   */
+  static Y = new Vector2(0, 1)
 }

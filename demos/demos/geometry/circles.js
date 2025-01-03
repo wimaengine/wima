@@ -12,7 +12,9 @@ import {
   EntityCommands,
   Vector2,
   warn,
-  Cleanup
+  Cleanup,
+  Circle,
+  intersectCircles
 } from 'chaosstudio'
 import { ShapeContainer } from "./utils.js"
 
@@ -31,36 +33,36 @@ function init(world) {
 
   const mesh = meshes.add('material', Mesh.circle2D(radius, resolution))
   const material = materials.add('basic', new CanvasMeshedMaterial({
-    fill: new Color(0,0,0,0)
+    fill: new Color(0, 0, 0, 0)
   }))
 
-  const start1 = new Vector2(100,100)
-  const start2 = new Vector2(300,100)
-  const end1 = new Vector2(190,100)
-  const end2 = new Vector2(210,100)
+  const start1 = new Vector2(100, 100)
+  const start2 = new Vector2(300, 100)
+  const end1 = new Vector2(190, 100)
+  const end2 = new Vector2(210, 100)
   const duration = 2
-  
+
   commands
     .spawn()
-    .insertPrefab(createTransform2D(start1.x,start1.y))
+    .insertPrefab(createTransform2D(start1.x, start1.y))
     .insert(mesh)
     .insert(material)
     .insert(new Position2DTween(start1, end1, duration))
     .insert(new TweenRepeat())
     .insert(new TweenFlip())
-    .insert(new ShapeContainer())
+    .insert(new ShapeContainer(new Circle(radius)))
     .insert(new Cleanup())
     .build()
 
   commands
     .spawn()
-    .insertPrefab(createTransform2D(start2.x,start2.y))
+    .insertPrefab(createTransform2D(start2.x, start2.y))
     .insert(mesh)
     .insert(material)
     .insert(new Position2DTween(start2, end2, duration))
     .insert(new TweenRepeat())
     .insert(new TweenFlip())
-    .insert(new ShapeContainer())
+    .insert(new ShapeContainer(new Circle(radius)))
     .insert(new Cleanup())
     .build()
 }
@@ -70,5 +72,10 @@ function init(world) {
  */
 function update(world) {
   const query = new Query(world, ['position2d', 'shapecontainer'])
-  console.log(query.count())
+  query.eachCombination(([position1, shape1], [position2, shape2]) => {
+    const distance = Vector2.sub(position2, position1)
+
+    const intersection = intersectCircles(shape1.shape, shape2.shape, distance)
+    if (intersection.overlap > 0) {}
+  })
 }

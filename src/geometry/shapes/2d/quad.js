@@ -3,6 +3,7 @@ import { Shape2 } from './shape2.js'
 
 export class Quadrilateral extends Shape2 {
 	constructor( x = 0, y = 0 ) {
+	  super()
 		this.extents = new Vector2(x,y)
 	}
 }

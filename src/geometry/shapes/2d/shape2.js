@@ -1,4 +1,1 @@
-export class Shape2 {
-  constructor() {
-  }
-}
+export class Shape2 {}

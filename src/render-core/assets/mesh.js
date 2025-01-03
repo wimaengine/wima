@@ -55,28 +55,28 @@ export class Mesh {
 
     return geometry
   }
-  
+
   static circle2D(radius = 0.5, segments = 16, arcstart = 0, arclength = Math.PI * 2) {
-  const mesh = new Mesh()
-  const vertices = [0, 0]
-  const angleIncrement = arclength / segments
-  const epilson = Math.pow(2, -31)
+    const mesh = new Mesh()
+    const vertices = [0, 0]
+    const angleIncrement = arclength / segments
+    const epilson = Math.pow(2, -31)
 
-  for (let i = arcstart; i < arclength + epilson; i += angleIncrement) {
-    const cos = Math.cos(i)
-    const sin = Math.sin(i)
+    for (let i = arcstart; i < arclength + epilson; i += angleIncrement) {
+      const cos = Math.cos(i)
+      const sin = Math.sin(i)
 
-    vertices.push(
-      radius * cos,
-      radius * sin,
+      vertices.push(
+        radius * cos,
+        radius * sin,
+      )
+    }
+
+    mesh.setAttribute("position",
+      new Attribute(new Float32Array(vertices), 2)
     )
+    return mesh
   }
-  
-  mesh.setAttribute("position",
-      new Attribute(new Float32Array(vertices),2)
-    )
-  return mesh
-}
 
   /**
    * @param {number} base
@@ -106,7 +106,8 @@ export class Mesh {
     return geometry
   }
 
-  static default(){
+  static
+  default () {
     return new Mesh()
   }
 }

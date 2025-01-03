@@ -1,7 +1,33 @@
-export function intersectSpheres(center1, radius1, center2, radius2) {
-  const sum = radius1 + radius2
+import { ContactData } from "./contactdata.js"
+import { Vector2 } from "../../math/index.js"
 
-  return center1.distanceToSquared(center2) <= (radiusSum * radiusSum)
+/**
+ * @param {Vector2} distance The distance vector from sphere2 to sphere1.
+ */
+export function intersectCircles(circle1, circle2, distance) {
+  const radiusSum = circle1.radius + circle2.radius
+  const overlap = (radiusSum * radiusSum) - distance.magnitudeSquared()
+  if (overlap == 0) {
+    return new ContactData({
+      overlap,
+      normal: Vector2.Y.clone()
+    })
+  }
+  const normal = distance.clone().normalize()
+  return new ContactData({ overlap, normal })
+}
+
+/**
+ * @param {Vector2} distance The distance vector from sphere2 to sphere1.
+ */
+export function intersectSpheres(sphere1, sphere2, distance) {
+  const sum = radius1 + radius2
+  const overlap = (radiusSum * radiusSum) - distance.magnitudeSquared()
+  if (overlap == 0) {
+    distance.set()
+  }
+  const normal = distance.clone().normalize()
+  return new ContactData({ overlap, normal })
 }
 
 export function intersectCuboids(box1, box2) {
@@ -16,17 +42,17 @@ export function intersectCuboids(box1, box2) {
   )
 }
 
-export function intersectSpherePlane(sphere, center, plane) {
+export function intersectSpherePlane(sphere, plane, distance) {
   return Math.abs(plane.distanceToPoint(center)) <= sphere.radius;
 }
 
-export function intersectCuboidSphere(box, sphere, center, box) {
+export function intersectCuboidSphere(box, sphere, distance) {
   box.clampPoint(center, _vector);
 
   return _vector.distanceToSquared(sphere.center) <= (sphere.radius * sphere.radius);
 }
 
-export function intersectCuboidPlane(box, plane) {
+export function intersectCuboidPlane(box, plane, distance) {
   let min, max;
 
   if (plane.normal.x > 0) {
@@ -69,7 +95,7 @@ export function intersectCuboidPlane(box, plane) {
 
 }
 
-export function intersectCuboidTriangle(box, triangle) {
+export function intersectCuboidTriangle(box, triangle, distance) {
   this.getCenter(_center);
   _extents.subVectors(this.max, _center);
 
@@ -113,7 +139,7 @@ export function intersectCuboidTriangle(box, triangle) {
 
 }
 
-export function intersectsFrustumSphere(frustum,sphere) {
+export function intersectsFrustumSphere(frustum, sphere, distance) {
   const planes = frustum.planes;
   const center = sphere.center;
   const negRadius = -sphere.radius;
@@ -130,7 +156,7 @@ export function intersectsFrustumSphere(frustum,sphere) {
   return true;
 }
 
-export function intersectFrustumBox(frustum,box) {
+export function intersectFrustumBox(frustum, box, distance) {
   const planes = this.planes;
 
   for (let i = 0; i < 6; i++) {
@@ -148,7 +174,7 @@ export function intersectFrustumBox(frustum,box) {
   return true;
 }
 
-export function intersectPlaneLine(plane,line, target) {
+export function intersectPlaneLine(plane, line, distance) {
   const direction = line.delta(_vector1);
   const denominator = this.normal.dot(direction);
 
