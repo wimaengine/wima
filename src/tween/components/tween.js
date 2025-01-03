@@ -47,11 +47,9 @@ export class Tween {
    * @param {boolean} [flip=true]
    * @param {EasingFn} [easing=Easing.linear]
    */
-  constructor(to, from, duration, repeat = false, flip = true, easing = Easing.linear) {
+  constructor(to, from, duration, easing = Easing.linear) {
     this.to = to
     this.from = from
-    this.repeat = repeat
-    this.flip = flip
     this.duration = duration
     this.easing = easing
   }

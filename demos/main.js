@@ -29,7 +29,10 @@ import materials from './demos/material.js'
 import keyboard from './demos/keyboard.js'
 import mouse from './demos/mouse.js'
 import touch from './demos/touch.js'
-
+import {
+  circlesIntersect,
+  registerContainer
+} from './demos/geometry/index.js';
 const app = new App()
 
 app
@@ -42,10 +45,12 @@ app
   .registerPlugin(new InputPlugin())
   .registerPlugin(new TransformPlugin())
   .registerPlugin(new RenderCorePlugin())
+  .registerPlugin(new DefaultTweenPlugin())
   .registerPlugin(new StoragePlugin())
   .registerSystem(AppSchedule.Startup, setupViewport)
   .registerSystem(AppSchedule.Startup, setupCamera)
-  .registerPlugin(new DefaultTweenPlugin())
+  .registerSystem(AppSchedule.Startup, registerContainer)
+
   .registerPlugin(new Canvas2DRendererPlugin())
   .registerDebugger(new FPSDebugger())
   .registerPlugin(new DemoPlugin({
@@ -56,7 +61,8 @@ app
       easing,
       keyboard,
       mouse,
-      touch
+      touch,
+      circlesIntersect
     ]
   }))
   .run()
@@ -73,7 +79,7 @@ function setupCamera(world) {
  */
 function setupViewport(world) {
   const windowcommands = world.getResource('windowcommands')
-  const window = /** @type {Query<[Entity,MainWindow]>} */(new Query(world, ['entity', 'mainwindow'])).single()
+  const window = /** @type {Query<[Entity,MainWindow]>} */ (new Query(world, ['entity', 'mainwindow'])).single()
 
   if (!window) return warn('No main window defined.')
 
