@@ -55,22 +55,28 @@ export class Mesh {
 
     return geometry
   }
+  
+  static circle2D(radius = 0.5, segments = 16, arcstart = 0, arclength = Math.PI * 2) {
+  const mesh = new Mesh()
+  const vertices = [0, 0]
+  const angleIncrement = arclength / segments
+  const epilson = Math.pow(2, -31)
 
-  /**
-   * @param {number} radius
-   * @param {number} resolution
-   * @returns {Mesh}
-   */
-  static circle2D(radius, resolution = 16) {
-    const geometry = new Mesh()
-    const positions = new Float32Array([radius, radius])
+  for (let i = arcstart; i < arclength + epilson; i += angleIncrement) {
+    const cos = Math.cos(i)
+    const sin = Math.sin(i)
 
-
-    // TODO - fix up resolution
-    geometry.setAttribute('position', new Attribute(positions, 2))
-
-    return geometry
+    vertices.push(
+      radius * cos,
+      radius * sin,
+    )
   }
+  
+  mesh.setAttribute("position",
+      new Attribute(new Float32Array(vertices),2)
+    )
+  return mesh
+}
 
   /**
    * @param {number} base
