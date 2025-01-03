@@ -6,7 +6,7 @@ import { Vector2 } from "../../math/index.js"
  */
 export function intersectCircles(circle1, circle2, distance) {
   const radiusSum = circle1.radius + circle2.radius
-  const overlap = (radiusSum * radiusSum) - distance.magnitudeSquared()
+  const overlap = radiusSum - distance.magnitude()
   if (overlap == 0) {
     return new ContactData({
       overlap,
@@ -22,7 +22,7 @@ export function intersectCircles(circle1, circle2, distance) {
  */
 export function intersectSpheres(sphere1, sphere2, distance) {
   const sum = radius1 + radius2
-  const overlap = (radiusSum * radiusSum) - distance.magnitudeSquared()
+  const overlap = radiusSum - distance.magnitude()
   if (overlap == 0) {
     distance.set()
   }

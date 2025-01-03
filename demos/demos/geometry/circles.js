@@ -76,6 +76,8 @@ function update(world) {
     const distance = Vector2.sub(position2, position1)
 
     const intersection = intersectCircles(shape1.shape, shape2.shape, distance)
-    if (intersection.overlap > 0) {}
+    if (intersection.overlap > 0) {
+      console.log(intersection.overlap)
+    }
   })
 }
