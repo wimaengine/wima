@@ -1,6 +1,7 @@
 import { Vector3 } from '../../../math/index.js'
+import { Shape3 } from './shape3.js'
 
-export class Cuboid {
+export class Cuboid extends Shape3 {
   constructor(
     x = 0.5,
     y = 0.5,
