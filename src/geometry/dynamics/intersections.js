@@ -21,10 +21,10 @@ export function intersectCircles(circle1, circle2, distance) {
  * @param {Vector2} distance The distance vector from sphere2 to sphere1.
  */
 export function intersectSpheres(sphere1, sphere2, distance) {
-  const sum = radius1 + radius2
+  const sum = sphere1.radius + sphere2.radius
   const overlap = radiusSum - distance.magnitude()
   if (overlap == 0) {
-    distance.set()
+    distance.set(0,1)
   }
   const normal = distance.clone().normalize()
   return new ContactData({ overlap, normal })
