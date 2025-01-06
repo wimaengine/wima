@@ -1,0 +1,49 @@
+name: Bug Report
+description: Report a bug.
+labels: ["type:bug","rep:triage"]
+body:
+  - type: textarea
+    id: system
+    attributes:
+      label: System information.
+      description: |
+        - Provide the version of the engine used or commit hash.
+        - Browser used and/or relevant hardware infomation.
+        - Related issues and PRs.
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description.
+      description: |
+        Add extra information about the bug e.g screenshots,video recordings.
+      placeholder: |
+        N/A
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce.
+      description: |
+        Describe the steps to follow to reproduce the bug.
+        Include a minimal reproduction project if possible.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour.
+      description: |
+        What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour.
+      description: |
+        What actually happened?
+    validations:
+      required: true
