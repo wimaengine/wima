@@ -47,3 +47,11 @@ body:
         What actually happened?
     validations:
       required: true
+  - type: textarea
+    id: cause
+    attributes:
+      label: Cause(s).
+      description: |
+        What do you think caused this?This is optional
+    validations:
+      required: false
