@@ -57,13 +57,6 @@ export class DeviceCapabilities {
   webAudio = false
 
   /**
-   * Whether this device supports Audio tag.
-   *
-   * @type {boolean}
-   */
-  audio = !!new Audio().canPlayType
-
-  /**
    * A list of audio extensions this device supports.
    *
    * @type {Set<string>}
