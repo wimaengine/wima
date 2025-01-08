@@ -55,14 +55,6 @@ export class DeviceCapabilities {
    * @type {boolean}
    */
   webAudio = false
-
-  /**
-   * A list of audio extensions this device supports.
-   *
-   * @type {Set<string>}
-   */
-  supportedAudioFormats = new Set()
-
   /**
    * A list of image extensions this device supports.
    *
