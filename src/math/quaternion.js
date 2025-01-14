@@ -45,19 +45,8 @@ export class Quaternion {
    * @param {number} z
    */
   fromEuler(x, y, z) {
-    const c1 = Math.cos(x / 2)
-    const c2 = Math.cos(y / 2)
-    const c3 = Math.cos(z / 2)
-
-    const s1 = Math.sin(x / 2)
-    const s2 = Math.sin(y / 2)
-    const s3 = Math.sin(z / 2)
-
-    this.x = s1 * c2 * c3 + c1 * s2 * s3
-    this.y = c1 * s2 * c3 - s1 * c2 * s3
-    this.z = c1 * c2 * s3 + s1 * s2 * c3
-    this.w = c1 * c2 * c3 - s1 * s2 * s3
-
+    Quaternion.fromEuler(x, y, z, this)
+    
     return this
   }
 
@@ -140,7 +129,7 @@ export class Quaternion {
    * @returns {this}
    */
   multiply(q) {
-    Quaternion.multiply(this, q)
+    Quaternion.multiply(this, q, this)
 
     return this
   }
@@ -165,6 +154,21 @@ export class Quaternion {
     out.y = qay * qbw + qaw * qby + qaz * qbx - qax * qbz
     out.z = qaz * qbw + qaw * qbz + qax * qby - qay * qbx
     out.w = qaw * qbw - qax * qbx - qay * qby - qaz * qbz
+
+    return out
+  }
+
+  /**
+   * @param {Quaternion} q
+   * @param {number} s
+   * @param {Quaternion} [out]
+   * @returns {Quaternion}
+   */
+  static multiplyScalar(q, s, out = new Quaternion()) {
+    out.x = q.x * s
+    out.y = q.y * s
+    out.z = q.z * s
+    out.w = q.w * s
 
     return out
   }
@@ -243,7 +247,29 @@ export class Quaternion {
       r2 * Math.sin(theta2),
       r2 * Math.cos(theta2)
     )
+  }
 
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @param {number} z
+   * @param {Quaternion} out
+   */
+  static fromEuler(x, y, z, out = new Quaternion()) {
+    const c1 = Math.cos(x / 2)
+    const c2 = Math.cos(y / 2)
+    const c3 = Math.cos(z / 2)
+
+    const s1 = Math.sin(x / 2)
+    const s2 = Math.sin(y / 2)
+    const s3 = Math.sin(z / 2)
+
+    out.x = s1 * c2 * c3 + c1 * s2 * s3
+    out.y = c1 * s2 * c3 - s1 * c2 * s3
+    out.z = c1 * c2 * s3 + s1 * s2 * c3
+    out.w = c1 * c2 * c3 - s1 * s2 * s3
+
+    return out
   }
 
   /**
@@ -255,17 +281,18 @@ export class Quaternion {
   }
 
   /**
+   * @param {Quaternion} q
    * @param {Vector3} v
    * @returns {Vector3}
    */
-  transformVector2(v) {
+  static transformVector3(q, v) {
     const vx = v.x,
       vy = v.y,
       vz = v.z
-    const qx = this.x,
-      qy = this.y,
-      qz = this.z,
-      qw = this.w
+    const qx = q.x,
+      qy = q.y,
+      qz = q.z,
+      qw = q.w
 
     const tx = 2 * (qy * vz - qz * vy)
     const ty = 2 * (qz * vx - qx * vz)
@@ -277,6 +304,7 @@ export class Quaternion {
 
     return v
   }
+  
   * [Symbol.iterator]() {
     yield this.x
     yield this.y
