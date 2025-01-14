@@ -15,7 +15,6 @@ export function openWindow(entity, world) {
   if (window.selector) element = /** @type {HTMLElement | undefined}*/(document.querySelector(window.selector))
   if (!element) {
     element = document.createElement('canvas')
-    warn(`Invalid css selector on window!No HTML element found for selector '${window.selector}'`)
   }
   if (element.nodeName !== 'CANVAS') {
     element = document.createElement('canvas')

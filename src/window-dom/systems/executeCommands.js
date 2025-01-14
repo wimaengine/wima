@@ -23,6 +23,8 @@ export function executeWindowCommands(world) {
 
     execute(command, canvas, window)
   }
+
+  commands.clear()
 }
 
 /**
@@ -36,6 +38,7 @@ function execute(command, canvas, window) {
       canvas.width = command.data.x
       canvas.height = command.data.y
       window.set(canvas.width, canvas.height)
+      canvas.dispatchEvent(new Event('resize'))
       break
 
     case WindowRequest.Reposition:
@@ -57,7 +60,6 @@ function execute(command, canvas, window) {
 
     case WindowRequest.PointerLock:
       canvas.requestPointerLock()
-
       break
 
     default:
