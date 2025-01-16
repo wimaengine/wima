@@ -1,0 +1,41 @@
+import { GlDataType } from '../../render-webgl/index.js'
+
+export class AttributeLocation {
+
+  /**
+   * @readonly
+   * @type {string}
+   */
+  name = ''
+
+  /**
+   * @readonly
+   * @type {number}
+   */
+  id = 0
+
+  /**
+   * @readonly
+   * @type {GlDataType}
+   */
+  type = 0
+
+  /**
+   * @readonly
+   * @type {number}
+   */
+  size = 0
+
+  /**
+   * @param {string} name
+   * @param {number} location
+   * @param {GlDataType} type
+   * @param {number} size
+   */
+  constructor(name, location, type, size) {
+    this.name = name
+    this.id = location
+    this.type = type
+    this.size = size
+  }
+}

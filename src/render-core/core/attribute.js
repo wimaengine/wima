@@ -2,20 +2,12 @@ export class Attribute{
 
   /**
    * @private
-   * @type {number}
-   */
-  size
-
-  /**
-   * @private
    * @type {Float32Array}
    */
   /**
-   * @param {Float32Array} data 
-   * @param {number} size 
+   * @param {Float32Array} data
    */
-  constructor(data, size){
+  constructor(data){
     this.data = data
-    this.size = size
   }
 }
