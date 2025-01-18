@@ -91,16 +91,24 @@ export class Mesh {
 
   /**
    * @param {number} radius
-   * @param {number} _resolution
+   * @param {number} resolution
    * @returns {Mesh}
    */
-  static circle2D(radius, _resolution = 16) {
+  static circle2D(radius, resolution = 16) {
     const geometry = new Mesh()
-    const positions = new Float32Array([radius, radius])
+    const positions = [0,0]
 
+    const spacing = Math.PI * 2 / resolution
 
-    // TODO - fix up resolution
-    geometry.setAttribute('position2d', new Attribute(positions))
+    for (let i = 0; i <= resolution; i++) {
+      const position = Vector2.fromAngle(spacing * i)
+      Vector2.multiplyScalar(position,radius,position)
+
+      positions.push(position.x,position.y)
+    }
+    
+    geometry
+      .setAttribute('position2d', new Attribute(new Float32Array(positions)))
 
     return geometry
   }
