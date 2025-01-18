@@ -5,6 +5,6 @@ export class Trimesh extends Shape3 {
     super()
     this.vertices = vertices
     this.indices = indices
-    this.normals = undefined
+    this.normals = []
   }
 }
