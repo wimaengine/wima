@@ -29,10 +29,6 @@ import materials from './demos/material.js'
 import keyboard from './demos/keyboard.js'
 import mouse from './demos/mouse.js'
 import touch from './demos/touch.js'
-import {
-  circlesIntersect,
-  registerContainer
-} from './demos/geometry/index.js';
 const app = new App()
 
 app
@@ -49,7 +45,6 @@ app
   .registerPlugin(new StoragePlugin())
   .registerSystem(AppSchedule.Startup, setupViewport)
   .registerSystem(AppSchedule.Startup, setupCamera)
-  .registerSystem(AppSchedule.Startup, registerContainer)
 
   .registerPlugin(new Canvas2DRendererPlugin())
   .registerDebugger(new FPSDebugger())
@@ -61,8 +56,7 @@ app
       easing,
       keyboard,
       mouse,
-      touch,
-      circlesIntersect
+      touch
     ]
   }))
   .run()
