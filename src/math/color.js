@@ -253,4 +253,10 @@ export class Color {
     yield this.b
     yield this.a
   }
+
+  /**
+   * @readonly
+   * @type {Color}
+   */
+  static BLACK = new Color(0, 0, 0)
 }
