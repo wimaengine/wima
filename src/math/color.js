@@ -295,4 +295,10 @@ export class Color {
    * @type {Color}
    */
   static PURPLE = new Color(1, 0, 1, 1)
+  
+  /**
+   * @readonly
+   * @type {Color}
+   */
+  static CYAN = new Color(0, 1, 1, 1)
 }
