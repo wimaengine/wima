@@ -55,3 +55,11 @@ body:
         What do you think caused this?This is optional
     validations:
       required: false
+  - type: textarea
+    id: solution
+    attributes:
+      label: Solution(s).
+      description: |
+        What do you have as a solution or solutions for this?This is optional
+    validations:
+      required: false
