@@ -543,4 +543,12 @@ export class Vector3 {
    * @type {Vector3}
    */
   static NEG_X = new Vector3(-1, 0, 0)
+
+  /**
+   * Unit vector pointing in the negative y-axis.
+   *
+   * @readonly
+   * @type {Vector3}
+   */
+  static NEG_Y = new Vector3(0, -1, 0)
 }
