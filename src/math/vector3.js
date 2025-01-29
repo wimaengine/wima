@@ -511,4 +511,12 @@ export class Vector3 {
    * @type {Vector3}
    */
   static ZERO = new Vector3()
+
+  /**
+   * Unit vector pointing in the x-axis.
+   *
+   * @readonly
+   * @type {Vector3}
+   */
+  static X = new Vector3(1, 0, 0)
 }
