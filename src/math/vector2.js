@@ -294,11 +294,11 @@ export class Vector2 {
   /**
    * Divides this vector with a scalar.
    *
-   * @param {number} n
+   * @param {Vector2} v
    * @returns {this}
    */
-  divide(n) {
-    this.multiply(1 / n)
+  divide(v) {
+    Vector2.divide(this, v, this)
 
     return this
   }
