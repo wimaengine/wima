@@ -126,8 +126,8 @@ export class Vector2 {
 
   /**
    * Rotates this vector by a given angle in radians.
-   *
-   * @param {number} cos
+  *
+  * @param {number} cos
    * @param {number} sin
    * @returns {this}
    */
@@ -755,7 +755,7 @@ export class Vector2 {
    * A vector whose x and y values will remain 0.
    *
    * @readonly
-   * @type { Vector2}
+   * @type { Vector2 }
    */
   static ZERO = new Vector2()
 
@@ -763,7 +763,7 @@ export class Vector2 {
    * Default up direction.
    *
    * @readonly
-   * @type { Vector2}
+   * @type { Vector2 }
    */
   static UP = new Vector2(0, 1)
 }
