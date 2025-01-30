@@ -304,6 +304,15 @@ export class Vector2 {
   }
 
   /**
+   * @param {number} s
+   * @returns {this}
+   */
+  divideScalar(s){
+    Vector2.divideScalar(this,s,this)
+    return this
+  }
+
+  /**
    * Checks to see if this vector is equal to
    * another vector.
    *
