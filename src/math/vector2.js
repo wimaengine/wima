@@ -130,6 +130,15 @@ export class Vector2 {
   }
 
   /**
+   * @param {number} s
+   * @returns {this}
+   */
+  multiplyScalar(s){
+    Vector2.multiplyScalar(this,s,this)
+    return this
+  }
+
+  /**
    * Rotates this vector by a given angle in radians.
   *
   * @param {number} cos
