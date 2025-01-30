@@ -118,8 +118,13 @@ export class Vector2 {
    * @param {number} n
    * @returns {this}
    */
-  multiply(n) {
-    Vector2.multiplyScalar(this, n, this)
+  
+  /**
+   * @param {Vector2} v
+   * @returns {this}
+   */
+  multiply(v) {
+    Vector2.multiply(this, v, this)
 
     return this
   }
