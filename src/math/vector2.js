@@ -789,4 +789,12 @@ export class Vector2 {
    * @type { Vector2 }
    */
   static X = new Vector2(1, 0)
+
+  /**
+   * A unit vector pointing in the y-axis.
+   *
+   * @readonly
+   * @type { Vector2 }
+   */
+  static Y = new Vector2(0, 1)
 }
