@@ -781,12 +781,4 @@ export class Vector2 {
    * @type { Vector2 }
    */
   static ZERO = new Vector2()
-
-  /**
-   * Default up direction.
-   *
-   * @readonly
-   * @type { Vector2 }
-   */
-  static UP = new Vector2(0, 1)
 }
