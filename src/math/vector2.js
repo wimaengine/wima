@@ -797,4 +797,12 @@ export class Vector2 {
    * @type { Vector2 }
    */
   static Y = new Vector2(0, 1)
+
+  /**
+   * A unit vector pointing in the negative x-axis.
+   *
+   * @readonly
+   * @type { Vector2 }
+   */
+  static NEG_X = new Vector2(-1, 0)
 }
