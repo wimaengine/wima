@@ -157,6 +157,27 @@ export class Matrix3x4 {
 
   /**
    * @param {Matrix3x4} out
+   * @returns {Matrix3x4}
+   */
+  static identity(out = new Matrix3x4()){
+    out.a = 1
+    out.b = 0
+    out.c = 0
+    out.d = 0
+    out.e = 1
+    out.f = 0
+    out.g = 0
+    out.h = 0
+    out.i = 1
+    out.j = 0
+    out.k = 0
+    out.l = 0
+
+    return out
+  }
+
+  /**
+   * @param {Matrix3x4} out
    * @param {number} x
    * @param {number} y
    * @param {number} z
