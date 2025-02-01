@@ -100,6 +100,12 @@ export class Matrix3x4 {
     this.l = e34
   }
 
+  identity(){
+    Matrix3x4.identity(this)
+
+    return this
+  }
+
   /**
    * @param {number} x
    * @param {number} y
