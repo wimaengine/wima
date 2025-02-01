@@ -42,7 +42,7 @@ export class Matrix2x3 {
    *
    * @returns {this}
    */
-  setFromTransform(translation, orientation, scale) {
+  compose(translation, orientation, scale) {
     Matrix2x3.compose(this, translation, orientation, scale)
 
     return this
