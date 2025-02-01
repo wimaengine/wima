@@ -145,7 +145,7 @@ function renderMaterial(ctx, material, mesh, textures) {
  */
 function renderBasic(ctx, material, mesh) {
   const { fill, stroke, strokeWidth } = material
-  const positions = mesh.getAttribute('position')?.data
+  const positions = mesh.getAttribute('position2d')?.data
 
   if (!positions) return
 
