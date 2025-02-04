@@ -88,4 +88,15 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {number} x 
+   * @param {number} y 
+   * @returns {this}
+   */
+  translate(x, y) {
+    this.transformation.translate(x, y)
+
+    return this
+  }
 }
