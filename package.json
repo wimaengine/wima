@@ -1,10 +1,10 @@
 {
-  "name": "chaosstudio",
+  "name": "wima",
   "version": "0.0.1",
   "description": "An ECS driven modular game engine.",
-  "homepage": "https://waynemwashuma.github.io/chaosstudio/",
+  "homepage": "https://waynemwashuma.github.io/wima/",
   "bugs": {
-    "url": "https://github.com/waynemwashuma/chaosstudio/issues"
+    "url": "https://github.com/waynemwashuma/wima/issues"
   },
   "type": "module",
   "license": "MIT",
@@ -19,7 +19,7 @@
   "author": "Wayne Mwashuma",
   "repository": {
     "type": "git",
-    "url": "https://github.com/waynemwashuma/chaosstudio.git"
+    "url": "https://github.com/waynemwashuma/wima.git"
   },
   "scripts": {
     "init": "husky .husky",
