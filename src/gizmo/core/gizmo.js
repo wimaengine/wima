@@ -78,4 +78,14 @@ export class Gizmo2D {
   setTransform(matrix) {
     this.transformation.copy(matrix)
   }
+
+  /**
+   * @param {Matrix2x3} matrix 
+   * @returns {this}
+   */
+  transform(matrix) {
+    this.transformation.multiply(matrix)
+
+    return this
+  }
 }
