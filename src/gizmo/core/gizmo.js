@@ -62,4 +62,13 @@ export class Gizmo2D {
   constructor(settings) {
     this.settings = settings
   }
+
+  /**
+   * @returns {this}
+   */
+  reset() {
+    this.transformation.identity()
+
+    return this
+  }
 }
