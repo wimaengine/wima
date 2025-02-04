@@ -99,4 +99,14 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {number} angle 
+   * @returns {this}
+   */
+  rotate(angle) {
+    this.transformation.rotate(angle)
+
+    return this
+  }
 }
