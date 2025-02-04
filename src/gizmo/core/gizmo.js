@@ -109,4 +109,15 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {number} x 
+   * @param {number} y 
+   * @returns {this}
+   */
+  scale(x, y) {
+    this.transformation.scale(x, y)
+
+    return this
+  }
 }
