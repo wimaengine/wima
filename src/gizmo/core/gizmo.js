@@ -1,4 +1,5 @@
-import { Color } from '../../math/index.js'
+import { Matrix2x3, Vector2, Color } from '../../math/index.js'
+import { GizmoSettings } from './settings.js'
 
 /**
  * @abstract
@@ -30,5 +31,35 @@ export class GizmoBuffer {
     this.colors.length = 0
     this.stripPositions.length = 0
     this.stripColors.length = 0
+  }
+}
+
+/**
+ * Immediate mode drawing of defined 2d shapes.
+ * Should be used for visual debugging.
+ */
+export class Gizmo2D {
+
+  /**
+   * @private
+   * @type {Matrix2x3}
+   */
+  transformation = new Matrix2x3()
+
+  /**
+   * @type {GizmoBuffer<Vector2>}
+   */
+  buffer = new GizmoBuffer()
+
+  /**
+   * @type {GizmoSettings}
+   */
+  settings
+
+  /**
+   * @param {GizmoSettings} settings
+   */
+  constructor(settings) {
+    this.settings = settings
   }
 }
