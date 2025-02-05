@@ -289,4 +289,16 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {number} radius 
+   * @param {Color} color 
+   * @param {number} resolution 
+   * @returns {this}
+   */
+  circle(radius, color, resolution = 32) {
+    this.arc(0, TWO_PI, radius, radius, color, resolution)
+
+    return this
+  }
 }
