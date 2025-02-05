@@ -170,4 +170,20 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {[Vector2,Color][]} strips
+   * @returns {this}
+   */
+  lineStripGradient(strips) {
+    for (let i = 0; i < strips.length; i++) {
+      this.buffer.stripPositions.push(this.transformation.transform(strips[i][0]))
+      this.buffer.stripColors.push(strips[i][1])
+    }
+
+    this.buffer.stripPositions.push(new Vector2(NaN, NaN))
+    this.buffer.stripColors.push(new Color(NaN, NaN, NaN, NaN))
+
+    return this
+  }
 }
