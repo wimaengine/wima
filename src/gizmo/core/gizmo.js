@@ -120,4 +120,20 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {Vector2} start 
+   * @param {Vector2} end 
+   * @param {Color} color 
+   * @returns 
+   */
+  line(
+    start = Vector2.ZERO.clone(),
+    end = Vector2.X.clone(),
+    color = Color.WHITE
+  ) {
+    this.lineGradient(start, end, color, color)
+
+    return this
+  }
 }
