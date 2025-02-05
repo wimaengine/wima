@@ -186,4 +186,29 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {number} arcStart 
+   * @param {number} arcEnd 
+   * @param {number} radiusX 
+   * @param {number} radiusY 
+   * @param {Color} color 
+   * @param {number} resolution 
+   * @returns {this}
+   */
+  arc(arcStart, arcEnd, radiusX = 1, radiusY = 1, color = Color.WHITE.clone(), resolution = 32) {
+    const spacing = (arcEnd - arcStart) / resolution
+    const radii = new Vector2(radiusX, radiusY)
+    const positions = []
+
+    for (let i = 0; i <= resolution; i++) {
+      const position = Vector2.fromAngle(arcStart + spacing * i).multiply(radii)
+
+      positions.push(position)
+    }
+
+    this.lineStrip(positions, color)
+
+    return this
+  }
 }
