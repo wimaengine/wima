@@ -153,4 +153,21 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {Vector2[]} strips
+   * @param {Color} color
+   * @returns {this}
+   */
+  lineStrip(strips, color) {
+    for (let i = 0; i < strips.length; i++) {
+      this.buffer.stripPositions.push(this.transformation.transform(strips[i]))
+      this.buffer.stripColors.push(color)
+    }
+
+    this.buffer.stripPositions.push(new Vector2(NaN, NaN))
+    this.buffer.stripColors.push(new Color(NaN, NaN, NaN, NaN))
+
+    return this
+  }
 }
