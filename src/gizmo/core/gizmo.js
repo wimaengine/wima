@@ -1,4 +1,4 @@
-import { Matrix2x3, Vector2, Color } from '../../math/index.js'
+import { Matrix2x3, Vector2, BVector2, Color, TWO_PI } from '../../math/index.js'
 import { GizmoSettings } from './settings.js'
 
 /**
@@ -228,6 +228,44 @@ export class Gizmo2D {
       direction.multiplyScalar(length),
       color
     )
+
+    return this
+  }
+
+  /**
+   * @param {Vector2} cellCount 
+   * @param {Vector2} spacing 
+   * @param {Color} color 
+   * @param {BVector2} drawEdges 
+   * @returns {this}
+   */
+  grid(
+    cellCount = new Vector2(20, 20),
+    spacing = new Vector2(1, 1),
+    color = Color.WHITE,
+    drawEdges = new BVector2()
+  ) {
+    const dimensions = Vector2.multiply(spacing, cellCount).multiplyScalar(0.5)
+    const offset = new Vector2().set(
+      drawEdges.x ? 0 : spacing.x,
+      drawEdges.y ? 0 : spacing.y
+    )
+
+    for (let x = offset.x - dimensions.x; x <= dimensions.x - offset.x; x += spacing.x) {
+      this.line(
+        new Vector2(x, -dimensions.y),
+        new Vector2(x, dimensions.y),
+        color
+      )
+    }
+
+    for (let y = offset.y - dimensions.y; y <= dimensions.y - offset.y; y += spacing.y) {
+      this.line(
+        new Vector2(-dimensions.x, y),
+        new Vector2(dimensions.x, y),
+        color
+      )
+    }
 
     return this
   }
