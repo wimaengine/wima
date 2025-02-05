@@ -136,4 +136,21 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {Vector2} start 
+   * @param {Vector2} end 
+   * @param {Color} colorStart 
+   * @param {Color} colorEnd 
+   * @returns {this}
+   */
+  lineGradient(start, end, colorStart, colorEnd) {
+    this.buffer.positions.push(
+      this.transformation.transform(start),
+      this.transformation.transform(end)
+    )
+    this.buffer.colors.push(colorStart, colorEnd)
+
+    return this
+  }
 }
