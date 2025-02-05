@@ -301,4 +301,25 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {number} halfWidth
+   * @param {number} halfHeight
+   * @param {Color} color
+   * @returns {this}
+   */
+  aabb(halfWidth, halfHeight, color) {
+    this.lineStrip(
+      [
+        new Vector2(-halfWidth, -halfHeight),
+        new Vector2(-halfWidth, halfHeight),
+        new Vector2(halfWidth, halfHeight),
+        new Vector2(halfWidth, -halfHeight),
+        new Vector2(-halfWidth, -halfHeight)
+      ],
+      color
+    )
+
+    return this
+  }
 }
