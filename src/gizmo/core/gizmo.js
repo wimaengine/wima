@@ -211,4 +211,24 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {Vector2} direction
+   * @param {number} length
+   * @param {Color} color
+   * @returns {this}
+   */
+  arrow(
+    direction = Vector2.X.clone(),
+    length = 1,
+    color = Color.RED.clone()
+  ) {
+    this.line(
+      Vector2.ZERO.clone(),
+      direction.multiplyScalar(length),
+      color
+    )
+
+    return this
+  }
 }
