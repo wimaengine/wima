@@ -322,4 +322,17 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {number} radiusX
+   * @param {number} radiusY
+   * @param {Color} color
+   * @param {number} resolution
+   * @returns {this}
+   */
+  ellipse(radiusX, radiusY, color, resolution = 32) {
+    this.arc(0, TWO_PI, radiusX, radiusY, color, resolution)
+
+    return this
+  }
 }
