@@ -269,4 +269,24 @@ export class Gizmo2D {
 
     return this
   }
+
+  /**
+   * @param {number} length 
+   * @returns {this}
+   */
+  axes(length) {
+    this
+      .arrow(
+        Vector2.X.clone(),
+        length,
+        Color.RED.clone()
+      )
+      .arrow(
+        Vector2.Y.clone(),
+        length,
+        Color.GREEN.clone()
+      )
+
+    return this
+  }
 }
