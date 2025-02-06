@@ -1,4 +1,4 @@
-import { Matrix2x3, Vector2, BVector2, Color, TWO_PI } from '../../math/index.js'
+import { Matrix2x3, Matrix3x4, Vector2, Vector3, BVector2, Color, TWO_PI } from '../../math/index.js'
 import { GizmoSettings } from './settings.js'
 
 /**
@@ -334,5 +334,39 @@ export class Gizmo2D {
     this.arc(0, TWO_PI, radiusX, radiusY, color, resolution)
 
     return this
+  }
+}
+
+/**
+ * Immediate mode drawing of defined 3d shapes.
+ * Should be used for visual debugging.
+ */
+export class Gizmo3D {
+
+  /**
+   * @private
+   * @type {Matrix3x4}
+   */
+  transformation = new Matrix3x4()
+
+  /**
+   * @type {GizmoBuffer<Vector3>}
+   */
+  buffer = new GizmoBuffer()
+
+  /**
+   * @type {GizmoSettings}
+   */
+  settings
+
+  /**
+   * @param {GizmoSettings} settings
+   */
+  constructor(settings) {
+    this.settings = settings
+  }
+
+  reset(){
+    this.transformation.identity()
   }
 }
