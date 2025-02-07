@@ -16,3 +16,13 @@ export const GizmoLineCap = {
   Round: 1,
   Square: 2
 }
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const GizmoLineJoin = {
+  Bevel: 0,
+  Mitre: 1,
+  Round: 2
+}
