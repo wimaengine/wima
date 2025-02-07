@@ -26,3 +26,31 @@ export const GizmoLineJoin = {
   Mitre: 1,
   Round: 2
 }
+
+export class GizmoSettings {
+
+  /**
+   * @type {number}
+   */
+  lineWidth = 1
+
+  /**
+   * @type {GizmoLineCap}
+   */
+  lineCap = GizmoLineCap.Butt
+
+  /**
+   * @type {GizmoLineJoin}
+   */
+  lineJoin = GizmoLineJoin.Mitre
+
+  /**
+   * @type {GizmoLineStyle}
+   */
+  lineStyle = GizmoLineStyle.Solid
+
+  /**
+   * @type {number}
+   */
+  lineDashOffset = 0
+}
