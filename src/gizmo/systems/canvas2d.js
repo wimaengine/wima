@@ -1,6 +1,7 @@
 import { Query, World } from '../../ecs/index.js'
 import {
   Gizmo2D,
+  Gizmo3D,
   GizmoLineStyle,
   GizmoLineJoin,
   GizmoLineCap
@@ -84,6 +85,21 @@ export function genenerateDrawGizmo2Dsystem(name) {
 
     gizmo.buffer.clear()
     context.restore()
+  }
+}
+
+/**
+ * @param {string} name
+ */
+export function genenerateDrawGizmo3Dsystem(name) {
+  warn('Canvas 2d rendering backend does not support 3d gizmos.')
+
+  return function drawGizmo3D(/** @type {World} */ world) {
+
+    /** @type {Gizmo3D} */
+    const gizmo = world.getResource(`gizmo3d<${name}>`)
+
+    gizmo.buffer.clear()
   }
 }
 
