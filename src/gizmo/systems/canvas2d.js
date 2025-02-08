@@ -1,5 +1,6 @@
 import {
   GizmoLineJoin,
+  GizmoLineCap
 } from '../core/index.js'
 
 
@@ -20,4 +21,23 @@ function mapJoin(type) {
   }
 
   return 'bevel'
+}
+
+/**
+ * @param {GizmoLineCap} type
+ * @returns {CanvasLineCap}
+ */
+function mapCap(type) {
+  switch (type) {
+    case GizmoLineCap.Square:
+      return 'square'
+
+    case GizmoLineCap.Round:
+      return 'round'
+
+    case GizmoLineCap.Butt:
+      return 'butt'
+  }
+
+  return 'butt'
 }
