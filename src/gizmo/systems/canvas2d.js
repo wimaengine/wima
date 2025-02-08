@@ -1,4 +1,5 @@
 import {
+  GizmoLineStyle,
   GizmoLineJoin,
   GizmoLineCap
 } from '../core/index.js'
@@ -40,4 +41,22 @@ function mapCap(type) {
   }
 
   return 'butt'
+}
+
+/**
+ * @param {GizmoLineStyle} style
+ * @param {number} width
+ * @param {number} spacing
+ * @returns {number[]}
+ */
+function mapStyle(style, width = 1, spacing = width) {
+  switch (style) {
+    case GizmoLineStyle.Solid:
+      return []
+
+    case GizmoLineStyle.Dashed:
+      return [width, spacing]
+  }
+
+  return []
 }
