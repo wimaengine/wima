@@ -244,6 +244,10 @@ export class Matrix4 {
     return out
   }
 
+  /**
+   * @param {Matrix4} out 
+   * @returns {Matrix4}
+   */
   static identity(out = new Matrix4()) {
     Matrix4.set(
       out,
