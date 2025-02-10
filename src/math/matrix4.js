@@ -148,6 +148,10 @@ export class Matrix4 {
       n44
     )
   }
+
+  /**
+   * @returns {this}
+   */
   inverse() {
     Matrix4.inverse(this, this)
 
