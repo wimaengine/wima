@@ -92,6 +92,24 @@ export class Matrix4 {
    */
   p = 1
 
+  /**
+   * @param {number} n11 
+   * @param {number} n12 
+   * @param {number} n13 
+   * @param {number} n14 
+   * @param {number} n21 
+   * @param {number} n22 
+   * @param {number} n23 
+   * @param {number} n24 
+   * @param {number} n31 
+   * @param {number} n32 
+   * @param {number} n33 
+   * @param {number} n34 
+   * @param {number} n41 
+   * @param {number} n42 
+   * @param {number} n43 
+   * @param {number} n44 
+   */
   constructor(
     n11 = 1, 
     n12 = 0, 
