@@ -550,6 +550,12 @@ export class Matrix4 {
 
     return out
   }
+
+  /**
+   * @param {Matrix4} a 
+   * @param {Matrix4} b 
+   * @returns {boolean}
+   */
   static equals(a, b) {
     return a === b
   }
