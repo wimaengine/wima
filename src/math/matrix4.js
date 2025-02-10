@@ -367,6 +367,12 @@ export class Matrix4 {
 
   }
 
+  /**
+   * @param {Matrix4} m
+   * @param {number} s
+   * @param {Matrix4} out
+   * @returns {Matrix4}
+   */
   static multiplyScalar(m, s, out = new Matrix4()) {
     out.a = m.a * s
     out.b = m.b * s
