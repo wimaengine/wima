@@ -454,7 +454,12 @@ export class Matrix4 {
 
   }
 
-  static transpose(m, out = new Matrix()) {
+  /**
+   * @param {Matrix4} m 
+   * @param {Matrix4} out 
+   * @returns {Matrix4}
+   */
+  static transpose(m, out = new Matrix4()) {
     let tmp
 
     out.a = m.a
