@@ -168,6 +168,10 @@ export class Matrix4 {
     return this
   }
 
+  /**
+   * @param {Matrix4} m 
+   * @returns {this}
+   */
   copy(m) {
     Matrix4.copy(m, this)
 
