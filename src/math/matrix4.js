@@ -394,6 +394,10 @@ export class Matrix4 {
     return out
   }
 
+  /**
+   * @param {Matrix4} m 
+   * @returns {number}
+   */
   static determinant(m) {
     const n11 = m.a,
       n12 = m.e,
