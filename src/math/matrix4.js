@@ -178,6 +178,9 @@ export class Matrix4 {
     return this
   }
   
+  /**
+   * @returns {Matrix4}
+   */
   clone() {
     return Matrix4.copy(this)
   }
