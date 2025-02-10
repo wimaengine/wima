@@ -11,6 +11,87 @@
  *  | d | h | l | p |
  */
 export class Matrix4 {
+
+  /**
+   * @type {number}
+   */
+  a = 1
+
+  /**
+   * @type {number}
+   */
+  b = 0
+
+  /**
+   * @type {number}
+   */
+  c = 0
+
+  /**
+   * @type {number}
+   */
+  d = 0
+
+  /**
+   * @type {number}
+   */
+  e = 0
+
+  /**
+   * @type {number}
+   */
+  f = 1
+
+  /**
+   * @type {number}
+   */
+  g = 0
+
+  /**
+   * @type {number}
+   */
+  h = 0
+
+  /**
+   * @type {number}
+   */
+  i = 0
+
+  /**
+   * @type {number}
+   */
+  j = 0
+
+  /**
+   * @type {number}
+   */
+  k = 1
+
+  /**
+   * @type {number}
+   */
+  l = 0
+
+  /**
+   * @type {number}
+   */
+  m = 0
+
+  /**
+   * @type {number}
+   */
+  n = 0
+
+  /**
+   * @type {number}
+   */
+  o = 0
+
+  /**
+   * @type {number}
+   */
+  p = 1
+
   constructor(
     n11 = 1, 
     n12 = 0, 
