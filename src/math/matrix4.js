@@ -158,6 +158,10 @@ export class Matrix4 {
     return this
   }
 
+  /**
+   * @param {Matrix4} m 
+   * @returns {this}
+   */
   multiply(m) {
     Matrix4.multiply(this, m, this)
 
