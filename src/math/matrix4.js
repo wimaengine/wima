@@ -298,6 +298,12 @@ export class Matrix4 {
     return out
   }
 
+  /**
+   * @param {Matrix4} a
+   * @param {Matrix4} b
+   * @param {Matrix4} out
+   * @returns {Matrix4}
+   */
   static multiply(a, b, out = new Matrix4()) {
     const
       a11 = a.a,
