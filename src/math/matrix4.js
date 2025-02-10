@@ -272,6 +272,11 @@ export class Matrix4 {
     return out
   }
 
+  /**
+   * @param {Matrix4} m
+   * @param {Matrix4} out
+   * @returns {Matrix4}
+   */
   static copy(m, out = new Matrix4()) {
     out.a = m.a
     out.b = m.b
