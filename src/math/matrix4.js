@@ -494,6 +494,11 @@ export class Matrix4 {
     return out
   }
 
+  /**
+   * @param {Matrix4} m 
+   * @param {Matrix4} out 
+   * @returns {Matrix4}
+   */
   static inverse(m, out = new Matrix4()) {
     const n11 = m.a,
       n21 = m.b,
