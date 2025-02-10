@@ -1,6 +1,7 @@
 import { typeid, TypeInfo } from './values.js';
 export class TypeRegistry {
   /**
+   * @private
    * @type {Map<TypeId,TypeEntry>}
    */
   inner = new Map()
@@ -8,13 +9,14 @@ export class TypeRegistry {
   /**
    * @template T
    * @param {new () => T} type
+   * @param {TypeInfo} info
    */
-  register(type) {
+  register(type,info) {
     const typeId = typeid(type)
-    const entry = new TypeEntry()
+    const entry = new TypeEntry(info)
     this.inner.set(typeId, entry)
   }
-  
+    
   /**
    * @template T
    * @param {new () => T} type

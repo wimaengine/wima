@@ -66,7 +66,7 @@ export class ArrayInfo extends TypeInfo {
   }
 }
 
-export class StructInfo extends TypeInfo {
+export class ClassInfo extends TypeInfo {
   /**
    * @readonly
    * @type {Map<string,Field>}
