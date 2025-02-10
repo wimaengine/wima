@@ -34,10 +34,6 @@ export class Field {
 }
 
 export class PrimitiveInfo extends TypeInfo {
-  /**
-   * @type {TypeId}
-   */
-  typeid
   constructor() {
     super(ValueType.Primitive)
   }
