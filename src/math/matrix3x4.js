@@ -113,6 +113,12 @@ export class Matrix3x4 {
   }
 
   /**
+   * @returns {Matrix4}
+   */
+  toMatrix4(){
+    return Matrix3x4.toMatrix4(this)
+  }
+  /**
    * @param {Matrix3x4} out
    * @param {number} e11
    * @param {number} e12
