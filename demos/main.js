@@ -8,6 +8,8 @@ import {
   AudioPlugin,
   CommandsPlugin,
   DefaultTweenPlugin,
+  Gizmo2DPlugin,
+  Gizmo3DPlugin,
   DOMWindowPlugin,
   InputPlugin,
   StoragePlugin,
@@ -30,6 +32,13 @@ import keyboard from './demos/keyboard.js'
 import mouse from './demos/mouse.js'
 import touch from './demos/touch.js'
 
+import {
+  lineStyle,
+  arcs2d,
+  shapes,
+  grid2d
+} from './demos/gizmos/index.js'
+
 const app = new App()
 
 app
@@ -47,6 +56,18 @@ app
   .registerSystem(AppSchedule.Startup, setupCamera)
   .registerPlugin(new DefaultTweenPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
+  .registerPlugin(new Gizmo2DPlugin({
+    name: "demo"
+  }))
+  .registerPlugin(new Gizmo2DPlugin({
+    name: "demo2"
+  }))
+  .registerPlugin(new Gizmo3DPlugin({
+    name: "demo"
+  }))
+  .registerPlugin(new Gizmo3DPlugin({
+    name: "demo2"
+  }))
   .registerDebugger(new FPSDebugger())
   .registerPlugin(new DemoPlugin({
     demos: [
@@ -56,7 +77,11 @@ app
       easing,
       keyboard,
       mouse,
-      touch
+      touch,
+      lineStyle,
+      arcs2d,
+      shapes,
+      grid2d
     ]
   }))
   .run()
