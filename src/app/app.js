@@ -2,8 +2,8 @@
 /** @import { SystemFunc } from '../ecs/index.js' */
 /** @import { HandleProvider, Parser } from '../asset/index.js' */
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
-import { EventDispatch } from '../event/index.js'
-import { assert } from '../logger/index.js'
+import { EventPlugin } from '../event/index.js'
+import { assert,deprecate } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
 import { Assets, generateParserSystem } from '../asset/index.js'
 import { SchedulerBuilder, SystemConfig } from './core/index.js'
@@ -88,7 +88,7 @@ export class App {
     }
 
     this.systemsevents = []
-    
+
     this.systemBuilder.pushToScheduler(this.scheduler)
     this.scheduler.run(this.world)
 
@@ -131,16 +131,15 @@ export class App {
   }
 
   /**
+   * @deprecated
    * @template {Function} T
    * @param {T} event
    */
   registerEvent(event) {
-    const name = `events<${event.name.toLowerCase()}>`
-
-    this
-      .registerType(event)
-      .world.setResourceByName(name, new EventDispatch())
-    this.systemsevents.push(new SystemConfig(makeEventClear(name), AppSchedule.Update))
+    deprecate('App.registerEvent()', 'EventPlugin')
+    this.registerPlugin(
+      new EventPlugin({ event })
+    )
 
     return this
   }
