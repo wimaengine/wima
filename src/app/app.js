@@ -31,7 +31,10 @@ export class App {
   initialized = false
 
   /**
-   * @private
+   * This will be removed in future revisions
+   * with no prior notice after system ordering is
+   * added
+   * 
    * @type {SystemConfig[]}
    */
   systemsevents = []
