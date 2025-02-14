@@ -200,15 +200,3 @@ export class App {
     return this
   }
 }
-
-/**
- * @param {string} name 
- * @returns {SystemFunc}
- */
-function makeEventClear(name) {
-  return function clearEvents(world) {
-    const dispatch = world.getResource(name)
-
-    dispatch.clear()
-  }
-}
