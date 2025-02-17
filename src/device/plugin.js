@@ -47,24 +47,6 @@ export class DevicePlugin {
     } else if (/Safari/.test(ua)) {
       device.browser = Browser.Safari
     }
-        
-    // audio capabilities
-    if (window.AudioContext && window.AudioBuffer && window.AudioBufferSourceNode) {
-      device.capabilities.webAudio = true
-    }
-    if (ae.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.add('ogg')
-    }
-    if (ae.canPlayType('audio/mpeg;').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.add('mp3')
-    }
-    if (ae.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.add('wav')
-    }
-    if (ae.canPlayType('audio/x-m4a;').replace(/^no$/, '') || ae.canPlayType('audio/aac;').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.add('m4a')
-    }
-
     // image formats supported
     // TODO - actually check supported image formats
     device.capabilities.supportedImageFormats.add('png')
