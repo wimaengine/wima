@@ -1,7 +1,7 @@
 import { AnimationClip } from './assets/index.js';
 import { AppSchedule } from '../app/index.js';
 import { Query } from '../ecs/index.js';
-import { AnimationPlayback } from './core/index.js';
+import { Playback } from './core/index.js';
 
 export class AnimationPlugin {
   register(app) {
@@ -13,27 +13,12 @@ export class AnimationPlugin {
 }
 
 function advanceAnimations(world) {
-  const animations = world.getResource("assets<animationclip>")
   const players = new Query(world, ['animationplayer'])
   const dt = world.getResource("virtualclock").getDelta()
 
-
   players.each(([player]) => {
-    player.animations.forEach((playback, handle) => {
-      const clip = animations.get(handle)
-
-      if (!playback.paused)
-        playback.seekTime += dt * playback.speed
-      if (playback.seekTime > clip.duration) {
-        if (playback.repeat == AnimationRepeat.None) {
-          playback.seekTime = Math.min(clip.duration, playback.seekTime)
-          playback.paused = true
-          return
-        }
-        if (playback.repeat == AnimationRepeat.Repeat) {
-          playback.seekTime = playback.seekTime % clip.duration
-        }
-      }
+    player.animations.forEach((playback) => {
+      playback.update(dt)
     })
   })
 }

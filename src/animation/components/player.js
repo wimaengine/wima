@@ -1,31 +1,91 @@
-import { AnimationPlayback } from "../core/index.js"
+import { Playback } from "../core/index.js"
 import { AnimationClip } from "../assets/index.js"
 
 export class AnimationPlayer {
   /**
-   * @private
-   * @type {Map<number,AnimationPlayback>}
+   * @type {Map<number,Playback>}
    */
   animations = new Map()
   /**
+   * @type {number | null}
+   */
+  current = null
+  /**
    * @param {Handle<AnimationClip>} clip
    */
-  play(clip,settings) {
-    const playback = new AnimationPlayback()
-    this.animations.set(clip.handle,playback)
+  set(handle, settings) {
+    const playback = new AnimationPlayback(settings)
+    this.animations.set(handle.handle, playback)
+    return this
+  }
+  get(handle) {
+    return this.animations.get(handle.handle)
+  }
+  delete(handle) {
+    this.animations.delete(handle.handle)
+    return this
   }
   /**
-   * @param {Handle<AnimationClip>} clip
+   * @param {Handle<AnimationClip>} handle
    */
-  stop(clip) {
-    this.animations.delete(clip.handle)
+  start(handle) {
+    const playback = this.get(handle)
+    playback.start()
+    return this
   }
+  
   /**
-   * @param {Handle<AnimationClip>} clip
+   * @param {Handle<AnimationClip>} handle
    */
-  pause(clip) {}
+  stop(handle) {
+    const playback = this.get(handle)
+    playback.stop()
+    return this
+  }
+  
   /**
-   * @param {Handle<AnimationClip>} clip
+   * @param {Handle<AnimationClip>} handle
    */
-  resume(clip) {}
+  play(handle) {
+    const playback = this.get(handle)
+    playback.play()
+    return this
+  }
+  
+  /**
+   * @param {Handle<AnimationClip>} handle
+   */
+  pause(handle) {
+    const playback = this.get(handle)
+    playback.pause()
+    return this
+  }
+  
+  startAll() {
+    this.animations.forEach((playback) => {
+      playback.start()
+    })
+    return this
+  }
+  
+  stopAll() {
+    this.animations.forEach((playback) => {
+      playback.stop()
+    })
+    return this
+  }
+  
+  playAll() {
+    this.animations.forEach((playback) => {
+      playback.play()
+    })
+    return this
+  }
+  
+  pauseAll() {
+    this.animations.forEach((playback) => {
+      playback.pause()
+    })
+    return this
+  }
 }

@@ -15,9 +15,12 @@ export class AnimationClip {
     tracks.push(track)
     return this
   }
+  
+  remove(name){
+    this.tracks.delete(name)
+  }
 
-  static
-  default () {
+  static default () {
     return new AnimationClip()
   }
 }

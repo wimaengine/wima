@@ -1,4 +1,4 @@
-export const AnimationRepeat = {
+export const PlaybackRepeat = {
   None: 0,
-  Repeat: 1
+  Forever: 1
 }
