@@ -1,9 +1,4 @@
 /**
- * @type {Map<string,EntityMapper<unknown>>}
- */
-export class SceneComponentMapper extends Map {}
-
-/**
  * Resource used to spawn scenes into the world.
  */
 export class SceneSpawner {
@@ -23,7 +18,6 @@ export class SceneSpawner {
       this.map.set(id, [])
     this.map.get(id).push(entity)
   }
-  
   
   clearScene(handle) {
     this.map.delete(handle)
