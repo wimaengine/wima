@@ -64,12 +64,5 @@ export class DevicePlugin {
     if (ae.canPlayType('audio/x-m4a;').replace(/^no$/, '') || ae.canPlayType('audio/aac;').replace(/^no$/, '')) {
       device.capabilities.supportedAudioFormats.add('m4a')
     }
-
-    // image formats supported
-    // TODO - actually check supported image formats
-    device.capabilities.supportedImageFormats.add('png')
-    device.capabilities.supportedImageFormats.add('jpeg')
-    device.capabilities.supportedImageFormats.add( 'svg')
-    device.capabilities.supportedImageFormats.add('jpg')
   }
 }
