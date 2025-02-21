@@ -313,35 +313,33 @@ export class Matrix4 {
       a21 = a.b,
       a22 = a.f,
       a23 = a.j,
-      a24 = a.n
-
-    a31 = a.c,
-    a32 = a.g,
-    a33 = a.k,
-    a34 = a.o
-    a41 = a.d,
-    a42 = a.h,
-    a43 = a.l,
-    a44 = a.p
+      a24 = a.n,
+      a31 = a.c,
+      a32 = a.g,
+      a33 = a.k,
+      a34 = a.o,
+      a41 = a.d,
+      a42 = a.h,
+      a43 = a.l,
+      a44 = a.p
 
     const
       b11 = b.a,
       b12 = b.e,
       b13 = b.i,
-      b14 = b.m
-
-    b21 = b.b,
-    b22 = b.f,
-    b23 = b.j,
-    b24 = b.n
-    b31 = b.c,
-    b32 = b.g,
-    b33 = b.k,
-    b34 = b.o
-    b41 = b.d,
-    b42 = b.h,
-    b43 = b.l,
-    b44 = b.p
+      b14 = b.m,
+      b21 = b.b,
+      b22 = b.f,
+      b23 = b.j,
+      b24 = b.n,
+      b31 = b.c,
+      b32 = b.g,
+      b33 = b.k,
+      b34 = b.o,
+      b41 = b.d,
+      b42 = b.h,
+      b43 = b.l,
+      b44 = b.p
 
     out.a = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41
     out.e = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42
@@ -363,8 +361,7 @@ export class Matrix4 {
     out.l = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43
     out.p = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44
 
-    return this
-
+    return out
   }
 
   /**
