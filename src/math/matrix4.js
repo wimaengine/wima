@@ -520,7 +520,7 @@ export class Matrix4 {
 
     const det = n11 * t11 + n21 * t12 + n31 * t13 + n41 * t14
 
-    if (det === 0) return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    if (det === 0) return Matrix4.set(out, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
     const detInv = 1 / det
 
