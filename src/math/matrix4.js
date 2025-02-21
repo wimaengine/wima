@@ -399,20 +399,19 @@ export class Matrix4 {
     const n11 = m.a,
       n12 = m.e,
       n13 = m.i,
-      n14 = m.m
-
-    n21 = m.b,
-    n22 = m.f,
-    n23 = m.j,
-    n24 = m.n
-    n31 = m.c,
-    n32 = m.g,
-    n33 = m.k,
-    n34 = m.o
-    n41 = m.d,
-    n42 = m.h,
-    n43 = m.l,
-    n44 = m.p
+      n14 = m.m,
+      n21 = m.b,
+      n22 = m.f,
+      n23 = m.j,
+      n24 = m.n,
+      n31 = m.c,
+      n32 = m.g,
+      n33 = m.k,
+      n34 = m.o,
+      n41 = m.d,
+      n42 = m.h,
+      n43 = m.l,
+      n44 = m.p
 
     return (
       n41 * (
