@@ -20,7 +20,6 @@ export class Tween {
 
   /**
    * @type {T}
-   * @private
    */
   to
 

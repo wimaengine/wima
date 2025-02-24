@@ -37,7 +37,7 @@ export const GlUniformType = {
   Matrix3x2: 0x8B67,
   Matrix3x4: 0x8B68,
   Matrix4x2: 0x8B69,
-  Matrix4x3: 0x8B6A,
+  Matrix4x3: 0x8B6A
 }
 
 /**

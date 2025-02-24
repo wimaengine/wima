@@ -8,8 +8,10 @@ import { setUpKeyboardEvents, setupMouseEvents, setUpTouchEvents, setUpWindowEve
  * @type {ComponentHook}
  */
 export function openWindow(entity, world) {
-  const window = /** @type {Window}*/(world.get(entity, 'window'))
-  const windows = /** @type {Windows}*/(world.getResource('windows'))
+
+  // SAFETY: Component is guaranteed as this is its component hook
+  const window = /** @type {Window}*/(world.get(entity, Window))
+  const windows = world.getResource(Windows)
   let element
 
   if (window.selector) element = /** @type {HTMLElement | undefined}*/(document.querySelector(window.selector))
@@ -44,7 +46,7 @@ export function openWindow(entity, world) {
  * @type {ComponentHook}
  */
 export function closeWindow(entity, world) {
-  const windows = /** @type {Windows}*/(world.getResource('windows'))
+  const windows = world.getResource(Windows)
   const canvas = windows.getWindow(entity)
   
   canvas.remove()

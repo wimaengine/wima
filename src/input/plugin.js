@@ -1,9 +1,9 @@
-import { App } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { KeyboardPlugin } from '../keyboard/index.js'
 import { MousePlugin } from '../mouse/index.js'
 import { TouchPlugin } from '../touch/index.js'
 
-export class InputPlugin {
+export class InputPlugin extends Plugin {
 
   /**
    * @type {HTMLElement}
@@ -14,6 +14,7 @@ export class InputPlugin {
    * @param {HTMLElement} target
    */
   constructor(target = document.body) {
+    super()
     this.target = target
   }
 

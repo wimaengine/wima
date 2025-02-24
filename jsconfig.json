@@ -3,6 +3,10 @@
         "strict": true,
         "checkJs":true,
         "target": "ES2020",
+        "module": "NodeNext",
+        "paths": {
+            "wima":["/src/index.js"]
+        }
     },
     "include":[
         "src",

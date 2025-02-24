@@ -1,4 +1,4 @@
-import { AttributeLocation } from '../../render-core/index.js'
+import { MeshAttribute } from '../../render-core/index.js'
 
-/** @type {Map<string,AttributeLocation>} */
+/** @augments {Map<string,MeshAttribute>} */
 export class AttributeMap extends Map {}

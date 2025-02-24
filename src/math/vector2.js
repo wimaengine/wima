@@ -134,14 +134,15 @@ export class Vector2 {
    * @returns {this}
    */
   multiplyScalar(s){
-    Vector2.multiplyScalar(this,s,this)
+    Vector2.multiplyScalar(this, s, this)
+
     return this
   }
 
   /**
    * Rotates this vector by a given angle in radians.
-  *
-  * @param {number} cos
+   *
+   * @param {number} cos
    * @param {number} sin
    * @returns {this}
    */
@@ -317,7 +318,8 @@ export class Vector2 {
    * @returns {this}
    */
   divideScalar(s){
-    Vector2.divideScalar(this,s,this)
+    Vector2.divideScalar(this, s, this)
+
     return this
   }
 

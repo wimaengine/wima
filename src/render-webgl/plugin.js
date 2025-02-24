@@ -1,16 +1,16 @@
-/** @import {Entity} from '../ecs/index.js'; */
-import { App, AppSchedule } from '../app/index.js'
-import { Assets, Handle } from '../asset/index.js'
-import { ComponentHooks, Query, World } from '../ecs/index.js'
-import { EventDispatch } from '../event/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
+import { Assets } from '../asset/index.js'
+import { ComponentHooks, Entity, Query, World } from '../ecs/index.js'
+import { Events } from '../event/index.js'
 import { assert, warn } from '../logger/index.js'
-import { Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache } from '../render-core/index.js'
+import { typeid, typeidGeneric } from '../reflect/index.js'
+import { MeshAttribute, Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache } from '../render-core/index.js'
 import { GlobalTransform3D } from '../transform/index.js'
-import { MainWindow, WindowResize, Windows } from '../window/index.js'
+import { MainWindow, Window, WindowResize, Windows } from '../window/index.js'
 import { materialAddHook, meshAddHook } from './hooks/index.js'
 import { AttributeMap, ClearColor, MeshCache, UBOCache } from './resources/index.js'
 
-export class WebglRendererPlugin {
+export class WebglRendererPlugin extends Plugin {
 
   /**
    * @param {App} app
@@ -38,15 +38,15 @@ export class WebglRendererPlugin {
  */
 function registerDefaultAttributeLocs(attributeMap) {
   attributeMap
-    .set(Mesh.Position2DLocation.name, Mesh.Position2DLocation)
-    .set(Mesh.Position3DLocation.name, Mesh.Position3DLocation)
-    .set(Mesh.Normal2DLocation.name, Mesh.Normal2DLocation)
-    .set(Mesh.Normal3DLocation.name, Mesh.Normal3DLocation)
-    .set(Mesh.Tangent2DLocation.name, Mesh.Tangent2DLocation)
-    .set(Mesh.Tangent3DLocation.name, Mesh.Tangent3DLocation)
-    .set(Mesh.UVLocation.name, Mesh.UVLocation)
-    .set(Mesh.UVBLocation.name, Mesh.UVBLocation)
-    .set(Mesh.ColorLocation.name, Mesh.ColorLocation)
+    .set(MeshAttribute.Position2D.name, MeshAttribute.Position2D)
+    .set(MeshAttribute.Position3D.name, MeshAttribute.Position3D)
+    .set(MeshAttribute.Normal2D.name, MeshAttribute.Normal2D)
+    .set(MeshAttribute.Normal3D.name, MeshAttribute.Normal3D)
+    .set(MeshAttribute.Tangent2D.name, MeshAttribute.Tangent2D)
+    .set(MeshAttribute.Tangent3D.name, MeshAttribute.Tangent3D)
+    .set(MeshAttribute.UV.name, MeshAttribute.UV)
+    .set(MeshAttribute.UVB.name, MeshAttribute.UVB)
+    .set(MeshAttribute.Color.name, MeshAttribute.Color)
 }
 
 /**
@@ -55,41 +55,27 @@ function registerDefaultAttributeLocs(attributeMap) {
 function render(world) {
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResource('assets<mesh>')
+  const meshes = world.getResourceByTypeId(typeidGeneric(Assets, [Mesh]))
 
   /** @type {Assets<Material>} */
-  const materials = world.getResource('assets<material>')
+  const materials = world.getResourceByTypeId(typeidGeneric(Assets, [Material]))
 
   /** @type {ProgramCache<WebGLProgram>} */
-  const programs = world.getResource('programcache')
+  const programs = world.getResourceByTypeId(typeid(ProgramCache))
 
   /** @type {MeshCache<WebGLVertexArrayObject>} */
-  const gpumeshes = world.getResource('meshcache')
-
-  /** @type {UBOCache} */
-  const ubos = world.getResource('ubocache')
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
-
-  /** @type {ClearColor} */
-  const clearColor = world.getResource('clearcolor')
-
-  /** @type {Query<[GlobalTransform3D,Handle<Mesh>,Handle<Material>]>} */
-  const query = new Query(world, ['globaltransform3d', 'meshhandle', 'materialhandle'])
-
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
-
-  /** @type {Query<[GlobalTransform3D,Camera]>} */
-  const cameras = new Query(world, ['globaltransform3d', 'camera'])
+  const gpumeshes = world.getResourceByTypeId(typeid(MeshCache))
+  const ubos = world.getResource(UBOCache)
+  const canvases = world.getResource(Windows)
+  const clearColor = world.getResource(ClearColor)
+  const query = new Query(world, [GlobalTransform3D, MeshHandle, MaterialHandle])
+  const windows = new Query(world, [Entity, Window, MainWindow])
+  const cameras = new Query(world, [GlobalTransform3D, Camera])
 
   const window = windows.single()
 
   if (!window) return warn('Please define the main window for rendering.')
 
-
-  /** @type {HTMLCanvasElement}*/
   const canvas = canvases.getWindow(window[0])
   const gl = canvas.getContext('webgl2')
 
@@ -113,7 +99,7 @@ function render(world) {
     query.each(([transform, meshhandle, materialhandle]) => {
       const mesh = meshes.getByHandle(meshhandle)
       const material = materials.getByHandle(materialhandle)
-      const gpumesh = gpumeshes.get(meshhandle.handle)
+      const gpumesh = gpumeshes.get(meshhandle.index)
       const pipeline = programs.get(materialhandle.handle)
 
       // @ts-ignore
@@ -124,19 +110,23 @@ function render(world) {
 
       assert(ubo, `The uniform buffer for material '${material.constructor.name}' is not set up.` )
 
+      gl.useProgram(pipeline.program)
       pipeline.setUniformMatrix3x4(gl, 'model', transform)
       gl.bindBuffer(gl.UNIFORM_BUFFER, ubo.buffer)
       gl.bufferSubData(gl.UNIFORM_BUFFER, 0, data)
       gl.bindVertexArray(gpumesh)
-      gl.useProgram(pipeline.program)
 
       const indices = mesh.getIndices()
-      const count = mesh.getAttribute('position3d')?.data.length
-
-      if (count === undefined) return
+      
       if (indices) {
         gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0)
       } else {
+        const positions = mesh.getAttribute('position3d')
+        
+        if (positions === undefined) return
+  
+        const count = positions.data.length
+
         gl.drawArrays(gl.TRIANGLES, 0, count / 3)
       }
     })
@@ -147,15 +137,13 @@ function render(world) {
  * @param {World} world
  */
 function resizegl(world) {
-
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
+  const windows = new Query(world, [Entity, Window, MainWindow])
 
   /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const canvases = world.getResource(Windows)
 
-  /** @type {EventDispatch<WindowResize>} */
-  const resizeEvents = world.getResource('events<windowresize>')
+  /** @type {Events<WindowResize>} */
+  const resizeEvents = world.getResourceByTypeId(typeidGeneric(Events, [WindowResize]))
 
   const window = windows.single()
 
@@ -175,15 +163,9 @@ function resizegl(world) {
  * @param {World} world
  */
 function registerBuffers(world) {
-
-  /** @type {UBOCache} */
-  const ubos = world.getResource('ubocache')
-  
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
-
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
+  const ubos = world.getResource(UBOCache)
+  const canvases = world.getResource(Windows)
+  const windows = new Query(world, [Entity, Window, MainWindow])
 
   const window = windows.single()
 

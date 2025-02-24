@@ -1,3 +1,6 @@
+/**
+ * @template {number} [T = number]
+ */
 export class IndexAllocator {
 
   /**
@@ -8,19 +11,19 @@ export class IndexAllocator {
 
   /**
    * @private
-   * @type {number[]}
+   * @type {T[]}
    */
   recycled = []
 
   /**
-   * @param {number} index 
+   * @param {T} index 
    */
   recycle(index){
     this.recycled.push(index)
   }
 
   /**
-   * @returns {number}
+   * @returns {T}
    */
   reserve(){
     const recycled = this.recycled.pop()
@@ -31,8 +34,11 @@ export class IndexAllocator {
 
     this.nextid += 1
 
-    return index
+    // SAFETY: T is not a concrete type but extends
+    // number
+    return /** @type {T}*/(index)
   }
+
   count(){
     return (this.nextid - 1)
   }

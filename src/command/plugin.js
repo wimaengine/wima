@@ -1,9 +1,9 @@
-import { App } from '../app/app.js'
+import { App, Plugin } from '../app/app.js'
 import { AppSchedule } from '../app/schedules.js'
 import { World } from '../ecs/index.js'
 import { EntityCommands } from './resources/index.js'
 
-export class CommandsPlugin {
+export class CommandsPlugin extends Plugin {
 
   /**
    * @param {App} app
@@ -19,7 +19,7 @@ export class CommandsPlugin {
  * @param {World} registry
  */
 function executeCommands(registry) {
-  const commands = registry.getResource('entitycommands')
+  const commands = registry.getResource(EntityCommands)
 
   commands.apply(registry)
   commands.clear()

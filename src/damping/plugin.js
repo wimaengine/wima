@@ -1,8 +1,8 @@
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { Linear2DDamping, Angular2DDamping, Linear3DDamping, Angular3DDamping } from './resources/index.js'
 import { dampenRotation2D, dampenRotation3D, dampenVelocity2D, dampenVelocity3D } from './systems/index.js'
 
-export class Damping2DPlugin {
+export class Damping2DPlugin extends Plugin {
 
   /**
    * @param {App} app
@@ -16,7 +16,7 @@ export class Damping2DPlugin {
   }
 }
 
-export class Damping3DPlugin {
+export class Damping3DPlugin extends Plugin {
 
   /**
    * @param {App} app

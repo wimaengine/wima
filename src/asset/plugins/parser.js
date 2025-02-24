@@ -1,4 +1,6 @@
-import { App, AppSchedule } from '../../app/index.js'
+/** @import {Constructor} from '../../reflect/index.js' */
+import { App, AppSchedule, Plugin } from '../../app/index.js'
+import { typeidGeneric } from '../../reflect/index.js'
 import { Parser } from '../core/index.js'
 import { generateParserSystem } from '../systems/index.js'
 
@@ -7,11 +9,11 @@ import { generateParserSystem } from '../systems/index.js'
  * @template T
  */
 
-export class AssetParserPlugin {
+export class AssetParserPlugin extends Plugin {
 
   /**
    * @readonly
-   * @type {new (...args:any)=>T}
+   * @type {Constructor<T>}
    */
   asset
 
@@ -25,6 +27,7 @@ export class AssetParserPlugin {
    * @param {AssetParserPluginOptions<T>} options 
    */
   constructor(options) {
+    super()
     const { asset, parser } = options
 
     this.asset = asset
@@ -36,18 +39,21 @@ export class AssetParserPlugin {
    */
   register(app) {
     const { asset, parser } = this
-    const name = asset.name.toLowerCase()
 
     app
-      .registerSystem(AppSchedule.Update, generateParserSystem(name))
+      .registerSystem(AppSchedule.Update, generateParserSystem(asset))
       .getWorld()
-      .setResourceByName(`parser<${name}>`, parser)
+      .setResourceByTypeId(typeidGeneric(Parser, [asset]), parser)
+  }
+
+  name(){
+    return typeidGeneric(AssetParserPlugin, [this.asset])
   }
 }
 
 /**
  * @template T
  * @typedef AssetParserPluginOptions
- * @property {new ()=>T} asset
+ * @property {Constructor<T>} asset
  * @property {Parser<T>} parser
  */

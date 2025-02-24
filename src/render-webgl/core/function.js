@@ -1,6 +1,6 @@
-/** @import {TypeArray} from '../../utils/index'*/
+/** @import {TypeArray} from '../../utils/index.js'*/
 import { assert } from '../../logger/index.js'
-import { ShaderStage, AttributeLocation, Mesh } from '../../render-core/index.js'
+import { ShaderStage, MeshAttribute, Mesh } from '../../render-core/index.js'
 import { DrawUsage, BufferType } from './constants/index.js'
 
 /**
@@ -96,7 +96,7 @@ export function createTexture(gl, img, flipY) {
  * @param {WebGLRenderingContext} gl
  * @param {WebGLShader} vertex
  * @param {WebGLShader} fragment
- * @param {Readonly<Map<string,AttributeLocation>>} attributemap
+ * @param {Readonly<Map<string,MeshAttribute>>} attributemap
  */
 export function createProgram(gl, vertex, fragment, attributemap) {
   const program = gl.createProgram()
@@ -140,7 +140,7 @@ export function validateProgram(gl, program) {
 /**
  * @param {WebGL2RenderingContext} gl
  * @param {Mesh} mesh
- * @param {Map<string,AttributeLocation>} attributemap
+ * @param {Map<string,MeshAttribute>} attributemap
  */
 export function createVAO(gl, mesh, attributemap) {
   const vao = gl.createVertexArray()
@@ -170,7 +170,7 @@ export function createVAO(gl, mesh, attributemap) {
  * @param {WebGL2RenderingContext} gl
  * @param {string} vertex
  * @param {string} fragment
- * @param {Readonly<Map<string,AttributeLocation>>} attributemap
+ * @param {Readonly<Map<string,MeshAttribute>>} attributemap
  */
 export function createProgramFromSrc(gl, vertex, fragment, attributemap) {
   const v = createShader(gl, vertex, gl.VERTEX_SHADER)

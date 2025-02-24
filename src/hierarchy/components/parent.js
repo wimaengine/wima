@@ -3,7 +3,7 @@
 export class Parent {
 
   /**
-   * @private
+   * @public
    * @type {Entity}
    */
   entity
