@@ -1,11 +1,13 @@
-/** @import { ComponentId, Tuple, Entity } from './typedef/index.js'*/
+/** @import { ComponentId } from './typedef/index.js'*/
+/** @import { Constructor, TypeId } from '../reflect/index.js'*/
 
 import { ArchetypeTable } from './tables/index.js'
 import { TypeStore } from './typestore.js'
 import { assert } from '../logger/index.js'
 import { ComponentHooks } from './component/index.js'
-import { Entities } from './entities/entities.js'
+import { Entities, Entity } from './entities/index.js'
 import { EntityLocation } from './entities/location.js'
+import { typeid } from '../reflect/index.js'
 
 export class World {
 
@@ -32,12 +34,7 @@ export class World {
    */
   entities = new Entities()
   constructor() {
-
-    // Because the type `Entity` is a typedef, not an actual class.
-    // @ts-ignore
-    this.typestore.set({
-      name: 'entity'
-    })
+    this.typestore.set(Entity)
   }
 
   /**
@@ -48,58 +45,13 @@ export class World {
   }
 
   /**
-   * @template {Tuple} T
-   * @param {T} components
-   * @returns {ComponentId[]}
-   */
-  getComponentIds(components) {
-
-    /** @type {ComponentId[]} */
-    const ids = []
-
-    for (let i = 0; i < components.length; i++) {
-      const name = components[i].constructor.name.toLowerCase()
-      const id = this.typestore.getId(name)
-
-      assert(id !== void 0, `The component "${name}" has not been registered into the \`World\`.Use \`World.registerType()\`to add it.`)
-
-      // @ts-ignore
-      ids.push(id)
-    }
-
-    return ids
-  }
-
-  /**
-   * @param {string[]} names
-   * @returns {ComponentId[]}
-   */
-  getComponentIdsByName(names) {
-
-    /** @type {ComponentId[]} */
-    const ids = []
-
-    for (let i = 0; i < names.length; i++) {
-      const name = names[i]
-      const id = this.typestore.getId(name)
-
-      assert(id !== void 0, `The component "${name}" has not been registered into the \`World\`.Use \`App.registerType()\` or \`World.registerType()\`to add it.`)
-
-      // @ts-ignore
-      ids.push(id)
-    }
-
-    return ids
-  }
-
-  /**
    * @private
    * @param {Entity} entity 
-   * @param {ComponentId[]} ids
+   * @param {TypeId[]} ids
    */
   callAddComponentHook(entity, ids) {
     for (let i = 0; i < ids.length; i++) {
-      const hook = this.typestore.getById(ids[i])?.getHooks().add
+      const hook = this.typestore.getByTypeId(ids[i])?.getHooks().add
 
       if (hook) hook(entity, this)
     }
@@ -108,11 +60,11 @@ export class World {
   /**
    * @private
    * @param {Entity} entity 
-   * @param {ComponentId[]} ids
+   * @param {TypeId[]} ids
    */
   callRemoveComponentHook(entity, ids) {
     for (let i = 0; i < ids.length; i++) {
-      const hook = this.typestore.getById(ids[i])?.getHooks().remove
+      const hook = this.typestore.getByTypeId(ids[i])?.getHooks().remove
 
       if (hook) hook(entity, this)
     }
@@ -121,12 +73,12 @@ export class World {
   /**
    * @private
    * @param {Entity} entity 
-   * @param {ComponentId[]} ids
+   * @param {TypeId[]} ids
    * 
    */
   callInsertComponentHook(entity, ids) {
     for (let i = 0; i < ids.length; i++) {
-      const hook = this.typestore.getById(ids[i])?.getHooks().insert
+      const hook = this.typestore.getByTypeId(ids[i])?.getHooks().insert
 
       if (hook) hook(entity, this)
     }
@@ -135,26 +87,27 @@ export class World {
   /**
    * Adds an entity to the registry.
    *
-   * @template {Tuple} T
-   * @param {T} components - The entity to add.
+   * @template {{}[]} T
+   * @param {[...T]} components - The entity to add.
    * @returns {Entity}
    */
   create(components) {
-    const entity = this.entities.reserve()
-    const ids = this.getComponentIds(components)
-    
-    assert(ids, `Cannot insert "${components.map((e) => `\`${e.constructor.name}\``).join(', ')}" into \`ArchetypeTable\`.Ensure that all of them are registered properly using \`World.registerType()\``)
-    
-    ids.push(0)
-    components.push(entity)
-    
-    const [id, index] = this.table.insert(components, ids)
-    
+    const entityIndex = this.entities.reserve()
+
     // SAFETY: the entity was reserved in this function so we know its there.
-    const location = /** @type {EntityLocation}*/(this.entities.get(entity))
+    const location = /** @type {EntityLocation}*/(this.entities.get(entityIndex))
+
+    // SAFETY:Object constructors can be casted from `Function` to `Constructor`
+    const ids = (components.map((c) => typeid(/** @type {Constructor} */(c.constructor))))
+    const entity = new Entity(entityIndex)
+
+    ids.push(typeid(Entity))
+    components.push(entity)
+
+    const [id, tableIndex] = this.table.insert(components, ids)
 
     location.archid = id
-    location.index = index
+    location.index = tableIndex
     this.callAddComponentHook(entity, ids)
 
     return entity
@@ -163,35 +116,41 @@ export class World {
   /**
    * Inserts components into an entity.
    *
-   * @template {Tuple} T
+   * @template {object[]} T
    * @param {Entity} entity
-   * @param {T} components - The entity to add.
+   * @param {[...T]} components - The entity to add.
    */
   insert(entity, components) {
-    const location = this.entities.get(entity)
-    
+    const location = this.entities.get(entity.index)
+
     assert(location, 'Cannot insert to an entity not created on the world.Use `World.create()` then try to insert the given entity into the world.')
 
+    // SAFETY:Object constructors can be casted from `Function` to `Constructor`
+    const ids = (components.map((c) => typeid(/** @type {Constructor} */(c.constructor))))
     const { archid, index } = location
-    const ids = this.getComponentIds(components)
+    const extracted = this.table.extract(archid, index)
 
-    assert(ids, `Cannot insert "${components.map((e) => `\`${e.constructor.name}\``).join(', ')}" into \`World\`.Ensure that all of them are registered properly using \`World.registerType()\``)
+    assert(extracted, 'Invalid extraction on insert')
 
-    const [idextract, extract] = this.table.extract(archid, index)
+    const [idextract, extract] = extracted
 
     this.table.remove(archid, index)
 
-    const combined = [...components, ...extract]
-    const combinedid = [...ids, ...idextract]
+    const [combinedid, combined] = this.resolveCombine(
+      idextract, 
+      extract,
+      ids, 
+      components
+    )
 
     const [id, newIndex] = this.table.insert(combined, combinedid)
-    const swapped = /** @type {Entity}*/(this.table.get(archid, index, 0))
+    const swapped = /** @type {Entity | null}*/(this.table.get(archid, index, typeid(Entity)))
 
     location.archid = id
     location.index = newIndex
 
-    if (swapped){
-      const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped))
+    if (swapped) {
+      const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped.index))
 
       swappedlocation.index = index
     }
@@ -201,8 +160,43 @@ export class World {
   }
 
   /**
-   * @template {Tuple} T
-   * @param {T[]} entities
+   * @private
+   * @param {TypeId[]} ids 
+   * @param {unknown[]} components
+   * @param {TypeId[]} ids2 
+   * @param {unknown[]} components2
+   * @returns {[TypeId[],unknown[]]}
+   */
+  resolveCombine(ids, components, ids2, components2) {
+    const combineids = /** @type {TypeId[]}*/([])
+    const combinecomponents = /** @type {unknown[]}*/([])
+
+    for (let i = 0; i < ids.length; i++) {
+      const id = ids[i]
+      const component = components[i]
+
+      if (ids2.includes(id)) {
+        continue
+      }
+
+      combineids.push(id)
+      combinecomponents.push(component)
+    }
+
+    for (let i = 0; i < ids2.length; i++) {
+      const id = ids2[i]
+      const component = components2[i]
+
+      combineids.push(id)
+      combinecomponents.push(component)
+    }
+
+    return [combineids, combinecomponents]
+  }
+
+  /**
+   * @template {{}[]} T
+   * @param {[...T][]} entities
    */
   createMany(entities) {
     for (let i = 0; i < entities.length; i++) {
@@ -218,27 +212,33 @@ export class World {
    * @param {Entity} entity - The entity to remove.
    */
   remove(entity) {
-    const location = this.entities.get(entity)
+    const location = this.entities.get(entity.index)
 
-    if(!location) return
+    if (!location) return
 
     const { archid, index } = location
 
-    // TODO - Use a method that iterates through componentlists to call remove hook.
-    const [extractid] = this.table.extract(archid, index)
+    if (archid === -1 || index === -1) return
 
-    this.callRemoveComponentHook(entity, extractid)
+    // TODO - Use a method that iterates through componentlists to call remove hook.
+    const extracted = this.table.extract(archid, index)
+
+    if (extracted) {
+      const [extractid] = extracted
+
+      this.callRemoveComponentHook(entity, extractid)
+    }
+
     this.table.remove(archid, index)
 
-    // SAFETY: Because `Entity` is guaranteed to have a `ComponentId` of 0.
-    const swapped = /** @type {Entity}*/(this.table.get(archid, index, 0))
+    const swapped = /** @type {Entity | null}*/(this.table.get(archid, index, typeid(Entity)))
 
     location.archid = -1
     location.index = -1
-    this.entities.recycle(entity)
+    this.entities.recycle(entity.index)
 
-    if (swapped){
-      const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped))
+    if (swapped) {
+      const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped.index))
 
       swappedlocation.index = index
     }
@@ -247,20 +247,17 @@ export class World {
   /**
    * @template T
    * @param {Entity} entity
-   * @param { string  } compName
+   * @param { new (...args:any[])=> T} type
    * @returns {T | null}
    */
-  get(entity, compName) {
-    const location = this.entities.get(entity)
+  get(entity, type) {
+    const location = this.entities.get(entity.index)
 
-    if(!location) return null
+    if (!location) return null
 
     const { archid, index } = location
-    const id = this.typestore.getId(compName)
 
-    assert(id, `The component ${compName} is not registered into the \`World\`.Use \`World.registerType()\` to register it.`)
-
-    return this.table.get(archid, index, id)
+    return this.table.get(archid, index, typeid(type))
   }
 
   /**
@@ -272,21 +269,34 @@ export class World {
 
   /**
    * @template T
-   * @param {string} name
+   * @param {new (...args:any[])=>T} resourceType
    * @returns {T}
    */
-  getResource(name) {
-    return this.resources[name]
+  getResource(resourceType) {    
+    return this.getResourceByTypeId(typeid(resourceType))
   }
 
   /**
    * @template T
-   * @param {string} name
+   * @param {TypeId} id
+   * @returns {T}
+   */
+  getResourceByTypeId(id) {
+    const resource = this.resources[id]
+
+    assert(resource, `The resource \`${id}\` does not exist in the world.`)
+
+    return this.resources[id]
+  }
+
+  /**
+   * @template T
+   * @param {TypeId} id
    * @param {T} resource
    * @returns {void}
    */
-  setResourceByName(name, resource) {
-    this.resources[name] = resource
+  setResourceByTypeId(id, resource) {
+    this.resources[id] = resource
   }
 
   /**
@@ -294,24 +304,30 @@ export class World {
    * @param {T} resource
    */
   setResource(resource) {
-    this.resources[resource.constructor.name.toLowerCase()] = resource
+
+    // SAFETY: An object's costructor is constructible
+    const id = typeid(/** @type {Constructor<T>} */(resource.constructor))
+
+    this.setResourceByTypeId(id, resource)
   }
 
   /**
-   * @param {Function} type
+   * @template T
+   * @param {Constructor<T>} type
    */
   registerType(type) {
     this.typestore.set(type)
   }
 
   /**
-   * @param {string} componentname
+   * @template T
+   * @param {Constructor<T>} component
    * @param {ComponentHooks} hooks
    */
-  setComponentHooks(componentname, hooks) {
-    const info = this.typestore.get(componentname)
+  setComponentHooks(component, hooks) {
+    const info = this.typestore.get(component)
 
-    assert(info, `The component "${componentname}" has not been registered.Use \`World.registerType()\` to add it.`)
+    assert(info, `The component "${component.name}" has not been registered.Use \`World.registerType()\` to add it.`)
     info.setHooks(hooks)
   }
 

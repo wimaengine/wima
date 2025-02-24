@@ -1,3 +1,3 @@
-import { Quaternion } from '../../../math/index.js'
+import { Vector3 } from '../../../math/index.js'
 
-export class Torque3D extends Quaternion {}
+export class Torque3D extends Vector3 {}

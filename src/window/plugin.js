@@ -17,12 +17,13 @@ import {
   WindowMove,
   WindowResize
 } from './events/index.js'
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { World } from '../ecs/index.js'
 import { Window, MainWindow } from './components/index.js'
 import { WindowCommands, Windows } from './resources/index.js'
+import { EventPlugin } from '../event/plugin.js'
 
-export class WindowPlugin {
+export class WindowPlugin extends Plugin {
 
   /**
    * @readonly
@@ -43,6 +44,7 @@ export class WindowPlugin {
     initPrimaryWindow = true,
     primaryWindowOptions
   } = {}) {
+    super()
     this.initPrimaryWindow = initPrimaryWindow
     this.primaryWindowOptions = primaryWindowOptions
   }
@@ -54,23 +56,54 @@ export class WindowPlugin {
     app
       .registerType(Window)
       .registerType(MainWindow)
-      .registerEvent(WindowMove)
-      .registerEvent(WindowResize)
-      .registerEvent(KeyDown)
-      .registerEvent(KeyUp)
-      .registerEvent(MouseDown)
-      .registerEvent(MouseMove)
-      .registerEvent(MouseUp)
-      .registerEvent(MouseWheel)
-      .registerEvent(MouseEnter)
-      .registerEvent(MouseLeave)
-      .registerEvent(TouchStart)
-      .registerEvent(TouchMove)
-      .registerEvent(TouchEnd)
-      .registerEvent(TouchCancel)
-      .registerEvent(WindowResize)
-      .registerEvent(FileDrag)
-      .registerEvent(FileDrop)
+      .registerPlugin(new EventPlugin({
+        event:WindowMove
+      }))
+      .registerPlugin(new EventPlugin({
+        event:WindowResize
+      }))
+      .registerPlugin(new EventPlugin({
+        event:KeyDown
+      }))
+      .registerPlugin(new EventPlugin({
+        event:KeyUp
+      }))
+      .registerPlugin(new EventPlugin({
+        event:MouseDown
+      }))
+      .registerPlugin(new EventPlugin({
+        event:MouseUp
+      }))
+      .registerPlugin(new EventPlugin({
+        event:MouseMove
+      }))
+      .registerPlugin(new EventPlugin({
+        event:MouseWheel
+      }))
+      .registerPlugin(new EventPlugin({
+        event:MouseEnter
+      }))
+      .registerPlugin(new EventPlugin({
+        event:MouseLeave
+      }))
+      .registerPlugin(new EventPlugin({
+        event:TouchStart
+      }))
+      .registerPlugin(new EventPlugin({
+        event:TouchEnd
+      }))
+      .registerPlugin(new EventPlugin({
+        event:TouchMove
+      }))
+      .registerPlugin(new EventPlugin({
+        event:TouchCancel
+      }))
+      .registerPlugin(new EventPlugin({
+        event:FileDrag
+      }))
+      .registerPlugin(new EventPlugin({
+        event:FileDrop
+      }))
       .setResource(new Windows())
       .setResource(new WindowCommands())
 

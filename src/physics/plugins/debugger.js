@@ -1,5 +1,5 @@
 /** @import {Entity} from '../../ecs/index.js' */
-import { App, AppSchedule } from '../../app/index.js'
+import { App, AppSchedule, Plugin } from '../../app/index.js'
 import {
   drawArms,
   drawBounds,
@@ -10,12 +10,13 @@ import {
 } from '../systems/index.js'
 
 
-export class Physics2DDebuggerPlugin {
+export class Physics2DDebuggerPlugin extends Plugin{
 
   /**
    * @param {BodyDebbuggerOptions} options
    */
   constructor(options = {}) {
+    super()
     options.drawCollisionArm = options.drawCollisionArm ?? false
     options.drawContacts = options.drawContacts ?? false
     options.drawPosition = options.drawPosition ?? false

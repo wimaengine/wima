@@ -1,11 +1,13 @@
 import { Query, World } from '../../ecs/index.js'
 import { Vector2 } from '../../math/index.js'
+import { Acceleration2D, Rotation2D, Torque2D, Velocity2D } from '../../movable/index.js'
+import { Orientation2D, Position2D } from '../../transform/index.js'
 
 /**
  * @param {World} world
  */
 export function updatePositionVerlet2D(world) {
-  const query = new Query(world, ['position2d', 'velocity2d', 'acceleration2d'])
+  const query = new Query(world, [Position2D, Velocity2D, Acceleration2D])
   const dt = 1 / 60
 
   query.each(([position, velocity, acceleration]) => {
@@ -25,7 +27,7 @@ export function updatePositionVerlet2D(world) {
  * @param {World} world
  */
 export function updateOrientationVerlet2D(world) {
-  const query = new Query(world, ['orientation2d', 'rotation2d', 'torque2d'])
+  const query = new Query(world, [Orientation2D, Rotation2D, Torque2D])
   const dt = 1 / 60
 
   query.each(([orientation, rotation, torque]) => {

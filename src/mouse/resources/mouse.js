@@ -18,5 +18,18 @@ export class Mouse {
    * @type {Vector2}
    */
   position = new Vector2()
+
+  /**
+   * @type {Vector2}
+   * 
+   */
+  delta = new Vector2()
+
+  /**
+   * @returns {boolean}
+   */
+  moved(){
+    return !this.delta.equals(Vector2.ZERO)
+  }
 }
   

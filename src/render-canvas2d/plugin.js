@@ -1,16 +1,16 @@
-/** @import { Entity } from "../ecs/index.js"; */
-import { Image, Assets, Handle } from '../asset/index.js'
-import { Query, World } from '../ecs/index.js'
-import { App, AppSchedule } from '../app/index.js'
-import { Mesh, Material, TextureCache } from '../render-core/index.js'
+import { Image, Assets } from '../asset/index.js'
+import { Entity, Query, World } from '../ecs/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
+import { Mesh, Material, TextureCache, Camera, MeshHandle, MaterialHandle } from '../render-core/index.js'
 import { MainWindow, Window, Windows } from '../window/index.js'
 import { warn } from '../logger/index.js'
 import { vertices } from './utils.js'
-import { Orientation2D, Position2D, Scale2D } from '../transform/index.js'
+import { GlobalTransform2D } from '../transform/index.js'
 import { MaterialType } from './core/index.js'
 import { CanvasImageMaterial, CanvasMeshedMaterial, CanvasTextMaterial } from './assets/materials/index.js'
+import { typeid, typeidGeneric } from '../reflect/index.js'
 
-export class Canvas2DRendererPlugin {
+export class Canvas2DRendererPlugin extends Plugin{
 
   /**
    * @param {App} app
@@ -28,28 +28,20 @@ export class Canvas2DRendererPlugin {
 function renderToCanvas(world) {
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResource('assets<mesh>')
+  const meshes = world.getResourceByTypeId(typeidGeneric(Assets, [Mesh]))
 
   /** @type {Assets<Material>} */
-  const materials = world.getResource('assets<material>')
+  const materials = world.getResourceByTypeId(typeidGeneric(Assets, [Material]))
 
   /** @type {Assets<Image>} */
-  const images = world.getResource('assets<image>')
+  const images = world.getResourceByTypeId(typeidGeneric(Assets, [Image]))
 
   /** @type {TextureCache<HTMLImageElement>} */
-  const textures = world.getResource('texturecache')
-
-  /** @type {Query<[Position2D,Orientation2D,Scale2D,Handle<Mesh>,Handle<Material>]>} */
-  const query = new Query(world, ['position2d', 'orientation2d', 'scale2d', 'meshhandle', 'materialhandle'])
-
-  /** @type {Query<[Position2D,Orientation2D,Scale2D]>} */
-  const camQuery = new Query(world, ['position2d', 'orientation2d', 'scale2d', 'camera'])
-
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const textures = world.getResourceByTypeId(typeid(TextureCache))
+  const query = new Query(world, [GlobalTransform2D, MeshHandle, MaterialHandle])
+  const camQuery = new Query(world, [GlobalTransform2D, Camera])
+  const windows = new Query(world, [Entity, Window, MainWindow])
+  const canvases = world.getResource(Windows)
 
   const camera = camQuery.single()
   const window = windows.single()
@@ -60,25 +52,27 @@ function renderToCanvas(world) {
   const canvas = canvases.getWindow(window[0])
   const ctx = canvas.getContext('2d')
 
+  const offsetX = window[1].getWidth() / 2
+  const offsetY = window[1].getHeight() / 2
+  
   if (!ctx) return warn('2d context could not be created on the canvas.')
     
-  const [position, orientation, scale] = camera
+  const [cameraTransform] = camera
+  const view = GlobalTransform2D.invert(cameraTransform)
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.save()
-  ctx.translate(
-    position.x,
-    position.y
-  )
-  ctx.rotate(
-    orientation.value
-  )
-  ctx.scale(
-    scale.x,
-    scale.y
+  ctx.translate(offsetX, offsetY)
+  ctx.transform(
+    view.a,
+    view.b,
+    view.c,
+    view.d,
+    view.e,
+    view.f
   )
   
-  query.each(([position, orient, scale, meshhandle, mathandle]) => {
+  query.each(([transform, meshhandle, mathandle]) => {
     const mesh = meshes.getByHandle(meshhandle)
     const material = materials.getByHandle(mathandle)
 
@@ -86,13 +80,13 @@ function renderToCanvas(world) {
       const handle = /** @type {CanvasImageMaterial} */(material).image
 
       // TODO: Does this create a new `ImageElement` every frame its image is not found? 
-      if (!textures.has(handle.handle)) {
+      if (!textures.has(handle.index)) {
         const pic = images.getByHandle(handle)
         const image = document.createElement('img')
         const blob = new Blob([pic.raw.buffer])
 
         image.src = URL.createObjectURL(blob)
-        image.onload = () => textures.set(handle.handle, image)
+        image.onload = () => textures.set(handle.index, image)
 
         return
       }
@@ -100,9 +94,14 @@ function renderToCanvas(world) {
 
     ctx.save()
     ctx.beginPath()
-    ctx.translate(position.x, position.y)
-    ctx.rotate(orient.value)
-    ctx.scale(scale.x, scale.y)
+    ctx.transform(
+      transform.a,
+      transform.b,
+      transform.c,
+      transform.d,
+      transform.e,
+      transform.f
+    )
 
     renderMaterial(ctx, material, mesh, textures)
 
@@ -150,8 +149,8 @@ function renderBasic(ctx, material, mesh) {
   if (!positions) return
 
   ctx.lineWidth = strokeWidth
-  ctx.fillStyle = `rgba(${fill.r},${fill.g},${fill.b},${fill.a})`
-  ctx.strokeStyle = `rgba(${stroke.r},${stroke.g},${stroke.b},${stroke.a})`
+  ctx.fillStyle = `rgba(${fill.r * 255},${fill.g * 255},${fill.b * 255},${fill.a * 255})`
+  ctx.strokeStyle = `rgba(${stroke.r * 255},${stroke.g * 255},${stroke.b * 255},${stroke.a * 255})`
 
   vertices(ctx, positions, true)
   ctx.stroke()
@@ -167,8 +166,8 @@ function renderText(ctx, material) {
 
   ctx.textAlign = align
   ctx.lineWidth = strokeWidth
-  ctx.fillStyle = `rgba(${fill.r},${fill.g},${fill.b},${fill.a})`
-  ctx.strokeStyle = `rgba(${stroke.r},${stroke.g},${stroke.b},${stroke.a})`
+  ctx.fillStyle = `rgba(${fill.r * 255},${fill.g * 255},${fill.b * 255},${fill.a * 255})`
+  ctx.strokeStyle = `rgba(${stroke.r * 255},${stroke.g * 255},${stroke.b * 255},${stroke.a * 255})`
   ctx.font = `${fontSize}px ${font}`
   ctx.textRendering = 'geometricPrecision'
   ctx.fillText(text, 0, 0)
@@ -182,7 +181,7 @@ function renderText(ctx, material) {
  */
 function renderImage(ctx, material, textures) {
   const { image, width, height, frameX, frameY, divisionX, divisionY } = material
-  const texture = textures.get(image.handle)
+  const texture = textures.get(image.index)
 
   if (!texture) return
 

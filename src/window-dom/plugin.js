@@ -1,10 +1,10 @@
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { ComponentHooks } from '../ecs/index.js'
 import { Window } from '../window/index.js'
 import { closeWindow, openWindow } from './hooks/index.js'
 import { executeWindowCommands } from './systems/index.js'
 
-export class DOMWindowPlugin {
+export class DOMWindowPlugin extends Plugin {
 
   /**
    * @param {App} app

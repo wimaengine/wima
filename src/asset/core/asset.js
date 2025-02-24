@@ -1,3 +1,5 @@
+/** @import {AssetId} from '../types/index.js' */
+
 import { DenseList } from '../../datastructures/index.js'
 import { assert } from '../../logger/index.js'
 import { Handle } from './handle.js'
@@ -9,7 +11,7 @@ export class Assets {
 
   /**
    * @private
-   * @type {DenseList<T>}
+   * @type {DenseList<T | undefined>}
    */
   assets = new DenseList()
 
@@ -26,50 +28,56 @@ export class Assets {
   toLoad = []
 
   /**
-   * @private
-   * @type {() => T}
-   */
-  create
-
-  /**
    * @protected
    * @type {HandleProvider<T>}
    */
   createHandle
 
   /**
-   * @param {(() => T)} defaulter
    * @param {(HandleProvider<T>)} handler
    */
-  constructor(defaulter, handler = /** @type {HandleProvider<T>} */(defaultHandler)) {
-    this.create = defaulter
-
-    this.def = defaulter()
+  constructor(handler = defaultHandler) {
     this.createHandle = handler
   }
-  
+
   /**
    * @param {string} name
    * @returns {T | undefined}
    */
-  get(name){
+  get(name) {
     const id = this.paths.get(name)
 
-    if(id === undefined) return undefined
+    if (id === undefined) return undefined
 
     return this.assets.get(id)
   }
 
   /**
+   * @param {string} path 
+   * @returns {Handle<T> | undefined}
+   */
+  getHandle(path) {
+    const index = this.paths.get(path)
+
+    if (index !== undefined) return this.createHandle(index)
+
+    return undefined
+  }
+
+  /**
    * @param {Handle<T>} handle
-   * @returns {T}
+   * @returns {T | undefined}
    */
   getByHandle(handle) {
-    const asset = this.assets.get(handle.handle)
+    return this.assets.get(handle.index)
+  }
 
-    assert(asset, 'The handle provided is invalid!Did you try to create your own handle?')
-
-    return asset
+  /**
+   * @param {AssetId} id
+   * @returns {T | undefined}
+   */
+  getById(id) {
+    return this.assets.get(id)
   }
 
   /**
@@ -77,7 +85,7 @@ export class Assets {
    * @param {T} asset
    */
   setByHandle(handle, asset) {
-    this.assets.set(handle.handle, asset)
+    this.assets.set(handle.index, asset)
   }
 
   /**
@@ -113,7 +121,7 @@ export class Assets {
   load(path) {
     const id = this.assets.reserve()
 
-    this.assets.set(id, this.create())
+    this.assets.set(id, undefined)
     this.paths.set(path, id)
     this.toLoad.push(path)
 

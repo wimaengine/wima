@@ -1,7 +1,7 @@
 import { PhysicsProperties } from '../components/index.js'
 import { PhysicsHitbox } from '../../broadphase/index.js'
 import { PhysicsSettings } from '../settings.js'
-import { Orientation2D, Position2D, Scale2D } from '../../transform/index.js'
+import { GlobalTransform2D, Orientation2D, Position2D, Scale2D } from '../../transform/index.js'
 import { createMovable2D, Velocity2D, Rotation2D, Acceleration2D, Torque2D } from '../../movable/index.js'
 
 /**
@@ -13,7 +13,7 @@ import { createMovable2D, Velocity2D, Rotation2D, Acceleration2D, Torque2D } fro
  * @param {number} kineticfriction
  * @param {bigint} mask
  * @param {bigint} group
- * @returns {[Position2D,Orientation2D,Scale2D,Velocity2D,Rotation2D,Acceleration2D,Torque2D,PhysicsHitbox,PhysicsProperties]}
+ * @returns {[Position2D,Orientation2D,Scale2D,GlobalTransform2D,Velocity2D,Rotation2D,Acceleration2D,Torque2D,PhysicsHitbox,PhysicsProperties]}
  */
 export function createRigidBody2D(
   x = 0,

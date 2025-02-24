@@ -1,25 +1,20 @@
-/** @import { Entity } from '../../ecs/index.js'*/
 import { Collider2D } from '../components/index.js'
 import { Vector2 } from '../../math/index.js'
 import { vertices } from '../../render-canvas2d/index.js'
-import { Query, World } from '../../ecs/index.js'
+import { Query, World, Entity } from '../../ecs/index.js'
 import { Position2D } from '../../transform/index.js'
 import { PhysicsHitbox } from '../../broadphase/index.js'
 import { MainWindow, Windows } from '../../window/index.js'
+import { Velocity2D } from '../../movable/index.js'
+import { Contacts } from '../../narrowphase/index.js'
 
 /**
  * @param {World} world
  */
 export function drawBounds(world) {
-
-  /** @type {Query<[PhysicsHitbox]>} */
-  const query = new Query(world, ['physicshitbox'])
-
-  /** @type {Query<[Entity,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'mainwindow'])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const query = new Query(world, [PhysicsHitbox])
+  const windows = new Query(world, [Entity, MainWindow])
+  const canvases = world.getResource(Windows)
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
@@ -50,15 +45,9 @@ export function drawBounds(world) {
  * @param {World} world
  */
 export function drawPosition(world) {
-
-  /** @type {Query<[Position2D]>}*/
-  const query = new Query(world, ['position2d'])
-
-  /** @type {Query<[Entity,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'mainwindow'])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const query = new Query(world, [Position2D])
+  const windows = new Query(world, [Entity, MainWindow])
+  const canvases = world.getResource(Windows)
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
@@ -79,13 +68,10 @@ export function drawPosition(world) {
  * @param {World} world
  */
 export function drawVelocity(world) {
-  const query = new Query(world, ['position2d', 'velocity2d'])
+  const query = new Query(world, [Position2D, Velocity2D])
+  const windows = new Query(world, [Entity, MainWindow])
+  const canvases = world.getResource(Windows)
 
-  /** @type {Query<[Entity,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'mainwindow'])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
@@ -106,12 +92,8 @@ export function drawVelocity(world) {
  * @param {World} world
  */
 export function drawShapes(world) {
-
-  /** @type {Query<[Entity,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'mainwindow'])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const windows = new Query(world, [Entity, MainWindow])
+  const canvases = world.getResource(Windows)
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
@@ -119,8 +101,7 @@ export function drawShapes(world) {
 
   if (!ctx) return
 
-  /** @type {Query<[Collider2D]>} */
-  const query = new Query(world, ['collider2d'])
+  const query = new Query(world, [Collider2D])
 
   query.each(([shape]) => {
     ctx.beginPath()
@@ -151,13 +132,9 @@ export function drawShapes(world) {
  * @param {World} world
  */
 export function drawArms(world) {
-  const contacts = world.getResource('contacts')
-
-  /** @type {Query<[Entity,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'mainwindow'])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const windows = new Query(world, [Entity, MainWindow])
+  const contacts = world.getResource(Contacts)
+  const canvases = world.getResource(Windows)
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
@@ -168,8 +145,10 @@ export function drawArms(world) {
   ctx.beginPath()
 
   for (let i = 0; i < contacts.length; i++) {
-    const posA = world.get(contacts[i].entityA, 'transform')[0].position
-    const posB = world.get(contacts[i].entityB, 'transform')[0].position
+    const posA = world.get(contacts[i].entityA, Position2D)
+    const posB = world.get(contacts[i].entityB, Position2D)
+
+    if(!posA || !posB ) return
 
     for (let j = 0; j < contacts[i].contactData.contactNo; j++) {
       drawArmRaw(ctx, posA, contacts[i].contactData.contactPoints[j])
@@ -186,12 +165,10 @@ export function drawArms(world) {
  * @param {World} world
  */
 export function drawContacts(world) {
+  const windows = new Query(world, [Entity, MainWindow])
+  const canvases = world.getResource(Windows)
+  const clmd = world.getResource(Contacts)
 
-  /** @type {Query<[Entity,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'mainwindow'])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
@@ -199,7 +176,6 @@ export function drawContacts(world) {
 
   if (!ctx) return
   
-  const clmd = world.getResource('contacts')
 
   for (let i = 0; i < clmd.length; i++) {
     const [p1, p2] = clmd[i].contactData.contactPoints

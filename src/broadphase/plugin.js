@@ -1,10 +1,10 @@
 /** @import {Broadphasable2D} from './resources/index.js'*/
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { PhysicsHitbox } from './components/index.js'
 import { CollisionPairs, Broadphase2D } from './resources/index.js'
 import { getCollisionPairs, updateBroadphase2D } from './systems/index.js'
 
-export class Broadphase2DPlugin {
+export class Broadphase2DPlugin extends Plugin {
 
   /**
    * @readonly
@@ -16,6 +16,7 @@ export class Broadphase2DPlugin {
    * @param {Broadphase2DPluginOptions} options 
    */
   constructor({ broadphase }){
+    super()
     this.innerBroadphase = broadphase
   }
 
