@@ -1,7 +1,7 @@
 import { App, Plugin } from '../app/index.js'
 import { AssetParserPlugin, AssetPlugin } from '../asset/index.js'
 import { Camera, MaterialHandle, MeshHandle } from './components/index.js'
-import { Material, Mesh, Shader,Image } from './assets/index.js'
+import { Material, Mesh, Shader, Image } from './assets/index.js'
 import { ImageParser } from './resources/index.js'
 
 export class RenderCorePlugin extends Plugin{

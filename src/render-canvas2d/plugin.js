@@ -1,7 +1,7 @@
 import { Assets } from '../asset/index.js'
 import { Entity, Query, World } from '../ecs/index.js'
 import { App, AppSchedule, Plugin } from '../app/index.js'
-import { Mesh, Material, TextureCache, Camera, MeshHandle, MaterialHandle,Image } from '../render-core/index.js'
+import { Mesh, Material, TextureCache, Camera, MeshHandle, MaterialHandle, Image } from '../render-core/index.js'
 import { MainWindow, Window, Windows } from '../window/index.js'
 import { warn } from '../logger/index.js'
 import { vertices } from './utils.js'

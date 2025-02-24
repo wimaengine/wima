@@ -1,5 +1,5 @@
 import { Handle } from '../../../asset/index.js'
-import { Material,Image } from '../../../render-core/index.js'
+import { Material, Image } from '../../../render-core/index.js'
 import { MaterialType } from '../../core/materialtype.js'
 
 export class CanvasImageMaterial extends Material {
