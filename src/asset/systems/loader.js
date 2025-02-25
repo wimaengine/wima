@@ -32,8 +32,8 @@ export function generateParserSystem(name) {
     /** @type {EventDispatch<AssetLoadFail>} */
     const fail = world.getResource('events<assetloadfail>')
 
-    /** @type {AssetBasePath} */
-    const baseUrl = world.getResource('assetbasepath')
+    /** @type {AssetBasePath<T>} */
+    const baseUrl = world.getResource(`assetbasepath<${name}>`)
 
     const paths = assets.flushToLoad()
 
