@@ -1,4 +1,8 @@
+/** @import { Defaultable } from '../../utils/index.js' */
+/** @import { HandleProvider } from '../core/index.js' */
+
 import { App } from '../../app/index.js'
+import { Assets } from '../core/index.js'
 import { AssetLoadFail, AssetLoadSuccess } from '../events/index.js'
 import { AssetBasePath } from '../resources/index.js'
 
@@ -34,6 +38,7 @@ export class AssetPlugin {
 }
 
 /**
+ * @template T
  * @typedef AssetPluginOptions
  * @property {string} [path]
  */
