@@ -2,6 +2,11 @@ import { App } from '../../app/index.js'
 import { AssetLoadFail, AssetLoadSuccess } from '../events/index.js'
 import { AssetBasePath } from '../resources/index.js'
 
+
+/**
+ * @template T
+ */
+
 export class AssetPlugin {
 
   /**
