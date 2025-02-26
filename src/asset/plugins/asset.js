@@ -18,7 +18,13 @@ export class AssetPlugin {
    * @type {string}
    */
   path
-    
+
+  /**
+   * @readonly
+   * @type {Defaultable<T> & (new (...args:any)=>T)}
+   */
+  asset
+
   /**
    * @param {AssetPluginOptions} options 
    */
