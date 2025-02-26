@@ -26,7 +26,11 @@ export class AssetPlugin {
   asset
 
   /**
-   * @param {AssetPluginOptions} options 
+   * @readonly
+   * @type {HandleProvider<T> | undefined}
+   */
+  handleprovider
+
    */
   constructor({ path = '' } = {}){
     this.path = path
