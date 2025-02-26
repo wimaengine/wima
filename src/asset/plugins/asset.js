@@ -46,10 +46,18 @@ export class AssetPlugin {
    * @param {App} app
    */
   register(app) {
+    const { asset, handleprovider, path } = this
+    const name = this.asset.name.toLowerCase()
+    const world = app.getWorld()
+
+
+    // TODO - Separate the events to become for each
+    // asset type
     app
       .registerEvent(AssetLoadSuccess)
       .registerEvent(AssetLoadFail)
-      .setResource(new AssetBasePath(this.path))
+    world.setResourceByName(`assetbasepath<${name}>`, new AssetBasePath(path))
+    world.setResourceByName(`assets<${name}>`, new Assets(asset.default, handleprovider))
   }
 }
 
