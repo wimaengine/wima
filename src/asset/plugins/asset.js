@@ -31,9 +31,15 @@ export class AssetPlugin {
    */
   handleprovider
 
+  /**
+   * @param {AssetPluginOptions<T>} options
    */
-  constructor({ path = '' } = {}){
+  constructor(options) {
+    const { path = '', asset, handleprovider } = options
+
+    this.handleprovider = handleprovider
     this.path = path
+    this.asset = asset
   }
 
   /**
@@ -51,4 +57,6 @@ export class AssetPlugin {
  * @template T
  * @typedef AssetPluginOptions
  * @property {string} [path]
+ * @property {Defaultable<T> & (new (...args:any)=>T)} asset
+ * @property {HandleProvider<T>} [handleprovider]
  */
