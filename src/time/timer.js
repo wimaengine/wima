@@ -1,3 +1,5 @@
+import { clamp } from '../math/index.js'
+
 export class Timer {
 
   /**
@@ -8,58 +10,200 @@ export class Timer {
   /**
    * @type {number}
    */
-  elapsed = 0
+  duration
 
   /**
    * @type {number}
    */
-  duration = 0
+  speed
 
   /**
+   * @type {boolean}
+   */
+  paused
+
+  /**
+   * @private 
+   * @type {number}
+   */
+  elapsedCount = 0
+
+  /**
+   * @private
+   * @type {number}
+   */
+  elapsedTime = 0
+
+  /**
+   * @private
    * @type {boolean}
    */
   finished = false
 
   /**
-   * @param {number} duration
-   * @param {TimerMode} [mode=TimerMode.Once]
+   * @private
+   * @type {number}
    */
-  constructor(duration, mode = TimerMode.Once) {
+  startTicks = 0
+
+  /**
+   * @private
+   * @type {number}
+   */
+  endTicks = 0
+
+  /**
+   * Part of change detection for when playback is changed.
+   * @private
+   * @type {boolean}
+   */
+  playbackRequested = false
+
+  /**
+   * Part of change detection for when playback is changed.
+   * @private
+   * @type {boolean}
+   */
+  playbackResolved = false
+
+  /**
+   * @param {TimerOptions} options
+   */
+  constructor({
+    duration = 1,
+    mode = TimerMode.Once,
+    speed = 1,
+    paused = false
+  } = {}) {
     this.duration = duration
     this.mode = mode
+    this.speed = speed
+    this.paused = paused
+  }
+
+  elapsed() {
+    return this.elapsedTime
+  }
+
+  progress() {
+    return this.elapsedTime / this.duration
+  }
+
+  play() {
+    this.paused = false
+    this.requestPlayback()
+  }
+
+  pause() {
+    this.paused = true
+    this.requestPlayback()
+  }
+
+  start() {
+    this.elapsedCount = 0
+    this.elapsedTime = 0
+    this.play()
+  }
+
+  stop() {
+    this.elapsedCount = 0
+    this.elapsedTime = 0
+    this.pause()
+  }
+
+  reset() {
+    this.start()
+  }
+
+  /**
+   * @param {number} timestamp
+   */
+  seek(timestamp) {
+    this.elapsedTime = clamp(timestamp, 0, this.duration)
+    this.requestPlayback()
+  }
+
+  requestPlayback() {
+    this.playbackRequested = true
+    this.finished = false
+  }
+
+  playbackChanged() {
+    return this.playbackResolved
   }
 
   /**
    * @param {number} dt
    */
   update(dt) {
-    Timer.update(this, dt)
-  }
-  reset() {
-    Timer.reset(this)
-  }
+    const previousElapsedTime = this.elapsedTime
 
-  /**
-   * @param {Timer} timer
-   * @param {number} dt
-   */
-  static update(timer, dt) {
-    timer.elapsed += dt
-    timer.finished = false
+    this.startTicks = 0
+    this.endTicks = 0
+    this.playbackResolved = false
 
-    if (timer.elapsed >= timer.duration) {
-      timer.finished = true
+    if (this.playbackRequested) {
+      this.playbackResolved = true
+      this.playbackRequested = false
+    }
+    if (this.paused || this.finished) {
+      return
+    }
 
-      if (timer.mode === TimerMode.Repeat) timer.elapsed = 0
+    this.elapsedTime += dt * this.speed
+    this.endTicks = Math.floor(this.elapsedTime / this.duration)
+
+    if (this.endTicks) {
+      if (this.mode === TimerMode.Once) {
+        this.elapsedTime = this.duration
+        this.finished = true
+        this.elapsedCount = 1
+      } else if (this.mode === TimerMode.Repeat) {
+        this.elapsedCount += this.endTicks
+        this.elapsedTime = this.elapsedTime % this.duration
+      }
+    }
+
+    if (
+      (!previousElapsedTime && this.elapsedTime) ||
+      previousElapsedTime > this.elapsedTime) {
+      this.startTicks = 1
     }
   }
 
   /**
-   * @param {Timer} timer
+   * @returns {boolean}
    */
-  static reset(timer) {
-    timer.elapsed = 0
-    timer.finished = false
+  cycleStarted() {
+    return this.startTicks > 0
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  cycleEnded() {
+    return this.endTicks > 0
+  }
+
+  /**
+   * @returns {number}
+   */
+  cyclesCompleted() {
+    return this.elapsedCount
+  }
+
+  /**
+   * @returns {number}
+   */
+  cyclesCompletedThisFrame() {
+    return this.endTicks
+  }
+
+  /**
+   * @returns {boolean}
+   */
+  completed() {
+    return this.finished
   }
 }
 
@@ -71,3 +215,11 @@ export const TimerMode = {
   Once: 0,
   Repeat: 1
 }
+
+/**
+ * @typedef TimerOptions
+ * @property {number} [duration]
+ * @property {TimerMode} [mode]
+ * @property {number} [speed]
+ * @property {boolean} [paused]
+ */
