@@ -1,4 +1,4 @@
-# Chaos-engine
+# Wima
 This is an ECS driven game engine written in javascript.
 
 ## Features of this game engine.
