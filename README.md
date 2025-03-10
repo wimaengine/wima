@@ -27,7 +27,7 @@ This is an ECS driven game engine written in javascript.
  - An input abstraction that normalizes input from the keyboard,mouse and touch on mobile devices.
  - A math library with support for 2D and 3D vectors, matrices and quaternion.
 
-## Gettimg Started
+## Getting Started
 TODO
 
 ## Contributing
