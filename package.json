@@ -22,6 +22,7 @@
     "url": "https://github.com/waynemwashuma/wima.git"
   },
   "scripts": {
+    "start":"http-server -o /demos -p 8082 --no-dotfiles",
     "init": "husky .husky",
     "rollup": "rollup --config .config/rollup.config.js",
     "eslint": "eslint --config .config/eslint.config.js",
