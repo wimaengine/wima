@@ -16,6 +16,8 @@ import {
   WindowPlugin,
   RenderCorePlugin,
   Canvas2DRendererPlugin,
+  MovablePlugin, 
+  Physics2DPlugin,
   DemoPlugin,
   MainWindow,
   Query,
@@ -40,7 +42,9 @@ app
   .registerPlugin(new WindowPlugin())
   .registerPlugin(new DOMWindowPlugin())
   .registerPlugin(new InputPlugin())
+  .registerPlugin(new Physics2DPlugin())
   .registerPlugin(new TransformPlugin())
+  .registerPlugin(new MovablePlugin())
   .registerPlugin(new RenderCorePlugin())
   .registerPlugin(new StoragePlugin())
   .registerSystem(AppSchedule.Startup, setupViewport)
