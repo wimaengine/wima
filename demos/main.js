@@ -31,6 +31,18 @@ import materials from './demos/material.js'
 import keyboard from './demos/keyboard.js'
 import mouse from './demos/mouse.js'
 import touch from './demos/touch.js'
+import {
+  box,
+  circle,
+  triangle,
+  stacks,
+  pyramids,
+  restitution,
+  friction,
+  random,
+  collisionMasks,
+  heaps
+} from './demos/physics/2d/index.js'
 
 const app = new App()
 
@@ -60,7 +72,17 @@ app
       easing,
       keyboard,
       mouse,
-      touch
+      touch,
+      box,
+      circle,
+      triangle,
+      random,
+      stacks,
+      heaps,
+      pyramids,
+      restitution,
+      friction,
+      collisionMasks
     ]
   }))
   .run()
