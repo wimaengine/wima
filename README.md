@@ -1,12 +1,5 @@
-# Chaos-engine
-
-[![DeepScan grade](https://deepscan.io/api/teams/22133/projects/25462/branches/809490/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=22133&pid=25462&bid=809490)
-![npm](https://img.shields.io/npm/dt/chaosstudio)
-![npm](https://img.shields.io/npm/v/chaosstudio)
-![NPM](https://img.shields.io/npm/l/chaosstudio)
-![GitHub Repo stars](https://img.shields.io/github/stars/waynemwashuma/chaos-engine)
-
- This is an ECS driven game engine written in javascript.
+# Wima
+This is an ECS driven game engine written in javascript.
 
 ## Features of this game engine.
 
@@ -34,7 +27,7 @@
  - An input abstraction that normalizes input from the keyboard,mouse and touch on mobile devices.
  - A math library with support for 2D and 3D vectors, matrices and quaternion.
 
-## Gettimg Started
+## Getting Started
 TODO
 
 ## Contributing
