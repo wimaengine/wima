@@ -16,7 +16,7 @@ export function generateParserSystem(name) {
    * @param {World} world
    */
   return async function loadToAssets(world) {
-        
+
     /** @type {Assets<T>} */
     const assets = world.getResource(`assets<${name}>`)
 
@@ -32,12 +32,12 @@ export function generateParserSystem(name) {
     /** @type {EventDispatch<AssetLoadFail>} */
     const fail = world.getResource('events<assetloadfail>')
 
-    /** @type {AssetBasePath} */
-    const baseUrl = world.getResource('assetbasepath')
+    /** @type {AssetBasePath<T>} */
+    const baseUrl = world.getResource(`assetbasepath<${name}>`)
 
     const paths = assets.flushToLoad()
 
-    if(!parser) return
+    if (!parser) return
 
     for (let i = 0; i < paths.length; i++) {
       const rawpath = paths[i]
@@ -45,14 +45,14 @@ export function generateParserSystem(name) {
       const extension = getFileExtension(path)
 
       if (!parser.verify(extension, device)) {
-        fail.write(new AssetLoadFail(rawpath, `The extension "${extension}" is not supported by ${parser.constructor.name}` ))
+        fail.write(new AssetLoadFail(rawpath, `The extension "${extension}" is not supported by ${parser.constructor.name}`))
         continue
       }
 
       const result = await load(path, parser)
 
-      if(result){
-        
+      if (result) {
+
         assets.setByPath(rawpath, result)
         success.write(new AssetLoadSuccess(rawpath))
       } else {
