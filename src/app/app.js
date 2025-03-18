@@ -5,9 +5,9 @@ import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecu
 import { EventDispatch } from '../event/index.js'
 import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
-import { Assets, generateParserSystem } from '../asset/index.js'
+import { generateParserSystem } from '../asset/index.js'
 import { SchedulerBuilder, SystemConfig } from './core/index.js'
-import { AssetParserPlugin } from '../asset/plugins/parser.js'
+import { AssetParserPlugin,AssetPlugin } from '../asset/plugins/index.js'
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
 
@@ -147,16 +147,20 @@ export class App {
   }
 
   /**
+   * @deprecated
    * @template T
    * @param {Function} asset
    * @param {HandleProvider<T>} [handleprovider]
    */
   registerAsset(asset, handleprovider) {
-    const name = asset.name.toLowerCase()
+    this.registerPlugin(new AssetPlugin({
 
-    // @ts-ignore
-    // ill deal with this later
-    this.world.setResourceByName(`assets<${name}>`, new Assets(asset.default, handleprovider))
+      // this function will be removed so the cast does not 
+      // matter much
+      // eslint-disable-next-line object-shorthand
+      asset:/** @type {any}*/(asset),
+      handleprovider
+    }))
 
     return this
   }

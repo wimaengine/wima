@@ -1,0 +1,29 @@
+name: Improve documentation
+description: File for better or new documentation.
+labels: ["type:enhancement","scope:documentation"]
+body:
+  - type: textarea
+    id: affected
+    attributes:
+      label: Affected.
+      description: |
+        - Provide the place where the documentation needs improvement/addition
+        e.g the guide, examples, the code.
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Reason(s).
+      description: |
+        - Provide the reason(s) why the documentation must be changed.
+    validations:
+      required: true
+  - type: textarea
+    id: improvement
+    attributes:
+      label: Improvement(s).
+      description: |
+        - Provide a way the docs can be improved.
+    validations:
+      required: false

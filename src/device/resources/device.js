@@ -69,11 +69,4 @@ export class DeviceCapabilities {
    * @type {Set<string>}
    */
   supportedAudioFormats = new Set()
-
-  /**
-   * A list of image extensions this device supports.
-   *
-   * @type {Set<string>}
-   */
-  supportedImageFormats = new Set()
 }
