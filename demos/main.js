@@ -1,4 +1,4 @@
-/** @import {Entity} from 'chaos-studio' */
+/** @import {Entity} from 'wima' */
 import {
   App,
   AppSchedule,
@@ -20,7 +20,7 @@ import {
   Query,
   warn,
   createCamera2D
-} from 'chaosstudio'
+} from 'wima'
 import spawn from './demos/spawn.js'
 import despawn from './demos/despawn.js'
 import easing from './demos/easing.js'

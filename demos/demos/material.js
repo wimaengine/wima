@@ -8,7 +8,7 @@ import {
   Color,
   Demo,
   Cleanup
-} from 'chaosstudio'
+} from 'wima'
 
 export default new Demo('materials', [init])
 

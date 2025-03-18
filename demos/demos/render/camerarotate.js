@@ -12,7 +12,7 @@ import {
   World,
   Cleanup,
   createCamera3D
-} from 'chaosstudio'
+} from 'wima'
 
 /**
  * @param {World} world

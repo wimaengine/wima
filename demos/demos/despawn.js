@@ -1,4 +1,4 @@
-/** @import {Entity} from 'chaosstudio' */
+/** @import {Entity} from 'wima' */
 import {
   Mesh,
   CanvasMeshedMaterial,
@@ -10,7 +10,7 @@ import {
   EntityCommands,
   Cleanup,
   warn
-} from 'chaosstudio'
+} from 'wima'
 
 export default new Demo('despawn', [init], [update])
 

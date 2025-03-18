@@ -1,4 +1,4 @@
-/** @import {Entity} from 'chaosstudio' */
+/** @import {Entity} from 'wima' */
 import {
   Mesh,
   CanvasMeshedMaterial,
@@ -11,7 +11,7 @@ import {
   warn,
   Cleanup,
   Touches
-} from 'chaosstudio'
+} from 'wima'
 
 /** @type {Map<number,Entity>} */
 class TouchtoEntityMap extends Map { }
