@@ -5,7 +5,6 @@ import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecu
 import { EventDispatch } from '../event/index.js'
 import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
-import { generateParserSystem } from '../asset/index.js'
 import { SchedulerBuilder, SystemConfig } from './core/index.js'
 import { AssetParserPlugin,AssetPlugin } from '../asset/plugins/index.js'
 
