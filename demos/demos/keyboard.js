@@ -1,4 +1,4 @@
-/** @import {Entity} from 'chaosstudio' */
+/** @import {Entity} from 'wima' */
 import {
   Assets,
   Material,
@@ -14,7 +14,7 @@ import {
   Cleanup,
   Keyboard,
   KeyCode
-} from 'chaosstudio'
+} from 'wima'
 
 const offsetX = 100
 const offsetY = 100

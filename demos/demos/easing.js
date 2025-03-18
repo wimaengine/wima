@@ -14,7 +14,7 @@ import {
   Demo,
   Cleanup,
   warn
-} from 'chaosstudio'
+} from 'wima'
 
 export default new Demo('easing', [init])
 

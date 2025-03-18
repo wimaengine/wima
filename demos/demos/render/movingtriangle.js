@@ -11,7 +11,7 @@ import {
   World,
   Cleanup,
   Query
-} from 'chaosstudio'
+} from 'wima'
 import { addCamera3D } from './utils.js'
 
 /**

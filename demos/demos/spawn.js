@@ -10,7 +10,7 @@ import {
   Handle,
   warn,
   Cleanup
-} from 'chaosstudio'
+} from 'wima'
 
 export default new Demo('spawn', [init], [update])
 

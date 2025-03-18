@@ -1,4 +1,4 @@
-/** @import {Entity} from 'chaos-studio' */
+/** @import {Entity} from 'wima' */
 import {
   App,
   AppSchedule,
@@ -23,7 +23,7 @@ import {
   Query,
   warn,
   createCamera2D
-} from 'chaosstudio'
+} from 'wima'
 import {
   basictriangle,
   colortriangle,

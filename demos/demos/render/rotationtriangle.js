@@ -11,7 +11,7 @@ import {
   Cleanup,
   GlobalTransform3D,
   Rotation3D
-} from 'chaosstudio'
+} from 'wima'
 import { addCamera3D } from './utils.js'
 
 /**

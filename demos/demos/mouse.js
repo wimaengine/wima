@@ -1,4 +1,4 @@
-/** @import {Entity} from 'chaosstudio' */
+/** @import {Entity} from 'wima' */
 import {
   Mesh,
   CanvasMeshedMaterial,
@@ -12,7 +12,7 @@ import {
   Keyboard,
   KeyCode,
   MouseButton
-} from 'chaosstudio'
+} from 'wima'
 
 const offsetX = 100
 const offsetY = 100
