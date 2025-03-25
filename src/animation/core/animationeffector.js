@@ -41,3 +41,21 @@ export class Position2DAnimationEffector extends AnimationEffector {
     return 2
   }
 }
+
+export class Position3DAnimationEffector extends AnimationEffector {
+  static componentType = Position3D
+
+  /**
+   * @param {World} world
+   * @param {Entity} entity
+   * @param {number[]} results
+   */
+  static apply(world, entity, results) {
+    const component = world.get(entity, this.componentType.name.toLowerCase())
+    
+    component.set(results[0], results[1], results[2])
+  }
+  static elementSize() {
+    return 3
+  }
+}
