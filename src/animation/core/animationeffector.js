@@ -95,3 +95,21 @@ export class Orientation3DAnimationEffector extends AnimationEffector {
     return 4
   }
 }
+
+export class Scale2DAnimationEffector extends AnimationEffector {
+  static componentType = Scale2D
+
+  /**
+   * @param {World} world
+   * @param {Entity} entity
+   * @param {number[]} results
+   */
+  static apply(world, entity, results) {
+    const component = world.get(entity, this.componentType.name.toLowerCase())
+
+    component.set(results[0], results[1])
+  }
+  static elementSize() {
+    return 2
+  }
+}
