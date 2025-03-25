@@ -23,3 +23,21 @@ export class AnimationEffector {
     return 0
   }
 }
+
+export class Position2DAnimationEffector extends AnimationEffector {
+  static componentType = Position2D
+
+  /**
+   * @param {World} world
+   * @param {Entity} entity
+   * @param {number[]} results
+   */
+  static apply(world, entity, results) {
+    const component = world.get(entity, this.componentType.name.toLowerCase())
+    
+    component.set(results[0], results[1] )
+  }
+  static elementSize() {
+    return 2
+  }
+}
