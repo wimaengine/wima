@@ -77,3 +77,21 @@ export class Orientation2DAnimationEffector extends AnimationEffector {
     return 1
   }
 }
+
+export class Orientation3DAnimationEffector extends AnimationEffector {
+  static componentType = Orientation3D
+
+  /**
+   * @param {World} world
+   * @param {Entity} entity
+   * @param {number[]} results
+   */
+  static apply(world, entity, results) {
+    const component = world.get(entity, this.componentType.name.toLowerCase())
+    
+    component.set(results[0], results[1], results[2], results[3])
+  }
+  static elementSize() {
+    return 4
+  }
+}
