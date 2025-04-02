@@ -4,7 +4,6 @@ import {
   AppSchedule,
   World,
   FPSDebugger,
-  AssetPlugin,
   AudioPlugin,
   CommandsPlugin,
   DefaultTweenPlugin,
@@ -40,7 +39,6 @@ const app = new App()
 
 app
   .registerPlugin(new CommandsPlugin())
-  .registerPlugin(new AssetPlugin())
   .registerPlugin(new AudioPlugin())
   .registerPlugin(new TimePlugin())
   .registerPlugin(new WindowPlugin())
