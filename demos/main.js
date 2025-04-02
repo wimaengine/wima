@@ -7,6 +7,7 @@ import {
   Gizmo3DPlugin,
   DOMWindowPlugin,
   Canvas2DRendererPlugin,
+  AnimationPlugin,
   DemoPlugin,
   MainWindow,
   Query,
@@ -41,10 +42,7 @@ app
   .registerPlugin(new ResourceAliasPlugin())
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
-  .registerPlugin(new Canvas2DRendererPlugin())
-  .registerPlugin(new Gizmo2DPlugin({
-    label: Demo1
-  }))
+  .registerPlugin(new AnimationPlugin())
   .registerPlugin(new Gizmo2DPlugin({
     label: Demo2
   }))
