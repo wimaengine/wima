@@ -101,6 +101,12 @@ export class Matrix3x4 {
     this.l = e34
   }
 
+  identity(){
+    Matrix3x4.identity(this)
+
+    return this
+  }
+
   /**
    * @param {number} x
    * @param {number} y
@@ -160,6 +166,27 @@ export class Matrix3x4 {
     out.j = e14
     out.k = e24
     out.l = e34
+  }
+
+  /**
+   * @param {Matrix3x4} out
+   * @returns {Matrix3x4}
+   */
+  static identity(out = new Matrix3x4()){
+    out.a = 1
+    out.b = 0
+    out.c = 0
+    out.d = 0
+    out.e = 1
+    out.f = 0
+    out.g = 0
+    out.h = 0
+    out.i = 1
+    out.j = 0
+    out.k = 0
+    out.l = 0
+
+    return out
   }
 
   /**
