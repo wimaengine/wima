@@ -118,16 +118,30 @@ export class Vector2 {
    * @param {number} n
    * @returns {this}
    */
-  multiply(n) {
-    Vector2.multiplyScalar(this, n, this)
+  
+  /**
+   * @param {Vector2} v
+   * @returns {this}
+   */
+  multiply(v) {
+    Vector2.multiply(this, v, this)
 
     return this
   }
 
   /**
+   * @param {number} s
+   * @returns {this}
+   */
+  multiplyScalar(s){
+    Vector2.multiplyScalar(this,s,this)
+    return this
+  }
+
+  /**
    * Rotates this vector by a given angle in radians.
-   *
-   * @param {number} cos
+  *
+  * @param {number} cos
    * @param {number} sin
    * @returns {this}
    */
@@ -289,12 +303,21 @@ export class Vector2 {
   /**
    * Divides this vector with a scalar.
    *
-   * @param {number} n
+   * @param {Vector2} v
    * @returns {this}
    */
-  divide(n) {
-    this.multiply(1 / n)
+  divide(v) {
+    Vector2.divide(this, v, this)
 
+    return this
+  }
+
+  /**
+   * @param {number} s
+   * @returns {this}
+   */
+  divideScalar(s){
+    Vector2.divideScalar(this,s,this)
     return this
   }
 
@@ -755,15 +778,39 @@ export class Vector2 {
    * A vector whose x and y values will remain 0.
    *
    * @readonly
-   * @type { Vector2}
+   * @type { Vector2 }
    */
   static ZERO = new Vector2()
 
   /**
-   * Default up direction.
+   * A unit vector pointing in the x-axis.
    *
    * @readonly
-   * @type { Vector2}
+   * @type { Vector2 }
    */
-  static UP = new Vector2(0, 1)
+  static X = new Vector2(1, 0)
+
+  /**
+   * A unit vector pointing in the y-axis.
+   *
+   * @readonly
+   * @type { Vector2 }
+   */
+  static Y = new Vector2(0, 1)
+
+  /**
+   * A unit vector pointing in the negative x-axis.
+   *
+   * @readonly
+   * @type { Vector2 }
+   */
+  static NEG_X = new Vector2(-1, 0)
+
+  /**
+   * A unit vector pointing in the nega y-axis.
+   *
+   * @readonly
+   * @type { Vector2 }
+   */
+  static NEG_Y = new Vector2(0, -1)
 }

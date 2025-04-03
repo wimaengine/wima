@@ -419,4 +419,12 @@ export class Vector4 {
     yield this.z
     yield this.w
   }
+  
+  /**
+   * A vector whose components values will remain 0.
+   *
+   * @readonly
+   * @type {Vector4}
+   */
+  static ZERO = new Vector4()
 }

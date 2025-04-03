@@ -253,4 +253,52 @@ export class Color {
     yield this.b
     yield this.a
   }
+
+  /**
+   * @readonly
+   * @type {Color}
+   */
+  static BLACK = new Color(0, 0, 0)
+
+  /**
+   * @readonly
+   * @type {Color}
+   */
+  static WHITE = new Color(1, 1, 1)
+
+  /**
+   * @readonly
+   * @type {Color}
+   */
+  static RED = new Color(1, 0, 0)
+
+  /**
+   * @readonly
+   * @type {Color}
+   */
+  static GREEN = new Color(0, 1, 0)
+  
+  /**
+   * @readonly
+   * @type {Color}
+   */
+  static BLUE = new Color(0, 0, 1)
+  
+  /**
+   * @readonly
+   * @type {Color}
+   */
+  static YELLOW = new Color(1, 1, 0)
+
+  /**
+   * @readonly
+   * @type {Color}
+   */
+  static PURPLE = new Color(1, 0, 1, 1)
+  
+  /**
+   * @readonly
+   * @type {Color}
+   */
+  static CYAN = new Color(0, 1, 1, 1)
 }
