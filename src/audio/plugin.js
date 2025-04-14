@@ -1,5 +1,5 @@
 import { App } from '../app/index.js'
-import { Audio } from '../asset/index.js'
+import { Audio } from './assets/index.js'
 import { AudioCommands, AudioParser } from './resources/index.js'
 
 export class AudioPlugin {
