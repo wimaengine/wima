@@ -1,8 +1,8 @@
 /** @import { Entity } from "../ecs/index.js"; */
-import { Image, Assets, Handle } from '../asset/index.js'
+import { Assets, Handle } from '../asset/index.js'
 import { Query, World } from '../ecs/index.js'
 import { App, AppSchedule } from '../app/index.js'
-import { Mesh, Material, TextureCache } from '../render-core/index.js'
+import { Mesh, Material, TextureCache,Image } from '../render-core/index.js'
 import { MainWindow, Window, Windows } from '../window/index.js'
 import { warn } from '../logger/index.js'
 import { vertices } from './utils.js'
