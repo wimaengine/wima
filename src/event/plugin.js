@@ -28,7 +28,8 @@ export class EventPlugin {
     
     app
       .registerType(event)
-      .getWorld().setResourceByName(name, new EventDispatch())
+      .getWorld()
+      .setResourceByName(name, new EventDispatch())
     
     // TODO - Once system ordering is implemented,remove this
     // and `App.systemsevents`.

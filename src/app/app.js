@@ -3,10 +3,10 @@
 /** @import { HandleProvider, Parser } from '../asset/index.js' */
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
 import { EventPlugin } from '../event/index.js'
-import { assert,deprecate } from '../logger/index.js'
+import { assert, deprecate } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
 import { SchedulerBuilder, SystemConfig } from './core/index.js'
-import { AssetParserPlugin,AssetPlugin } from '../asset/plugins/index.js'
+import { AssetParserPlugin, AssetPlugin } from '../asset/plugins/index.js'
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
 
@@ -33,7 +33,7 @@ export class App {
   /**
    * This will be removed in future revisions
    * with no prior notice after system ordering is
-   * added
+   * added.
    * 
    * @type {SystemConfig[]}
    */
@@ -173,17 +173,14 @@ export class App {
    * @param {Parser<T>} parser 
    */
   registerAssetParser(asset, parser) {
-    const name = asset.name.toLowerCase()
-
-    this
-      .registerPlugin(new AssetParserPlugin({
+    this.registerPlugin(new AssetParserPlugin({
         
       // this function will be removed so the cast does not 
       // matter much
       // eslint-disable-next-line object-shorthand
       asset:/** @type {any}*/(asset),
       parser
-      }))
+    }))
 
     return this
   }

@@ -79,7 +79,7 @@ export class PerspectiveProjection extends Projection {
    * @param {number} bottom
    * @param {number} near
    * @param {number} far
-   * @param out
+   * @param {Matrix4} out
    */
   static from(left, right, top, bottom, near, far, out = new Matrix4()) {
     const x = 2 * near / (right - left)
@@ -147,7 +147,7 @@ export class OrthographicProjection extends Projection {
    * @param {number} bottom
    * @param {number} near
    * @param {number} far
-   * @param out
+   * @param {Matrix4} out
    */
   static from(left, right, top, bottom, near, far, out = new Matrix4()) {
 

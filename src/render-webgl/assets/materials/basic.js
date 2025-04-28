@@ -8,7 +8,7 @@ import {
 
 export class WebglBasicMaterial extends Material {
 
-  /*
+  /**
    * @type {BasicMaterialFlags}
    *
    * flags = BasicMaterialFlags.None
@@ -74,7 +74,7 @@ export class WebglBasicMaterial extends Material {
 
 // Removed this option as `WebglBasicMaterial.flags` as somehow webgl doesnt work well with bitflags.
 // May readd in the future if i find how to make it work.
-/*
+/**
  * @readonly
  * @enum {number}
  *
