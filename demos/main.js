@@ -21,13 +21,15 @@ import {
   warn,
   createCamera2D
 } from 'wima'
-import spawn from './demos/spawn.js'
-import despawn from './demos/despawn.js'
-import easing from './demos/easing.js'
-import materials from './demos/material.js'
-import keyboard from './demos/keyboard.js'
-import mouse from './demos/mouse.js'
-import touch from './demos/touch.js'
+import {
+  spawn,
+  despawn,
+  keyboard,
+  mouse,
+  touch,
+  easing,
+  materials
+} from './demos/index.js'
 
 const app = new App()
 
