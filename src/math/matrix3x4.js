@@ -124,6 +124,7 @@ export class Matrix3x4 {
   toMatrix4(){
     return Matrix3x4.toMatrix4(this)
   }
+
   /**
    * @param {Matrix3x4} out
    * @param {number} e11
@@ -208,13 +209,25 @@ export class Matrix3x4 {
    * @param {Matrix4} out
    * @returns {Matrix4}
    */
-  static toMatrix4(m,out = new Matrix4()){
+  static toMatrix4(m, out = new Matrix4()){
     return Matrix4.set(
       out,
-      m.a,m.d,m.g,m.j,
-      m.b,m.e,m.h,m.k,
-      m.c,m.f,m.i,m.l,
-      0,0,0,1
+      m.a,
+      m.d,
+      m.g,
+      m.j,
+      m.b,
+      m.e,
+      m.h,
+      m.k,
+      m.c,
+      m.f,
+      m.i,
+      m.l,
+      0,
+      0,
+      0,
+      1
     )
   }
 

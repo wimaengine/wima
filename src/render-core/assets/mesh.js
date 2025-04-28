@@ -96,15 +96,16 @@ export class Mesh {
    */
   static circle2D(radius, resolution = 16) {
     const geometry = new Mesh()
-    const positions = [0,0]
+    const positions = [0, 0]
 
     const spacing = Math.PI * 2 / resolution
 
     for (let i = 0; i <= resolution; i++) {
       const position = Vector2.fromAngle(spacing * i)
-      Vector2.multiplyScalar(position,radius,position)
 
-      positions.push(position.x,position.y)
+      Vector2.multiplyScalar(position, radius, position)
+
+      positions.push(position.x, position.y)
     }
     
     geometry

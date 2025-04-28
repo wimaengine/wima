@@ -64,7 +64,7 @@ export class Collider2D {
    * @param {number} height - Length of a second side.
    * @param {number} angle - The angle between the two sides.
    */
-  static triangle(base, height, angle = Math.asin(height/base)) {
+  static triangle(base, height, angle = Math.asin(height / base)) {
     const l1 = new Vector2(base)
     const l2 = Vector2.fromAngle(angle)
 
