@@ -9,11 +9,6 @@ import {
 export class WebglBasicMaterial extends Material {
 
   /**
-   * @type {BasicMaterialFlags}
-   *
-   * flags = BasicMaterialFlags.None
-   */
-  /**
    * @type {boolean}
    */
   enableVertexColors
