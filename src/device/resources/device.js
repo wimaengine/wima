@@ -61,7 +61,7 @@ export class DeviceCapabilities {
    *
    * @type {boolean}
    */
-  audio = !!new Audio().canPlayType
+  audio = !!document.createElement('audio').canPlayType
 
   /**
    * A list of audio extensions this device supports.
