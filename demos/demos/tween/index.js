@@ -1,1 +1,1 @@
-export {default as easing} from './easing.js'
+export { default as easing } from './easing.js'

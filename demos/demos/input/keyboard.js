@@ -196,8 +196,13 @@ function spawnAlphabet(world) {
   for (let i = 0; i < alphabet.length; i++) {
     const character = characters[i]
     const digit = alphabet[i]
+
+    // eslint-disable-next-line no-nested-ternary
     const nx = i < 10 ? i : i < 19 ? i - 10 : i - 19
+
+    // eslint-disable-next-line no-nested-ternary
     const ny = i < 10 ? 0 : i < 19 ? 1 : 2
+    
     const x = offsetX + nx * (itemWidth + paddingWidth) + paddingWidth + itemWidth / 2 + ((itemWidth + paddingWidth) / 2 * ny)
     const y = offsetY + ny * (itemHeight + paddingHeight) + itemHeight / 2 + itemHeight + paddingHeight
     
