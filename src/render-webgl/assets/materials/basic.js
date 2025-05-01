@@ -9,11 +9,6 @@ import {
 export class WebglBasicMaterial extends Material {
 
   /**
-   * @type {BasicMaterialFlags}
-   *
-   * flags = BasicMaterialFlags.None
-   */
-  /**
    * @type {boolean}
    */
   enableVertexColors
@@ -70,23 +65,3 @@ export class WebglBasicMaterial extends Material {
     ])
   }
 }
-
-
-// Removed this option as `WebglBasicMaterial.flags` as somehow webgl doesnt work well with bitflags.
-// May readd in the future if i find how to make it work.
-/**
- * @readonly
- * @enum {number}
- *
- * export const BasicMaterialFlags = {
- * /**
- * Default flag which doesnt enable any feature.
- * /
- * None: 0,
- * /**
- * Enables vertex colors
- * /
- * VertexColor: 1 << 0,
- * Transparent: 1 << 1
- * }
- */
