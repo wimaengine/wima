@@ -25,8 +25,11 @@ export class Buttons {
    * @param {T} button
    */
   press(button) { 
+    if(!this.innerPressed.has(button)){
+      this.innerJustPressed.add(button)
+    }
+
     this.innerPressed.add(button)
-    this.innerJustPressed.add(button)
   }
 
   /**
