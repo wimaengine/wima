@@ -153,8 +153,8 @@ function renderBasic(ctx, material, mesh) {
   if (!positions) return
 
   ctx.lineWidth = strokeWidth
-  ctx.fillStyle = `rgba(${fill.r},${fill.g},${fill.b},${fill.a})`
-  ctx.strokeStyle = `rgba(${stroke.r},${stroke.g},${stroke.b},${stroke.a})`
+  ctx.fillStyle = `rgba(${fill.r * 255},${fill.g * 255},${fill.b * 255},${fill.a * 255})`
+  ctx.strokeStyle = `rgba(${stroke.r * 255},${stroke.g * 255},${stroke.b * 255},${stroke.a * 255})`
 
   vertices(ctx, positions, true)
   ctx.stroke()
@@ -170,8 +170,8 @@ function renderText(ctx, material) {
 
   ctx.textAlign = align
   ctx.lineWidth = strokeWidth
-  ctx.fillStyle = `rgba(${fill.r},${fill.g},${fill.b},${fill.a})`
-  ctx.strokeStyle = `rgba(${stroke.r},${stroke.g},${stroke.b},${stroke.a})`
+  ctx.fillStyle = `rgba(${fill.r * 255},${fill.g * 255},${fill.b * 255},${fill.a * 255})`
+  ctx.strokeStyle = `rgba(${stroke.r * 255},${stroke.g * 255},${stroke.b * 255},${stroke.a * 255})`
   ctx.font = `${fontSize}px ${font}`
   ctx.textRendering = 'geometricPrecision'
   ctx.fillText(text, 0, 0)
