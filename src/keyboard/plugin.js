@@ -273,6 +273,9 @@ function mapKeyBoardButtons(keycode) {
     case 'Backspace':
       return KeyCode.BackSpace
 
+    case 'Space':
+      return KeyCode.Space
+
     case 'CapsLock':
       return KeyCode.Capslock
 
