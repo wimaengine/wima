@@ -1,4 +1,5 @@
-/** @import { ComponentId, ArchetypeId, Entity, Tuple, ComponentName } from './typedef/index.js'*/
+/** @import { ComponentId, ArchetypeId, Tuple, ComponentName } from './typedef/index.js'*/
+import { Entity } from './entities/index.js'
 import { World } from './registry.js'
 import { ArchetypeTable } from './tables/archetypetable.js'
 
@@ -100,7 +101,7 @@ export class Query {
    */
   get(entity) {
     const entities = this.registry.getEntities()
-    const location = entities.get(entity)
+    const location = entities.get(entity.index)
 
     if(!location) return null
 
