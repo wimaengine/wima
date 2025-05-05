@@ -60,6 +60,9 @@ function renderToCanvas(world) {
   const canvas = canvases.getWindow(window[0])
   const ctx = canvas.getContext('2d')
 
+  const offsetX = window[1].getWidth() / 2
+  const offsetY = window[1].getHeight() / 2
+  
   if (!ctx) return warn('2d context could not be created on the canvas.')
     
   const [cameraTransform] = camera
@@ -67,6 +70,7 @@ function renderToCanvas(world) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.save()
+  ctx.translate(offsetX, offsetY)
   ctx.transform(
     view.a,
     view.b,
