@@ -77,6 +77,20 @@ export class Buttons {
   }
 
   /**
+   * @param {T[]} buttons
+   * @returns {boolean}
+   */
+  anyJustReleased(...buttons){
+    for (let i = 0; i < buttons.length; i++) {
+      if(this.justReleased(buttons[i])){
+        return true
+      }
+    }
+
+    return false
+  }
+
+  /**
    * @param {T} button 
    * @returns {boolean}
    */
