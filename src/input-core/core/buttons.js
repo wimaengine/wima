@@ -49,6 +49,20 @@ export class Buttons {
   }
 
   /**
+   * @param {T[]} buttons
+   * @returns {boolean}
+   */
+  anyJustPressed(...buttons){
+    for (let i = 0; i < buttons.length; i++) {
+      if(this.justPressed(buttons[i])){
+        return true
+      }
+    }
+
+    return false
+  }
+
+  /**
    * @param {T} button 
    * @returns {boolean}
    */
