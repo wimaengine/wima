@@ -2,11 +2,11 @@
 import { Image, Assets, Handle } from '../asset/index.js'
 import { Query, World } from '../ecs/index.js'
 import { App, AppSchedule } from '../app/index.js'
-import { Mesh, Material, TextureCache } from '../render-core/index.js'
+import { Mesh, Material, TextureCache, Camera } from '../render-core/index.js'
 import { MainWindow, Window, Windows } from '../window/index.js'
 import { warn } from '../logger/index.js'
 import { vertices } from './utils.js'
-import { Orientation2D, Position2D, Scale2D } from '../transform/index.js'
+import { GlobalTransform2D } from '../transform/index.js'
 import { MaterialType } from './core/index.js'
 import { CanvasImageMaterial, CanvasMeshedMaterial, CanvasTextMaterial } from './assets/materials/index.js'
 
@@ -39,11 +39,11 @@ function renderToCanvas(world) {
   /** @type {TextureCache<HTMLImageElement>} */
   const textures = world.getResource('texturecache')
 
-  /** @type {Query<[Position2D,Orientation2D,Scale2D,Handle<Mesh>,Handle<Material>]>} */
-  const query = new Query(world, ['position2d', 'orientation2d', 'scale2d', 'meshhandle', 'materialhandle'])
+  /** @type {Query<[GlobalTransform2D,Handle<Mesh>,Handle<Material>]>} */
+  const query = new Query(world, ['globaltransform2d', 'meshhandle', 'materialhandle'])
 
-  /** @type {Query<[Position2D,Orientation2D,Scale2D]>} */
-  const camQuery = new Query(world, ['position2d', 'orientation2d', 'scale2d', 'camera'])
+  /** @type {Query<[GlobalTransform2D,Camera]>} */
+  const camQuery = new Query(world, ['globaltransform2d', 'camera'])
 
   /** @type {Query<[Entity,Window,MainWindow]>} */
   const windows = new Query(world, ['entity', 'window', 'mainwindow'])
@@ -62,23 +62,21 @@ function renderToCanvas(world) {
 
   if (!ctx) return warn('2d context could not be created on the canvas.')
     
-  const [position, orientation, scale] = camera
+  const [cameraTransform] = camera
+  const view = GlobalTransform2D.invert(cameraTransform)
 
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.save()
-  ctx.translate(
-    position.x,
-    position.y
-  )
-  ctx.rotate(
-    orientation.value
-  )
-  ctx.scale(
-    scale.x,
-    scale.y
+  ctx.transform(
+    view.a,
+    view.b,
+    view.c,
+    view.d,
+    view.e,
+    view.f
   )
   
-  query.each(([position, orient, scale, meshhandle, mathandle]) => {
+  query.each(([transform, meshhandle, mathandle]) => {
     const mesh = meshes.getByHandle(meshhandle)
     const material = materials.getByHandle(mathandle)
 
@@ -100,9 +98,14 @@ function renderToCanvas(world) {
 
     ctx.save()
     ctx.beginPath()
-    ctx.translate(position.x, position.y)
-    ctx.rotate(orient.value)
-    ctx.scale(scale.x, scale.y)
+    ctx.transform(
+      transform.a,
+      transform.b,
+      transform.c,
+      transform.d,
+      transform.e,
+      transform.f
+    )
 
     renderMaterial(ctx, material, mesh, textures)
 
