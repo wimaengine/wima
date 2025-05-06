@@ -50,17 +50,17 @@ export function generateTweenFlipSystem(tween) {
 }
 
 /**
- * @param {Function} tween
+ * @template T
+ * @param {typeof Tween<T>} tween
  */
 export function generateTweenTimerSystem(tween) {
-  const name = tween.name.toLowerCase()
 
   /**
    * @param {World} world
    */
   return function updateTimerTween(world) {
     const dt = world.getResource('virtualclock').delta
-    const query = new Query(world, [name])
+    const query = new Query(world, [tween])
 
     query.each(([tween]) => {
       tween.timeTaken = Math.min(tween.timeTaken + dt, tween.duration)
