@@ -1,4 +1,3 @@
-/** @import {Entity} from 'wima' */
 import {
   Mesh,
   CanvasMeshedMaterial,
@@ -9,7 +8,9 @@ import {
   Query,
   EntityCommands,
   Cleanup,
-  warn
+  warn,
+  Window,
+  Entity
 } from 'wima'
 
 export default new Demo('despawn', [init], [update])
@@ -26,7 +27,7 @@ function init(world) {
   const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
   const meshes = world.getResource('assets<mesh>')
   const materials = world.getResource('assets<material>')
-  const window = new Query(world, ['window']).single()
+  const window = new Query(world, [Window]).single()
 
   if (!window) return warn('No window set up')
 
@@ -62,7 +63,7 @@ function init(world) {
  */
 function update(world) {
   const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
-  const entities = new Query(world, ['entity', 'marker'])
+  const entities = new Query(world, [Entity, Marker])
   const entity = entities.single()
 
   if (!entity) return

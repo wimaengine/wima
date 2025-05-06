@@ -10,7 +10,8 @@ import {
   GlobalTransform3D,
   World,
   Cleanup,
-  Query
+  Query,
+  MeshHandle
 } from 'wima'
 import { addCamera3D } from './utils.js'
 
@@ -47,7 +48,7 @@ function addmesh(world) {
  * @param {World} world
  */
 function updateMesh(world) {
-  const query = new Query(world, ['position3d', 'meshhandle'])
+  const query = new Query(world, [Position3D, MeshHandle])
   const clock = world.getResource('virtualclock')
   const dt = clock.getElapsed()
 

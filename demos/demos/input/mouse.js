@@ -1,4 +1,3 @@
-/** @import {Entity} from 'wima' */
 import {
   Mesh,
   CanvasMeshedMaterial,
@@ -11,7 +10,10 @@ import {
   Cleanup,
   Keyboard,
   KeyCode,
-  MouseButton
+  MouseButton,
+  Position2D,
+  MaterialHandle,
+  Entity
 } from 'wima'
 
 const offsetX = 100
@@ -102,7 +104,7 @@ function spawnButtons(world) {
 function updateFollower(world) {
   const { entity } = world.getResource('mouseentity')
   const mouse = world.getResource('mouse')
-  const query = new Query(world, ['position2d'])
+  const query = new Query(world, [Position2D])
   const [position] = query.get(entity)
 
   position.copy(mouse.position)
@@ -115,7 +117,7 @@ function updateButtons(world) {
   const materials = world.getResource('assets<material>')
   const mousebuttons = /** @type {Keyboard} */(world.getResource('mousebuttons'))
   const map = /** @type {KeytoEntityMap} */(world.getResource('keytoentitymap'))
-  const entities = new Query(world, ['entity', 'materialhandle'])
+  const entities = new Query(world, [Entity, MaterialHandle])
 
   map.forEach((id, key) => {
     const entity = entities.get(id)

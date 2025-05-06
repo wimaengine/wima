@@ -9,7 +9,10 @@ import {
   EntityCommands,
   Handle,
   warn,
-  Cleanup
+  Cleanup,
+  Material,
+  Window,
+  Entity
 } from 'wima'
 
 export default new Demo('spawn', [init], [update])
@@ -42,10 +45,10 @@ function init(world) {
  */
 function update(world) {  
   const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
-  const entities = new Query(world, ['entity', 'marker'])
+  const entities = new Query(world, [Entity, Marker])
   const mesh = /** @type {MeshH} */(world.getResource('meshh')).inner
   const material = /** @type {MeshH} */(world.getResource('materialh')).inner
-  const window = new Query(world, ['window']).single()
+  const window = new Query(world, [Window]).single()
   
   if(!window) return warn('No window set up.')
 
