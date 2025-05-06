@@ -31,9 +31,7 @@ export function dampenVelocity3D(world) {
  * @param {World} world
  */
 export function dampenRotation2D(world) {
-
-  /** @type {Query<[Rotation2D]>} */
-  const query = new Query(world, ['rotation2d'])
+  const query = new Query(world, [Rotation2D])
   const angular = 1 - world.getResource('angulardamping')
   
   query.each(([rotation]) => {
