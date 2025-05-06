@@ -1,4 +1,3 @@
-/** @import {Entity} from 'wima' */
 import {
   Assets,
   Material,
@@ -13,7 +12,9 @@ import {
   EntityCommands,
   Cleanup,
   Keyboard,
-  KeyCode
+  KeyCode,
+  Entity,
+  MaterialHandle
 } from 'wima'
 
 const offsetX = 100
@@ -42,7 +43,7 @@ function update(world) {
   const materials = /** @type {Assets<Material>} */(world.getResource('assets<material>'))
   const keyboard = /** @type {Keyboard} */(world.getResource('keyboard'))
   const map = /** @type {KeytoEntityMap} */(world.getResource('keytoentitymap'))
-  const entities = new Query(world, ['entity', 'materialhandle'])
+  const entities = new Query(world, [Entity,MaterialHandle])
 
   map.forEach((id, key) => {
     const entity = entities.get(id)
