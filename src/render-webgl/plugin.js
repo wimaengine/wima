@@ -172,9 +172,7 @@ function registerBuffers(world) {
   
   /** @type {Windows} */
   const canvases = world.getResource('windows')
-
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
+  const windows = new Query(world, [Entity, Window, MainWindow])
 
   const window = windows.single()
 
