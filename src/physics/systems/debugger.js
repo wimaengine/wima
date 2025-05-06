@@ -96,9 +96,7 @@ export function drawVelocity(world) {
  * @param {World} world
  */
 export function drawShapes(world) {
-
-  /** @type {Query<[Entity,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'mainwindow'])
+  const windows = new Query(world, [Entity, MainWindow])
 
   /** @type {Windows} */
   const canvases = world.getResource('windows')
@@ -109,8 +107,7 @@ export function drawShapes(world) {
 
   if (!ctx) return
 
-  /** @type {Query<[Collider2D]>} */
-  const query = new Query(world, ['collider2d'])
+  const query = new Query(world, [Collider2D])
 
   query.each(([shape]) => {
     ctx.beginPath()
