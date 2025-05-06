@@ -26,8 +26,7 @@ export function updateBodies(world) {
  */
 export function updateBounds(world) {
 
-  /** @type {Query<[Collider2D,PhysicsHitbox]>} */
-  const query = new Query(world, ['collider2d', 'physicshitbox'])
+  const query = new Query(world, [Collider2D, PhysicsHitbox])
 
   query.each(([shape, bound]) => {
     let minX = Number.MAX_SAFE_INTEGER,
