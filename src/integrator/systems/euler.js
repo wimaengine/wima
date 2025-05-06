@@ -1,7 +1,7 @@
 import { Query, World } from '../../ecs/index.js'
 import { Vector2, Vector3 } from '../../math/index.js'
 import { Acceleration2D, Acceleration3D, Rotation2D, Rotation3D, Torque2D, Torque3D, Velocity2D, Velocity3D } from '../../movable/index.js'
-import { Orientation2D, Position2D, Position3D } from '../../transform/index.js'
+import { Orientation2D, Orientation3D, Position2D, Position3D } from '../../transform/index.js'
 
 /**
  * @param {World} world
@@ -115,7 +115,7 @@ export function updatePositionEuler3D(world) {
  * @param {World} world
  */
 export function updateOrientationEuler3D(world) {
-  const query = new Query(world, ['orientation3d', 'rotation3d'])
+  const query = new Query(world, [Orientation3D, Rotation3D])
 
   query.each(([orientation, rotation]) => {
 
