@@ -13,7 +13,8 @@ import {
   Color,
   Demo,
   Cleanup,
-  warn
+  warn,
+  Window
 } from 'wima'
 
 export default new Demo('easing', [init])
@@ -25,7 +26,7 @@ function init(world) {
   const commands = world.getResource('entitycommands')
   const meshes = world.getResource('assets<mesh>')
   const materials = world.getResource('assets<material>')
-  const window = new Query(world, ['window']).single()
+  const window = new Query(world, [Window]).single()
   
   if(!window) return warn('No window is set up')
 
