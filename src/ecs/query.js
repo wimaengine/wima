@@ -227,3 +227,8 @@ export class Query {
 /**
  * @typedef {new (...args:any[])=>unknown} Constructor
  */
+
+/**
+ * @template {Constructor[]} T
+ * @typedef {{[K in keyof T]:InstanceType<T[K]>}} InstanceTypeTuple
+ */
