@@ -43,8 +43,8 @@ export class World {
   }
 
   /**
-   * @template {Tuple} T
-   * @param {T} components
+   * @template {{}[]} T
+   * @param {[...T]} components
    * @returns {ComponentId[]}
    */
   getComponentIds(components) {
