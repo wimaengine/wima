@@ -1,6 +1,6 @@
 import { Query, World } from '../../ecs/index.js'
 import { Vector2, Vector3 } from '../../math/index.js'
-import { Acceleration2D, Rotation2D, Torque2D, Velocity2D } from '../../movable/index.js'
+import { Acceleration2D, Rotation2D, Rotation3D, Torque2D, Torque3D, Velocity2D } from '../../movable/index.js'
 
 /**
  * @param {World} world
@@ -83,7 +83,7 @@ export function updateVelocityEuler3D(world) {
  * @param {World} world
  */
 export function updateAngularEuler3D(world) {
-  const query = new Query(world, ['rotation3d', 'torque3d'])
+  const query = new Query(world, [Rotation3D, Torque3D])
 
   query.each(([rotation, torque]) => {
 
