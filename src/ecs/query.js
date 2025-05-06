@@ -223,3 +223,7 @@ export class Query {
  * @param {T} components2
  * @returns {void}
  */
+
+/**
+ * @typedef {new (...args:any[])=>unknown} Constructor
+ */
