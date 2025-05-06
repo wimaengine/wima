@@ -140,10 +140,10 @@ export class ArchetypeTable {
   }
 
   /**
-   * @template {Tuple} T
+   * @template {unknown[]} T
    * @param {ArchetypeId} id
    * @param {ComponentId[]} keys
-   * @param {T} components
+   * @param {[...T]} components
    */
   insertIntoArchetype(id, keys, components) {
     const archetype = this.list[id]
