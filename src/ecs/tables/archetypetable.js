@@ -165,7 +165,7 @@ export class ArchetypeTable {
   /**
    * @param {ArchetypeId} id
    * @param {number} index
-   * @returns {[ComponentId[],Tuple]}
+   * @returns {[ComponentId[],unknown[]]}
    */
   extract(id, index) {
     const keys = []
