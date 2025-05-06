@@ -25,7 +25,8 @@ import { ArchetypeTable } from './tables/archetypetable.js'
  * // are available
  * ```
  * 
- * @template {Tuple} T
+ * @template {InstanceTypeTuple<U>} T
+ * @template {Constructor[]} U 
  */
 export class Query {
 
@@ -55,10 +56,11 @@ export class Query {
 
   /**
    * @param {World} registry
-   * @param {ComponentName[]} descriptors
+   * @param {[...U]} componentTypes
    */
-  constructor(registry, descriptors) {
+  constructor(registry, componentTypes) {
     this.registry = registry
+    const descriptors = componentTypes.map((type) => type.name.toLowerCase())
 
     for (let i = 0; i < descriptors.length; i++) {
       this.components[i] = []
@@ -74,7 +76,7 @@ export class Query {
   update(table) {
     const { descriptors, components } = this
     const archids = table.getArchetypeIds(descriptors, [])
-
+    
     for (let i = 0; i < archids.length; i++) {
       this.archmapper.set(archids[i], i)
     }
