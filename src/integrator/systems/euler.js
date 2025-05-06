@@ -1,11 +1,12 @@
 import { Query, World } from '../../ecs/index.js'
 import { Vector2, Vector3 } from '../../math/index.js'
+import { Acceleration2D, Velocity2D } from '../../movable/index.js'
 
 /**
  * @param {World} world
  */
 export function updateVelocityEuler2D(world) {
-  const query = new Query(world, ['velocity2d', 'acceleration2d'])
+  const query = new Query(world, [Velocity2D, Acceleration2D])
   const dt = 1 / 60
 
   query.each(([velocity, acceleration]) => {
