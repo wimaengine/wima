@@ -1,4 +1,4 @@
-/** @import { Entity, Tuple } from '../../ecs/index.js' */
+/** @import { Entity } from '../../ecs/index.js' */
 import { CommandQueue } from '../core/index.js'
 import { SpawnCommand, DespawnCommand } from '../commands/index.js'
 import { assert } from '../../logger/index.js'
@@ -103,8 +103,8 @@ export class EntityCommands {
   }
 
   /**
-   * @template {Tuple} T
-   * @param {T} components
+   * @template {unknown[]} T
+   * @param {[...T]} components
    * @returns {this}
    */
   insertPrefab(components) {
