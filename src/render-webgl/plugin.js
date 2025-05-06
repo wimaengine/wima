@@ -5,7 +5,7 @@ import { EventDispatch } from '../event/index.js'
 import { assert, warn } from '../logger/index.js'
 import { Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache } from '../render-core/index.js'
 import { GlobalTransform3D } from '../transform/index.js'
-import { MainWindow, WindowResize, Windows } from '../window/index.js'
+import { MainWindow, Window, WindowResize, Windows } from '../window/index.js'
 import { materialAddHook, meshAddHook } from './hooks/index.js'
 import { AttributeMap, ClearColor, MeshCache, UBOCache } from './resources/index.js'
 
