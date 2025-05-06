@@ -46,12 +46,8 @@ export function drawBounds(world) {
  * @param {World} world
  */
 export function drawPosition(world) {
-
-  /** @type {Query<[Position2D]>}*/
-  const query = new Query(world, ['position2d'])
-
-  /** @type {Query<[Entity,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'mainwindow'])
+  const query = new Query(world, [Position2D])
+  const windows = new Query(world, [Entity, MainWindow])
 
   /** @type {Windows} */
   const canvases = world.getResource('windows')
