@@ -1,4 +1,3 @@
-/** @import {Entity} from 'wima' */
 import {
   Mesh,
   CanvasMeshedMaterial,
@@ -10,7 +9,9 @@ import {
   EntityCommands,
   warn,
   Cleanup,
-  Touches
+  Touches,
+  Entity,
+  MaterialHandle
 } from 'wima'
 
 /** @type {Map<number,Entity>} */
@@ -56,7 +57,7 @@ function update(world) {
   const materials = world.getResource('assets<material>')
   const touches = /** @type {Touches} */(world.getResource('touches'))
   const map = /** @type {TouchtoEntityMap} */(world.getResource('touchtoentitymap'))
-  const entities = new Query(world, ['position2d', 'materialhandle'])
+  const entities = new Query(world, [Entity,MaterialHandle])
 
   map.forEach((id, key) => {
     const touch = touches.get(key)
