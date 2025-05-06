@@ -212,9 +212,9 @@ export class Query {
 }
 
 /**
- * @template {Tuple} T
+ * @template {unknown[]} T
  * @callback EachFunc
- * @param {T} components
+ * @param {[...T]} components
  * @returns {void}
  */
 
