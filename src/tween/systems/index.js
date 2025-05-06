@@ -70,20 +70,17 @@ export function generateTweenTimerSystem(tween) {
 
 /**
  * @template T
- * @param {Function} component
- * @param {Function} tween
+ * @param {new (args:any[]) => T} component
+ * @param {typeof Tween<T>} tween
  * @param {TweenLerp<T>} interpolate
  */
 export function generateTweenUpdateSystem(component, tween, interpolate) {
-  const name = component.name.toLowerCase()
-  const tweenName = tween.name.toLowerCase()
-
 
   /**
    * @param {World} world
    */
   return function updateTween(world) {
-    const query = new Query(world, [name, tweenName])
+    const query = new Query(world, [component, tween])
 
     query.each(([component, tween]) => {
       const t = tween.easing(
