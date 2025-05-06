@@ -130,8 +130,8 @@ export class World {
   /**
    * Adds an entity to the registry.
    *
-   * @template {Tuple} T
-   * @param {T} components - The entity to add.
+   * @template {{}[]} T
+   * @param {[...T]} components - The entity to add.
    * @returns {Entity}
    */
   create(components) {
