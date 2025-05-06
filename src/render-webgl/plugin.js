@@ -140,9 +140,7 @@ function render(world) {
  * @param {World} world
  */
 function resizegl(world) {
-
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
+  const windows = new Query(world, [Entity, Window, MainWindow])
 
   /** @type {Windows} */
   const canvases = world.getResource('windows')
