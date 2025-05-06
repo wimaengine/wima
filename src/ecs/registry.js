@@ -4,7 +4,7 @@ import { ArchetypeTable } from './tables/index.js'
 import { TypeStore } from './typestore.js'
 import { assert } from '../logger/index.js'
 import { ComponentHooks } from './component/index.js'
-import { Entities,Entity } from './entities/index.js'
+import { Entities, Entity } from './entities/index.js'
 import { EntityLocation } from './entities/location.js'
 
 export class World {
