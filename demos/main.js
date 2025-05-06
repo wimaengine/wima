@@ -1,4 +1,3 @@
-/** @import {Entity} from 'wima' */
 import {
   App,
   AppSchedule,
@@ -19,7 +18,8 @@ import {
   MainWindow,
   Query,
   warn,
-  createCamera2D
+  createCamera2D,
+  Entity
 } from 'wima'
 import {
   spawn,
@@ -73,7 +73,7 @@ function setupCamera(world) {
  */
 function setupViewport(world) {
   const windowcommands = world.getResource('windowcommands')
-  const window = /** @type {Query<[Entity,MainWindow]>} */(new Query(world, ['entity', 'mainwindow'])).single()
+  const window = new Query(world, [Entity,MainWindow]).single()
 
   if (!window) return warn('No main window defined.')
 
