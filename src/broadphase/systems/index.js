@@ -27,9 +27,7 @@ export function updateBroadphase2D(world) {
 
   /** @type {Broadphase2D}*/
   const broadphase = world.getResource('broadphase2d')
-
-  /** @type {Query<[Entity,PhysicsHitbox]>} */
-  const query = new Query(world, ['entity', 'physicshitbox'])
+  const query = new Query(world, [Entity, PhysicsHitbox])
 
   broadphase.clear()
 
