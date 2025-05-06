@@ -1,5 +1,4 @@
-/** @import { Entity, Tuple } from '../../ecs/index.js' */
-import { World } from '../../ecs/index.js'
+import { World, Entity } from '../../ecs/index.js'
 import { Command } from '../core/index.js'
 
 export class SpawnCommand extends Command {
@@ -32,8 +31,8 @@ export class SpawnCommand extends Command {
   }
 
   /**
-   * @template {Tuple} T
-   * @param {T} components
+   * @template {unknown[]} T
+   * @param {[...T]} components
    */
   insertPrefab(components) {
     this.components.push(...components)
