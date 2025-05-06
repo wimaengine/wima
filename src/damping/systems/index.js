@@ -6,9 +6,7 @@ import { Rotation2D, Rotation3D, Velocity2D, Velocity3D } from '../../movable/in
  * @param {World} world
  */
 export function dampenVelocity2D(world) {
-
-  /** @type {Query<[Velocity2D]>} */
-  const query = new Query(world, ['velocity2d'])
+  const query = new Query(world, [Velocity2D])
 
   const linear = 1 - world.getResource('lineardamping')
   
