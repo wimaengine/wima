@@ -1,11 +1,11 @@
-/** @import { Entity } from '../../ecs/index.js'*/
 import { Collider2D } from '../components/index.js'
 import { Vector2 } from '../../math/index.js'
 import { vertices } from '../../render-canvas2d/index.js'
-import { Query, World } from '../../ecs/index.js'
+import { Query, World, Entity } from '../../ecs/index.js'
 import { Position2D } from '../../transform/index.js'
 import { PhysicsHitbox } from '../../broadphase/index.js'
 import { MainWindow, Windows } from '../../window/index.js'
+import { Velocity2D } from '../../movable/index.js'
 
 /**
  * @param {World} world
@@ -79,10 +79,8 @@ export function drawPosition(world) {
  * @param {World} world
  */
 export function drawVelocity(world) {
-  const query = new Query(world, ['position2d', 'velocity2d'])
-
-  /** @type {Query<[Entity,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'mainwindow'])
+  const query = new Query(world, [Position2D, Velocity2D])
+  const windows = new Query(world, [Entity, MainWindow])
 
   /** @type {Windows} */
   const canvases = world.getResource('windows')
