@@ -1,11 +1,13 @@
 import { Query, World } from '../../ecs/index.js'
 import { Vector2 } from '../../math/index.js'
+import { Acceleration2D, Velocity2D } from '../../movable/index.js'
+import { Position2D } from '../../transform/index.js'
 
 /**
  * @param {World} world
  */
 export function updatePositionVerlet2D(world) {
-  const query = new Query(world, ['position2d', 'velocity2d', 'acceleration2d'])
+  const query = new Query(world, [Position2D, Velocity2D, Acceleration2D])
   const dt = 1 / 60
 
   query.each(([position, velocity, acceleration]) => {
