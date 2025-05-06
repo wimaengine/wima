@@ -1,18 +1,19 @@
 /** @import {TweenLerp} from '../typedef/index.js' */
 import { Query, World } from '../../ecs/index.js'
+import { TweenRepeat } from '../components/markers.js'
+import { Tween } from '../components/tween.js'
 
 /**
- * @param {Function} tween
+ * @template T
+ * @param {typeof Tween<T>} tween
  */
 export function generateTweenRepeatTween(tween) {
-  const name = tween.name.toLowerCase()
-
 
   /**
    * @param {World} world
    */
   return function repeatTween(world) {
-    const query = new Query(world, [name, 'tweenrepeat'])
+    const query = new Query(world, [tween, TweenRepeat])
 
     query.each(([tween, _]) => {
       if (tween.timeTaken >= tween.duration) {
