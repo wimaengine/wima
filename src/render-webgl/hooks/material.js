@@ -1,5 +1,5 @@
-/** @import {ComponentHook, Entity} from "../../ecs/index" */
-import { Query } from '../../ecs/index.js'
+/** @import {ComponentHook } from "../../ecs/index.js" */
+import { Query, Entity } from '../../ecs/index.js'
 import { Assets, Handle } from '../../asset/index.js'
 import { Material, ProgramCache, ShaderStage } from '../../render-core/index.js'
 import { createShader, createProgram, validateProgram, validateShader, WebglRenderPipeline } from '../core/index.js'
@@ -29,8 +29,7 @@ export function materialAddHook(entity, world) {
   /** @type {ProgramCache<WebGLProgram>} */
   const renderpipelines = world.getResource('programcache')
 
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
+  const windows = new Query(world, [Entity, Window, MainWindow])
 
   /** @type {Windows} */
   const canvases = world.getResource('windows')

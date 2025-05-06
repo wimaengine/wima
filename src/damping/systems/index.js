@@ -6,9 +6,7 @@ import { Rotation2D, Rotation3D, Velocity2D, Velocity3D } from '../../movable/in
  * @param {World} world
  */
 export function dampenVelocity2D(world) {
-
-  /** @type {Query<[Velocity2D]>} */
-  const query = new Query(world, ['velocity2d'])
+  const query = new Query(world, [Velocity2D])
 
   const linear = 1 - world.getResource('lineardamping')
   
@@ -21,10 +19,7 @@ export function dampenVelocity2D(world) {
  * @param {World} world
  */
 export function dampenVelocity3D(world) {
-
-  /** @type {Query<[Velocity3D]>} */
-  const query = new Query(world, ['velocity3d'])
-
+  const query = new Query(world, [Velocity3D])
   const linear = 1 - world.getResource('lineardamping')
   
   query.each(([velocity]) => {
@@ -36,9 +31,7 @@ export function dampenVelocity3D(world) {
  * @param {World} world
  */
 export function dampenRotation2D(world) {
-
-  /** @type {Query<[Rotation2D]>} */
-  const query = new Query(world, ['rotation2d'])
+  const query = new Query(world, [Rotation2D])
   const angular = 1 - world.getResource('angulardamping')
   
   query.each(([rotation]) => {
@@ -51,8 +44,7 @@ export function dampenRotation2D(world) {
  */
 export function dampenRotation3D(world) {
 
-  /** @type {Query<[Rotation3D]>} */
-  const query = new Query(world, ['rotation3d'])
+  const query = new Query(world, [Rotation3D])
   const angular = 1 - world.getResource('angulardamping')
   
   query.each(([rotation]) => {

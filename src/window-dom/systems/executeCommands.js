@@ -12,7 +12,7 @@ export function executeWindowCommands(world) {
 
   /** @type {Windows} */
   const canvases = world.getResource('windows')
-  const windows = new Query(world, ['window'])
+  const windows = new Query(world, [Window])
 
   const buffer = commands.getBuffer()
   

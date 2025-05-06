@@ -1,7 +1,6 @@
-/** @import {Entity} from '../ecs/index.js'; */
 import { App, AppSchedule } from '../app/index.js'
-import { Assets, Handle } from '../asset/index.js'
-import { ComponentHooks, Query, World } from '../ecs/index.js'
+import { Assets } from '../asset/index.js'
+import { ComponentHooks, Entity, Query, World } from '../ecs/index.js'
 import { EventDispatch } from '../event/index.js'
 import { assert, warn } from '../logger/index.js'
 import { Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache } from '../render-core/index.js'
@@ -74,15 +73,9 @@ function render(world) {
 
   /** @type {ClearColor} */
   const clearColor = world.getResource('clearcolor')
-
-  /** @type {Query<[GlobalTransform3D,Handle<Mesh>,Handle<Material>]>} */
-  const query = new Query(world, ['globaltransform3d', 'meshhandle', 'materialhandle'])
-
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
-
-  /** @type {Query<[GlobalTransform3D,Camera]>} */
-  const cameras = new Query(world, ['globaltransform3d', 'camera'])
+  const query = new Query(world, [GlobalTransform3D, MeshHandle, MaterialHandle])
+  const windows = new Query(world, [Entity, Window, MainWindow])
+  const cameras = new Query(world, [GlobalTransform3D, Camera])
 
   const window = windows.single()
 
@@ -147,9 +140,7 @@ function render(world) {
  * @param {World} world
  */
 function resizegl(world) {
-
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
+  const windows = new Query(world, [Entity, Window, MainWindow])
 
   /** @type {Windows} */
   const canvases = world.getResource('windows')
@@ -181,9 +172,7 @@ function registerBuffers(world) {
   
   /** @type {Windows} */
   const canvases = world.getResource('windows')
-
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
+  const windows = new Query(world, [Entity, Window, MainWindow])
 
   const window = windows.single()
 

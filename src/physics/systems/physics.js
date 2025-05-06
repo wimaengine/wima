@@ -9,9 +9,7 @@ import { Orientation2D, Position2D, Scale2D } from '../../transform/index.js'
  * @param {World} world
  */
 export function updateBodies(world) {
-
-  /** @type {Query<[Position2D,Orientation2D,Scale2D,Collider2D]>} */
-  const query = new Query(world, ['position2d', 'orientation2d', 'scale2d', 'collider2d'])
+  const query = new Query(world, [Position2D, Orientation2D, Scale2D, Collider2D])
 
   query.each(([position, orientation, scale, shape]) => {
     Collider2D.update(
@@ -28,8 +26,7 @@ export function updateBodies(world) {
  */
 export function updateBounds(world) {
 
-  /** @type {Query<[Collider2D,PhysicsHitbox]>} */
-  const query = new Query(world, ['collider2d', 'physicshitbox'])
+  const query = new Query(world, [Collider2D, PhysicsHitbox])
 
   query.each(([shape, bound]) => {
     let minX = Number.MAX_SAFE_INTEGER,

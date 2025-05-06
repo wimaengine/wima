@@ -1,8 +1,7 @@
-/** @import { Entity } from "../ecs/index.js"; */
-import { Image, Assets, Handle } from '../asset/index.js'
-import { Query, World } from '../ecs/index.js'
+import { Image, Assets } from '../asset/index.js'
+import { Entity, Query, World } from '../ecs/index.js'
 import { App, AppSchedule } from '../app/index.js'
-import { Mesh, Material, TextureCache, Camera } from '../render-core/index.js'
+import { Mesh, Material, TextureCache, Camera, MeshHandle, MaterialHandle } from '../render-core/index.js'
 import { MainWindow, Window, Windows } from '../window/index.js'
 import { warn } from '../logger/index.js'
 import { vertices } from './utils.js'
@@ -38,16 +37,10 @@ function renderToCanvas(world) {
 
   /** @type {TextureCache<HTMLImageElement>} */
   const textures = world.getResource('texturecache')
-
-  /** @type {Query<[GlobalTransform2D,Handle<Mesh>,Handle<Material>]>} */
-  const query = new Query(world, ['globaltransform2d', 'meshhandle', 'materialhandle'])
-
-  /** @type {Query<[GlobalTransform2D,Camera]>} */
-  const camQuery = new Query(world, ['globaltransform2d', 'camera'])
-
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
-
+  const query = new Query(world, [GlobalTransform2D, MeshHandle, MaterialHandle])
+  const camQuery = new Query(world, [GlobalTransform2D, Camera])
+  const windows = new Query(world, [Entity, Window, MainWindow])
+  
   /** @type {Windows} */
   const canvases = world.getResource('windows')
 

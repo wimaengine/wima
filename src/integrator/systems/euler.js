@@ -1,11 +1,13 @@
 import { Query, World } from '../../ecs/index.js'
 import { Vector2, Vector3 } from '../../math/index.js'
+import { Acceleration2D, Acceleration3D, Rotation2D, Rotation3D, Torque2D, Torque3D, Velocity2D, Velocity3D } from '../../movable/index.js'
+import { Orientation2D, Orientation3D, Position2D, Position3D } from '../../transform/index.js'
 
 /**
  * @param {World} world
  */
 export function updateVelocityEuler2D(world) {
-  const query = new Query(world, ['velocity2d', 'acceleration2d'])
+  const query = new Query(world, [Velocity2D, Acceleration2D])
   const dt = 1 / 60
 
   query.each(([velocity, acceleration]) => {
@@ -22,7 +24,7 @@ export function updateVelocityEuler2D(world) {
  * @param {World} world
  */
 export function updateAngularEuler2D(world) {
-  const query = new Query(world, ['rotation2d', 'torque2d'])
+  const query = new Query(world, [Rotation2D, Torque2D])
   const dt = 1 / 60
 
   query.each(([rotation, torque]) => {
@@ -35,7 +37,7 @@ export function updateAngularEuler2D(world) {
  * @param {World} world
  */
 export function updatePositionEuler2D(world) {
-  const query = new Query(world, ['position2d', 'velocity2d'])
+  const query = new Query(world, [Position2D, Velocity2D])
   const dt = 1 / 60
 
   query.each(([position, velocity]) => {
@@ -51,7 +53,7 @@ export function updatePositionEuler2D(world) {
  * @param {World} world
  */
 export function updateOrientationEuler2D(world) {
-  const query = new Query(world, ['orientation2d', 'rotation2d'])
+  const query = new Query(world, [Orientation2D, Rotation2D])
   const dt = 1 / 60
 
   query.each(([orientation, rotation]) => {
@@ -64,7 +66,7 @@ export function updateOrientationEuler2D(world) {
  * @param {World} world
  */
 export function updateVelocityEuler3D(world) {
-  const query = new Query(world, ['velocity3d', 'acceleration3d'])
+  const query = new Query(world, [Velocity3D, Acceleration3D])
   const dt = 1 / 60
 
   query.each(([velocity, acceleration]) => {
@@ -82,7 +84,7 @@ export function updateVelocityEuler3D(world) {
  * @param {World} world
  */
 export function updateAngularEuler3D(world) {
-  const query = new Query(world, ['rotation3d', 'torque3d'])
+  const query = new Query(world, [Rotation3D, Torque3D])
 
   query.each(([rotation, torque]) => {
 
@@ -96,7 +98,7 @@ export function updateAngularEuler3D(world) {
  * @param {World} world
  */
 export function updatePositionEuler3D(world) {
-  const query = new Query(world, ['position3d', 'velocity3d'])
+  const query = new Query(world, [Position3D, Velocity3D])
   const dt = 1 / 60
 
   query.each(([position, velocity]) => {
@@ -113,7 +115,7 @@ export function updatePositionEuler3D(world) {
  * @param {World} world
  */
 export function updateOrientationEuler3D(world) {
-  const query = new Query(world, ['orientation3d', 'rotation3d'])
+  const query = new Query(world, [Orientation3D, Rotation3D])
 
   query.each(([orientation, rotation]) => {
 
