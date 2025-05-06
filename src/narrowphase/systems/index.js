@@ -1,9 +1,11 @@
 import { Vector2, clamp } from '../../math/index.js'
-import { Collider2D } from '../../physics/components/index.js'
+import { Collider2D, PhysicsProperties } from '../../physics/components/index.js'
 import { PhysicsSettings } from '../../physics/settings.js'
 import { canCollide, shapeContains, generatePairID, CollisionData, CollisionManifold } from '../core/index.js'
 import { Query, World } from '../../ecs/index.js'
 import { SATNarrowphase2D } from '../resources/index.js'
+import { Position2D } from '../../transform/index.js'
+import { Rotation2D, Velocity2D } from '../../movable/index.js'
 
 
 const
@@ -27,7 +29,7 @@ export function getSATContacts(world) {
   const narrowphase = world.getResource('satnarrowphase2d')
   const pairs = world.getResource('collisionpairs')
   const contacts = world.getResource('contacts')
-  const query = new Query(world, ['position2d', 'velocity2d', 'rotation2d', 'collider2d', 'physicsproperties'])
+  const query = new Query(world, [Position2D, Velocity2D, Rotation2D, Collider2D, PhysicsProperties])
 
   contacts.length = 0
 
