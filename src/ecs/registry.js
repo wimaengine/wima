@@ -1,4 +1,4 @@
-/** @import { ComponentId, Tuple } from './typedef/index.js'*/
+/** @import { ComponentId } from './typedef/index.js'*/
 
 import { ArchetypeTable } from './tables/index.js'
 import { TypeStore } from './typestore.js'
@@ -198,8 +198,8 @@ export class World {
   }
 
   /**
-   * @template {Tuple} T
-   * @param {T[]} entities
+   * @template {{}[]} T
+   * @param {[...T][]} entities
    */
   createMany(entities) {
     for (let i = 0; i < entities.length; i++) {
