@@ -8,7 +8,7 @@ export class SpawnCommand extends Command {
    * @readonly
    * @type {Entity}
    */
-  entity = 0
+  entity
 
   /**
    * @type {any[]}

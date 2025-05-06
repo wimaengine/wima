@@ -6,7 +6,7 @@ export class Windows {
 
   /**
    * @private
-   * @type {Map<Entity,HTMLCanvasElement>}
+   * @type {Map<number,HTMLCanvasElement>}
    */
   entities = new Map()
 
@@ -15,8 +15,8 @@ export class Windows {
    * @returns {HTMLCanvasElement}
    */
   getWindow(entity){
-    const window = this.entities.get(entity)
-
+    const window = this.entities.get(entity.index)
+    
     assert(window, 'the provided window entity does not have a corresponding canvas element.')
 
     return window
@@ -27,13 +27,13 @@ export class Windows {
    * @param {HTMLCanvasElement} window
    */
   setWindow(entity, window){
-    this.entities.set(entity, window)
+    this.entities.set(entity.index, window)
   }
   
   /**
    * @param {Entity} entity
    */
   delete(entity){
-    this.entities.delete(entity)
+    this.entities.delete(entity.index)
   }
 }

@@ -7,7 +7,7 @@ export class DespawnCommand extends Command {
   /**
    * @type {Entity}
    */
-  entity = 0
+  entity
 
   /**
    * @param {Entity} entity

@@ -1,10 +1,10 @@
-/** @import { ComponentId, Tuple, Entity } from './typedef/index.js'*/
+/** @import { ComponentId, Tuple } from './typedef/index.js'*/
 
 import { ArchetypeTable } from './tables/index.js'
 import { TypeStore } from './typestore.js'
 import { assert } from '../logger/index.js'
 import { ComponentHooks } from './component/index.js'
-import { Entities } from './entities/entities.js'
+import { Entities, Entity } from './entities/index.js'
 import { EntityLocation } from './entities/location.js'
 
 export class World {
@@ -32,12 +32,7 @@ export class World {
    */
   entities = new Entities()
   constructor() {
-
-    // Because the type `Entity` is a typedef, not an actual class.
-    // @ts-ignore
-    this.typestore.set({
-      name: 'entity'
-    })
+    this.typestore.set(Entity)
   }
 
   /**
@@ -140,23 +135,25 @@ export class World {
    * @returns {Entity}
    */
   create(components) {
-    const entity = this.entities.reserve()
+    const entityIndex = this.entities.reserve()
+
+    // SAFETY: the entity was reserved in this function so we know its there.
+    const location = /** @type {EntityLocation}*/(this.entities.get(entityIndex))
     const ids = this.getComponentIds(components)
+    const entity = new Entity(entityIndex)
     
     assert(ids, `Cannot insert "${components.map((e) => `\`${e.constructor.name}\``).join(', ')}" into \`ArchetypeTable\`.Ensure that all of them are registered properly using \`World.registerType()\``)
     
     ids.push(0)
     components.push(entity)
     
-    const [id, index] = this.table.insert(components, ids)
+    const [id, tableIndex] = this.table.insert(components, ids)
     
-    // SAFETY: the entity was reserved in this function so we know its there.
-    const location = /** @type {EntityLocation}*/(this.entities.get(entity))
 
     location.archid = id
-    location.index = index
+    location.index = tableIndex
     this.callAddComponentHook(entity, ids)
-
+    
     return entity
   }
 
@@ -168,7 +165,7 @@ export class World {
    * @param {T} components - The entity to add.
    */
   insert(entity, components) {
-    const location = this.entities.get(entity)
+    const location = this.entities.get(entity.index)
     
     assert(location, 'Cannot insert to an entity not created on the world.Use `World.create()` then try to insert the given entity into the world.')
 
@@ -191,7 +188,7 @@ export class World {
     location.index = newIndex
 
     if (swapped){
-      const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped))
+      const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped.index))
 
       swappedlocation.index = index
     }
@@ -218,7 +215,7 @@ export class World {
    * @param {Entity} entity - The entity to remove.
    */
   remove(entity) {
-    const location = this.entities.get(entity)
+    const location = this.entities.get(entity.index)
 
     if(!location) return
 
@@ -235,10 +232,10 @@ export class World {
 
     location.archid = -1
     location.index = -1
-    this.entities.recycle(entity)
+    this.entities.recycle(entity.index)
 
     if (swapped){
-      const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped))
+      const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped.index))
 
       swappedlocation.index = index
     }
@@ -251,7 +248,7 @@ export class World {
    * @returns {T | null}
    */
   get(entity, compName) {
-    const location = this.entities.get(entity)
+    const location = this.entities.get(entity.index)
 
     if(!location) return null
 
