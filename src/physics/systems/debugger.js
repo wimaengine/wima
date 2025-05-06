@@ -171,9 +171,7 @@ export function drawArms(world) {
  * @param {World} world
  */
 export function drawContacts(world) {
-
-  /** @type {Query<[Entity,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'mainwindow'])
+  const windows = new Query(world, [Entity, MainWindow])
 
   /** @type {Windows} */
   const canvases = world.getResource('windows')
