@@ -16,6 +16,6 @@ export class Entity {
    * @param {Entity} other
    */
   equals(other){
-    return this.index == other.index
+    return this.index === other.index
   }
 }
