@@ -1,6 +1,7 @@
 import { Query, World } from '../../ecs/index.js'
 import { Vector2, Vector3 } from '../../math/index.js'
 import { Acceleration2D, Acceleration3D, Rotation2D, Rotation3D, Torque2D, Torque3D, Velocity2D, Velocity3D } from '../../movable/index.js'
+import { Position2D } from '../../transform/index.js'
 
 /**
  * @param {World} world
@@ -36,7 +37,7 @@ export function updateAngularEuler2D(world) {
  * @param {World} world
  */
 export function updatePositionEuler2D(world) {
-  const query = new Query(world, ['position2d', 'velocity2d'])
+  const query = new Query(world, [Position2D, Velocity2D])
   const dt = 1 / 60
 
   query.each(([position, velocity]) => {
