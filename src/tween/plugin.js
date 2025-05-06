@@ -107,7 +107,7 @@ export class TweenPlugin {
 /**
  * @template T
  * @typedef TweenPluginOptions
- * @property {Function} component
- * @property {Function} tween
+ * @property {new (...args:any[])=>T} component
+ * @property {typeof Tween<T>} tween
  * @property {TweenLerp<T>} interpolation
  */
