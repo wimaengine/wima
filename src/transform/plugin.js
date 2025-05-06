@@ -63,7 +63,7 @@ export class TransformPlugin {
  * @param {World} world
  */
 function synctransform2D(world) {
-  const query = new Query(world, ['position2d', 'orientation2d', 'scale2d', 'globaltransform2d'])
+  const query = new Query(world, [Position2D, Orientation2D, Scale2D, GlobalTransform2D])
 
   query.each(([position, orientation, scale, transform]) => {
     transform.compose(position, orientation, scale)
