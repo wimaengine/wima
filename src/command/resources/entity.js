@@ -54,8 +54,8 @@ export class EntityCommands {
   }
 
   /**
-   * @template {Tuple} T
-   * @param {T[]} batch
+   * @template {unknown[]} T
+   * @param {[...T][]} batch
    * @returns {Entity[]}
    */
   spawnBatch(batch) {
