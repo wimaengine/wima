@@ -73,7 +73,7 @@ function setupCamera(world) {
  */
 function setupViewport(world) {
   const windowcommands = world.getResource('windowcommands')
-  const window = new Query(world, [Entity,MainWindow]).single()
+  const window = new Query(world, [Entity, MainWindow]).single()
 
   if (!window) return warn('No main window defined.')
 

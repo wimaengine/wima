@@ -57,7 +57,7 @@ function update(world) {
   const materials = world.getResource('assets<material>')
   const touches = /** @type {Touches} */(world.getResource('touches'))
   const map = /** @type {TouchtoEntityMap} */(world.getResource('touchtoentitymap'))
-  const entities = new Query(world, [Entity,MaterialHandle])
+  const entities = new Query(world, [Entity, MaterialHandle])
 
   map.forEach((id, key) => {
     const touch = touches.get(key)

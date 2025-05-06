@@ -48,7 +48,7 @@ function addmesh(world) {
  * @param {World} world
  */
 function updateMesh(world) {
-  const query = new Query(world, [Position3D,MeshHandle])
+  const query = new Query(world, [Position3D, MeshHandle])
   const clock = world.getResource('virtualclock')
   const dt = clock.getElapsed()
 

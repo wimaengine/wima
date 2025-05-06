@@ -45,7 +45,7 @@ function init(world) {
  */
 function update(world) {  
   const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
-  const entities = new Query(world, [Entity,Marker])
+  const entities = new Query(world, [Entity, Marker])
   const mesh = /** @type {MeshH} */(world.getResource('meshh')).inner
   const material = /** @type {MeshH} */(world.getResource('materialh')).inner
   const window = new Query(world, [Window]).single()

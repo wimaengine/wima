@@ -117,7 +117,7 @@ function updateButtons(world) {
   const materials = world.getResource('assets<material>')
   const mousebuttons = /** @type {Keyboard} */(world.getResource('mousebuttons'))
   const map = /** @type {KeytoEntityMap} */(world.getResource('keytoentitymap'))
-  const entities = new Query(world, [Entity,MaterialHandle])
+  const entities = new Query(world, [Entity, MaterialHandle])
 
   map.forEach((id, key) => {
     const entity = entities.get(id)
