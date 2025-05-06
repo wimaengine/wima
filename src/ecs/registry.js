@@ -160,9 +160,9 @@ export class World {
   /**
    * Inserts components into an entity.
    *
-   * @template {Tuple} T
+   * @template {{}[]} T
    * @param {Entity} entity
-   * @param {T} components - The entity to add.
+   * @param {[...T]} components - The entity to add.
    */
   insert(entity, components) {
     const location = this.entities.get(entity.index)
