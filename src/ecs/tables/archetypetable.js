@@ -1,4 +1,4 @@
-/** @import { ComponentId, ArchetypeId, ArchetypeFilter, Tuple } from '../typedef/index.js'*/
+/** @import { ComponentId, ArchetypeId, ArchetypeFilter } from '../typedef/index.js'*/
 import { swapRemove } from '../../utils/index.js'
 import { assert } from '../../logger/index.js'
 
@@ -183,8 +183,8 @@ export class ArchetypeTable {
   }
 
   /**
-   * @template {Tuple} T
-   * @param {T} components
+   * @template {unknown[]} T
+   * @param {[...T]} components
    * @param {ComponentId[]} ids
    * @returns {[ArchetypeId,number]}
    */
