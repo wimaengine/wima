@@ -1,7 +1,6 @@
-/** @import { Entity } from '../ecs/index.js'*/
 import { App, AppSchedule } from '../app/index.js'
 import { EntityCommands } from '../command/index.js'
-import { Query, World } from '../ecs/index.js'
+import { Query, World, Entity } from '../ecs/index.js'
 import { Storage } from '../storage/index.js'
 import { Cleanup } from './components/index.js'
 import { Demo } from './core/demo.js'
@@ -77,7 +76,7 @@ function initDemoUI(world) {
 
   const optionTab = document.createElement('div')
   const option = createDropDown(demolist.keys(), (e) => {
-    const entities = /** @type {Query<[Entity]>} */(new Query(world, ['entity', 'cleanup']))
+    const entities = (new Query(world, [Entity, Cleanup]))
     const name = /** @type {HTMLOptionElement} */(e.target).value
     const demo = demolist.get(name)
 
