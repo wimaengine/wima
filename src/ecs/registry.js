@@ -269,11 +269,15 @@ export class World {
 
   /**
    * @template T
-   * @param {string} name
+   * @param {new (...args:any[])=>T} resourceType
    * @returns {T}
    */
-  getResource(name) {
-    return this.resources[name]
+  getResource(resourceType) {
+    const name = resourceType.name
+    const resource = this.resources[name.toLowerCase()]
+
+    assert(resource,`The resource \`${name}\` does not exist in the world.`)
+    return resource
   }
 
   /**
