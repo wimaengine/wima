@@ -69,9 +69,8 @@ export function drawPosition(world) {
 export function drawVelocity(world) {
   const query = new Query(world, [Position2D, Velocity2D])
   const windows = new Query(world, [Entity, MainWindow])
+  const canvases = world.getResource(Windows)
 
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
