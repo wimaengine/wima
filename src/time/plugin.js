@@ -20,7 +20,7 @@ export class TimePlugin {
  * @param {World} world
  */
 function updateVirtualClock(world) {
-  const clock = world.getResource('virtualclock')
+  const clock = world.getResource(VirtualClock)
 
   Clock.update(clock)
 }
