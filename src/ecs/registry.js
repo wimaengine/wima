@@ -273,10 +273,11 @@ export class World {
    * @returns {T}
    */
   getResource(resourceType) {
-    const name = resourceType.name
+    const { name } = resourceType
     const resource = this.resources[name.toLowerCase()]
 
-    assert(resource,`The resource \`${name}\` does not exist in the world.`)
+    assert(resource, `The resource \`${name}\` does not exist in the world.`)
+
     return resource
   }
 
