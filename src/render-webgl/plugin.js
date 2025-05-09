@@ -54,25 +54,19 @@ function registerDefaultAttributeLocs(attributeMap) {
 function render(world) {
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResource('assets<mesh>')
+  const meshes = world.getResourceByName('assets<mesh>')
 
   /** @type {Assets<Material>} */
-  const materials = world.getResource('assets<material>')
+  const materials = world.getResourceByName('assets<material>')
 
   /** @type {ProgramCache<WebGLProgram>} */
-  const programs = world.getResource('programcache')
+  const programs = world.getResourceByName('programcache')
 
   /** @type {MeshCache<WebGLVertexArrayObject>} */
-  const gpumeshes = world.getResource('meshcache')
-
-  /** @type {UBOCache} */
-  const ubos = world.getResource('ubocache')
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
-
-  /** @type {ClearColor} */
-  const clearColor = world.getResource('clearcolor')
+  const gpumeshes = world.getResourceByName('meshcache')
+  const ubos = world.getResource(UBOCache)
+  const canvases = world.getResource(Windows)
+  const clearColor = world.getResource(ClearColor)
   const query = new Query(world, [GlobalTransform3D, MeshHandle, MaterialHandle])
   const windows = new Query(world, [Entity, Window, MainWindow])
   const cameras = new Query(world, [GlobalTransform3D, Camera])
@@ -81,8 +75,6 @@ function render(world) {
 
   if (!window) return warn('Please define the main window for rendering.')
 
-
-  /** @type {HTMLCanvasElement}*/
   const canvas = canvases.getWindow(window[0])
   const gl = canvas.getContext('webgl2')
 
