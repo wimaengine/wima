@@ -164,9 +164,9 @@ export function drawArms(world) {
  */
 export function drawContacts(world) {
   const windows = new Query(world, [Entity, MainWindow])
+  const canvases = world.getResource(Windows)
+  const clmd = world.getResource(Contacts)
 
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
@@ -174,7 +174,6 @@ export function drawContacts(world) {
 
   if (!ctx) return
   
-  const clmd = world.getResource('contacts')
 
   for (let i = 0; i < clmd.length; i++) {
     const [p1, p2] = clmd[i].contactData.contactPoints
