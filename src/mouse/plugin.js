@@ -37,15 +37,13 @@ function updateMouse(world) {
  * @param {World} world
  */
 function updateMouseButtons(world) {
-
-  /** @type {MouseButtons} */
-  const buttons = world.getResource('mousebuttons')
+  const buttons = world.getResource(MouseButtons)
 
   /** @type {EventDispatch<MouseDown>} */
-  const down = world.getResource('events<mousedown>')
+  const down = world.getResourceByName('events<mousedown>')
 
   /** @type {EventDispatch<MouseUp>} */
-  const up = world.getResource('events<mouseup>')
+  const up = world.getResourceByName('events<mouseup>')
 
   buttons.clearJustPressed()
   buttons.clearJustReleased()
