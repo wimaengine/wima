@@ -8,9 +8,7 @@ import { intersectAABB2D } from '../../geometry/index.js'
  * @param {World} world
  */
 export function getCollisionPairs(world) {
-
-  /** @type {CollisionPairs}*/
-  const pairs = world.getResource('collisionpairs')
+  const pairs = world.getResource(CollisionPairs)
   const query = new Query(world, [Entity, PhysicsHitbox])
 
   pairs.clear()
