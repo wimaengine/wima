@@ -1,7 +1,7 @@
 import { Query, World } from '../../ecs/index.js'
 import { Vector2, Vector3 } from '../../math/index.js'
 import { Rotation2D, Rotation3D, Velocity2D, Velocity3D } from '../../movable/index.js'
-import { Linear2DDamping } from '../resources/lineardampen.js'
+import { Linear2DDamping, Linear3DDamping } from '../resources/lineardampen.js'
 
 /**
  * @param {World} world
@@ -21,7 +21,7 @@ export function dampenVelocity2D(world) {
  */
 export function dampenVelocity3D(world) {
   const query = new Query(world, [Velocity3D])
-  const linear = 1 - world.getResource('lineardamping')
+  const linear = 1 - world.getResource(Linear3DDamping).value
   
   query.each(([velocity]) => {
     Vector3.multiplyScalar(velocity, linear, velocity)
