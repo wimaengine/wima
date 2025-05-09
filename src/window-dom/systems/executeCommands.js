@@ -6,12 +6,8 @@ import { Window, WindowCommand, WindowCommands, WindowRequest, Windows } from '.
  * @param {World} world
  */
 export function executeWindowCommands(world) {
-
-  /** @type {WindowCommands} */
-  const commands = world.getResource('windowcommands')
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const commands = world.getResource(WindowCommands)
+  const canvases = world.getResource(Windows)
   const windows = new Query(world, [Window])
 
   const buffer = commands.getBuffer()
