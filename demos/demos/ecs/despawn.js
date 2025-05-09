@@ -24,9 +24,9 @@ const paddingHeight = 10
  * @param {World} world
  */
 function init(world) {
-  const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
-  const meshes = world.getResource('assets<mesh>')
-  const materials = world.getResource('assets<material>')
+  const commands = world.getResource(EntityCommands)
+  const meshes = world.getResourceByName('assets<mesh>')
+  const materials = world.getResourceByName('assets<material>')
   const window = new Query(world, [Window]).single()
 
   if (!window) return warn('No window set up')
@@ -62,7 +62,7 @@ function init(world) {
  * @param {World} world
  */
 function update(world) {
-  const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
+  const commands = world.getResource(EntityCommands)
   const entities = new Query(world, [Entity, Marker])
   const entity = entities.single()
 
