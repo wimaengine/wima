@@ -22,9 +22,7 @@ export function getCollisionPairs(world) {
  * @param {World} world
  */
 export function updateBroadphase2D(world) {
-
-  /** @type {Broadphase2D}*/
-  const broadphase = world.getResource('broadphase2d')
+  const broadphase = world.getResource(Broadphase2D)
   const query = new Query(world, [Entity, PhysicsHitbox])
 
   broadphase.clear()
