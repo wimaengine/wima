@@ -21,15 +21,13 @@ export class KeyboardPlugin {
  * @param {World} world
  */
 function updateKeyBoard(world) {
-
-  /** @type {Keyboard}*/
-  const keyboard = world.getResource('keyboard')
+  const keyboard = world.getResource(Keyboard)
 
   /** @type {EventDispatch<KeyDown>}*/
-  const down = world.getResource('events<keydown>')
+  const down = world.getResourceByName('events<keydown>')
 
   /** @type {EventDispatch<KeyUp>}*/
-  const up = world.getResource('events<keyup>')
+  const up = world.getResourceByName('events<keyup>')
 
   keyboard.clearJustPressed()
   keyboard.clearJustReleased()
