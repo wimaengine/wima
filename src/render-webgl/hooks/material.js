@@ -18,21 +18,21 @@ export function materialAddHook(entity, world) {
   const handle = world.get(entity, 'materialhandle')
 
   /** @type {AttributeMap} */
-  const attributeMap = world.getResource('attributemap')
+  const attributeMap = world.getResource(AttributeMap)
 
   /** @type {UBOCache} */
-  const ubos = world.getResource('ubocache')
+  const ubos = world.getResource(UBOCache)
 
   /** @type {Assets<Material>} */
-  const materials = world.getResource('assets<material>')
+  const materials = world.getResourceByName('assets<material>')
 
   /** @type {ProgramCache<WebGLProgram>} */
-  const renderpipelines = world.getResource('programcache')
+  const renderpipelines = world.getResourceByName('programcache')
 
   const windows = new Query(world, [Entity, Window, MainWindow])
 
   /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const canvases = world.getResource(Windows)
 
   const window = windows.single()
 
