@@ -7,7 +7,7 @@ import { WindowResize } from '../../window/index.js'
  */
 export function setUpWindowEvents(world, target) {
   target.addEventListener('resize', (event) => {
-    const dispatch = world.getResource('events<windowresize>')
+    const dispatch = world.getResourceByName('events<windowresize>')
 
     dispatch.write(new WindowResize(event))
   }) 
