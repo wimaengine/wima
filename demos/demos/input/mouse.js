@@ -8,12 +8,15 @@ import {
   Query,
   EntityCommands,
   Cleanup,
-  Keyboard,
   KeyCode,
   MouseButton,
   Position2D,
   MaterialHandle,
-  Entity
+  Entity,
+  Assets,
+  Material,
+  Mouse,
+  MouseButtons
 } from 'wima'
 
 const offsetX = 100
@@ -38,10 +41,10 @@ class MouseEntity {
  * @param {World} world
  */
 function spawnMouseFollower(world) {
-  const meshes = world.getResource('assets<mesh>')
-  const materials = world.getResource('assets<material>')
+  const meshes = world.getResourceByName('assets<mesh>')
+  const materials = world.getResourceByName('assets<material>')
   const mesh = meshes.add('basic', Mesh.quad2D(50, 50))
-  const entity = world.getResource('entitycommands')
+  const entity = world.getResource(EntityCommands)
     .spawn()
     .insertPrefab(createTransform2D())
     .insert(mesh)
@@ -62,9 +65,9 @@ function spawnMouseFollower(world) {
  */
 function spawnButtons(world) {
   const map = new KeytoEntityMap()
-  const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
-  const meshes = world.getResource('assets<mesh>')
-  const materials = world.getResource('assets<material>')
+  const commands = world.getResource(EntityCommands)
+  const meshes = /** @type {Assets<Mesh>} */(world.getResourceByName('assets<mesh>'))
+  const materials = /** @type {Assets<Material>} */(world.getResourceByName('assets<material>'))
   const mesh = meshes.add('basic', Mesh.quad2D(50, 50))
   const digits = [
     MouseButton.Left,
@@ -102,8 +105,8 @@ function spawnButtons(world) {
  * @param {World} world
  */
 function updateFollower(world) {
-  const { entity } = world.getResource('mouseentity')
-  const mouse = world.getResource('mouse')
+  const { entity } = world.getResource(MouseEntity)
+  const mouse = world.getResource(Mouse)
   const query = new Query(world, [Position2D])
   const [position] = query.get(entity)
 
@@ -114,9 +117,9 @@ function updateFollower(world) {
  * @param {World} world
  */
 function updateButtons(world) {
-  const materials = world.getResource('assets<material>')
-  const mousebuttons = /** @type {Keyboard} */(world.getResource('mousebuttons'))
-  const map = /** @type {KeytoEntityMap} */(world.getResource('keytoentitymap'))
+  const materials = world.getResourceByName('assets<material>')
+  const mousebuttons = world.getResource(MouseButtons)
+  const map = world.getResource(KeytoEntityMap)
   const entities = new Query(world, [Entity, MaterialHandle])
 
   map.forEach((id, key) => {
