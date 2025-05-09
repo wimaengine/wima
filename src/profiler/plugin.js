@@ -46,8 +46,8 @@ function updateProfileTimer(registry) {
  * @param {World} registry
  */
 function updateProfileViewer(registry) {
-  const profiler = registry.getResource('profiler')
-  const timer = registry.getResource('profilertimer')
+  const profiler = registry.getResource(Profiler)
+  const timer = registry.getResource(ProfilerTimer)
 
   if (!timer.finished) return
 
