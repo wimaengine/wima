@@ -1,4 +1,4 @@
-/** @import { ComponentId, ArchetypeId, ArchetypeFilter, Tuple } from '../typedef/index.js'*/
+/** @import { ComponentId, ArchetypeId, ArchetypeFilter } from '../typedef/index.js'*/
 import { swapRemove } from '../../utils/index.js'
 import { assert } from '../../logger/index.js'
 
@@ -140,10 +140,10 @@ export class ArchetypeTable {
   }
 
   /**
-   * @template {Tuple} T
+   * @template {unknown[]} T
    * @param {ArchetypeId} id
    * @param {ComponentId[]} keys
-   * @param {T} components
+   * @param {[...T]} components
    */
   insertIntoArchetype(id, keys, components) {
     const archetype = this.list[id]
@@ -165,7 +165,7 @@ export class ArchetypeTable {
   /**
    * @param {ArchetypeId} id
    * @param {number} index
-   * @returns {[ComponentId[],Tuple]}
+   * @returns {[ComponentId[],unknown[]]}
    */
   extract(id, index) {
     const keys = []
@@ -183,8 +183,8 @@ export class ArchetypeTable {
   }
 
   /**
-   * @template {Tuple} T
-   * @param {T} components
+   * @template {unknown[]} T
+   * @param {[...T]} components
    * @param {ComponentId[]} ids
    * @returns {[ArchetypeId,number]}
    */

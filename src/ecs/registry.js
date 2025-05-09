@@ -1,4 +1,4 @@
-/** @import { ComponentId, Tuple } from './typedef/index.js'*/
+/** @import { ComponentId } from './typedef/index.js'*/
 
 import { ArchetypeTable } from './tables/index.js'
 import { TypeStore } from './typestore.js'
@@ -43,8 +43,8 @@ export class World {
   }
 
   /**
-   * @template {Tuple} T
-   * @param {T} components
+   * @template {{}[]} T
+   * @param {[...T]} components
    * @returns {ComponentId[]}
    */
   getComponentIds(components) {
@@ -130,8 +130,8 @@ export class World {
   /**
    * Adds an entity to the registry.
    *
-   * @template {Tuple} T
-   * @param {T} components - The entity to add.
+   * @template {{}[]} T
+   * @param {[...T]} components - The entity to add.
    * @returns {Entity}
    */
   create(components) {
@@ -160,9 +160,9 @@ export class World {
   /**
    * Inserts components into an entity.
    *
-   * @template {Tuple} T
+   * @template {{}[]} T
    * @param {Entity} entity
-   * @param {T} components - The entity to add.
+   * @param {[...T]} components - The entity to add.
    */
   insert(entity, components) {
     const location = this.entities.get(entity.index)
@@ -198,8 +198,8 @@ export class World {
   }
 
   /**
-   * @template {Tuple} T
-   * @param {T[]} entities
+   * @template {{}[]} T
+   * @param {[...T][]} entities
    */
   createMany(entities) {
     for (let i = 0; i < entities.length; i++) {

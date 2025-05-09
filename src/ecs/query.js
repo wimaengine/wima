@@ -1,4 +1,4 @@
-/** @import { ComponentId, ArchetypeId, Tuple, ComponentName } from './typedef/index.js'*/
+/** @import { ComponentId, ArchetypeId } from './typedef/index.js'*/
 import { Entity } from './entities/index.js'
 import { World } from './registry.js'
 import { ArchetypeTable } from './tables/archetypetable.js'
@@ -212,17 +212,17 @@ export class Query {
 }
 
 /**
- * @template {Tuple} T
+ * @template {unknown[]} T
  * @callback EachFunc
- * @param {T} components
+ * @param {[...T]} components
  * @returns {void}
  */
 
 /**
- * @template {Tuple} T
+ * @template {unknown[]} T
  * @callback EachCombinationFunc
- * @param {T} components1
- * @param {T} components2
+ * @param {[...T]} components1
+ * @param {[...T]} components2
  * @returns {void}
  */
 
