@@ -135,10 +135,10 @@ function resizegl(world) {
   const windows = new Query(world, [Entity, Window, MainWindow])
 
   /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const canvases = world.getResource(Windows)
 
   /** @type {EventDispatch<WindowResize>} */
-  const resizeEvents = world.getResource('events<windowresize>')
+  const resizeEvents = world.getResourceByName('events<windowresize>')
 
   const window = windows.single()
 
