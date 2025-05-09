@@ -92,9 +92,7 @@ export function drawVelocity(world) {
  */
 export function drawShapes(world) {
   const windows = new Query(world, [Entity, MainWindow])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const canvases = world.getResource(Windows)
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
