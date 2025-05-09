@@ -14,7 +14,8 @@ import {
   Demo,
   Cleanup,
   warn,
-  Window
+  Window,
+  EntityCommands
 } from 'wima'
 
 export default new Demo('easing', [init])
@@ -23,9 +24,9 @@ export default new Demo('easing', [init])
  * @param {World} world
  */
 function init(world) {
-  const commands = world.getResource('entitycommands')
-  const meshes = world.getResource('assets<mesh>')
-  const materials = world.getResource('assets<material>')
+  const commands = world.getResource(EntityCommands)
+  const meshes = world.getResourceByName('assets<mesh>')
+  const materials = world.getResourceByName('assets<material>')
   const window = new Query(world, [Window]).single()
   
   if(!window) return warn('No window is set up')
