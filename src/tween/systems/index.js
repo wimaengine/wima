@@ -1,5 +1,6 @@
 /** @import {TweenLerp} from '../typedef/index.js' */
 import { Query, World } from '../../ecs/index.js'
+import { VirtualClock } from '../../time/index.js'
 import { TweenFlip, TweenRepeat } from '../components/markers.js'
 import { Tween } from '../components/tween.js'
 
@@ -59,7 +60,7 @@ export function generateTweenTimerSystem(tween) {
    * @param {World} world
    */
   return function updateTimerTween(world) {
-    const dt = world.getResource('virtualclock').delta
+    const dt = world.getResource(VirtualClock).getDelta()
     const query = new Query(world, [tween])
 
     query.each(([tween]) => {
