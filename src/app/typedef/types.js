@@ -1,4 +1,4 @@
-// @ts-nocheck
+/** @import {App} from '../app.js' */
 /**
  * @callback RegisterFunc
  * @param {App} app
