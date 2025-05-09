@@ -279,6 +279,15 @@ export class World {
   /**
    * @template T
    * @param {string} name
+   * @returns {T}
+   */
+  getResourceByName(name) {
+    return this.resources[name]
+  }
+
+  /**
+   * @template T
+   * @param {string} name
    * @param {T} resource
    * @returns {void}
    */
