@@ -6,6 +6,7 @@ import { Position2D } from '../../transform/index.js'
 import { PhysicsHitbox } from '../../broadphase/index.js'
 import { MainWindow, Windows } from '../../window/index.js'
 import { Velocity2D } from '../../movable/index.js'
+import { Contacts } from '../../narrowphase/index.js'
 
 /**
  * @param {World} world
@@ -131,11 +132,9 @@ export function drawShapes(world) {
  * @param {World} world
  */
 export function drawArms(world) {
-  const contacts = world.getResource('contacts')
   const windows = new Query(world, [Entity, MainWindow])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const contacts = world.getResource(Contacts)
+  const canvases = world.getResource(Windows)
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
