@@ -108,7 +108,7 @@ function initDemoUI(world) {
 function advanceCurrentDemo(world) {
 
   /** @type {CurrentDemo} */
-  const demo = world.getResource('currentdemo')
+  const demo = world.getResource(CurrentDemo)
 
   demo.get().update.forEach((update) => update(world))
 }
