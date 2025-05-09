@@ -158,12 +158,8 @@ function resizegl(world) {
  * @param {World} world
  */
 function registerBuffers(world) {
-
-  /** @type {UBOCache} */
-  const ubos = world.getResource('ubocache')
-  
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const ubos = world.getResource(UBOCache)
+  const canvases = world.getResource(Windows)
   const windows = new Query(world, [Entity, Window, MainWindow])
 
   const window = windows.single()
