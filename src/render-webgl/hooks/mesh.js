@@ -13,22 +13,18 @@ import { MeshCache, AttributeMap } from '../resources/index.js'
  * @type {ComponentHook} 
  */
 export function meshAddHook(entity, world) {
+  const attributeMap = world.getResource(AttributeMap)
 
   /** @type {Handle<Mesh>} */
   const handle = world.get(entity, 'meshhandle')
 
-  /** @type {AttributeMap} */
-  const attributeMap = world.getResource('attributemap')
-
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResource('assets<mesh>')
+  const meshes = world.getResourceByName('assets<mesh>')
 
   /** @type {MeshCache<WebGLVertexArrayObject>} */
-  const meshcache = world.getResource('meshcache')
+  const meshcache = world.getResourceByName('meshcache')
   const windows = new Query(world, [Entity, Window, MainWindow])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const canvases = world.getResource(Windows)
 
   const window = windows.single()
 
