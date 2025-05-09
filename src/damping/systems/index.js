@@ -1,7 +1,7 @@
 import { Query, World } from '../../ecs/index.js'
 import { Vector2, Vector3 } from '../../math/index.js'
 import { Rotation2D, Rotation3D, Velocity2D, Velocity3D } from '../../movable/index.js'
-import { Angular2DDamping } from '../resources/angulardampen.js'
+import { Angular2DDamping, Angular3DDamping } from '../resources/angulardampen.js'
 import { Linear2DDamping, Linear3DDamping } from '../resources/lineardampen.js'
 
 /**
@@ -47,7 +47,7 @@ export function dampenRotation2D(world) {
 export function dampenRotation3D(world) {
 
   const query = new Query(world, [Rotation3D])
-  const angular = 1 - world.getResource('angulardamping')
+  const angular = 1 - world.getResource(Angular3DDamping).value
   
   query.each(([rotation]) => {
     rotation.w *= angular
