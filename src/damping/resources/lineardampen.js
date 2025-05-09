@@ -13,4 +13,17 @@ export class Linear2DDamping{
   }
 }
 
-export class Linear3DDamping extends Number {}
+export class Linear3DDamping {
+
+  /**
+   * @type {number}
+   */
+  value
+
+  /**
+   * @param {number} value 
+   */
+  constructor(value = 0){
+    this.value = value
+  }
+}
