@@ -44,10 +44,11 @@ export class DemoPlugin {
  * @param {World} world
  */
 function initDemo(world) {
-  const demolist = /** @type {DemoList} */(world.getResource('demolist'))
-  const current = /** @type {CurrentDemo} */(world.getResource('currentdemo'))
-  const storage = /** @type {Storage} */(world.getResource('storage'))
-  const demoName = /** @type {string | undefined} */(storage.get(storageLabel))
+  const demolist = world.getResource(DemoList)
+  const current = world.getResource(CurrentDemo)
+  const storage = world.getResource(Storage)
+  const demoName = storage.get(storageLabel)
+
   /** @type {[string,Demo]} */
   const [defaultDemoName, defaultDemo] = demolist.entries().next().value
 
