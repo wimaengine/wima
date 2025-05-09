@@ -1,4 +1,5 @@
-// @ts-nocheck
+/** @import { Command } from "../core/index.js" */
+
 /**
  * @template {Command} T
  * @callback CommandFn
