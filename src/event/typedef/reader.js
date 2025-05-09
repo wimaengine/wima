@@ -1,4 +1,4 @@
-// @ts-nocheck
+/** @import {CEvent} from '../core/index.js' */
 /**
  * @template T
  * @callback EventReader
