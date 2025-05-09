@@ -18,22 +18,20 @@ export function generateParserSystem(name) {
   return async function loadToAssets(world) {
 
     /** @type {Assets<T>} */
-    const assets = world.getResource(`assets<${name}>`)
-
-    /** @type {Device} */
-    const device = world.getResource('device')
+    const assets = world.getResourceByName(`assets<${name}>`)
+    const device = world.getResource(Device)
 
     /** @type {Parser<T>} */
-    const parser = world.getResource(`parser<${name}>`)
+    const parser = world.getResourceByName(`parser<${name}>`)
 
     /** @type {EventDispatch<AssetLoadSuccess>} */
-    const success = world.getResource('events<assetloadsuccess>')
+    const success = world.getResourceByName('events<assetloadsuccess>')
 
     /** @type {EventDispatch<AssetLoadFail>} */
-    const fail = world.getResource('events<assetloadfail>')
+    const fail = world.getResourceByName('events<assetloadfail>')
 
     /** @type {AssetBasePath<T>} */
-    const baseUrl = world.getResource(`assetbasepath<${name}>`)
+    const baseUrl = world.getResourceByName(`assetbasepath<${name}>`)
 
     const paths = assets.flushToLoad()
 
