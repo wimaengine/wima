@@ -13,9 +13,7 @@ import { Velocity2D } from '../../movable/index.js'
 export function drawBounds(world) {
   const query = new Query(world, [PhysicsHitbox])
   const windows = new Query(world, [Entity, MainWindow])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const canvases = world.getResource(Windows)
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
