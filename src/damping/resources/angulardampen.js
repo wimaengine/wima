@@ -12,5 +12,17 @@ export class Angular2DDamping {
     this.value = value
   }
 }
+export class Angular3DDamping {
 
-export class Angular3DDamping extends Number {}
+  /**
+   * @type {number}
+   */
+  value
+
+  /**
+   * @param {number} value 
+   */
+  constructor(value = 0){
+    this.value = value
+  }
+}
