@@ -70,10 +70,10 @@ function initDemo(world) {
  * @param {World} world
  */
 function initDemoUI(world) {
-  const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
-  const demolist = /** @type {DemoList} */(world.getResource('demolist'))
-  const currentdemo = /** @type {CurrentDemo} */(world.getResource('currentdemo'))
-  const storage = /** @type {Storage} */(world.getResource('storage'))
+  const commands = world.getResource(EntityCommands)
+  const demolist = world.getResource(DemoList)
+  const currentdemo = world.getResource(CurrentDemo)
+  const storage = world.getResource(Storage)
 
   const optionTab = document.createElement('div')
   const option = createDropDown(demolist.keys(), (e) => {
