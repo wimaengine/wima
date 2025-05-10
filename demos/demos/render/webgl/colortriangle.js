@@ -20,10 +20,10 @@ import { addCamera3D } from './utils.js'
 function addmesh(world) {
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResource('assets<mesh>')
+  const meshes = world.getResourceByName('assets<mesh>')
 
   /** @type {Assets<Material>} */
-  const materials = world.getResource('assets<material>')
+  const materials = world.getResourceByName('assets<material>')
 
   const mesh = Mesh.triangle3D()
   const material = new WebglBasicMaterial({

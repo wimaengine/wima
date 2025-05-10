@@ -7,7 +7,8 @@ import {
   World,
   Color,
   Demo,
-  Cleanup
+  Cleanup,
+  EntityCommands
 } from 'wima'
 
 export default new Demo('materials', [init])
@@ -16,10 +17,10 @@ export default new Demo('materials', [init])
  * @param {World} world
  */
 export async function init(world) {
-  const commands = world.getResource('entitycommands')
-  const meshes = world.getResource('assets<mesh>')
-  const materials = world.getResource('assets<material>')
-  const images = world.getResource('assets<image>')
+  const commands = world.getResource(EntityCommands)
+  const meshes = world.getResourceByName('assets<mesh>')
+  const materials = world.getResourceByName('assets<material>')
+  const images = world.getResourceByName('assets<image>')
 
   const mesh = meshes.add('material', Mesh.quad2D(50, 50))
   

@@ -8,9 +8,7 @@ import { intersectAABB2D } from '../../geometry/index.js'
  * @param {World} world
  */
 export function getCollisionPairs(world) {
-
-  /** @type {CollisionPairs}*/
-  const pairs = world.getResource('collisionpairs')
+  const pairs = world.getResource(CollisionPairs)
   const query = new Query(world, [Entity, PhysicsHitbox])
 
   pairs.clear()
@@ -24,9 +22,7 @@ export function getCollisionPairs(world) {
  * @param {World} world
  */
 export function updateBroadphase2D(world) {
-
-  /** @type {Broadphase2D}*/
-  const broadphase = world.getResource('broadphase2d')
+  const broadphase = world.getResource(Broadphase2D)
   const query = new Query(world, [Entity, PhysicsHitbox])
 
   broadphase.clear()

@@ -27,22 +27,20 @@ export class Canvas2DRendererPlugin {
 function renderToCanvas(world) {
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResource('assets<mesh>')
+  const meshes = world.getResourceByName('assets<mesh>')
 
   /** @type {Assets<Material>} */
-  const materials = world.getResource('assets<material>')
+  const materials = world.getResourceByName('assets<material>')
 
   /** @type {Assets<Image>} */
-  const images = world.getResource('assets<image>')
+  const images = world.getResourceByName('assets<image>')
 
   /** @type {TextureCache<HTMLImageElement>} */
-  const textures = world.getResource('texturecache')
+  const textures = world.getResourceByName('texturecache')
   const query = new Query(world, [GlobalTransform2D, MeshHandle, MaterialHandle])
   const camQuery = new Query(world, [GlobalTransform2D, Camera])
   const windows = new Query(world, [Entity, Window, MainWindow])
-  
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const canvases = world.getResource(Windows)
 
   const camera = camQuery.single()
   const window = windows.single()

@@ -10,7 +10,8 @@ import {
   Scale3D,
   GlobalTransform3D,
   World,
-  Cleanup
+  Cleanup,
+  EntityCommands
 } from 'wima'
 import { addCamera3D } from './utils.js'
 
@@ -19,13 +20,13 @@ import { addCamera3D } from './utils.js'
  */
 function addmesh(world) {
   world.setResourceByName('changecolor', new Color(0.003, 0.006, 0.012))
+  const commands = world.getResource(EntityCommands)
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResource('assets<mesh>')
+  const meshes = world.getResourceByName('assets<mesh>')
 
   /** @type {Assets<Material>} */
-  const materials = world.getResource('assets<material>')
-  const commands = world.getResource('entitycommands')
+  const materials = world.getResourceByName('assets<material>')
 
   const mesh = Mesh.triangle3D()
   const material = new WebglBasicMaterial({
@@ -52,10 +53,10 @@ function addmesh(world) {
 function changeColor(world) {
 
   /** @type {Assets<Material>} */
-  const materials = world.getResource('assets<material>')
+  const materials = world.getResourceByName('assets<material>')
 
   /** @type {Color}*/
-  const color = world.getResource('changecolor')
+  const color = world.getResourceByName('changecolor')
   const material = materials.get('changeColor')
   
   if (

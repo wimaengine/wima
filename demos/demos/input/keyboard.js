@@ -40,9 +40,9 @@ function init(world) {
  * @param {World} world
  */
 function update(world) {
-  const materials = /** @type {Assets<Material>} */(world.getResource('assets<material>'))
-  const keyboard = /** @type {Keyboard} */(world.getResource('keyboard'))
-  const map = /** @type {KeytoEntityMap} */(world.getResource('keytoentitymap'))
+  const materials = /** @type {Assets<Material>} */(world.getResourceByName('assets<material>'))
+  const keyboard = world.getResource(Keyboard)
+  const map = world.getResource(KeytoEntityMap)
   const entities = new Query(world, [Entity, MaterialHandle])
 
   map.forEach((id, key) => {
@@ -62,12 +62,12 @@ function update(world) {
  * @param {World} world
  */
 function spawnDigits(world) {
-  const map = world.getResource('keytoentitymap')
-  const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
-  const meshes = world.getResource('assets<mesh>')
-  const materials = world.getResource('assets<material>')
+  const map = world.getResource(KeytoEntityMap)
+  const commands = world.getResource(EntityCommands)
+  const meshes = /** @type {Assets<Mesh>} */(world.getResourceByName('assets<mesh>'))
+  const materials = /** @type {Assets<Material>} */(world.getResourceByName('assets<material>'))
   const mesh = meshes.add('digits', Mesh.quad2D(itemWidth, itemHeight))
-  const meshtext = meshes.add('digitsText', Mesh.quad2D())
+  const meshtext = meshes.add('digitsText', Mesh.quad2D(itemWidth, itemHeight))
   const characters = [
     '1',
     '2',
@@ -131,10 +131,10 @@ function spawnDigits(world) {
  * @param {World} world
  */
 function spawnAlphabet(world) {
-  const map = world.getResource('keytoentitymap')
-  const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
-  const meshes = world.getResource('assets<mesh>')
-  const materials = world.getResource('assets<material>')
+  const map = world.getResource(KeytoEntityMap)
+  const commands = world.getResource(EntityCommands)
+  const meshes = /** @type {Assets<Mesh>} */(world.getResourceByName('assets<mesh>'))
+  const materials = /** @type {Assets<Material>} */(world.getResourceByName('assets<material>'))
   const mesh = meshes.add('alphabet', Mesh.quad2D(50, 50))
   const meshte = meshes.add('basic', Mesh.quad2D(50, 50))
   const characters = [

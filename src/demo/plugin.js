@@ -44,10 +44,11 @@ export class DemoPlugin {
  * @param {World} world
  */
 function initDemo(world) {
-  const demolist = /** @type {DemoList} */(world.getResource('demolist'))
-  const current = /** @type {CurrentDemo} */(world.getResource('currentdemo'))
-  const storage = /** @type {Storage} */(world.getResource('storage'))
-  const demoName = /** @type {string | undefined} */(storage.get(storageLabel))
+  const demolist = world.getResource(DemoList)
+  const current = world.getResource(CurrentDemo)
+  const storage = world.getResource(Storage)
+  const demoName = storage.get(storageLabel)
+
   /** @type {[string,Demo]} */
   const [defaultDemoName, defaultDemo] = demolist.entries().next().value
 
@@ -69,10 +70,10 @@ function initDemo(world) {
  * @param {World} world
  */
 function initDemoUI(world) {
-  const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
-  const demolist = /** @type {DemoList} */(world.getResource('demolist'))
-  const currentdemo = /** @type {CurrentDemo} */(world.getResource('currentdemo'))
-  const storage = /** @type {Storage} */(world.getResource('storage'))
+  const commands = world.getResource(EntityCommands)
+  const demolist = world.getResource(DemoList)
+  const currentdemo = world.getResource(CurrentDemo)
+  const storage = world.getResource(Storage)
 
   const optionTab = document.createElement('div')
   const option = createDropDown(demolist.keys(), (e) => {
@@ -107,7 +108,7 @@ function initDemoUI(world) {
 function advanceCurrentDemo(world) {
 
   /** @type {CurrentDemo} */
-  const demo = world.getResource('currentdemo')
+  const demo = world.getResource(CurrentDemo)
 
   demo.get().update.forEach((update) => update(world))
 }

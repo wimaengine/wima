@@ -11,7 +11,9 @@ import {
   World,
   Cleanup,
   Query,
-  MeshHandle
+  MeshHandle,
+  EntityCommands,
+  VirtualClock
 } from 'wima'
 import { addCamera3D } from './utils.js'
 
@@ -19,13 +21,13 @@ import { addCamera3D } from './utils.js'
  * @param {World} world
  */
 function addmesh(world) {
+  const commands = world.getResource(EntityCommands)
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResource('assets<mesh>')
-  const commands = world.getResource('entitycommands')
+  const meshes = world.getResourceByName('assets<mesh>')
 
   /** @type {Assets<Material>} */
-  const materials = world.getResource('assets<material>')
+  const materials = world.getResourceByName('assets<material>')
 
   const mesh = Mesh.triangle3D()
   const material = new WebglBasicMaterial()
@@ -49,7 +51,7 @@ function addmesh(world) {
  */
 function updateMesh(world) {
   const query = new Query(world, [Position3D, MeshHandle])
-  const clock = world.getResource('virtualclock')
+  const clock = world.getResource(VirtualClock)
   const dt = clock.getElapsed()
 
   query.each(([position]) => {

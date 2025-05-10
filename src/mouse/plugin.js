@@ -3,7 +3,7 @@ import { Mouse, MouseButtons } from './resources/index.js'
 import { MouseButton } from './core/index.js'
 import { World } from '../ecs/index.js'
 import { EventDispatch } from '../event/index.js'
-import { MouseDown, MouseUp } from '../window/index.js'
+import { MouseDown, MouseMove, MouseUp } from '../window/index.js'
 
 export class MousePlugin {
 
@@ -24,8 +24,9 @@ export class MousePlugin {
  * @param {World} world
  */
 function updateMouse(world) {
-  const mouse = world.getResource('mouse')
-  const move = world.getResource('events<mousemove>').readLast()
+  const mouse = world.getResource(Mouse)
+
+  const move = /** @type {EventDispatch<MouseMove>} */(world.getResourceByName('events<mousemove>')).readLast()
 
   if (!move) return
 
@@ -36,15 +37,13 @@ function updateMouse(world) {
  * @param {World} world
  */
 function updateMouseButtons(world) {
-
-  /** @type {MouseButtons} */
-  const buttons = world.getResource('mousebuttons')
+  const buttons = world.getResource(MouseButtons)
 
   /** @type {EventDispatch<MouseDown>} */
-  const down = world.getResource('events<mousedown>')
+  const down = world.getResourceByName('events<mousedown>')
 
   /** @type {EventDispatch<MouseUp>} */
-  const up = world.getResource('events<mouseup>')
+  const up = world.getResourceByName('events<mouseup>')
 
   buttons.clearJustPressed()
   buttons.clearJustReleased()

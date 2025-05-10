@@ -5,7 +5,7 @@
  */
 export function makeEventClear(name) {
   return function clearEvents(world) {
-    const dispatch = world.getResource(name)
+    const dispatch = world.getResourceByName(name)
 
     dispatch.clear()
   }

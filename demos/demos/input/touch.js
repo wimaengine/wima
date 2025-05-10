@@ -11,7 +11,9 @@ import {
   Cleanup,
   Touches,
   Entity,
-  MaterialHandle
+  MaterialHandle,
+  Assets,
+  Material
 } from 'wima'
 
 /** @type {Map<number,Entity>} */
@@ -23,9 +25,9 @@ class TouchtoEntityMap extends Map { }
  */
 function init(world) {
   const map = new TouchtoEntityMap()
-  const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
-  const meshes = world.getResource('assets<mesh>')
-  const materials = world.getResource('assets<material>')
+  const commands = world.getResource(EntityCommands)
+  const meshes = world.getResourceByName('assets<mesh>')
+  const materials = world.getResourceByName('assets<material>')
 
   if (!window) return warn('No window set up')
 
@@ -54,9 +56,9 @@ function init(world) {
  * @param {World} world
  */
 function update(world) {
-  const materials = world.getResource('assets<material>')
-  const touches = /** @type {Touches} */(world.getResource('touches'))
-  const map = /** @type {TouchtoEntityMap} */(world.getResource('touchtoentitymap'))
+  const materials = /** @type {Assets<Material>} */(world.getResourceByName('assets<material>'))
+  const touches = world.getResource(Touches)
+  const map = world.getResource(TouchtoEntityMap)
   const entities = new Query(world, [Entity, MaterialHandle])
 
   map.forEach((id, key) => {

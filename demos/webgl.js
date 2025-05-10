@@ -1,4 +1,3 @@
-/** @import {Entity} from 'wima' */
 import {
   App,
   AppSchedule,
@@ -17,11 +16,14 @@ import {
   RenderCorePlugin,
   WebglRendererPlugin,
   EulerIntegrator3DPlugin,
+  DevicePlugin,
   MovablePlugin,
   MainWindow,
   Query,
   warn,
-  createCamera2D
+  createCamera2D,
+  WindowCommands,
+  Entity
 } from 'wima'
 import {
   basictriangle,
@@ -39,6 +41,7 @@ const app = new App()
 
 app
   .registerPlugin(new CommandsPlugin())
+  .registerPlugin(new DevicePlugin())
   .registerPlugin(new AudioPlugin())
   .registerPlugin(new TimePlugin())
   .registerPlugin(new WindowPlugin())
@@ -80,8 +83,8 @@ function setupCamera(world) {
  * @param {World} world
  */
 function setupViewport(world) {
-  const windowcommands = world.getResource('windowcommands')
-  const window = /** @type {Query<[Entity,MainWindow]>} */ (new Query(world, ['entity', 'mainwindow'])).single()
+  const windowcommands = world.getResource(WindowCommands)
+  const window = new Query(world, [Entity, MainWindow]).single()
 
 
   if (!window) return warn('No main window defined.')

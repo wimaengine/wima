@@ -13,14 +13,15 @@ import {
   Camera,
   World,
   Cleanup,
-  createCamera3D
+  createCamera3D,
+  EntityCommands
 } from 'wima'
 
 /**
  * @param {World} world
  */
 function addCamera3D(world) {
-  const commands = world.getResource('entitycommands')
+  const commands = world.getResource(EntityCommands)
   const projection = new PerspectiveProjection()
   
   commands
@@ -35,13 +36,13 @@ function addCamera3D(world) {
  * @param {World} world
  */
 function addmesh(world) {
+  const commands = world.getResource(EntityCommands)
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResource('assets<mesh>')
-  const commands = world.getResource('entitycommands')
+  const meshes = world.getResourceByName('assets<mesh>')
 
   /** @type {Assets<Material>} */
-  const materials = world.getResource('assets<material>')
+  const materials = world.getResourceByName('assets<material>')
 
   const mesh = Mesh.triangle3D()
   const material = new WebglBasicMaterial()

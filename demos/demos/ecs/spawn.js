@@ -12,7 +12,9 @@ import {
   Cleanup,
   Material,
   Window,
-  Entity
+  Entity,
+  MaterialHandle,
+  MeshHandle
 } from 'wima'
 
 export default new Demo('spawn', [init], [update])
@@ -27,8 +29,8 @@ const paddingHeight = 10
  * @param {World} world
  */
 function init(world) {
-  const meshes = world.getResource('assets<mesh>')
-  const materials = world.getResource('assets<material>')
+  const meshes = world.getResourceByName('assets<mesh>')
+  const materials = world.getResourceByName('assets<material>')
 
   const mesh = meshes.add('material', Mesh.quad2D(itemHeight - paddingWidth, itemWidth - paddingHeight))
   const material = materials.add('basic', new CanvasMeshedMaterial({
@@ -44,11 +46,11 @@ function init(world) {
  * @param {World} world
  */
 function update(world) {  
-  const commands = /** @type {EntityCommands} */(world.getResource('entitycommands'))
+  const commands = world.getResource(EntityCommands)
   const entities = new Query(world, [Entity, Marker])
-  const mesh = /** @type {MeshH} */(world.getResource('meshh')).inner
-  const material = /** @type {MeshH} */(world.getResource('materialh')).inner
-  const window = new Query(world, [Window]).single()
+  const mesh = world.getResource(MeshH).inner
+  const material = world.getResource(MeshH).inner
+  const window = new Query(world, [Window]).single()  
   
   if(!window) return warn('No window set up.')
 
@@ -63,8 +65,8 @@ function update(world) {
   commands
     .spawn()
     .insertPrefab(createTransform2D(x, y))
-    .insert(mesh)
-    .insert(material)
+    .insert(new MeshHandle(mesh.handle))
+    .insert(new MaterialHandle(material.handle))
     .insert(new Marker())
     .insert(new Cleanup())
     .build()

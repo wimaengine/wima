@@ -22,21 +22,19 @@ export class TouchPlugin {
  * @param {World} world
  */
 function updateTouch(world) {
-
-  /** @type {Touches} */
-  const touch = world.getResource('touches')
+  const touch = world.getResource(Touches)
 
   /** @type {EventDispatch<TouchStart>} */
-  const start = world.getResource('events<touchstart>')
+  const start = world.getResourceByName('events<touchstart>')
 
   /** @type {EventDispatch<TouchMove>} */
-  const move = world.getResource('events<touchmove>')
+  const move = world.getResourceByName('events<touchmove>')
 
   /** @type {EventDispatch<TouchEnd>} */
-  const end = world.getResource('events<touchend>')
+  const end = world.getResourceByName('events<touchend>')
 
   /** @type {EventDispatch<TouchCancel>} */
-  const cancel = world.getResource('events<touchcancel>')  
+  const cancel = world.getResourceByName('events<touchcancel>')  
 
   start.each((event) => {
     const { data } = event
