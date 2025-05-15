@@ -34,10 +34,10 @@ export function meshAddHook(entity, world) {
   const gl = canvas.getContext('webgl2')
 
   if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
-  if (meshcache.has(handle.handle)) return
+  if (meshcache.has(handle.index)) return
 
   const mesh = meshes.getByHandle(handle)
   const vao = createVAO(gl, mesh, attributeMap)
 
-  meshcache.set(handle.handle, vao)
+  meshcache.set(handle.index, vao)
 }
