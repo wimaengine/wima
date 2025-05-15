@@ -98,7 +98,7 @@ function render(world) {
     query.each(([transform, meshhandle, materialhandle]) => {
       const mesh = meshes.getByHandle(meshhandle)
       const material = materials.getByHandle(materialhandle)
-      const gpumesh = gpumeshes.get(meshhandle.handle)
+      const gpumesh = gpumeshes.get(meshhandle.index)
       const pipeline = programs.get(materialhandle.handle)
 
       // @ts-ignore
