@@ -1,3 +1,5 @@
+/** @import {AssetId} from '../types/index.js' */
+
 import { DenseList } from '../../datastructures/index.js'
 import { assert } from '../../logger/index.js'
 import { Handle } from './handle.js'
@@ -70,6 +72,14 @@ export class Assets {
     assert(asset, 'The handle provided is invalid!Did you try to create your own handle?')
 
     return asset
+  }
+
+  /**
+   * @param {AssetId} id
+   * @returns {T | undefined}
+   */
+  getById(id) {
+    return this.assets.get(id)
   }
 
   /**
