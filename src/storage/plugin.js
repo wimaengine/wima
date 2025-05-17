@@ -1,7 +1,7 @@
-import { App } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { Session, Storage, Cookies } from './resources/index.js'
 
-export class StoragePlugin {
+export class StoragePlugin extends Plugin{
 
   /**
    * @param {App} app 

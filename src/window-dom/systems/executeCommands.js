@@ -6,13 +6,9 @@ import { Window, WindowCommand, WindowCommands, WindowRequest, Windows } from '.
  * @param {World} world
  */
 export function executeWindowCommands(world) {
-
-  /** @type {WindowCommands} */
-  const commands = world.getResource('windowcommands')
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
-  const windows = new Query(world, ['window'])
+  const commands = world.getResource(WindowCommands)
+  const canvases = world.getResource(Windows)
+  const windows = new Query(world, [Window])
 
   const buffer = commands.getBuffer()
   
@@ -23,6 +19,8 @@ export function executeWindowCommands(world) {
 
     execute(command, canvas, window)
   }
+
+  commands.clear()
 }
 
 /**
@@ -36,6 +34,7 @@ function execute(command, canvas, window) {
       canvas.width = command.data.x
       canvas.height = command.data.y
       window.set(canvas.width, canvas.height)
+      canvas.dispatchEvent(new Event('resize'))
       break
 
     case WindowRequest.Reposition:
@@ -57,7 +56,6 @@ function execute(command, canvas, window) {
 
     case WindowRequest.PointerLock:
       canvas.requestPointerLock()
-
       break
 
     default:

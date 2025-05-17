@@ -1,11 +1,12 @@
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { World } from '../ecs/index.js'
-import { EventDispatch } from '../event/index.js'
+import { Events } from '../event/index.js'
+import { typeidGeneric } from '../reflect/index.js'
 import { TouchCancel, TouchEnd, TouchMove, TouchStart } from '../window/index.js'
 import { TouchPointer } from './core/index.js'
 import { Touches } from './resources/touches.js'
 
-export class TouchPlugin {
+export class TouchPlugin extends Plugin{
 
   /**
    * @param {App} app
@@ -22,21 +23,19 @@ export class TouchPlugin {
  * @param {World} world
  */
 function updateTouch(world) {
+  const touch = world.getResource(Touches)
 
-  /** @type {Touches} */
-  const touch = world.getResource('touches')
+  /** @type {Events<TouchStart>} */
+  const start = world.getResourceByTypeId(typeidGeneric(Events, [TouchStart]))
 
-  /** @type {EventDispatch<TouchStart>} */
-  const start = world.getResource('events<touchstart>')
+  /** @type {Events<TouchMove>} */
+  const move = world.getResourceByTypeId(typeidGeneric(Events, [TouchMove]))
 
-  /** @type {EventDispatch<TouchMove>} */
-  const move = world.getResource('events<touchmove>')
+  /** @type {Events<TouchEnd>} */
+  const end = world.getResourceByTypeId(typeidGeneric(Events, [TouchEnd]))
 
-  /** @type {EventDispatch<TouchEnd>} */
-  const end = world.getResource('events<touchend>')
-
-  /** @type {EventDispatch<TouchCancel>} */
-  const cancel = world.getResource('events<touchcancel>')  
+  /** @type {Events<TouchCancel>} */
+  const cancel = world.getResourceByTypeId(typeidGeneric(Events, [TouchCancel]))  
 
   start.each((event) => {
     const { data } = event

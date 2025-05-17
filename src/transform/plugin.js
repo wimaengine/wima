@@ -4,12 +4,15 @@ import {
   Scale2D,
   Position3D,
   Orientation3D,
-  Scale3D
+  Scale3D,
+  GlobalTransform2D,
+  GlobalTransform3D
 } from './components/index.js'
 import { Dimension } from '../utils/index.js'
-import { App } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
+import { Query, World } from '../ecs/index.js'
 
-export class TransformPlugin {
+export class TransformPlugin extends Plugin{
 
   /**
    * @type {TransformPluginOptions}
@@ -20,6 +23,7 @@ export class TransformPlugin {
    * @param {TransformPluginOptions} options
    */
   constructor(options = {}) {
+    super()
     options.dimension = options.dimension ?? Dimension.Both
     this.options = options
   }
@@ -38,6 +42,8 @@ export class TransformPlugin {
         .registerType(Position2D)
         .registerType(Orientation2D)
         .registerType(Scale2D)
+        .registerType(GlobalTransform2D)
+        .registerSystem(AppSchedule.Update, synctransform2D)
     }
     if (
       dimension === Dimension.Three ||
@@ -47,8 +53,33 @@ export class TransformPlugin {
         .registerType(Position3D)
         .registerType(Orientation3D)
         .registerType(Scale3D)
+        .registerType(GlobalTransform3D)
+        .registerSystem(AppSchedule.Update, synctransform3D)
+
     }
   }
+}
+
+/**
+ * @param {World} world
+ */
+function synctransform2D(world) {
+  const query = new Query(world, [Position2D, Orientation2D, Scale2D, GlobalTransform2D])
+
+  query.each(([position, orientation, scale, transform]) => {
+    transform.compose(position, orientation, scale)
+  })
+}
+
+/**
+ * @param {World} world
+ */
+function synctransform3D(world) {
+  const query = new Query(world, [Position3D, Orientation3D, Scale3D, GlobalTransform3D])
+  
+  query.each(([position, orientation, scale, transform]) => {
+    transform.compose(position, orientation, scale)
+  })
 }
 
 /**

@@ -1,6 +1,7 @@
 import { readFileSync } from "fs"
 import { resolve } from "path"
 import { cwd } from "process"
+import { addJsdocExports } from "../scripts/rollupplugin.js"
 
 const pkg = JSON.parse(readFileSync(resolve(cwd(), "./package.json")).toString())
 
@@ -22,7 +23,9 @@ export default [{
 
   // UMD
   input,
-  plugins: [],
+  plugins: [
+    addJsdocExports()
+  ],
   output: {
     file: "dist/index.umd.js",
     format: "umd",
@@ -37,7 +40,9 @@ export default [{
 
   // ESM
   input,
-  plugins: [],
+  plugins: [
+    addJsdocExports()
+  ],
   output: {
     file: "dist/index.module.js",
     format: "esm",
@@ -45,5 +50,4 @@ export default [{
     sourcemap: false,
     banner
   }
-}
-]
+}]

@@ -53,12 +53,12 @@ export function throws(message) {
 
 
 /**
- * Logs out a message,warning or error to the console according to the supplied log function.
+ * Throws an error if the supplied test is null or undefined.
  *
  * @template T
  * @param {T} test
  * @param {string} message
- * @returns {asserts test is true }
+ * @returns {asserts test is NonNullable<T>}
  */
 export function assert(test, message) {
   if (test === undefined || test === null) throws(message)

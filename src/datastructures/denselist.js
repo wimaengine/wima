@@ -3,6 +3,7 @@ import { IndexAllocator } from './indexallocator.js'
 
 /**
  * @template T
+ * @template {number} [I = number]
  */
 export class DenseList {
 
@@ -14,13 +15,13 @@ export class DenseList {
 
   /**
    * @private
-   * @type {IndexAllocator}
+   * @type {IndexAllocator<I>}
    */
   allocator = new IndexAllocator()
 
   /**
    * @param {T} object 
-   * @returns {number}
+   * @returns {I}
    */
   push(object){
     const index = this.allocator.reserve()
@@ -31,14 +32,14 @@ export class DenseList {
   }
 
   /**
-   * @param {number} index
+   * @param {I} index
    */
   recycle(index){
     this.allocator.recycle(index)
   }
     
   /**
-   * @param {number} index 
+   * @param {I} index 
    * @returns {T | undefined}
    */
   get(index){
@@ -46,7 +47,7 @@ export class DenseList {
   }
 
   /**
-   * @param {number} index 
+   * @param {I} index 
    * @param {T} object 
    */
   set(index, object){
@@ -55,7 +56,7 @@ export class DenseList {
   }
 
   /**
-   * @returns {number}
+   * @returns {I}
    */
   reserve(){
     return this.allocator.reserve()

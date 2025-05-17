@@ -1,8 +1,8 @@
-import { App } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { Browser, PlatformOS } from './core/index.js'
 import { Device } from './resources/index.js'
 
-export class DevicePlugin {
+export class DevicePlugin extends Plugin {
 
   /**
    * @param {App} app 
@@ -10,7 +10,7 @@ export class DevicePlugin {
   register(app) {
     const device = new Device()
     const ua = navigator.userAgent
-    const ae = new Audio()
+    const ae = document.createElement('audio')
 
     app.setResource(device)
 
@@ -47,11 +47,5 @@ export class DevicePlugin {
     } else if (/Safari/.test(ua)) {
       device.browser = Browser.Safari
     }
-    // image formats supported
-    // TODO - actually check supported image formats
-    device.capabilities.supportedImageFormats.add('png')
-    device.capabilities.supportedImageFormats.add('jpeg')
-    device.capabilities.supportedImageFormats.add( 'svg')
-    device.capabilities.supportedImageFormats.add('jpg')
   }
 }

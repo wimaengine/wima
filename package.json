@@ -1,10 +1,10 @@
 {
-  "name": "chaosstudio",
-  "version": "0.0.1",
+  "name": "wima",
+  "version": "0.1.0",
   "description": "An ECS driven modular game engine.",
-  "homepage": "https://waynemwashuma.github.io/chaosstudio/",
+  "homepage": "https://wimaengine.github.io/wima/",
   "bugs": {
-    "url": "https://github.com/waynemwashuma/chaosstudio/issues"
+    "url": "https://github.com/wimaengine/wima/issues"
   },
   "type": "module",
   "license": "MIT",
@@ -19,32 +19,33 @@
   "author": "Wayne Mwashuma",
   "repository": {
     "type": "git",
-    "url": "https://github.com/waynemwashuma/chaosstudio.git"
+    "url": "https://github.com/wimaengine/wima.git"
   },
   "scripts": {
+    "start": "http-server -o /demos -p 8082 --no-dotfiles",
     "init": "husky .husky",
     "rollup": "rollup --config .config/rollup.config.js",
-    "eslint":"eslint --config .config/eslint.config.js",
+    "eslint": "eslint --config .config/eslint.config.js",
     "typedoc": "typedoc -options .config/typedoc.json --tsconfig .config/tsc.lint.json",
     "types": "tsc -p .config/tsc.type.json",
     "typedef": "node scripts/typedef.js",
     "changelog": "node scripts/changelog.js",
     "test": "node --test",
-    "build": "npm run build:lib & npm run build:docs",
-    "lint": "npm run lint:src & npm run lint:demos",
+    "build": "npm run build:lib && npm run build:docs",
+    "lint": "npm run lint:src && npm run lint:demos",
     "dev": "npm run build:lib",
     "tsc:lint": "tsc -p .config/tsc.lint.json",
     "watch:src": "npm run rollup -- --watch",
     "watch:docs": "npm run typedoc -- --watch",
     "lint:src": "npm run eslint -- src",
-    "lint:demos":"npm run eslint -- demos",
-    "lint:fix": "npm run lint:fix-src & npm run lint:fix-demos",
+    "lint:demos": "npm run eslint -- demos",
+    "lint:fix": "npm run lint:fix-src && npm run lint:fix-demos",
     "lint:fix-src": "npm run lint:src -- --fix",
     "lint:fix-demos": "npm run lint:demos -- --fix",
-    "build:lib": "npm run rollup & npm run typedef & npm run types",
+    "build:lib": "npm run rollup && npm run typedef && npm run types",
     "build:docs": "npm run typedoc",
     "ci:build": "npm run build",
-    "ci:check": "npm run lint:src -- --max-warnings=0 & npm run lint:demos -- --max-warnings=0 & npm run test",
+    "ci:check": "npm run lint:src -- --max-warnings=0 && npm run lint:demos -- --max-warnings=0 && npm run test",
     "pre-commit": "lint-staged --config .config/lint.config.js",
     "pre-push": "npm run test"
   },
@@ -58,7 +59,9 @@
   "devDependencies": {
     "@stylistic/eslint-plugin": "^2.3.0",
     "eslint": "^9.7.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsdoc": "^48.7.0",
+    "http-server": "^14.1.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "rollup": "^4.12.0",

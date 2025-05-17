@@ -1,3 +1,5 @@
+/** @import {AssetId} from '../types/index.js' */
+
 import { DenseList } from '../../datastructures/index.js'
 import { assert } from '../../logger/index.js'
 import { Handle } from './handle.js'
@@ -47,13 +49,37 @@ export class Assets {
     this.def = defaulter()
     this.createHandle = handler
   }
+  
+  /**
+   * @param {string} name
+   * @returns {T | undefined}
+   */
+  get(name){
+    const id = this.paths.get(name)
+
+    if(id === undefined) return undefined
+
+    return this.assets.get(id)
+  }
+
+  /**
+   * @param {string} path 
+   * @returns {Handle<T> | undefined}
+   */
+  getHandle(path) {
+    const index = this.paths.get(path)
+
+    if (index !== undefined) return this.createHandle(index)
+
+    return undefined
+  }
 
   /**
    * @param {Handle<T>} handle
    * @returns {T}
    */
   getByHandle(handle) {
-    const asset = this.assets.get(handle.handle)
+    const asset = this.assets.get(handle.index)
 
     assert(asset, 'The handle provided is invalid!Did you try to create your own handle?')
 
@@ -61,11 +87,19 @@ export class Assets {
   }
 
   /**
+   * @param {AssetId} id
+   * @returns {T | undefined}
+   */
+  getById(id) {
+    return this.assets.get(id)
+  }
+
+  /**
    * @param {Handle<T>} handle
    * @param {T} asset
    */
   setByHandle(handle, asset) {
-    this.assets.set(handle.handle, asset)
+    this.assets.set(handle.index, asset)
   }
 
   /**

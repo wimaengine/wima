@@ -223,6 +223,8 @@ export class Vector3 {
     out.x = v1.x + v2.x
     out.y = v1.y + v2.y
     out.z = v1.z + v2.z
+
+    return out
   }
 
   /**
@@ -234,6 +236,8 @@ export class Vector3 {
     out.x = v1.x + scalar
     out.y = v1.y + scalar
     out.z = v1.z + scalar
+
+    return out
   }
 
   /**
@@ -245,6 +249,8 @@ export class Vector3 {
     out.x = v1.x + v2.x
     out.y = v1.y + v2.y
     out.z = v1.z + v2.z
+
+    return out
   }
 
   /**
@@ -256,6 +262,8 @@ export class Vector3 {
     out.x = v1.x - scalar
     out.y = v1.y - scalar
     out.z = v1.z - scalar
+
+    return out
   }
 
   /**
@@ -267,6 +275,8 @@ export class Vector3 {
     out.x = v1.x * v2.x
     out.y = v1.y * v2.y
     out.z = v1.z * v2.z
+
+    return out
   }
 
   /**
@@ -278,6 +288,8 @@ export class Vector3 {
     out.x = v1.x * scalar
     out.y = v1.y * scalar
     out.z = v1.z * scalar
+
+    return out
   }
 
   /**
@@ -348,6 +360,8 @@ export class Vector3 {
   static setMagnitude(v, length, out = new Vector3()) {
     Vector3.normalize(v, out)
     Vector3.multiplyScalar(out, length, out)
+
+    return out
   }
 
   /**
@@ -372,6 +386,8 @@ export class Vector3 {
     out.x += (a.x - b.x) * t
     out.y += (a.y - b.y) * t
     out.z += (a.z - b.z) * t
+
+    return out
   }
 
   /**
@@ -420,16 +436,21 @@ export class Vector3 {
     out.x = -v.x
     out.y = -v.y
     out.z = -v.z
+
+    return out
   }
 
   /**
    * @param {Vector3} v
    * @param {number} scalar
+   * @param {Vector3} out 
    */
-  static splat(v, scalar) {
+  static splat(v, scalar, out = new Vector3()) {
     v.x = scalar
     v.y = scalar
     v.z = scalar
+
+    return out
   }
 
   /**
@@ -442,6 +463,8 @@ export class Vector3 {
     v.x = x
     v.y = y
     v.z = z
+
+    return v
   }
 
   /**
@@ -452,6 +475,8 @@ export class Vector3 {
     out.x = v1.x
     out.y = v1.y
     out.z = v1.z
+
+    return out
   }
 
   /**
@@ -467,7 +492,7 @@ export class Vector3 {
     out.y = u
     out.z = c * Math.sin(theta)
 
-    return this
+    return out
   }
 
   /**
@@ -488,10 +513,50 @@ export class Vector3 {
   static ZERO = new Vector3()
 
   /**
-   * Default up direction.
+   * Unit vector pointing in the x-axis.
    *
    * @readonly
    * @type {Vector3}
    */
-  static UP = new Vector3(0, 1, 0)
+  static X = new Vector3(1, 0, 0)
+
+  /**
+   * Unit vector pointing in the y-axis.
+   *
+   * @readonly
+   * @type {Vector3}
+   */
+  static Y = new Vector3(0, 1, 0)
+
+  /**
+   * Unit vector pointing in the z-axis.
+   *
+   * @readonly
+   * @type {Vector3}
+   */
+  static Z = new Vector3(0, 0, 1)
+
+  /**
+   * Unit vector pointing in the negative x-axis.
+   *
+   * @readonly
+   * @type {Vector3}
+   */
+  static NEG_X = new Vector3(-1, 0, 0)
+
+  /**
+   * Unit vector pointing in the negative y-axis.
+   *
+   * @readonly
+   * @type {Vector3}
+   */
+  static NEG_Y = new Vector3(0, -1, 0)
+
+  /**
+   * Unit vector pointing in the negative z-axis.
+   *
+   * @readonly
+   * @type {Vector3}
+   */
+  static NEG_Z = new Vector3(0, 0, -1)
 }

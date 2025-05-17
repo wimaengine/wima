@@ -1,4 +1,4 @@
-import { Position2D, Orientation2D, Scale2D } from '../components/index.js'
+import { Position2D, Orientation2D, Scale2D, GlobalTransform2D } from '../components/index.js'
 
 /**
  * @param { number } dx
@@ -6,7 +6,7 @@ import { Position2D, Orientation2D, Scale2D } from '../components/index.js'
  * @param { number } a
  * @param { number } sx
  * @param { number } sy
- * @returns {[Position2D,Orientation2D,Scale2D]}
+ * @returns {[Position2D,Orientation2D,Scale2D,GlobalTransform2D]}
  */
 export function createTransform2D(
   dx = 0,
@@ -18,6 +18,7 @@ export function createTransform2D(
   return [
     new Position2D(dx, dy),
     new Orientation2D(a),
-    new Scale2D(sx, sy)
+    new Scale2D(sx, sy),
+    new GlobalTransform2D()
   ]
 }
