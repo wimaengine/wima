@@ -10,7 +10,6 @@ export class DevicePlugin extends Plugin {
   register(app) {
     const device = new Device()
     const ua = navigator.userAgent
-    const ae = document.createElement('audio')
 
     app.setResource(device)
 
