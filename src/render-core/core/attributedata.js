@@ -1,9 +1,10 @@
-export class Attribute{
+export class MeshAttributeData {
 
   /**
-   * @private
    * @type {Float32Array}
    */
+  data
+  
   /**
    * @param {Float32Array} data
    */
