@@ -827,12 +827,6 @@ export class Mesh {
     return new Mesh()
   }
 
-  static Position2DLocation = new AttributeLocation(
-    'position2d',
-    0,
-    GlDataType.Float,
-    2
-  )
   static Position3DLocation = new AttributeLocation(
     'position3d',
     1,

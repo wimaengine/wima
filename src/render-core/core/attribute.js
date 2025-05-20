@@ -38,4 +38,11 @@ export class MeshAttribute {
     this.type = type
     this.size = size
   }
+
+  static Position2D = new MeshAttribute(
+    'position2d',
+    0,
+    GlDataType.Float,
+    2
+  )
 }
