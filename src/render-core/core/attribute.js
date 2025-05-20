@@ -45,4 +45,11 @@ export class MeshAttribute {
     GlDataType.Float,
     2
   )
+
+  static Position3D = new MeshAttribute(
+    'position3d',
+    1,
+    GlDataType.Float,
+    3
+  )
 }

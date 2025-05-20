@@ -827,12 +827,6 @@ export class Mesh {
     return new Mesh()
   }
 
-  static Position3DLocation = new AttributeLocation(
-    'position3d',
-    1,
-    GlDataType.Float,
-    3
-  )
   static UVLocation = new AttributeLocation(
     'uv',
     2,
