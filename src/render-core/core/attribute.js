@@ -1,6 +1,6 @@
 import { GlDataType } from '../../render-webgl/index.js'
 
-export class AttributeLocation {
+export class MeshAttribute {
 
   /**
    * @readonly
