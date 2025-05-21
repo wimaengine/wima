@@ -73,4 +73,11 @@ export class MeshAttribute {
     GlDataType.Float,
     2
   )
+
+  static Normal3D = new MeshAttribute(
+    'normal3d',
+    5,
+    GlDataType.Float,
+    3
+  )
 }
