@@ -827,12 +827,6 @@ export class Mesh {
     return new Mesh()
   }
 
-  static Tangent3DLocation = new AttributeLocation(
-    'tangent3d',
-    7,
-    GlDataType.Float,
-    3
-  )
   static ColorLocation = new AttributeLocation(
     'color',
     8,
