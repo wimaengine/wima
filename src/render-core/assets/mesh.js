@@ -827,12 +827,6 @@ export class Mesh {
     return new Mesh()
   }
 
-  static UVBLocation = new AttributeLocation(
-    'uvb',
-    3,
-    GlDataType.Float,
-    2
-  )
   static Normal2DLocation = new AttributeLocation(
     'normal2d',
     4,

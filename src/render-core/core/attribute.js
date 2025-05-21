@@ -59,4 +59,11 @@ export class MeshAttribute {
     GlDataType.Float,
     2
   )
+
+  static UVB = new MeshAttribute(
+    'uvb',
+    3,
+    GlDataType.Float,
+    2
+  )
 }
