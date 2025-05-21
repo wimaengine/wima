@@ -1,7 +1,5 @@
 import { Vector2, Vector3 } from '../../math/index.js'
-import { GlDataType } from '../../render-webgl/index.js'
-import { AttributeLocation } from '../core/atributelocation.js'
-import { Attribute } from '../core/attribute.js'
+import { MeshAttributeData } from '../core/attributedata.js'
 
 /** */
 export class Mesh {
@@ -14,7 +12,7 @@ export class Mesh {
 
   /**
    * @private
-   * @type {Map<string,Attribute>}
+   * @type {Map<string,MeshAttributeData>}
    */
   attributes = new Map()
 
@@ -36,7 +34,7 @@ export class Mesh {
 
   /**
    * @param {string} name
-   * @returns {Attribute | undefined} 
+   * @returns {MeshAttributeData | undefined} 
    */
   getAttribute(name) {
     return this.attributes.get(name)
@@ -44,7 +42,7 @@ export class Mesh {
 
   /**
    * @param {string} name
-   * @param {Attribute} attribute
+   * @param {MeshAttributeData} attribute
    */
   setAttribute(name, attribute) {
     this.attributes.set(name, attribute)
@@ -53,7 +51,7 @@ export class Mesh {
   }
 
   /**
-   * @returns {Readonly<Map<string,Attribute>>}
+   * @returns {Readonly<Map<string,MeshAttributeData>>}
    */
   getAttributes() {
     return this.attributes
@@ -84,7 +82,7 @@ export class Mesh {
       -height / 2
     ])
 
-    geometry.setAttribute('position2d', new Attribute(positions))
+    geometry.setAttribute('position2d', new MeshAttributeData(positions))
 
     return geometry
   }
@@ -109,7 +107,7 @@ export class Mesh {
     }
     
     geometry
-      .setAttribute('position2d', new Attribute(new Float32Array(positions)))
+      .setAttribute('position2d', new MeshAttributeData(new Float32Array(positions)))
 
     return geometry
   }
@@ -137,7 +135,7 @@ export class Mesh {
       l2.y + y
     ])
 
-    geometry.setAttribute('position2d', new Attribute(positions))
+    geometry.setAttribute('position2d', new MeshAttributeData(positions))
 
     return geometry
   }
@@ -147,7 +145,7 @@ export class Mesh {
 
     mesh
       .setIndices(new Uint16Array([0, 1, 2]))
-      .setAttribute('position3d', new Attribute(new Float32Array([
+      .setAttribute('position3d', new MeshAttributeData(new Float32Array([
         -base / 2,
         -height / 2,
         0,
@@ -194,15 +192,15 @@ export class Mesh {
       )
       .setAttribute(
         'position3d',
-        new Attribute(new Float32Array(vertices))
+        new MeshAttributeData(new Float32Array(vertices))
       )
       .setAttribute(
         'normal3d',
-        new Attribute(new Float32Array(normals))
+        new MeshAttributeData(new Float32Array(normals))
       )
       .setAttribute(
         'uv',
-        new Attribute(new Float32Array(uvs))
+        new MeshAttributeData(new Float32Array(uvs))
       )
 
     return mesh
@@ -258,9 +256,9 @@ export class Mesh {
 
     mesh
       .setIndices(new Uint16Array(indices))
-      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
-      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
-      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+      .setAttribute('position3d', new MeshAttributeData(new Float32Array(vertices)))
+      .setAttribute('normal3d', new MeshAttributeData(new Float32Array(normals)))
+      .setAttribute('uv', new MeshAttributeData(new Float32Array(uvs)))
 
     return mesh
   }
@@ -315,9 +313,9 @@ export class Mesh {
 
     mesh
       .setIndices(new Uint16Array(indices))
-      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
-      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
-      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+      .setAttribute('position3d', new MeshAttributeData(new Float32Array(vertices)))
+      .setAttribute('normal3d', new MeshAttributeData(new Float32Array(normals)))
+      .setAttribute('uv', new MeshAttributeData(new Float32Array(uvs)))
 
     return mesh
   }
@@ -437,9 +435,9 @@ export class Mesh {
 
     mesh
       .setIndices(new Uint16Array(indices))
-      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
-      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
-      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+      .setAttribute('position3d', new MeshAttributeData(new Float32Array(vertices)))
+      .setAttribute('normal3d', new MeshAttributeData(new Float32Array(normals)))
+      .setAttribute('uv', new MeshAttributeData(new Float32Array(uvs)))
 
     return mesh
   }
@@ -488,13 +486,13 @@ export class Mesh {
       .setIndices(new Uint16Array(indices))
 
       // @ts-ignore
-      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
+      .setAttribute('position3d', new MeshAttributeData(new Float32Array(vertices)))
 
       // @ts-ignore
-      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
+      .setAttribute('normal3d', new MeshAttributeData(new Float32Array(normals)))
 
       // @ts-ignore
-      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+      .setAttribute('uv', new MeshAttributeData(new Float32Array(uvs)))
 
     /**
      * @param {string} u
@@ -637,9 +635,9 @@ export class Mesh {
 
     mesh
       .setIndices(new Uint16Array(indices))
-      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
-      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
-      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+      .setAttribute('position3d', new MeshAttributeData(new Float32Array(vertices)))
+      .setAttribute('normal3d', new MeshAttributeData(new Float32Array(normals)))
+      .setAttribute('uv', new MeshAttributeData(new Float32Array(uvs)))
 
     return mesh
 
@@ -694,9 +692,9 @@ export class Mesh {
 
     mesh
       .setIndices(new Uint16Array(indices))
-      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
-      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
-      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+      .setAttribute('position3d', new MeshAttributeData(new Float32Array(vertices)))
+      .setAttribute('normal3d', new MeshAttributeData(new Float32Array(normals)))
+      .setAttribute('uv', new MeshAttributeData(new Float32Array(uvs)))
 
     return mesh
 
@@ -762,9 +760,9 @@ export class Mesh {
 
     mesh
       .setIndices(new Uint16Array(indices))
-      .setAttribute('position3d', new Attribute(new Float32Array(vertices)))
-      .setAttribute('normal3d', new Attribute(new Float32Array(normals)))
-      .setAttribute('uv', new Attribute(new Float32Array(uvs)))
+      .setAttribute('position3d', new MeshAttributeData(new Float32Array(vertices)))
+      .setAttribute('normal3d', new MeshAttributeData(new Float32Array(normals)))
+      .setAttribute('uv', new MeshAttributeData(new Float32Array(uvs)))
 
     /**
      * @param {boolean} top
