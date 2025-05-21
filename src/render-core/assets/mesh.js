@@ -827,12 +827,6 @@ export class Mesh {
     return new Mesh()
   }
 
-  static UVLocation = new AttributeLocation(
-    'uv',
-    2,
-    GlDataType.Float,
-    2
-  )
   static UVBLocation = new AttributeLocation(
     'uvb',
     3,
