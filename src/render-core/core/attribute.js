@@ -94,4 +94,11 @@ export class MeshAttribute {
     GlDataType.Float,
     3
   )
+
+  static Color = new MeshAttribute(
+    'color',
+    8,
+    GlDataType.Float,
+    4
+  )
 }

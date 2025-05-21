@@ -826,11 +826,4 @@ export class Mesh {
   static default() {
     return new Mesh()
   }
-
-  static ColorLocation = new AttributeLocation(
-    'color',
-    8,
-    GlDataType.Float,
-    4
-  )
 }
