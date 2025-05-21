@@ -66,4 +66,11 @@ export class MeshAttribute {
     GlDataType.Float,
     2
   )
+
+  static Normal2D = new MeshAttribute(
+    'normal2d',
+    4,
+    GlDataType.Float,
+    2
+  )
 }
