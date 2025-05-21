@@ -80,4 +80,11 @@ export class MeshAttribute {
     GlDataType.Float,
     3
   )
+
+  static Tangent2D = new MeshAttribute(
+    'tangent2d',
+    6,
+    GlDataType.Float,
+    2
+  )
 }
