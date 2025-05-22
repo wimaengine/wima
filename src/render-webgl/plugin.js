@@ -116,12 +116,15 @@ function render(world) {
       gl.bindVertexArray(gpumesh)
 
       const indices = mesh.getIndices()
-      const count = mesh.getAttribute('position3d')?.data.length
-
-      if (count === undefined) return
+      
       if (indices) {
         gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0)
       } else {
+        const positions = mesh.getAttribute('position3d')
+        
+        if (positions === undefined) return
+  
+        const count = positions.data.length
         gl.drawArrays(gl.TRIANGLES, 0, count / 3)
       }
     })
