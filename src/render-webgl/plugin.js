@@ -109,11 +109,11 @@ function render(world) {
 
       assert(ubo, `The uniform buffer for material '${material.constructor.name}' is not set up.` )
 
+      gl.useProgram(pipeline.program)
       pipeline.setUniformMatrix3x4(gl, 'model', transform)
       gl.bindBuffer(gl.UNIFORM_BUFFER, ubo.buffer)
       gl.bufferSubData(gl.UNIFORM_BUFFER, 0, data)
       gl.bindVertexArray(gpumesh)
-      gl.useProgram(pipeline.program)
 
       const indices = mesh.getIndices()
       const count = mesh.getAttribute('position3d')?.data.length
