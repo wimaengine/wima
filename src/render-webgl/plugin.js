@@ -125,6 +125,7 @@ function render(world) {
         if (positions === undefined) return
   
         const count = positions.data.length
+
         gl.drawArrays(gl.TRIANGLES, 0, count / 3)
       }
     })
