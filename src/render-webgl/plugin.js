@@ -3,7 +3,7 @@ import { Assets } from '../asset/index.js'
 import { ComponentHooks, Entity, Query, World } from '../ecs/index.js'
 import { EventDispatch } from '../event/index.js'
 import { assert, warn } from '../logger/index.js'
-import { Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache } from '../render-core/index.js'
+import { MeshAttribute, Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache } from '../render-core/index.js'
 import { GlobalTransform3D } from '../transform/index.js'
 import { MainWindow, Window, WindowResize, Windows } from '../window/index.js'
 import { materialAddHook, meshAddHook } from './hooks/index.js'
@@ -37,15 +37,15 @@ export class WebglRendererPlugin {
  */
 function registerDefaultAttributeLocs(attributeMap) {
   attributeMap
-    .set(Mesh.Position2DLocation.name, Mesh.Position2DLocation)
-    .set(Mesh.Position3DLocation.name, Mesh.Position3DLocation)
-    .set(Mesh.Normal2DLocation.name, Mesh.Normal2DLocation)
-    .set(Mesh.Normal3DLocation.name, Mesh.Normal3DLocation)
-    .set(Mesh.Tangent2DLocation.name, Mesh.Tangent2DLocation)
-    .set(Mesh.Tangent3DLocation.name, Mesh.Tangent3DLocation)
-    .set(Mesh.UVLocation.name, Mesh.UVLocation)
-    .set(Mesh.UVBLocation.name, Mesh.UVBLocation)
-    .set(Mesh.ColorLocation.name, Mesh.ColorLocation)
+    .set(MeshAttribute.Position2D.name, MeshAttribute.Position2D)
+    .set(MeshAttribute.Position3D.name, MeshAttribute.Position3D)
+    .set(MeshAttribute.Normal2D.name, MeshAttribute.Normal2D)
+    .set(MeshAttribute.Normal3D.name, MeshAttribute.Normal3D)
+    .set(MeshAttribute.Tangent2D.name, MeshAttribute.Tangent2D)
+    .set(MeshAttribute.Tangent3D.name, MeshAttribute.Tangent3D)
+    .set(MeshAttribute.UV.name, MeshAttribute.UV)
+    .set(MeshAttribute.UVB.name, MeshAttribute.UVB)
+    .set(MeshAttribute.Color.name, MeshAttribute.Color)
 }
 
 /**
