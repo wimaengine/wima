@@ -278,7 +278,7 @@ export class World {
    * @param {new (...args:any[])=>T} resourceType
    * @returns {T}
    */
-  getResource(resourceType) {    
+  getResource(resourceType) {
     return this.getResourceByTypeId(typeid(resourceType))
   }
 
@@ -290,9 +290,19 @@ export class World {
   getResourceByTypeId(id) {
     const resource = this.resources[id]
 
-    assert(resource, `The resource \`${id}\` does not exist in the world.`)
+    if (resource) {
+      return resource
+    }
 
-    return this.resources[id]
+    const aliasedid = this.resourceAliases.get(id)
+
+    assert(aliasedid, `The resource or resource alias \`${id}\` is non existent.`)
+
+    const aliasedResource = this.resources[aliasedid]
+
+    assert(aliasedResource, `The resource alias \`${id}\` points to a non-existent resource \`${aliasedid}\`.`)
+
+    return aliasedResource
   }
 
   /**
