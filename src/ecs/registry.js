@@ -319,6 +319,15 @@ export class World {
 
   /**
    * @template T
+   * @param {TypeId} id 
+   * @param {Constructor<T>} alias 
+   */
+  setResourceAlias(id, alias) {
+    this.resourceAliases.set(typeid(alias), id)
+  }
+
+  /**
+   * @template T
    * @param {Constructor<T>} type
    */
   registerType(type) {
