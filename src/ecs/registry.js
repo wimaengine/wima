@@ -24,6 +24,12 @@ export class World {
 
   /**
    * @private
+   * @type {Map<TypeId,TypeId>}
+   */
+  resourceAliases = new Map()
+
+  /**
+   * @private
    * @type {TypeStore}
    */
   typestore = new TypeStore()
@@ -137,9 +143,9 @@ export class World {
     this.table.remove(archid, index)
 
     const [combinedid, combined] = this.resolveCombine(
-      idextract, 
+      idextract,
       extract,
-      ids, 
+      ids,
       components
     )
 
