@@ -1,6 +1,5 @@
 import {
   Assets,
-  Attribute,
   WebglBasicMaterial,
   Demo,
   Material,
@@ -10,7 +9,8 @@ import {
   Scale3D,
   GlobalTransform3D,
   World,
-  Cleanup
+  Cleanup,
+  MeshAttributeData
 } from 'wima'
 import { addCamera3D } from './utils.js'
 
@@ -27,14 +27,13 @@ function addmesh(world) {
 
   const mesh = Mesh.triangle3D()
   const material = new WebglBasicMaterial({
-    enableVertexColors:true,
-    flags:1
+    enableVertexColors:true
   })
 
   mesh
     .setAttribute(
       'color',
-      new Attribute(new Float32Array([
+      new MeshAttributeData(new Float32Array([
         1,
         0,
         0,
