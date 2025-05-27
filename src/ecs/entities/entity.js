@@ -1,6 +1,7 @@
 export class Entity {
 
   /**
+   * @readonly
    * @type {number}
    */
   index
