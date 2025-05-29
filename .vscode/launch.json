@@ -10,6 +10,13 @@
       "request": "launch",
       "url": "http://127.0.0.1:8082/demos/index.html",
       "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "(Chrome):Launch WebGL demo",
+      "request": "launch",
+      "type": "chrome",
+      "url": "http://127.0.0.1:8082/demos/webgl.html",
+      "webRoot": "${workspaceFolder}"
     }
   ]
 }
