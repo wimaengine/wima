@@ -17,6 +17,24 @@
       "type": "chrome",
       "url": "http://127.0.0.1:8082/demos/webgl.html",
       "webRoot": "${workspaceFolder}"
+    },
+    {
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "name": "(FireFox):Launch main demo",
+      "url": "http://127.0.0.1:8082/demos/index.html",
+      "webRoot": "${workspaceFolder}",
+      "pathMappings": [
+        {
+          "url": "http://127.0.0.1:8082/demos",
+          "path": "${workspaceFolder}/demos"
+        },
+        {
+          "url": "http://127.0.0.1:8082/src",
+          "path": "${workspaceFolder}/src"
+        }
+      ]
     }
   ]
 }
