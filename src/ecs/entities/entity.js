@@ -18,6 +18,13 @@ export class Entity {
   equals(other){
     return this.index === other.index
   }
+
+  /**
+   * @returns {EntityId}
+   */
+  id(){
+    return this.index
+  }
 }
 
 /**
