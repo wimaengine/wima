@@ -19,3 +19,7 @@ export class Entity {
     return this.index === other.index
   }
 }
+
+/**
+ * @typedef {number} EntityId
+ */
