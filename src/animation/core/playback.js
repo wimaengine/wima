@@ -1,13 +1,19 @@
 import { PlaybackRepeat } from "./repeat.js"
 
 export class Playback {
-  speed = 1
-  duration = 0
+  speed
+  duration
   elapsed = 0
-  repeatMode = AnimationRepeat.None
+  repeatMode
   paused = false
-  constructor({ duration, speed = 1 } = {}) {
-    this.withSettings(settings)
+  constructor({
+    duration,
+    speed = 1,
+    repeatMode = PlaybackRepeat.None
+  }) {
+    this.duration = duration
+    this.speed = speed
+    this.repeatMode = repeatMode
   }
   
   start() {
@@ -29,20 +35,16 @@ export class Playback {
       return
     }
     
-    const seekTime = elapsed + dt * playback.speed
-    
+    const seekTime = this.elapsed + delta * this.speed
+    this.elapsed = seekTime
     switch (this.repeatMode) {
       case PlaybackRepeat.None:
         this.elapsed = Math.min(this.duration, seekTime)
         break;
       case PlaybackRepeat.Forever:
-        playback.elapsed %= clip.duration
+        
+        this.elapsed %= this.duration
         break;
     }
-  }
-  
-  withSettings(settings) {
-    this.duration = duration
-    this.speed = speed
   }
 }

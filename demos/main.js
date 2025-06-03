@@ -23,6 +23,7 @@ import {
   warn,
   createCamera2D
 } from 'chaosstudio'
+import {animation} from './demos/animation/index.js'
 import spawn from './demos/spawn.js'
 import despawn from './demos/despawn.js'
 import easing from './demos/easing.js'
@@ -38,6 +39,7 @@ app
   .registerPlugin(new AssetPlugin())
   .registerPlugin(new AudioPlugin())
   .registerPlugin(new TimePlugin())
+  .registerPlugin(new StoragePlugin())
   .registerPlugin(new WindowPlugin())
   .registerPlugin(new DOMWindowPlugin())
   .registerPlugin(new InputPlugin())
@@ -52,6 +54,7 @@ app
   .registerDebugger(new FPSDebugger())
   .registerPlugin(new DemoPlugin({
     demos: [
+      animation,
       spawn,
       despawn,
       materials,

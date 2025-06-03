@@ -10,7 +10,10 @@ import {
   Cleanup,
   AnimationClip,
   AnimationTrack,
-  AnimationTarget
+  AnimationTarget,
+  AnimationPlayer,
+  KeyFrameType,
+  PlaybackRepeat
 } from 'chaosstudio'
 
 export const animation = new Demo('basic animation', [init])
@@ -24,32 +27,76 @@ export function init(world) {
   const meshes = world.getResource('assets<mesh>')
   const materials = world.getResource('assets<material>')
   const images = world.getResource('assets<image>')
-  const clip = clips.add("move", createClip())
-
+  const rawClip = createClip()
+  const clip = clips.add("move", rawClip)
   const mesh = meshes.add('animation', Mesh.quad2D(50, 50))
   const material = materials.add('animation', new CanvasMeshedMaterial({
     fill: new Color(1, 1, 1)
   }))
   const targetname = "/bone"
   const animationplayer = new AnimationPlayer()
+  
+  animationplayer.set(clip, {
+    duration: rawClip.duration,
+    repeatMode: PlaybackRepeat.Forever
+  })
   const player = commands
     .spawn()
     .insert(animationplayer)
     .build()
+  
   commands
     .spawn()
     .insertPrefab(createTransform2D(120, 120))
     .insert(mesh)
     .insert(material)
     .insert(new Cleanup())
-    .insert(new AnimationTarget(player))
+    .insert(new AnimationTarget(player, targetname))
     .build()
 }
 
 function createClip() {
   const clip = new AnimationClip()
-
+  
   const translate = new AnimationTrack()
-
+  const rotate = new AnimationTrack()
+  const scale = new AnimationTrack()
+  
+  translate.times = [0, 2, 4, 6, 8]
+  rotate.times = [0, 2, 4, 6, 8]
+  scale.times = [0, 2, 4, 6, 8]
+  
+  translate.keyframes = [
+    100, 100,
+    100, 300,
+    300, 300,
+    300, 100,
+    100, 100
+  ]
+  rotate.keyframes = [
+    0,
+    Math.PI / 2,
+    Math.PI,
+    Math.PI * 3 / 2,
+    Math.PI * 2
+  ]
+  scale.keyframes = [
+    1, 1,
+    2, 2,
+    1, 1,
+    2, 2,
+    1, 1
+  ]
+  
+  translate.type = KeyFrameType.Position2D
+  rotate.type = KeyFrameType.Orientation2D
+  scale.type = KeyFrameType.Scale2D
+  
+  
+  clip.add('/bone', translate)
+  clip.add('/bone', rotate)
+  clip.add('/bone', scale)
+  clip.calculateDuration()
+  
   return clip
 }

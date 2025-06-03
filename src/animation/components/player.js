@@ -14,13 +14,14 @@ export class AnimationPlayer {
    * @param {Handle<AnimationClip>} clip
    */
   set(handle, settings) {
-    const playback = new AnimationPlayback(settings)
+    const playback = new Playback(settings)
     this.animations.set(handle.handle, playback)
     return this
   }
   get(handle) {
     return this.animations.get(handle.handle)
   }
+  
   delete(handle) {
     this.animations.delete(handle.handle)
     return this
