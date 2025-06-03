@@ -50,7 +50,6 @@ export function dampenRotation3D(world) {
   const angular = 1 - world.getResource(Angular3DDamping).value
   
   query.each(([rotation]) => {
-    rotation.w *= angular
     rotation.x *= angular
     rotation.y *= angular
     rotation.z *= angular
