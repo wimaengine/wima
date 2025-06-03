@@ -1,6 +1,6 @@
 import { Device } from '../../device/index.js'
 import { World } from '../../ecs/index.js'
-import { EventDispatch } from '../../event/index.js'
+import { Events } from '../../event/index.js'
 import { getFileExtension } from '../../utils/index.js'
 import { Assets, Parser } from '../core/index.js'
 import { AssetLoadFail, AssetLoadSuccess } from '../events/index.js'
@@ -24,10 +24,10 @@ export function generateParserSystem(name) {
     /** @type {Parser<T>} */
     const parser = world.getResourceByName(`parser<${name}>`)
 
-    /** @type {EventDispatch<AssetLoadSuccess>} */
+    /** @type {Events<AssetLoadSuccess>} */
     const success = world.getResourceByName('events<assetloadsuccess>')
 
-    /** @type {EventDispatch<AssetLoadFail>} */
+    /** @type {Events<AssetLoadFail>} */
     const fail = world.getResourceByName('events<assetloadfail>')
 
     /** @type {AssetBasePath<T>} */
