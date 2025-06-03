@@ -9,7 +9,7 @@ import { CEvent } from './event.js'
  * @example
  * ```typescript
  * //Creates a new event dispatcher with string as its event payload.
- * const dispatch = new EventDispatch<string>()
+ * const dispatch = new Events<string>()
  * 
  * //adds an event to dispatcher
  * dispatch.write("hello there")
@@ -23,7 +23,7 @@ import { CEvent } from './event.js'
  * dispatch.clear()
  * ```
  */
-export class EventDispatch {
+export class Events {
 
   /**
    * @private
