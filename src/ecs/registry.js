@@ -174,7 +174,11 @@ export class World {
 
     assert(ids, `Cannot insert "${components.map((e) => `\`${e.constructor.name}\``).join(', ')}" into \`World\`.Ensure that all of them are registered properly using \`World.registerType()\``)
 
-    const [idextract, extract] = this.table.extract(archid, index)
+    const extracted = this.table.extract(archid, index)
+
+    assert(extracted, 'Invalid extraction on insert')
+
+    const [idextract, extract] = extracted
 
     this.table.remove(archid, index)
 
