@@ -2,7 +2,7 @@ import { App, AppSchedule } from '../app/index.js'
 import { Mouse, MouseButtons } from './resources/index.js'
 import { MouseButton } from './core/index.js'
 import { World } from '../ecs/index.js'
-import { EventDispatch } from '../event/index.js'
+import { Events } from '../event/index.js'
 import { MouseDown, MouseMove, MouseUp } from '../window/index.js'
 
 export class MousePlugin {
@@ -26,7 +26,7 @@ export class MousePlugin {
 function updateMouse(world) {
   const mouse = world.getResource(Mouse)
 
-  const move = /** @type {EventDispatch<MouseMove>} */(world.getResourceByName('events<mousemove>')).readLast()
+  const move = /** @type {Events<MouseMove>} */(world.getResourceByName('events<mousemove>')).readLast()
 
   if (!move) return
 
