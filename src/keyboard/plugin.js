@@ -1,7 +1,7 @@
 import { App, AppSchedule } from '../app/index.js'
 import { Keyboard } from './resources/index.js'
 import { KeyUp, KeyDown } from '../window/index.js'
-import { EventDispatch } from '../event/index.js'
+import { Events } from '../event/index.js'
 import { World } from '../ecs/index.js'
 import { KeyCode } from './core/key.js'
 
@@ -23,10 +23,10 @@ export class KeyboardPlugin {
 function updateKeyBoard(world) {
   const keyboard = world.getResource(Keyboard)
 
-  /** @type {EventDispatch<KeyDown>}*/
+  /** @type {Events<KeyDown>}*/
   const down = world.getResourceByName('events<keydown>')
 
-  /** @type {EventDispatch<KeyUp>}*/
+  /** @type {Events<KeyUp>}*/
   const up = world.getResourceByName('events<keyup>')
 
   keyboard.clearJustPressed()
