@@ -1,7 +1,7 @@
 /** @import { ComponentHook } from "../../ecs/index.js" */
 import { Query, Entity } from '../../ecs/index.js'
-import { Assets, Handle } from '../../asset/index.js'
-import { Mesh } from '../../render-core/index.js'
+import { Assets } from '../../asset/index.js'
+import { Mesh, MeshHandle } from '../../render-core/index.js'
 import { createVAO } from '../core/function.js'
 import { MainWindow, Windows, Window } from '../../window/index.js'
 import { warn } from '../../logger/index.js'
@@ -13,10 +13,10 @@ import { MeshCache, AttributeMap } from '../resources/index.js'
  * @type {ComponentHook} 
  */
 export function meshAddHook(entity, world) {
-  const attributeMap = world.getResource(AttributeMap)
 
-  /** @type {Handle<Mesh>} */
-  const handle = world.get(entity, 'meshhandle')
+  // SAFETY: Component is guaranteed as this is its component hook
+  const handle = /** @type {MeshHandle} */(world.get(entity, MeshHandle))
+  const attributeMap = world.getResource(AttributeMap)
 
   /** @type {Assets<Mesh>} */
   const meshes = world.getResourceByName('assets<mesh>')
