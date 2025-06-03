@@ -18,5 +18,11 @@ export class Mouse {
    * @type {Vector2}
    */
   position = new Vector2()
+
+  /**
+   * @type {Vector2}
+   * 
+   */
+  delta = new Vector2()
 }
   
