@@ -1,6 +1,6 @@
 import { App, AppSchedule } from '../app/index.js'
 import { World } from '../ecs/index.js'
-import { EventDispatch } from '../event/index.js'
+import { Events } from '../event/index.js'
 import { TouchCancel, TouchEnd, TouchMove, TouchStart } from '../window/index.js'
 import { TouchPointer } from './core/index.js'
 import { Touches } from './resources/touches.js'
@@ -24,16 +24,16 @@ export class TouchPlugin {
 function updateTouch(world) {
   const touch = world.getResource(Touches)
 
-  /** @type {EventDispatch<TouchStart>} */
+  /** @type {Events<TouchStart>} */
   const start = world.getResourceByName('events<touchstart>')
 
-  /** @type {EventDispatch<TouchMove>} */
+  /** @type {Events<TouchMove>} */
   const move = world.getResourceByName('events<touchmove>')
 
-  /** @type {EventDispatch<TouchEnd>} */
+  /** @type {Events<TouchEnd>} */
   const end = world.getResourceByName('events<touchend>')
 
-  /** @type {EventDispatch<TouchCancel>} */
+  /** @type {Events<TouchCancel>} */
   const cancel = world.getResourceByName('events<touchcancel>')  
 
   start.each((event) => {
