@@ -145,8 +145,10 @@ export function drawArms(world) {
   ctx.beginPath()
 
   for (let i = 0; i < contacts.length; i++) {
-    const posA = world.get(contacts[i].entityA, 'transform')[0].position
-    const posB = world.get(contacts[i].entityB, 'transform')[0].position
+    const posA = world.get(contacts[i].entityA, Position2D)
+    const posB = world.get(contacts[i].entityB, Position2D)
+
+    if(!posA || !posB ) return
 
     for (let j = 0; j < contacts[i].contactData.contactNo; j++) {
       drawArmRaw(ctx, posA, contacts[i].contactData.contactPoints[j])
