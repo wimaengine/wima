@@ -1,7 +1,7 @@
 import { App, AppSchedule } from '../app/index.js'
 import { Assets } from '../asset/index.js'
 import { ComponentHooks, Entity, Query, World } from '../ecs/index.js'
-import { EventDispatch } from '../event/index.js'
+import { Events } from '../event/index.js'
 import { assert, warn } from '../logger/index.js'
 import { MeshAttribute, Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache } from '../render-core/index.js'
 import { GlobalTransform3D } from '../transform/index.js'
@@ -141,7 +141,7 @@ function resizegl(world) {
   /** @type {Windows} */
   const canvases = world.getResource(Windows)
 
-  /** @type {EventDispatch<WindowResize>} */
+  /** @type {Events<WindowResize>} */
   const resizeEvents = world.getResourceByName('events<windowresize>')
 
   const window = windows.single()
