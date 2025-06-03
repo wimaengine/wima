@@ -24,5 +24,12 @@ export class Mouse {
    * 
    */
   delta = new Vector2()
+
+  /**
+   * @returns {boolean}
+   */
+  moved(){
+    return !this.delta.equals(Vector2.ZERO)
+  }
 }
   
