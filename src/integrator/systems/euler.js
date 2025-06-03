@@ -1,5 +1,5 @@
 import { Query, World } from '../../ecs/index.js'
-import { Vector2, Vector3 } from '../../math/index.js'
+import { Quaternion, Vector2, Vector3 } from '../../math/index.js'
 import { Acceleration2D, Acceleration3D, Rotation2D, Rotation3D, Torque2D, Torque3D, Velocity2D, Velocity3D } from '../../movable/index.js'
 import { Orientation2D, Orientation3D, Position2D, Position3D } from '../../transform/index.js'
 
@@ -85,12 +85,14 @@ export function updateVelocityEuler3D(world) {
  */
 export function updateAngularEuler3D(world) {
   const query = new Query(world, [Rotation3D, Torque3D])
+  const dt = 1 / 60
 
   query.each(([rotation, torque]) => {
+    const temp = Vector3.multiplyScalar(torque, dt)
 
-    // doesnt integrate dt,find a way to do that.
-    rotation.multiply(torque)
-    torque.set(0, 0, 0, 0)
+
+    rotation.multiply(temp)
+    torque.set(0, 0, 0)
   })
 }
 
@@ -116,10 +118,14 @@ export function updatePositionEuler3D(world) {
  */
 export function updateOrientationEuler3D(world) {
   const query = new Query(world, [Orientation3D, Rotation3D])
+  const dt = 1 / 60 
 
   query.each(([orientation, rotation]) => {
+    const temp1 = Vector3.multiplyScalar(rotation, dt)
+    const temp = Quaternion.fromEuler(temp1.x, temp1.y, temp1.z)
 
-    // doesnt integrate dt,find a way to do that.
-    orientation.multiply(rotation)
+    orientation.multiply(temp)
+    orientation.normalize()
+    
   })
 }
