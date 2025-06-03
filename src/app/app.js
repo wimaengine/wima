@@ -186,11 +186,12 @@ export class App {
   }
 
   /**
-   * @param {Function} component
+   * @template T
+   * @param {new (...args:any[])=>T} component
    * @param {ComponentHooks} hooks
    */
   setComponentHooks(component, hooks) {
-    this.world.setComponentHooks(component.name.toLowerCase(), hooks)
+    this.world.setComponentHooks(component, hooks)
 
     return this
   }
