@@ -19,6 +19,6 @@ export class MouseMove {
    */
   constructor(event) {
     this.position.set(event.x, event.y)
-    this.delta.set(event.movementX,event.movementY)
+    this.delta.set(event.movementX, event.movementY)
   }
 }
