@@ -69,4 +69,8 @@ export class Events {
   write(data) {
     this.buffer.push(new CEvent(data))
   }
+
+  count(){
+    return this.buffer.length
+  }
 }
