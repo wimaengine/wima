@@ -244,11 +244,12 @@ export class World {
   /**
    * @template T
    * @param {Entity} entity
-   * @param { string  } compName
+   * @param { new (...args:any[])=> T} type
    * @returns {T | null}
    */
-  get(entity, compName) {
+  get(entity, type) {
     const location = this.entities.get(entity.index)
+    const compName = type.name.toLowerCase()
 
     if(!location) return null
 

@@ -8,7 +8,9 @@ import { setUpKeyboardEvents, setupMouseEvents, setUpTouchEvents, setUpWindowEve
  * @type {ComponentHook}
  */
 export function openWindow(entity, world) {
-  const window = /** @type {Window}*/(world.get(entity, 'window'))
+
+  // SAFETY: Component is guaranteed as this is its component hook
+  const window = /** @type {Window}*/(world.get(entity, Window))
   const windows = world.getResource(Windows)
   let element
 
