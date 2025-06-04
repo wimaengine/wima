@@ -1,6 +1,6 @@
 import { App, AppSchedule, SystemConfig } from '../app/index.js'
 import { makeEventClear } from './systems/index.js'
-import { EventDispatch } from './core/index.js'
+import { Events } from './core/index.js'
 
 export class EventPlugin {
 
@@ -29,7 +29,7 @@ export class EventPlugin {
     app
       .registerType(event)
       .getWorld()
-      .setResourceByName(name, new EventDispatch())
+      .setResourceByName(name, new Events())
     
     // TODO - Once system ordering is implemented,remove this
     // and `App.systemsevents`.
