@@ -1,6 +1,5 @@
 /** @import { ComponentId, ArchetypeId, ArchetypeFilter } from '../typedef/index.js'*/
 import { swapRemove } from '../../utils/index.js'
-import { assert } from '../../logger/index.js'
 
 /**
  * Contains entities with the same set of components.
@@ -165,14 +164,14 @@ export class ArchetypeTable {
   /**
    * @param {ArchetypeId} id
    * @param {number} index
-   * @returns {[ComponentId[],unknown[]]}
+   * @returns {[ComponentId[],unknown[]] | null}
    */
   extract(id, index) {
     const keys = []
     const components = []
     const archetype = this.list[id]
 
-    assert(archetype, 'Tried to extract from a non existent archetype.')
+    if(!archetype) return null
 
     for (const [key, list] of archetype.components) {
       keys.push(key)
