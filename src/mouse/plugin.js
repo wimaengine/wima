@@ -4,6 +4,7 @@ import { MouseButton } from './core/index.js'
 import { World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
 import { MouseDown, MouseMove, MouseUp } from '../window/index.js'
+import { Vector2 } from '../math/index.js'
 
 export class MousePlugin {
 
@@ -28,8 +29,11 @@ function updateMouse(world) {
 
   const move = /** @type {Events<MouseMove>} */(world.getResourceByName('events<mousemove>')).readLast()
 
+  mouse.delta.copy(Vector2.ZERO)
+
   if (!move) return
 
+  mouse.delta.copy(move.data.delta)
   mouse.position.copy(move.data.position)
 }
 
