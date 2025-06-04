@@ -1,4 +1,4 @@
-/** @import {SystemFunc} from "../../ecs/index" */
+/** @import {SystemFunc} from "../../ecs/index.js" */
 export class SystemConfig {
 
   /**

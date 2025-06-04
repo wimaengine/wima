@@ -1,4 +1,5 @@
 /** @import { Command } from "../core/index.js" */
+/** @import {World} from '../../ecs/index.js' */
 
 /**
  * @template {Command} T
