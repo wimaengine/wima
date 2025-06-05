@@ -43,3 +43,29 @@ export function removeSelfFromParent(entity, world) {
 
   children?.remove(entity)
 }
+
+/**
+ * Component hook that ensures the children of
+ * an entity have the parent component referencing
+ * the entity.
+ * 
+ * @type {ComponentHook}
+ */
+export function addSelfToChildren(entity, world) {
+  const children = world.get(entity, Children)
+
+  if (!children) {
+    return
+  }
+
+  for (let i = 0; i < children.list.length; i++) {
+    const child = children.list[i]
+    const parent = world.get(child, Parent)
+
+    if (!parent) {
+      world.insert(child, [new Parent(entity)])
+    } else {
+      parent.entity = entity
+    }
+  }
+}
