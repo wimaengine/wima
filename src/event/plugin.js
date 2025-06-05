@@ -1,3 +1,5 @@
+/** @import { Constructor } from '../reflect/index.js'*/
+
 import { App, AppSchedule, SystemConfig } from '../app/index.js'
 import { makeEventClear } from './systems/index.js'
 import { Events } from './core/index.js'
@@ -6,12 +8,12 @@ export class EventPlugin {
 
   /**
    * @readonly
-   * @type {Function}
+   * @type {Constructor}
    */
   event
 
   /**
-   * @param {{ event: Function; }} options
+   * @param {{ event: Constructor; }} options
    */
   constructor(options) {
     const { event } = options
