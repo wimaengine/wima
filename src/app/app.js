@@ -1,6 +1,8 @@
 /** @import { ChaosPlugin } from './typedef/index.js' */
 /** @import { SystemFunc } from '../ecs/index.js' */
 /** @import { HandleProvider, Parser } from '../asset/index.js' */
+/** @import { Constructor } from '../reflect/index.js'*/
+
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
 import { EventPlugin } from '../event/index.js'
 import { assert, deprecate } from '../logger/index.js'
@@ -125,7 +127,7 @@ export class App {
   }
 
   /**
-   * @param {Function} type
+   * @param {Constructor} type
    */
   registerType(type) {
     this.world.registerType(type)
@@ -141,6 +143,8 @@ export class App {
   registerEvent(event) {
     deprecate('App.registerEvent()', 'EventPlugin')
     this.registerPlugin(
+
+      // @ts-ignore
       new EventPlugin({ event })
     )
 
