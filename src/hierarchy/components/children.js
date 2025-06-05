@@ -8,6 +8,14 @@ export class Children {
    */
   list = []
 
+   
+  /**
+   * @param {Entity[]} children
+   */
+  constructor(children = []){
+    this.list = children
+  }
+
   /**
    * @param {Entity} entity
    */
