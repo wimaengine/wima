@@ -81,7 +81,6 @@ export class TypeStore {
   }
 
   /**
-   * 
    * @returns {Iterable<ComponentInfo>}
    */
   getInfos(){
