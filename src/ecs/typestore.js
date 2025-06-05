@@ -43,11 +43,12 @@ export class TypeStore {
   }
 
   /**
-   * @param {string} name
+   * @template T
+   * @param {Constructor<T>} type
    * @returns {ComponentInfo | undefined}
    */
-  get(name) {
-    const id = this.getId(name)
+  get(type) {
+    const id = this.getId(type)
 
     if (id === void 0) return undefined
 
