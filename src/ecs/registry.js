@@ -308,10 +308,9 @@ export class World {
    * @param {ComponentHooks} hooks
    */
   setComponentHooks(component, hooks) {
-    const componentname = component.name.toLowerCase()
-    const info = this.typestore.get(componentname)
+    const info = this.typestore.get(component)
 
-    assert(info, `The component "${componentname}" has not been registered.Use \`World.registerType()\` to add it.`)
+    assert(info, `The component "${component.name}" has not been registered.Use \`World.registerType()\` to add it.`)
     info.setHooks(hooks)
   }
 
