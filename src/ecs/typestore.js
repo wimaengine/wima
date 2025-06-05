@@ -79,4 +79,12 @@ export class TypeStore {
   getId(type) {
     return this.map.get(typeid(type))
   }
+
+  /**
+   * 
+   * @returns {Iterable<ComponentInfo>}
+   */
+  getInfos(){
+    return this.list
+  }
 }
