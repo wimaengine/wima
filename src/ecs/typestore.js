@@ -64,10 +64,11 @@ export class TypeStore {
   }
 
   /**
-   * @param {string} name
+   * @template T
+   * @param {Constructor<T>} type
    * @returns {ComponentId | undefined}
    */
-  getId(name) {
-    return this.map.get(name)
+  getId(type) {
+    return this.map.get(typeid(type))
   }
 }
