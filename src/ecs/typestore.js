@@ -34,11 +34,12 @@ export class TypeStore {
   }
 
   /**
-   * @param {string} name
+   * @template T
+   * @param {Constructor<T>} type
    * @returns {boolean}
    */
-  has(name) {
-    return this.map.has(name)
+  has(type) {
+    return this.map.has(typeid(type))
   }
 
   /**
