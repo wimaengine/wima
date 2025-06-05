@@ -54,8 +54,7 @@ export class World {
     const ids = []
 
     for (let i = 0; i < components.length; i++) {
-      const name = components[i].constructor.name.toLowerCase()
-      const id = this.typestore.getId(name)
+      const id = this.typestore.getId(components[i])
 
       assert(id !== void 0, `The component "${name}" has not been registered into the \`World\`.Use \`World.registerType()\`to add it.`)
 
