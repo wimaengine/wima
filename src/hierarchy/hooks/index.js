@@ -69,3 +69,24 @@ export function addSelfToChildren(entity, world) {
     }
   }
 }
+
+/**
+ * Component hook that ensures when the parent
+ * is despawned, the children entities are also
+ * despawned 'recursively'.
+ * 
+ * @type {ComponentHook}
+ */
+export function despawnChildren(entity, world) {
+  const children = world.get(entity, Children)
+
+  if (!children) {
+    return
+  }
+
+  for (let i = 0; i < children.list.length; i++) {
+    const child = children.list[i]
+
+    world.remove(child)
+  }
+}
