@@ -62,13 +62,12 @@ export class Query {
    */
   constructor(registry, componentTypes) {
     this.registry = registry
-    const descriptors = componentTypes.map((type) => type.name.toLowerCase())
 
-    for (let i = 0; i < descriptors.length; i++) {
+    for (let i = 0; i < componentTypes.length; i++) {
       this.components[i] = []
     }
 
-    this.descriptors = registry.getComponentIdsByName(descriptors)
+    this.descriptors = registry.getComponentIds(componentTypes)
     this.update(registry.getTable())
   }
 
