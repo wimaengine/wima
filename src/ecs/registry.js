@@ -1,4 +1,5 @@
 /** @import { ComponentId } from './typedef/index.js'*/
+/** @import { Constructor } from '../reflect/index.js'*/
 
 import { ArchetypeTable } from './tables/index.js'
 import { TypeStore } from './typestore.js'
@@ -43,7 +44,7 @@ export class World {
   }
 
   /**
-   * @template {{}[]} T
+   * @template {Constructor[]} T
    * @param {[...T]} components
    * @returns {ComponentId[]}
    */
@@ -319,7 +320,8 @@ export class World {
   }
 
   /**
-   * @param {Function} type
+   * @template T
+   * @param {Constructor<T>} type
    */
   registerType(type) {
     this.typestore.set(type)
@@ -327,7 +329,7 @@ export class World {
 
   /**
    * @template T
-   * @param {new ()=>T} component
+   * @param {Constructor<T>} component
    * @param {ComponentHooks} hooks
    */
   setComponentHooks(component, hooks) {
