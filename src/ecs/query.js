@@ -1,4 +1,6 @@
 /** @import { ComponentId, ArchetypeId } from './typedef/index.js'*/
+/** @import { Constructor } from '../reflect/index.js'*/
+
 import { Entity } from './entities/index.js'
 import { World } from './registry.js'
 import { ArchetypeTable } from './tables/archetypetable.js'
@@ -224,10 +226,6 @@ export class Query {
  * @param {[...T]} components1
  * @param {[...T]} components2
  * @returns {void}
- */
-
-/**
- * @typedef {new (...args:any[])=>unknown} Constructor
  */
 
 /**
