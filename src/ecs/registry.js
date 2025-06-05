@@ -118,21 +118,20 @@ export class World {
 
     // SAFETY: the entity was reserved in this function so we know its there.
     const location = /** @type {EntityLocation}*/(this.entities.get(entityIndex))
-    const ids = this.getComponentIds(components)
+
+    // SAFETY:Object constructors can be casted from `Function` to `Constructor`
+    const types = /** @type {Constructor[]} */(components.map((c) => c.constructor))
+    const ids = this.getComponentIds(types)
     const entity = new Entity(entityIndex)
-    
-    assert(ids, `Cannot insert "${components.map((e) => `\`${e.constructor.name}\``).join(', ')}" into \`ArchetypeTable\`.Ensure that all of them are registered properly using \`World.registerType()\``)
-    
+    const [id, tableIndex] = this.table.insert(components, ids)
+
     ids.push(0)
     components.push(entity)
-    
-    const [id, tableIndex] = this.table.insert(components, ids)
-    
 
     location.archid = id
     location.index = tableIndex
     this.callAddComponentHook(entity, ids)
-    
+
     return entity
   }
 
