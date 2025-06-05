@@ -1,10 +1,13 @@
 /** @import { ComponentId } from './typedef/index.js'*/
+/** @import { TypeId } from '../reflect/index.js'*/
+
 import { ComponentInfo } from './component/index.js'
 
 export class TypeStore {
 
   /**
-   * @type {Map<string,ComponentId>}
+   * @private
+   * @type {Map<TypeId,ComponentId>}
    */
   map = new Map()
 
