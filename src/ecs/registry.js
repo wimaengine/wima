@@ -67,28 +67,6 @@ export class World {
   }
 
   /**
-   * @param {string[]} names
-   * @returns {ComponentId[]}
-   */
-  getComponentIdsByName(names) {
-
-    /** @type {ComponentId[]} */
-    const ids = []
-
-    for (let i = 0; i < names.length; i++) {
-      const name = names[i]
-      const id = this.typestore.getId(name)
-
-      assert(id !== void 0, `The component "${name}" has not been registered into the \`World\`.Use \`App.registerType()\` or \`World.registerType()\`to add it.`)
-
-      // @ts-ignore
-      ids.push(id)
-    }
-
-    return ids
-  }
-
-  /**
    * @private
    * @param {Entity} entity 
    * @param {ComponentId[]} ids
