@@ -43,6 +43,14 @@ export class TypeStore {
   }
 
   /**
+   * @param {ComponentId} id
+   * @returns {boolean}
+   */
+  hasId(id) {
+    return id < this.list.length && id >= 0
+  }
+
+  /**
    * @template T
    * @param {Constructor<T>} type
    * @returns {ComponentInfo | undefined}
