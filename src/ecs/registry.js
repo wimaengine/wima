@@ -138,20 +138,19 @@ export class World {
   /**
    * Inserts components into an entity.
    *
-   * @template {{}[]} T
+   * @template {object[]} T
    * @param {Entity} entity
    * @param {[...T]} components - The entity to add.
    */
   insert(entity, components) {
     const location = this.entities.get(entity.index)
-    
+
     assert(location, 'Cannot insert to an entity not created on the world.Use `World.create()` then try to insert the given entity into the world.')
 
+    // SAFETY:Object constructors can be casted from `Function` to `Constructor`
+    const types = /** @type {Constructor[]} */(components.map((c) => c.constructor))
     const { archid, index } = location
-    const ids = this.getComponentIds(components)
-
-    assert(ids, `Cannot insert "${components.map((e) => `\`${e.constructor.name}\``).join(', ')}" into \`World\`.Ensure that all of them are registered properly using \`World.registerType()\``)
-
+    const ids = this.getComponentIds(types)
     const extracted = this.table.extract(archid, index)
 
     assert(extracted, 'Invalid extraction on insert')
@@ -169,7 +168,7 @@ export class World {
     location.archid = id
     location.index = newIndex
 
-    if (swapped){
+    if (swapped) {
       const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped.index))
 
       swappedlocation.index = index
