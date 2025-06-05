@@ -12,6 +12,7 @@ export class TypeStore {
   map = new Map()
 
   /**
+   * @private
    * @type {Array<ComponentInfo>}
    */
   list = []
