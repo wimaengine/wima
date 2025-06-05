@@ -1,7 +1,8 @@
 /** @import { ComponentId } from './typedef/index.js'*/
-/** @import { TypeId } from '../reflect/index.js'*/
+/** @import { Constructor,TypeId } from '../reflect/index.js'*/
 
 import { ComponentInfo } from './component/index.js'
+import { typeid } from '../reflect/index.js'
 
 export class TypeStore {
 
@@ -18,15 +19,16 @@ export class TypeStore {
   list = []
 
   /**
-   * @param {Function} componentClass
+   * @template T
+   * @param {Constructor<T>} type
    * @returns {ComponentId}
    */
-  set(componentClass) {
+  set(type) {
     const id = this.list.length
-    const name = componentClass.name.toLowerCase()
+    const typeId = typeid(type)
 
-    this.map.set(name, id)
-    this.list.push(new ComponentInfo(id, name))
+    this.map.set(typeId, id)
+    this.list.push(new ComponentInfo(id, typeId))
 
     return id
   }
