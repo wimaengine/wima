@@ -235,14 +235,13 @@ export class World {
    */
   get(entity, type) {
     const location = this.entities.get(entity.index)
-    const compName = type.name.toLowerCase()
 
-    if(!location) return null
+    if (!location) return null
 
     const { archid, index } = location
-    const id = this.typestore.getId(compName)
+    const id = this.typestore.getId(type)
 
-    assert(id, `The component ${compName} is not registered into the \`World\`.Use \`World.registerType()\` to register it.`)
+    assert(id, `The component ${type.name} is not registered into the \`World\`.Use \`World.registerType()\` to register it.`)
 
     return this.table.get(archid, index, id)
   }
