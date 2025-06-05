@@ -198,14 +198,14 @@ export class World {
   remove(entity) {
     const location = this.entities.get(entity.index)
 
-    if(!location) return
+    if (!location) return
 
     const { archid, index } = location
 
     // TODO - Use a method that iterates through componentlists to call remove hook.
     const extracted = this.table.extract(archid, index)
 
-    if(extracted){
+    if (extracted) {
       const [extractid] = extracted
 
       this.callRemoveComponentHook(entity, extractid)
@@ -220,7 +220,7 @@ export class World {
     location.index = -1
     this.entities.recycle(entity.index)
 
-    if (swapped){
+    if (swapped) {
       const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped.index))
 
       swappedlocation.index = index
