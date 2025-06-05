@@ -3,7 +3,7 @@
 export class Children {
 
   /**
-   * @private
+   * @public
    * @type {Entity[]}
    */
   list = []
