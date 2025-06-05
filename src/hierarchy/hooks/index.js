@@ -26,3 +26,20 @@ export function addSelfToParent(entity, world) {
     world.insert(parent.entity, [new Children([entity])])
   }
 }
+
+/**
+ * Component hook that ensures when a child 
+ * entity is despawned, the parent list is 
+ * updated.
+ * 
+ * @type {ComponentHook}
+ */
+export function removeSelfFromParent(entity, world) {
+  const parent = world.get(entity, Parent)
+
+  if (!parent) return
+
+  const children = world.get(parent.entity, Children)
+
+  children?.remove(entity)
+}
