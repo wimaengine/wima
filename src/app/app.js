@@ -207,7 +207,6 @@ export class App {
   setResource(resource) {
     assert(!this.initialized, registererror)
     this
-      .registerType(resource.constructor)
       .world.setResource(resource)
 
     return this
