@@ -54,32 +54,9 @@ export class World {
     const ids = []
 
     for (let i = 0; i < components.length; i++) {
-      const name = components[i].constructor.name.toLowerCase()
-      const id = this.typestore.getId(name)
+      const id = this.typestore.getId(components[i])
 
       assert(id !== void 0, `The component "${name}" has not been registered into the \`World\`.Use \`World.registerType()\`to add it.`)
-
-      // @ts-ignore
-      ids.push(id)
-    }
-
-    return ids
-  }
-
-  /**
-   * @param {string[]} names
-   * @returns {ComponentId[]}
-   */
-  getComponentIdsByName(names) {
-
-    /** @type {ComponentId[]} */
-    const ids = []
-
-    for (let i = 0; i < names.length; i++) {
-      const name = names[i]
-      const id = this.typestore.getId(name)
-
-      assert(id !== void 0, `The component "${name}" has not been registered into the \`World\`.Use \`App.registerType()\` or \`World.registerType()\`to add it.`)
 
       // @ts-ignore
       ids.push(id)
@@ -140,41 +117,39 @@ export class World {
 
     // SAFETY: the entity was reserved in this function so we know its there.
     const location = /** @type {EntityLocation}*/(this.entities.get(entityIndex))
-    const ids = this.getComponentIds(components)
+
+    // SAFETY:Object constructors can be casted from `Function` to `Constructor`
+    const types = /** @type {Constructor[]} */(components.map((c) => c.constructor))
+    const ids = this.getComponentIds(types)
     const entity = new Entity(entityIndex)
-    
-    assert(ids, `Cannot insert "${components.map((e) => `\`${e.constructor.name}\``).join(', ')}" into \`ArchetypeTable\`.Ensure that all of them are registered properly using \`World.registerType()\``)
-    
+    const [id, tableIndex] = this.table.insert(components, ids)
+
     ids.push(0)
     components.push(entity)
-    
-    const [id, tableIndex] = this.table.insert(components, ids)
-    
 
     location.archid = id
     location.index = tableIndex
     this.callAddComponentHook(entity, ids)
-    
+
     return entity
   }
 
   /**
    * Inserts components into an entity.
    *
-   * @template {{}[]} T
+   * @template {object[]} T
    * @param {Entity} entity
    * @param {[...T]} components - The entity to add.
    */
   insert(entity, components) {
     const location = this.entities.get(entity.index)
-    
+
     assert(location, 'Cannot insert to an entity not created on the world.Use `World.create()` then try to insert the given entity into the world.')
 
+    // SAFETY:Object constructors can be casted from `Function` to `Constructor`
+    const types = /** @type {Constructor[]} */(components.map((c) => c.constructor))
     const { archid, index } = location
-    const ids = this.getComponentIds(components)
-
-    assert(ids, `Cannot insert "${components.map((e) => `\`${e.constructor.name}\``).join(', ')}" into \`World\`.Ensure that all of them are registered properly using \`World.registerType()\``)
-
+    const ids = this.getComponentIds(types)
     const extracted = this.table.extract(archid, index)
 
     assert(extracted, 'Invalid extraction on insert')
@@ -192,7 +167,7 @@ export class World {
     location.archid = id
     location.index = newIndex
 
-    if (swapped){
+    if (swapped) {
       const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped.index))
 
       swappedlocation.index = index
@@ -222,14 +197,14 @@ export class World {
   remove(entity) {
     const location = this.entities.get(entity.index)
 
-    if(!location) return
+    if (!location) return
 
     const { archid, index } = location
 
     // TODO - Use a method that iterates through componentlists to call remove hook.
     const extracted = this.table.extract(archid, index)
 
-    if(extracted){
+    if (extracted) {
       const [extractid] = extracted
 
       this.callRemoveComponentHook(entity, extractid)
@@ -244,7 +219,7 @@ export class World {
     location.index = -1
     this.entities.recycle(entity.index)
 
-    if (swapped){
+    if (swapped) {
       const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped.index))
 
       swappedlocation.index = index
@@ -259,14 +234,13 @@ export class World {
    */
   get(entity, type) {
     const location = this.entities.get(entity.index)
-    const compName = type.name.toLowerCase()
 
-    if(!location) return null
+    if (!location) return null
 
     const { archid, index } = location
-    const id = this.typestore.getId(compName)
+    const id = this.typestore.getId(type)
 
-    assert(id, `The component ${compName} is not registered into the \`World\`.Use \`World.registerType()\` to register it.`)
+    assert(id, `The component ${type.name} is not registered into the \`World\`.Use \`World.registerType()\` to register it.`)
 
     return this.table.get(archid, index, id)
   }
@@ -333,10 +307,9 @@ export class World {
    * @param {ComponentHooks} hooks
    */
   setComponentHooks(component, hooks) {
-    const componentname = component.name.toLowerCase()
-    const info = this.typestore.get(componentname)
+    const info = this.typestore.get(component)
 
-    assert(info, `The component "${componentname}" has not been registered.Use \`World.registerType()\` to add it.`)
+    assert(info, `The component "${component.name}" has not been registered.Use \`World.registerType()\` to add it.`)
     info.setHooks(hooks)
   }
 

@@ -1,46 +1,62 @@
 /** @import { ComponentId } from './typedef/index.js'*/
+/** @import { Constructor,TypeId } from '../reflect/index.js'*/
+
 import { ComponentInfo } from './component/index.js'
+import { typeid } from '../reflect/index.js'
 
 export class TypeStore {
 
   /**
-   * @type {Map<string,ComponentId>}
+   * @private
+   * @type {Map<TypeId,ComponentId>}
    */
   map = new Map()
 
   /**
+   * @private
    * @type {Array<ComponentInfo>}
    */
   list = []
 
   /**
-   * @param {Function} componentClass
+   * @template T
+   * @param {Constructor<T>} type
    * @returns {ComponentId}
    */
-  set(componentClass) {
+  set(type) {
     const id = this.list.length
-    const name = componentClass.name.toLowerCase()
+    const typeId = typeid(type)
 
-    this.map.set(name, id)
-    this.list.push(new ComponentInfo(id, name))
+    this.map.set(typeId, id)
+    this.list.push(new ComponentInfo(id, typeId))
 
     return id
   }
 
   /**
-   * @param {string} name
+   * @template T
+   * @param {Constructor<T>} type
    * @returns {boolean}
    */
-  has(name) {
-    return this.map.has(name)
+  has(type) {
+    return this.map.has(typeid(type))
   }
 
   /**
-   * @param {string} name
+   * @param {ComponentId} id
+   * @returns {boolean}
+   */
+  hasId(id) {
+    return id < this.list.length && id >= 0
+  }
+
+  /**
+   * @template T
+   * @param {Constructor<T>} type
    * @returns {ComponentInfo | undefined}
    */
-  get(name) {
-    const id = this.getId(name)
+  get(type) {
+    const id = this.getId(type)
 
     if (id === void 0) return undefined
 
@@ -56,10 +72,18 @@ export class TypeStore {
   }
 
   /**
-   * @param {string} name
+   * @template T
+   * @param {Constructor<T>} type
    * @returns {ComponentId | undefined}
    */
-  getId(name) {
-    return this.map.get(name)
+  getId(type) {
+    return this.map.get(typeid(type))
+  }
+
+  /**
+   * @returns {Iterable<ComponentInfo>}
+   */
+  getInfos(){
+    return this.list
   }
 }
