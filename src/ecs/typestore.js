@@ -24,13 +24,9 @@ export class TypeStore {
    * @returns {ComponentId}
    */
   set(type) {
-    const id = this.list.length
     const typeId = typeid(type)
 
-    this.map.set(typeId, id)
-    this.list.push(new ComponentInfo(id, typeId))
-
-    return id
+    return this.setByTypeId(typeId)
   }
 
   /**
