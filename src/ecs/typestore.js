@@ -105,6 +105,15 @@ export class TypeStore {
   }
 
   /**
+   * @template T
+   * @param {TypeId} id
+   * @returns {ComponentId | undefined}
+   */
+  getIdByTypeId(id) {
+    return this.map.get(id)
+  }
+
+  /**
    * @returns {Iterable<ComponentInfo>}
    */
   getInfos(){
