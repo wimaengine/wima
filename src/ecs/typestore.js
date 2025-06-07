@@ -65,11 +65,7 @@ export class TypeStore {
    * @returns {ComponentInfo | undefined}
    */
   get(type) {
-    const id = this.getId(type)
-
-    if (id === void 0) return undefined
-
-    return this.getById(id)
+    return this.getByTypeId(typeid(type))
   }
 
   /**
