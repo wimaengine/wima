@@ -13,7 +13,13 @@ export class EventPlugin {
   event
 
   /**
-   * @param {{ event: Constructor; }} options
+   * @readonly
+   * @type {boolean}
+   */
+  autoClearEvent
+
+  /**
+   * @param {{ event: Constructor; autoClearEvent?:boolean; }} options
    */
   constructor(options) {
     const { event } = options
