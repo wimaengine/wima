@@ -22,9 +22,10 @@ export class EventPlugin {
    * @param {{ event: Constructor; autoClearEvent?:boolean; }} options
    */
   constructor(options) {
-    const { event } = options
+    const { event, autoClearEvent = true } = options
 
     this.event = event
+    this.autoClearEvent = autoClearEvent
   }
 
   /**
@@ -41,6 +42,8 @@ export class EventPlugin {
     
     // TODO - Once system ordering is implemented,remove this
     // and `App.systemsevents`.
-    app.systemsevents.push(new SystemConfig(makeEventClear(name), AppSchedule.Update))
+    if (this.autoClearEvent) {
+      app.systemsevents.push(new SystemConfig(makeEventClear(name), AppSchedule.Update))
+    }
   }
 }
