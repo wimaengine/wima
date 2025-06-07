@@ -85,6 +85,17 @@ export class TypeStore {
   }
 
   /**
+   * @param {TypeId} typeId
+   */
+  getByTypeId(typeId){
+    const id = this.getIdByTypeId(typeId)
+
+    if (id === void 0) return undefined
+
+    return this.getById(id)
+  }
+
+  /**
    * @template T
    * @param {Constructor<T>} type
    * @returns {ComponentId | undefined}
