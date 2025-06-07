@@ -34,6 +34,19 @@ export class TypeStore {
   }
 
   /**
+   * @param {TypeId} id 
+   * @returns {ComponentId}
+   */
+  setByTypeId(id){
+    const compId = this.list.length
+
+    this.map.set(id, compId)
+    this.list.push(new ComponentInfo(compId, id))
+
+    return compId
+  }
+
+  /**
    * @template T
    * @param {Constructor<T>} type
    * @returns {boolean}
