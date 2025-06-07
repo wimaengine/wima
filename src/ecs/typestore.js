@@ -93,7 +93,7 @@ export class TypeStore {
    * @returns {ComponentId | undefined}
    */
   getId(type) {
-    return this.map.get(typeid(type))
+    return this.getIdByTypeId(typeid(type))
   }
 
   /**
