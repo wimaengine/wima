@@ -179,6 +179,8 @@ export class World {
 
     const { archid, index } = location
 
+    if (archid === -1 || index === -1) return
+
     // TODO - Use a method that iterates through componentlists to call remove hook.
     const extracted = this.table.extract(archid, index)
 
