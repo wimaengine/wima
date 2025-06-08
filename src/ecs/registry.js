@@ -136,8 +136,10 @@ export class World {
 
     this.table.remove(archid, index)
 
-    const combined = [...components, ...extract]
-    const combinedid = [...ids, ...idextract]
+    const [combinedid, combined] = this.resolveCombine(
+      idextract, extract,
+      ids, components
+    )
 
     const [id, newIndex] = this.table.insert(combined, combinedid)
     const swapped = /** @type {Entity | null}*/(this.table.get(archid, index, typeid(Entity)))
