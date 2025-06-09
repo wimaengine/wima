@@ -1,4 +1,5 @@
-/** @import { ComponentId, ArchetypeId, ArchetypeFilter } from '../typedef/index.js'*/
+/** @import { ArchetypeId, ArchetypeFilter } from '../typedef/index.js'*/
+/** @import { TypeId } from '../../reflect/index.js'*/
 import { swapRemove } from '../../utils/index.js'
 
 /**
@@ -22,7 +23,7 @@ import { swapRemove } from '../../utils/index.js'
 export class Archetype {
 
   /**
-   * @type {Map<ComponentId,any[]>}
+   * @type {Map<TypeId,unknown[]>}
    */
   components = new Map()
 }
