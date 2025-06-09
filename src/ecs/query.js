@@ -1,9 +1,10 @@
 /** @import { ComponentId, ArchetypeId } from './typedef/index.js'*/
-/** @import { Constructor } from '../reflect/index.js'*/
+/** @import { Constructor, TypeId } from '../reflect/index.js'*/
 
 import { Entity } from './entities/index.js'
 import { World } from './registry.js'
 import { ArchetypeTable } from './tables/archetypetable.js'
+import { typeid } from '../reflect/index.js'
 
 /**
  * Enables operations to be performed on specified set 
@@ -40,7 +41,7 @@ export class Query {
 
   /**
    * @readonly
-   * @type {ComponentId[]}
+   * @type {TypeId[]}
    */
   descriptors = []
 
@@ -62,12 +63,12 @@ export class Query {
    */
   constructor(registry, componentTypes) {
     this.registry = registry
+    this.descriptors = componentTypes.map((c) => typeid(c))
 
     for (let i = 0; i < componentTypes.length; i++) {
       this.components[i] = []
     }
 
-    this.descriptors = registry.getComponentIds(componentTypes)
     this.update(registry.getTable())
   }
 
