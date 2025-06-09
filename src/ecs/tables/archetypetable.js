@@ -1,5 +1,7 @@
 /** @import { ArchetypeId, ArchetypeFilter } from '../typedef/index.js'*/
 /** @import { TypeId } from '../../reflect/index.js'*/
+
+import { throws } from '../../logger/index.js'
 import { swapRemove } from '../../utils/index.js'
 
 /**
@@ -29,7 +31,7 @@ export class Archetype {
 }
 
 /**
- * Store components in {@link Archetype Archetypes}.
+ * Store components in {@link Archetype archetypes}.
  */
 export class ArchetypeTable {
 
@@ -40,7 +42,7 @@ export class ArchetypeTable {
   list = []
 
   /**
-   * @param {ComponentId[]} comps
+   * @param {TypeId[]} comps
    * @returns {ArchetypeId}
    */
   createArchetype(comps) {
@@ -55,7 +57,7 @@ export class ArchetypeTable {
 
   /**
    * @param {Archetype} archetype
-   * @param {ComponentId[]} comps
+   * @param {TypeId[]} comps
    * @returns {boolean} 
    */
   archetypeHasOnly(archetype, comps) {
@@ -90,7 +92,7 @@ export class ArchetypeTable {
   }
 
   /**
-   * @param {ComponentId[]} comps
+   * @param {TypeId[]} comps
    * @returns {ArchetypeId}
    */
   getArchetypeId(comps) {
@@ -104,7 +106,7 @@ export class ArchetypeTable {
   }
 
   /**
-   * @param {ComponentId[]} ids
+   * @param {TypeId[]} ids
    * @returns {ArchetypeId}
    */
   resolveArchetypeFor(ids) {
@@ -118,7 +120,7 @@ export class ArchetypeTable {
   }
 
   /**
-   * @param {ComponentId[]} comps
+   * @param {TypeId[]} comps
    * @param {ArchetypeId[]} filtered
    * @returns {ArchetypeId[]}
    */
@@ -142,21 +144,23 @@ export class ArchetypeTable {
   /**
    * @template {unknown[]} T
    * @param {ArchetypeId} id
-   * @param {ComponentId[]} keys
+   * @param {TypeId[]} keys
    * @param {[...T]} components
    */
   insertIntoArchetype(id, keys, components) {
     const archetype = this.list[id]
 
-    // @ts-ignore
-    // SAFETY: `entity` is always at index 0 of component list
-    const index = archetype.components.get(0).length
+    // SAFETY: Caller ensures the archetype has at least 1 component list
+    const index = /** @type {number}*/(archetype.components.values().next().value?.length)
 
     for (let i = 0; i < components.length; i++) {
+      const list = archetype.components.get(keys[i])
 
-      // @ts-ignore
-      // SAFETY: calling function ensures there is component list for each shown
-      archetype.components.get(keys[i])[index] = components[i]
+      if(list){
+        list[index] = components[i]
+      }else{
+        throws('Invalid archetype insertion!')
+      }
     }
 
     return index
@@ -165,7 +169,7 @@ export class ArchetypeTable {
   /**
    * @param {ArchetypeId} id
    * @param {number} index
-   * @returns {[ComponentId[],unknown[]] | null}
+   * @returns {[TypeId[],unknown[]] | null}
    */
   extract(id, index) {
     const keys = []
@@ -185,7 +189,7 @@ export class ArchetypeTable {
   /**
    * @template {unknown[]} T
    * @param {[...T]} components
-   * @param {ComponentId[]} ids
+   * @param {TypeId[]} ids
    * @returns {[ArchetypeId,number]}
    */
   insert(components, ids) {
@@ -212,7 +216,7 @@ export class ArchetypeTable {
    * @template T
    * @param {ArchetypeId} id
    * @param {number} index
-   * @param {ComponentId} compname
+   * @param {TypeId} compname
    * @returns {T | null}
    */
   get(id, index, compname) {
@@ -224,7 +228,7 @@ export class ArchetypeTable {
 
     if (!compList) return null
 
-    return compList[index]
+    return /** @type {T}*/(compList[index])
   }
 
   /**
