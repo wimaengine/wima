@@ -24,13 +24,22 @@ export class TypeStore {
    * @returns {ComponentId}
    */
   set(type) {
-    const id = this.list.length
     const typeId = typeid(type)
 
-    this.map.set(typeId, id)
-    this.list.push(new ComponentInfo(id, typeId))
+    return this.setByTypeId(typeId)
+  }
 
-    return id
+  /**
+   * @param {TypeId} id 
+   * @returns {ComponentId}
+   */
+  setByTypeId(id){
+    const compId = this.list.length
+
+    this.map.set(id, compId)
+    this.list.push(new ComponentInfo(compId, id))
+
+    return compId
   }
 
   /**
@@ -56,11 +65,7 @@ export class TypeStore {
    * @returns {ComponentInfo | undefined}
    */
   get(type) {
-    const id = this.getId(type)
-
-    if (id === void 0) return undefined
-
-    return this.getById(id)
+    return this.getByTypeId(typeid(type))
   }
 
   /**
@@ -72,12 +77,32 @@ export class TypeStore {
   }
 
   /**
+   * @param {TypeId} typeId
+   */
+  getByTypeId(typeId){
+    const id = this.getIdByTypeId(typeId)
+
+    if (id === void 0) return undefined
+
+    return this.getById(id)
+  }
+
+  /**
    * @template T
    * @param {Constructor<T>} type
    * @returns {ComponentId | undefined}
    */
   getId(type) {
-    return this.map.get(typeid(type))
+    return this.getIdByTypeId(typeid(type))
+  }
+
+  /**
+   * @template T
+   * @param {TypeId} id
+   * @returns {ComponentId | undefined}
+   */
+  getIdByTypeId(id) {
+    return this.map.get(id)
   }
 
   /**
