@@ -1,7 +1,7 @@
 /** @import { ArchetypeId, ArchetypeFilter } from '../typedef/index.js'*/
 /** @import { TypeId } from '../../reflect/index.js'*/
 
-import { throws } from '../../logger/index.js'
+import { assert, throws } from '../../logger/index.js'
 import { swapRemove } from '../../utils/index.js'
 
 /**
@@ -72,7 +72,7 @@ export class ArchetypeTable {
 
   /**
    * @param {ArchetypeId} id
-   * @returns {Archetype}
+   * @returns {Archetype | undefined}
    */
   getArchetype(id) {
     return this.list[id]
@@ -148,7 +148,9 @@ export class ArchetypeTable {
    * @param {[...T]} components
    */
   insertIntoArchetype(id, keys, components) {
-    const archetype = this.list[id]
+    const archetype = this.getArchetype(id)
+
+    if(!archetype) return
 
     // SAFETY: Caller ensures the archetype has at least 1 component list
     const index = /** @type {number}*/(archetype.components.values().next().value?.length)
@@ -174,7 +176,7 @@ export class ArchetypeTable {
   extract(id, index) {
     const keys = []
     const components = []
-    const archetype = this.list[id]
+    const archetype = this.getArchetype(id)
 
     if(!archetype) return null
 
@@ -196,6 +198,8 @@ export class ArchetypeTable {
     const archid = this.resolveArchetypeFor(ids)
     const index = this.insertIntoArchetype(archid, ids, components)
 
+    assert(index, 'Internal error:Archetype exists but insertion failed!')
+    
     return [archid, index]
   }
 
@@ -205,7 +209,9 @@ export class ArchetypeTable {
    * @returns {void}
    */
   remove(id, index) {
-    const archetype = this.list[id]
+    const archetype = this.getArchetype(id)
+
+    if(!archetype) return 
 
     for (const list of archetype.components.values()) {
       swapRemove(list, index)
@@ -220,7 +226,7 @@ export class ArchetypeTable {
    * @returns {T | null}
    */
   get(id, index, compname) {
-    const archetype = this.list[id]
+    const archetype = this.getArchetype(id)
 
     if (!archetype) return null
 
