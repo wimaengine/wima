@@ -242,11 +242,15 @@ export class World {
 
   /**
    * @template T
-   * @param {string} name
+   * @param {TypeId} id
    * @returns {T}
    */
-  getResourceByName(name) {
-    return this.resources[name]
+  getResourceByTypeId(id) {
+    const resource = this.resources[id]
+
+    assert(resource, `The resource \`${id}\` does not exist in the world.`)
+
+    return this.resources[id]
   }
 
   /**
