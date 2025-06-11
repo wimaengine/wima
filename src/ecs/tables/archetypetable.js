@@ -148,7 +148,9 @@ export class ArchetypeTable {
    * @param {[...T]} components
    */
   insertIntoArchetype(id, keys, components) {
-    const archetype = this.list[id]
+    const archetype = this.getArchetype(id)
+
+    if(!archetype) return
 
     // SAFETY: Caller ensures the archetype has at least 1 component list
     const index = /** @type {number}*/(archetype.components.values().next().value?.length)
