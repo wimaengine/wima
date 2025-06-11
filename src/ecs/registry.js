@@ -231,13 +231,8 @@ export class World {
    * @param {new (...args:any[])=>T} resourceType
    * @returns {T}
    */
-  getResource(resourceType) {
-    const { name } = resourceType
-    const resource = this.resources[name.toLowerCase()]
-
-    assert(resource, `The resource \`${name}\` does not exist in the world.`)
-
-    return resource
+  getResource(resourceType) {    
+    return this.getResourceByTypeId(typeid(resourceType))
   }
 
   /**
