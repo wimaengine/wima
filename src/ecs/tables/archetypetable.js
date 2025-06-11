@@ -176,7 +176,7 @@ export class ArchetypeTable {
   extract(id, index) {
     const keys = []
     const components = []
-    const archetype = this.list[id]
+    const archetype = this.getArchetype(id)
 
     if(!archetype) return null
 
