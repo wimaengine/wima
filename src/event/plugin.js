@@ -3,6 +3,7 @@
 import { App, AppSchedule, SystemConfig } from '../app/index.js'
 import { makeEventClear } from './systems/index.js'
 import { Events } from './core/index.js'
+import { typeidGeneric } from '../reflect/index.js'
 
 export class EventPlugin {
 
@@ -33,12 +34,12 @@ export class EventPlugin {
    */
   register(app) {
     const { event } = this
-    const name = `events<${event.name.toLowerCase()}>`
+    const name = typeidGeneric(Events, [this.event])
     
     app
       .registerType(event)
       .getWorld()
-      .setResourceByName(name, new Events())
+      .setResourceByTypeId(name, new Events())
     
     // TODO - Once system ordering is implemented,remove this
     // and `App.systemsevents`.
