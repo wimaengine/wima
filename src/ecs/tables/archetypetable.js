@@ -1,7 +1,7 @@
 /** @import { ArchetypeId, ArchetypeFilter } from '../typedef/index.js'*/
 /** @import { TypeId } from '../../reflect/index.js'*/
 
-import { throws } from '../../logger/index.js'
+import { assert, throws } from '../../logger/index.js'
 import { swapRemove } from '../../utils/index.js'
 
 /**
@@ -198,6 +198,8 @@ export class ArchetypeTable {
     const archid = this.resolveArchetypeFor(ids)
     const index = this.insertIntoArchetype(archid, ids, components)
 
+    assert(index,"Internal error:Archetype exists but insertion failed!")
+    
     return [archid, index]
   }
 
