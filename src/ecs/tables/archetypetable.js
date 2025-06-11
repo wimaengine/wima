@@ -224,7 +224,7 @@ export class ArchetypeTable {
    * @returns {T | null}
    */
   get(id, index, compname) {
-    const archetype = this.list[id]
+    const archetype = this.getArchetype(id)
 
     if (!archetype) return null
 
