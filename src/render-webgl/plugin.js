@@ -3,6 +3,7 @@ import { Assets } from '../asset/index.js'
 import { ComponentHooks, Entity, Query, World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
 import { assert, warn } from '../logger/index.js'
+import { typeid, typeidGeneric } from '../reflect/index.js'
 import { MeshAttribute, Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache } from '../render-core/index.js'
 import { GlobalTransform3D } from '../transform/index.js'
 import { MainWindow, Window, WindowResize, Windows } from '../window/index.js'
@@ -54,16 +55,16 @@ function registerDefaultAttributeLocs(attributeMap) {
 function render(world) {
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResourceByName('assets<mesh>')
+  const meshes = world.getResourceByTypeId(typeidGeneric(Assets, [Mesh]))
 
   /** @type {Assets<Material>} */
-  const materials = world.getResourceByName('assets<material>')
+  const materials = world.getResourceByTypeId(typeidGeneric(Assets, [Material]))
 
   /** @type {ProgramCache<WebGLProgram>} */
-  const programs = world.getResourceByName('programcache')
+  const programs = world.getResourceByTypeId(typeid(ProgramCache))
 
   /** @type {MeshCache<WebGLVertexArrayObject>} */
-  const gpumeshes = world.getResourceByName('meshcache')
+  const gpumeshes = world.getResourceByTypeId(typeid(MeshCache))
   const ubos = world.getResource(UBOCache)
   const canvases = world.getResource(Windows)
   const clearColor = world.getResource(ClearColor)
@@ -142,7 +143,7 @@ function resizegl(world) {
   const canvases = world.getResource(Windows)
 
   /** @type {Events<WindowResize>} */
-  const resizeEvents = world.getResourceByName('events<windowresize>')
+  const resizeEvents = world.getResourceByTypeId(typeidGeneric(Events, [WindowResize]))
 
   const window = windows.single()
 
