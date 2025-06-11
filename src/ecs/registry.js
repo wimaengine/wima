@@ -137,8 +137,10 @@ export class World {
     this.table.remove(archid, index)
 
     const [combinedid, combined] = this.resolveCombine(
-      idextract, extract,
-      ids, components
+      idextract, 
+      extract,
+      ids, 
+      components
     )
 
     const [id, newIndex] = this.table.insert(combined, combinedid)
@@ -158,20 +160,20 @@ export class World {
   }
 
   /**
- * @private
- * @param {TypeId[]} ids 
- * @param {unknown[]} components
- * @param {TypeId[]} ids2 
- * @param {unknown[]} components2
- * @returns {[TypeId[],unknown[]]}
- */
+   * @private
+   * @param {TypeId[]} ids 
+   * @param {unknown[]} components
+   * @param {TypeId[]} ids2 
+   * @param {unknown[]} components2
+   * @returns {[TypeId[],unknown[]]}
+   */
   resolveCombine(ids, components, ids2, components2) {
-    const combineids = /**@type {TypeId[]}*/([])
-    const combinecomponents = /**@type {unknown[]}*/([])
+    const combineids = /** @type {TypeId[]}*/([])
+    const combinecomponents = /** @type {unknown[]}*/([])
 
     for (let i = 0; i < ids.length; i++) {
-      const id = ids[i];
-      const component = components[i];
+      const id = ids[i]
+      const component = components[i]
 
       if (ids2.includes(id)) {
         continue
@@ -182,8 +184,8 @@ export class World {
     }
 
     for (let i = 0; i < ids2.length; i++) {
-      const id = ids2[i];
-      const component = components2[i];
+      const id = ids2[i]
+      const component = components2[i]
 
       combineids.push(id)
       combinecomponents.push(component)
