@@ -207,7 +207,9 @@ export class ArchetypeTable {
    * @returns {void}
    */
   remove(id, index) {
-    const archetype = this.list[id]
+    const archetype = this.getArchetype(id)
+
+    if(!archetype) return 
 
     for (const list of archetype.components.values()) {
       swapRemove(list, index)
