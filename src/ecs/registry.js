@@ -263,7 +263,11 @@ export class World {
    * @param {T} resource
    */
   setResource(resource) {
-    this.resources[resource.constructor.name.toLowerCase()] = resource
+
+    // SAFETY: An object's costructor is constructible
+    const id = typeid(/** @type {Constructor<T>} */(resource.constructor))
+
+    this.setResourceByTypeId(id, resource)
   }
 
   /**
