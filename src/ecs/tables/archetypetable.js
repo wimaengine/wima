@@ -198,7 +198,7 @@ export class ArchetypeTable {
     const archid = this.resolveArchetypeFor(ids)
     const index = this.insertIntoArchetype(archid, ids, components)
 
-    assert(index,"Internal error:Archetype exists but insertion failed!")
+    assert(index, 'Internal error:Archetype exists but insertion failed!')
     
     return [archid, index]
   }
