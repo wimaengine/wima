@@ -5,6 +5,7 @@ import { World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
 import { MouseDown, MouseMove, MouseUp } from '../window/index.js'
 import { Vector2 } from '../math/index.js'
+import { typeidGeneric } from '../reflect/index.js'
 
 export class MousePlugin {
 
@@ -27,7 +28,7 @@ export class MousePlugin {
 function updateMouse(world) {
   const mouse = world.getResource(Mouse)
 
-  const move = /** @type {Events<MouseMove>} */(world.getResourceByName('events<mousemove>')).readLast()
+  const move = /** @type {Events<MouseMove>} */(world.getResourceByTypeId(typeidGeneric(Events, [MouseMove]))).readLast()
 
   mouse.delta.copy(Vector2.ZERO)
   mouse.lastPosition.copy(mouse.position)
@@ -45,10 +46,10 @@ function updateMouseButtons(world) {
   const buttons = world.getResource(MouseButtons)
 
   /** @type {Events<MouseDown>} */
-  const down = world.getResourceByName('events<mousedown>')
+  const down = world.getResourceByTypeId(typeidGeneric(Events, [MouseDown]))
 
   /** @type {Events<MouseUp>} */
-  const up = world.getResourceByName('events<mouseup>')
+  const up = world.getResourceByTypeId(typeidGeneric(Events, [MouseUp]))
 
   buttons.clearJustPressed()
   buttons.clearJustReleased()
