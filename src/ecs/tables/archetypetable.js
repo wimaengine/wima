@@ -72,7 +72,7 @@ export class ArchetypeTable {
 
   /**
    * @param {ArchetypeId} id
-   * @returns {Archetype}
+   * @returns {Archetype | undefined}
    */
   getArchetype(id) {
     return this.list[id]
