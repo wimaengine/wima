@@ -6,6 +6,7 @@ import { createShader, createProgram, validateProgram, validateShader, WebglRend
 import { MainWindow, Windows, Window } from '../../window/index.js'
 import { warn } from '../../logger/index.js'
 import { AttributeMap, UBOCache } from '../resources/index.js'
+import { typeid, typeidGeneric } from '../../reflect/index.js'
 
 
 // TODO - In the future,use the `AssetAdded` event to build gpu representation instead
@@ -21,10 +22,10 @@ export function materialAddHook(entity, world) {
   const ubos = world.getResource(UBOCache)
 
   /** @type {Assets<Material>} */
-  const materials = world.getResourceByName('assets<material>')
+  const materials = world.getResourceByTypeId(typeidGeneric(Assets, [Material]))
 
   /** @type {ProgramCache<WebGLProgram>} */
-  const renderpipelines = world.getResourceByName('programcache')
+  const renderpipelines = world.getResourceByTypeId(typeid(ProgramCache))
 
   const windows = new Query(world, [Entity, Window, MainWindow])
 

@@ -4,6 +4,7 @@ import { KeyUp, KeyDown } from '../window/index.js'
 import { Events } from '../event/index.js'
 import { World } from '../ecs/index.js'
 import { KeyCode } from './core/key.js'
+import { typeidGeneric } from '../reflect/index.js'
 
 export class KeyboardPlugin {
 
@@ -24,10 +25,10 @@ function updateKeyBoard(world) {
   const keyboard = world.getResource(Keyboard)
 
   /** @type {Events<KeyDown>}*/
-  const down = world.getResourceByName('events<keydown>')
+  const down = world.getResourceByTypeId(typeidGeneric(Events, [KeyDown]))
 
   /** @type {Events<KeyUp>}*/
-  const up = world.getResourceByName('events<keyup>')
+  const up = world.getResourceByTypeId(typeidGeneric(Events, [KeyUp]))
 
   keyboard.clearJustPressed()
   keyboard.clearJustReleased()

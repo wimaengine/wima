@@ -8,6 +8,7 @@ import { vertices } from './utils.js'
 import { GlobalTransform2D } from '../transform/index.js'
 import { MaterialType } from './core/index.js'
 import { CanvasImageMaterial, CanvasMeshedMaterial, CanvasTextMaterial } from './assets/materials/index.js'
+import { typeid, typeidGeneric } from '../reflect/index.js'
 
 export class Canvas2DRendererPlugin {
 
@@ -27,16 +28,16 @@ export class Canvas2DRendererPlugin {
 function renderToCanvas(world) {
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResourceByName('assets<mesh>')
+  const meshes = world.getResourceByTypeId(typeidGeneric(Assets, [Mesh]))
 
   /** @type {Assets<Material>} */
-  const materials = world.getResourceByName('assets<material>')
+  const materials = world.getResourceByTypeId(typeidGeneric(Assets, [Material]))
 
   /** @type {Assets<Image>} */
-  const images = world.getResourceByName('assets<image>')
+  const images = world.getResourceByTypeId(typeidGeneric(Assets, [Image]))
 
   /** @type {TextureCache<HTMLImageElement>} */
-  const textures = world.getResourceByName('texturecache')
+  const textures = world.getResourceByTypeId(typeid(TextureCache))
   const query = new Query(world, [GlobalTransform2D, MeshHandle, MaterialHandle])
   const camQuery = new Query(world, [GlobalTransform2D, Camera])
   const windows = new Query(world, [Entity, Window, MainWindow])

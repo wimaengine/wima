@@ -19,10 +19,10 @@ export function meshAddHook(entity, world) {
   const attributeMap = world.getResource(AttributeMap)
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResourceByName('assets<mesh>')
+  const meshes = world.getResourceByTypeId('assets<mesh>')
 
   /** @type {MeshCache<WebGLVertexArrayObject>} */
-  const meshcache = world.getResourceByName('meshcache')
+  const meshcache = world.getResourceByTypeId('meshcache')
   const windows = new Query(world, [Entity, Window, MainWindow])
   const canvases = world.getResource(Windows)
 

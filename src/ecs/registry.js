@@ -272,32 +272,31 @@ export class World {
    * @param {new (...args:any[])=>T} resourceType
    * @returns {T}
    */
-  getResource(resourceType) {
-    const { name } = resourceType
-    const resource = this.resources[name.toLowerCase()]
-
-    assert(resource, `The resource \`${name}\` does not exist in the world.`)
-
-    return resource
+  getResource(resourceType) {    
+    return this.getResourceByTypeId(typeid(resourceType))
   }
 
   /**
    * @template T
-   * @param {string} name
+   * @param {TypeId} id
    * @returns {T}
    */
-  getResourceByName(name) {
-    return this.resources[name]
+  getResourceByTypeId(id) {
+    const resource = this.resources[id]
+
+    assert(resource, `The resource \`${id}\` does not exist in the world.`)
+
+    return this.resources[id]
   }
 
   /**
    * @template T
-   * @param {string} name
+   * @param {TypeId} id
    * @param {T} resource
    * @returns {void}
    */
-  setResourceByName(name, resource) {
-    this.resources[name] = resource
+  setResourceByTypeId(id, resource) {
+    this.resources[id] = resource
   }
 
   /**
@@ -305,7 +304,11 @@ export class World {
    * @param {T} resource
    */
   setResource(resource) {
-    this.resources[resource.constructor.name.toLowerCase()] = resource
+
+    // SAFETY: An object's costructor is constructible
+    const id = typeid(/** @type {Constructor<T>} */(resource.constructor))
+
+    this.setResourceByTypeId(id, resource)
   }
 
   /**
