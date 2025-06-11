@@ -1,6 +1,7 @@
 import { App, AppSchedule } from '../app/index.js'
 import { World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
+import { typeidGeneric } from '../reflect/index.js'
 import { TouchCancel, TouchEnd, TouchMove, TouchStart } from '../window/index.js'
 import { TouchPointer } from './core/index.js'
 import { Touches } from './resources/touches.js'
@@ -25,16 +26,16 @@ function updateTouch(world) {
   const touch = world.getResource(Touches)
 
   /** @type {Events<TouchStart>} */
-  const start = world.getResourceByName('events<touchstart>')
+  const start = world.getResourceByTypeId(typeidGeneric(Events, [TouchStart]))
 
   /** @type {Events<TouchMove>} */
-  const move = world.getResourceByName('events<touchmove>')
+  const move = world.getResourceByTypeId(typeidGeneric(Events, [TouchMove]))
 
   /** @type {Events<TouchEnd>} */
-  const end = world.getResourceByName('events<touchend>')
+  const end = world.getResourceByTypeId(typeidGeneric(Events, [TouchEnd]))
 
   /** @type {Events<TouchCancel>} */
-  const cancel = world.getResourceByName('events<touchcancel>')  
+  const cancel = world.getResourceByTypeId(typeidGeneric(Events, [TouchCancel]))  
 
   start.each((event) => {
     const { data } = event
