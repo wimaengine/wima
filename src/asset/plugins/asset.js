@@ -2,6 +2,7 @@
 /** @import { HandleProvider } from '../core/index.js' */
 
 import { App } from '../../app/index.js'
+import { typeidGeneric } from '../../reflect/index.js'
 import { Assets } from '../core/index.js'
 import { AssetLoadFail, AssetLoadSuccess } from '../events/index.js'
 import { AssetBasePath } from '../resources/index.js'
@@ -47,7 +48,6 @@ export class AssetPlugin {
    */
   register(app) {
     const { asset, handleprovider, path } = this
-    const name = this.asset.name.toLowerCase()
     const world = app.getWorld()
 
 
@@ -56,8 +56,14 @@ export class AssetPlugin {
     app
       .registerEvent(AssetLoadSuccess)
       .registerEvent(AssetLoadFail)
-    world.setResourceByName(`assetbasepath<${name}>`, new AssetBasePath(path))
-    world.setResourceByName(`assets<${name}>`, new Assets(asset.default, handleprovider))
+    world.setResourceByTypeId(
+      typeidGeneric(AssetBasePath, [this.asset]),
+      new AssetBasePath(path)
+    )
+    world.setResourceByTypeId(
+      typeidGeneric(Assets, [this.asset]),
+      new Assets(asset.default, handleprovider)
+    )
   }
 }
 
