@@ -1,3 +1,4 @@
+/** @import {Constructor} from '../../reflect/index.js' */
 import { Device } from '../../device/index.js'
 import { World } from '../../ecs/index.js'
 import { Events } from '../../event/index.js'
@@ -5,33 +6,34 @@ import { getFileExtension } from '../../utils/index.js'
 import { Assets, Parser } from '../core/index.js'
 import { AssetLoadFail, AssetLoadSuccess } from '../events/index.js'
 import { AssetBasePath } from '../resources/index.js'
+import { typeidGeneric } from '../../reflect/index.js'
 
 /**
  * @template T
- * @param {string} name
+ * @param {Constructor<T>} type
  */
-export function generateParserSystem(name) {
+export function generateParserSystem(type) {
 
   /**
    * @param {World} world
    */
   return async function loadToAssets(world) {
-
-    /** @type {Assets<T>} */
-    const assets = world.getResourceByName(`assets<${name}>`)
     const device = world.getResource(Device)
 
+    /** @type {Assets<T>} */
+    const assets = world.getResourceByTypeId(typeidGeneric(Assets, [type]))
+
     /** @type {Parser<T>} */
-    const parser = world.getResourceByName(`parser<${name}>`)
+    const parser = world.getResourceByTypeId(typeidGeneric(Parser, [type]))
 
     /** @type {Events<AssetLoadSuccess>} */
-    const success = world.getResourceByName('events<assetloadsuccess>')
+    const success = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadSuccess]))
 
     /** @type {Events<AssetLoadFail>} */
-    const fail = world.getResourceByName('events<assetloadfail>')
+    const fail = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
 
     /** @type {AssetBasePath<T>} */
-    const baseUrl = world.getResourceByName(`assetbasepath<${name}>`)
+    const baseUrl = world.getResourceByTypeId(typeidGeneric(AssetBasePath, [type]))
 
     const paths = assets.flushToLoad()
 
