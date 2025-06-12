@@ -4,8 +4,7 @@
 /** @import { Constructor } from '../reflect/index.js'*/
 
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
-import { EventPlugin } from '../event/index.js'
-import { assert, deprecate } from '../logger/index.js'
+import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
 import { SchedulerBuilder, SystemConfig } from './core/index.js'
 import { AssetParserPlugin, AssetPlugin } from '../asset/plugins/index.js'
@@ -134,23 +133,6 @@ export class App {
 
     return this
   }
-
-  /**
-   * @deprecated
-   * @template {Function} T
-   * @param {T} event
-   */
-  registerEvent(event) {
-    deprecate('App.registerEvent()', 'EventPlugin')
-    this.registerPlugin(
-
-      // @ts-ignore
-      new EventPlugin({ event })
-    )
-
-    return this
-  }
-
   /**
    * @deprecated
    * @template T
