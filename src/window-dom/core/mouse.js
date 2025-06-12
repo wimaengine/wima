@@ -1,4 +1,6 @@
 import { World } from '../../ecs/index.js'
+import { Events } from '../../event/index.js'
+import { typeidGeneric } from '../../reflect/index.js'
 import { MouseDown, MouseUp, MouseMove, MouseWheel, MouseEnter, MouseLeave } from '../../window/index.js'
 
 /**
@@ -7,32 +9,44 @@ import { MouseDown, MouseUp, MouseMove, MouseWheel, MouseEnter, MouseLeave } fro
  */
 export function setupMouseEvents(world, target) {
   target.addEventListener('mousedown', (e) => {
-    const dispatch = world.getResource('events<mousedown>')
+
+    /** @type {Events<MouseDown>} */
+    const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [MouseDown]))
 
     dispatch.write(new MouseDown(e))
   })
   target.addEventListener('mouseup', (e) => {
-    const dispatch = world.getResource('events<mouseup>')
+
+    /** @type {Events<MouseUp>} */
+    const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [MouseUp]))
 
     dispatch.write(new MouseUp(e))
   })
   target.addEventListener('mousemove', (e) => {
-    const dispatch = world.getResource('events<mousemove>')
+
+    /** @type {Events<MouseMove>} */
+    const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [MouseMove]))
 
     dispatch.write(new MouseMove(e))
   })
   target.addEventListener('wheel', (e) => {
-    const dispatch = world.getResource('events<mousewheel>')
+
+    /** @type {Events<MouseWheel>} */
+    const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [MouseWheel]))
 
     dispatch.write(new MouseWheel(e))
   })
   target.addEventListener('mouseenter', (e) => {
-    const dispatch = world.getResource('events<mouseenter>')
+
+    /** @type {Events<MouseEnter>} */
+    const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [MouseEnter]))
 
     dispatch.write(new MouseEnter(e))
   })
   target.addEventListener('mouseleave', (e) => {
-    const dispatch = world.getResource('events<mouseleave>')
+
+    /** @type {Events<MouseLeave>} */
+    const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [MouseLeave]))
 
     dispatch.write(new MouseLeave(e))
   })

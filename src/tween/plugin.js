@@ -8,7 +8,8 @@ import {
   Orientation3DTween,
   Scale3DTween,
   TweenFlip,
-  TweenRepeat
+  TweenRepeat,
+  Tween
 } from './components/index.js'
 import { Vector2, Quaternion, Vector3, Angle } from '../math/index.js'
 import { generateTweenFlipSystem, generateTweenRepeatTween, generateTweenTimerSystem, generateTweenUpdateSystem } from './systems/index.js'
@@ -66,13 +67,13 @@ export class TweenPlugin {
 
   /**
    * @readonly
-   * @type {Function}
+   * @type {new (...args:any[])=>T}
    */
   component
 
   /**
    * @readonly
-   * @type {Function}
+   * @type {typeof Tween<T>}
    */
   tween
 
@@ -107,7 +108,7 @@ export class TweenPlugin {
 /**
  * @template T
  * @typedef TweenPluginOptions
- * @property {Function} component
- * @property {Function} tween
+ * @property {new (...args:any[])=>T} component
+ * @property {typeof Tween<T>} tween
  * @property {TweenLerp<T>} interpolation
  */

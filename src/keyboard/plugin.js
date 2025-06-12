@@ -1,9 +1,10 @@
 import { App, AppSchedule } from '../app/index.js'
 import { Keyboard } from './resources/index.js'
 import { KeyUp, KeyDown } from '../window/index.js'
-import { EventDispatch } from '../event/index.js'
+import { Events } from '../event/index.js'
 import { World } from '../ecs/index.js'
 import { KeyCode } from './core/key.js'
+import { typeidGeneric } from '../reflect/index.js'
 
 export class KeyboardPlugin {
 
@@ -21,15 +22,13 @@ export class KeyboardPlugin {
  * @param {World} world
  */
 function updateKeyBoard(world) {
+  const keyboard = world.getResource(Keyboard)
 
-  /** @type {Keyboard}*/
-  const keyboard = world.getResource('keyboard')
+  /** @type {Events<KeyDown>}*/
+  const down = world.getResourceByTypeId(typeidGeneric(Events, [KeyDown]))
 
-  /** @type {EventDispatch<KeyDown>}*/
-  const down = world.getResource('events<keydown>')
-
-  /** @type {EventDispatch<KeyUp>}*/
-  const up = world.getResource('events<keyup>')
+  /** @type {Events<KeyUp>}*/
+  const up = world.getResourceByTypeId(typeidGeneric(Events, [KeyUp]))
 
   keyboard.clearJustPressed()
   keyboard.clearJustReleased()
@@ -272,6 +271,9 @@ function mapKeyBoardButtons(keycode) {
 
     case 'Backspace':
       return KeyCode.BackSpace
+
+    case 'Space':
+      return KeyCode.Space
 
     case 'CapsLock':
       return KeyCode.Capslock

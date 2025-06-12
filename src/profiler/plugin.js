@@ -1,5 +1,5 @@
 import { Profiler, ProfilerTimer } from './resources/index.js'
-import { Timer, TimerMode } from '../time/index.js'
+import { Timer, TimerMode, VirtualClock } from '../time/index.js'
 import { App, AppSchedule } from '../app/index.js'
 import { World } from '../ecs/index.js'
 import { warn } from '../logger/index.js'
@@ -36,18 +36,18 @@ function setupProfileViewer(parent) {
  * @param {World} registry
  */
 function updateProfileTimer(registry) {
-  const timer = registry.getResource('profilertimer')
-  const clock = registry.getResource('virtualclock')
+  const timer = registry.getResource(ProfilerTimer)
+  const clock = registry.getResource(VirtualClock)
 
-  Timer.update(timer, clock.delta)
+  Timer.update(timer, clock.getDelta())
 }
 
 /**
  * @param {World} registry
  */
 function updateProfileViewer(registry) {
-  const profiler = registry.getResource('profiler')
-  const timer = registry.getResource('profilertimer')
+  const profiler = registry.getResource(Profiler)
+  const timer = registry.getResource(ProfilerTimer)
 
   if (!timer.finished) return
 

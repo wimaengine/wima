@@ -38,12 +38,8 @@ function setUpUI() {
  * @param {World} world
  */
 function updateFPSCounter(world) {
-
-  /** @type {VirtualClock} */
-  const clock = world.getResource('virtualclock')
-
-  /** @type {RAFTimer} */
-  const timer = world.getResource('raftimer')
+  const clock = world.getResource(VirtualClock)
+  const timer = world.getResource(RAFTimer)
 
   if (!timer.finished) return
 
@@ -57,8 +53,8 @@ function updateFPSCounter(world) {
  * @param {World} world
  */
 function updateRAFTimer(world) {
-  const clock = world.getResource('virtualclock')
-  const timer = world.getResource('raftimer')
+  const clock = world.getResource(VirtualClock)
+  const timer = world.getResource(RAFTimer)
 
-  Timer.update(timer, clock.delta)
+  Timer.update(timer, clock.getDelta())
 }

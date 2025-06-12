@@ -25,8 +25,11 @@ export class Buttons {
    * @param {T} button
    */
   press(button) { 
+    if(!this.innerPressed.has(button)){
+      this.innerJustPressed.add(button)
+    }
+
     this.innerPressed.add(button)
-    this.innerJustPressed.add(button)
   }
 
   /**
@@ -46,11 +49,53 @@ export class Buttons {
   }
 
   /**
+   * @param {T[]} buttons
+   * @returns {boolean}
+   */
+  anyJustPressed(...buttons){
+    for (let i = 0; i < buttons.length; i++) {
+      if(this.justPressed(buttons[i])){
+        return true
+      }
+    }
+
+    return false
+  }
+
+  /**
+   * @param {T[]} buttons
+   * @returns {boolean}
+   */
+  anyPressed(...buttons){
+    for (let i = 0; i < buttons.length; i++) {
+      if(this.pressed(buttons[i])){
+        return true
+      }
+    }
+
+    return false
+  }
+
+  /**
+   * @param {T[]} buttons
+   * @returns {boolean}
+   */
+  anyJustReleased(...buttons){
+    for (let i = 0; i < buttons.length; i++) {
+      if(this.justReleased(buttons[i])){
+        return true
+      }
+    }
+
+    return false
+  }
+
+  /**
    * @param {T} button 
    * @returns {boolean}
    */
   justPressed(button) {
-    return this.innerPressed.has(button)
+    return this.innerJustPressed.has(button)
   }
 
   /**

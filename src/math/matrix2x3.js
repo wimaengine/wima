@@ -42,8 +42,8 @@ export class Matrix2x3 {
    *
    * @returns {this}
    */
-  setFromTransform(translation, orientation, scale) {
-    Matrix2x3.setFromTransform(this, translation, orientation, scale)
+  compose(translation, orientation, scale) {
+    Matrix2x3.compose(this, translation, orientation, scale)
 
     return this
   }
@@ -168,7 +168,7 @@ export class Matrix2x3 {
    * @param {Vector2} scale
    * @returns {Matrix2x3}
    */
-  static setFromTransform(matrix, translation, orientation, scale) {
+  static compose(matrix, translation, orientation, scale) {
     const cos = Math.cos(orientation.value)
     const sin = Math.sin(orientation.value)
 

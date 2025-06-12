@@ -1,6 +1,10 @@
-/** @import { ComponentId, ArchetypeId, Entity, Tuple, ComponentName } from './typedef/index.js'*/
+/** @import { ComponentId, ArchetypeId } from './typedef/index.js'*/
+/** @import { Constructor, TypeId } from '../reflect/index.js'*/
+
+import { Entity } from './entities/index.js'
 import { World } from './registry.js'
 import { ArchetypeTable } from './tables/archetypetable.js'
+import { typeid } from '../reflect/index.js'
 
 /**
  * Enables operations to be performed on specified set 
@@ -24,7 +28,8 @@ import { ArchetypeTable } from './tables/archetypetable.js'
  * // are available
  * ```
  * 
- * @template {Tuple} T
+ * @template {InstanceTypeTuple<U>} T
+ * @template {Constructor[]} U 
  */
 export class Query {
 
@@ -36,7 +41,7 @@ export class Query {
 
   /**
    * @readonly
-   * @type {ComponentId[]}
+   * @type {TypeId[]}
    */
   descriptors = []
 
@@ -54,16 +59,16 @@ export class Query {
 
   /**
    * @param {World} registry
-   * @param {ComponentName[]} descriptors
+   * @param {[...U]} componentTypes
    */
-  constructor(registry, descriptors) {
+  constructor(registry, componentTypes) {
     this.registry = registry
+    this.descriptors = componentTypes.map((c) => typeid(c))
 
-    for (let i = 0; i < descriptors.length; i++) {
+    for (let i = 0; i < componentTypes.length; i++) {
       this.components[i] = []
     }
 
-    this.descriptors = registry.getComponentIdsByName(descriptors)
     this.update(registry.getTable())
   }
 
@@ -73,7 +78,7 @@ export class Query {
   update(table) {
     const { descriptors, components } = this
     const archids = table.getArchetypeIds(descriptors, [])
-
+    
     for (let i = 0; i < archids.length; i++) {
       this.archmapper.set(archids[i], i)
     }
@@ -100,7 +105,7 @@ export class Query {
    */
   get(entity) {
     const entities = this.registry.getEntities()
-    const location = entities.get(entity)
+    const location = entities.get(entity.index)
 
     if(!location) return null
 
@@ -209,16 +214,21 @@ export class Query {
 }
 
 /**
- * @template {Tuple} T
+ * @template {unknown[]} T
  * @callback EachFunc
- * @param {T} components
+ * @param {[...T]} components
  * @returns {void}
  */
 
 /**
- * @template {Tuple} T
+ * @template {unknown[]} T
  * @callback EachCombinationFunc
- * @param {T} components1
- * @param {T} components2
+ * @param {[...T]} components1
+ * @param {[...T]} components2
  * @returns {void}
+ */
+
+/**
+ * @template {Constructor[]} T
+ * @typedef {{[K in keyof T]:InstanceType<T[K]>}} InstanceTypeTuple
  */

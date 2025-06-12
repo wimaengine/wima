@@ -1,4 +1,13 @@
+/**
+ * @template T
+ */
 export class AssetBasePath {
+
+  /**
+   * @private
+   * @type {T | undefined}
+   */
+  marker
 
   /**
    * @type {string}

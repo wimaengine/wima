@@ -1,12 +1,14 @@
 /** @import { ChaosPlugin } from './typedef/index.js' */
 /** @import { SystemFunc } from '../ecs/index.js' */
 /** @import { HandleProvider, Parser } from '../asset/index.js' */
+/** @import { Constructor } from '../reflect/index.js'*/
+
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
-import { EventDispatch } from '../event/index.js'
-import { assert } from '../logger/index.js'
+import { EventPlugin } from '../event/index.js'
+import { assert, deprecate } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
-import { Assets, generateParserSystem } from '../asset/index.js'
 import { SchedulerBuilder, SystemConfig } from './core/index.js'
+import { AssetParserPlugin, AssetPlugin } from '../asset/plugins/index.js'
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
 
@@ -31,7 +33,10 @@ export class App {
   initialized = false
 
   /**
-   * @private
+   * This will be removed in future revisions
+   * with no prior notice after system ordering is
+   * added.
+   * 
    * @type {SystemConfig[]}
    */
   systemsevents = []
@@ -88,7 +93,7 @@ export class App {
     }
 
     this.systemsevents = []
-    
+
     this.systemBuilder.pushToScheduler(this.scheduler)
     this.scheduler.run(this.world)
 
@@ -122,7 +127,7 @@ export class App {
   }
 
   /**
-   * @param {Function} type
+   * @param {Constructor} type
    */
   registerType(type) {
     this.world.registerType(type)
@@ -131,56 +136,66 @@ export class App {
   }
 
   /**
+   * @deprecated
    * @template {Function} T
    * @param {T} event
    */
   registerEvent(event) {
-    const name = `events<${event.name.toLowerCase()}>`
+    deprecate('App.registerEvent()', 'EventPlugin')
+    this.registerPlugin(
 
-    this
-      .registerType(event)
-      .world.setResourceByName(name, new EventDispatch())
-    this.systemsevents.push(new SystemConfig(makeEventClear(name), AppSchedule.Update))
+      // @ts-ignore
+      new EventPlugin({ event })
+    )
 
     return this
   }
 
   /**
+   * @deprecated
    * @template T
    * @param {Function} asset
    * @param {HandleProvider<T>} [handleprovider]
    */
   registerAsset(asset, handleprovider) {
-    const name = asset.name.toLowerCase()
+    this.registerPlugin(new AssetPlugin({
 
-    // @ts-ignore
-    // ill deal with this later
-    this.world.setResourceByName(`assets<${name}>`, new Assets(asset.default, handleprovider))
+      // this function will be removed so the cast does not 
+      // matter much
+      // eslint-disable-next-line object-shorthand
+      asset:/** @type {any}*/(asset),
+      handleprovider
+    }))
+
+    return this
+  }
+
+  /**
+   * @deprecated
+   * @template T
+   * @param {Function} asset 
+   * @param {Parser<T>} parser 
+   */
+  registerAssetParser(asset, parser) {
+    this.registerPlugin(new AssetParserPlugin({
+        
+      // this function will be removed so the cast does not 
+      // matter much
+      // eslint-disable-next-line object-shorthand
+      asset:/** @type {any}*/(asset),
+      parser
+    }))
 
     return this
   }
 
   /**
    * @template T
-   * @param {Function} asset 
-   * @param {Parser<T>} parser 
-   */
-  registerAssetParser(asset, parser) {
-    const name = asset.name.toLowerCase()
-
-    this
-      .registerSystem(AppSchedule.Update, generateParserSystem(name))
-      .world.setResourceByName(`parser<${name}>`, parser)
-
-    return this
-  }
-
-  /**
-   * @param {Function} component
+   * @param {new (...args:any[])=>T} component
    * @param {ComponentHooks} hooks
    */
   setComponentHooks(component, hooks) {
-    this.world.setComponentHooks(component.name.toLowerCase(), hooks)
+    this.world.setComponentHooks(component, hooks)
 
     return this
   }
@@ -192,21 +207,8 @@ export class App {
   setResource(resource) {
     assert(!this.initialized, registererror)
     this
-      .registerType(resource.constructor)
       .world.setResource(resource)
 
     return this
-  }
-}
-
-/**
- * @param {string} name 
- * @returns {SystemFunc}
- */
-function makeEventClear(name) {
-  return function clearEvents(world) {
-    const dispatch = world.getResource(name)
-
-    dispatch.clear()
   }
 }

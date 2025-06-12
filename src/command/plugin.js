@@ -19,7 +19,7 @@ export class CommandsPlugin {
  * @param {World} registry
  */
 function executeCommands(registry) {
-  const commands = registry.getResource('entitycommands')
+  const commands = registry.getResource(EntityCommands)
 
   commands.apply(registry)
   commands.clear()
