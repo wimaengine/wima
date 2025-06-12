@@ -7,7 +7,6 @@ import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecu
 import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
 import { SchedulerBuilder, SystemConfig } from './core/index.js'
-import { AssetParserPlugin, AssetPlugin } from '../asset/plugins/index.js'
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
 
@@ -130,25 +129,6 @@ export class App {
    */
   registerType(type) {
     this.world.registerType(type)
-
-    return this
-  }
-
-  /**
-   * @deprecated
-   * @template T
-   * @param {Function} asset 
-   * @param {Parser<T>} parser 
-   */
-  registerAssetParser(asset, parser) {
-    this.registerPlugin(new AssetParserPlugin({
-        
-      // this function will be removed so the cast does not 
-      // matter much
-      // eslint-disable-next-line object-shorthand
-      asset:/** @type {any}*/(asset),
-      parser
-    }))
 
     return this
   }
