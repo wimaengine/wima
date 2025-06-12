@@ -1,6 +1,6 @@
 {
   "name": "wima",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "An ECS driven modular game engine.",
   "homepage": "https://wimaengine.github.io/wima/",
   "bugs": {
@@ -22,7 +22,7 @@
     "url": "https://github.com/wimaengine/wima.git"
   },
   "scripts": {
-    "start":"http-server -o /demos -p 8082 --no-dotfiles",
+    "start": "http-server -o /demos -p 8082 --no-dotfiles",
     "init": "husky .husky",
     "rollup": "rollup --config .config/rollup.config.js",
     "eslint": "eslint --config .config/eslint.config.js",
