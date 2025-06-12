@@ -133,24 +133,6 @@ export class App {
 
     return this
   }
-  /**
-   * @deprecated
-   * @template T
-   * @param {Function} asset
-   * @param {HandleProvider<T>} [handleprovider]
-   */
-  registerAsset(asset, handleprovider) {
-    this.registerPlugin(new AssetPlugin({
-
-      // this function will be removed so the cast does not 
-      // matter much
-      // eslint-disable-next-line object-shorthand
-      asset:/** @type {any}*/(asset),
-      handleprovider
-    }))
-
-    return this
-  }
 
   /**
    * @deprecated
