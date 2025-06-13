@@ -16,15 +16,13 @@ import { generateTweenFlipSystem, generateTweenRepeatTween, generateTweenTimerSy
 import { Orientation2D, Orientation3D, Position2D, Position3D, Scale2D, Scale3D } from '../transform/index.js'
 import { typeidGeneric } from '../reflect/index.js'
 
-export class DefaultTweenPlugin {
+export class DefaultTweenPlugin extends Plugin {
 
   /**
    * @param {App} app
    */
   register(app) {
     app
-      .registerType(TweenFlip)
-      .registerType(TweenRepeat)
       .registerPlugin(new TweenPlugin({
         component: Position2D,
         tween: Position2DTween,
