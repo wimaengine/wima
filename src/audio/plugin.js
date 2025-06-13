@@ -1,8 +1,8 @@
-import { App } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { AssetParserPlugin, AssetPlugin, Audio } from '../asset/index.js'
 import { AudioCommands, AudioParser } from './resources/index.js'
 
-export class AudioPlugin {
+export class AudioPlugin extends Plugin {
 
   /**
    * @param {App} app
