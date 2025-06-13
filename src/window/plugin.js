@@ -17,13 +17,13 @@ import {
   WindowMove,
   WindowResize
 } from './events/index.js'
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { World } from '../ecs/index.js'
 import { Window, MainWindow } from './components/index.js'
 import { WindowCommands, Windows } from './resources/index.js'
 import { EventPlugin } from '../event/plugin.js'
 
-export class WindowPlugin {
+export class WindowPlugin extends Plugin {
 
   /**
    * @readonly
@@ -44,6 +44,7 @@ export class WindowPlugin {
     initPrimaryWindow = true,
     primaryWindowOptions
   } = {}) {
+    super()
     this.initPrimaryWindow = initPrimaryWindow
     this.primaryWindowOptions = primaryWindowOptions
   }
