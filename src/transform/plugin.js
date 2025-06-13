@@ -9,10 +9,10 @@ import {
   GlobalTransform3D
 } from './components/index.js'
 import { Dimension } from '../utils/index.js'
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { Query, World } from '../ecs/index.js'
 
-export class TransformPlugin {
+export class TransformPlugin extends Plugin{
 
   /**
    * @type {TransformPluginOptions}
@@ -23,6 +23,7 @@ export class TransformPlugin {
    * @param {TransformPluginOptions} options
    */
   constructor(options = {}) {
+    super()
     options.dimension = options.dimension ?? Dimension.Both
     this.options = options
   }
