@@ -1,4 +1,3 @@
-/** @import { ChaosPlugin } from './typedef/index.js' */
 /** @import { SystemFunc } from '../ecs/index.js' */
 /** @import { HandleProvider, Parser } from '../asset/index.js' */
 /** @import { Constructor,TypeId } from '../reflect/index.js'*/
@@ -101,7 +100,7 @@ export class App {
   }
 
   /**
-   * @param {ChaosPlugin} plugin
+   * @param {Plugin} plugin
    */
   registerPlugin(plugin) {
     plugin.register(this)
@@ -110,7 +109,7 @@ export class App {
   }
 
   /**
-   * @param {ChaosPlugin} debug
+   * @param {Plugin} debug
    */
   registerDebugger(debug) {
     return this.registerPlugin(debug)
