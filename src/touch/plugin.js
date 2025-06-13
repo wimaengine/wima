@@ -1,4 +1,4 @@
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
 import { typeidGeneric } from '../reflect/index.js'
@@ -6,7 +6,7 @@ import { TouchCancel, TouchEnd, TouchMove, TouchStart } from '../window/index.js
 import { TouchPointer } from './core/index.js'
 import { Touches } from './resources/touches.js'
 
-export class TouchPlugin {
+export class TouchPlugin extends Plugin{
 
   /**
    * @param {App} app
