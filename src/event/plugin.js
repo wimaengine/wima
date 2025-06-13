@@ -1,11 +1,11 @@
 /** @import { Constructor } from '../reflect/index.js'*/
 
-import { App, AppSchedule, SystemConfig } from '../app/index.js'
+import { App, AppSchedule, Plugin, SystemConfig } from '../app/index.js'
 import { makeEventClear } from './systems/index.js'
 import { Events } from './core/index.js'
 import { typeidGeneric } from '../reflect/index.js'
 
-export class EventPlugin {
+export class EventPlugin extends Plugin {
 
   /**
    * @readonly
@@ -23,6 +23,7 @@ export class EventPlugin {
    * @param {{ event: Constructor; autoClearEvent?:boolean; }} options
    */
   constructor(options) {
+    super()
     const { event, autoClearEvent = true } = options
 
     this.event = event
@@ -46,5 +47,9 @@ export class EventPlugin {
     if (this.autoClearEvent) {
       app.systemsevents.push(new SystemConfig(makeEventClear(name), AppSchedule.Update))
     }
+  }
+
+  name(){
+    return typeidGeneric(EventPlugin, [this.event])
   }
 }
