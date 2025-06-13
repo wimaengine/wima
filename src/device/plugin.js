@@ -1,8 +1,8 @@
-import { App } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { Browser, PlatformOS } from './core/index.js'
 import { Device } from './resources/index.js'
 
-export class DevicePlugin {
+export class DevicePlugin extends Plugin {
 
   /**
    * @param {App} app 
