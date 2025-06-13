@@ -227,8 +227,3 @@ export class Query {
  * @param {[...T]} components2
  * @returns {void}
  */
-
-/**
- * @template {Constructor[]} T
- * @typedef {{[K in keyof T]:InstanceType<T[K]>}} InstanceTypeTuple
- */
