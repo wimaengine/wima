@@ -16,7 +16,7 @@ export class Damping2DPlugin extends Plugin {
   }
 }
 
-export class Damping3DPlugin {
+export class Damping3DPlugin extends Plugin {
 
   /**
    * @param {App} app
