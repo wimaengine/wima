@@ -227,3 +227,8 @@ export class Query {
  * @param {[...T]} components2
  * @returns {void}
  */
+
+/**
+ * @template {unknown[]} T
+ * @typedef {{[K in keyof T]:Constructor<T[K]>}} TupleConstructor
+ */
