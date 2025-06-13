@@ -4,9 +4,9 @@ import {
   Acceleration3D,
   Torque3D
 } from '../components/index.js'
-import { App } from '../../app/index.js'
+import { App, Plugin } from '../../app/index.js'
 
-export class Movable3DPlugin {
+export class Movable3DPlugin extends Plugin{
 
   /**
    * @param {App} app
