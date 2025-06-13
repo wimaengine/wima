@@ -1,12 +1,14 @@
 /** @import { ChaosPlugin } from './typedef/index.js' */
 /** @import { SystemFunc } from '../ecs/index.js' */
 /** @import { HandleProvider, Parser } from '../asset/index.js' */
-/** @import { Constructor } from '../reflect/index.js'*/
+/** @import { Constructor,TypeId } from '../reflect/index.js'*/
 
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
 import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
 import { SchedulerBuilder, SystemConfig } from './core/index.js'
+import { typeid } from '../reflect/index.js'
+
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
 
@@ -154,5 +156,22 @@ export class App {
       .world.setResource(resource)
 
     return this
+  }
+}
+
+export class Plugin {
+
+  /**
+   * @param {App} _app
+   */
+  register(_app){}
+
+  /**
+   * @returns {TypeId}
+   */
+  name(){
+
+    // SAFETY: `this.constructor` can be casted into a `Contructor`
+    return typeid(/** @type {Constructor}*/(this.constructor))
   }
 }
