@@ -1,10 +1,10 @@
-import { App } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { AssetParserPlugin, AssetPlugin, Image } from '../asset/index.js'
 import { Camera, MaterialHandle, MeshHandle } from './components/index.js'
 import { Material, Mesh, Shader } from './assets/index.js'
 import { ImageParser } from './resources/index.js'
 
-export class RenderCorePlugin {
+export class RenderCorePlugin extends Plugin{
 
   /**
    * @param {App} app 
