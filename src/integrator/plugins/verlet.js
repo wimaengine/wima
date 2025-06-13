@@ -1,7 +1,7 @@
-import { App, AppSchedule } from '../../app/index.js'
+import { App, AppSchedule, Plugin } from '../../app/index.js'
 import { updatePositionVerlet2D, updateOrientationVerlet2D } from '../systems/index.js'
 
-export class VerletIntegrator2DPlugin {
+export class VerletIntegrator2DPlugin extends Plugin {
 
   /**
    * @param {App} app
