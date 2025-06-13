@@ -24,7 +24,7 @@ export class EulerIntegrator2DPlugin extends Plugin {
   }
 }
 
-export class EulerIntegrator3DPlugin {
+export class EulerIntegrator3DPlugin extends Plugin {
 
   /**
    * @param {App} app
