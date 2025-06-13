@@ -29,7 +29,7 @@ export class Gravity2DPlugin extends Plugin {
   }
 }
 
-export class Gravity3DPlugin {
+export class Gravity3DPlugin extends Plugin {
 
   /**
    * @readonly
@@ -41,6 +41,7 @@ export class Gravity3DPlugin {
    * @param {Gravity3DPluginOptions} options 
    */
   constructor({ gravity = new Vector3(0, -980, 0) } = {}) {
+    super()
     this.gravity = gravity
   }
 
