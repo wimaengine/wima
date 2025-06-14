@@ -1,10 +1,10 @@
 import { Profiler, ProfilerTimer } from './resources/index.js'
 import { Timer, TimerMode, VirtualClock } from '../time/index.js'
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { World } from '../ecs/index.js'
 import { warn } from '../logger/index.js'
 
-export class ProfilerPlugin {
+export class ProfilerPlugin extends Plugin {
 
   /**
    * @param {App} app

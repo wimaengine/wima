@@ -1,9 +1,9 @@
 import { TransformPlugin } from '../transform/index.js'
-import { App } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { TimePlugin } from '../time/index.js'
 import { ProfilerPlugin } from '../profiler/index.js'
 
-export class DefaultPlugin {
+export class DefaultPlugin extends Plugin {
 
   /**
    * @param {App} app

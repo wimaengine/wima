@@ -1,4 +1,4 @@
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { EntityCommands } from '../command/index.js'
 import { Query, World, Entity } from '../ecs/index.js'
 import { Storage } from '../storage/index.js'
@@ -9,7 +9,7 @@ import { createDropDown } from './utils.js'
 
 const storageLabel = 'demo'
 
-export class DemoPlugin {
+export class DemoPlugin extends Plugin {
 
   /**
    * @readonly
@@ -21,6 +21,7 @@ export class DemoPlugin {
    * @param {DemoPluginOptions} demos 
    */
   constructor({ demos = [] }) {
+    super()
     this.demos = demos
   }
 

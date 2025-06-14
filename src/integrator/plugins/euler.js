@@ -1,4 +1,4 @@
-import { App, AppSchedule } from '../../app/index.js'
+import { App, AppSchedule, Plugin } from '../../app/index.js'
 import {
   updateAngularEuler2D,
   updateOrientationEuler2D,
@@ -10,7 +10,7 @@ import {
   updateVelocityEuler3D
 } from '../systems/index.js'
 
-export class EulerIntegrator2DPlugin {
+export class EulerIntegrator2DPlugin extends Plugin {
 
   /**
    * @param {App} app
@@ -24,7 +24,7 @@ export class EulerIntegrator2DPlugin {
   }
 }
 
-export class EulerIntegrator3DPlugin {
+export class EulerIntegrator3DPlugin extends Plugin {
 
   /**
    * @param {App} app

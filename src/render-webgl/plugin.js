@@ -1,4 +1,4 @@
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { Assets } from '../asset/index.js'
 import { ComponentHooks, Entity, Query, World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
@@ -10,7 +10,7 @@ import { MainWindow, Window, WindowResize, Windows } from '../window/index.js'
 import { materialAddHook, meshAddHook } from './hooks/index.js'
 import { AttributeMap, ClearColor, MeshCache, UBOCache } from './resources/index.js'
 
-export class WebglRendererPlugin {
+export class WebglRendererPlugin extends Plugin {
 
   /**
    * @param {App} app

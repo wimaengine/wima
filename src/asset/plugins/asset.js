@@ -1,7 +1,7 @@
 /** @import { Defaultable } from '../../utils/index.js' */
 /** @import { HandleProvider } from '../core/index.js' */
 
-import { App } from '../../app/index.js'
+import { App, Plugin } from '../../app/index.js'
 import { EventPlugin } from '../../event/plugin.js'
 import { typeidGeneric } from '../../reflect/index.js'
 import { Assets } from '../core/index.js'
@@ -13,7 +13,7 @@ import { AssetBasePath } from '../resources/index.js'
  * @template T
  */
 
-export class AssetPlugin {
+export class AssetPlugin extends Plugin {
 
   /**
    * @readonly
@@ -37,6 +37,7 @@ export class AssetPlugin {
    * @param {AssetPluginOptions<T>} options
    */
   constructor(options) {
+    super()
     const { path = '', asset, handleprovider } = options
 
     this.handleprovider = handleprovider
@@ -69,6 +70,10 @@ export class AssetPlugin {
       typeidGeneric(Assets, [this.asset]),
       new Assets(asset.default, handleprovider)
     )
+  }
+
+  name(){
+    return typeidGeneric(AssetPlugin, [this.asset])
   }
 }
 

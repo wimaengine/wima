@@ -1,9 +1,9 @@
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { World } from '../ecs/index.js'
 import { Timer, TimerMode, VirtualClock } from '../time/index.js'
 import { RAFTimer } from './resources/index.js'
 
-export class FPSDebugger {
+export class FPSDebugger extends Plugin {
 
   /**
    * @param {App} app

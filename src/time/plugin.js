@@ -1,10 +1,10 @@
 import { World } from '../ecs/index.js'
 import { VirtualClock } from './resource/index.js'
-import { App } from '../app/app.js'
+import { App, Plugin } from '../app/app.js'
 import { AppSchedule } from '../app/schedules.js'
 import { Clock } from './clock.js'
 
-export class TimePlugin {
+export class TimePlugin extends Plugin{
 
   /**
    * @param {App} app
