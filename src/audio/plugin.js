@@ -1,5 +1,5 @@
 import { App } from '../app/index.js'
-import { Audio } from '../asset/index.js'
+import { AssetParserPlugin, AssetPlugin, Audio } from '../asset/index.js'
 import { AudioCommands, AudioParser } from './resources/index.js'
 
 export class AudioPlugin {
@@ -12,8 +12,13 @@ export class AudioPlugin {
 
     app
       .setResource(handler)
-      .registerAsset(Audio)
-      .registerAssetParser(Audio, new AudioParser())
+      .registerPlugin(new AssetPlugin({
+        asset:Audio
+      }))
+      .registerPlugin(new AssetParserPlugin({
+        asset:Audio,
+        parser:new AudioParser()
+      }))
     window.addEventListener('pointerdown', resumeAudio)
 
     /** */

@@ -4,11 +4,9 @@
 /** @import { Constructor } from '../reflect/index.js'*/
 
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
-import { EventPlugin } from '../event/index.js'
-import { assert, deprecate } from '../logger/index.js'
+import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
 import { SchedulerBuilder, SystemConfig } from './core/index.js'
-import { AssetParserPlugin, AssetPlugin } from '../asset/plugins/index.js'
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
 
@@ -131,60 +129,6 @@ export class App {
    */
   registerType(type) {
     this.world.registerType(type)
-
-    return this
-  }
-
-  /**
-   * @deprecated
-   * @template {Function} T
-   * @param {T} event
-   */
-  registerEvent(event) {
-    deprecate('App.registerEvent()', 'EventPlugin')
-    this.registerPlugin(
-
-      // @ts-ignore
-      new EventPlugin({ event })
-    )
-
-    return this
-  }
-
-  /**
-   * @deprecated
-   * @template T
-   * @param {Function} asset
-   * @param {HandleProvider<T>} [handleprovider]
-   */
-  registerAsset(asset, handleprovider) {
-    this.registerPlugin(new AssetPlugin({
-
-      // this function will be removed so the cast does not 
-      // matter much
-      // eslint-disable-next-line object-shorthand
-      asset:/** @type {any}*/(asset),
-      handleprovider
-    }))
-
-    return this
-  }
-
-  /**
-   * @deprecated
-   * @template T
-   * @param {Function} asset 
-   * @param {Parser<T>} parser 
-   */
-  registerAssetParser(asset, parser) {
-    this.registerPlugin(new AssetParserPlugin({
-        
-      // this function will be removed so the cast does not 
-      // matter much
-      // eslint-disable-next-line object-shorthand
-      asset:/** @type {any}*/(asset),
-      parser
-    }))
 
     return this
   }

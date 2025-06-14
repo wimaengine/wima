@@ -2,6 +2,7 @@
 /** @import { HandleProvider } from '../core/index.js' */
 
 import { App } from '../../app/index.js'
+import { EventPlugin } from '../../event/plugin.js'
 import { typeidGeneric } from '../../reflect/index.js'
 import { Assets } from '../core/index.js'
 import { AssetLoadFail, AssetLoadSuccess } from '../events/index.js'
@@ -54,8 +55,12 @@ export class AssetPlugin {
     // TODO - Separate the events to become for each
     // asset type
     app
-      .registerEvent(AssetLoadSuccess)
-      .registerEvent(AssetLoadFail)
+      .registerPlugin(new EventPlugin({
+        event:AssetLoadSuccess
+      }))
+      .registerPlugin(new EventPlugin({
+        event:AssetLoadFail
+      }))
     world.setResourceByTypeId(
       typeidGeneric(AssetBasePath, [this.asset]),
       new AssetBasePath(path)
