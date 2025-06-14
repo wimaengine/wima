@@ -1,4 +1,4 @@
-/** @import { ComponentId, ArchetypeId } from './typedef/index.js'*/
+/** @import { ArchetypeId } from './typedef/index.js'*/
 /** @import { Constructor, TypeId } from '../reflect/index.js'*/
 
 import { Entity } from './entities/index.js'
@@ -28,8 +28,7 @@ import { typeid } from '../reflect/index.js'
  * // are available
  * ```
  * 
- * @template {InstanceTypeTuple<U>} T
- * @template {Constructor[]} U 
+ * @template {unknown[]} T
  */
 export class Query {
 
@@ -59,7 +58,7 @@ export class Query {
 
   /**
    * @param {World} registry
-   * @param {[...U]} componentTypes
+   * @param {[...TupleConstructor<T>]} componentTypes
    */
   constructor(registry, componentTypes) {
     this.registry = registry
@@ -229,6 +228,6 @@ export class Query {
  */
 
 /**
- * @template {Constructor[]} T
- * @typedef {{[K in keyof T]:InstanceType<T[K]>}} InstanceTypeTuple
+ * @template {unknown[]} T
+ * @typedef {{[K in keyof T]:Constructor<T[K]>}} TupleConstructor
  */
