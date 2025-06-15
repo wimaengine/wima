@@ -5,7 +5,7 @@
  * @returns {TypeId}
  */
 export function typeid(type) {
-  return type.name
+  return /** @type {TypeId}*/(type.name)
 }
 
 /**
