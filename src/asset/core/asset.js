@@ -61,6 +61,18 @@ export class Assets {
   }
 
   /**
+   * @param {string} path 
+   * @returns {Handle<T> | undefined}
+   */
+  getHandle(path) {
+    const index = this.paths.get(path)
+
+    if (index !== undefined) return this.createHandle(index)
+
+    return undefined
+  }
+
+  /**
    * @param {Handle<T>} handle
    * @returns {T}
    */
