@@ -80,13 +80,13 @@ function renderToCanvas(world) {
       const handle = /** @type {CanvasImageMaterial} */(material).image
 
       // TODO: Does this create a new `ImageElement` every frame its image is not found? 
-      if (!textures.has(handle.handle)) {
+      if (!textures.has(handle.index)) {
         const pic = images.getByHandle(handle)
         const image = document.createElement('img')
         const blob = new Blob([pic.raw.buffer])
 
         image.src = URL.createObjectURL(blob)
-        image.onload = () => textures.set(handle.handle, image)
+        image.onload = () => textures.set(handle.index, image)
 
         return
       }
@@ -181,7 +181,7 @@ function renderText(ctx, material) {
  */
 function renderImage(ctx, material, textures) {
   const { image, width, height, frameX, frameY, divisionX, divisionY } = material
-  const texture = textures.get(image.handle)
+  const texture = textures.get(image.index)
 
   if (!texture) return
 

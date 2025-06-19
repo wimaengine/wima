@@ -41,7 +41,7 @@ export function materialAddHook(entity, world) {
   const gl = canvas.getContext('webgl2')
 
   if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
-  if (renderpipelines.has(handle.handle)) return
+  if (renderpipelines.has(handle.index)) return
 
   const material = materials.getByHandle(handle)
   const vertex = createShader(gl, material.vertex(), ShaderStage.Vertex)

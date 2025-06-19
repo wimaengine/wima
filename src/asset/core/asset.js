@@ -65,7 +65,7 @@ export class Assets {
    * @returns {T}
    */
   getByHandle(handle) {
-    const asset = this.assets.get(handle.handle)
+    const asset = this.assets.get(handle.index)
 
     assert(asset, 'The handle provided is invalid!Did you try to create your own handle?')
 
@@ -77,7 +77,7 @@ export class Assets {
    * @param {T} asset
    */
   setByHandle(handle, asset) {
-    this.assets.set(handle.handle, asset)
+    this.assets.set(handle.index, asset)
   }
 
   /**
