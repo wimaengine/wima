@@ -1,4 +1,4 @@
-/** @import { Defaultable } from '../../utils/index.js' */
+/** @import { Constructor } from '../../reflect/index.js' */
 /** @import { HandleProvider } from '../core/index.js' */
 
 import { App, Plugin } from '../../app/index.js'
@@ -23,7 +23,7 @@ export class AssetPlugin extends Plugin {
 
   /**
    * @readonly
-   * @type {Defaultable<T> & (new (...args:any)=>T)}
+   * @type {Constructor<T>}
    */
   asset
 
@@ -63,12 +63,12 @@ export class AssetPlugin extends Plugin {
         event:AssetLoadFail
       }))
     world.setResourceByTypeId(
-      typeidGeneric(AssetBasePath, [this.asset]),
+      typeidGeneric(AssetBasePath, [asset]),
       new AssetBasePath(path)
     )
     world.setResourceByTypeId(
-      typeidGeneric(Assets, [this.asset]),
-      new Assets(asset.default, handleprovider)
+      typeidGeneric(Assets, [asset]),
+      new Assets(handleprovider)
     )
   }
 
@@ -81,6 +81,6 @@ export class AssetPlugin extends Plugin {
  * @template T
  * @typedef AssetPluginOptions
  * @property {string} [path]
- * @property {Defaultable<T> & (new (...args:any)=>T)} asset
+ * @property {Constructor<T>} asset
  * @property {HandleProvider<T>} [handleprovider]
  */
