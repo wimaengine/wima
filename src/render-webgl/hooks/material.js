@@ -1,11 +1,12 @@
-/** @import {ComponentHook, Entity} from "../../ecs/index" */
-import { Query } from '../../ecs/index.js'
-import { Assets, Handle } from '../../asset/index.js'
-import { Material, ProgramCache, ShaderStage } from '../../render-core/index.js'
+/** @import {ComponentHook } from "../../ecs/index.js" */
+import { Query, Entity } from '../../ecs/index.js'
+import { Assets } from '../../asset/index.js'
+import { Material, MaterialHandle, ProgramCache, ShaderStage } from '../../render-core/index.js'
 import { createShader, createProgram, validateProgram, validateShader, WebglRenderPipeline } from '../core/index.js'
 import { MainWindow, Windows, Window } from '../../window/index.js'
 import { warn } from '../../logger/index.js'
 import { AttributeMap, UBOCache } from '../resources/index.js'
+import { typeid, typeidGeneric } from '../../reflect/index.js'
 
 
 // TODO - In the future,use the `AssetAdded` event to build gpu representation instead
@@ -14,26 +15,22 @@ import { AttributeMap, UBOCache } from '../resources/index.js'
  */
 export function materialAddHook(entity, world) {
 
-  /** @type {Handle<Material>} */
-  const handle = world.get(entity, 'materialhandle')
-
-  /** @type {AttributeMap} */
-  const attributeMap = world.getResource('attributemap')
-
-  /** @type {UBOCache} */
-  const ubos = world.getResource('ubocache')
+  // SAFETY: Component is guaranteed as this is its component hook
+  const handle = /** @type {MaterialHandle}*/(world.get(entity, MaterialHandle))
+  
+  const attributeMap = world.getResource(AttributeMap)
+  const ubos = world.getResource(UBOCache)
 
   /** @type {Assets<Material>} */
-  const materials = world.getResource('assets<material>')
+  const materials = world.getResourceByTypeId(typeidGeneric(Assets, [Material]))
 
   /** @type {ProgramCache<WebGLProgram>} */
-  const renderpipelines = world.getResource('programcache')
+  const renderpipelines = world.getResourceByTypeId(typeid(ProgramCache))
 
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
+  const windows = new Query(world, [Entity, Window, MainWindow])
 
   /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const canvases = world.getResource(Windows)
 
   const window = windows.single()
 
@@ -44,7 +41,7 @@ export function materialAddHook(entity, world) {
   const gl = canvas.getContext('webgl2')
 
   if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
-  if (renderpipelines.has(handle.handle)) return
+  if (renderpipelines.has(handle.index)) return
 
   const material = materials.getByHandle(handle)
   const vertex = createShader(gl, material.vertex(), ShaderStage.Vertex)

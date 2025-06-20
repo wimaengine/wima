@@ -61,7 +61,7 @@ export class DeviceCapabilities {
    *
    * @type {boolean}
    */
-  audio = !!new Audio().canPlayType
+  audio = !!document.createElement('audio').canPlayType
 
   /**
    * A list of audio extensions this device supports.
@@ -69,11 +69,4 @@ export class DeviceCapabilities {
    * @type {Set<string>}
    */
   supportedAudioFormats = new Set()
-
-  /**
-   * A list of image extensions this device supports.
-   *
-   * @type {Set<string>}
-   */
-  supportedImageFormats = new Set()
 }

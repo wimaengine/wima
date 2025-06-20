@@ -11,6 +11,105 @@
  *  | d | h | l | p |
  */
 export class Matrix4 {
+
+  /**
+   * @type {number}
+   */
+  a = 1
+
+  /**
+   * @type {number}
+   */
+  b = 0
+
+  /**
+   * @type {number}
+   */
+  c = 0
+
+  /**
+   * @type {number}
+   */
+  d = 0
+
+  /**
+   * @type {number}
+   */
+  e = 0
+
+  /**
+   * @type {number}
+   */
+  f = 1
+
+  /**
+   * @type {number}
+   */
+  g = 0
+
+  /**
+   * @type {number}
+   */
+  h = 0
+
+  /**
+   * @type {number}
+   */
+  i = 0
+
+  /**
+   * @type {number}
+   */
+  j = 0
+
+  /**
+   * @type {number}
+   */
+  k = 1
+
+  /**
+   * @type {number}
+   */
+  l = 0
+
+  /**
+   * @type {number}
+   */
+  m = 0
+
+  /**
+   * @type {number}
+   */
+  n = 0
+
+  /**
+   * @type {number}
+   */
+  o = 0
+
+  /**
+   * @type {number}
+   */
+  p = 1
+
+  /**
+   * @param {number} n11 
+   * @param {number} n12 
+   * @param {number} n13 
+   * @param {number} n14 
+   * @param {number} n21 
+   * @param {number} n22 
+   * @param {number} n23 
+   * @param {number} n24 
+   * @param {number} n31 
+   * @param {number} n32 
+   * @param {number} n33 
+   * @param {number} n34 
+   * @param {number} n41 
+   * @param {number} n42 
+   * @param {number} n43 
+   * @param {number} n44 
+   */
   constructor(
     n11 = 1, 
     n12 = 0, 
@@ -49,28 +148,63 @@ export class Matrix4 {
       n44
     )
   }
+
+  /**
+   * @returns {this}
+   */
   inverse() {
     Matrix4.inverse(this, this)
 
     return this
   }
 
+  /**
+   * @param {Matrix4} m 
+   * @returns {this}
+   */
   multiply(m) {
     Matrix4.multiply(this, m, this)
 
     return this
   }
 
+  /**
+   * @param {Matrix4} m 
+   * @returns {this}
+   */
   copy(m) {
     Matrix4.copy(m, this)
 
     return this
   }
   
+  /**
+   * @returns {Matrix4}
+   */
   clone() {
     return Matrix4.copy(this)
   }
 
+  /**
+   * @param {Matrix4} out 
+   * @param {number} n11 
+   * @param {number} n12 
+   * @param {number} n13 
+   * @param {number} n14 
+   * @param {number} n21 
+   * @param {number} n22 
+   * @param {number} n23 
+   * @param {number} n24 
+   * @param {number} n31 
+   * @param {number} n32 
+   * @param {number} n33 
+   * @param {number} n34 
+   * @param {number} n41 
+   * @param {number} n42 
+   * @param {number} n43 
+   * @param {number} n44 
+   * @returns {Matrix4}
+   */
   static set(
     out,
     n11 = 1, 
@@ -110,6 +244,10 @@ export class Matrix4 {
     return out
   }
 
+  /**
+   * @param {Matrix4} out 
+   * @returns {Matrix4}
+   */
   static identity(out = new Matrix4()) {
     Matrix4.set(
       out,
@@ -134,6 +272,11 @@ export class Matrix4 {
     return out
   }
 
+  /**
+   * @param {Matrix4} m
+   * @param {Matrix4} out
+   * @returns {Matrix4}
+   */
   static copy(m, out = new Matrix4()) {
     out.a = m.a
     out.b = m.b
@@ -155,6 +298,12 @@ export class Matrix4 {
     return out
   }
 
+  /**
+   * @param {Matrix4} a
+   * @param {Matrix4} b
+   * @param {Matrix4} out
+   * @returns {Matrix4}
+   */
   static multiply(a, b, out = new Matrix4()) {
     const
       a11 = a.a,
@@ -164,35 +313,33 @@ export class Matrix4 {
       a21 = a.b,
       a22 = a.f,
       a23 = a.j,
-      a24 = a.n
-
-    a31 = a.c,
-    a32 = a.g,
-    a33 = a.k,
-    a34 = a.o
-    a41 = a.d,
-    a42 = a.h,
-    a43 = a.l,
-    a44 = a.p
+      a24 = a.n,
+      a31 = a.c,
+      a32 = a.g,
+      a33 = a.k,
+      a34 = a.o,
+      a41 = a.d,
+      a42 = a.h,
+      a43 = a.l,
+      a44 = a.p
 
     const
       b11 = b.a,
       b12 = b.e,
       b13 = b.i,
-      b14 = b.m
-
-    b21 = b.b,
-    b22 = b.f,
-    b23 = b.j,
-    b24 = b.n
-    b31 = b.c,
-    b32 = b.g,
-    b33 = b.k,
-    b34 = b.o
-    b41 = b.d,
-    b42 = b.h,
-    b43 = b.l,
-    b44 = b.p
+      b14 = b.m,
+      b21 = b.b,
+      b22 = b.f,
+      b23 = b.j,
+      b24 = b.n,
+      b31 = b.c,
+      b32 = b.g,
+      b33 = b.k,
+      b34 = b.o,
+      b41 = b.d,
+      b42 = b.h,
+      b43 = b.l,
+      b44 = b.p
 
     out.a = a11 * b11 + a12 * b21 + a13 * b31 + a14 * b41
     out.e = a11 * b12 + a12 * b22 + a13 * b32 + a14 * b42
@@ -214,10 +361,15 @@ export class Matrix4 {
     out.l = a41 * b13 + a42 * b23 + a43 * b33 + a44 * b43
     out.p = a41 * b14 + a42 * b24 + a43 * b34 + a44 * b44
 
-    return this
-
+    return out
   }
 
+  /**
+   * @param {Matrix4} m
+   * @param {number} s
+   * @param {Matrix4} out
+   * @returns {Matrix4}
+   */
   static multiplyScalar(m, s, out = new Matrix4()) {
     out.a = m.a * s
     out.b = m.b * s
@@ -239,24 +391,27 @@ export class Matrix4 {
     return out
   }
 
+  /**
+   * @param {Matrix4} m 
+   * @returns {number}
+   */
   static determinant(m) {
     const n11 = m.a,
       n12 = m.e,
       n13 = m.i,
-      n14 = m.m
-
-    n21 = m.b,
-    n22 = m.f,
-    n23 = m.j,
-    n24 = m.n
-    n31 = m.c,
-    n32 = m.g,
-    n33 = m.k,
-    n34 = m.o
-    n41 = m.d,
-    n42 = m.h,
-    n43 = m.l,
-    n44 = m.p
+      n14 = m.m,
+      n21 = m.b,
+      n22 = m.f,
+      n23 = m.j,
+      n24 = m.n,
+      n31 = m.c,
+      n32 = m.g,
+      n33 = m.k,
+      n34 = m.o,
+      n41 = m.d,
+      n42 = m.h,
+      n43 = m.l,
+      n44 = m.p
 
     return (
       n41 * (
@@ -295,7 +450,12 @@ export class Matrix4 {
 
   }
 
-  static transpose(m, out = new Matrix()) {
+  /**
+   * @param {Matrix4} m 
+   * @param {Matrix4} out 
+   * @returns {Matrix4}
+   */
+  static transpose(m, out = new Matrix4()) {
     let tmp
 
     out.a = m.a
@@ -330,6 +490,11 @@ export class Matrix4 {
     return out
   }
 
+  /**
+   * @param {Matrix4} m 
+   * @param {Matrix4} out 
+   * @returns {Matrix4}
+   */
   static inverse(m, out = new Matrix4()) {
     const n11 = m.a,
       n21 = m.b,
@@ -355,7 +520,7 @@ export class Matrix4 {
 
     const det = n11 * t11 + n21 * t12 + n31 * t13 + n41 * t14
 
-    if (det === 0) return this.set(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+    if (det === 0) return Matrix4.set(out, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
     const detInv = 1 / det
 
@@ -381,6 +546,12 @@ export class Matrix4 {
 
     return out
   }
+
+  /**
+   * @param {Matrix4} a 
+   * @param {Matrix4} b 
+   * @returns {boolean}
+   */
   static equals(a, b) {
     return a === b
   }

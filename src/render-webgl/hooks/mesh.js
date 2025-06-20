@@ -1,7 +1,7 @@
-/** @import {ComponentHook, Entity} from "../../ecs/index" */
-import { Query } from '../../ecs/index.js'
-import { Assets, Handle } from '../../asset/index.js'
-import { Mesh } from '../../render-core/index.js'
+/** @import { ComponentHook } from "../../ecs/index.js" */
+import { Query, Entity } from '../../ecs/index.js'
+import { Assets } from '../../asset/index.js'
+import { Mesh, MeshHandle } from '../../render-core/index.js'
 import { createVAO } from '../core/function.js'
 import { MainWindow, Windows, Window } from '../../window/index.js'
 import { warn } from '../../logger/index.js'
@@ -14,23 +14,17 @@ import { MeshCache, AttributeMap } from '../resources/index.js'
  */
 export function meshAddHook(entity, world) {
 
-  /** @type {Handle<Mesh>} */
-  const handle = world.get(entity, 'meshhandle')
-
-  /** @type {AttributeMap} */
-  const attributeMap = world.getResource('attributemap')
+  // SAFETY: Component is guaranteed as this is its component hook
+  const handle = /** @type {MeshHandle} */(world.get(entity, MeshHandle))
+  const attributeMap = world.getResource(AttributeMap)
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResource('assets<mesh>')
+  const meshes = world.getResourceByTypeId('assets<mesh>')
 
   /** @type {MeshCache<WebGLVertexArrayObject>} */
-  const meshcache = world.getResource('meshcache')
-
-  /** @type {Query<[Entity,Window,MainWindow]>} */
-  const windows = new Query(world, ['entity', 'window', 'mainwindow'])
-
-  /** @type {Windows} */
-  const canvases = world.getResource('windows')
+  const meshcache = world.getResourceByTypeId('meshcache')
+  const windows = new Query(world, [Entity, Window, MainWindow])
+  const canvases = world.getResource(Windows)
 
   const window = windows.single()
 
@@ -40,10 +34,10 @@ export function meshAddHook(entity, world) {
   const gl = canvas.getContext('webgl2')
 
   if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
-  if (meshcache.has(handle.handle)) return
+  if (meshcache.has(handle.index)) return
 
   const mesh = meshes.getByHandle(handle)
   const vao = createVAO(gl, mesh, attributeMap)
 
-  meshcache.set(handle.handle, vao)
+  meshcache.set(handle.index, vao)
 }

@@ -1,21 +1,34 @@
-import { App } from '../app/index.js'
-import { Image } from '../asset/index.js'
+import { App, Plugin } from '../app/index.js'
+import { AssetParserPlugin, AssetPlugin, Image } from '../asset/index.js'
 import { Camera, MaterialHandle, MeshHandle } from './components/index.js'
 import { Material, Mesh, Shader } from './assets/index.js'
 import { ImageParser } from './resources/index.js'
 
-export class RenderCorePlugin {
+export class RenderCorePlugin extends Plugin{
 
   /**
    * @param {App} app 
    */
   register(app) {
     app
-      .registerAsset(Image)
-      .registerAssetParser(Image, new ImageParser())
-      .registerAsset(Mesh, (id) => new MeshHandle(id))
-      .registerAsset(Shader)
-      .registerAsset(Material, (id) => new MaterialHandle(id))
+      .registerPlugin(new AssetPlugin({
+        asset:Image
+      }))
+      .registerPlugin( new AssetParserPlugin({
+        asset:Image,
+        parser:new ImageParser()
+      }))
+      .registerPlugin(new AssetPlugin({
+        asset:Shader
+      }))
+      .registerPlugin(new AssetPlugin({
+        asset:Mesh,
+        handleprovider:(id) => new MeshHandle(id)
+      }))
+      .registerPlugin(new AssetPlugin({
+        asset:Material,
+        handleprovider:(id) => new MaterialHandle(id)
+      }))
       .registerType(MeshHandle)
       .registerType(MaterialHandle)
       .registerType(Camera)

@@ -3,10 +3,18 @@
 export class Children {
 
   /**
-   * @private
+   * @public
    * @type {Entity[]}
    */
   list = []
+
+   
+  /**
+   * @param {Entity[]} children
+   */
+  constructor(children = []){
+    this.list = children
+  }
 
   /**
    * @param {Entity} entity

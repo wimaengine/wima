@@ -7,7 +7,7 @@ export class Handle {
    * @readonly
    * @type {number}
    */
-  handle
+  index
 
   /**
    * @type {T | undefined}
@@ -15,10 +15,11 @@ export class Handle {
   #placeholder
 
   /**
-   * @param {number} handle 
+   * @param {number} index 
    */
-  constructor(handle){
-    this.handle = handle
+  constructor(index){
+    this.index = index
+
 
     // so that ts does not complain about an unused property.
     if(this.#placeholder)this.#placeholder = undefined

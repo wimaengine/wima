@@ -1,5 +1,6 @@
 import { Vector3 } from './vector3.js'
 import { Quaternion } from './quaternion.js'
+import { Matrix4 } from './matrix4.js'
 
 /**
  * Represents a 3x4 matrix.
@@ -100,6 +101,12 @@ export class Matrix3x4 {
     this.l = e34
   }
 
+  identity(){
+    Matrix3x4.identity(this)
+
+    return this
+  }
+
   /**
    * @param {number} x
    * @param {number} y
@@ -109,6 +116,13 @@ export class Matrix3x4 {
     Matrix3x4.setPosition(this, x, y, z)
 
     return this
+  }
+
+  /**
+   * @returns {Matrix4}
+   */
+  toMatrix4(){
+    return Matrix3x4.toMatrix4(this)
   }
 
   /**
@@ -157,6 +171,27 @@ export class Matrix3x4 {
 
   /**
    * @param {Matrix3x4} out
+   * @returns {Matrix3x4}
+   */
+  static identity(out = new Matrix3x4()){
+    out.a = 1
+    out.b = 0
+    out.c = 0
+    out.d = 0
+    out.e = 1
+    out.f = 0
+    out.g = 0
+    out.h = 0
+    out.i = 1
+    out.j = 0
+    out.k = 0
+    out.l = 0
+
+    return out
+  }
+
+  /**
+   * @param {Matrix3x4} out
    * @param {number} x
    * @param {number} y
    * @param {number} z
@@ -167,6 +202,33 @@ export class Matrix3x4 {
     out.l = z
 
     return out
+  }
+
+  /**
+   * @param {Matrix3x4} m
+   * @param {Matrix4} out
+   * @returns {Matrix4}
+   */
+  static toMatrix4(m, out = new Matrix4()){
+    return Matrix4.set(
+      out,
+      m.a,
+      m.d,
+      m.g,
+      m.j,
+      m.b,
+      m.e,
+      m.h,
+      m.k,
+      m.c,
+      m.f,
+      m.i,
+      m.l,
+      0,
+      0,
+      0,
+      1
+    )
   }
 
   /**

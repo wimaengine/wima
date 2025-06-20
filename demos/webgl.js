@@ -1,10 +1,8 @@
-/** @import {Entity} from 'chaos-studio' */
 import {
   App,
   AppSchedule,
   World,
   FPSDebugger,
-  AssetPlugin,
   AudioPlugin,
   CommandsPlugin,
   DefaultTweenPlugin,
@@ -18,12 +16,15 @@ import {
   RenderCorePlugin,
   WebglRendererPlugin,
   EulerIntegrator3DPlugin,
+  DevicePlugin,
   MovablePlugin,
   MainWindow,
   Query,
   warn,
-  createCamera2D
-} from 'chaosstudio'
+  createCamera2D,
+  WindowCommands,
+  Entity
+} from 'wima'
 import {
   basictriangle,
   colortriangle,
@@ -40,7 +41,7 @@ const app = new App()
 
 app
   .registerPlugin(new CommandsPlugin())
-  .registerPlugin(new AssetPlugin())
+  .registerPlugin(new DevicePlugin())
   .registerPlugin(new AudioPlugin())
   .registerPlugin(new TimePlugin())
   .registerPlugin(new WindowPlugin())
@@ -82,8 +83,8 @@ function setupCamera(world) {
  * @param {World} world
  */
 function setupViewport(world) {
-  const windowcommands = world.getResource('windowcommands')
-  const window = /** @type {Query<[Entity,MainWindow]>} */ (new Query(world, ['entity', 'mainwindow'])).single()
+  const windowcommands = world.getResource(WindowCommands)
+  const window = new Query(world, [Entity, MainWindow]).single()
 
 
   if (!window) return warn('No main window defined.')

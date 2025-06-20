@@ -1,13 +1,13 @@
 import jsdoc from "eslint-plugin-jsdoc"
 import style from "@stylistic/eslint-plugin"
-import custom from "../scripts/eslintplugin.js"
+import imports from "eslint-plugin-import"
 
 export default [
     {
         plugins: {
             jsdoc,
             style,
-            custom
+            imports
         },
         ignores: [
             "**/*.config.js",
@@ -20,8 +20,6 @@ export default [
             sourceType: "module"
         },
         rules: {
-
-            "custom/mark-import": "error",
             "jsdoc/no-undefined-types": [
                 "warn",
                 {

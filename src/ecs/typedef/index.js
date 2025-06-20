@@ -1,6 +1,4 @@
 export * from './componenthook.js'
-export * from './entity.js'
 export * from './filter.js'
 export * from './system.js'
 export * from './identifiers.js'
-export * from './tuple.js'
