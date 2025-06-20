@@ -66,14 +66,10 @@ export class Assets {
 
   /**
    * @param {Handle<T>} handle
-   * @returns {T}
+   * @returns {T | undefined}
    */
   getByHandle(handle) {
-    const asset = this.assets.get(handle.index)
-
-    assert(asset, 'The handle provided is invalid!Did you try to create your own handle?')
-
-    return asset
+    return this.assets.get(handle.index)
   }
 
   /**
