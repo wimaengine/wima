@@ -1,5 +1,4 @@
 /** @import { SystemFunc } from '../ecs/index.js' */
-/** @import { HandleProvider, Parser } from '../asset/index.js' */
 /** @import { Constructor,TypeId } from '../reflect/index.js'*/
 
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
@@ -163,12 +162,12 @@ export class Plugin {
   /**
    * @param {App} _app
    */
-  register(_app){}
+  register(_app) { }
 
   /**
    * @returns {TypeId}
    */
-  name(){
+  name() {
 
     // SAFETY: `this.constructor` can be casted into a `Contructor`
     return typeid(/** @type {Constructor}*/(this.constructor))
