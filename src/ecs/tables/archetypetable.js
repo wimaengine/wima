@@ -71,6 +71,15 @@ export class ArchetypeTable {
   }
 
   /**
+   * @private
+   * @param {TypeId[]} ids
+   * @returns {number}
+   */
+  getActualCompSize(ids){
+    return new Set(ids).size
+  }
+
+  /**
    * @param {ArchetypeId} id
    * @returns {Archetype | undefined}
    */
