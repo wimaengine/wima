@@ -23,8 +23,8 @@ export class Damping3DPlugin extends Plugin {
    */
   register(app) {
     app
-      .setResource(new Linear3DDamping(0.9))
-      .setResource(new Angular3DDamping(0.9))
+      .setResource(new Linear3DDamping(0.01))
+      .setResource(new Angular3DDamping(0.01))
       .registerSystem(AppSchedule.Update, dampenVelocity3D)
       .registerSystem(AppSchedule.Update, dampenRotation3D)
   }
