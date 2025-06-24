@@ -9,8 +9,8 @@ export class Damping2DPlugin extends Plugin {
    */
   register(app) {
     app
-      .setResource(new Linear2DDamping(0.99))
-      .setResource(new Angular2DDamping(0.99))
+      .setResource(new Linear2DDamping(0.01))
+      .setResource(new Angular2DDamping(0.01))
       .registerSystem(AppSchedule.Update, dampenVelocity2D)
       .registerSystem(AppSchedule.Update, dampenRotation2D)
   }
