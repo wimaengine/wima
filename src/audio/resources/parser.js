@@ -1,4 +1,5 @@
-import { Audio, Parser } from '../../asset/index.js'
+import { Parser } from '../../asset/index.js'
+import { Audio } from '../assets/index.js'
 import { Device } from '../../device/index.js'
 
 /**
