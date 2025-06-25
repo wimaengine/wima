@@ -1,0 +1,19 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "typescript",
+			"tsconfig": ".config/tsc.lint.json",
+			"label": "tsc-scan",
+			"option": "watch",
+			"problemMatcher":"$tsc-watch",
+			"group": "build",
+			"runOptions": {
+				"runOn": "folderOpen"
+			},
+			"presentation": {
+				"reveal": "never",
+			}
+		}
+	]
+}
