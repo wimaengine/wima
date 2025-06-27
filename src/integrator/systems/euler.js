@@ -90,8 +90,7 @@ export function updateAngularEuler3D(world) {
   query.each(([rotation, torque]) => {
     const temp = Vector3.multiplyScalar(torque, dt)
 
-
-    rotation.multiply(temp)
+    rotation.add(temp)
     torque.set(0, 0, 0)
   })
 }
