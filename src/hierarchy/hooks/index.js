@@ -1,5 +1,6 @@
 /** @import {ComponentHook} from '../../ecs/index.js' */
 
+import { throws } from '../../logger/index.js'
 import { Children, Parent } from '../components/index.js'
 
 
@@ -17,6 +18,9 @@ export function addSelfToParent(entity, world) {
 
   const children = world.get(parent.entity, Children)
 
+  if(parent.entity.equals(entity)){
+    throws(`THe entity ${entity.id()} cannot be its own parent!`)
+  }
   if (children) {
     children?.add(entity)
   } else {
