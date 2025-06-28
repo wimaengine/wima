@@ -66,6 +66,9 @@ export function addSelfToChildren(entity, world) {
     const child = children.list[i]
     const parent = world.get(child, Parent)
 
+    if(child.equals(entity)){
+      throws(`THe entity ${entity.id()} cannot be its own parent!`)
+    }
     if (!parent) {
       world.insert(child, [new Parent(entity)])
     } else {
