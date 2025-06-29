@@ -22,7 +22,7 @@
     "url": "https://github.com/wimaengine/wima.git"
   },
   "scripts": {
-    "start": "http-server -o /demos -p 8082 --no-dotfiles",
+    "start": "vite --config .config/vite.config.js",
     "init": "husky .husky",
     "rollup": "rollup --config .config/rollup.config.js",
     "eslint": "eslint --config .config/eslint.config.js",
@@ -61,12 +61,12 @@
     "eslint": "^9.7.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsdoc": "^48.7.0",
-    "http-server": "^14.1.1",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "rollup": "^4.12.0",
     "typedoc": "^0.26.5",
-    "typescript": "5.5.4"
+    "typescript": "5.5.4",
+    "vite": "^6.3.5"
   },
   "files": [
     "dist/*"
