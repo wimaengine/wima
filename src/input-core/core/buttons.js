@@ -36,8 +36,9 @@ export class Buttons {
    * @param {T} button
    */
   release(button) { 
-    this.innerJustReleased.add(button)
-    this.innerPressed.delete(button)
+    if(this.innerPressed.delete(button)){
+      this.innerJustReleased.add(button)
+    }
   }
 
   /**
