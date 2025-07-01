@@ -91,7 +91,8 @@ export function despawnChildren(entity, world) {
     return
   }
 
-  for (let i = 0; i < children.list.length; i++) {
+  // Do not change this loop as children are despawned.
+  for (let i = children.list.length - 1; i >= 0; i--) {
     const child = children.list[i]
 
     world.remove(child)
