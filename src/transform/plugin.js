@@ -61,17 +61,6 @@ export class TransformPlugin extends Plugin{
 }
 
 /**
- * @param {World} world
- */
-function synctransform2D(world) {
-  const query = new Query(world, [Position2D, Orientation2D, Scale2D, GlobalTransform2D])
-
-  query.each(([position, orientation, scale, transform]) => {
-    transform.compose(position, orientation, scale)
-  })
-}
-
-/**
  * @typedef TransformPluginOptions
  * @property {Dimension} [dimension]
  */
