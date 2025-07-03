@@ -57,16 +57,16 @@
     "3D"
   ],
   "devDependencies": {
-    "@stylistic/eslint-plugin": "^2.3.0",
-    "eslint": "^9.7.0",
+    "@stylistic/eslint-plugin": "^5.1.0",
+    "eslint": "^9.30.1",
     "eslint-plugin-import": "^2.31.0",
-    "eslint-plugin-jsdoc": "^48.7.0",
+    "eslint-plugin-jsdoc": "^51.3.3",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "rollup": "^4.12.0",
-    "typedoc": "^0.26.5",
-    "typescript": "5.5.4",
-    "vite": "^6.3.5"
+    "typedoc": "^0.28.7",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.0"
   },
   "files": [
     "dist/*"
