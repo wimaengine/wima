@@ -217,7 +217,7 @@ export class World {
    *
    * @param {Entity} entity - The entity to remove.
    */
-  remove(entity) {
+  despawn(entity) {
     const location = this.entities.get(entity.index)
 
     if (!location) return
