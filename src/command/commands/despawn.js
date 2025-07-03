@@ -21,6 +21,6 @@ export class DespawnCommand extends Command {
    * @param {World} world
    */
   execute(world) {
-    world.remove(this.entity)
+    world.despawn(this.entity)
   }
 }
