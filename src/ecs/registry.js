@@ -206,7 +206,7 @@ export class World {
    */
   createMany(entities) {
     for (let i = 0; i < entities.length; i++) {
-      this.create(entities[i])
+      this.spawn(entities[i])
     }
   }
 
