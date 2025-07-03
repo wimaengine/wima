@@ -22,6 +22,7 @@ import { World } from '../ecs/index.js'
 import { Window, MainWindow } from './components/index.js'
 import { WindowCommands, Windows } from './resources/index.js'
 import { EventPlugin } from '../event/plugin.js'
+import { EntityCommands } from '../command/index.js'
 
 export class WindowPlugin extends Plugin {
 
@@ -115,7 +116,15 @@ export class WindowPlugin extends Plugin {
  * @param {World} world 
  */
 function initPrimaryWindow(world) {
-  world.create([new Window(), new MainWindow()])
+  const commands = world.getResource(EntityCommands)
+
+  commands
+    .spawn()
+    .insertPrefab([
+      new Window(), 
+      new MainWindow()
+    ])
+    .build()
 }
 
 /**
