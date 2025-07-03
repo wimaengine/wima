@@ -97,7 +97,7 @@ export class World {
    * @param {[...T]} components - The entity to add.
    * @returns {Entity}
    */
-  create(components) {
+  spawn(components) {
     const entityIndex = this.entities.reserve()
 
     // SAFETY: the entity was reserved in this function so we know its there.
