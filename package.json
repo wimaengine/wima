@@ -42,7 +42,7 @@
     "lint:fix": "npm run lint:fix-src && npm run lint:fix-demos",
     "lint:fix-src": "npm run lint:src -- --fix",
     "lint:fix-demos": "npm run lint:demos -- --fix",
-    "build:lib": "npm run rollup && npm run typedef && npm run types",
+    "build:lib": "npm run types && npm run rollup && npm run typedef && npm run clean:types",
     "build:docs": "npm run typedoc",
     "clean:types":"rm -r types",
     "ci:build": "npm run build",
