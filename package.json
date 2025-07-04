@@ -44,6 +44,7 @@
     "lint:fix-demos": "npm run lint:demos -- --fix",
     "build:lib": "npm run rollup && npm run typedef && npm run types",
     "build:docs": "npm run typedoc",
+    "clean:types":"rm -r types",
     "ci:build": "npm run build",
     "ci:check": "npm run lint:src -- --max-warnings=0 && npm run lint:demos -- --max-warnings=0 && npm run test",
     "pre-commit": "lint-staged --config .config/lint.config.js",
