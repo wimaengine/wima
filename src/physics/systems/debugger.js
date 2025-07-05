@@ -187,10 +187,13 @@ export function drawContacts(world) {
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
+
+  if(!canvas) return
+
   const ctx = canvas.getContext('2d')
 
   if (!ctx) return
-  
+
 
   for (let i = 0; i < clmd.length; i++) {
     const [p1, p2] = clmd[i].contactData.contactPoints
