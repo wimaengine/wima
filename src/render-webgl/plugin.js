@@ -77,13 +77,16 @@ function render(world) {
   if (!window) return warn('Please define the main window for rendering.')
 
   const canvas = canvases.getWindow(window[0])
+
+  if (!canvas) return
+
   const gl = canvas.getContext('webgl2')
 
   if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
 
   gl.clearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a)
   gl.clear(gl.COLOR_BUFFER_BIT)
-  
+
   cameras.each(([transform, camera]) => {
     const projection = camera.projectionMatrix()
     const cameraUniform = ubos.get('Camera')
@@ -100,7 +103,7 @@ function render(world) {
       const mesh = meshes.getByHandle(meshhandle)
       const material = materials.getByHandle(materialhandle)
       const gpumesh = gpumeshes.get(meshhandle.index)
-      const pipeline = programs.get(materialhandle.handle)
+      const pipeline = programs.get(materialhandle.index)
 
       // @ts-ignore
       // SAFETY: BasicMaterial has the method.
@@ -108,7 +111,7 @@ function render(world) {
       const data = material.asUniformBind()
       const ubo = ubos.get(material.constructor.name)
 
-      assert(ubo, `The uniform buffer for material '${material.constructor.name}' is not set up.` )
+      assert(ubo, `The uniform buffer for material '${material.constructor.name}' is not set up.`)
 
       gl.useProgram(pipeline.program)
       pipeline.setUniformMatrix3x4(gl, 'model', transform)
@@ -117,14 +120,14 @@ function render(world) {
       gl.bindVertexArray(gpumesh)
 
       const indices = mesh.getIndices()
-      
+
       if (indices) {
         gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0)
       } else {
         const positions = mesh.getAttribute('position3d')
-        
+
         if (positions === undefined) return
-  
+
         const count = positions.data.length
 
         gl.drawArrays(gl.TRIANGLES, 0, count / 3)
