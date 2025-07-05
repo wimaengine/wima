@@ -6,6 +6,7 @@ import { createVAO } from '../core/function.js'
 import { MainWindow, Windows, Window } from '../../window/index.js'
 import { warn } from '../../logger/index.js'
 import { MeshCache, AttributeMap } from '../resources/index.js'
+import { typeidGeneric } from '../../reflect/index.js'
 
 // TODO - In the future,use the `AssetAdded` event to build gpu representation instead
 
@@ -19,10 +20,10 @@ export function meshAddHook(entity, world) {
   const attributeMap = world.getResource(AttributeMap)
 
   /** @type {Assets<Mesh>} */
-  const meshes = world.getResourceByTypeId('assets<mesh>')
+  const meshes = world.getResourceByTypeId(typeidGeneric(Assets, [Mesh]))
 
   /** @type {MeshCache<WebGLVertexArrayObject>} */
-  const meshcache = world.getResourceByTypeId('meshcache')
+  const meshcache = world.getResource(MeshCache)
   const windows = new Query(world, [Entity, Window, MainWindow])
   const canvases = world.getResource(Windows)
 
@@ -31,6 +32,9 @@ export function meshAddHook(entity, world) {
   if (!window) return warn('Please define the main window for rendering.')
 
   const canvas = canvases.getWindow(window[0])
+
+  if(!canvas) return
+
   const gl = canvas.getContext('webgl2')
 
   if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
