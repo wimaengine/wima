@@ -25,9 +25,9 @@ export class WebglRendererPlugin extends Plugin {
       .setResource(new UBOCache())
       .setResource(new ClearColor())
       .setResource(attribute)
+      .registerSystem(AppSchedule.Update, registerBuffers)
       .registerSystem(AppSchedule.Update, render)
       .registerSystem(AppSchedule.Update, resizegl)
-      .registerSystem(AppSchedule.Startup, registerBuffers)
       .setComponentHooks(MaterialHandle, new ComponentHooks(materialAddHook))
       .setComponentHooks(MeshHandle, new ComponentHooks(meshAddHook))
   }
