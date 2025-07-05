@@ -38,6 +38,9 @@ export function materialAddHook(entity, world) {
 
   /** @type {HTMLCanvasElement}*/
   const canvas = canvases.getWindow(window[0])
+
+  if(!canvas) return
+
   const gl = canvas.getContext('webgl2')
 
   if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
@@ -55,5 +58,5 @@ export function materialAddHook(entity, world) {
 
   validateProgram(gl, program)
   pipe.init(gl, ubos)
-  renderpipelines.set(handle.handle, pipe)
+  renderpipelines.set(handle.index, pipe)
 }
