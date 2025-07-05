@@ -47,15 +47,3 @@ export function swapRemove(arr, index) {
  * @param {T} _args
  */
 export function noop(..._args){}
-
-/**
- * Represents the dimension.
- * 
- * @readonly
- * @enum {number}
- */
-export const Dimension = {
-  Both:0,
-  Two:1,
-  Three:2
-}
