@@ -31,6 +31,14 @@ export class Device {
       this.platform === PlatformOS.Ios
     )
   }
+
+  isPc() {
+    return (
+      this.platform === PlatformOS.Linux ||
+      this.platform === PlatformOS.Mac ||
+      this.platform === PlatformOS.Windows
+    )
+  }
 }
 
 export class DeviceCapabilities {
