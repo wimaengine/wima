@@ -150,6 +150,9 @@ function resizegl(world) {
   if (!window) return
 
   const canvas = canvases.getWindow(window[0])
+
+  if (!canvas) return
+
   const gl = canvas.getContext('webgl2')
 
   if (!gl) return
