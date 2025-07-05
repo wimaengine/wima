@@ -12,13 +12,11 @@ export class Windows {
 
   /**
    * @param {Entity} entity
-   * @returns {HTMLCanvasElement}
+   * @returns {HTMLCanvasElement | undefined}
    */
   getWindow(entity){
     const window = this.entities.get(entity.id())
     
-    assert(window, 'the provided window entity does not have a corresponding canvas element.')
-
     return window
   }
 
