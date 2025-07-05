@@ -50,6 +50,9 @@ function renderToCanvas(world) {
   if (!camera) return warn('Please add a camera to the scene.')
 
   const canvas = canvases.getWindow(window[0])
+
+  if(!canvas) return
+
   const ctx = canvas.getContext('2d')
 
   const offsetX = window[1].getWidth() / 2
@@ -82,6 +85,9 @@ function renderToCanvas(world) {
       // TODO: Does this create a new `ImageElement` every frame its image is not found? 
       if (!textures.has(handle.index)) {
         const pic = images.getByHandle(handle)
+
+        if(!pic) return
+
         const image = document.createElement('img')
         const blob = new Blob([pic.raw.buffer])
 
