@@ -81,6 +81,9 @@ export function drawVelocity(world) {
   const window = /** @type {[Entity,MainWindow]}*/(windows.single())
 
   const canvas = canvases.getWindow(window[0])
+
+  if (!canvas) return
+
   const ctx = canvas.getContext('2d')
 
   if (!ctx) return
