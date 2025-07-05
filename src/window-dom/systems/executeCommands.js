@@ -15,6 +15,7 @@ export function executeWindowCommands(world) {
   for (let i = 0; i < buffer.length; i++) {
     const command = buffer[i]
     const canvas = canvases.getWindow(command.entity)
+    if(!canvas) return
     const [window] = /** @type {[Window]} */(windows.get(command.entity))
 
     execute(command, canvas, window)
