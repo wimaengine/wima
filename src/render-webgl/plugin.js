@@ -174,10 +174,15 @@ function registerBuffers(world) {
 
   /** @type {HTMLCanvasElement}*/
   const canvas = canvases.getWindow(window[0])
+
+  if (!canvas) return
+
   const gl = canvas.getContext('webgl2')
 
   if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
 
-  ubos.create(gl, 'Camera', 128)
+  if (!ubos.get('Camera'))
+    ubos.create(gl, 'Camera', 128)
+  if (!ubos.get('WebglBasicMaterial'))
   ubos.create(gl, 'WebglBasicMaterial', 32)
 }
