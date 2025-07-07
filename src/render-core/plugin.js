@@ -33,5 +33,8 @@ export class RenderCorePlugin extends Plugin{
         asset: Material,
         handleprovider: (id) => new MaterialHandle(id)
       }))
+      .registerPlugin(new AssetPlugin({
+        asset:BasicMaterial
+      }))
   }
 }
