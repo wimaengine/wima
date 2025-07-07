@@ -1,9 +1,9 @@
 import { App, Plugin } from '../app/index.js'
 import { AssetParserPlugin, AssetPlugin } from '../asset/index.js'
-import { BasicMaterial2D, Camera, MaterialHandle, Meshed, MeshHandle } from './components/index.js'
+import { BasicMaterial2D, BasicMaterial3D, Camera, MaterialHandle, Meshed, MeshHandle } from './components/index.js'
 import { Material, Mesh, Shader, Image, BasicMaterial } from './assets/index.js'
 import { ImageParser } from './resources/index.js'
-import { Material2DPlugin } from './plugins/index.js'
+import { Material2DPlugin, Material3DPlugin } from './plugins/index.js'
 
 export class RenderCorePlugin extends Plugin {
 
@@ -40,6 +40,10 @@ export class RenderCorePlugin extends Plugin {
       .registerPlugin(new Material2DPlugin({
         asset: BasicMaterial,
         component: BasicMaterial2D
+      }))
+      .registerPlugin(new Material3DPlugin({
+        asset: BasicMaterial,
+        component: BasicMaterial3D
       }))
   }
 }
