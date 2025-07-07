@@ -24,6 +24,13 @@ export class Device {
    * @type {Browser}
    */
   browser = Browser.Unknown
+
+  isMobile() {
+    return (
+      this.platform === PlatformOS.Android ||
+      this.platform === PlatformOS.Ios
+    )
+  }
 }
 
 export class DeviceCapabilities {
