@@ -9,11 +9,12 @@
   "type": "module",
   "license": "MIT",
   "main": "./dist/index.umd.js",
-  "types": "./dist/index.module.d.ts",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.module.js",
-      "require": "./dist/index.umd.js"
+      "require": "./dist/index.umd.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "author": "Wayne Mwashuma",
@@ -23,6 +24,7 @@
   },
   "scripts": {
     "start": "vite --config .config/vite.config.js",
+    "dev": "npm run build:lib",
     "init": "husky .husky",
     "rollup": "rollup --config .config/rollup.config.js",
     "eslint": "eslint --config .config/eslint.config.js",
@@ -33,19 +35,19 @@
     "test": "node --test",
     "build": "npm run build:lib && npm run build:docs",
     "lint": "npm run lint:src && npm run lint:demos",
-    "dev": "npm run build:lib",
+    "lint:dry": "npm run lint:src-dry && npm run lint:demos-dry",
+    "lint:src-dry": "npm run eslint -- src",
+    "lint:demos-dry": "npm run eslint -- demos",
+    "lint:src": "npm run lint:src-dry -- --fix",
+    "lint:demos": "npm run lint:demos-dry -- --fix",
     "tsc:lint": "tsc -p .config/tsc.lint.json",
     "watch:src": "npm run rollup -- --watch",
     "watch:docs": "npm run typedoc -- --watch",
-    "lint:src": "npm run eslint -- src",
-    "lint:demos": "npm run eslint -- demos",
-    "lint:fix": "npm run lint:fix-src && npm run lint:fix-demos",
-    "lint:fix-src": "npm run lint:src -- --fix",
-    "lint:fix-demos": "npm run lint:demos -- --fix",
-    "build:lib": "npm run rollup && npm run typedef && npm run types",
+    "build:lib": "npm run types && npm run rollup && npm run typedef && npm run clean:types",
     "build:docs": "npm run typedoc",
+    "clean:types": "rm -r types",
     "ci:build": "npm run build",
-    "ci:check": "npm run lint:src -- --max-warnings=0 && npm run lint:demos -- --max-warnings=0 && npm run test",
+    "ci:check": "npm run lint:src-dry -- --max-warnings=0 && npm run lint:demos-dry -- --max-warnings=0 && npm run test",
     "pre-commit": "lint-staged --config .config/lint.config.js",
     "pre-push": "npm run test"
   },
@@ -57,6 +59,7 @@
     "3D"
   ],
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
     "@stylistic/eslint-plugin": "^5.1.0",
     "eslint": "^9.30.1",
     "eslint-plugin-import": "^2.31.0",
@@ -64,6 +67,7 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "rollup": "^4.12.0",
+    "rollup-plugin-dts": "^6.2.1",
     "typedoc": "^0.28.7",
     "typescript": "^5.8.3",
     "vite": "^7.0.0"

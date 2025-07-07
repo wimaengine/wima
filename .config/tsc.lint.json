@@ -3,6 +3,9 @@
     "../src",
     "../demos"
   ],
+  "exclude":[
+    "../**/*.test.js"
+],
   "compilerOptions": {
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
@@ -15,6 +18,10 @@
     "noImplicitThis": true,
     "noPropertyAccessFromIndexSignature": true,
     "noUncheckedIndexedAccess": true,
-    "target": "ES2020"
+    "target": "ES2020",
+    "skipLibCheck":true,
+    "paths":{
+      "wima":["../src/index.js"]
+    }
   }
 }
