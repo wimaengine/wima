@@ -187,8 +187,6 @@ function registerBuffers(world) {
 
   if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
 
-  if (!ubos.get('Camera'))
-    ubos.create(gl, 'Camera', 128)
-  if (!ubos.get('WebglBasicMaterial'))
-  ubos.create(gl, 'WebglBasicMaterial', 32)
+  if (!ubos.get('Camera')) ubos.create(gl, 'Camera', 128)
+  if (!ubos.get('WebglBasicMaterial')) ubos.create(gl, 'WebglBasicMaterial', 32)
 }

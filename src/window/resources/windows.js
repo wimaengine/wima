@@ -1,7 +1,5 @@
 /** @import {Entity,EntityId} from '../../ecs/index.js'*/
 
-import { assert } from '../../logger/index.js'
-
 export class Windows {
 
   /**

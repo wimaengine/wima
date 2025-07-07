@@ -50,6 +50,7 @@ export function closeWindow(entity, world) {
   const canvas = windows.getWindow(entity)
   
   if(!canvas) return
+
   canvas.remove()
   windows.delete(entity)
 }
