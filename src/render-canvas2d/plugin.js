@@ -1,14 +1,15 @@
 import { Assets } from '../asset/index.js'
 import { Entity, Query, World } from '../ecs/index.js'
 import { App, AppSchedule, Plugin } from '../app/index.js'
-import { Mesh, Material, TextureCache, Camera, MeshHandle, MaterialHandle, Image } from '../render-core/index.js'
+import { Mesh, Material, TextureCache, Camera, MeshHandle, MaterialHandle, BasicMaterial, Image } from '../render-core/index.js'
 import { MainWindow, Window, Windows } from '../window/index.js'
 import { warn } from '../logger/index.js'
 import { vertices } from './utils.js'
 import { GlobalTransform2D } from '../transform/index.js'
-import { MaterialType } from './core/index.js'
+import { MaterialType, renderBasicMaterial } from './core/index.js'
 import { CanvasImageMaterial, CanvasMeshedMaterial, CanvasTextMaterial } from './assets/materials/index.js'
 import { typeid, typeidGeneric } from '../reflect/index.js'
+import { Canvas2DMaterialPlugin } from './plugins/index.js'
 
 export class Canvas2DRendererPlugin extends Plugin{
 
@@ -19,6 +20,10 @@ export class Canvas2DRendererPlugin extends Plugin{
     app
       .setResource(new TextureCache())
       .registerSystem(AppSchedule.Update, renderToCanvas)
+      .registerPlugin(new Canvas2DMaterialPlugin({
+        material:BasicMaterial,
+        update:renderBasicMaterial
+      }))
   }
 }
 
