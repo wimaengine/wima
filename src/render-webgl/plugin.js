@@ -4,11 +4,13 @@ import { ComponentHooks, Entity, Query, World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
 import { assert, warn } from '../logger/index.js'
 import { typeid, typeidGeneric } from '../reflect/index.js'
-import { MeshAttribute, Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache, Meshed } from '../render-core/index.js'
+import { MeshAttribute, Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache, BasicMaterial, Meshed } from '../render-core/index.js'
 import { GlobalTransform3D } from '../transform/index.js'
 import { MainWindow, Window, WindowResize, Windows } from '../window/index.js'
 import { materialAddHook, meshAddHook, meshAddHook2 } from './hooks/index.js'
+import { WebglMaterialPlugin } from './plugins/index.js'
 import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from './resources/index.js'
+import { basicMaterial3DFragment, basicMaterial3DVertex } from './shaders/index.js'
 
 export class WebglRendererPlugin extends Plugin {
 
@@ -32,6 +34,11 @@ export class WebglRendererPlugin extends Plugin {
       .registerSystem(AppSchedule.Update, registerBuffers)
       .registerSystem(AppSchedule.Update, render)
       .registerSystem(AppSchedule.Update, resizegl)
+      .registerPlugin(new WebglMaterialPlugin({
+        material: BasicMaterial,
+        vertex3d: basicMaterial3DVertex,
+        fragment3d: basicMaterial3DFragment
+      }))
   }
 }
 
