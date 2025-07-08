@@ -4,11 +4,11 @@ import { ComponentHooks, Entity, Query, World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
 import { assert, warn } from '../logger/index.js'
 import { typeid, typeidGeneric } from '../reflect/index.js'
-import { MeshAttribute, Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache } from '../render-core/index.js'
+import { MeshAttribute, Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache, Meshed } from '../render-core/index.js'
 import { GlobalTransform3D } from '../transform/index.js'
 import { MainWindow, Window, WindowResize, Windows } from '../window/index.js'
-import { materialAddHook, meshAddHook } from './hooks/index.js'
-import { AttributeMap, ClearColor, MeshCache, UBOCache } from './resources/index.js'
+import { materialAddHook, meshAddHook, meshAddHook2 } from './hooks/index.js'
+import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from './resources/index.js'
 
 export class WebglRendererPlugin extends Plugin {
 
@@ -20,16 +20,18 @@ export class WebglRendererPlugin extends Plugin {
 
     registerDefaultAttributeLocs(attribute)
     app
+      .setComponentHooks(MaterialHandle, new ComponentHooks(materialAddHook))
+      .setComponentHooks(MeshHandle, new ComponentHooks(meshAddHook))
+      .setComponentHooks(Meshed, new ComponentHooks(meshAddHook2))
       .setResource(new ProgramCache())
       .setResource(new MeshCache())
       .setResource(new UBOCache())
       .setResource(new ClearColor())
       .setResource(attribute)
+      .setResource(new WebglProgramCache())
       .registerSystem(AppSchedule.Update, registerBuffers)
       .registerSystem(AppSchedule.Update, render)
       .registerSystem(AppSchedule.Update, resizegl)
-      .setComponentHooks(MaterialHandle, new ComponentHooks(materialAddHook))
-      .setComponentHooks(MeshHandle, new ComponentHooks(meshAddHook))
   }
 }
 
