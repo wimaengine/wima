@@ -1,7 +1,7 @@
 /** @import { ComponentHook } from "../../ecs/index.js" */
 import { Query, Entity } from '../../ecs/index.js'
 import { Assets } from '../../asset/index.js'
-import { Mesh, Meshed, MeshHandle } from '../../render-core/index.js'
+import { Mesh, Meshed } from '../../render-core/index.js'
 import { createVAO } from '../core/function.js'
 import { MainWindow, Windows, Window } from '../../window/index.js'
 import { warn } from '../../logger/index.js'
