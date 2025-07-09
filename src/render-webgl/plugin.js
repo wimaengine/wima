@@ -18,8 +18,6 @@ export class WebglRendererPlugin extends Plugin {
 
     registerDefaultAttributeLocs(attribute)
     app
-      .setComponentHooks(MaterialHandle, new ComponentHooks(materialAddHook))
-      .setComponentHooks(MeshHandle, new ComponentHooks(meshAddHook))
       .setComponentHooks(Meshed, new ComponentHooks(meshAddHook2))
       .setResource(new ProgramCache())
       .setResource(new MeshCache())
@@ -28,8 +26,6 @@ export class WebglRendererPlugin extends Plugin {
       .setResource(attribute)
       .setResource(new WebglProgramCache())
       .registerSystem(AppSchedule.Update, registerBuffers)
-      .registerSystem(AppSchedule.Update, render)
-      .registerSystem(AppSchedule.Update, resizegl)
       .registerPlugin(new WebglMaterialPlugin({
         material: BasicMaterial,
         vertex3d: basicMaterial3DVertex,
