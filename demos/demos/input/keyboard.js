@@ -1,9 +1,5 @@
 import {
-  Assets,
-  Material,
   Mesh,
-  CanvasTextMaterial,
-  CanvasMeshedMaterial,
   createTransform2D,
   World,
   Color,
@@ -14,11 +10,20 @@ import {
   Keyboard,
   KeyCode,
   Entity,
-  MaterialHandle
+  BasicMaterial,
+  Meshed,
+  BasicMaterial2D
 } from 'wima'
+import { addDefaultCamera2D, BasicMaterialAssets, MeshAssets } from '../utils.js'
 
-const offsetX = 100
-const offsetY = 100
+export default new Demo(
+  'keyboard',
+  [init, spawnDigits, spawnAlphabet, addDefaultCamera2D],
+  [update]
+)
+
+const offsetX = -400
+const offsetY = -100
 const itemWidth = 50
 const itemHeight = 50
 const paddingWidth = 10
@@ -40,19 +45,24 @@ function init(world) {
  * @param {World} world
  */
 function update(world) {
-  const materials = /** @type {Assets<Material>} */(world.getResourceByName('assets<material>'))
+  const materials = world.getResource(BasicMaterialAssets)
   const keyboard = world.getResource(Keyboard)
   const map = world.getResource(KeytoEntityMap)
-  const entities = new Query(world, [Entity, MaterialHandle])
+  const entities = new Query(world, [Entity, BasicMaterial2D])
 
   map.forEach((id, key) => {
     const entity = entities.get(id)
-    const material = materials.getByHandle(entity[1])
+
+    if (!entity) return
+
+    const material = materials.getByHandle(entity[1].handle)
+
+    if (!material) return
 
     if (keyboard.pressed(key)) {
-      material.stroke.a = 255
+      material.color.copy(Color.RED)
     } else {
-      material.stroke.a = 0
+      material.color.copy(Color.WHITE)
     }
   })
 }
@@ -64,10 +74,10 @@ function update(world) {
 function spawnDigits(world) {
   const map = world.getResource(KeytoEntityMap)
   const commands = world.getResource(EntityCommands)
-  const meshes = /** @type {Assets<Mesh>} */(world.getResourceByName('assets<mesh>'))
-  const materials = /** @type {Assets<Material>} */(world.getResourceByName('assets<material>'))
+  const meshes = world.getResource(MeshAssets)
+  const materials = world.getResource(BasicMaterialAssets)
+
   const mesh = meshes.add('digits', Mesh.quad2D(itemWidth, itemHeight))
-  const meshtext = meshes.add('digitsText', Mesh.quad2D(itemWidth, itemHeight))
   const characters = [
     '1',
     '2',
@@ -94,35 +104,20 @@ function spawnDigits(world) {
   ]
 
   for (let i = 0; i < digits.length; i++) {
-    const character = characters[i]
-    const digit = digits[i]
-    const x = offsetX + (i % digits.length) * (itemWidth + paddingWidth) + paddingWidth + itemWidth / 2
-    const y = offsetY + Math.floor(i / digits.length) * (itemHeight + paddingHeight) + itemHeight / 2
+    const character = /** @type {string}*/(characters[i])
+    const digit = /** @type {KeyCode}*/(digits[i])
+    const x = offsetX + (i % digits.length) * (itemWidth + paddingWidth) + paddingWidth
+    const y = offsetY + Math.floor(i / digits.length) * (itemHeight + paddingHeight)
     const entity = commands
       .spawn()
-      .insertPrefab(createTransform2D(x, y))
-      .insert(mesh)
-      .insert(materials.add(`keyboard-${character}`, new CanvasMeshedMaterial({
-        fill: new Color(255, 255, 255, 255),
-        stroke: new Color(0, 255, 0, 0),
-        strokeWidth: 5
-      })))
-      .insert(new Cleanup())
+      .insertPrefab([
+        ...createTransform2D(x, y),
+        new Meshed(mesh),
+        new BasicMaterial2D(materials.add(`keyboard-${character}`, new BasicMaterial())),
+        new Cleanup()
+      ])
       .build()
 
-    commands
-      .spawn()
-      .insertPrefab(createTransform2D(x, y + itemHeight / 4))
-      .insert(meshtext)
-      .insert(materials.add(`keyboard-text-${character}`, new CanvasTextMaterial({
-        text: character,
-        fill: new Color(0, 0, 0, 255),
-        stroke: new Color(0, 0, 0, 255),
-        fontSize: 30,
-        align: 'center'
-      })))
-      .insert(new Cleanup())
-      .build()
     map.set(digit, entity)
   }
 }
@@ -133,10 +128,9 @@ function spawnDigits(world) {
 function spawnAlphabet(world) {
   const map = world.getResource(KeytoEntityMap)
   const commands = world.getResource(EntityCommands)
-  const meshes = /** @type {Assets<Mesh>} */(world.getResourceByName('assets<mesh>'))
-  const materials = /** @type {Assets<Material>} */(world.getResourceByName('assets<material>'))
+  const meshes = world.getResource(MeshAssets)
+  const materials = world.getResource(BasicMaterialAssets)
   const mesh = meshes.add('alphabet', Mesh.quad2D(50, 50))
-  const meshte = meshes.add('basic', Mesh.quad2D(50, 50))
   const characters = [
     'q',
     'w',
@@ -195,46 +189,28 @@ function spawnAlphabet(world) {
   ]
 
   for (let i = 0; i < alphabet.length; i++) {
-    const character = characters[i]
-    const digit = alphabet[i]
+    const character = /** @type {string}*/((characters[i]))
+    const digit = /** @type {KeyCode}*/((alphabet[i]))
 
     // eslint-disable-next-line no-nested-ternary
     const nx = i < 10 ? i : i < 19 ? i - 10 : i - 19
 
     // eslint-disable-next-line no-nested-ternary
     const ny = i < 10 ? 0 : i < 19 ? 1 : 2
-    
+
     const x = offsetX + nx * (itemWidth + paddingWidth) + paddingWidth + itemWidth / 2 + ((itemWidth + paddingWidth) / 2 * ny)
     const y = offsetY + ny * (itemHeight + paddingHeight) + itemHeight / 2 + itemHeight + paddingHeight
-    
+
     const entity = commands
       .spawn()
-      .insertPrefab(createTransform2D(x, y))
-      .insert(mesh)
-      .insert(materials.add(`keyboard-alpha-${character}`, new CanvasMeshedMaterial({
-        fill: new Color(255, 255, 255, 255),
-        stroke: new Color(0, 255, 0, 0),
-        strokeWidth: 10
-      })))
-      .insert(new Cleanup())
-      .build()
-
-    commands
-      .spawn()
-      .insertPrefab(createTransform2D(x, y + itemHeight / 4))
-      .insert(meshte)
-      .insert(materials.add(`keyboard-alpha-text-${character}`, new CanvasTextMaterial({
-        text: character,
-        fill:new Color(0, 0, 0, 255),
-        stroke:new Color(0, 0, 0, 255),
-        fontSize: 20,
-        align: 'center'
-      })))
-      .insert(new Cleanup())
+      .insertPrefab([
+        ...createTransform2D(x, y),
+        new Meshed(mesh),
+        new BasicMaterial2D(materials.add(`keyboard-alpha-${character}`, new BasicMaterial())),
+        new Cleanup()
+      ])
       .build()
 
     map.set(digit, entity)
   }
 }
-
-export default new Demo('keyboard', [init, spawnDigits, spawnAlphabet], [update])
