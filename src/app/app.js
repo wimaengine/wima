@@ -153,7 +153,7 @@ export class App {
    * @param {Plugin} plugin
    */
   registerPlugin(plugin) {
-    plugin.register(this)
+    this.plugins.add(plugin)
 
     return this
   }
