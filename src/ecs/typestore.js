@@ -34,6 +34,10 @@ export class TypeStore {
    * @returns {ComponentId}
    */
   setByTypeId(id){
+    const hasid = this.map.get(id)
+
+    if(hasid) return hasid
+
     const compId = this.list.length
 
     this.map.set(id, compId)
