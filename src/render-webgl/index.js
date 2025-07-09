@@ -1,4 +1,3 @@
-export * from './assets/index.js'
 export * from './hooks/index.js'
 export * from './core/index.js'
 export * from './resources/index.js'
