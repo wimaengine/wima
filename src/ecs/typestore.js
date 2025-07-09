@@ -106,6 +106,22 @@ export class TypeStore {
   }
 
   /**
+   * @template T
+   * @param {Constructor<T>} component
+   * @returns {number}
+   */
+  getOrSet(component){
+    return this.getOrSetByTypeId(typeid(component))
+  }
+
+  /**
+   * @param {TypeId} typeid
+   */
+  getOrSetByTypeId(typeid){
+    return this.getIdByTypeId(typeid) || this.setByTypeId(typeid)
+  }
+
+  /**
    * @returns {Iterable<ComponentInfo>}
    */
   getInfos(){
