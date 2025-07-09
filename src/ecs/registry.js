@@ -1,4 +1,3 @@
-/** @import { ComponentId } from './typedef/index.js'*/
 /** @import { Constructor, TypeId } from '../reflect/index.js'*/
 
 import { ArchetypeTable } from './tables/index.js'
@@ -350,9 +349,10 @@ export class World {
    * @param {ComponentHooks} hooks
    */
   setComponentHooks(component, hooks) {
-    const info = this.typestore.get(component)
+    const id = this.typestore.getOrSet(component)
+    const info = this.typestore.getById(id)
 
-    assert(info, `The component "${component.name}" has not been registered.Use \`World.registerType()\` to add it.`)
+    assert(info, `Internal error:The component "${component.name}" has not been registered somehow.`)
     info.setHooks(hooks)
   }
 
