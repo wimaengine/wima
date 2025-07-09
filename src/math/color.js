@@ -8,30 +8,30 @@ export class Color {
   /**
    * @type {number}
    */
-  r = 0
+  r
 
   /**
    * @type {number}
    */
-  b = 0
+  b
 
   /**
    * @type {number}
    */
-  g = 0
+  g
 
   /**
    * @type {number}
    */
-  a = 1
+  a
 
   /**
-   * @param {number} [r=0] - Red component [0 .. 255].
-   * @param {number} [g=0] - Green component [0 .. 255].
-   * @param {number} [b=0] - Blue component [0 .. 255].
-   * @param {number} [alpha=1.0] - Alpha value [0.0 .. 1.0].
+   * @param {number} r - The red channel [0 .. 1].
+   * @param {number} g - The green channel [0 .. 1].
+   * @param {number} b - The blue channe; [0 .. 1].
+   * @param {number} alpha - The alpha channel [0 .. 1].
    */
-  constructor(r = 0, g = 0, b = 0, alpha = 1.0) {
+  constructor(r = 1, g = 1, b = 1, alpha = 1) {
     this.set(r, g, b, alpha)
   }
 
