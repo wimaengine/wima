@@ -58,6 +58,12 @@ export class App {
 
   /**
    * @private
+   * @type {PluginRegistry}
+   */
+  plugins = new PluginRegistry()
+
+  /**
+   * @private
    * @type {World}
    */
   world = new World()
