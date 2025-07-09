@@ -1,13 +1,9 @@
 import { App, AppSchedule, Plugin } from '../app/index.js'
-import { Assets } from '../asset/index.js'
 import { ComponentHooks, Entity, Query, World } from '../ecs/index.js'
-import { Events } from '../event/index.js'
-import { assert, warn } from '../logger/index.js'
-import { typeid, typeidGeneric } from '../reflect/index.js'
-import { MeshAttribute, Camera, Material, MaterialHandle, Mesh, MeshHandle, ProgramCache, BasicMaterial, Meshed } from '../render-core/index.js'
-import { GlobalTransform3D } from '../transform/index.js'
-import { MainWindow, Window, WindowResize, Windows } from '../window/index.js'
-import { materialAddHook, meshAddHook, meshAddHook2 } from './hooks/index.js'
+import { warn } from '../logger/index.js'
+import { MeshAttribute, ProgramCache, BasicMaterial, Meshed } from '../render-core/index.js'
+import { MainWindow, Window, Windows } from '../window/index.js'
+import { meshAddHook2 } from './hooks/index.js'
 import { WebglMaterialPlugin } from './plugins/index.js'
 import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from './resources/index.js'
 import { basicMaterial3DFragment, basicMaterial3DVertex } from './shaders/index.js'
@@ -56,35 +52,6 @@ function registerDefaultAttributeLocs(attributeMap) {
     .set(MeshAttribute.UV.name, MeshAttribute.UV)
     .set(MeshAttribute.UVB.name, MeshAttribute.UVB)
     .set(MeshAttribute.Color.name, MeshAttribute.Color)
-}
-
-/**
- * @param {World} world
- */
-function resizegl(world) {
-  const windows = new Query(world, [Entity, Window, MainWindow])
-
-  /** @type {Windows} */
-  const canvases = world.getResource(Windows)
-
-  /** @type {Events<WindowResize>} */
-  const resizeEvents = world.getResourceByTypeId(typeidGeneric(Events, [WindowResize]))
-
-  const window = windows.single()
-
-  if (!window) return
-
-  const canvas = canvases.getWindow(window[0])
-
-  if (!canvas) return
-
-  const gl = canvas.getContext('webgl2')
-
-  if (!gl) return
-
-  resizeEvents.each((ev) => {
-    gl.viewport(0, 0, ev.data.width, ev.data.height)
-  })
 }
 
 /**
