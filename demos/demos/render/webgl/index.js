@@ -1,5 +1,4 @@
 export * from './basictriangle.js'
-export * from './colortriangle.js'
 export * from './colorchangetriangle.js'
 export * from './geometries.js'
 export * from './rotationtriangle.js'
