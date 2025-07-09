@@ -106,6 +106,13 @@ export class TypeStore {
   }
 
   /**
+   * @param {TypeId} typeid
+   */
+  getOrSetByTypeId(typeid){
+    return this.getIdByTypeId(typeid) || this.setByTypeId(typeid)
+  }
+
+  /**
    * @returns {Iterable<ComponentInfo>}
    */
   getInfos(){
