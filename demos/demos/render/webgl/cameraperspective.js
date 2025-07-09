@@ -1,21 +1,28 @@
 import {
-  Assets,
-  WebglBasicMaterial,
   Demo,
-  Material,
   Mesh,
   PerspectiveProjection,
-  Orientation3D,
-  Position3D,
-  Scale3D,
-  GlobalTransform3D,
-  Rotation3D,
   Camera,
   World,
   Cleanup,
   createCamera3D,
-  EntityCommands
+  EntityCommands,
+  BasicMaterial,
+  BasicMaterial3D,
+  Meshed,
+  createMovable3D,
+  Torque3D,
+  Query,
+  Rotation2D,
+  Rotation3D
 } from 'wima'
+import { BasicMaterialAssets, MeshAssets } from '../../utils.js'
+
+export const perspectiveCamera = new Demo(
+  'perspective camera',
+  [addmesh, addCamera3D],
+  [update]
+)
 
 /**
  * @param {World} world
@@ -23,7 +30,7 @@ import {
 function addCamera3D(world) {
   const commands = world.getResource(EntityCommands)
   const projection = new PerspectiveProjection()
-  
+
   commands
     .spawn()
     .insertPrefab(createCamera3D(0, 0, 1))
@@ -37,30 +44,30 @@ function addCamera3D(world) {
  */
 function addmesh(world) {
   const commands = world.getResource(EntityCommands)
+  const meshes = world.getResource(MeshAssets)
+  const materials = world.getResource(BasicMaterialAssets)
 
-  /** @type {Assets<Mesh>} */
-  const meshes = world.getResourceByName('assets<mesh>')
-
-  /** @type {Assets<Material>} */
-  const materials = world.getResourceByName('assets<material>')
-
-  const mesh = Mesh.triangle3D()
-  const material = new WebglBasicMaterial()
+  const mesh = meshes.add('basic', Mesh.triangle3D())
+  const material = materials.add('basic', new BasicMaterial())
 
   commands
     .spawn()
     .insertPrefab([
-      new Position3D(),
-      new Orientation3D(),
-      new Scale3D(),
-      new GlobalTransform3D(),
-      new Rotation3D().fromEuler(0, Math.PI / 100, 0),
-      meshes.add('basic', mesh),
-      materials.add('basic', material),
+      ...createMovable3D(),
+      new Meshed(mesh),
+      new BasicMaterial3D(material),
       new Cleanup()
     ])
     .build()
 }
 
-// Camera rotates about its local space.
-export const perspectiveCamera = new Demo('perspective camera', [addmesh, addCamera3D])
+/**
+ * @param {World} world
+ */
+function update(world){
+  const rotable = new Query(world,[Rotation3D])
+
+  rotable.each(([torque])=>{
+    torque.y = Math.PI / 2
+  })
+}
