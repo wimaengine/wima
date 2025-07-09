@@ -132,7 +132,7 @@ export class App {
    * @returns {this}
    */
   run() {
-    this.initialized = true
+    this.plugins.register(this)
 
     for (let i = 0; i < this.systemsevents.length; i++) {
       const ev = this.systemsevents[i]
@@ -144,6 +144,7 @@ export class App {
 
     this.systemBuilder.pushToScheduler(this.scheduler)
     this.scheduler.run(this.world)
+    this.initialized = true
 
     return this
   }
