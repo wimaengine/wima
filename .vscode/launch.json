@@ -53,6 +53,12 @@
           "path": "${workspaceFolder}/src"
         }
       ]
-    }
+    },
+    {
+      "type": "node-terminal",
+      "name": "Run tests",
+      "command": "npm run test",
+      "request": "launch"
+    },
   ]
 }
