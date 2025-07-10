@@ -67,7 +67,7 @@ function setupViewport(world) {
 
   if (!canvas) return
 
-  const gl = canvas.getContext("webgl2")
+  const gl = canvas.getContext('webgl2')
 
   if (!gl) return
 

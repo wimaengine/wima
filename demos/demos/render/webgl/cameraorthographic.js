@@ -65,9 +65,9 @@ function addmesh(world) {
  * @param {World} world
  */
 function update(world){
-  const rotable = new Query(world,[Rotation3D])
+  const rotable = new Query(world, [Rotation3D])
 
-  rotable.each(([torque])=>{
+  rotable.each(([torque]) => {
     torque.y = Math.PI / 2
   })
 }

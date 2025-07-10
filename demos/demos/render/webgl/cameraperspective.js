@@ -11,9 +11,7 @@ import {
   BasicMaterial3D,
   Meshed,
   createMovable3D,
-  Torque3D,
   Query,
-  Rotation2D,
   Rotation3D
 } from 'wima'
 import { BasicMaterialAssets, MeshAssets } from '../../utils.js'
@@ -65,9 +63,9 @@ function addmesh(world) {
  * @param {World} world
  */
 function update(world){
-  const rotable = new Query(world,[Rotation3D])
+  const rotable = new Query(world, [Rotation3D])
 
-  rotable.each(([torque])=>{
+  rotable.each(([torque]) => {
     torque.y = Math.PI / 2
   })
 }

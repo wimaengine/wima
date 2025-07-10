@@ -12,7 +12,6 @@ import {
   warn,
   Entity,
   WindowCommands,
-  DevicePlugin,
   DefaultPlugin
 } from 'wima'
 import {
@@ -29,7 +28,7 @@ import { ResourceAliasPlugin } from './demos/utils.js'
 const app = new App()
 
 app
-.registerPlugin(new ResourceAliasPlugin())
+  .registerPlugin(new ResourceAliasPlugin())
   .registerPlugin(new DefaultPlugin())
   .registerSystem(AppSchedule.Update, setupViewport)
   .registerPlugin(new DOMWindowPlugin())
