@@ -1,48 +1,54 @@
 import {
-  Assets,
-  WebglBasicMaterial,
   Demo,
-  Material,
   Mesh,
-  Orientation3D,
-  Position3D,
-  Scale3D,
   World,
   Cleanup,
-  GlobalTransform3D,
   Rotation3D,
-  EntityCommands
+  EntityCommands,
+  Meshed,
+  BasicMaterial3D,
+  BasicMaterial,
+  createMovable3D,
+  Query
 } from 'wima'
-import { addCamera3D } from './utils.js'
+import { addDefaultCamera3D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+
+export const rotatingtriangle = new Demo(
+  'rotating triangle',
+  [addmesh, addDefaultCamera3D],
+  [update]
+)
 
 /**
  * @param {World} world
  */
 function addmesh(world) {
   const commands = world.getResource(EntityCommands)
+  const meshes = world.getResource(MeshAssets)
+  const materials = world.getResource(BasicMaterialAssets)
 
-  /** @type {Assets<Mesh>} */
-  const meshes = world.getResourceByName('assets<mesh>')
-
-  /** @type {Assets<Material>} */
-  const materials = world.getResourceByName('assets<material>')
-
-  const mesh = Mesh.triangle3D()
-  const material = new WebglBasicMaterial()
+  const mesh = meshes.add('basic', Mesh.triangle3D())
+  const material = materials.add('basic', new BasicMaterial())
 
   commands
     .spawn()
     .insertPrefab([
-      new Position3D(),
-      new Orientation3D(),
-      new Rotation3D().fromEuler(0, 0, Math.PI / 1000),
-      new Scale3D(),
-      new GlobalTransform3D(),
-      meshes.add('basic', mesh),
-      materials.add('basic', material),
+      ...createMovable3D(),
+      new Meshed(mesh),
+      new BasicMaterial3D(material),
       new Cleanup()
     ])
+    .insert(new Rotation3D())
     .build()
 }
 
-export const rotatingtriangle = new Demo('rotating triangle', [addmesh, addCamera3D], [])
+/**
+ * @param {World} world
+ */
+function update(world){
+  const rotable = new Query(world, [Rotation3D])
+
+  rotable.each(([rotation]) => {
+    rotation.z = Math.PI / 4
+  })
+}
