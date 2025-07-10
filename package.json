@@ -27,7 +27,7 @@
     "dev": "npm run build:lib",
     "init": "husky .husky",
     "rollup": "rollup --config .config/rollup.config.js",
-    "eslint": "eslint --config .config/eslint.config.js",
+    "eslint": "eslint --config .config/eslint.config.js --ignore-pattern '**/*.test.js'",
     "typedoc": "typedoc -options .config/typedoc.json --tsconfig .config/tsc.lint.json",
     "types": "tsc -p .config/tsc.type.json",
     "typedef": "node scripts/typedef.js",
