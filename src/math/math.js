@@ -53,13 +53,15 @@ export function invert(value) {
 /**
  * Interpolates between two numbers by a constant t.
  *
- * @param {number} a - The minimal bound of the interpolation.
- * @param {number} b - The maximum bound of the interpolation.
- * @param {number} t - A number between 0 and 1 to interpopate by.Any other number greater than 1 or less than 0 will extapolate beyond b or a respectively.
+ * @param {number} from - The minimal bound of the interpolation.
+ * @param {number} to - The maximum bound of the interpolation.
+ * @param {number} t - A number between 0 and 1 to interpolate 
+ * by.Any other number greater than 1 or less than 0 will
+ * extapolate beyond b or a respectively.
  * @returns {number}
  */
-export function lerp(a, b, t) {
-  return a + t * (b - a)
+export function lerp(from, to, t) {
+  return from + t * (to - from)
 }
 
 /**
