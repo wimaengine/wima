@@ -1,4 +1,5 @@
-import { DEG2RAD, RAD2DEG } from './constants.js'
+import { DEG2RAD, epilson, RAD2DEG } from './constants.js'
+import { Vector3 } from './vector3.js'
 
 /**
  * Creates a random number between the parameters.
@@ -201,6 +202,21 @@ export function wrapAngle(x) {
  */
 export function wrap(v, max) {
   return v % max
+/**
+ * @param {number} index
+ * @param {number} width
+ * @param {number} height
+ * @returns {Vector3}
+ */
+export function mapToIndex3D(index, width, height) {
+  const depthMax = width * height
+  const rem = index % depthMax
+  const z = Math.floor(index / depthMax)
+  const y = Math.floor(rem / width)
+  const x = rem % width
+
+  return new Vector3(x, y, z)
+}
 
 /**
  * @param {number} value
