@@ -596,7 +596,7 @@ export class Matrix3 {
    *
    * @yields {number}
    */
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     yield this.a
     yield this.b
     yield this.c
