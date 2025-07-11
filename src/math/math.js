@@ -1,4 +1,5 @@
 import { DEG2RAD, epilson, RAD2DEG } from './constants.js'
+import { Vector2 } from './vector2.js'
 import { Vector3 } from './vector3.js'
 
 /**
@@ -197,11 +198,15 @@ export function wrapAngle(x) {
 }
 
 /**
- * @param {number} v
+ * @param {number} value
+ * @param {number} min
  * @param {number} max
  */
-export function wrap(v, max) {
-  return v % max
+export function wrap(value, min, max) {
+  const range = max - min
+
+  return (min + ((((value - min) % range) + range) % range))
+}
 /**
  * @param {number} index
  * @param {number} width
