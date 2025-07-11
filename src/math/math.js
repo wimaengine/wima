@@ -42,6 +42,13 @@ export function sqrt(x) {
   return Math.sqrt(x)
 }
 
+/**
+ * @param {number} value
+ */
+export function invert(value) {
+  return 1 / value
+}
+
 
 /**
  * Interpolates between two numbers by a constant t.
