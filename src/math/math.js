@@ -116,6 +116,15 @@ export function snap(value, step) {
 }
 
 /**
+ * @param {number} value 
+ * @param {number} step 
+ * @returns {number}
+ */
+export function snapDown(value, step) {
+  return Math.floor(value / step) * step
+}
+
+/**
  * Maps a value from one range to another.
  *
  * @param {number} v
