@@ -201,4 +201,11 @@ export function wrapAngle(x) {
  */
 export function wrap(v, max) {
   return v % max
+/**
+ * @param {number} a
+ * @param {number} b
+ * @param {number} tolerance
+ */
+export function fuzzyEqual(a, b, tolerance = epilson) {
+  return Math.abs(a - b) <= tolerance
 }
