@@ -22,7 +22,7 @@ export class IntervalExecutor extends Executor {
    * @param {Schedule} schedule
    */
   start(world, schedule) {
-    this.tick = setInterval(() => { schedule.run(world) }, this.time)[Symbol.toPrimitive]()
+    this.tick = window.setInterval(() => { schedule.run(world) }, this.time)
   }
   stop() {
     clearInterval(this.tick)
