@@ -4,7 +4,6 @@
     "../demos"
   ],
   "exclude":[
-    "../**/*.test.js"
 ],
   "compilerOptions": {
     "allowUnreachableCode": false,

@@ -1,4 +1,6 @@
-import { DEG2RAD, RAD2DEG } from './constants.js'
+import { DEG2RAD, epilson, RAD2DEG } from './constants.js'
+import { Vector2 } from './vector2.js'
+import { Vector3 } from './vector3.js'
 
 /**
  * Creates a random number between the parameters.
@@ -42,17 +44,40 @@ export function sqrt(x) {
   return Math.sqrt(x)
 }
 
+/**
+ * @param {number} value
+ */
+export function invert(value) {
+  return 1 / value
+}
+
 
 /**
  * Interpolates between two numbers by a constant t.
  *
- * @param {number} a - The minimal bound of the interpolation.
- * @param {number} b - The maximum bound of the interpolation.
- * @param {number} t - A number between 0 and 1 to interpopate by.Any other number greater than 1 or less than 0 will extapolate beyond b or a respectively.
+ * @param {number} from - The minimal bound of the interpolation.
+ * @param {number} to - The maximum bound of the interpolation.
+ * @param {number} t - A number between 0 and 1 to interpolate 
+ * by.Any other number greater than 1 or less than 0 will
+ * extapolate beyond b or a respectively.
  * @returns {number}
  */
-export function lerp(a, b, t) {
-  return a + t * (b - a)
+export function lerp(from, to, t) {
+  return from + t * (to - from)
+}
+
+/**
+ * Gets the interpolation constant between two numbers give a value
+ * between them.
+ *
+ * @param {number} from - The minimal bound of the interpolation.
+ * @param {number} to - The maximum bound of the interpolation.
+ * @param {number} value - The value between the bounds.
+ * @returns {number} A number between 0 and 1 if value respects 
+ * the bounds.
+ */
+export function inverseLerp(from, to, value) {
+  return (value - from) / (to - from)
 }
 
 /**
@@ -84,6 +109,33 @@ export function clamp(value, min, max) {
 }
 
 /**
+ * @param {number} value 
+ * @param {number} step 
+ * @returns {number}
+ */
+export function snap(value, step) {
+  return Math.round(value / step) * step
+}
+
+/**
+ * @param {number} value 
+ * @param {number} step 
+ * @returns {number}
+ */
+export function snapDown(value, step) {
+  return Math.floor(value / step) * step
+}
+
+/**
+ * @param {number} value 
+ * @param {number} step 
+ * @returns {number}
+ */
+export function snapUp(value, step) {
+  return Math.ceil(value / step) * step
+}
+
+/**
  * Maps a value from one range to another.
  *
  * @param {number} v
@@ -93,7 +145,7 @@ export function clamp(value, min, max) {
  * @param {number} y2
  * @returns {number}
  */
-export function map(v, x1, y1, x2, y2) {
+export function remap(v, x1, y1, x2, y2) {
   return x2 + v * (y2 - x2) / (y1 - x1)
 }
 
@@ -130,25 +182,83 @@ export function radToDeg(rad) {
 }
 
 /**
- * @param {number} x
+ * @param {number} value
+ * @param {number} min
+ * @param {number} max
  */
-export function wrapAngle(x) {
-  let a = x
+export function wrap(value, min, max) {
+  const range = max - min
 
-  while (a > Math.PI * 2) {
-    a = a - Math.PI * 2
-  }
-  while (a < 0) {
-    a = a + Math.PI * 2
-  }
-
-  return a
+  return (min + ((((value - min) % range) + range) % range))
 }
 
 /**
- * @param {number} v
- * @param {number} max
+ * @param {number} a 
+ * @param {number} b 
+ * @returns {number}
  */
-export function wrap(v, max) {
-  return v % max
+export function cantorPair(a, b) {
+  return 0.5 * (a + b) * (a + b + 1) + b
+
+}
+
+/**
+ * @param {number} a 
+ * @param {number} b 
+ * @returns {number}
+ */
+export function cantorPairSigned(a, b) {
+  const x = (a >= 0.0 ? 2.0 * a : (-2.0 * a) - 1.0)
+  const y = (b >= 0.0 ? 2.0 * b : (-2.0 * b) - 1.0)
+
+  return cantorPair(x, y)
+}
+
+/**
+ * @param {number} value 
+ * @param {number} width 
+ * @returns {Vector2}
+ */
+export function mapToIndex2D(value, width) {
+  return new Vector2(value % width, Math.floor(value / width))
+}
+
+/**
+ * @param {number} index
+ * @param {number} width
+ * @param {number} height
+ * @returns {Vector3}
+ */
+export function mapToIndex3D(index, width, height) {
+  const depthMax = width * height
+  const rem = index % depthMax
+  const z = Math.floor(index / depthMax)
+  const y = Math.floor(rem / width)
+  const x = rem % width
+
+  return new Vector3(x, y, z)
+}
+
+/**
+ * @param {number} value
+ * @returns {number}
+ */
+export function smoothStep(value) {
+  return value * value * (3 - 2 * value)
+};
+
+/**
+ * @param {number} value
+ */
+export function smootherStep(value) {
+  return value * value * value * (value * (value * 6 - 15) + 10)
+}
+
+/**
+ * @param {number} a
+ * @param {number} b
+ * @param {number} tolerance
+ */
+export function fuzzyEqual(a, b, tolerance = epilson) {
+  return Math.abs(a - b) <= tolerance
 }
