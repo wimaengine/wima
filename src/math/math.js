@@ -209,6 +209,16 @@ export function wrap(value, min, max) {
 }
 
 /**
+ * @param {number} a 
+ * @param {number} b 
+ * @returns {number}
+ */
+export function cantorPair(a, b) {
+  return 0.5 * (a + b) * (a + b + 1) + b
+
+}
+
+/**
  * @param {number} value 
  * @param {number} width 
  * @returns {Vector2}
