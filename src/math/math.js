@@ -65,6 +65,20 @@ export function lerp(from, to, t) {
 }
 
 /**
+ * Gets the interpolation constant between two numbers give a value
+ * between them.
+ *
+ * @param {number} from - The minimal bound of the interpolation.
+ * @param {number} to - The maximum bound of the interpolation.
+ * @param {number} value - The value between the bounds.
+ * @returns {number} A number between 0 and 1 if value respects 
+ * the bounds.
+ */
+export function inverseLerp(from, to, value) {
+  return (value - from) / (to - from)
+}
+
+/**
  * Rounds a given value to a given precision.
  *
  * @param {number} number - The number to round.
