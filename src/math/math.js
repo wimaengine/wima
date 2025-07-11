@@ -202,6 +202,13 @@ export function wrapAngle(x) {
 export function wrap(v, max) {
   return v % max
 /**
+ * @param {number} value
+ */
+export function smootherStep(value) {
+  return value * value * value * (value * (value * 6 - 15) + 10)
+}
+
+/**
  * @param {number} a
  * @param {number} b
  * @param {number} tolerance
