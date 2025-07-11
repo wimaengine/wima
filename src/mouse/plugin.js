@@ -30,7 +30,7 @@ function updateMouse(world) {
 
   const move = /** @type {Events<MouseMove>} */(world.getResourceByTypeId(typeidGeneric(Events, [MouseMove]))).readLast()
 
-  mouse.delta.copy(Vector2.ZERO)
+  mouse.delta.copy(Vector2.Zero)
   mouse.lastPosition.copy(mouse.position)
 
   if (!move) return

@@ -668,7 +668,7 @@ export class Mesh {
         center.x = radius * Math.cos(u)
         center.y = radius * Math.sin(u)
 
-        Vector3.sub(vertex, center, normal).normalize()
+        Vector3.subtract(vertex, center, normal).normalize()
 
         normals.push(normal.x, normal.y, normal.z)
 

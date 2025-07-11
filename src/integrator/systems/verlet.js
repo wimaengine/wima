@@ -14,12 +14,12 @@ export function updatePositionVerlet2D(world) {
     Vector2.multiplyScalar(acceleration, dt * 0.5, acceleration)
     Vector2.add(velocity, acceleration, velocity)
     Vector2.set(
-      position,
       position.x + velocity.x * dt + acceleration.x * dt,
-      position.y + velocity.y * dt + acceleration.y * dt
+      position.y + velocity.y * dt + acceleration.y * dt,
+      position
     )
     Vector2.add(velocity, acceleration, velocity)
-    Vector2.set(acceleration, 0, 0)
+    Vector2.set(0, 0, acceleration)
   })
 }
 

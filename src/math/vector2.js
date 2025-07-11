@@ -1,4 +1,5 @@
-import { TWO_PI } from './constants.js'
+import { TAU } from './constants.js'
+import { invert, lerp } from './math.js'
 
 /**
  * This is a 2D vector class.
@@ -16,7 +17,49 @@ export class Vector2 {
   }
 
   /**
-   * Calculates length squared of vector and returns it.
+   * Sets values of this vector.
+   *
+   * @param {number} x
+   * @param {number} y
+   */
+  set(x, y) {
+    Vector2.set(x, y, this)
+
+    return this
+  }
+
+  /**
+   * Copies values of another vector to this vector.
+   *
+   * @param { Vector2} v
+   * @returns {this}
+   */
+  copy(v) {
+    Vector2.copy(v, this)
+
+    return this
+  }
+
+  /**
+   * Returns a copy of this.
+   * @returns {Vector2}
+   */
+  clone() {
+    return Vector2.copy(this)
+  }
+
+  /**
+   * @param {number} scalar
+   * @returns {this}
+   */
+  splat(scalar) {
+    Vector2.splat(scalar, this)
+
+    return this
+  }
+
+  /**
+   * Returns the length squared of this vector.
    *
    * @returns {number}
    */
@@ -25,8 +68,7 @@ export class Vector2 {
   }
 
   /**
-   *Calculates length of this vector and returns
-   * it.
+   *Returns length of this vector.
    *
    * @returns {number}
    */
@@ -35,7 +77,36 @@ export class Vector2 {
   }
 
   /**
-   * Sets a vector to have the given length.
+   * Returns the distance between this vector and another vector.
+   * @param {Vector2} v - The other vector.
+   * @returns {number}
+   */
+  distanceTo(v) {
+    return Vector2.distanceTo(this, v)
+  }
+
+  /**
+   * Returns the squared distance between this vector and another vector.
+   *
+   * @param {Vector2} v - The other vector.
+   * @returns {number}
+   */
+  distanceToSquared(v) {
+    return Vector2.distanceToSquared(this, v)
+  }
+
+  /**
+   * Makes this a unit vector.
+   * @returns {this}
+   */
+  normalize() {
+    Vector2.normalize(this, this)
+
+    return this
+  }
+
+  /**
+   * Sets this vector to have the given length.
    *
    * @param {number} length
    */
@@ -46,26 +117,7 @@ export class Vector2 {
   }
 
   /**
-   *Calculates length of this vector to another vector.
-   * @param {Vector2} v - The other vector.
-   * @returns {number}
-   */
-  distanceTo(v) {
-    return Vector2.distanceTo(this, v)
-  }
-
-  /**
-   *Calculates length squared of this vector to another vector.
-   *
-   * @param {Vector2} v - The other vector.
-   * @returns {number}
-   */
-  distanceToSquared(v) {
-    return Vector2.distanceToSquared(this, v)
-  }
-
-  /**
-   * Adds a given vector into this .
+   * Adds a given vector into this.
    *
    * @param {Vector2} v
    * @returns {this}
@@ -77,8 +129,7 @@ export class Vector2 {
   }
 
   /**
-   * Adds a scalar value into this vector's
-   * x and y values.
+   * Adds a scalar value into this vector's component values.
    *
    * @param {number} n
    */
@@ -94,32 +145,26 @@ export class Vector2 {
    * @param { Vector2} v
    * @returns {this}
    */
-  sub(v) {
-    Vector2.sub(this, v, this)
+  subtract(v) {
+    Vector2.subtract(this, v, this)
 
     return this
   }
 
   /**
-   * Subtracts a scalar value from this vector's x and y values.
+   * Subtracts a scalar value from this vector's component values.
    *
    * @param {number} n
    * @returns {this}
    */
-  subScalar(n) {
-    Vector2.subScalar(this, n, this)
+  subtractScalar(n) {
+    Vector2.subtractScalar(this, n, this)
 
     return this
   }
 
   /**
-   * Multiplies this vector with a scalar.
-   *
-   * @param {number} n
-   * @returns {this}
-   */
-  
-  /**
+   * Multiplies this vector with a given vector.
    * @param {Vector2} v
    * @returns {this}
    */
@@ -130,173 +175,12 @@ export class Vector2 {
   }
 
   /**
+   * Multiplies a scalar value with this vector's component values.
    * @param {number} s
    * @returns {this}
    */
-  multiplyScalar(s){
+  multiplyScalar(s) {
     Vector2.multiplyScalar(this, s, this)
-
-    return this
-  }
-
-  /**
-   * Rotates this vector by a given angle in radians.
-   *
-   * @param {number} cos
-   * @param {number} sin
-   * @returns {this}
-   */
-  rotateFast(cos, sin) {
-    Vector2.rotateFast(this, cos, sin, this)
-
-    return this
-  };
-
-  /**
-   *
-   * Returns an array with x and y values of
-   * this vector pushed into the array in
-   * that order.
-   *
-   * @param {number[]} [target = []] - The array to
-   * push values.Defaults to creating a new
-   * array if not provided one.
-   * @param {number} offset
-   * @returns {number[]}
-   */
-  toArray(target = [], offset = 0) {
-    target[offset] = this.x
-    target[offset + 1] = this.y
-
-    return target
-  }
-
-  /**
-   * Copies x and y values of this vector to
-   * a new vector and returns the new vector.
-   * @returns {Vector2}
-   */
-  clone() {
-    return Vector2.copy(this)
-  }
-
-  /**
-   * Copies x and y values of another vector
-   * to this vector.
-   *
-   * @param { Vector2} v
-   * @returns {this}
-   */
-  copy(v) {
-    Vector2.copy(v, this)
-
-    return this
-  }
-
-  /**
-   * Sets x and y values of this vector to the given parameter.
-   *
-   * @param {number} x
-   * @param {number} y
-   */
-  set(x, y) {
-    Vector2.set(this, x, y)
-
-    return this
-  }
-
-  /**
-   * Returns a vector of this reflected on a sirface perpendicular to the normal.
-   *
-   * @param {Vector2} normal - The unit vector perpendicular to reflection surface.
-   * @param {Vector2} [target]
-   * @returns {Vector2}
-   */
-  reflect(normal, target = new Vector2()) {
-    Vector2.reflect(this, normal, target)
-
-    return target
-  }
-
-  /**
-   * Forces this vector to have a length
-   * between the min and max.
-   *
-   * @param {number} [min = 0] - The smallest value
-   * the length of this vector is allowed to have.
-   * @param {number} [max = 1] - The biggest value the length of this vector is allowed to have.
-   * @returns {this}
-   */
-  clamp(min = 0, max = 1) {
-    Vector2.clampMagnitude(this, min, max, this)
-
-    return this
-  }
-
-  /**
-   * Calculates the dot product of two vectors.
-   *
-   * @param {Vector2} v
-   * @returns {number}
-   */
-  dot(v) {
-    return Vector2.dot(this, v)
-  }
-
-  /**
-   * Calculates the cross product of two vectors.
-   *
-   * @param {Vector2} v
-   * @returns {number}
-   */
-  cross(v) {
-    return Vector2.cross(this, v)
-  }
-
-  /**
-   * Makes this vector a unit vector by
-   * dividing its components with its length.
-   *
-   * @returns {this}
-   */
-  normalize() {
-    Vector2.normalize(this, this)
-
-    return this
-  }
-
-  /**
-   * Returns the normal to this vector.
-   * @returns {Vector2}
-   */
-  normal() {
-    const out = new Vector2()
-
-    Vector2.normal(this, out)
-
-    return out
-  }
-
-  /**
-   * Returns the normal to a vector, the normal has the same length as the vector.
-   *
-   * @param { Vector2} [target = Vector2] - Vector2 in which results are stored.
-   * @returns {Vector2}
-   */
-  normalFast(target = new Vector2()) {
-    Vector2.set(target, -this.y, this.x)
-
-    return this
-  }
-
-  /**
-   * Rotates this vector by a given angle in radians.
-   *
-   * @param {number} rad - Angle in radians.
-   * @returns {this}
-   */
-  rotate(rad) {
-    Vector2.rotate(this, rad, this)
 
     return this
   }
@@ -317,30 +201,30 @@ export class Vector2 {
    * @param {number} s
    * @returns {this}
    */
-  divideScalar(s){
+  divideScalar(s) {
     Vector2.divideScalar(this, s, this)
 
     return this
   }
 
   /**
-   * Checks to see if this vector is equal to
-   * another vector.
+   * Calculates the dot product of this with another vector.
    *
-   * @param { Vector2} v
-   * @returns {boolean}
+   * @param {Vector2} v
+   * @returns {number}
    */
-  equals(v) {
-    return Vector2.equal(this, v)
+  dot(v) {
+    return Vector2.dot(this, v)
   }
 
   /**
-   * Checks if the vector length is zero.
+   * Calculates the cross product of this with another vector.
    *
-   * @returns {boolean}
+   * @param {Vector2} v
+   * @returns {number}
    */
-  equalsZero() {
-    return Vector2.equalsZero(this)
+  cross(v) {
+    return Vector2.cross(this, v)
   }
 
   /**
@@ -352,6 +236,57 @@ export class Vector2 {
     Vector2.reverse(this, this)
 
     return this
+  }
+
+  /**
+   * @returns {this}
+   */
+  invert() {
+    Vector2.invert(this, this)
+
+    return this
+  }
+
+  /**
+   * Checks to see if this vector is equal to another vector.
+   *
+   * @param { Vector2} v
+   * @returns {boolean}
+   */
+  equals(v) {
+    return Vector2.equal(this, v)
+  }
+
+  /**
+   * @param {number} x
+   * @param {number} y
+   * @param {Vector2} out
+   */
+  static set(x, y, out = new Vector2()) {
+    out.x = x
+    out.y = y
+
+    return out
+  }
+
+  /**
+   * @param {Vector2} v
+   * @param {Vector2} [out=new Vector2()]
+   */
+  static copy(v, out = new Vector2()) {
+    out.x = v.x
+    out.y = v.y
+
+    return out
+  }
+
+  /**
+   * @param {number} scalar
+   * @param {Vector2} out
+   * @returns {Vector2}
+   */
+  static splat(scalar, out = new Vector2()) {
+    return Vector2.set(scalar, scalar, out)
   }
 
   /**
@@ -369,15 +304,15 @@ export class Vector2 {
   }
 
   /**
-   * @param {Vector2} v
-   * @param {number} length
-   * @param {Vector2} [out]
+   * Calculates length squared of this vector to another vector.
+   *
+   * @param {Vector2} v1
+   * @param {Vector2} v2
    */
-  static setMagnitude(v, length, out = new Vector2()) {
-    Vector2.normalize(v, out)
-    Vector2.multiplyScalar(v, length, out)
+  static distanceToSquared(v1, v2) {
+    const temp = new this(v1.x - v2.x, v1.y - v2.y)
 
-    return out
+    return this.magnitudeSquared(temp)
   }
 
   /**
@@ -385,21 +320,53 @@ export class Vector2 {
    * @param {Vector2} v2
    */
   static distanceTo(v1, v2) {
-    const temp = new Vector2(v1.x - v2.x, v1.y - v2.y)
+    const temp = new this(v1.x - v2.x, v1.y - v2.y)
 
-    return Vector2.magnitude(temp)
+    return this.magnitude(temp)
   }
 
   /**
-   * Calculates length squared of this vector to another vector.
-   *
-   * @param {Vector2} v1
-   * @param {Vector2} v2
+   * @param {Vector2} v
+   * @param {Vector2} [out=new Vector2()]
    */
-  static distanceToSquared(v1, v2) {
-    const temp = new Vector2(v1.x - v2.x, v1.y - v2.y)
+  static normalize(v, out = new Vector2()) {
+    const length = Vector2.magnitude(v)
 
-    return Vector2.magnitudeSquared(temp)
+    if (length === 0) return out
+
+    out.x = v.x / length
+    out.y = v.y / length
+
+    return out
+  }
+
+  /**
+   * @param {Vector2} v
+   * @param {number} length
+   * @param {Vector2} [out]
+   */
+  static setMagnitude(v, length, out = new Vector2()) {
+    this.normalize(v, out)
+    this.multiplyScalar(out, length, out)
+
+    return out
+  }
+
+  /**
+   * @param {Vector2} v
+   * @param {number} min
+   * @param {number} max
+   * @param {Vector2} out
+   */
+  static clampMagnitude(v, min, max, out) {
+    if (this.equal(v, this.Zero)) return this.copy(v, out)
+
+    const length = this.magnitude(v)
+
+    if (length > max) return this.multiplyScalar(v, max / length, out)
+    if (length < min) return this.multiplyScalar(v, min / length, out)
+
+    return this.copy(v, out)
   }
 
   /**
@@ -427,13 +394,13 @@ export class Vector2 {
   }
 
   /**
-   * @param {Vector2} v1
-   * @param {Vector2} v2
+   * @param {Vector2} from
+   * @param {Vector2} to
    * @param {Vector2} [out]
    */
-  static sub(v1, v2, out = new Vector2()) {
-    out.x = v1.x - v2.x
-    out.y = v1.y - v2.y
+  static subtract(from, to, out = new Vector2()) {
+    out.x = from.x - to.x
+    out.y = from.y - to.y
 
     return out
   }
@@ -443,7 +410,7 @@ export class Vector2 {
    * @param {number} n
    * @param {Vector2} [out]
    */
-  static subScalar(v1, n, out = new Vector2()) {
+  static subtractScalar(v1, n, out = new Vector2()) {
     out.x = v1.x - n
     out.y = v1.y - n
 
@@ -496,6 +463,25 @@ export class Vector2 {
   }
 
   /**
+   * @param {Vector2} v
+   * @param {Vector2} [out=new Vector2()]
+   */
+  static reverse(v, out = new Vector2()) {
+    return Vector2.multiplyScalar(v, -1, out)
+  }
+
+  /**
+   * @param {Vector2} v
+   * @param {Vector2} out
+   */
+  static invert(v, out = new Vector2()) {
+    out.x = invert(v.x)
+    out.y = invert(v.y)
+
+    return out
+  }
+
+  /**
    * @param {Vector2} v1
    * @param {Vector2} v2
    */
@@ -524,16 +510,31 @@ export class Vector2 {
   }
 
   /**
-   * @param {Vector2} v
-   * @param {Vector2} [out=new Vector2()]
+   * Returns a Vector2 that has been lerped between v1 and v2.
+   * @param { Vector2} from - The vector to lerp from.
+   * @param { Vector2} to - The vector to lerp from.
+   * @param {number} t - A value from 0 to 1 to scale the new Vector2 between v1 and v2.
+   * @param { Vector2} [out] - The vector to store results into.
+   *
+   * @returns { Vector2}
    */
-  static normalize(v, out = new Vector2()) {
-    const length = Vector2.magnitude(v)
+  static lerp(from, to, t, out = new Vector2()) {
+    out.x = lerp(from.x, to.x, t)
+    out.y = lerp(from.y, to.y, t)
 
-    if (length === 0) return out
+    return out
+  }
 
-    out.x = v.x / length
-    out.y = v.y / length
+  /**
+   * @param {Vector2} v
+   * @param {Vector2} normal
+   * @param {Vector2} [out]
+   */
+  static reflect(v, normal, out = new Vector2()) {
+    const multiplier = this.dot(v, normal) * 2
+
+    out.x = v.x - normal.x * multiplier
+    out.y = v.y - normal.y * multiplier
 
     return out
   }
@@ -547,29 +548,11 @@ export class Vector2 {
   }
 
   /**
-   * @param {Vector2} v1
-   * @param {Vector2} v2
-   */
-  static absEqual(v1, v2) {
-    return (
-      Math.abs(v1.x) === Math.abs(v2.x) ||
-      Math.abs(v1.y) === Math.abs(v2.y)
-    )
-  }
-
-  /**
-   * @param {Vector2} v
-   */
-  static equalsZero(v) {
-    return v.x === 0 && v.y === 0
-  }
-
-  /**
    * @param {Vector2} v
    * @param {Vector2} out
    */
   static normal(v, out = new Vector2()) {
-    return Vector2.set(out, -v.y, v.x)
+    return Vector2.set(-v.y, v.x, out)
   }
 
   /**
@@ -597,97 +580,6 @@ export class Vector2 {
   }
 
   /**
-   * @param {Vector2} v
-   * @param {Vector2} [out=new Vector2()]
-   */
-  static copy(v, out = new Vector2()) {
-    out.x = v.x
-    out.y = v.y
-
-    return out
-  }
-
-  /**
-   * @param {Vector2} v
-   * @param {number} x
-   * @param {number} y
-   */
-  static set(v, x, y) {
-    v.x = x
-    v.y = y
-
-    return v
-  }
-
-  /**
-   * @param {Vector2} v
-   * @param {Vector2} [out=new Vector2()]
-   */
-  static reverse(v, out = new Vector2()) {
-    return Vector2.multiplyScalar(v, -1, out)
-  }
-
-  /**
-   * @param {Vector2} v
-   * @param {Vector2} normal
-   * @param {Vector2} [out]
-   */
-  static reflect(v, normal, out = new Vector2()) {
-    const multiplier = Vector2.dot(v, normal) * 2
-
-    out.x = normal.x * multiplier - v.x
-    out.y = normal.y * multiplier - v.y
-
-    return out
-  }
-
-  /**
-   * @param {Vector2} v
-   * @param {number} min
-   * @param {number} max
-   * @param {Vector2} out
-   */
-  static clampMagnitude(v, min, max, out) {
-    if (Vector2.equalsZero(v)) return Vector2.copy(v, out)
-
-    const length = Vector2.magnitude(v)
-
-    if (length > max) return Vector2.multiplyScalar(v, max / length, out)
-    if (length < min) return Vector2.multiplyScalar(v, min / length, out)
-
-    return Vector2.copy(v, out)
-  }
-
-  /**
-   * Gets the angle (in degrees) between two
-   * vectors in the range 0° to 360° in the anticlockwise direction from v1 to v2.
-   *
-   * @param { Vector2} v1 - Start of the angle.
-   * @param { Vector2} v2 - End of the angle.
-   * @returns {number}
-   */
-  static getAbsDegBtwn(v1, v2) {
-    const a = Vector2.cross(v1, v2)
-    const deg = Vector2.getDegBtwn(v1, v2)
-
-    return a < 0 ? deg : 360 - deg
-  }
-
-  /**
-   * Same as ` Vector2.getAbsDegBtwn` but returns in radians.
-   *
-   * @param { Vector2 } v1 - Start of the angle.
-   * @param { Vector2 } v2 - End of the angle.
-   * @returns {number}
-   */
-  static getAbsAngleBetween(v1, v2) {
-    const a = Vector2.cross(v1, v2)
-    const deg = Vector2.getAngleBetween(v1, v2)
-
-    return a < 0 ? deg : Math.PI * 2 - deg
-  }
-
-  /**
    * Gets the angle (in radians) between two
    * vectors in the shortest direction from v1 to v2 in the range of `0` to `Math.PI`.
    *
@@ -695,61 +587,20 @@ export class Vector2 {
    * @param { Vector2} v2 - End of the angle.
    * @returns {number}
    */
-  static getAngleBetween(v1, v2) {
-    return Math.acos(Vector2.dot(v1, v2) / (Vector2.magnitude(v1) * Vector2.magnitude(v2)))
-  }
-
-  /**
-   * Gets the angle (in degrees) between two
-   * vectors in shortest direction from v1 to v2 in the range `0°` to `180°`.
-   *
-   * @param { Vector2} v1 - Start of the angle.
-   * @param { Vector2} v2 - End of the angle.
-   * @returns {number}
-   */
-  static getDegBtwn(v1, v2) {
-    return Vector2.getAngleBetween(v1, v2) * 180 / Math.PI
+  static angleBetween(v1, v2) {
+    return Math.acos(this.dot(v1, v2) / (this.magnitude(v1) * this.magnitude(v2)))
   }
 
   /**
    * Returns a unit vector pointing in the
    * given angle starting from the positive x axis.
    *
-   * @param {number} radian - Angle in radians from 0 to `Math.PI * 2`.
+   * @param {number} angle - Angle in radians from 0 to `Math.PI * 2`.
    * @param { Vector2} [out] - Vector2 to store results in.
    * @returns { Vector2}
    */
-  static fromAngle(radian, out = new Vector2()) {
-    Vector2.set(out, Math.cos(radian), Math.sin(radian))
-
-    return out
-  }
-
-  /**
-   * Generates a new unit Vector2 in a random direction.
-   *
-   * @param { Vector2} [out]
-   * @returns {Vector2}
-   */
-  static random(out) {
-    return Vector2.fromAngle(Math.random() * TWO_PI, out)
-  }
-
-  /**
-   * Returns a Vector2 that has been lerped between v1 and v2.
-   * @param { Vector2} v1 - The vector to lerp from.
-   * @param { Vector2} v2 - The vector to lerp from.
-   * @param {number} t - A value from 0 to 1 to scale the new Vector2 between v1 and v2.
-   * @param { Vector2} [out] - The vector to store results into.
-   *
-   * @returns { Vector2}
-   */
-  static lerp(v1, v2, t, out = new Vector2()) {
-    Vector2.set(
-      out,
-      (v2.x - v1.x) * t + v1.x,
-      (v2.y - v1.y) * t + v1.y
-    )
+  static fromAngle(angle, out = new Vector2()) {
+    Vector2.set(Math.cos(angle), Math.sin(angle), out)
 
     return out
   }
@@ -763,7 +614,17 @@ export class Vector2 {
   static toAngle(v) {
     const a = Math.atan2(v.y, v.x)
 
-    return a < 0 ? TWO_PI + a : a
+    return a < 0 ? TAU + a : a
+  }
+
+  /**
+   * Generates a new unit Vector2 in a random direction.
+   *
+   * @param { Vector2} [out]
+   * @returns {Vector2}
+   */
+  static random(out) {
+    return Vector2.fromAngle(Math.random() * TAU, out)
   }
 
   /**
@@ -782,7 +643,7 @@ export class Vector2 {
    * @readonly
    * @type { Vector2 }
    */
-  static ZERO = new Vector2()
+  static Zero = new Vector2()
 
   /**
    * A unit vector pointing in the x-axis.
@@ -806,7 +667,7 @@ export class Vector2 {
    * @readonly
    * @type { Vector2 }
    */
-  static NEG_X = new Vector2(-1, 0)
+  static NegX = new Vector2(-1, 0)
 
   /**
    * A unit vector pointing in the nega y-axis.
@@ -814,5 +675,5 @@ export class Vector2 {
    * @readonly
    * @type { Vector2 }
    */
-  static NEG_Y = new Vector2(0, -1)
+  static NegY = new Vector2(0, -1)
 }

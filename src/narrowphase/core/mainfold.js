@@ -205,15 +205,15 @@ export class CollisionManifold {
     for (let i = 0; i < contactNo; i++) {
       manifold.impulse[i] = 0
       manifold.tImpulse[i] = 0
-      const ca1 = Vector2.sub(contactPoints[i], positionA)
-      const ca2 = Vector2.sub(contactPoints[i], positionB)
+      const ca1 = Vector2.subtract(contactPoints[i], positionA)
+      const ca2 = Vector2.subtract(contactPoints[i], positionB)
       const va = Vector2.crossScalar(ca1, rotationA.value)
 
       Vector2.add(va, velocityA, va)
       const vb = Vector2.crossScalar(ca2, rotationB.value)
 
       Vector2.add(vb, velocityB, vb)
-      const relativeVelocity = Vector2.sub(vb, va, vb)
+      const relativeVelocity = Vector2.subtract(vb, va, vb)
 
       manifold.nbias[i] = 0.0
       manifold.nJacobian[i].set(

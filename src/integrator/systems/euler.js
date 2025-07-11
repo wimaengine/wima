@@ -12,11 +12,11 @@ export function updateVelocityEuler2D(world) {
 
   query.each(([velocity, acceleration]) => {
     Vector2.set(
-      velocity,
       velocity.x + acceleration.x * dt,
-      velocity.y + acceleration.y * dt
+      velocity.y + acceleration.y * dt,
+      velocity
     )
-    Vector2.set(acceleration, 0, 0)
+    Vector2.set(0, 0, acceleration)
   })
 }
 
@@ -42,9 +42,9 @@ export function updatePositionEuler2D(world) {
 
   query.each(([position, velocity]) => {
     Vector2.set(
-      position,
       position.x + velocity.x * dt,
-      position.y + velocity.y * dt
+      position.y + velocity.y * dt,
+      position
     )
   })
 }
@@ -74,9 +74,10 @@ export function updateVelocityEuler3D(world) {
       velocity,
       velocity.x + acceleration.x * dt,
       velocity.y + acceleration.y * dt,
-      velocity.z + acceleration.z * dt
+      velocity.z + acceleration.z * dt,
+      velocity
     )
-    Vector3.set(acceleration, 0, 0, 0)
+    Vector3.set(0, 0, 0, acceleration)
   })
 }
 
@@ -104,10 +105,10 @@ export function updatePositionEuler3D(world) {
 
   query.each(([position, velocity]) => {
     Vector3.set(
-      position,
       position.x + velocity.x * dt,
       position.y + velocity.y * dt,
-      position.z + velocity.z * dt
+      position.z + velocity.z * dt,
+      position
     )
   })
 }
