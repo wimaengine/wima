@@ -64,6 +64,7 @@ export class Quaternion {
    */
   normalize() {
     Quaternion.normalize(this, this)
+
     return this
   }
 
@@ -562,7 +563,7 @@ export class Quaternion {
     )
   }
 
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     yield this.x
     yield this.y
     yield this.z

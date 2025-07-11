@@ -24,7 +24,7 @@ export function createTransform3D(
   sy = 1,
   sz = 1
 ) {
-    const quaternion = Quaternion.fromEuler(ox,oy,oz)
+  const quaternion = Quaternion.fromEuler(ox, oy, oz)
   
   return [
     new Position3D(x, y, z),
