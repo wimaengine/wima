@@ -143,7 +143,7 @@ export function snapUp(value, step) {
  * @param {number} y2
  * @returns {number}
  */
-export function map(v, x1, y1, x2, y2) {
+export function remap(v, x1, y1, x2, y2) {
   return x2 + v * (y2 - x2) / (y1 - x1)
 }
 
