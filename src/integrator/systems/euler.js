@@ -105,10 +105,10 @@ export function updatePositionEuler3D(world) {
 
   query.each(([position, velocity]) => {
     Vector3.set(
-      position,
       position.x + velocity.x * dt,
       position.y + velocity.y * dt,
-      position.z + velocity.z * dt
+      position.z + velocity.z * dt,
+      position
     )
   })
 }
