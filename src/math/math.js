@@ -207,6 +207,16 @@ export function wrap(value, min, max) {
 
   return (min + ((((value - min) % range) + range) % range))
 }
+
+/**
+ * @param {number} value 
+ * @param {number} width 
+ * @returns {Vector2}
+ */
+export function mapToIndex2D(value, width) {
+  return new Vector2(value % width, Math.floor(value / width))
+}
+
 /**
  * @param {number} index
  * @param {number} width
