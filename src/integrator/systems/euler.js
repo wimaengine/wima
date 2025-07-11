@@ -74,9 +74,10 @@ export function updateVelocityEuler3D(world) {
       velocity,
       velocity.x + acceleration.x * dt,
       velocity.y + acceleration.y * dt,
-      velocity.z + acceleration.z * dt
+      velocity.z + acceleration.z * dt,
+      velocity
     )
-    Vector3.set(acceleration, 0, 0, 0)
+    Vector3.set(0, 0, 0, acceleration)
   })
 }
 
