@@ -125,6 +125,15 @@ export function snapDown(value, step) {
 }
 
 /**
+ * @param {number} value 
+ * @param {number} step 
+ * @returns {number}
+ */
+export function snapUp(value, step) {
+  return Math.ceil(value / step) * step
+}
+
+/**
  * Maps a value from one range to another.
  *
  * @param {number} v
