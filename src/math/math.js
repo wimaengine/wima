@@ -201,6 +201,15 @@ export function wrapAngle(x) {
  */
 export function wrap(v, max) {
   return v % max
+
+/**
+ * @param {number} value
+ * @returns {number}
+ */
+export function smoothStep(value) {
+  return value * value * (3 - 2 * value)
+};
+
 /**
  * @param {number} value
  */
