@@ -27,7 +27,7 @@
     "dev": "npm run build:lib",
     "init": "husky .husky",
     "rollup": "rollup --config .config/rollup.config.js",
-    "eslint": "eslint --config .config/eslint.config.js",
+    "eslint": "eslint --config .config/eslint.config.js --ignore-pattern '**/*.test.js'",
     "typedoc": "typedoc -options .config/typedoc.json --tsconfig .config/tsc.lint.json",
     "types": "tsc -p .config/tsc.type.json",
     "typedef": "node scripts/typedef.js",
@@ -61,6 +61,7 @@
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",
     "@stylistic/eslint-plugin": "^5.1.0",
+    "@types/node": "^24.0.12",
     "eslint": "^9.30.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-jsdoc": "^51.3.3",
