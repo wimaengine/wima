@@ -219,6 +219,18 @@ export function cantorPair(a, b) {
 }
 
 /**
+ * @param {number} a 
+ * @param {number} b 
+ * @returns {number}
+ */
+export function cantorPairSigned(a, b) {
+  const x = (a >= 0.0 ? 2.0 * a : (-2.0 * a) - 1.0)
+  const y = (b >= 0.0 ? 2.0 * b : (-2.0 * b) - 1.0)
+
+  return cantorPair(x, y)
+}
+
+/**
  * @param {number} value 
  * @param {number} width 
  * @returns {Vector2}
