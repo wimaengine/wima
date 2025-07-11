@@ -42,9 +42,9 @@ export function updatePositionEuler2D(world) {
 
   query.each(([position, velocity]) => {
     Vector2.set(
-      position,
       position.x + velocity.x * dt,
-      position.y + velocity.y * dt
+      position.y + velocity.y * dt,
+      position
     )
   })
 }
