@@ -107,6 +107,15 @@ export function clamp(value, min, max) {
 }
 
 /**
+ * @param {number} value 
+ * @param {number} step 
+ * @returns {number}
+ */
+export function snap(value, step) {
+  return Math.round(value / step) * step
+}
+
+/**
  * Maps a value from one range to another.
  *
  * @param {number} v
