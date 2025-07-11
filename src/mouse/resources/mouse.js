@@ -29,7 +29,7 @@ export class Mouse {
    * @returns {boolean}
    */
   moved(){
-    return !this.delta.equals(Vector2.ZERO)
+    return !this.delta.equals(Vector2.Zero)
   }
 }
   
