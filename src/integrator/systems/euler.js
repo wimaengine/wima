@@ -12,11 +12,11 @@ export function updateVelocityEuler2D(world) {
 
   query.each(([velocity, acceleration]) => {
     Vector2.set(
-      velocity,
       velocity.x + acceleration.x * dt,
-      velocity.y + acceleration.y * dt
+      velocity.y + acceleration.y * dt,
+      velocity
     )
-    Vector2.set(acceleration, 0, 0)
+    Vector2.set(0, 0, acceleration)
   })
 }
 
