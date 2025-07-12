@@ -3,7 +3,6 @@ import {
   AppSchedule,
   World,
   FPSDebugger,
-  DefaultTweenPlugin,
   Gizmo2DPlugin,
   Gizmo3DPlugin,
   DOMWindowPlugin,
@@ -25,8 +24,7 @@ import {
   easing,
   materials
 } from './demos/index.js'
-import { ResourceAliasPlugin } from './demos/utils.js'
-
+import { Demo1, Demo2, ResourceAliasPlugin } from './demos/utils.js'
 import {
   lineStyle,
   arcs2d,
@@ -39,23 +37,20 @@ const app = new App()
 app
   .registerPlugin(new ResourceAliasPlugin())
   .registerPlugin(new DefaultPlugin())
-  .registerSystem(AppSchedule.Update, setupViewport)
   .registerPlugin(new DOMWindowPlugin())
-  .registerPlugin(new DefaultTweenPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
   .registerPlugin(new Gizmo2DPlugin({
-    name: "demo"
+    label: Demo1
   }))
   .registerPlugin(new Gizmo2DPlugin({
-    name: "demo2"
+    label: Demo2
   }))
   .registerPlugin(new Gizmo3DPlugin({
-    name: "demo"
+    label: Demo1
   }))
   .registerPlugin(new Gizmo3DPlugin({
-    name: "demo2"
+    label: Demo2
   }))
-  .registerDebugger(new FPSDebugger())
   .registerPlugin(new DemoPlugin({
     demos: [
       spawn,
@@ -71,6 +66,8 @@ app
       grid2d
     ]
   }))
+  .registerSystem(AppSchedule.Update, setupViewport)
+  .registerDebugger(new FPSDebugger())
   .run()
 
 /**
