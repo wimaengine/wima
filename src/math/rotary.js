@@ -329,7 +329,7 @@ export class Rotary {
    * @param {Rotary} rot2
    * @param {number} [tolerance]
    */
-  static fuzzyEqual(rot1, rot2,tolerance) {
+  static fuzzyEqual(rot1, rot2, tolerance) {
     return (
       fuzzyEqual(rot1.cos, rot2.cos, tolerance) &&
       fuzzyEqual(rot1.sin, rot2.sin, tolerance)
@@ -342,7 +342,7 @@ export class Rotary {
     return new Rotary(Math.cos(angle), Math.sin(angle))
   }
 
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     yield this.cos
     yield this.sin
   }
