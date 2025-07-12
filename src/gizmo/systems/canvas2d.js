@@ -1,7 +1,6 @@
 /** @import { Constructor } from '../../reflect/index.js' */
 /** @import { SystemFunc } from '../../ecs/index.js' */
 import { Entity, Query } from '../../ecs/index.js'
-import { Window } from '../../window/index.js'
 import {
   Gizmo2D,
   Gizmo3D,
@@ -11,7 +10,7 @@ import {
 } from '../core/index.js'
 import { warn } from '../../logger/index.js'
 import { typeidGeneric } from '../../reflect/index.js'
-import { Windows } from '../../window/index.js'
+import { Windows, Window } from '../../window/index.js'
 
 /**
  * @template T
@@ -32,7 +31,7 @@ export function genenerateDrawGizmo2Dsystem(label) {
 
     const canvas = canvases.getWindow(window[0])
 
-    if(!canvas) return
+    if (!canvas) return
 
     const context = canvas.getContext('2d')
 
