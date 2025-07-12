@@ -1,4 +1,4 @@
-/**@import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../reflect/index.js' */
 import { Matrix2x3, Matrix3x4, Vector2, Vector3, BVector2, Color, TAU } from '../../math/index.js'
 import { GizmoSettings } from './settings.js'
 
@@ -46,6 +46,7 @@ export class Gizmo2D {
    * @type {Constructor<T>}
    */
   type
+
   /**
    * @private
    * @type {Matrix2x3}
@@ -66,7 +67,7 @@ export class Gizmo2D {
    * @param {Constructor<T>} type 
    * @param {GizmoSettings} settings
    */
-  constructor(type,settings) {
+  constructor(type, settings) {
     this.settings = settings
     this.type = type
   }
@@ -351,11 +352,13 @@ export class Gizmo2D {
  * Should be used for visual debugging.
  */
 export class Gizmo3D {
+
   /**
    * @readonly
    * @type {Constructor<T>}
    */
   type
+
   /**
    * @private
    * @type {Matrix3x4}
@@ -376,7 +379,7 @@ export class Gizmo3D {
    * @param {Constructor<T>} type
    * @param {GizmoSettings} settings
    */
-  constructor(type,settings) {
+  constructor(type, settings) {
     this.type = type
     this.settings = settings
   }
