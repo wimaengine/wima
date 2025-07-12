@@ -1,25 +1,35 @@
-import { App, AppSchedule } from '../../app/index.js'
+/** @import { Constructor } from '../../reflect/index.js' */
+import { App, AppSchedule, Plugin } from '../../app/index.js'
+import { typeidGeneric } from '../../reflect/index.js'
 import { Gizmo2D, GizmoSettings } from '../core/index.js'
-import {
-  genenerateDrawGizmo2Dsystem
-} from '../systems/index.js'
+import { genenerateDrawGizmo2Dsystem } from '../systems/index.js'
 
-export class Gizmo2DPlugin {
+/**
+ * @template T
+ */
+export class Gizmo2DPlugin extends Plugin {
 
   /**
-   * @type {string}
+   * @readonly
+   * @type {Constructor<T>}
    */
-  name
+  label
 
   /**
+   * @readonly
    * @type {GizmoSettings}
    */
   settings
+
+  /**
+   * @param {Gizmo2DPluginSettings<T>} param0 
+   */
   constructor({
-    name = 'default',
+    label,
     settings = new GizmoSettings()
-  } = {}) {
-    this.name = name
+  }) {
+    super()
+    this.label = label
     this.settings = settings
   }
 
@@ -27,10 +37,23 @@ export class Gizmo2DPlugin {
    * @param {App} app
    */
   register(app) {
+    const { label, settings } = this
+
     app
       .getWorld()
-      .setResourceByName(`gizmo2d<${this.name}>`, new Gizmo2D(this.settings))
+      .setResourceByTypeId(typeidGeneric(Gizmo2D, [label]), new Gizmo2D(label, settings))
     app
-      .registerSystem(AppSchedule.Update, genenerateDrawGizmo2Dsystem(this.name))
+      .registerSystem(AppSchedule.Update, genenerateDrawGizmo2Dsystem(label))
+  }
+
+  name() {
+    return typeidGeneric(Gizmo2DPlugin, [this.label])
   }
 }
+
+/**
+ * @template T
+ * @typedef Gizmo2DPluginSettings
+ * @property {Constructor<T>} label
+ * @property {GizmoSettings} [settings]
+ */

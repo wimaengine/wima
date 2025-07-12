@@ -1,8 +1,8 @@
-import { Matrix2x3, Matrix3x4, Vector2, Vector3, BVector2, Color, TWO_PI } from '../../math/index.js'
+/**@import { Constructor } from '../../reflect/index.js' */
+import { Matrix2x3, Matrix3x4, Vector2, Vector3, BVector2, Color, TAU } from '../../math/index.js'
 import { GizmoSettings } from './settings.js'
 
 /**
- * @abstract
  * @template T
  */
 export class GizmoBuffer {
@@ -35,11 +35,17 @@ export class GizmoBuffer {
 }
 
 /**
+ * @template T
  * Immediate mode drawing of defined 2d shapes.
  * Should be used for visual debugging.
  */
 export class Gizmo2D {
 
+  /**
+   * @readonly
+   * @type {Constructor<T>}
+   */
+  type
   /**
    * @private
    * @type {Matrix2x3}
@@ -57,10 +63,12 @@ export class Gizmo2D {
   settings
 
   /**
+   * @param {Constructor<T>} type 
    * @param {GizmoSettings} settings
    */
-  constructor(settings) {
+  constructor(type,settings) {
     this.settings = settings
+    this.type = type
   }
 
   /**
@@ -128,7 +136,7 @@ export class Gizmo2D {
    * @returns 
    */
   line(
-    start = Vector2.ZERO.clone(),
+    start = Vector2.Zero.clone(),
     end = Vector2.X.clone(),
     color = Color.WHITE
   ) {
@@ -224,7 +232,7 @@ export class Gizmo2D {
     color = Color.RED.clone()
   ) {
     this.line(
-      Vector2.ZERO.clone(),
+      Vector2.Zero.clone(),
       direction.multiplyScalar(length),
       color
     )
@@ -297,7 +305,7 @@ export class Gizmo2D {
    * @returns {this}
    */
   circle(radius, color, resolution = 32) {
-    this.arc(0, TWO_PI, radius, radius, color, resolution)
+    this.arc(0, TAU, radius, radius, color, resolution)
 
     return this
   }
@@ -331,18 +339,23 @@ export class Gizmo2D {
    * @returns {this}
    */
   ellipse(radiusX, radiusY, color, resolution = 32) {
-    this.arc(0, TWO_PI, radiusX, radiusY, color, resolution)
+    this.arc(0, TAU, radiusX, radiusY, color, resolution)
 
     return this
   }
 }
 
 /**
+ * @template T
  * Immediate mode drawing of defined 3d shapes.
  * Should be used for visual debugging.
  */
 export class Gizmo3D {
-
+  /**
+   * @readonly
+   * @type {Constructor<T>}
+   */
+  type
   /**
    * @private
    * @type {Matrix3x4}
@@ -360,9 +373,11 @@ export class Gizmo3D {
   settings
 
   /**
+   * @param {Constructor<T>} type
    * @param {GizmoSettings} settings
    */
-  constructor(settings) {
+  constructor(type,settings) {
+    this.type = type
     this.settings = settings
   }
 
