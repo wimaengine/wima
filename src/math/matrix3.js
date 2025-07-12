@@ -221,7 +221,7 @@ export class Matrix3 {
    * @returns {this}
    */
   invert() {
-    Matrix3.invert(this)
+    Matrix3.invert(this, this)
 
     return this
   }

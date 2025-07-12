@@ -299,7 +299,7 @@ export class Matrix4 {
    * @returns {this}
    */
   invert() {
-    Matrix4.invert(this)
+    Matrix4.invert(this, this)
 
     return this
   }
