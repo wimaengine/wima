@@ -11,8 +11,19 @@ import {
   typeidGeneric,
   BasicMaterial,
   Image,
-  Audio
+  Audio,
+  Gizmo2D
 } from 'wima'
+
+// gizmo labels
+export class Demo1 {}
+export class Demo2 {}
+
+/** @augments Gizmo2D<Demo1> */
+export class Demo1Gizmo2D extends Gizmo2D {}
+
+/** @augments Gizmo2D<Demo2> */
+export class Demo2Gizmo2D extends Gizmo2D {}
 
 /**
  * @augments {Assets<Mesh>}
@@ -69,6 +80,8 @@ export class ResourceAliasPlugin extends Plugin {
     world.setResourceAlias(typeidGeneric(Assets, [Image]), ImageAssets)
     world.setResourceAlias(typeidGeneric(Assets, [Audio]), AudioAssets)
     world.setResourceAlias(typeidGeneric(Assets, [Mesh]), MeshAssets)
+    world.setResourceAlias(typeidGeneric(Gizmo2D, [Demo1]), Demo1Gizmo2D)
+    world.setResourceAlias(typeidGeneric(Gizmo2D, [Demo2]), Demo2Gizmo2D)
     world.setResourceAlias(typeidGeneric(Assets, [BasicMaterial]), BasicMaterialAssets)
   }
 }
