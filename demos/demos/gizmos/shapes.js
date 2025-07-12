@@ -1,17 +1,21 @@
-/** @import {Entity} from 'chaosstudio' */
+/** @import {Entity} from 'wima' */
 import {
   World,
   Color,
   Demo,
-  Gizmo2D,
   Vector2,
   GizmoLineStyle
-} from 'chaosstudio'
+} from 'wima'
+import { Demo1Gizmo2D } from '../utils.js'
 
 export const shapes = new Demo('gizmo2d/shapes', [init], [update])
 
+/**
+ * @param {World} world
+ */
 function init(world) {
-  const gizmo = world.getResource("gizmo2d<demo>")
+  const gizmo = world.getResource(Demo1Gizmo2D)
+
   gizmo.settings.lineWidth = 2
   gizmo.settings.lineStyle = GizmoLineStyle.Solid
 }
@@ -20,7 +24,8 @@ function init(world) {
  * @param {World} world
  */
 function update(world) {
-  const gizmo = world.getResource("gizmo2d<demo>")
+  const gizmo = world.getResource(Demo1Gizmo2D)
+
   gizmo
     .translate(100, 150)
     .aabb(50, 50, new Color(1, 1, 1, 1))
