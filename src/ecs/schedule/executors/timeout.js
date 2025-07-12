@@ -18,7 +18,7 @@ export class TimeoutExecutor extends Executor {
    * @param {Schedule} schedule
    */
   start(world, schedule) {
-    this.tick = setTimeout(() => { schedule.run(world) }, this.time)[Symbol.toPrimitive]()
+    this.tick = window.setTimeout(() => { schedule.run(world) }, this.time)
   }
   stop() {
     clearTimeout(this.tick)
