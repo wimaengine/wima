@@ -1,6 +1,7 @@
 /** @import { Constructor } from '../../reflect/index.js' */
 /** @import { SystemFunc } from '../../ecs/index.js' */
 import { Entity, Query } from '../../ecs/index.js'
+import { Window } from '../../window/index.js'
 import {
   Gizmo2D,
   Gizmo3D,
@@ -84,8 +85,8 @@ export function genenerateDrawGizmo2Dsystem(label) {
 
       const colorGradient = context.createLinearGradient(startPos.x, startPos.y, endPos.x, endPos.y)
 
-      colorGradient.addColorStop(0, `rgba(${startColor.r * 255},${startColor.g * 255},${startColor.b * 255},${startColor.a * 255})`)
-      colorGradient.addColorStop(1, `rgba(${endColor.r * 255},${endColor.g * 255},${endColor.b * 255},${endColor.a * 255})`)
+      colorGradient.addColorStop(0, `rgba(${startColor.r * 255},${startColor.g * 255},${startColor.b * 255},${startColor.a})`)
+      colorGradient.addColorStop(1, `rgba(${endColor.r * 255},${endColor.g * 255},${endColor.b * 255},${endColor.a})`)
       context.moveTo(startPos.x, startPos.y)
       context.lineTo(endPos.x, endPos.y)
       context.strokeStyle = colorGradient
