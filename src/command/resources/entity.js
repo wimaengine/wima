@@ -46,7 +46,7 @@ export class EntityCommands {
    * @returns {this}
    */
   spawn() {
-    const entity = this.world.create([])
+    const entity = this.world.spawn([])
 
     this.buffered = new SpawnCommand(entity)
 

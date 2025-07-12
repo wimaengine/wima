@@ -1,4 +1,5 @@
-import { Audio, Parser } from '../../asset/index.js'
+import { Parser } from '../../asset/index.js'
+import { Audio } from '../assets/index.js'
 import { Device } from '../../device/index.js'
 
 /**
@@ -26,10 +27,10 @@ export class AudioParser extends Parser {
   /**
    * @inheritdoc
    * @param {string} extension
-   * @param {Device} device
+   * @param {Device} _device
    */
-  verify(extension, device) {
-    return device.capabilities.supportedAudioFormats.has(extension)
+  verify(extension, _device) {
+    return document.createElement('audio').canPlayType(extension).length !== 0
   }
 
   /**

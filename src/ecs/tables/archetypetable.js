@@ -61,13 +61,22 @@ export class ArchetypeTable {
    * @returns {boolean} 
    */
   archetypeHasOnly(archetype, comps) {
-    if (comps.length !== archetype.components.size) return false
+    if (this.getActualCompSize(comps) !== archetype.components.size) return false
 
     for (let i = 0; i < comps.length; i++) {
       if (!archetype.components.has(comps[i])) return false
     }
 
     return true
+  }
+
+  /**
+   * @private
+   * @param {TypeId[]} ids
+   * @returns {number}
+   */
+  getActualCompSize(ids){
+    return new Set(ids).size
   }
 
   /**

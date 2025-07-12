@@ -1,46 +1,42 @@
 import {
-  Assets,
-  WebglBasicMaterial,
   Demo,
-  Material,
   Mesh,
-  Orientation3D,
   Position3D,
-  Scale3D,
-  GlobalTransform3D,
   World,
   Cleanup,
   Query,
-  MeshHandle,
   EntityCommands,
-  VirtualClock
+  VirtualClock,
+  BasicMaterial,
+  Meshed,
+  BasicMaterial3D,
+  createTransform3D
 } from 'wima'
-import { addCamera3D } from './utils.js'
+import { addDefaultCamera3D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+
+export const movingtriangle = new Demo(
+  'moving triangle',
+  [addmesh, addDefaultCamera3D],
+  [updateMesh]
+)
 
 /**
  * @param {World} world
  */
 function addmesh(world) {
   const commands = world.getResource(EntityCommands)
+  const meshes = world.getResource(MeshAssets)
+  const materials = world.getResource(BasicMaterialAssets)
 
-  /** @type {Assets<Mesh>} */
-  const meshes = world.getResourceByName('assets<mesh>')
-
-  /** @type {Assets<Material>} */
-  const materials = world.getResourceByName('assets<material>')
-
-  const mesh = Mesh.triangle3D()
-  const material = new WebglBasicMaterial()
+  const mesh = meshes.add('basic', Mesh.triangle3D())
+  const material = materials.add('basic', new BasicMaterial())
 
   commands
     .spawn()
     .insertPrefab([
-      new Position3D(),
-      new Orientation3D(),
-      new Scale3D(),
-      new GlobalTransform3D(),
-      meshes.add('basic', mesh),
-      materials.add('basic', material),
+      ...createTransform3D(),
+      new Meshed(mesh),
+      new BasicMaterial3D(material),
       new Cleanup()
     ])
     .build()
@@ -50,7 +46,7 @@ function addmesh(world) {
  * @param {World} world
  */
 function updateMesh(world) {
-  const query = new Query(world, [Position3D, MeshHandle])
+  const query = new Query(world, [Position3D, Meshed])
   const clock = world.getResource(VirtualClock)
   const dt = clock.getElapsed()
 
@@ -59,4 +55,3 @@ function updateMesh(world) {
     position.y = Math.cos(dt) * 0.5
   })
 }
-export const movingtriangle = new Demo('moving triangle', [addmesh, addCamera3D], [updateMesh])

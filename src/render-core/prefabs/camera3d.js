@@ -1,5 +1,6 @@
 import { Orientation3D, Position3D, Scale3D, GlobalTransform3D } from '../../transform/index.js'
-import { Camera } from '../components/index.js'
+import { Camera, RenderLists3D } from '../components/index.js'
+import { } from '../plugins/index.js'
 
 /**
  * @param {number} x 
@@ -11,7 +12,7 @@ import { Camera } from '../components/index.js'
  * @param {number} sx 
  * @param {number} sy 
  * @param {number} sz 
- * @returns {[Position3D,Orientation3D,Scale3D,GlobalTransform3D,Camera]}
+ * @returns {[Position3D,Orientation3D,Scale3D,GlobalTransform3D,Camera,RenderLists3D]}
  */
 export function createCamera3D(
   x = 0, 
@@ -29,6 +30,7 @@ export function createCamera3D(
     new Orientation3D().fromEuler(ox, oy, oz),
     new Scale3D(sx, sy, sz),
     new GlobalTransform3D(),
-    new Camera()
+    new Camera(),
+    new RenderLists3D()
   ]
 }

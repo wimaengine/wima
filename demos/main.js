@@ -3,27 +3,18 @@ import {
   AppSchedule,
   World,
   FPSDebugger,
-  AudioPlugin,
-  CommandsPlugin,
   DefaultTweenPlugin,
   Gizmo2DPlugin,
   Gizmo3DPlugin,
   DOMWindowPlugin,
-  InputPlugin,
-  StoragePlugin,
-  TimePlugin,
-  TransformPlugin,
-  WindowPlugin,
-  RenderCorePlugin,
   Canvas2DRendererPlugin,
   DemoPlugin,
   MainWindow,
   Query,
   warn,
-  createCamera2D,
   Entity,
   WindowCommands,
-  DevicePlugin
+  DefaultPlugin
 } from 'wima'
 import {
   spawn,
@@ -34,6 +25,7 @@ import {
   easing,
   materials
 } from './demos/index.js'
+import { ResourceAliasPlugin } from './demos/utils.js'
 
 import {
   lineStyle,
@@ -45,18 +37,10 @@ import {
 const app = new App()
 
 app
-  .registerPlugin(new CommandsPlugin())
-  .registerPlugin(new DevicePlugin())
-  .registerPlugin(new AudioPlugin())
-  .registerPlugin(new TimePlugin())
-  .registerPlugin(new WindowPlugin())
+  .registerPlugin(new ResourceAliasPlugin())
+  .registerPlugin(new DefaultPlugin())
+  .registerSystem(AppSchedule.Update, setupViewport)
   .registerPlugin(new DOMWindowPlugin())
-  .registerPlugin(new InputPlugin())
-  .registerPlugin(new TransformPlugin())
-  .registerPlugin(new RenderCorePlugin())
-  .registerPlugin(new StoragePlugin())
-  .registerSystem(AppSchedule.Startup, setupViewport)
-  .registerSystem(AppSchedule.Startup, setupCamera)
   .registerPlugin(new DefaultTweenPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
   .registerPlugin(new Gizmo2DPlugin({
@@ -88,13 +72,6 @@ app
     ]
   }))
   .run()
-
-/**
- * @param {World} world
- */
-function setupCamera(world) {
-  world.create(createCamera2D())
-}
 
 /**
  * @param {World} world

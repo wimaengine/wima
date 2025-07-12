@@ -24,6 +24,21 @@ export class Device {
    * @type {Browser}
    */
   browser = Browser.Unknown
+
+  isMobile() {
+    return (
+      this.platform === PlatformOS.Android ||
+      this.platform === PlatformOS.Ios
+    )
+  }
+
+  isPc() {
+    return (
+      this.platform === PlatformOS.Linux ||
+      this.platform === PlatformOS.Mac ||
+      this.platform === PlatformOS.Windows
+    )
+  }
 }
 
 export class DeviceCapabilities {
@@ -55,18 +70,4 @@ export class DeviceCapabilities {
    * @type {boolean}
    */
   webAudio = false
-
-  /**
-   * Whether this device supports Audio tag.
-   *
-   * @type {boolean}
-   */
-  audio = !!document.createElement('audio').canPlayType
-
-  /**
-   * A list of audio extensions this device supports.
-   *
-   * @type {Set<string>}
-   */
-  supportedAudioFormats = new Set()
 }

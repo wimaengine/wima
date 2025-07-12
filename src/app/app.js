@@ -1,5 +1,4 @@
 /** @import { SystemFunc } from '../ecs/index.js' */
-/** @import { HandleProvider, Parser } from '../asset/index.js' */
 /** @import { Constructor,TypeId } from '../reflect/index.js'*/
 
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
@@ -11,7 +10,56 @@ import { typeid } from '../reflect/index.js'
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
 
+export class PluginRegistry {
+
+  /**
+   * @type {Plugin[]}
+   */
+  list = []
+
+  /**
+   * @type {Set<TypeId>}
+   */
+  names = new Set()
+
+  /**
+   * @param {Plugin} plugin
+   */
+  add(plugin) {
+    this.list.push(plugin)
+    this.names.add(plugin.name())
+  }
+
+  /**
+   * @param {TypeId} plugin
+   */
+  hasTypeId(plugin) {
+    this.names.has(plugin)
+  }
+
+  /**
+   * @param {Plugin} plugin
+   */
+  has(plugin) {
+    this.hasTypeId(plugin.name())
+  }
+
+  /**
+   * @param {App} app 
+   */
+  register(app){
+    for (let i = 0; i < this.list.length; i++) {
+      this.list[i].register(app)
+    }
+  }
+}
 export class App {
+
+  /**
+   * @private
+   * @type {PluginRegistry}
+   */
+  plugins = new PluginRegistry()
 
   /**
    * @private
@@ -83,11 +131,11 @@ export class App {
    * @returns {this}
    */
   run() {
-    this.initialized = true
+    this.plugins.register(this)
 
     for (let i = 0; i < this.systemsevents.length; i++) {
       const ev = this.systemsevents[i]
-
+      
       this.systemBuilder.add(ev)
     }
 
@@ -95,6 +143,7 @@ export class App {
 
     this.systemBuilder.pushToScheduler(this.scheduler)
     this.scheduler.run(this.world)
+    this.initialized = true
 
     return this
   }
@@ -103,7 +152,7 @@ export class App {
    * @param {Plugin} plugin
    */
   registerPlugin(plugin) {
-    plugin.register(this)
+    this.plugins.add(plugin)
 
     return this
   }
@@ -163,12 +212,12 @@ export class Plugin {
   /**
    * @param {App} _app
    */
-  register(_app){}
+  register(_app) { }
 
   /**
    * @returns {TypeId}
    */
-  name(){
+  name() {
 
     // SAFETY: `this.constructor` can be casted into a `Contructor`
     return typeid(/** @type {Constructor}*/(this.constructor))

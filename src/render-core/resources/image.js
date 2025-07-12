@@ -1,5 +1,5 @@
 import { Parser } from '../../asset/core/parser.js'
-import { Image } from '../../asset/index.js'
+import { Image } from '../assets/index.js'
 import { Vector2 } from '../../math/index.js'
 
 /**

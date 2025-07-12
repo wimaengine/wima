@@ -1,47 +1,49 @@
 import {
-  Assets,
-  WebglBasicMaterial,
   Demo,
-  Material,
   Mesh,
-  Orientation3D,
-  Position3D,
   Color,
-  Scale3D,
-  GlobalTransform3D,
   World,
   Cleanup,
-  EntityCommands
+  EntityCommands,
+  BasicMaterial,
+  createTransform3D,
+  BasicMaterial3D,
+  Meshed
 } from 'wima'
-import { addCamera3D } from './utils.js'
+import { addDefaultCamera3D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+
+const MATERIAL_PATH = 'colorChange'
+
+export const changecolortriangle = new Demo(
+  'color changing triangle',
+  [addmesh, addDefaultCamera3D],
+  [changeColor]
+)
+
+class ChangeColor {
+  color = new Color(0.003, 0.006, 0.012)
+}
 
 /**
  * @param {World} world
  */
 function addmesh(world) {
-  world.setResourceByName('changecolor', new Color(0.003, 0.006, 0.012))
+  world.setResource(new ChangeColor())
   const commands = world.getResource(EntityCommands)
+  const meshes = world.getResource(MeshAssets)
+  const materials = world.getResource(BasicMaterialAssets)
 
-  /** @type {Assets<Mesh>} */
-  const meshes = world.getResourceByName('assets<mesh>')
-
-  /** @type {Assets<Material>} */
-  const materials = world.getResourceByName('assets<material>')
-
-  const mesh = Mesh.triangle3D()
-  const material = new WebglBasicMaterial({
+  const mesh = meshes.add(MATERIAL_PATH, Mesh.triangle3D())
+  const material = materials.add(MATERIAL_PATH, new BasicMaterial({
     color: new Color(1, 0, 0)
-  })
+  }))
 
   commands
     .spawn()
     .insertPrefab([
-      new Position3D(),
-      new Orientation3D(),
-      new Scale3D(),
-      new GlobalTransform3D(),
-      meshes.add('changeColor', mesh),
-      materials.add('changeColor', material),
+      ...createTransform3D(),
+      new Meshed(mesh),
+      new BasicMaterial3D(material),
       new Cleanup()
     ])
     .build()
@@ -51,33 +53,31 @@ function addmesh(world) {
  * @param {World} world
  */
 function changeColor(world) {
+  const materials = world.getResource(BasicMaterialAssets)
 
-  /** @type {Assets<Material>} */
-  const materials = world.getResourceByName('assets<material>')
+  const color = world.getResource(ChangeColor)
+  const material = materials.get(MATERIAL_PATH)
 
-  /** @type {Color}*/
-  const color = world.getResourceByName('changecolor')
-  const material = materials.get('changeColor')
-  
+  if (!material) return
+
   if (
     material.color.r <= 0 ||
-    material.color.r + color.r > 1
+    material.color.r + color.color.r > 1
   ) {
-    color.r = -color.r
+    color.color.r = -color.color.r
   }
   if (
     material.color.g <= 0 ||
-    material.color.g + color.g > 1
+    material.color.g + color.color.g > 1
   ) {
-    color.g = -color.g
+    color.color.g = -color.color.g
   }
   if (
     material.color.b <= 0 ||
-    material.color.b + color.b > 1
+    material.color.b + color.color.b > 1
   ) {
-    color.b = -color.b
+    color.color.b = -color.color.b
   }
 
-  material.color.add(color)
+  material.color.add(color.color)
 }
-export const changecolortriangle = new Demo('color changing triangle', [addmesh, addCamera3D], [changeColor])

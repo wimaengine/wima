@@ -1,5 +1,6 @@
 import { App, Plugin } from '../app/index.js'
-import { AssetParserPlugin, AssetPlugin, Audio } from '../asset/index.js'
+import { AssetParserPlugin, AssetPlugin } from '../asset/index.js'
+import { Audio } from './assets/index.js'
 import { AudioCommands, AudioParser } from './resources/index.js'
 
 export class AudioPlugin extends Plugin {
