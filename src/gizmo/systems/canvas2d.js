@@ -99,15 +99,18 @@ export function genenerateDrawGizmo2Dsystem(label) {
 }
 
 /**
- * @param {string} name
+ * @template T
+ * @param {Constructor<T>} label
+ * @returns {SystemFunc}
  */
-export function genenerateDrawGizmo3Dsystem(name) {
+export function genenerateDrawGizmo3Dsystem(label) {
   warn('Canvas 2d rendering backend does not support 3d gizmos.')
+  const gizmotypeid = typeidGeneric(Gizmo3D, [label])
 
-  return function drawGizmo3D(/** @type {World} */ world) {
+  return function drawGizmo3D(world) {
 
-    /** @type {Gizmo3D} */
-    const gizmo = world.getResource(`gizmo3d<${name}>`)
+    /** @type {Gizmo3D<T>} */
+    const gizmo = world.getResourceByTypeId(gizmotypeid)
 
     gizmo.buffer.clear()
   }
