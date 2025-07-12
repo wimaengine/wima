@@ -2,14 +2,12 @@ import {
   World,
   Color,
   Demo,
-  Gizmo2D,
-  Vector2,
-  GizmoLineStyle
-} from 'chaosstudio'
+  GizmoLineStyle,
+  PI,
+  HALF_PI
+} from 'wima'
+import { Demo1Gizmo2D } from '../utils.js'
 
-const TWO_PI = Math.PI * 2
-const PI = Math.PI
-const HALF_PI = Math.PI / 2
 const QUATER_PI = Math.PI / 4
 
 export const arcs2d = new Demo('gizmo2d/arcs', [init], [drawCirclularArcs, drawEllipticalArcs])
@@ -18,7 +16,8 @@ export const arcs2d = new Demo('gizmo2d/arcs', [init], [drawCirclularArcs, drawE
  * @param {World} world
  */
 function init(world) {
-  const gizmo = world.getResource("gizmo2d<demo>")
+  const gizmo = world.getResource(Demo1Gizmo2D)
+
   gizmo.settings.lineWidth = 2
   gizmo.settings.lineStyle = GizmoLineStyle.Solid
 }
@@ -27,7 +26,7 @@ function init(world) {
  * @param {World} world
  */
 function drawCirclularArcs(world) {
-  const gizmo = world.getResource("gizmo2d<demo>")
+  const gizmo = world.getResource(Demo1Gizmo2D)
   const radius = 40
 
   gizmo
@@ -63,7 +62,7 @@ function drawCirclularArcs(world) {
  * @param {World} world
  */
 function drawEllipticalArcs(world) {
-  const gizmo = world.getResource("gizmo2d<demo>")
+  const gizmo = world.getResource(Demo1Gizmo2D)
   const radiusX = 40
   const radiusY = 20
 
