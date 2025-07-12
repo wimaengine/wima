@@ -1,4 +1,6 @@
-import { Query, World } from '../../ecs/index.js'
+/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { SystemFunc } from '../../ecs/index.js' */
+import { Entity, Query } from '../../ecs/index.js'
 import {
   Gizmo2D,
   Gizmo3D,
@@ -7,25 +9,33 @@ import {
   GizmoLineCap
 } from '../core/index.js'
 import { warn } from '../../logger/index.js'
+import { typeidGeneric } from '../../reflect/index.js'
+import { Windows } from '../../window/index.js'
 
 /**
- * @param {string} name
+ * @template T
+ * @param {Constructor<T>} label
+ * @returns {SystemFunc}
  */
-export function genenerateDrawGizmo2Dsystem(name) {
-  return function drawGizmo2D(/** @type {World} */ world) {
+export function genenerateDrawGizmo2Dsystem(label) {
+  const gizmotypeid = typeidGeneric(Gizmo2D, [label])
 
-    /** @type {Gizmo2D} */
-    const gizmo = world.getResource(`gizmo2d<${name}>`)
-    const canvases = world.getResource('windows')
-    const window = new Query(world, ['entity', 'window']).single()
+  return function drawGizmo2D(world) {
 
-    if (!window) return warn('No window set up')
-    
-    /** @type {HTMLCanvasElement}*/
+    /** @type {Gizmo2D<T>} */
+    const gizmo = world.getResourceByTypeId(gizmotypeid)
+    const canvases = world.getResource(Windows)
+    const window = new Query(world, [Entity, Window]).single()
+
+    if (!window) return
+
     const canvas = canvases.getWindow(window[0])
+
+    if(!canvas) return
+
     const context = canvas.getContext('2d')
 
-    if (!context) return warn('Canvas 2d context is not created or is lost.')
+    if (!context) return
 
     const {
       lineWidth,
