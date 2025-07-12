@@ -1,12 +1,12 @@
-/** @import {Entity} from 'chaosstudio' */
+/** @import {Entity} from 'wima' */
 import {
   World,
   Color,
   Demo,
-  Gizmo2D,
   Vector2,
   GizmoLineStyle
-} from 'chaosstudio'
+} from 'wima'
+import { Demo1Gizmo2D, Demo2Gizmo2D } from '../utils.js'
 
 export const lineStyle = new Demo('gizmo2d/line style', [init], [update])
 
@@ -14,20 +14,23 @@ export const lineStyle = new Demo('gizmo2d/line style', [init], [update])
  * @param {World} world
  */
 function init(world) {
-  const solidgizmo = world.getResource("gizmo2d<demo>")
-  const dashedgizmo = world.getResource("gizmo2d<demo2>")
+  const solidgizmo = world.getResource(Demo1Gizmo2D)
+  const dashedgizmo = world.getResource(Demo2Gizmo2D)
+
   solidgizmo.settings.lineWidth = 5
   solidgizmo.settings.lineStyle = GizmoLineStyle.Solid
   dashedgizmo.settings.lineWidth = 5
   dashedgizmo.settings.lineStyle = GizmoLineStyle.Dashed
 
 }
+
 /**
  * @param {World} world
  */
 function update(world) {
-  const solidgizmo = world.getResource("gizmo2d<demo>")
-  const dashedgizmo = world.getResource("gizmo2d<demo2>")
+  const solidgizmo = world.getResource(Demo1Gizmo2D)
+  const dashedgizmo = world.getResource(Demo2Gizmo2D)
+
   solidgizmo
     .line(new Vector2(100, 100), new Vector2(500, 100), new Color(0.5, 0.5, 0.5, 1))
     .line(new Vector2(100, 200), new Vector2(500, 200), new Color(1, 0, 0, 1))
