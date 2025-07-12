@@ -2,11 +2,11 @@ import {
   World,
   Color,
   Demo,
-  Gizmo2D,
   Vector2,
   BVector2,
   GizmoLineStyle
-} from 'chaosstudio'
+} from 'wima'
+import { Demo1Gizmo2D } from '../utils.js'
 
 export const grid2d = new Demo('gizmo2d/grid', [init], [drawGrid])
 
@@ -14,7 +14,8 @@ export const grid2d = new Demo('gizmo2d/grid', [init], [drawGrid])
  * @param {World} world
  */
 function init(world) {
-  const gizmo = world.getResource("gizmo2d<demo>")
+  const gizmo = world.getResource(Demo1Gizmo2D)
+
   gizmo.settings.lineWidth = 2
   gizmo.settings.lineStyle = GizmoLineStyle.Solid
 }
@@ -23,7 +24,7 @@ function init(world) {
  * @param {World} world
  */
 function drawGrid(world) {
-  const gizmo = world.getResource("gizmo2d<demo>")
+  const gizmo = world.getResource(Demo1Gizmo2D)
 
   gizmo
     .translate(200, 200)
