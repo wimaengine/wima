@@ -1,3 +1,4 @@
+import { Quaternion } from '../../math/quaternion.js'
 import { Orientation3D, Position3D, Scale3D, GlobalTransform3D } from '../../transform/index.js'
 import { Camera, RenderLists3D } from '../components/index.js'
 import { } from '../plugins/index.js'
@@ -25,9 +26,11 @@ export function createCamera3D(
   sy = 1, 
   sz = 1
 ) {
+  const quaternion = Quaternion.fromEuler(ox, oy, oz)
+
   return [
     new Position3D(x, y, z),
-    new Orientation3D().fromEuler(ox, oy, oz),
+    new Orientation3D().copy(quaternion),
     new Scale3D(sx, sy, sz),
     new GlobalTransform3D(),
     new Camera(),
