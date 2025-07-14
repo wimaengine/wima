@@ -3,7 +3,8 @@ import {
   AppSchedule,
   World,
   FPSDebugger,
-  DefaultTweenPlugin,
+  Gizmo2DPlugin,
+  Gizmo3DPlugin,
   DOMWindowPlugin,
   Canvas2DRendererPlugin,
   DemoPlugin,
@@ -23,18 +24,33 @@ import {
   easing,
   materials
 } from './demos/index.js'
-import { ResourceAliasPlugin } from './demos/utils.js'
+import { Demo1, Demo2, ResourceAliasPlugin } from './demos/utils.js'
+import {
+  lineStyle,
+  arcs2d,
+  shapes,
+  grid2d
+} from './demos/gizmos/index.js'
 
 const app = new App()
 
 app
   .registerPlugin(new ResourceAliasPlugin())
   .registerPlugin(new DefaultPlugin())
-  .registerSystem(AppSchedule.Update, setupViewport)
   .registerPlugin(new DOMWindowPlugin())
-  .registerPlugin(new DefaultTweenPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
-  .registerDebugger(new FPSDebugger())
+  .registerPlugin(new Gizmo2DPlugin({
+    label: Demo1
+  }))
+  .registerPlugin(new Gizmo2DPlugin({
+    label: Demo2
+  }))
+  .registerPlugin(new Gizmo3DPlugin({
+    label: Demo1
+  }))
+  .registerPlugin(new Gizmo3DPlugin({
+    label: Demo2
+  }))
   .registerPlugin(new DemoPlugin({
     demos: [
       spawn,
@@ -43,9 +59,15 @@ app
       easing,
       keyboard,
       mouse,
-      touch
+      touch,
+      lineStyle,
+      arcs2d,
+      shapes,
+      grid2d
     ]
   }))
+  .registerSystem(AppSchedule.Update, setupViewport)
+  .registerDebugger(new FPSDebugger())
   .run()
 
 /**

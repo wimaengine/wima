@@ -178,7 +178,7 @@ export class Matrix2 {
    * @returns {this}
    */
   invert() {
-    Matrix2.invert(this)
+    Matrix2.invert(this, this)
 
     return this
   }

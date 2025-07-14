@@ -71,7 +71,6 @@ export function updateVelocityEuler3D(world) {
 
   query.each(([velocity, acceleration]) => {
     Vector3.set(
-      velocity,
       velocity.x + acceleration.x * dt,
       velocity.y + acceleration.y * dt,
       velocity.z + acceleration.z * dt,
