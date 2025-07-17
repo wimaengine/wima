@@ -76,8 +76,8 @@ function renderToCanvas(world) {
     view.b,
     view.c,
     view.d,
-    view.e,
-    view.f
+    view.x,
+    view.y
   )
   
   query.each(([transform, meshhandle, mathandle]) => {
@@ -110,8 +110,8 @@ function renderToCanvas(world) {
       transform.b,
       transform.c,
       transform.d,
-      transform.e,
-      transform.f
+      transform.x,
+      transform.y
     )
 
     renderMaterial(ctx, material, mesh, textures)
