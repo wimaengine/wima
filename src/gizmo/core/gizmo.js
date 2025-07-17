@@ -1,5 +1,5 @@
 /** @import { Constructor } from '../../reflect/index.js' */
-import { Matrix2x3, Matrix3x4, Vector2, Vector3, BVector2, Color, TAU } from '../../math/index.js'
+import { Affine2, Matrix3x4, Vector2, Vector3, BVector2, Color, TAU, Rotary } from '../../math/index.js'
 import { GizmoSettings } from './settings.js'
 
 /**
@@ -49,9 +49,9 @@ export class Gizmo2D {
 
   /**
    * @private
-   * @type {Matrix2x3}
+   * @type {Affine2}
    */
-  transformation = new Matrix2x3()
+  transformation = new Affine2()
 
   /**
    * @type {GizmoBuffer<Vector2>}
@@ -76,20 +76,20 @@ export class Gizmo2D {
    * @returns {this}
    */
   reset() {
-    this.transformation.identity()
+    Affine2.identity(this.transformation)
 
     return this
   }
 
   /**
-   * @param {Matrix2x3} matrix 
+   * @param {Affine2} matrix 
    */
   setTransform(matrix) {
     this.transformation.copy(matrix)
   }
 
   /**
-   * @param {Matrix2x3} matrix 
+   * @param {Affine2} matrix 
    * @returns {this}
    */
   transform(matrix) {
@@ -104,7 +104,7 @@ export class Gizmo2D {
    * @returns {this}
    */
   translate(x, y) {
-    this.transformation.translate(x, y)
+    this.transformation.translate(new Vector2(x, y))
 
     return this
   }
@@ -114,7 +114,7 @@ export class Gizmo2D {
    * @returns {this}
    */
   rotate(angle) {
-    this.transformation.rotate(angle)
+    this.transformation.rotate(Rotary.fromAngle(angle))
 
     return this
   }
@@ -125,7 +125,7 @@ export class Gizmo2D {
    * @returns {this}
    */
   scale(x, y) {
-    this.transformation.scale(x, y)
+    this.transformation.scale(new Vector2(x, y))
 
     return this
   }
