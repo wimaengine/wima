@@ -1,4 +1,4 @@
-import { clamp, rand } from './math.js'
+import { lerp } from './math.js'
 
 /**
  * A color manipulation class.
@@ -32,7 +32,7 @@ export class Color {
    * @param {number} alpha - The alpha channel [0 .. 1].
    */
   constructor(r = 1, g = 1, b = 1, alpha = 1) {
-    this.set(r, g, b, alpha)
+    Color.set(r, g, b, alpha,this)
   }
 
   /**
@@ -44,7 +44,7 @@ export class Color {
    * @returns {this} Reference to this object for method chaining.
    */
   set(r, g, b, alpha = 1.0) {
-    Color.set(this, r, g, b, alpha)
+    Color.set(r, g, b, alpha,this)
 
     return this
   }
@@ -118,39 +118,22 @@ export class Color {
 
   /**
    * Generate random r,g,b values for this color object.
-   * @param {number} [min=0] - Minimum value for the random range.
-   * @param {number} [max=255] - Maxmium value for the random range.
-   * @returns {this} Reference to this object for method chaining.
+   * @returns {this}
    */
-  random(min = 0, max = 255) {
-    Color.random(min, max, this)
+  random() {
+    Color.random(this)
 
     return this
   }
 
   /**
-   * @param {number} min
-   * @param {number} max
-   * @param {Color} [out]
-   * @returns {Color}
-   */
-  static random(min = 0, max = 255, out = new Color()) {
-    return Color.set(
-      out,
-      rand(min, max),
-      rand(min, max),
-      rand(min, max)
-    )
-  }
-
-  /**
-   * @param {Color} color
    * @param {number} r
    * @param {number} g
    * @param {number} b
-   * @param {number} [a]
+   * @param {number} a
+   * @param {Color} color
    */
-  static set(color, r, g, b, a = 1.0) {
+  static set(r, g, b, a, color = new Color()) {
     color.r = r
     color.g = g
     color.b = b
@@ -164,7 +147,7 @@ export class Color {
    * @param {Color} [out]
    */
   static copy(color, out = new Color()) {
-    return Color.set(out, color.r, color.g, color.b, color.a)
+    return Color.set(color.r, color.g, color.b, color.a,out)
   }
 
   /**
@@ -173,9 +156,9 @@ export class Color {
    * @param {Color} [out]
    */
   static add(color1, color2, out = new Color()) {
-    out.r = clamp(color1.r + color2.r, 0, 255)
-    out.g = clamp(color1.g + color2.g, 0, 255)
-    out.b = clamp(color1.b + color2.b, 0, 255)
+    out.r = color1.r + color2.r
+    out.g = color1.g + color2.g
+    out.b = color1.b + color2.b
     out.a = (color1.a + color2.a) / 2
 
     return out
@@ -186,10 +169,10 @@ export class Color {
    * @param {Color} color2
    * @param {Color} [out]
    */
-  static sub(color1, color2, out = new Color()) {
-    out.r = clamp(color1.r - color2.r, 0, 255)
-    out.g = clamp(color1.g - color2.g, 0, 255)
-    out.b = clamp(color1.b - color2.b, 0, 255)
+  static subtract(color1, color2, out = new Color()) {
+    out.r = color1.r - color2.r
+    out.g = color1.g - color2.g
+    out.b = color1.b - color2.b
     out.a = (color1.a + color2.a) / 2
 
     return out
@@ -201,11 +184,9 @@ export class Color {
    * @param {Color} [out]
    */
   static darken(color, scale, out = new Color()) {
-    const clampedScale = clamp(scale, 0, 1)
-
-    out.r = color.r * clampedScale
-    out.g = color.g * clampedScale
-    out.b = color.b * clampedScale
+    out.r = color.r * scale
+    out.g = color.g * scale
+    out.b = color.b * scale
     out.a = color.a
 
     return this
@@ -217,29 +198,41 @@ export class Color {
    * @param {Color} [out]
    */
   static lighten(color, scale, out = new Color()) {
-    const clampScale = clamp(scale, 0, 1)
-
-    out.r = clamp(color.r + (1 - color.r) * clampScale, 0, 255)
-    out.g = clamp(color.g + (1 - color.g) * clampScale, 0, 255)
-    out.b = clamp(color.b + (1 - color.b) * clampScale, 0, 255)
+    out.r = color.r + (1 - color.r) * scale
+    out.g = color.g + (1 - color.g) * scale
+    out.b = color.b + (1 - color.b) * scale
     out.a = color.a
 
     return out
   }
 
   /**
-   * @param {Color} color1
-   * @param {Color} color2
+   * @param {Color} from
+   * @param {Color} to
    * @param {number} t
    * @param {Color} out
    */
-  static lerp(color1, color2, t, out = new Color()) {
-    out.r += color1.r + (color1.r - color2.r) * t
-    out.g += color1.g + (color1.g - color2.g) * t
-    out.b += color1.b + (color1.b - color2.b) * t
-    out.a = color1.a + (color1.a - color2.a) * t
+  static lerp(from, to, t, out = new Color()) {
+    out.r = lerp(from.r, to.r, t)
+    out.g = lerp(from.g, to.g, t)
+    out.b = lerp(from.b, to.b, t)
+    out.a = lerp(from.a, to.a, t)
 
     return out
+  }
+
+  /**
+   * @param {Color} [out]
+   * @returns {Color}
+   */
+  static random(out = new Color()) {
+    return Color.set(
+      Math.random(),
+      Math.random(),
+      Math.random(),
+      1,
+      out
+    )
   }
 
   /**
@@ -247,7 +240,7 @@ export class Color {
    *
    * @yields {number}
    */
-  * [Symbol.iterator]() {
+  *[Symbol.iterator]() {
     yield this.r
     yield this.g
     yield this.b
@@ -277,13 +270,13 @@ export class Color {
    * @type {Color}
    */
   static GREEN = new Color(0, 1, 0)
-  
+
   /**
    * @readonly
    * @type {Color}
    */
   static BLUE = new Color(0, 0, 1)
-  
+
   /**
    * @readonly
    * @type {Color}
@@ -294,11 +287,11 @@ export class Color {
    * @readonly
    * @type {Color}
    */
-  static PURPLE = new Color(1, 0, 1, 1)
-  
+  static PURPLE = new Color(1, 0, 1)
+
   /**
    * @readonly
    * @type {Color}
    */
-  static CYAN = new Color(0, 1, 1, 1)
+  static CYAN = new Color(0, 1, 1)
 }
