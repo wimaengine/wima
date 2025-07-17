@@ -127,11 +127,11 @@ export function genRender(type) {
     gl.clearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a)
     gl.clear(gl.COLOR_BUFFER_BIT)
 
-    cameras.each(([transform, renderlist, camera]) => {
+    cameras.each(([cameraTransform, renderlist, camera]) => {
       const projection = camera.projectionMatrix()
       const cameraUniform = ubos.get('Camera')
       const camData = new Float32Array([
-        ...transform.toMatrix4().inverse(),
+        ...GlobalTransform3D.toMatrix4(cameraTransform).invert(),
         ...projection
       ])
 

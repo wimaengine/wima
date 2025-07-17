@@ -1,5 +1,5 @@
 /** @import { Constructor } from '../../reflect/index.js' */
-import { Affine2, Matrix3x4, Vector2, Vector3, BVector2, Color, TAU, Rotary } from '../../math/index.js'
+import { Affine2, Affine3, Vector2, Vector3, BVector2, Color, TAU, Rotary } from '../../math/index.js'
 import { GizmoSettings } from './settings.js'
 
 /**
@@ -361,9 +361,9 @@ export class Gizmo3D {
 
   /**
    * @private
-   * @type {Matrix3x4}
+   * @type {Affine3}
    */
-  transformation = new Matrix3x4()
+  transformation = new Affine3()
 
   /**
    * @type {GizmoBuffer<Vector3>}
@@ -385,6 +385,6 @@ export class Gizmo3D {
   }
 
   reset(){
-    this.transformation.identity()
+    Affine3.identity(this.transformation)
   }
 }
