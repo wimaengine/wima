@@ -59,8 +59,8 @@ export function genrender(type, renderMaterial) {
         view.b,
         view.c,
         view.d,
-        view.e,
-        view.f
+        view.x,
+        view.y
       )
 
       const list = renderList.getOpaquePass(typeid(type)) || renderList.setOpaquePass(typeid(type))
@@ -79,8 +79,8 @@ export function genrender(type, renderMaterial) {
           transform.b,
           transform.c,
           transform.d,
-          transform.e,
-          transform.f
+          transform.x,
+          transform.y
         )
 
         renderMaterial(ctx, material, mesh, textures)
