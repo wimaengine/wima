@@ -8,3 +8,4 @@ export const DEG2RAD = Math.PI / 180
 export const RAD2DEG = 180 / Math.PI
 export const epilson = 0.0000001
 export const SQRT2 = sqrt(2)
+export const INV_SQRT2 = 1 / Math.sqrt(2)
