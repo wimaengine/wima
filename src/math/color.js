@@ -32,7 +32,7 @@ export class Color {
    * @param {number} alpha - The alpha channel [0 .. 1].
    */
   constructor(r = 1, g = 1, b = 1, alpha = 1) {
-    Color.set(r, g, b, alpha,this)
+    Color.set(r, g, b, alpha, this)
   }
 
   /**
@@ -44,7 +44,7 @@ export class Color {
    * @returns {this} Reference to this object for method chaining.
    */
   set(r, g, b, alpha = 1.0) {
-    Color.set(r, g, b, alpha,this)
+    Color.set(r, g, b, alpha, this)
 
     return this
   }
@@ -147,7 +147,7 @@ export class Color {
    * @param {Color} [out]
    */
   static copy(color, out = new Color()) {
-    return Color.set(color.r, color.g, color.b, color.a,out)
+    return Color.set(color.r, color.g, color.b, color.a, out)
   }
 
   /**
@@ -240,7 +240,7 @@ export class Color {
    *
    * @yields {number}
    */
-  *[Symbol.iterator]() {
+  * [Symbol.iterator]() {
     yield this.r
     yield this.g
     yield this.b
