@@ -7,7 +7,7 @@ import {
   Matrix2,
   Matrix3,
   Matrix4,
-  Matrix2x3,
+  Affine2,
   Matrix3x4
 } from '../../math/index.js'
 
@@ -206,7 +206,7 @@ export class WebglRenderPipeline {
   /**
    * @param {WebGL2RenderingContext} gl
    * @param {string} name
-   * @param {Matrix2x3} value
+   * @param {Affine2} value
    */
   setUniformMatrix2x3(gl, name, value) {
     const uniform = this.uniforms.get(name)

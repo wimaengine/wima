@@ -1,3 +1,3 @@
-import { Matrix2x3 } from '../../../math/index.js'
+import { Affine2 } from '../../../math/index.js'
 
-export class GlobalTransform2D extends Matrix2x3 {}
+export class GlobalTransform2D extends Affine2 {}

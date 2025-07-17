@@ -1,4 +1,5 @@
 import { Query, World } from '../../ecs/index.js'
+import { Rotary } from '../../math/rotary.js'
 import { Position2D, Orientation2D, Scale2D, GlobalTransform2D, Position3D, Orientation3D, Scale3D, GlobalTransform3D } from '../components/index.js'
 
 /**
@@ -8,7 +9,7 @@ export function synctransform2D(world) {
   const query = new Query(world, [Position2D, Orientation2D, Scale2D, GlobalTransform2D])
 
   query.each(([position, orientation, scale, transform]) => {
-    transform.compose(position, orientation, scale)
+    transform.compose(position, Rotary.fromAngle(orientation.value), scale)
   })
 }
 
