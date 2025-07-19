@@ -231,3 +231,41 @@ export class GraphNodeEdgesIterator {
     }
   }
 }
+
+/**
+ * @template T, U
+ */
+export class GraphNeighbourIterator {
+
+  /**
+   * @private
+   */
+  graph
+
+  /**
+   * @private
+   */
+  nodeid
+
+  /**
+   * @param {GraphList<T, U>} graph
+   * @param {number} nodeid
+   */
+  constructor(graph, nodeid) {
+    this.graph = graph
+    this.nodeid = nodeid
+  }
+
+  * [Symbol.iterator]() {
+    const node = this.graph.getNode(this.nodeid)
+
+    if (node) {
+      let edge = this.graph.getEdge(node.next[0])
+
+      while (edge) {
+        yield edge.to
+        edge = this.graph.getEdge(edge.next[0])
+      }
+    }
+  }
+}
