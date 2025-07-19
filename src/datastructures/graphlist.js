@@ -269,3 +269,7 @@ export class GraphNeighbourIterator {
     }
   }
 }
+
+/**
+ * @typedef {number} EdgeId
+ */
