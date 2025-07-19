@@ -191,3 +191,43 @@ export class GraphList {
     return this.edges.length
   }
 }
+
+/**
+ * @template T, U
+ */
+export class GraphNodeEdgesIterator {
+
+  /**
+   * @private
+   * @type {GraphList<T,U>}
+   */
+  graph
+
+  /**
+   * @private
+   * @type {NodeId}
+   */
+  nodeid
+
+  /**
+   * @param {GraphList<T, U>} graph
+   * @param {number} nodeid
+   */
+  constructor(graph, nodeid) {
+    this.graph = graph
+    this.nodeid = nodeid
+  }
+
+  * [Symbol.iterator]() {
+    const node = this.graph.getNode(this.nodeid)
+
+    if (node) {
+      let edge = this.graph.getEdge(node.next[0])
+
+      while (edge) {
+        yield edge
+        edge = this.graph.getEdge(edge.next[0])
+      }
+    }
+  }
+}
