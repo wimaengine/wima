@@ -1,9 +1,6 @@
 import { test, describe } from "node:test";
-import { Affine3 } from "../../affine3.js";
+import { Affine3,Vector3,Quaternion,INV_SQRT2 } from "../../core/index.js";
 import { deepStrictEqual, strictEqual } from "node:assert";
-import { Quaternion } from "../../quaternion.js";
-import { Vector3 } from "../../vector3.js";
-import { INV_SQRT2, PI, QUARTER_PI } from "../../constants.js";
 
 describe("Testing `Affine3`", () => {
     test('`Affine3` constructor is correct', () => {

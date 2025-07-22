@@ -1,8 +1,6 @@
 import { test, describe } from "node:test";
-import { Affine2 } from "../../affine2.js";
-import { Vector2 } from "../../vector2.js";
+import { Affine2,Vector2,Rotary } from "../../core/index.js";
 import { deepStrictEqual, strictEqual } from "node:assert";
-import { Rotary } from "../../rotary.js";
 
 describe("Testing `Affine2`", () => {
     test('`Affine2` constructor is correct', () => {
