@@ -1,6 +1,6 @@
-import { TAU } from './constants.js'
-import { clamp, fuzzyEqual } from './math.js'
-import { Matrix2 } from './matrix2.js'
+import { TAU } from '../constants.js'
+import { clamp, fuzzyEqual } from '../functions/index.js'
+import { Matrix2 } from '../matrices/index.js'
 
 export class Rotary {
 

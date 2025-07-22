@@ -1,6 +1,6 @@
-import { clamp, fuzzyEqual } from './math.js'
-import { Matrix3 } from './matrix3.js'
-import { Vector3 } from './vector3.js'
+import { clamp, fuzzyEqual } from '../functions/index.js'
+import { Matrix3 } from '../matrices/index.js'
+import { Vector3 } from '../vectors/index.js'
 
 export class Quaternion {
   constructor(x = 0, y = 0, z = 0, w = 1) {

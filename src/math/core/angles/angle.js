@@ -1,4 +1,4 @@
-import { lerp } from './math.js'
+import { lerp } from '../functions/index.js'
 
 /**
  * Wrapper class since JavaScript doesn't support references to numbers explicitly.

@@ -1,5 +1,5 @@
-import { invert } from './math.js'
-import { Vector3 } from './vector3.js'
+import { invert } from '../functions/index.js'
+import { Vector3 } from '../vectors/index.js'
 
 /**
  * Represents a 3x3 square matrix.
