@@ -2,6 +2,7 @@
 /** @import {Constructor} from '../../reflect/index.js'*/
 import { DenseList } from '../../datastructures/index.js'
 import { assert } from '../../logger/index.js'
+import { AssetAdded, AssetEvent, AssetModified } from '../events/assets.js'
 import { Handle } from './handle.js'
 
 /**
@@ -31,6 +32,12 @@ export class Assets {
    * @type {string[]}
    */
   toLoad = []
+
+  /**
+   * @private
+   * @type {AssetEvent<T>[]}
+   */
+  events = []
 
   /**
    * @protected
@@ -113,12 +120,26 @@ export class Assets {
    * @returns {Handle<T>}
    */
   add(path, asset) {
-    const id = this.paths.get(path) || this.assets.reserve()
+    let id = this.paths.get(path)
+    let modification = true
+
+    if (!id) {
+      id = this.assets.reserve()
+      modification = false
+    }
+
+    const handle = this.createHandle(id)
 
     this.assets.set(id, asset)
     this.paths.set(path, id)
 
-    return this.createHandle(id)
+    if (modification) {
+      this.events.push(new AssetModified(this.type, handle.id()))
+    } else {
+      this.events.push(new AssetAdded(this.type, handle.id()))
+    }
+
+    return handle
   }
 
   /**
