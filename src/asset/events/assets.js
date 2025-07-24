@@ -26,3 +26,9 @@ export class AssetEvent {
     this.type = type
   }
 }
+
+/**
+ * @template T
+ * @augments AssetEvent<T>
+ */
+export class AssetAdded extends AssetEvent { }
