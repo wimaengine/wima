@@ -8,9 +8,11 @@ import {
   BasicMaterial,
   createTransform3D,
   BasicMaterial3D,
-  Meshed
+  Meshed,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera3D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+import { addDefaultCamera3D } from '../../utils.js'
 
 const MATERIAL_PATH = 'colorChange'
 

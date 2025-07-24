@@ -10,9 +10,11 @@ import {
   BasicMaterial,
   Meshed,
   BasicMaterial3D,
-  createTransform3D
+  createTransform3D,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera3D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+import { addDefaultCamera3D } from '../../utils.js'
 
 export const movingtriangle = new Demo(
   'moving triangle',
