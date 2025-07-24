@@ -1,12 +1,13 @@
 /** @import { Constructor } from '../../reflect/index.js' */
 /** @import { HandleProvider } from '../core/index.js' */
 
-import { App, Plugin } from '../../app/index.js'
+import { App, AppSchedule, Plugin } from '../../app/index.js'
 import { EventPlugin } from '../../event/plugin.js'
 import { typeidGeneric } from '../../reflect/index.js'
 import { Assets } from '../core/index.js'
-import { AssetLoadFail, AssetLoadSuccess } from '../events/index.js'
+import { AssetAdded, AssetDropped, AssetLoadFail, AssetLoadSuccess, AssetModified } from '../events/index.js'
 import { AssetBasePath } from '../resources/index.js'
+import { updateAssetEvents } from '../systems/index.js'
 
 
 /**
@@ -29,6 +30,12 @@ export class AssetPlugin extends Plugin {
 
   /**
    * @readonly
+   * @type {AssetEvents<T>}
+   */
+  events
+
+  /**
+   * @readonly
    * @type {HandleProvider<T> | undefined}
    */
   handleprovider
@@ -38,18 +45,19 @@ export class AssetPlugin extends Plugin {
    */
   constructor(options) {
     super()
-    const { path = '', asset, handleprovider } = options
+    const { path = '', asset, handleprovider, events } = options
 
+    this.asset = asset
+    this.events = events
     this.handleprovider = handleprovider
     this.path = path
-    this.asset = asset
   }
 
   /**
    * @param {App} app
    */
   register(app) {
-    const { asset, handleprovider, path } = this
+    const { asset, handleprovider, path, events } = this
     const world = app.getWorld()
 
 
@@ -57,11 +65,26 @@ export class AssetPlugin extends Plugin {
     // asset type
     app
       .registerPlugin(new EventPlugin({
-        event:AssetLoadSuccess
+        event: AssetLoadSuccess
       }))
       .registerPlugin(new EventPlugin({
-        event:AssetLoadFail
+        event: AssetLoadFail
       }))
+
+    if (events) {
+      app
+        .registerPlugin(new EventPlugin({
+          event: events.added
+        }))
+        .registerPlugin(new EventPlugin({
+          event: events.modified
+        }))
+        .registerPlugin(new EventPlugin({
+          event: events.dropped
+        }))
+        .registerSystem(AppSchedule.Update, updateAssetEvents(asset, events))
+    }
+
     world.setResourceByTypeId(
       typeidGeneric(AssetBasePath, [asset]),
       new AssetBasePath(path)
@@ -72,7 +95,7 @@ export class AssetPlugin extends Plugin {
     )
   }
 
-  name(){
+  name() {
     return typeidGeneric(AssetPlugin, [this.asset])
   }
 }
@@ -83,4 +106,13 @@ export class AssetPlugin extends Plugin {
  * @property {string} [path]
  * @property {Constructor<T>} asset
  * @property {HandleProvider<T>} [handleprovider]
+ * @property {AssetEvents<T>} [events]
+ */
+
+/**
+ * @template T
+ * @typedef AssetEvents
+ * @property {Constructor<AssetAdded<T>>} added
+ * @property {Constructor<AssetModified<T>>} modified
+ * @property {Constructor<AssetDropped<T>>} dropped
  */
