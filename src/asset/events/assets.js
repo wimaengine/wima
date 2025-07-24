@@ -32,3 +32,9 @@ export class AssetEvent {
  * @augments AssetEvent<T>
  */
 export class AssetAdded extends AssetEvent { }
+
+/**
+ * @template T
+ * @augments AssetEvent<T>
+ */
+export class AssetModified extends AssetEvent { }
