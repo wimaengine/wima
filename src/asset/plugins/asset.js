@@ -68,7 +68,7 @@ export class AssetPlugin extends Plugin {
     )
     world.setResourceByTypeId(
       typeidGeneric(Assets, [asset]),
-      new Assets(handleprovider)
+      new Assets(asset, handleprovider)
     )
   }
 
