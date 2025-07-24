@@ -1,5 +1,5 @@
 /** @import {AssetId} from '../types/index.js' */
-
+/** @import {Constructor} from '../../reflect/index.js'*/
 import { DenseList } from '../../datastructures/index.js'
 import { assert } from '../../logger/index.js'
 import { Handle } from './handle.js'
@@ -8,6 +8,11 @@ import { Handle } from './handle.js'
  * @template T
  */
 export class Assets {
+
+  /**
+   * @type {Constructor<T>}
+   */
+  type
 
   /**
    * @private
@@ -34,10 +39,12 @@ export class Assets {
   createHandle
 
   /**
+   * @param {Constructor<T>} type
    * @param {(HandleProvider<T>)} handler
    */
-  constructor(handler = defaultHandler) {
+  constructor(type, handler = defaultHandler) {
     this.createHandle = handler
+    this.type = type
   }
 
   /**
