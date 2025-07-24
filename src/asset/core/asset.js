@@ -166,6 +166,17 @@ export class Assets {
 
     return load
   }
+
+  /**
+   * @returns {Readonly<AssetEvent<T>[]>}
+   */
+  flushEvents() {
+    const { events } = this
+
+    if (events.length) this.events = []
+
+    return events
+  }
 }
 
 /**
