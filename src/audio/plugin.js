@@ -1,6 +1,7 @@
 import { App, Plugin } from '../app/index.js'
 import { AssetParserPlugin, AssetPlugin } from '../asset/index.js'
 import { Audio } from './assets/index.js'
+import { AudioAdded, AudioDropped, AudioModified } from './events/index.js'
 import { AudioCommands, AudioParser } from './resources/index.js'
 
 export class AudioPlugin extends Plugin {
@@ -14,7 +15,12 @@ export class AudioPlugin extends Plugin {
     app
       .setResource(handler)
       .registerPlugin(new AssetPlugin({
-        asset:Audio
+        asset:Audio,
+        events:{
+          added:AudioAdded,
+          modified:AudioModified,
+          dropped:AudioDropped
+        }
       }))
       .registerPlugin(new AssetParserPlugin({
         asset:Audio,
