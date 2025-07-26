@@ -29,21 +29,28 @@ export class Events {
    * @private
    * @type {CEvent<T>[]}
    */
-  buffer = []
+  writeBuffer = []
+  
+  /**
+   * @private
+   * @type {CEvent<T>[]}
+   */
+  readBuffer = []
 
   /**
    * Clear the events.
    */
   clear() {
-    this.buffer.length = 0
+    this.readBuffer = this.writeBuffer
+    this.writeBuffer = []
   }
 
   /**
    * @param {EventReader<T>} callback
    */
   each(callback) {
-    for (let i = 0; i < this.buffer.length; i++) {
-      callback(this.buffer[i])
+    for (let i = 0; i < this.readBuffer.length; i++) {
+      callback(this.readBuffer[i])
     }
   }
 
@@ -53,24 +60,24 @@ export class Events {
    * @returns {CEvent<T> | undefined}
    */
   readFirst() {
-    return this.buffer[0]
+    return this.readBuffer[0]
   }
 
   /**
    * @returns {CEvent<T> | undefined}
    */
   readLast() {
-    return this.buffer[this.buffer.length - 1]
+    return this.readBuffer[this.readBuffer.length - 1]
   }
 
   /**
    * @param {T} data
    */
   write(data) {
-    this.buffer.push(new CEvent(data))
+    this.writeBuffer.push(new CEvent(data))
   }
 
   count(){
-    return this.buffer.length
+    return this.readBuffer.length
   }
 }
