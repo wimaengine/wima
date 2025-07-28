@@ -184,9 +184,6 @@ export class PluginGroup extends Plugin {
    * @type {Map<TypeId,Plugin>}
    */
   plugins = new Map()
-  constructor() {
-    super()
-  }
 
   /**
    * @template {Plugin} T
