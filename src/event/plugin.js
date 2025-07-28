@@ -5,11 +5,14 @@ import { makeEventClear } from './systems/index.js'
 import { Events } from './core/index.js'
 import { typeidGeneric } from '../reflect/index.js'
 
+/**
+ * @template T
+ */
 export class EventPlugin extends Plugin {
 
   /**
    * @readonly
-   * @type {Constructor}
+   * @type {Constructor<T>}
    */
   event
 
@@ -20,7 +23,7 @@ export class EventPlugin extends Plugin {
   autoClearEvent
 
   /**
-   * @param {{ event: Constructor; autoClearEvent?:boolean; }} options
+   * @param {EventPluginOptions<T>} options
    */
   constructor(options) {
     super()
@@ -35,7 +38,7 @@ export class EventPlugin extends Plugin {
    */
   register(app) {
     const { event } = this
-    const name = typeidGeneric(Events, [this.event])
+    const name = typeidGeneric(Events, [event])
     
     app
       .registerType(event)
@@ -53,3 +56,10 @@ export class EventPlugin extends Plugin {
     return typeidGeneric(EventPlugin, [this.event])
   }
 }
+
+/**
+ * @template T
+ * @typedef EventPluginOptions
+ * @property {Constructor<T>} event
+ * @property {boolean} [autoClearEvent]
+ */
