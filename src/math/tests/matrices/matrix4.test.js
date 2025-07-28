@@ -1,6 +1,6 @@
 import { test, describe, todo } from "node:test";
 import { deepStrictEqual, strictEqual } from "node:assert";
-import { Matrix4 } from "../../matrix4.js";
+import { Matrix4 } from "../../core/index.js";
 
 describe("Testing `Matrix4`", () => {
     test('`Matrix4` default constructor is identity', () => {

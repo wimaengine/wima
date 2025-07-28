@@ -1,4 +1,4 @@
-import { invert } from './math.js'
+import { invert } from '../functions/index.js'
 
 /**
  * Represents a 4x4 square matrix.

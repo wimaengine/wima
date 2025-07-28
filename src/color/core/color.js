@@ -1,4 +1,4 @@
-import { lerp } from '../../math/math.js'
+import { lerp } from '../../math/index.js'
 
 /**
  * A color manipulation class.

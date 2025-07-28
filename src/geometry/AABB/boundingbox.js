@@ -1,5 +1,5 @@
 import { BoundType } from './boundtype.js'
-import { Vector2 } from '../../math/vector2.js'
+import { Vector2 } from '../../math/index.js'
 import { deprecate } from '../../logger/index.js'
 
 /**

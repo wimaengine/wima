@@ -1,7 +1,6 @@
 import { test, describe } from "node:test";
-import { Rotary } from "../../rotary.js";
+import { Rotary,HALF_PI, PI } from "../../core/index.js";
 import { deepStrictEqual, strictEqual } from "node:assert";
-import { HALF_PI, PI } from "../../constants.js";
 
 describe("Testing `Rotary`", () => {
     test("`Rotary` constructor works correctly", () => {
