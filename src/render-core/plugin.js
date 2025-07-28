@@ -4,6 +4,20 @@ import { BasicMaterial2D, BasicMaterial3D, Camera, MaterialHandle, Meshed, MeshH
 import { Material, Mesh, Shader, Image, BasicMaterial } from './assets/index.js'
 import { BasicMaterialAssets, ImageAssets, ImageParser, MeshAssets } from './resources/index.js'
 import { Material2DPlugin, Material3DPlugin } from './plugins/index.js'
+import {
+  ImageAdded,
+  ImageDropped,
+  ImageModified,
+  ShaderAdded,
+  ShaderDropped,
+  ShaderModified,
+  BasicMaterialAdded,
+  BasicMaterialDropped,
+  BasicMaterialModified,
+  MeshAdded,
+  MeshDropped,
+  MeshModified
+} from './events/index.js'
 import { typeidGeneric } from '../reflect/index.js'
 
 export class RenderCorePlugin extends Plugin {
@@ -20,7 +34,12 @@ export class RenderCorePlugin extends Plugin {
       .registerType(Meshed)
       .registerType(Camera)
       .registerPlugin(new AssetPlugin({
-        asset: Image
+        asset: Image,
+        events: {
+          added: ImageAdded,
+          modified: ImageModified,
+          dropped: ImageDropped
+        }
       }))
       .registerPlugin(new AssetParserPlugin({
         asset: Image,
@@ -28,17 +47,32 @@ export class RenderCorePlugin extends Plugin {
       }))
       .registerPlugin(new AssetPlugin({
         asset: Mesh,
+        events: {
+          added: MeshAdded,
+          modified: MeshModified,
+          dropped: MeshDropped
+        },
         handleprovider: (id) => new MeshHandle(id)
       }))
       .registerPlugin(new AssetPlugin({
-        asset: Shader
+        asset: Shader,
+        events: {
+          added: ShaderAdded,
+          modified: ShaderModified,
+          dropped: ShaderDropped
+        }
       }))
       .registerPlugin(new AssetPlugin({
         asset: Material,
         handleprovider: (id) => new MaterialHandle(id)
       }))
       .registerPlugin(new AssetPlugin({
-        asset:BasicMaterial
+        asset: BasicMaterial,
+        events: {
+          added: BasicMaterialAdded,
+          modified: BasicMaterialModified,
+          dropped: BasicMaterialDropped
+        }
       }))
       .registerPlugin(new Material2DPlugin({
         asset: BasicMaterial,
