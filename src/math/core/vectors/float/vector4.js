@@ -1,4 +1,4 @@
-import { invert, lerp } from './math.js'
+import { invert, lerp } from '../../functions/index.js'
 
 export class Vector4 {
 

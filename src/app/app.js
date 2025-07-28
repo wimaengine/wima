@@ -223,3 +223,40 @@ export class Plugin {
     return typeid(/** @type {Constructor}*/(this.constructor))
   }
 }
+
+/**
+ * @abstract
+ */
+export class PluginGroup extends Plugin {
+
+  /**
+   * @private
+   * @type {Map<TypeId,Plugin>}
+   */
+  plugins = new Map()
+
+  /**
+   * @template {Plugin} T
+   * @param {T} plugin
+   * @returns {void}
+   */
+  add(plugin) {
+    this.plugins.set(plugin.name(), plugin)
+  }
+
+  /**
+   * @param {TypeId} id
+   */
+  remove(id) {
+    this.plugins.delete(id)
+  }
+
+  /**
+   * @param {App} app
+   */
+  register(app){
+    for (const plugin of this.plugins.values()) {
+      app.registerPlugin(plugin)
+    }
+  }
+}

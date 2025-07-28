@@ -1,7 +1,6 @@
 import { test, describe } from "node:test";
-import { Quaternion } from "../../quaternion.js";
+import { Quaternion,PI } from "../../core/index.js";
 import { deepStrictEqual, strictEqual } from "node:assert";
-import { PI } from "../../constants.js";
 
 describe("Testing `Quaternion`", () => {
     test('`Quaternion` constructor works correctly', () => {

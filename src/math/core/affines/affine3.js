@@ -1,8 +1,7 @@
-import { Vector3 } from './vector3.js'
-import { Quaternion } from './quaternion.js'
-import { Matrix4 } from './matrix4.js'
-import { Matrix3 } from './matrix3.js'
-import { invert } from './math.js'
+import { Vector3 } from '../vectors/index.js'
+import { Quaternion } from '../angles/index.js'
+import { Matrix3, Matrix4 } from '../matrices/index.js'
+import { invert } from '../functions/index.js'
 
 /**
  * Represents a 3x4 affine.
