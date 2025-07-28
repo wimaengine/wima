@@ -1,4 +1,4 @@
-import { DEG2RAD, RAD2DEG, epilson } from "../constants.js"
+import { DEG2RAD, RAD2DEG, epilson } from '../constants.js'
 
 /**
  * Returns the square of a number.
@@ -7,7 +7,7 @@ import { DEG2RAD, RAD2DEG, epilson } from "../constants.js"
  * @returns {number}
  */
 export function sq(x) {
-    return x * x
+  return x * x
 }
 
 /**
@@ -18,7 +18,7 @@ export function sq(x) {
  * @returns {number}
  */
 export function exp(x, e = 2) {
-    return x ** e
+  return x ** e
 }
 
 /**
@@ -28,14 +28,14 @@ export function exp(x, e = 2) {
  * @returns {number}
  */
 export function sqrt(x) {
-    return Math.sqrt(x)
+  return Math.sqrt(x)
 }
 
 /**
  * @param {number} value
  */
 export function invert(value) {
-    return 1 / value
+  return 1 / value
 }
 
 /**
@@ -46,9 +46,9 @@ export function invert(value) {
  * @returns {number}
  */
 export function round(number, precision = 4) {
-    const x = 10 ** precision
+  const x = 10 ** precision
 
-    return Math.round(number * x) / x
+  return Math.round(number * x) / x
 }
 
 /**
@@ -58,9 +58,9 @@ export function round(number, precision = 4) {
  * @returns {number}
  */
 export function naturalizePair(a, b) {
-    if (a > b) return (a + b) * (a + b + 1) / 2 + a
+  if (a > b) return (a + b) * (a + b + 1) / 2 + a
 
-    return (a + b) * (a + b + 1) / 2 + b
+  return (a + b) * (a + b + 1) / 2 + b
 }
 
 /**
@@ -70,7 +70,7 @@ export function naturalizePair(a, b) {
  * @returns {number}
  */
 export function degToRad(deg) {
-    return deg * DEG2RAD
+  return deg * DEG2RAD
 }
 
 /**
@@ -80,7 +80,7 @@ export function degToRad(deg) {
  * @returns {number}
  */
 export function radToDeg(rad) {
-    return rad * RAD2DEG
+  return rad * RAD2DEG
 }
 
 /**
@@ -89,9 +89,9 @@ export function radToDeg(rad) {
  * @param {number} max
  */
 export function wrap(value, min, max) {
-    const range = max - min
+  const range = max - min
 
-    return (min + ((((value - min) % range) + range) % range))
+  return (min + ((((value - min) % range) + range) % range))
 }
 
 /**
@@ -100,7 +100,7 @@ export function wrap(value, min, max) {
  * @returns {number}
  */
 export function cantorPair(a, b) {
-    return 0.5 * (a + b) * (a + b + 1) + b
+  return 0.5 * (a + b) * (a + b + 1) + b
 
 }
 
@@ -110,10 +110,10 @@ export function cantorPair(a, b) {
  * @returns {number}
  */
 export function cantorPairSigned(a, b) {
-    const x = (a >= 0.0 ? 2.0 * a : (-2.0 * a) - 1.0)
-    const y = (b >= 0.0 ? 2.0 * b : (-2.0 * b) - 1.0)
+  const x = (a >= 0.0 ? 2.0 * a : (-2.0 * a) - 1.0)
+  const y = (b >= 0.0 ? 2.0 * b : (-2.0 * b) - 1.0)
 
-    return cantorPair(x, y)
+  return cantorPair(x, y)
 }
 
 /**
@@ -122,5 +122,5 @@ export function cantorPairSigned(a, b) {
  * @param {number} tolerance
  */
 export function fuzzyEqual(a, b, tolerance = epilson) {
-    return Math.abs(a - b) <= tolerance
+  return Math.abs(a - b) <= tolerance
 }
