@@ -1,13 +1,19 @@
 /** @import {AssetId} from '../types/index.js' */
-
+/** @import {Constructor} from '../../reflect/index.js'*/
 import { DenseList } from '../../datastructures/index.js'
 import { assert } from '../../logger/index.js'
+import { AssetAdded, AssetEvent, AssetModified } from '../events/assets.js'
 import { Handle } from './handle.js'
 
 /**
  * @template T
  */
 export class Assets {
+
+  /**
+   * @type {Constructor<T>}
+   */
+  type
 
   /**
    * @private
@@ -28,16 +34,24 @@ export class Assets {
   toLoad = []
 
   /**
+   * @private
+   * @type {AssetEvent<T>[]}
+   */
+  events = []
+
+  /**
    * @protected
    * @type {HandleProvider<T>}
    */
   createHandle
 
   /**
+   * @param {Constructor<T>} type
    * @param {(HandleProvider<T>)} handler
    */
-  constructor(handler = defaultHandler) {
+  constructor(type, handler = defaultHandler) {
     this.createHandle = handler
+    this.type = type
   }
 
   /**
@@ -106,12 +120,26 @@ export class Assets {
    * @returns {Handle<T>}
    */
   add(path, asset) {
-    const id = this.paths.get(path) || this.assets.reserve()
+    let id = this.paths.get(path)
+    let modification = true
+
+    if (!id) {
+      id = this.assets.reserve()
+      modification = false
+    }
+
+    const handle = this.createHandle(id)
 
     this.assets.set(id, asset)
     this.paths.set(path, id)
 
-    return this.createHandle(id)
+    if (modification) {
+      this.events.push(new AssetModified(this.type, handle.id()))
+    } else {
+      this.events.push(new AssetAdded(this.type, handle.id()))
+    }
+
+    return handle
   }
 
   /**
@@ -137,6 +165,17 @@ export class Assets {
     if (load.length) this.toLoad = []
 
     return load
+  }
+
+  /**
+   * @returns {Readonly<AssetEvent<T>[]>}
+   */
+  flushEvents() {
+    const { events } = this
+
+    if (events.length) this.events = []
+
+    return events
   }
 }
 
