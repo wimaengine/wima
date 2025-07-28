@@ -1,4 +1,4 @@
-import { Vector2 } from './vector2.js'
+import { Vector2 } from '../vectors/index.js'
 
 export class Basis2 {
 

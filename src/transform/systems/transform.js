@@ -1,5 +1,5 @@
 import { Query, World } from '../../ecs/index.js'
-import { Rotary } from '../../math/rotary.js'
+import { Rotary } from '../../math/index.js'
 import { Position2D, Orientation2D, Scale2D, GlobalTransform2D, Position3D, Orientation3D, Scale3D, GlobalTransform3D } from '../components/index.js'
 
 /**

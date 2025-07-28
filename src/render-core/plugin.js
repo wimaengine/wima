@@ -1,8 +1,8 @@
 import { App, Plugin } from '../app/index.js'
-import { AssetParserPlugin, AssetPlugin } from '../asset/index.js'
+import { AssetParserPlugin, AssetPlugin, Assets } from '../asset/index.js'
 import { BasicMaterial2D, BasicMaterial3D, Camera, MaterialHandle, Meshed, MeshHandle } from './components/index.js'
 import { Material, Mesh, Shader, Image, BasicMaterial } from './assets/index.js'
-import { ImageParser } from './resources/index.js'
+import { BasicMaterialAssets, ImageAssets, ImageParser, MeshAssets } from './resources/index.js'
 import { Material2DPlugin, Material3DPlugin } from './plugins/index.js'
 import {
   ImageAdded,
@@ -18,6 +18,7 @@ import {
   MeshDropped,
   MeshModified
 } from './events/index.js'
+import { typeidGeneric } from '../reflect/index.js'
 
 export class RenderCorePlugin extends Plugin {
 
@@ -25,6 +26,8 @@ export class RenderCorePlugin extends Plugin {
    * @param {App} app 
    */
   register(app) {
+    const world = app.getWorld()
+
     app
       .registerType(MeshHandle)
       .registerType(MaterialHandle)
@@ -79,5 +82,10 @@ export class RenderCorePlugin extends Plugin {
         asset: BasicMaterial,
         component: BasicMaterial3D
       }))
+
+    world.setResourceAlias(typeidGeneric(Assets, [Image]), ImageAssets)
+    world.setResourceAlias(typeidGeneric(Assets, [Mesh]), MeshAssets)
+    world.setResourceAlias(typeidGeneric(Assets, [BasicMaterial]), BasicMaterialAssets)
+
   }
 }

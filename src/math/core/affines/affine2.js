@@ -1,5 +1,5 @@
-import { Rotary } from './rotary.js'
-import { Vector2 } from './vector2.js'
+import { Rotary } from '../angles/index.js'
+import { Vector2 } from '../vectors/index.js'
 
 
 /**

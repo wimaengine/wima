@@ -1,4 +1,4 @@
-import { Color } from '../../../math/index.js'
+import { Color } from '../../../color/index.js'
 import { Material } from '../material.js'
 
 export class BasicMaterial extends Material {

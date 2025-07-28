@@ -1,5 +1,5 @@
 import { test, describe } from "node:test";
-import { Vector2 } from "../../vector2.js";
+import { Vector2 } from "../../index.js";
 import { deepStrictEqual, strictEqual } from "node:assert";
 
 describe("Testing `Vector2`", () => {

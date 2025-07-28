@@ -1,5 +1,5 @@
-import { TAU } from './constants.js'
-import { invert, lerp } from './math.js'
+import { TAU } from '../../constants.js'
+import { invert, lerp } from '../../functions/index.js'
 
 /**
  * This is a 2D vector class.
