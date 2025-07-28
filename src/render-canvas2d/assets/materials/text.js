@@ -1,4 +1,4 @@
-import { Color } from '../../../math/index.js'
+import { Color } from '../../../color/index.js'
 import { Material } from '../../../render-core/index.js'
 import { MaterialType } from '../../core/materialtype.js'
 
