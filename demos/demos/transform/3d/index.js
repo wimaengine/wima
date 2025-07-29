@@ -1,0 +1,5 @@
+export { default as translate3d } from './translate.js'
+export { default as rotate3d } from './rotate.js'
+export { default as scale3d } from './scale.js'
+export { default as lookAt3d } from './lookat.js'
+export { default as propagate3d } from './propagate.js'
