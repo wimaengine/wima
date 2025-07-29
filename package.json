@@ -30,7 +30,6 @@
     "eslint": "eslint --config .config/eslint.config.js --ignore-pattern '**/*.test.js'",
     "typedoc": "typedoc -options .config/typedoc.json --tsconfig .config/tsc.lint.json",
     "types": "tsc -p .config/tsc.type.json",
-    "typedef": "node scripts/typedef.js",
     "changelog": "node scripts/changelog.js",
     "test": "node --test",
     "build": "npm run build:lib && npm run build:docs",
