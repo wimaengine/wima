@@ -45,8 +45,6 @@
     "watch:src": "npm run rollup -- --watch",
     "watch:docs": "npm run typedoc -- --watch",
     "clean:types": "rm -r types",
-    "ci:build": "npm run build",
-    "ci:check": "npm run lint:src-dry -- --max-warnings=0 && npm run lint:demos-dry -- --max-warnings=0 && npm run test",
     "pre-commit": "lint-staged --config .config/lint.config.js",
     "pre-push": "npm run test"
   },
