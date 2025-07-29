@@ -10,7 +10,7 @@ import { Demo1Gizmo2D } from '../utils.js'
 
 const QUATER_PI = Math.PI / 4
 
-export const arcs2d = new Demo('gizmo2d/arcs', [init], [drawCirclularArcs, drawEllipticalArcs])
+export default new Demo('gizmo2d/arcs', [init], [drawCirclularArcs, drawEllipticalArcs])
 
 /**
  * @param {World} world
