@@ -56,26 +56,26 @@ function addmesh(world) {
  */
 function changeColor(world) {
   const materials = world.getResource(BasicMaterialAssets)
-
   const color = world.getResource(ChangeColor)
+
   const material = materials.get(MATERIAL_PATH)
 
   if (!material) return
 
   if (
-    material.color.r <= 0 ||
+    material.color.r < 0 ||
     material.color.r + color.color.r > 1
   ) {
     color.color.r = -color.color.r
   }
   if (
-    material.color.g <= 0 ||
+    material.color.g < 0 ||
     material.color.g + color.color.g > 1
   ) {
     color.color.g = -color.color.g
   }
   if (
-    material.color.b <= 0 ||
+    material.color.b < 0 ||
     material.color.b + color.color.b > 1
   ) {
     color.color.b = -color.color.b
