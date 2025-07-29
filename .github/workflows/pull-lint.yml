@@ -4,3 +4,10 @@ on:
   pull_request:
     branches: ["main","dev"]
 jobs:
+  lint-src:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run lint:src-dry -- --max-warnings=0
