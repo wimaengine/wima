@@ -37,8 +37,8 @@ function addMeshes(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add('scale', Mesh.circle2D(50))
-  const material = materials.add('scale', new BasicMaterial())
+  const mesh = meshes.add(Mesh.circle2D(50))
+  const material = materials.add(new BasicMaterial())
 
   const parent = commands
     .spawn()
