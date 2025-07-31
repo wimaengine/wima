@@ -22,7 +22,13 @@ import {
   movingtriangle,
   cameraRotate,
   orthograhicCamera,
-  perspectiveCamera
+  perspectiveCamera,
+  translate3d,
+  rotate3d,
+  scale3d,
+  lookAt3d,
+  propagate3d
+
 } from './demos/index.js'
 import { ResourceAliasPlugin } from './demos/utils.js'
 
@@ -42,7 +48,12 @@ app
       movingtriangle,
       cameraRotate,
       orthograhicCamera,
-      perspectiveCamera
+      perspectiveCamera,
+      translate3d,
+      rotate3d,
+      scale3d,
+      lookAt3d,
+      propagate3d
     ]
   }))
   .registerDebugger(new FPSDebugger())

@@ -174,7 +174,7 @@ export class WebglRenderPipeline {
 
     if (!uniform) return
 
-    gl.uniformMatrix2fv(uniform.location, true, new Float32Array([...value]))
+    gl.uniformMatrix2fv(uniform.location, false, new Float32Array([...value]))
   }
 
   /**
@@ -187,7 +187,7 @@ export class WebglRenderPipeline {
 
     if (!uniform) return
 
-    gl.uniformMatrix3fv(uniform.location, true, new Float32Array([...value]))
+    gl.uniformMatrix3fv(uniform.location, false, new Float32Array([...value]))
   }
 
   /**
@@ -200,7 +200,7 @@ export class WebglRenderPipeline {
 
     if (!uniform) return
 
-    gl.uniformMatrix4fv(uniform.location, true, new Float32Array([...value]))
+    gl.uniformMatrix4fv(uniform.location, false, new Float32Array([...value]))
   }
 
   /**
@@ -213,7 +213,7 @@ export class WebglRenderPipeline {
 
     if (!uniform) return
 
-    gl.uniformMatrix2x3fv(uniform.location, true, new Float32Array([...value]))
+    gl.uniformMatrix2x3fv(uniform.location, false, new Float32Array([...value]))
   }
 
   /**
@@ -226,6 +226,6 @@ export class WebglRenderPipeline {
 
     if (!uniform) return
 
-    gl.uniformMatrix3x4fv(uniform.location, true, new Float32Array([...value]))
+    gl.uniformMatrix3x4fv(uniform.location, false, new Float32Array([...value]))
   }
 }
