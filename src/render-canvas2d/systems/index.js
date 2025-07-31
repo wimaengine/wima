@@ -67,8 +67,8 @@ export function genrender(type, renderMaterial) {
 
       for (let i = 0; i < list.length; i++) {
         const { materialid, meshid, transform } = list[i]
-        const mesh = meshes.getById(meshid)
-        const material = materials.getById(materialid)
+        const mesh = meshes.getByAssetId(meshid)
+        const material = materials.getByAssetId(materialid)
 
         if (!material || !mesh) continue
 

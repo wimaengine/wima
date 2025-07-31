@@ -35,8 +35,8 @@ function addmesh(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add(MATERIAL_PATH, Mesh.triangle3D())
-  const material = materials.add(MATERIAL_PATH, new BasicMaterial({
+  const mesh = meshes.add(Mesh.triangle3D())
+  const material = materials.setWithUUID(MATERIAL_PATH, new BasicMaterial({
     color: new Color(1, 0, 0)
   }))
 
@@ -57,8 +57,7 @@ function addmesh(world) {
 function changeColor(world) {
   const materials = world.getResource(BasicMaterialAssets)
   const color = world.getResource(ChangeColor)
-
-  const material = materials.get(MATERIAL_PATH)
+  const material = materials.getByUUID(MATERIAL_PATH)
 
   if (!material) return
 

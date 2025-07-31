@@ -1,7 +1,6 @@
 /** @import {AssetId} from '../types/index.js' */
 /** @import {Constructor} from '../../reflect/index.js'*/
 import { DenseList } from '../../datastructures/index.js'
-import { assert } from '../../logger/index.js'
 import { AssetAdded, AssetEvent, AssetModified } from '../events/assets.js'
 import { Handle } from './handle.js'
 
@@ -23,10 +22,11 @@ export class Assets {
 
   /**
    * @private
-   * @type {Map<string,number>}
+   * @type {Map<string,Handle<T>>}
    */
-  paths = new Map()
+  uuids = new Map()
 
+  // TODO: Move to asset server when it is implemented
   /**
    * @private
    * @type {string[]}
@@ -55,93 +55,99 @@ export class Assets {
   }
 
   /**
-   * @param {string} name
-   * @returns {T | undefined}
+   * @param {T} asset 
+   * @returns {Handle<T>}
    */
-  get(name) {
-    const id = this.paths.get(name)
+  add(asset) {
+    const id = this.assets.reserve()
+    const handle = this.createHandle(id)
 
-    if (id === undefined) return undefined
+    this.assets.set(id, asset)
+    this.events.push(new AssetAdded(this.type, handle.id()))
 
-    return this.assets.get(id)
+    return handle
   }
 
   /**
-   * @param {string} path 
-   * @returns {Handle<T> | undefined}
+   * @param {Handle<T>} handle
+   * @param {T} asset
    */
-  getHandle(path) {
-    const index = this.paths.get(path)
+  set(handle, asset) {
+    const oldAsset = this.get(handle)
 
-    if (index !== undefined) return this.createHandle(index)
+    this.assets.set(handle.index, asset)
 
-    return undefined
+    if (oldAsset) {
+      this.events.push(new AssetModified(this.type, handle.id()))
+    } else {
+      this.events.push(new AssetAdded(this.type, handle.id()))
+    }
+  }
+
+  /**
+   * @param {string} uuid 
+   * @param {T} asset 
+   * @returns {Handle<T>}
+   */
+  setWithUUID(uuid, asset) {
+    const handle = this.uuids.get(uuid)
+
+    if (handle) {
+      this.set(handle, asset)
+
+      // TODO: clone this when asset dropping is added
+      return handle
+    }
+
+    const newHandle = this.add(asset)
+
+    // TODO: clone this when asset dropping is added
+    this.uuids.set(uuid, newHandle)
+
+    return newHandle
   }
 
   /**
    * @param {Handle<T>} handle
    * @returns {T | undefined}
    */
-  getByHandle(handle) {
-    return this.assets.get(handle.index)
+  get(handle) {
+    const { index } = handle
+
+    return this.assets.get(index)
+  }
+
+  /**
+   * @param {string} uuid
+   * @returns {T | undefined}
+   */
+  getByUUID(uuid) {
+    const handle = this.getHandleByUUID(uuid)
+
+    if (!handle) return undefined
+
+    return this.get(handle)
   }
 
   /**
    * @param {AssetId} id
    * @returns {T | undefined}
    */
-  getById(id) {
+  getByAssetId(id) {
     return this.assets.get(id)
   }
 
   /**
-   * @param {Handle<T>} handle
-   * @param {T} asset
+   * @param {string} uuid 
+   * @returns {Handle<T> | undefined}
    */
-  setByHandle(handle, asset) {
-    this.assets.set(handle.index, asset)
+  getHandleByUUID(uuid) {
+
+    // TODO: clone this when asset dropping is added
+    return this.uuids.get(uuid)
   }
 
-  /**
-   * @param {string} path
-   * @param {T} asset
-   */
-  setByPath(path, asset) {
-    const id = this.paths.get(path)
-
-    assert(id, 'The given path has not been loaded')
-
-    this.assets.set(id, asset)
-  }
-
-  /**
-   * @param {string} path 
-   * @param {T} asset 
-   * @returns {Handle<T>}
-   */
-  add(path, asset) {
-    let id = this.paths.get(path)
-    let modification = true
-
-    if (!id) {
-      id = this.assets.reserve()
-      modification = false
-    }
-
-    const handle = this.createHandle(id)
-
-    this.assets.set(id, asset)
-    this.paths.set(path, id)
-
-    if (modification) {
-      this.events.push(new AssetModified(this.type, handle.id()))
-    } else {
-      this.events.push(new AssetAdded(this.type, handle.id()))
-    }
-
-    return handle
-  }
-
+  // TODO: Move to asset server when it is implemented
   /**
    * @param {string} path 
    * @returns {Handle<T>}
@@ -150,12 +156,13 @@ export class Assets {
     const id = this.assets.reserve()
 
     this.assets.set(id, undefined)
-    this.paths.set(path, id)
+    this.uuids.set(path, this.createHandle(id))
     this.toLoad.push(path)
 
     return this.createHandle(id)
   }
 
+  // TODO: Move to asset server when it is implemented
   /**
    * @returns {Readonly<string[]>}
    */

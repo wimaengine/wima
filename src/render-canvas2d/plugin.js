@@ -81,15 +81,15 @@ function renderToCanvas(world) {
   )
   
   query.each(([transform, meshhandle, mathandle]) => {
-    const mesh = meshes.getByHandle(meshhandle)
-    const material = materials.getByHandle(mathandle)
+    const mesh = meshes.get(meshhandle)
+    const material = materials.get(mathandle)
 
     if (/** @type {CanvasImageMaterial} */(material).type === MaterialType.Image) {
       const handle = /** @type {CanvasImageMaterial} */(material).image
 
       // TODO: Does this create a new `ImageElement` every frame its image is not found? 
       if (!textures.has(handle.index)) {
-        const pic = images.getByHandle(handle)
+        const pic = images.get(handle)
 
         if(!pic) return
 

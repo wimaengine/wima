@@ -50,7 +50,7 @@ class MouseEntity {
 function spawnMouseFollower(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
-  const mesh = meshes.add('basic', Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(50, 50))
   const commands = world.getResource(EntityCommands)
 
   const entity = commands
@@ -58,7 +58,7 @@ function spawnMouseFollower(world) {
     .insertPrefab([
       ...createTransform2D(),
       new Meshed(mesh),
-      new BasicMaterial2D(materials.add('mousepointer', new BasicMaterial({
+      new BasicMaterial2D(materials.add(new BasicMaterial({
         color: Color.WHITE.clone()
       }))),
       new Cleanup()
@@ -77,7 +77,7 @@ function spawnButtons(world) {
   const materials = world.getResource(BasicMaterialAssets)
   const map = new KeytoEntityMap()
   const commands = world.getResource(EntityCommands)
-  const mesh = meshes.add('basic', Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(50, 50))
   const digits = [
     MouseButton.Left,
     MouseButton.Wheel,
@@ -97,7 +97,7 @@ function spawnButtons(world) {
       .insertPrefab([
         ...createTransform2D(x, y),
         new Meshed(mesh),
-        new BasicMaterial2D(materials.add(`mousebutton-${i}`, new BasicMaterial({
+        new BasicMaterial2D(materials.add(new BasicMaterial({
           color: Color.WHITE.clone()
         }))),
         new Cleanup()
@@ -140,7 +140,7 @@ function updateButtons(world) {
 
     if (!entity) return
 
-    const material = materials.getByHandle(entity[1].handle)
+    const material = materials.get(entity[1].handle)
 
     if (!material) return
 

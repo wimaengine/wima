@@ -40,8 +40,8 @@ function init(world) {
   /** @type {Assets<BasicMaterial>}*/
   const basicMaterials = world.getResourceByTypeId(typeidGeneric(Assets, [BasicMaterial]))
 
-  const material = basicMaterials.add('easing', new BasicMaterial())
-  const mesh = meshes.add('easing', Mesh.quad2D(50, 50))
+  const material = basicMaterials.add(new BasicMaterial())
+  const mesh = meshes.add(Mesh.quad2D(50, 50))
 
   const width = 1000
   const height = 600
@@ -59,7 +59,7 @@ function init(world) {
       .insertPrefab([
         ...createTransform2D(x, y + 10),
         mesh,
-        materials.add(easeName, new CanvasTextMaterial({
+        materials.add(new CanvasTextMaterial({
           text: easeName,
           align: 'center'
         })),
