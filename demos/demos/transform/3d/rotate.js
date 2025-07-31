@@ -30,8 +30,8 @@ function addmesh(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add('rotate3d', Mesh.triangle3D())
-  const material = materials.add('rotate3d', new BasicMaterial())
+  const mesh = meshes.add(Mesh.triangle3D())
+  const material = materials.add(new BasicMaterial())
 
   commands
     .spawn()
