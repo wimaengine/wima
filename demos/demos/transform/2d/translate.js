@@ -10,9 +10,11 @@ import {
   VirtualClock,
   BasicMaterial2D,
   Meshed,
-  createTransform2D
+  createTransform2D,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera2D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+import { addDefaultCamera2D } from '../../utils.js'
 
 export default new Demo(
   'transform2d/translate',

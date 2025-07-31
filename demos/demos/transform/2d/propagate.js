@@ -17,9 +17,11 @@ import {
   Rotary,
   Position2D,
   Orientation2D,
-  Scale2D
+  Scale2D,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera2D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+import { addDefaultCamera2D } from '../../utils.js'
 
 export default new Demo(
   'transform2d/propagate',

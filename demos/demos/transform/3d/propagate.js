@@ -17,9 +17,11 @@ import {
   Children,
   Scale3D,
   Position3D,
-  Orientation3D
+  Orientation3D,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera3D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+import { addDefaultCamera3D } from '../../utils.js'
 
 export default new Demo(
   'transform3d/propagate',

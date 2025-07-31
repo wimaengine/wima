@@ -10,9 +10,11 @@ import {
   Meshed,
   BasicMaterial2D,
   PI,
-  Query
+  Query,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera2D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+import { addDefaultCamera2D } from '../../utils.js'
 
 export default new Demo(
   'transform2d/rotate',

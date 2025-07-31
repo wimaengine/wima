@@ -8,7 +8,7 @@ import {
 } from 'wima'
 import { Demo1Gizmo2D } from '../utils.js'
 
-export const shapes = new Demo('gizmo2d/shapes', [init], [update])
+export default new Demo('gizmo2d/shapes', [init], [update])
 
 /**
  * @param {World} world
