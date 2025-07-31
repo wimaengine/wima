@@ -13,10 +13,8 @@ import {
   Meshed,
   Parent,
   Query,
-  GlobalTransform2D,
   Children,
   Rotary,
-  PI,
   Position2D,
   Orientation2D,
   Scale2D
@@ -80,9 +78,9 @@ function addMeshes(world) {
  * @param {World} world
  */
 function update(world) {
-  const root = new Query(world, [Position2D,Orientation2D,Scale2D, Children, Root]).single()
-  const parents = new Query(world, [Position2D,Orientation2D,Scale2D, Children])
-  const children = new Query(world, [Position2D,Orientation2D,Scale2D, Parent])
+  const root = new Query(world, [Position2D, Orientation2D, Scale2D, Children, Root]).single()
+  const parents = new Query(world, [Position2D, Orientation2D, Scale2D, Children])
+  const children = new Query(world, [Position2D, Orientation2D, Scale2D, Parent])
   const elapsed = world.getResource(VirtualClock).getElapsed()
 
   const parentTransform = Affine2.compose(
@@ -105,8 +103,10 @@ function update(world) {
   const grandChildFinalTransform = Affine2.multiply(childFinalTransform, grandChildTransform)
 
   if (!root) return
-  const [parPosition,parOrientation,parScale] = root
-  const [finparPosition,finparOrientation,finparScale] = parentTransform.decompose()
+
+  const [parPosition, parOrientation, parScale] = root
+  const [finparPosition, finparOrientation, finparScale] = parentTransform.decompose()
+
   parPosition.copy(finparPosition)
   parOrientation.value = Rotary.toAngle(finparOrientation)
   parScale.copy(finparScale)
@@ -114,8 +114,10 @@ function update(world) {
   const child = parents.get(root[3].list[0])
 
   if (!child) return
-  const [childPosition,childOrientation,childScale] = child
-  const [finChildPosition,finChildOrientation,finChildScale] = childFinalTransform.decompose()
+
+  const [childPosition, childOrientation, childScale] = child
+  const [finChildPosition, finChildOrientation, finChildScale] = childFinalTransform.decompose()
+
   childPosition.copy(finChildPosition)
   childOrientation.value = Rotary.toAngle(finChildOrientation)
   childScale.copy(finChildScale)
@@ -123,8 +125,10 @@ function update(world) {
   const grandChild = children.get(child[3].list[0])
 
   if (!grandChild) return
-  const [grChildPosition,grChildOrientation,grChildScale] = grandChild
-  const [fingrChildPosition,fingrChildOrientation,fingrChildScale] = grandChildFinalTransform.decompose()
+
+  const [grChildPosition, grChildOrientation, grChildScale] = grandChild
+  const [fingrChildPosition, fingrChildOrientation, fingrChildScale] = grandChildFinalTransform.decompose()
+
   grChildPosition.copy(fingrChildPosition)
   grChildOrientation.value = Rotary.toAngle(fingrChildOrientation)
   grChildScale.copy(fingrChildScale)

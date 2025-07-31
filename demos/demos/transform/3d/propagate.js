@@ -49,7 +49,7 @@ function addMeshes(world) {
     ])
     .build()
   
-    const child = commands
+  const child = commands
     .spawn()
     .insertPrefab([
       ...createTransform3D(),
@@ -60,7 +60,7 @@ function addMeshes(world) {
     ])
     .build()
 
-    commands
+  commands
     .spawn()
     .insertPrefab([
       ...createTransform3D(),
@@ -78,9 +78,9 @@ function addMeshes(world) {
  * @param {World} world
  */
 function update(world) {
-  const root = new Query(world,[Position3D,Orientation3D,Scale3D,Children,Root]).single()
-  const parents = new Query(world,[Position3D,Orientation3D,Scale3D,Children])
-  const children = new Query(world,[Position3D,Orientation3D,Scale3D,Parent])
+  const root = new Query(world, [Position3D, Orientation3D, Scale3D, Children, Root]).single()
+  const parents = new Query(world, [Position3D, Orientation3D, Scale3D, Children])
+  const children = new Query(world, [Position3D, Orientation3D, Scale3D, Parent])
   const elapsed = world.getResource(VirtualClock).getElapsed()
 
   const parentTransform = Affine3.compose(
@@ -102,9 +102,11 @@ function update(world) {
   const childFinalTransform = Affine3.multiply(parentTransform, childTransform)
   const grandChildFinalTransform = Affine3.multiply(childFinalTransform, grandChildTransform)
 
-if (!root) return
-  const [parPosition,parOrientation,parScale] = root
-  const [finparPosition,finparOrientation,finparScale] = parentTransform.decompose()
+  if (!root) return
+
+  const [parPosition, parOrientation, parScale] = root
+  const [finparPosition, finparOrientation, finparScale] = parentTransform.decompose()
+
   parPosition.copy(finparPosition)
   parOrientation.copy(finparOrientation)
   parScale.copy(finparScale)
@@ -112,8 +114,10 @@ if (!root) return
   const child = parents.get(root[3].list[0])
 
   if (!child) return
-  const [childPosition,childOrientation,childScale] = child
-  const [finChildPosition,finChildOrientation,finChildScale] = childFinalTransform.decompose()
+
+  const [childPosition, childOrientation, childScale] = child
+  const [finChildPosition, finChildOrientation, finChildScale] = childFinalTransform.decompose()
+
   childPosition.copy(finChildPosition)
   childOrientation.copy(finChildOrientation)
   childScale.copy(finChildScale)
@@ -121,8 +125,10 @@ if (!root) return
   const grandChild = children.get(child[3].list[0])
 
   if (!grandChild) return
-  const [grChildPosition,grChildOrientation,grChildScale] = grandChild
-  const [fingrChildPosition,fingrChildOrientation,fingrChildScale] = grandChildFinalTransform.decompose()
+
+  const [grChildPosition, grChildOrientation, grChildScale] = grandChild
+  const [fingrChildPosition, fingrChildOrientation, fingrChildScale] = grandChildFinalTransform.decompose()
+
   grChildPosition.copy(fingrChildPosition)
   grChildOrientation.copy(fingrChildOrientation)
   grChildScale.copy(fingrChildScale)
