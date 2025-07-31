@@ -35,8 +35,8 @@ function addLookers(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add('looker', Mesh.cube(0.03, 0.03, 0.1))
-  const material = materials.add('looker', new BasicMaterial())
+  const mesh = meshes.add(Mesh.cube(0.03, 0.03, 0.1))
+  const material = materials.add(new BasicMaterial())
 
   for (let x = -1.5; x < 1.5; x += 0.1) {
     for (let y = -1.5; y < 1.5; y += 0.1) {
@@ -63,8 +63,8 @@ function addTarget(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add('target', Mesh.cube(0.05, 0.05, 0.05))
-  const material = materials.add('target', new BasicMaterial({
+  const mesh = meshes.add(Mesh.cube(0.05, 0.05, 0.05))
+  const material = materials.add(new BasicMaterial({
     color: new Color(0, 1, 1)
   }))
 

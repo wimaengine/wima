@@ -37,8 +37,8 @@ function spawnLookers(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add('lookers', Mesh.triangle2D(10, 50))
-  const material = materials.add('lookers', new BasicMaterial())
+  const mesh = meshes.add(Mesh.triangle2D(10, 50))
+  const material = materials.add(new BasicMaterial())
 
   for (let x = -innerWidth / 2; x < innerWidth / 2; x += 100) {
     for (let y = -innerHeight / 2; y < innerHeight / 2; y += 100) {
@@ -65,8 +65,8 @@ function spawnTarget(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add('target', Mesh.circle2D(10))
-  const material = materials.add('target', new BasicMaterial({
+  const mesh = meshes.add(Mesh.circle2D(10))
+  const material = materials.add(new BasicMaterial({
     color:new Color(0, 1, 1)
   }))
 

@@ -30,8 +30,8 @@ function addmesh(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add('rotate2d', Mesh.quad2D(50, 50))
-  const material = materials.add('rotate2d', new BasicMaterial())
+  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const material = materials.add(new BasicMaterial())
 
   commands
     .spawn()
