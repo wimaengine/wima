@@ -22,7 +22,12 @@ import {
   mouse,
   touch,
   easing,
-  materials
+  materials,
+  translate2d,
+  rotate2d,
+  scale2d,
+  propagate2d,
+  lookat2d
 } from './demos/index.js'
 import { Demo1, Demo2, ResourceAliasPlugin } from './demos/utils.js'
 import {
@@ -63,7 +68,12 @@ app
       lineStyle,
       arcs2d,
       shapes,
-      grid2d
+      grid2d,
+      translate2d,
+      rotate2d,
+      scale2d,
+      propagate2d,
+      lookat2d
     ]
   }))
   .registerSystem(AppSchedule.Update, setupViewport)

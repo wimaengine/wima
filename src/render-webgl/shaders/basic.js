@@ -9,10 +9,10 @@ uniform Camera {
   mat4 view;
   mat4 projection;
 } camera;
-uniform mat3x4 model;
+uniform mat4 model;
 
 void main(){
-  gl_Position = camera.projection * camera.view * transpose(mat4(model)) * vec4(position3d,1.0);
+  gl_Position = camera.projection * camera.view * model * vec4(position3d,1.0);
 }
 `
 export const basicMaterial3DFragment =
