@@ -28,10 +28,9 @@ function update(world) {
   const entities = new Query(world, [Entity, Marker])
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
-  const name = 'spawn'
 
-  const mesh = meshes.getHandle(name) || meshes.add(name, Mesh.quad2D(itemHeight - paddingWidth, itemWidth - paddingHeight))
-  const material = materials.getHandle(name) || materials.add(name, new BasicMaterial())
+  const mesh = meshes.add(Mesh.quad2D(itemHeight - paddingWidth, itemWidth - paddingHeight))
+  const material = materials.add(new BasicMaterial())
 
   const width = 1000
   const height = 600

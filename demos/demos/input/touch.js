@@ -38,7 +38,7 @@ function init(world) {
 
   if (!window) return warn('No window set up')
 
-  const mesh = meshes.add('basic', Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(50, 50))
 
   for (let i = 0; i < 10; i++) {
     const entity = commands
@@ -46,7 +46,7 @@ function init(world) {
       .insertPrefab([
         ...createTransform2D(0, 0),
         new Meshed(mesh),
-        new BasicMaterial2D(materials.add(`touch-${i}`, new BasicMaterial({
+        new BasicMaterial2D(materials.add(new BasicMaterial({
           color: Color.WHITE.clone()
         }))),
         new Cleanup()
@@ -75,7 +75,7 @@ function update(world) {
 
     if (!components) return
 
-    const material = materials.getByHandle(components[1].handle)
+    const material = materials.get(components[1].handle)
 
     if(!material) return
 

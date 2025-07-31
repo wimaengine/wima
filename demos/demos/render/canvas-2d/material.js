@@ -33,14 +33,14 @@ export async function init(world) {
   const basicMaterials = world.getResource(BasicMaterialAssets)
   const images = world.getResource(ImageAssets)
   
-  const mesh = meshes.add('material', Mesh.quad2D(50, 50))
-  const material = basicMaterials.add('material', new BasicMaterial())
+  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const material = basicMaterials.add(new BasicMaterial())
   const instancedMaterials = [
-    materials.add('text', new CanvasTextMaterial({
+    materials.add(new CanvasTextMaterial({
       text: 'text is here',
       align: 'center'
     })),
-    materials.add('image', new CanvasImageMaterial({
+    materials.add(new CanvasImageMaterial({
       image: images.load('assets/warrior.png'),
       width: 50,
       height: 50,

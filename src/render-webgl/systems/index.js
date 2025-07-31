@@ -150,9 +150,8 @@ export function genRender(type) {
       
       for (let i = 0; i < opaquepass.length; i++) {
         const { meshid, materialid, transform } = opaquepass[i]
-
-        const mesh = meshes.getById(meshid)
-        const material = materials.getById(materialid)
+        const mesh = meshes.getByAssetId(meshid)
+        const material = materials.getByAssetId(materialid)
         const gpumesh = gpumeshes.get(meshid)
         const data = material.asUniformBind()
         const ubo = ubos.get(materialtypeid)

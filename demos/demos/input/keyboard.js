@@ -55,7 +55,7 @@ function update(world) {
 
     if (!entity) return
 
-    const material = materials.getByHandle(entity[1].handle)
+    const material = materials.get(entity[1].handle)
 
     if (!material) return
 
@@ -77,19 +77,7 @@ function spawnDigits(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add('digits', Mesh.quad2D(itemWidth, itemHeight))
-  const characters = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '0'
-  ]
+  const mesh = meshes.add(Mesh.quad2D(itemWidth, itemHeight))
   const digits = [
     KeyCode.Digit1,
     KeyCode.Digit2,
@@ -104,7 +92,6 @@ function spawnDigits(world) {
   ]
 
   for (let i = 0; i < digits.length; i++) {
-    const character = /** @type {string}*/(characters[i])
     const digit = /** @type {KeyCode}*/(digits[i])
     const x = offsetX + (i % digits.length) * (itemWidth + paddingWidth) + paddingWidth
     const y = offsetY + Math.floor(i / digits.length) * (itemHeight + paddingHeight)
@@ -113,7 +100,7 @@ function spawnDigits(world) {
       .insertPrefab([
         ...createTransform2D(x, y),
         new Meshed(mesh),
-        new BasicMaterial2D(materials.add(`keyboard-${character}`, new BasicMaterial())),
+        new BasicMaterial2D(materials.add(new BasicMaterial())),
         new Cleanup()
       ])
       .build()
@@ -130,35 +117,7 @@ function spawnAlphabet(world) {
   const commands = world.getResource(EntityCommands)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
-  const mesh = meshes.add('alphabet', Mesh.quad2D(50, 50))
-  const characters = [
-    'q',
-    'w',
-    'e',
-    'r',
-    't',
-    'y',
-    'u',
-    'i',
-    'o',
-    'p',
-    'a',
-    's',
-    'd',
-    'f',
-    'g',
-    'h',
-    'j',
-    'k',
-    'l',
-    'z',
-    'x',
-    'c',
-    'v',
-    'b',
-    'n',
-    'm'
-  ]
+  const mesh = meshes.add(Mesh.quad2D(50, 50))
   const alphabet = [
     KeyCode.KeyQ,
     KeyCode.KeyW,
@@ -189,7 +148,6 @@ function spawnAlphabet(world) {
   ]
 
   for (let i = 0; i < alphabet.length; i++) {
-    const character = /** @type {string}*/((characters[i]))
     const digit = /** @type {KeyCode}*/((alphabet[i]))
 
     // eslint-disable-next-line no-nested-ternary
@@ -206,7 +164,7 @@ function spawnAlphabet(world) {
       .insertPrefab([
         ...createTransform2D(x, y),
         new Meshed(mesh),
-        new BasicMaterial2D(materials.add(`keyboard-alpha-${character}`, new BasicMaterial())),
+        new BasicMaterial2D(materials.add(new BasicMaterial())),
         new Cleanup()
       ])
       .build()
