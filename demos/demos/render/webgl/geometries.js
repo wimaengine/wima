@@ -10,9 +10,11 @@ import {
   Meshed,
   BasicMaterial3D,
   createMovable3D,
-  Query
+  Query,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera3D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+import { addDefaultCamera3D } from '../../utils.js'
 
 export const geometries = new Demo(
   'mesh geometries',

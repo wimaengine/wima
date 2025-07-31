@@ -8,7 +8,7 @@ import {
 } from 'wima'
 import { Demo1Gizmo2D } from '../utils.js'
 
-export const grid2d = new Demo('gizmo2d/grid', [init], [drawGrid])
+export default new Demo('gizmo2d/grid', [init], [drawGrid])
 
 /**
  * @param {World} world

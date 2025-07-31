@@ -12,9 +12,12 @@ import {
   typeidGeneric,
   BasicMaterial,
   Meshed,
-  BasicMaterial2D
+  BasicMaterial2D,
+  BasicMaterialAssets,
+  ImageAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera2D, BasicMaterialAssets, ImageAssets, MeshAssets } from '../../utils.js'
+import { addDefaultCamera2D } from '../../utils.js'
 
 export default new Demo(
   'materials',

@@ -12,9 +12,10 @@ import {
   Meshed,
   BasicMaterial3D,
   createMovable3D,
-  Query
+  Query,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { BasicMaterialAssets, MeshAssets } from '../../utils.js'
 
 export const orthograhicCamera = new Demo(
   'orthograhic camera',

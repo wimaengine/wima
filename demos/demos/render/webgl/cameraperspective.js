@@ -12,9 +12,10 @@ import {
   Meshed,
   createMovable3D,
   Query,
-  Rotation3D
+  Rotation3D,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { BasicMaterialAssets, MeshAssets } from '../../utils.js'
 
 export const perspectiveCamera = new Demo(
   'perspective camera',

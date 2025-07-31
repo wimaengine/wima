@@ -11,9 +11,10 @@ import {
   Meshed,
   BasicMaterial3D,
   createRawMovable3D,
-  Query
+  Query,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { BasicMaterialAssets, MeshAssets } from '../../utils.js'
 
 export const cameraRotate = new Demo(
   'camera rotate',

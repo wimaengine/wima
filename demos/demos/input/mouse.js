@@ -14,9 +14,11 @@ import {
   Mouse,
   MouseButtons,
   Meshed, BasicMaterial,
-  BasicMaterial2D
+  BasicMaterial2D,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera2D, BasicMaterialAssets, MeshAssets } from '../utils.js'
+import { addDefaultCamera2D } from '../utils.js'
 
 export default new Demo(
   'mouse',

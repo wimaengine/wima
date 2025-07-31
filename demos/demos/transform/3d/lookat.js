@@ -15,9 +15,11 @@ import {
   Vector3,
   Affine3,
   Position3D,
-  Color
+  Color,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera3D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+import { addDefaultCamera3D } from '../../utils.js'
 
 export default new Demo(
   'transform3d/lookAt',
