@@ -22,15 +22,18 @@ import {
   mouse,
   touch,
   easing,
-  materials
+  materials,
+  lineStyle2d,
+  arcs2d,
+  shapes2d,
+  grid2d,
+  translate2d,
+  rotate2d,
+  scale2d,
+  propagate2d,
+  lookat2d
 } from './demos/index.js'
 import { Demo1, Demo2, ResourceAliasPlugin } from './demos/utils.js'
-import {
-  lineStyle,
-  arcs2d,
-  shapes,
-  grid2d
-} from './demos/gizmos/index.js'
 
 const app = new App()
 
@@ -60,10 +63,17 @@ app
       keyboard,
       mouse,
       touch,
-      lineStyle,
+      lineStyle2d,
       arcs2d,
-      shapes,
-      grid2d
+      shapes2d,
+      grid2d,
+      shapes2d,
+      grid2d,
+      translate2d,
+      rotate2d,
+      scale2d,
+      propagate2d,
+      lookat2d
     ]
   }))
   .registerSystem(AppSchedule.Update, setupViewport)

@@ -1,22 +1,23 @@
 import {
+  BasicMaterial,
   Demo,
   Mesh,
   World,
   Cleanup,
-  Rotation3D,
   EntityCommands,
+  createMovable3D,
+  Rotation3D,
   Meshed,
   BasicMaterial3D,
-  BasicMaterial,
-  createMovable3D,
+  PI,
   Query,
   BasicMaterialAssets,
   MeshAssets
 } from 'wima'
 import { addDefaultCamera3D } from '../../utils.js'
 
-export const rotatingtriangle = new Demo(
-  'rotating triangle',
+export default new Demo(
+  'transform3d/rotate',
   [addmesh, addDefaultCamera3D],
   [update]
 )
@@ -40,17 +41,17 @@ function addmesh(world) {
       new BasicMaterial3D(material),
       new Cleanup()
     ])
-    .insert(new Rotation3D())
+    .insert(new Rotation3D(0, PI, 0))
     .build()
 }
 
 /**
  * @param {World} world
  */
-function update(world){
-  const rotable = new Query(world, [Rotation3D])
+function update(world) {
+  const query = new Query(world, [Rotation3D, Meshed])
 
-  rotable.each(([rotation]) => {
-    rotation.z = Math.PI / 4
+  query.each(([rotation]) => {
+    rotation.y = PI 
   })
 }

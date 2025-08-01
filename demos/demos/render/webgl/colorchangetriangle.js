@@ -8,9 +8,11 @@ import {
   BasicMaterial,
   createTransform3D,
   BasicMaterial3D,
-  Meshed
+  Meshed,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera3D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+import { addDefaultCamera3D } from '../../utils.js'
 
 const MATERIAL_PATH = 'colorChange'
 
@@ -33,8 +35,8 @@ function addmesh(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add(MATERIAL_PATH, Mesh.triangle3D())
-  const material = materials.add(MATERIAL_PATH, new BasicMaterial({
+  const mesh = meshes.add(Mesh.triangle3D())
+  const material = materials.setWithUUID(MATERIAL_PATH, new BasicMaterial({
     color: new Color(1, 0, 0)
   }))
 
@@ -54,26 +56,25 @@ function addmesh(world) {
  */
 function changeColor(world) {
   const materials = world.getResource(BasicMaterialAssets)
-
   const color = world.getResource(ChangeColor)
-  const material = materials.get(MATERIAL_PATH)
+  const material = materials.getByUUID(MATERIAL_PATH)
 
   if (!material) return
 
   if (
-    material.color.r <= 0 ||
+    material.color.r < 0 ||
     material.color.r + color.color.r > 1
   ) {
     color.color.r = -color.color.r
   }
   if (
-    material.color.g <= 0 ||
+    material.color.g < 0 ||
     material.color.g + color.color.g > 1
   ) {
     color.color.g = -color.color.g
   }
   if (
-    material.color.b <= 0 ||
+    material.color.b < 0 ||
     material.color.b + color.color.b > 1
   ) {
     color.color.b = -color.color.b

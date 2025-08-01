@@ -12,9 +12,10 @@ import {
   Meshed,
   BasicMaterial3D,
   createMovable3D,
-  Query
+  Query,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { BasicMaterialAssets, MeshAssets } from '../../utils.js'
 
 export const orthograhicCamera = new Demo(
   'orthograhic camera',
@@ -46,8 +47,8 @@ function addmesh(world) {
   const commands = world.getResource(EntityCommands)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
-  const mesh = meshes.add('basic', Mesh.triangle3D())
-  const material = materials.add('basic', new BasicMaterial())
+  const mesh = meshes.add(Mesh.triangle3D())
+  const material = materials.add(new BasicMaterial())
 
   commands
     .spawn()

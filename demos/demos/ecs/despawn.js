@@ -9,9 +9,11 @@ import {
   Entity,
   BasicMaterial,
   Meshed,
-  BasicMaterial2D
+  BasicMaterial2D,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera2D, BasicMaterialAssets, MeshAssets } from '../utils.js'
+import { addDefaultCamera2D } from '../utils.js'
 
 export default new Demo('despawn', [init, addDefaultCamera2D], [update])
 
@@ -32,11 +34,11 @@ function init(world) {
   const height = 600
   const halfWidth = width / 2
   const halfHeight = height / 2
-  const mesh = meshes.add('despawn', Mesh.quad2D(
+  const mesh = meshes.add(Mesh.quad2D(
     itemHeight - paddingWidth,
     itemWidth - paddingHeight
   ))
-  const material = materials.add('basic', new BasicMaterial())
+  const material = materials.add(new BasicMaterial())
 
   for (let y = -halfHeight; y <= halfHeight; y += itemHeight) {
     for (let x = -halfWidth; x < halfWidth; x += itemWidth) {

@@ -12,9 +12,10 @@ import {
   Meshed,
   createMovable3D,
   Query,
-  Rotation3D
+  Rotation3D,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { BasicMaterialAssets, MeshAssets } from '../../utils.js'
 
 export const perspectiveCamera = new Demo(
   'perspective camera',
@@ -45,8 +46,8 @@ function addmesh(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add('basic', Mesh.triangle3D())
-  const material = materials.add('basic', new BasicMaterial())
+  const mesh = meshes.add(Mesh.triangle3D())
+  const material = materials.add(new BasicMaterial())
 
   commands
     .spawn()

@@ -8,7 +8,7 @@ import {
 } from 'wima'
 import { Demo1Gizmo2D, Demo2Gizmo2D } from '../utils.js'
 
-export const lineStyle = new Demo('gizmo2d/line style', [init], [update])
+export default new Demo('gizmo2d/line style', [init], [update])
 
 /**
  * @param {World} world

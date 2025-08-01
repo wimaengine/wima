@@ -1,24 +1,25 @@
 import {
+  BasicMaterial,
   Demo,
   Mesh,
+  Position3D,
   World,
   Cleanup,
-  Rotation3D,
-  EntityCommands,
-  Meshed,
-  BasicMaterial3D,
-  BasicMaterial,
-  createMovable3D,
   Query,
+  EntityCommands,
+  VirtualClock,
+  BasicMaterial3D,
+  Meshed,
+  createTransform3D,
   BasicMaterialAssets,
   MeshAssets
 } from 'wima'
 import { addDefaultCamera3D } from '../../utils.js'
 
-export const rotatingtriangle = new Demo(
-  'rotating triangle',
+export default new Demo(
+  'transform3d/translate',
   [addmesh, addDefaultCamera3D],
-  [update]
+  [updateMesh]
 )
 
 /**
@@ -35,22 +36,25 @@ function addmesh(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createMovable3D(),
+      ...createTransform3D(),
       new Meshed(mesh),
       new BasicMaterial3D(material),
       new Cleanup()
     ])
-    .insert(new Rotation3D())
     .build()
 }
 
 /**
  * @param {World} world
  */
-function update(world){
-  const rotable = new Query(world, [Rotation3D])
+function updateMesh(world) {
+  const query = new Query(world, [Position3D, Meshed])
+  const clock = world.getResource(VirtualClock)
+  const dt = clock.getElapsed()
 
-  rotable.each(([rotation]) => {
-    rotation.z = Math.PI / 4
+  query.each(([position]) => {
+    position.x = Math.sin(dt) * 0.5
+    position.y = Math.cos(dt) * 0.5
+    position.z = -2
   })
 }

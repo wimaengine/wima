@@ -1,24 +1,24 @@
 import {
+  BasicMaterial,
   Demo,
   Mesh,
-  Position3D,
+  Position2D,
   World,
   Cleanup,
   Query,
   EntityCommands,
   VirtualClock,
-  BasicMaterial,
+  BasicMaterial2D,
   Meshed,
-  BasicMaterial3D,
-  createTransform3D,
+  createTransform2D,
   BasicMaterialAssets,
   MeshAssets
 } from 'wima'
-import { addDefaultCamera3D } from '../../utils.js'
+import { addDefaultCamera2D } from '../../utils.js'
 
-export const movingtriangle = new Demo(
-  'moving triangle',
-  [addmesh, addDefaultCamera3D],
+export default new Demo(
+  'transform2d/translate',
+  [addmesh, addDefaultCamera2D],
   [updateMesh]
 )
 
@@ -30,15 +30,15 @@ function addmesh(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add(Mesh.triangle3D())
+  const mesh = meshes.add(Mesh.quad2D(50, 50))
   const material = materials.add(new BasicMaterial())
 
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform3D(),
+      ...createTransform2D(),
       new Meshed(mesh),
-      new BasicMaterial3D(material),
+      new BasicMaterial2D(material),
       new Cleanup()
     ])
     .build()
@@ -48,12 +48,12 @@ function addmesh(world) {
  * @param {World} world
  */
 function updateMesh(world) {
-  const query = new Query(world, [Position3D, Meshed])
+  const query = new Query(world, [Position2D, Meshed])
   const clock = world.getResource(VirtualClock)
   const dt = clock.getElapsed()
 
   query.each(([position]) => {
-    position.x = Math.sin(dt) * 0.5
-    position.y = Math.cos(dt) * 0.5
+    position.x = Math.sin(dt) * 100
+    position.y = Math.cos(dt) * 100
   })
 }

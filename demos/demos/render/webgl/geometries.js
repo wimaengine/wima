@@ -10,9 +10,11 @@ import {
   Meshed,
   BasicMaterial3D,
   createMovable3D,
-  Query
+  Query,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addDefaultCamera3D, BasicMaterialAssets, MeshAssets } from '../../utils.js'
+import { addDefaultCamera3D } from '../../utils.js'
 
 export const geometries = new Demo(
   'mesh geometries',
@@ -29,17 +31,17 @@ function addmeshes(world) {
   const materials = world.getResource(BasicMaterialAssets)
 
   const geometries = [
-    meshes.add('triangle', Mesh.triangle3D()),
-    meshes.add('plane', Mesh.plane3D()),
-    meshes.add('circle', Mesh.circle3D()),
-    meshes.add('ring', Mesh.ring3D()),
-    meshes.add('cone', Mesh.cone()),
-    meshes.add('cube', Mesh.cube(0.7071, 0.7071, 0.7071)),
-    meshes.add('uv sphere', Mesh.uvSphere()),
-    meshes.add('torus', Mesh.torus()),
-    meshes.add('cylinder', Mesh.cylinder())
+    meshes.add( Mesh.triangle3D()),
+    meshes.add(Mesh.plane3D()),
+    meshes.add( Mesh.circle3D()),
+    meshes.add(Mesh.ring3D()),
+    meshes.add(Mesh.cone()),
+    meshes.add(Mesh.cube(0.7071, 0.7071, 0.7071)),
+    meshes.add(Mesh.uvSphere()),
+    meshes.add(Mesh.torus()),
+    meshes.add(Mesh.cylinder())
   ]
-  const material = materials.add('basic', new BasicMaterial())
+  const material = materials.add(new BasicMaterial())
 
   const offsetX = -2.1,
     offsetY = 2,

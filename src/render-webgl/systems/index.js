@@ -10,6 +10,7 @@ import { Camera, Material, Mesh, RenderLists3D, ShaderStage } from '../../render
 import { WebglRenderPipeline, createShader, validateShader, createProgram, validateProgram } from '../core/index.js'
 import { Assets } from '../../asset/index.js'
 import { GlobalTransform3D } from '../../transform/index.js'
+import { Affine3 } from '../../math/index.js'
 
 /**
  * @template T
@@ -54,16 +55,16 @@ export function genRenderPipeline(type, vertexSource, fragmentSource) {
     const renderpipelines = world.getResource(WebglProgramCache)
     const windows = new Query(world, [Entity, Window, MainWindow])
     const canvases = world.getResource(Windows)
-    
+
     if (renderpipelines.has(materialid)) return
-    
+
     const window = windows.single()
 
     if (!window) return warn('Please define the main window for rendering.')
 
     const canvas = canvases.getWindow(window[0])
 
-    if(!canvas) return
+    if (!canvas) return
 
     const gl = canvas.getContext('webgl2')
 
@@ -118,7 +119,7 @@ export function genRender(type) {
 
     const canvas = canvases.getWindow(window[0])
 
-    if(!canvas) return
+    if (!canvas) return
 
     const gl = canvas.getContext('webgl2')
 
@@ -150,9 +151,9 @@ export function genRender(type) {
       
       for (let i = 0; i < opaquepass.length; i++) {
         const { meshid, materialid, transform } = opaquepass[i]
-
-        const mesh = meshes.getById(meshid)
-        const material = materials.getById(materialid)
+        const meshTransform = Affine3.toMatrix4(transform)
+        const mesh = meshes.getByAssetId(meshid)
+        const material = materials.getByAssetId(materialid)
         const gpumesh = gpumeshes.get(meshid)
         const data = material.asUniformBind()
         const ubo = ubos.get(materialtypeid)
@@ -160,7 +161,7 @@ export function genRender(type) {
         assert(ubo, `The uniform buffer for material '${materialtypeid}' is not set up.`)
 
         gl.useProgram(pipeline.program)
-        pipeline.setUniformMatrix3x4(gl, 'model', transform)
+        pipeline.setUniformMatrix4(gl, 'model', meshTransform)
         gl.bindBuffer(gl.UNIFORM_BUFFER, ubo.buffer)
         gl.bufferSubData(gl.UNIFORM_BUFFER, 0, data)
         gl.bindVertexArray(gpumesh)
