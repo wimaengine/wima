@@ -40,17 +40,9 @@ export class Assets {
   events = []
 
   /**
-   * @protected
-   * @type {HandleProvider<T>}
-   */
-  createHandle
-
-  /**
    * @param {Constructor<T>} type
-   * @param {(HandleProvider<T>)} handler
    */
-  constructor(type, handler = defaultHandler) {
-    this.createHandle = handler
+  constructor(type) {
     this.type = type
   }
 
@@ -60,7 +52,7 @@ export class Assets {
    */
   add(asset) {
     const id = this.assets.reserve()
-    const handle = this.createHandle(id)
+    const handle = new Handle(id)
 
     this.assets.set(id, asset)
     this.events.push(new AssetAdded(this.type, handle.id()))
@@ -156,10 +148,10 @@ export class Assets {
     const id = this.assets.reserve()
 
     this.assets.set(id, undefined)
-    this.uuids.set(path, this.createHandle(id))
+    this.uuids.set(path, new Handle(id))
     this.toLoad.push(path)
 
-    return this.createHandle(id)
+    return new Handle(id)
   }
 
   // TODO: Move to asset server when it is implemented
@@ -184,15 +176,6 @@ export class Assets {
 
     return events
   }
-}
-
-/**
- * @template T
- * @param {number} id 
- * @returns {Handle<T>}
- */
-function defaultHandler(id) {
-  return new Handle(id)
 }
 
 /**

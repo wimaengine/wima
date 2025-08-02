@@ -35,21 +35,14 @@ export class AssetPlugin extends Plugin {
   events
 
   /**
-   * @readonly
-   * @type {HandleProvider<T> | undefined}
-   */
-  handleprovider
-
-  /**
    * @param {AssetPluginOptions<T>} options
    */
   constructor(options) {
     super()
-    const { path = '', asset, handleprovider, events } = options
+    const { path = '', asset, events } = options
 
     this.asset = asset
     this.events = events
-    this.handleprovider = handleprovider
     this.path = path
   }
 
@@ -57,7 +50,7 @@ export class AssetPlugin extends Plugin {
    * @param {App} app
    */
   register(app) {
-    const { asset, handleprovider, path, events } = this
+    const { asset, path, events } = this
     const world = app.getWorld()
 
 
@@ -91,7 +84,7 @@ export class AssetPlugin extends Plugin {
     )
     world.setResourceByTypeId(
       typeidGeneric(Assets, [asset]),
-      new Assets(asset, handleprovider)
+      new Assets(asset)
     )
   }
 
@@ -105,7 +98,6 @@ export class AssetPlugin extends Plugin {
  * @typedef AssetPluginOptions
  * @property {string} [path]
  * @property {Constructor<T>} asset
- * @property {HandleProvider<T>} [handleprovider]
  * @property {AssetEvents<T>} [events]
  */
 

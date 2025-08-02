@@ -1,6 +1,6 @@
 import { App, Plugin } from '../app/index.js'
 import { AssetParserPlugin, AssetPlugin, Assets } from '../asset/index.js'
-import { BasicMaterial2D, BasicMaterial3D, Camera, MaterialHandle, Meshed, MeshHandle } from './components/index.js'
+import { BasicMaterial2D, BasicMaterial3D, Camera, Meshed } from './components/index.js'
 import { Material, Mesh, Shader, Image, BasicMaterial } from './assets/index.js'
 import { BasicMaterialAssets, ImageAssets, ImageParser, MeshAssets } from './resources/index.js'
 import { Material2DPlugin, Material3DPlugin } from './plugins/index.js'
@@ -29,8 +29,6 @@ export class RenderCorePlugin extends Plugin {
     const world = app.getWorld()
 
     app
-      .registerType(MeshHandle)
-      .registerType(MaterialHandle)
       .registerType(Meshed)
       .registerType(Camera)
       .registerPlugin(new AssetPlugin({
@@ -51,8 +49,7 @@ export class RenderCorePlugin extends Plugin {
           added: MeshAdded,
           modified: MeshModified,
           dropped: MeshDropped
-        },
-        handleprovider: (id) => new MeshHandle(id)
+        }
       }))
       .registerPlugin(new AssetPlugin({
         asset: Shader,
@@ -63,8 +60,7 @@ export class RenderCorePlugin extends Plugin {
         }
       }))
       .registerPlugin(new AssetPlugin({
-        asset: Material,
-        handleprovider: (id) => new MaterialHandle(id)
+        asset: Material
       }))
       .registerPlugin(new AssetPlugin({
         asset: BasicMaterial,
