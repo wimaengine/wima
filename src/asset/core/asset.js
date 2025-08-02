@@ -2,7 +2,6 @@
 /** @import {Constructor} from '../../reflect/index.js'*/
 import { DenseList } from '../../datastructures/index.js'
 import { AssetAdded, AssetEvent, AssetModified } from '../events/assets.js'
-import { Handle } from './handle.js'
 
 /**
  * @template T
@@ -16,7 +15,7 @@ export class Assets {
 
   /**
    * @private
-   * @type {DenseList<T | undefined>}
+   * @type {DenseList<AssetEntry<T>>}
    */
   assets = new DenseList()
 
@@ -52,9 +51,11 @@ export class Assets {
    */
   add(asset) {
     const id = this.assets.reserve()
-    const handle = new Handle(id)
 
-    this.assets.set(id, asset)
+    this.assets.set(id, new AssetEntry(asset))
+
+    const handle = new Handle(this, id)
+
     this.events.push(new AssetAdded(this.type, handle.id()))
 
     return handle
@@ -65,9 +66,10 @@ export class Assets {
    * @param {T} asset
    */
   set(handle, asset) {
-    const oldAsset = this.get(handle)
+    const entry = this.getEntry(handle)
+    const oldAsset = entry.asset
 
-    this.assets.set(handle.index, asset)
+    entry.asset = asset
 
     if (oldAsset) {
       this.events.push(new AssetModified(this.type, handle.id()))
@@ -101,12 +103,24 @@ export class Assets {
 
   /**
    * @param {Handle<T>} handle
-   * @returns {T | undefined}
+   * @returns {AssetEntry<T> | undefined}
    */
-  get(handle) {
+  getEntry(handle) {
     const { index } = handle
 
     return this.assets.get(index)
+  }
+
+  /**
+   * @param {Handle<T>} handle
+   * @returns {T | undefined}
+   */
+  get(handle) {
+    const entry = this.getEntry(handle)
+
+    if(!entry) return undefined
+
+    return entry.asset
   }
 
   /**
@@ -126,7 +140,11 @@ export class Assets {
    * @returns {T | undefined}
    */
   getByAssetId(id) {
-    return this.assets.get(id)
+    const entry = this.assets.get(id)
+
+    if(!entry) return undefined
+
+    return this.assets.get(id).asset
   }
 
   /**
@@ -147,11 +165,11 @@ export class Assets {
   load(path) {
     const id = this.assets.reserve()
 
-    this.assets.set(id, undefined)
-    this.uuids.set(path, new Handle(id))
+    this.assets.set(id, new AssetEntry(undefined))
+    this.uuids.set(path, new Handle(this, id))
     this.toLoad.push(path)
 
-    return new Handle(id)
+    return new Handle(this, id)
   }
 
   // TODO: Move to asset server when it is implemented
@@ -175,6 +193,79 @@ export class Assets {
     if (events.length) this.events = []
 
     return events
+  }
+}
+
+/**
+ * @template T
+ */
+export class Handle {
+
+  /**
+   * This only exists as a channel for reference counting, do not use for any
+   * other purpose!
+   * @private
+   * @readonly
+   * @type {Assets<T>}
+   */
+  assets
+
+  /**
+   * @readonly
+   * @type {number}
+   */
+  index
+
+  /**
+   * @param {Assets<T>} assets 
+   * @param {number} index 
+   */
+  constructor(assets, index){
+    this.index = index
+    this.assets = assets
+
+    const entry = assets.getEntry(this)
+
+    if(entry){
+      entry.refCount += 1
+    }
+  }
+
+  /**
+   * @returns {AssetId}
+   */
+  id(){
+    return /** @type {AssetId}*/(this.index)
+  }
+
+  clone(){
+    const { assets, index } = this
+
+    return new Handle(assets, index)
+  }
+}
+
+/**
+ * @template T
+ */
+export class AssetEntry {
+
+  /**
+   * @type {T | undefined}
+   */
+  asset
+
+  /**
+   * @type {number}
+   */
+  refCount
+
+  /**
+   * @param {T} asset
+   */
+  constructor(asset) {
+    this.asset = asset
+    this.refCount = 0
   }
 }
 
