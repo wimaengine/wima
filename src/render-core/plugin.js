@@ -60,7 +60,7 @@ export class RenderCorePlugin extends Plugin {
         }
       }))
       .registerPlugin(new AssetPlugin({
-        asset: Material,
+        asset: Material
       }))
       .registerPlugin(new AssetPlugin({
         asset: BasicMaterial,
