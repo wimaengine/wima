@@ -1,7 +1,6 @@
 import { test, describe } from "node:test";
 import { deepStrictEqual, strictEqual } from "node:assert";
-import { Assets } from "../core/asset.js";
-import { Handle } from "../core/handle.js";
+import { Assets,Handle } from "../core/index.js";
 import { AssetAdded, AssetModified } from "../events/assets.js";
 
 describe("Testing `Assets`", () => {
@@ -55,7 +54,7 @@ describe("Testing `Assets`", () => {
     test('`Assets.get` returns undefined on invalid handle', () => {
         const assets = new Assets(String)
 
-        const handle = new Handle(0)
+        const handle = new Handle(assets,0)
         const actual = assets.get(handle)
 
         strictEqual(actual, undefined)
@@ -183,7 +182,7 @@ describe("Testing `Assets`", () => {
     test('`Assets.getByAssetId` returns undefined on invalid assetid', () => {
         const assets = new Assets(String)
 
-        const handle = new Handle(0).id()
+        const handle = new Handle(assets,0).id()
         const actual = assets.getByAssetId(handle)
 
         strictEqual(actual, undefined)
