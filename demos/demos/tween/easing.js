@@ -7,11 +7,9 @@ import {
   TweenFlip,
   createTransform2D,
   World,
-  CanvasTextMaterial,
   Demo,
   Cleanup,
   EntityCommands,
-  Material,
   Assets,
   typeidGeneric,
   BasicMaterial,
@@ -34,9 +32,6 @@ function init(world) {
   /** @type {Assets<Mesh>}*/
   const meshes = world.getResourceByTypeId(typeidGeneric(Assets, [Mesh]))
 
-  /** @type {Assets<Material>}*/
-  const materials = world.getResourceByTypeId(typeidGeneric(Assets, [Material]))
-
   /** @type {Assets<BasicMaterial>}*/
   const basicMaterials = world.getResourceByTypeId(typeidGeneric(Assets, [BasicMaterial]))
 
@@ -53,19 +48,6 @@ function init(world) {
     const easeName = easings[i]
     const x = offset + i * stride
     const y = -height / 2
-
-    commands
-      .spawn()
-      .insertPrefab([
-        ...createTransform2D(x, y + 10),
-        mesh,
-        materials.add(new CanvasTextMaterial({
-          text: easeName,
-          align: 'center'
-        })),
-        new Cleanup()
-      ])
-      .build()
 
     commands
       .spawn()
