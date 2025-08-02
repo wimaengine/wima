@@ -1,7 +1,7 @@
 import { App, Plugin } from '../app/index.js'
 import { AssetParserPlugin, AssetPlugin, Assets } from '../asset/index.js'
 import { BasicMaterial2D, BasicMaterial3D, Camera, Meshed } from './components/index.js'
-import { Material, Mesh, Shader, Image, BasicMaterial } from './assets/index.js'
+import { Mesh, Shader, Image, BasicMaterial } from './assets/index.js'
 import { BasicMaterialAssets, ImageAssets, ImageParser, MeshAssets } from './resources/index.js'
 import { Material2DPlugin, Material3DPlugin } from './plugins/index.js'
 import {
