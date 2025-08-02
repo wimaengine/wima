@@ -214,6 +214,30 @@ export class Handle {
 
 /**
  * @template T
+ */
+export class AssetEntry {
+
+  /**
+   * @type {T | undefined}
+   */
+  asset
+
+  /**
+   * @type {number}
+   */
+  refCount
+
+  /**
+   * @param {T} asset
+   */
+  constructor(asset) {
+    this.asset = asset
+    this.refCount = 0
+  }
+}
+
+/**
+ * @template T
  * @callback HandleProvider
  * @param {number} id
  * @returns {Handle<T>}
