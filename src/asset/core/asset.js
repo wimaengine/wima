@@ -180,15 +180,6 @@ export class Assets {
 
 /**
  * @template T
- * @param {number} id 
- * @returns {Handle<T>}
- */
-function defaultHandler(id) {
-  return new Handle(id)
-}
-
-/**
- * @template T
  * @callback HandleProvider
  * @param {number} id
  * @returns {Handle<T>}
