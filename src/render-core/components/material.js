@@ -2,11 +2,6 @@ import { Material } from '../assets/index.js'
 import { Handle } from '../../asset/index.js'
 
 /**
- * @augments {Handle<Material>}
- */
-export class MaterialHandle extends Handle {}
-
-/**
  * @template {Material} T
  */
 export class Material2D {
