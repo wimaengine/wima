@@ -205,9 +205,11 @@ export class Handle {
    * This only exists as a channel for reference counting, do not use for any
    * other purpose!
    * @private
+   * @readonly
    * @type {Assets<T>}
    */
   assets
+
   /**
    * @readonly
    * @type {number}
@@ -218,9 +220,15 @@ export class Handle {
    * @param {Assets<T>} assets 
    * @param {number} index 
    */
-  constructor(assets,index){
+  constructor(assets, index){
     this.index = index
     this.assets = assets
+
+    const entry = assets.getEntry(this)
+
+    if(entry){
+      entry.refCount += 1
+    }
   }
 
   /**
