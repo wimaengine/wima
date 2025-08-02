@@ -2,7 +2,6 @@
 /** @import {Constructor} from '../../reflect/index.js'*/
 import { DenseList } from '../../datastructures/index.js'
 import { AssetAdded, AssetEvent, AssetModified } from '../events/assets.js'
-import { Handle } from './handle.js'
 
 /**
  * @template T
@@ -175,6 +174,41 @@ export class Assets {
     if (events.length) this.events = []
 
     return events
+  }
+}
+
+/**
+ * @template T
+ */
+export class Handle {
+
+  /**
+   * This only exists as a channel for reference counting, do not use for any
+   * other purpose!
+   * @private
+   * @type {Assets<T>}
+   */
+  assets
+  /**
+   * @readonly
+   * @type {number}
+   */
+  index
+
+  /**
+   * @param {Assets<T>} assets 
+   * @param {number} index 
+   */
+  constructor(assets,index){
+    this.index = index
+    this.assets = assets
+  }
+
+  /**
+   * @returns {AssetId}
+   */
+  id(){
+    return /** @type {AssetId}*/(this.index)
   }
 }
 
