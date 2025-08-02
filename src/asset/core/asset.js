@@ -237,6 +237,12 @@ export class Handle {
   id(){
     return /** @type {AssetId}*/(this.index)
   }
+
+  clone(){
+    const { assets, index } = this
+
+    return new Handle(assets, index)
+  }
 }
 
 /**
