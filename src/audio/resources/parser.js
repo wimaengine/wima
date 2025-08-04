@@ -9,6 +9,12 @@ export class AudioParser extends Parser {
 
   /**
    * @private
+   * @type {Set<string>}
+   */
+  extensions
+  
+  /**
+   * @private
    * @type {OfflineAudioContext}
    */
   decoder
@@ -22,6 +28,7 @@ export class AudioParser extends Parser {
   }) {
     super()
     this.decoder = new OfflineAudioContext(options)
+    this.extensions = this.getExtensions()
   }
 
   /**
@@ -30,7 +37,7 @@ export class AudioParser extends Parser {
    * @param {Device} _device
    */
   verify(extension, _device) {
-    return document.createElement('audio').canPlayType(extension).length !== 0
+    return this.extensions.has(extension)
   }
 
   /**
