@@ -34,19 +34,6 @@ export class AudioParser extends Parser {
   }
 
   /**
-   * @returns {Audio}
-   */
-  placeholder() {
-    return new Audio(
-      new AudioBuffer({
-        sampleRate: 44100,
-        length: 512
-      }),
-      new ArrayBuffer(0)
-    )
-  }
-
-  /**
    * @param {Response} response
    */
   async parse(response) {
