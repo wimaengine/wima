@@ -47,7 +47,7 @@ export class AudioParser extends Parser {
     const raw = await response.arrayBuffer()
     const audiobuffer = await this.decoder.decodeAudioData(raw)
 
-    return new Audio(audiobuffer, raw)
+    return new Audio(audiobuffer)
   }
 
   getExtensions(){
