@@ -55,4 +55,24 @@ export class AudioParser extends Parser {
 
     return new Audio(audiobuffer, raw)
   }
+
+  getExtensions(){
+    // audio capabilities
+    const audio = document.createElement('audio')
+    const extensions = new Set()
+
+    if (audio.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/, '')) {
+      extensions.add('ogg')
+    }
+    if (audio.canPlayType('audio/mpeg;').replace(/^no$/, '')) {
+      extensions.add('mp3')
+    }
+    if (audio.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '')) {
+      extensions.add('wav')
+    }
+    if (audio.canPlayType('audio/x-m4a;').replace(/^no$/, '') || audio.canPlayType('audio/aac;').replace(/^no$/, '')) {
+      extensions.add('m4a')
+    }
+    return extensions
+  }
 }
