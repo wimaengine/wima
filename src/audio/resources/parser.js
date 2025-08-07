@@ -64,6 +64,7 @@ export class AudioParser extends Parser {
   }
 
   getExtensions(){
+
     // audio capabilities
     const audio = document.createElement('audio')
     const extensions = new Set()
@@ -80,6 +81,7 @@ export class AudioParser extends Parser {
     if (audio.canPlayType('audio/x-m4a;').replace(/^no$/, '') || audio.canPlayType('audio/aac;').replace(/^no$/, '')) {
       extensions.add('m4a')
     }
+
     return extensions
   }
 }
