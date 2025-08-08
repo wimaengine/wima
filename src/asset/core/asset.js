@@ -258,6 +258,10 @@ export class Handle {
 
     return new Handle(assets, index)
   }
+
+  drop(){
+    this.assets.drop(this)
+  }
 }
 
 /**
