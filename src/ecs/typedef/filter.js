@@ -1,9 +1,9 @@
-/** @import {Archetype} from '../tables/index.js' */
+/** @import {Table} from '../tables/index.js' */
 /** @import {ArchetypeId} from './identifiers.js' */
 
 /**
  * @callback ArchetypeFilter
- * @param {Archetype} archetype
+ * @param {Table} archetype
  * @param {ArchetypeId} id
  * @returns { boolean }
  */

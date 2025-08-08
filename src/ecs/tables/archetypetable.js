@@ -13,16 +13,16 @@ import { swapRemove } from '../../utils/index.js'
  * class B {}
  * 
  * //This archetype contains entities with component A
- * const archetype1 = new Archetype()
+ * const archetype1 = new Table()
  * archetype.components.set("A",[])
  * 
  * //This archetype contains entities with component A and B
- * const archetype2 = new Archetype()
+ * const archetype2 = new Table()
  * archetype.components.set("A",[])
  * archetype.components.set("B",[])
  * ```
  */
-export class Archetype {
+export class Table {
 
   /**
    * @type {Map<TypeId,unknown[]>}
@@ -31,13 +31,13 @@ export class Archetype {
 }
 
 /**
- * Store components in {@link Archetype archetypes}.
+ * Store components in {@link Table archetypes}.
  */
 export class ArchetypeTable {
 
   /**
    * @private
-   * @type {Archetype[]}
+   * @type {Table[]}
    */
   list = []
 
@@ -46,7 +46,7 @@ export class ArchetypeTable {
    * @returns {ArchetypeId}
    */
   createArchetype(comps) {
-    const archetype = new Archetype()
+    const archetype = new Table()
 
     for (let i = 0; i < comps.length; i++) {
       archetype.components.set(comps[i], [])
@@ -56,7 +56,7 @@ export class ArchetypeTable {
   }
 
   /**
-   * @param {Archetype} archetype
+   * @param {Table} archetype
    * @param {TypeId[]} comps
    * @returns {boolean} 
    */
@@ -81,7 +81,7 @@ export class ArchetypeTable {
 
   /**
    * @param {ArchetypeId} id
-   * @returns {Archetype | undefined}
+   * @returns {Table | undefined}
    */
   getArchetype(id) {
     return this.list[id]
@@ -89,8 +89,8 @@ export class ArchetypeTable {
 
   /**
    * @param {ArchetypeFilter} filter
-   * @param {Archetype[]} out
-   * @returns {Archetype[]}
+   * @param {Table[]} out
+   * @returns {Table[]}
    */
   filterArchetypes(filter, out = []) {
     for (let i = 0; i < this.list.length; i++) {
@@ -207,7 +207,7 @@ export class ArchetypeTable {
     const archid = this.resolveArchetypeFor(ids)
     const index = this.insertIntoArchetype(archid, ids, components)
 
-    assert(index, 'Internal error:Archetype exists but insertion failed!')
+    assert(index, 'Internal error:Table exists but insertion failed!')
     
     return [archid, index]
   }
