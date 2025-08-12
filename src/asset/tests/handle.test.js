@@ -81,4 +81,49 @@ describe('Testing `Handle`',()=>{
         deepStrictEqual(entry2.refCount,1)
         deepStrictEqual(entry3.refCount,1)
     })
+
+    test('`Handle.drop` removes asset (case 1)', () => {
+        const assets = new Assets(String)
+        const asset = "Wima engine"
+
+        const handle = assets.add(asset)
+        handle.drop()
+        const actual = assets.get(handle)
+
+        deepStrictEqual(actual, undefined)
+    })
+
+    test('`Handle.drop` removes asset (case 2)', () => {
+        const assets = new Assets(String)
+        const asset = "Wima engine"
+
+        const handle = assets.add(asset)
+        handle.clone()
+        handle.clone()
+
+        handle.drop()
+        handle.drop()
+        handle.drop()
+
+        const actual = assets.get(handle)
+
+        deepStrictEqual(actual, undefined)
+    })
+
+    test('`Handle.drop` does not remove asset prematurely', () => {
+        const assets = new Assets(String)
+        const asset = "Wima engine"
+
+        const handle = assets.add(asset)
+
+        handle.clone()
+        handle.clone()
+
+        handle.drop()
+        handle.drop()
+        
+        const actual = assets.get(handle)
+
+        deepStrictEqual(actual, asset)
+    })
 })

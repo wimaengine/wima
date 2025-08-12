@@ -1,7 +1,7 @@
 /** @import {AssetId} from '../types/index.js' */
 /** @import {Constructor} from '../../reflect/index.js'*/
 import { DenseList } from '../../datastructures/index.js'
-import { AssetAdded, AssetEvent, AssetModified } from '../events/assets.js'
+import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events/assets.js'
 
 /**
  * @template T
@@ -67,6 +67,9 @@ export class Assets {
    */
   set(handle, asset) {
     const entry = this.getEntry(handle)
+
+    if(!entry) return
+
     const oldAsset = entry.asset
 
     entry.asset = asset
@@ -194,6 +197,21 @@ export class Assets {
 
     return events
   }
+
+  /**
+   * @param {Handle<T>} handle
+   */
+  drop(handle){
+    const entry = this.getEntry(handle)
+    
+    entry.refCount -= 1
+
+    if(entry.refCount <= 0){
+      entry.asset = undefined
+      this.assets.recycle(handle.index)
+      this.events.push(new AssetDropped(this.type, handle.id()))
+    }
+  }
 }
 
 /**
@@ -242,6 +260,10 @@ export class Handle {
     const { assets, index } = this
 
     return new Handle(assets, index)
+  }
+
+  drop(){
+    this.assets.drop(this)
   }
 }
 
