@@ -1,7 +1,7 @@
 import { test, describe } from "node:test";
 import { deepStrictEqual, strictEqual } from "node:assert";
 import { Assets,Handle } from "../core/index.js";
-import { AssetAdded, AssetModified } from "../events/assets.js";
+import { AssetAdded, AssetDropped, AssetModified } from "../events/assets.js";
 
 describe("Testing `Assets`", () => {
     test('`Assets.add` adds the asset correctly', () => {
@@ -265,5 +265,16 @@ describe("Testing `Assets`", () => {
         deepStrictEqual(events[1], new AssetAdded(String, handle2.id()))
         deepStrictEqual(events[2], new AssetModified(String, handle1.id()))
         deepStrictEqual(events[3], new AssetModified(String, handle2.id()))
+    })
+
+    test('Assets provides the right event when asset is dropped', () => {
+        const assets = new Assets(String)
+        const asset = "Wima engine"
+
+        const handle = assets.add(asset)
+        assets.drop(handle)
+        const events = assets.flushEvents()
+
+        deepStrictEqual(events[1], new AssetDropped(String, handle.id()))
     })
 })
