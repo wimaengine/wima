@@ -67,6 +67,9 @@ export class Assets {
    */
   set(handle, asset) {
     const entry = this.getEntry(handle)
+
+    if(!entry) return
+
     const oldAsset = entry.asset
 
     entry.asset = asset
