@@ -24,3 +24,9 @@ export class Field {
     this.optional = optional
   }
 }
+
+export class OpaqueInfo extends TypeInfo {  
+  static default() {
+    return new OpaqueInfo()
+  }
+}
