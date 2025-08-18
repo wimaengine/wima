@@ -13,7 +13,7 @@ export class AnimationTarget {
   id
 
   /**
-   * @param {number} player
+   * @param {Entity} player
    * @param {string} id
    */
   constructor(player, id) {

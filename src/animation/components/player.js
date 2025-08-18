@@ -22,7 +22,7 @@ export class AnimationPlayer {
   set(handle, settings) {
     const playback = new Playback(settings)
 
-    this.animations.set(handle.handle, playback)
+    this.animations.set(handle.id(), playback)
 
     return this
   }
@@ -31,14 +31,14 @@ export class AnimationPlayer {
    * @param {Handle<AnimationClip>} handle
    */
   get(handle) {
-    return this.animations.get(handle.handle)
+    return this.animations.get(handle.id())
   }
   
   /**
    * @param {Handle<AnimationClip>} handle
    */
   delete(handle) {
-    this.animations.delete(handle.handle)
+    this.animations.delete(handle.id())
 
     return this
   }

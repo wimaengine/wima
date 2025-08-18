@@ -1,5 +1,5 @@
+/** @import { AnimationEffectorEnforcer } from '../core/index.js' */
 import { lerp } from '../../math/index.js'
-import { AnimationEffector } from './animationeffector.js'
 
 export class AnimationTrack {
 
@@ -14,12 +14,12 @@ export class AnimationTrack {
   keyframes = []
 
   /**
-   * @type {AnimationEffector}
+   * @type {AnimationEffectorEnforcer}
    */
   effector
 
   /**
-   * @param {AnimationEffector} effector
+   * @param {AnimationEffectorEnforcer} effector
    */
   constructor(effector) {
     this.effector = effector
