@@ -1,9 +1,7 @@
 import {
   Mesh,
-  CanvasMeshedMaterial,
   createTransform2D,
   World,
-  Color,
   Demo,
   Cleanup,
   AnimationClip,
@@ -13,25 +11,35 @@ import {
   PlaybackRepeat,
   Position2DAnimationEffector,
   Orientation2DAnimationEffector,
-  Scale2DAnimationEffector
-} from 'chaosstudio'
+  Scale2DAnimationEffector,
+  EntityCommands,
+  MeshAssets,
+  BasicMaterialAssets,
+  BasicMaterial,
+  Meshed,
+  BasicMaterial2D,
+  HALF_PI,
+  PI,
+  TAU
+} from 'wima'
+import { AnimationClipAssets } from '../../../src/animation/resources/aliases.js'
+import { addDefaultCamera2D } from '../utils.js'
 
-export const animation = new Demo('basic animation', [init])
+export default new Demo('basic animation', [init, addDefaultCamera2D])
 
 /**
  * @param {World} world
  */
 export function init(world) {
-  const commands = world.getResource('entitycommands')
-  const clips = world.getResource('assets<animationclip>')
-  const meshes = world.getResource('assets<mesh>')
-  const materials = world.getResource('assets<material>')
+  const commands = world.getResource(EntityCommands)
+  const clips = world.getResource(AnimationClipAssets)
+  const meshes = world.getResource(MeshAssets)
+  const materials = world.getResource(BasicMaterialAssets)
+
   const rawClip = createClip()
-  const clip = clips.add('move', rawClip)
-  const mesh = meshes.add('animation', Mesh.quad2D(50, 50))
-  const material = materials.add('animation', new CanvasMeshedMaterial({
-    fill: new Color(1, 1, 1)
-  }))
+  const clip = clips.add(rawClip)
+  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const material = materials.add(new BasicMaterial())  
   const targetname = '/bone'
   const animationplayer = new AnimationPlayer()
   
@@ -47,9 +55,9 @@ export function init(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(120, 120),
-      mesh,
-      material,
+      ...createTransform2D(100, 100),
+      new Meshed(mesh),
+      new BasicMaterial2D(material),
       new AnimationTarget(player, targetname),
       new Cleanup()
     ])
@@ -57,7 +65,7 @@ export function init(world) {
 }
 
 /**
- *
+ *@returns {AnimationClip}
  */
 function createClip() {
   const clip = new AnimationClip()
@@ -71,23 +79,23 @@ function createClip() {
   scale.times = [0, 2, 4, 6, 8]
   
   translate.keyframes = [
+    -100,
+    100,
+    -100,
+    -100,
+    100,
+    -100,
     100,
     100,
-    100,
-    300,
-    300,
-    300,
-    300,
-    100,
-    100,
+    -100,
     100
   ]
   rotate.keyframes = [
     0,
-    Math.PI / 2,
-    Math.PI,
-    Math.PI * 3 / 2,
-    Math.PI * 2
+    HALF_PI,
+    PI,
+    HALF_PI * 3,
+    TAU
   ]
   scale.keyframes = [
     1,
@@ -106,7 +114,6 @@ function createClip() {
   clip.add('/bone', rotate)
   clip.add('/bone', scale)
   clip.calculateDuration()
-  console.log(clip)
   
   return clip
 }

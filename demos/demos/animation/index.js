@@ -1,1 +1,1 @@
-export * from './basic.js'
+export { default as animation } from './basic.js'

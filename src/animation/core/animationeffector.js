@@ -6,12 +6,6 @@ import { Position2D, Orientation2D, Scale2D, Position3D, Orientation3D, Scale3D 
  * @abstract
  */
 export class AnimationEffector {
-  elementSize(){
-    const { constructor } = this
-
-    // @ts-ignore
-    return constructor.elementSize()
-  }
 
   /**
    * @param {World} _world
@@ -33,7 +27,7 @@ export class Position2DAnimationEffector extends AnimationEffector {
    * @param {number[]} results
    */
   static apply(world, entity, results) {
-    const component = world.get(entity, this.componentType.name.toLowerCase())
+    const component = world.get(entity, this.componentType)
     
     component.set(results[0], results[1] )
   }
@@ -51,8 +45,8 @@ export class Position3DAnimationEffector extends AnimationEffector {
    * @param {number[]} results
    */
   static apply(world, entity, results) {
-    const component = world.get(entity, this.componentType.name.toLowerCase())
-    
+    const component = world.get(entity, this.componentType)
+        
     component.set(results[0], results[1], results[2])
   }
   static elementSize() {
@@ -69,7 +63,7 @@ export class Orientation2DAnimationEffector extends AnimationEffector {
    * @param {number[]} results
    */
   static apply(world, entity, results) {
-    const component = world.get(entity, this.componentType.name.toLowerCase())
+    const component = world.get(entity, this.componentType)
     
     component.value = results[0]
   }
@@ -87,7 +81,7 @@ export class Orientation3DAnimationEffector extends AnimationEffector {
    * @param {number[]} results
    */
   static apply(world, entity, results) {
-    const component = world.get(entity, this.componentType.name.toLowerCase())
+    const component = world.get(entity, this.componentType)
     
     component.set(results[0], results[1], results[2], results[3])
   }
@@ -105,7 +99,7 @@ export class Scale2DAnimationEffector extends AnimationEffector {
    * @param {number[]} results
    */
   static apply(world, entity, results) {
-    const component = world.get(entity, this.componentType.name.toLowerCase())
+    const component = world.get(entity, this.componentType)
 
     component.set(results[0], results[1])
   }
@@ -123,7 +117,7 @@ export class Scale3DAnimationEffector extends AnimationEffector {
    * @param {number[]} results
    */
   static apply(world, entity, results) {
-    const component = world.get(entity, this.componentType.name.toLowerCase())
+    const component = world.get(entity, this.componentType)
     
     component.set(results[0], results[1], results[2])
   }
@@ -131,3 +125,9 @@ export class Scale3DAnimationEffector extends AnimationEffector {
     return 3
   }
 }
+
+/**
+ * @typedef AnimationEffectorEnforcer
+ * @property {(world:World,entity:Entity,results:number[])=>void} apply
+ * @property {()=>number} elementSize
+ */
