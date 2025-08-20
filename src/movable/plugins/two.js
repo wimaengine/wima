@@ -4,9 +4,9 @@ import {
   Acceleration2D,
   Torque2D
 } from '../components/index.js'
-import { App } from '../../app/index.js'
+import { App, Plugin } from '../../app/index.js'
 
-export class Movable2DPlugin {
+export class Movable2DPlugin extends Plugin {
 
   /**
    * @param {App} app

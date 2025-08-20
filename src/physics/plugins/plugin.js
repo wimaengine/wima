@@ -1,6 +1,5 @@
-/** @import { ChaosPlugin } from '../../app/index.js' */
 import { Broadphase2DPlugin, NaiveBroadphase2D } from '../../broadphase/index.js'
-import { App, AppSchedule } from '../../app/index.js'
+import { App, AppSchedule, Plugin } from '../../app/index.js'
 import { ComponentHooks } from '../../ecs/index.js'
 import { NarrowPhase2DPlugin } from '../../narrowphase/index.js'
 import { EulerIntegrator2DPlugin } from '../../integrator/index.js'
@@ -9,7 +8,7 @@ import { physicspropertiesAddHook } from '../hooks/index.js'
 import { Gravity2DPlugin } from '../../gravity/index.js'
 import { collisionResponse, updateBodies, updateBounds } from '../systems/index.js'
 
-export class Physics2DPlugin {
+export class Physics2DPlugin extends Plugin {
 
   /**
    * @param {Physics2DPluginOptions} options
@@ -22,6 +21,7 @@ export class Physics2DPlugin {
     narrowphase = new NarrowPhase2DPlugin(),
     integrator = new EulerIntegrator2DPlugin()
   } = {}) {
+    super()
     this.broadphase = broadphase
     this.narrowphase = narrowphase
     this.integrator = integrator
@@ -60,8 +60,8 @@ export class Physics2DPlugin {
 
 /**
  * @typedef Physics2DPluginOptions
- * @property {ChaosPlugin} [broadphase]
- * @property {ChaosPlugin} [narrowphase]
- * @property {ChaosPlugin} [integrator]
+ * @property {Plugin} [broadphase]
+ * @property {Plugin} [narrowphase]
+ * @property {Plugin} [integrator]
  * @property {boolean} [autoUpdateBounds]
  */

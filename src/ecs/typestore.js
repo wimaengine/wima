@@ -34,6 +34,10 @@ export class TypeStore {
    * @returns {ComponentId}
    */
   setByTypeId(id){
+    const hasid = this.map.get(id)
+
+    if(hasid) return hasid
+
     const compId = this.list.length
 
     this.map.set(id, compId)
@@ -103,6 +107,22 @@ export class TypeStore {
    */
   getIdByTypeId(id) {
     return this.map.get(id)
+  }
+
+  /**
+   * @template T
+   * @param {Constructor<T>} component
+   * @returns {number}
+   */
+  getOrSet(component){
+    return this.getOrSetByTypeId(typeid(component))
+  }
+
+  /**
+   * @param {TypeId} typeid
+   */
+  getOrSetByTypeId(typeid){
+    return this.getIdByTypeId(typeid) || this.setByTypeId(typeid)
   }
 
   /**

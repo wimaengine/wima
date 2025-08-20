@@ -1,4 +1,3 @@
-/** @import { ComponentId } from './typedef/index.js'*/
 /** @import { Constructor, TypeId } from '../reflect/index.js'*/
 
 import { ArchetypeTable } from './tables/index.js'
@@ -21,6 +20,12 @@ export class World {
    * @type {Record<string,any>}
    */
   resources = {}
+
+  /**
+   * @private
+   * @type {Map<TypeId,TypeId>}
+   */
+  resourceAliases = new Map()
 
   /**
    * @private
@@ -91,7 +96,7 @@ export class World {
    * @param {[...T]} components - The entity to add.
    * @returns {Entity}
    */
-  create(components) {
+  spawn(components) {
     const entityIndex = this.entities.reserve()
 
     // SAFETY: the entity was reserved in this function so we know its there.
@@ -137,9 +142,9 @@ export class World {
     this.table.remove(archid, index)
 
     const [combinedid, combined] = this.resolveCombine(
-      idextract, 
+      idextract,
       extract,
-      ids, 
+      ids,
       components
     )
 
@@ -200,7 +205,7 @@ export class World {
    */
   createMany(entities) {
     for (let i = 0; i < entities.length; i++) {
-      this.create(entities[i])
+      this.spawn(entities[i])
     }
   }
 
@@ -211,7 +216,7 @@ export class World {
    *
    * @param {Entity} entity - The entity to remove.
    */
-  remove(entity) {
+  despawn(entity) {
     const location = this.entities.get(entity.index)
 
     if (!location) return
@@ -272,7 +277,7 @@ export class World {
    * @param {new (...args:any[])=>T} resourceType
    * @returns {T}
    */
-  getResource(resourceType) {    
+  getResource(resourceType) {
     return this.getResourceByTypeId(typeid(resourceType))
   }
 
@@ -284,9 +289,19 @@ export class World {
   getResourceByTypeId(id) {
     const resource = this.resources[id]
 
-    assert(resource, `The resource \`${id}\` does not exist in the world.`)
+    if (resource) {
+      return resource
+    }
 
-    return this.resources[id]
+    const aliasedid = this.resourceAliases.get(id)
+
+    assert(aliasedid, `The resource or resource alias \`${id}\` is non existent.`)
+
+    const aliasedResource = this.resources[aliasedid]
+
+    assert(aliasedResource, `The resource alias \`${id}\` points to a non-existent resource \`${aliasedid}\`.`)
+
+    return aliasedResource
   }
 
   /**
@@ -313,6 +328,15 @@ export class World {
 
   /**
    * @template T
+   * @param {TypeId} id 
+   * @param {Constructor<T>} alias 
+   */
+  setResourceAlias(id, alias) {
+    this.resourceAliases.set(typeid(alias), id)
+  }
+
+  /**
+   * @template T
    * @param {Constructor<T>} type
    */
   registerType(type) {
@@ -325,9 +349,10 @@ export class World {
    * @param {ComponentHooks} hooks
    */
   setComponentHooks(component, hooks) {
-    const info = this.typestore.get(component)
+    const id = this.typestore.getOrSet(component)
+    const info = this.typestore.getById(id)
 
-    assert(info, `The component "${component.name}" has not been registered.Use \`World.registerType()\` to add it.`)
+    assert(info, `Internal error:The component "${component.name}" has not been registered somehow.`)
     info.setHooks(hooks)
   }
 

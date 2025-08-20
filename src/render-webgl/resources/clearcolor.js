@@ -1,3 +1,7 @@
-import { Color } from '../../math/index.js'
+import { Color } from '../../color/index.js'
 
-export class ClearColor extends Color {}
+export class ClearColor extends Color {
+  constructor(){
+    super(0, 0, 0)
+  }
+}

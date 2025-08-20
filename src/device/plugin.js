@@ -1,8 +1,8 @@
-import { App } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { Browser, PlatformOS } from './core/index.js'
 import { Device } from './resources/index.js'
 
-export class DevicePlugin {
+export class DevicePlugin extends Plugin {
 
   /**
    * @param {App} app 
@@ -10,7 +10,6 @@ export class DevicePlugin {
   register(app) {
     const device = new Device()
     const ua = navigator.userAgent
-    const ae = document.createElement('audio')
 
     app.setResource(device)
 
@@ -46,23 +45,6 @@ export class DevicePlugin {
       device.browser = Browser.Opera
     } else if (/Safari/.test(ua)) {
       device.browser = Browser.Safari
-    }
-        
-    // audio capabilities
-    if (window.AudioContext && window.AudioBuffer && window.AudioBufferSourceNode) {
-      device.capabilities.webAudio = true
-    }
-    if (ae.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.add('ogg')
-    }
-    if (ae.canPlayType('audio/mpeg;').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.add('mp3')
-    }
-    if (ae.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.add('wav')
-    }
-    if (ae.canPlayType('audio/x-m4a;').replace(/^no$/, '') || ae.canPlayType('audio/aac;').replace(/^no$/, '')) {
-      device.capabilities.supportedAudioFormats.add('m4a')
     }
   }
 }

@@ -1,24 +1,20 @@
-/** @import {Entity} from '../../ecs/index.js'*/
-
-import { assert } from '../../logger/index.js'
+/** @import {Entity,EntityId} from '../../ecs/index.js'*/
 
 export class Windows {
 
   /**
    * @private
-   * @type {Map<number,HTMLCanvasElement>}
+   * @type {Map<EntityId,HTMLCanvasElement>}
    */
   entities = new Map()
 
   /**
    * @param {Entity} entity
-   * @returns {HTMLCanvasElement}
+   * @returns {HTMLCanvasElement | undefined}
    */
   getWindow(entity){
-    const window = this.entities.get(entity.index)
+    const window = this.entities.get(entity.id())
     
-    assert(window, 'the provided window entity does not have a corresponding canvas element.')
-
     return window
   }
 
@@ -27,13 +23,13 @@ export class Windows {
    * @param {HTMLCanvasElement} window
    */
   setWindow(entity, window){
-    this.entities.set(entity.index, window)
+    this.entities.set(entity.id(), window)
   }
   
   /**
    * @param {Entity} entity
    */
   delete(entity){
-    this.entities.delete(entity.index)
+    this.entities.delete(entity.id())
   }
 }

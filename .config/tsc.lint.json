@@ -1,12 +1,26 @@
 {
-    "include": [
-        "../src"
-    ],
-    "exclude":["../**/test/**/*.js","../*.test.js","../*.spec.js"],
-    "compilerOptions": {
-        "types":[],
-        "checkJs": true,
-        "target":"ES2020",
-        "noEmit":true
+  "include": [
+    "../src",
+    "../demos"
+  ],
+  "exclude":[
+],
+  "compilerOptions": {
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "alwaysStrict": true,
+    "checkJs": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "noEmit": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "target": "ES2020",
+    "skipLibCheck":true,
+    "paths":{
+      "wima":["../src/index.js"]
     }
+  }
 }

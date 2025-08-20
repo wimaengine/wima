@@ -1,5 +1,5 @@
 /** @import {PlaybackId} from '../typedef/index.js'*/
-import { Audio } from '../../asset/index.js'
+import { Audio } from '../assets/index.js'
 
 /**
  * Manages playing of audio using Web Audio.

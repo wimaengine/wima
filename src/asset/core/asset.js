@@ -1,6 +1,7 @@
+/** @import {AssetId} from '../types/index.js' */
+/** @import {Constructor} from '../../reflect/index.js'*/
 import { DenseList } from '../../datastructures/index.js'
-import { assert } from '../../logger/index.js'
-import { Handle } from './handle.js'
+import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events/assets.js'
 
 /**
  * @template T
@@ -8,17 +9,23 @@ import { Handle } from './handle.js'
 export class Assets {
 
   /**
+   * @type {Constructor<T>}
+   */
+  type
+
+  /**
    * @private
-   * @type {DenseList<T>}
+   * @type {DenseList<AssetEntry<T>>}
    */
   assets = new DenseList()
 
   /**
    * @private
-   * @type {Map<string,number>}
+   * @type {Map<string,Handle<T>>}
    */
-  paths = new Map()
+  uuids = new Map()
 
+  // TODO: Move to asset server when it is implemented
   /**
    * @private
    * @type {string[]}
@@ -27,85 +34,133 @@ export class Assets {
 
   /**
    * @private
-   * @type {() => T}
+   * @type {AssetEvent<T>[]}
    */
-  create
+  events = []
 
   /**
-   * @protected
-   * @type {HandleProvider<T>}
+   * @param {Constructor<T>} type
    */
-  createHandle
-
-  /**
-   * @param {(() => T)} defaulter
-   * @param {(HandleProvider<T>)} handler
-   */
-  constructor(defaulter, handler = /** @type {HandleProvider<T>} */(defaultHandler)) {
-    this.create = defaulter
-
-    this.def = defaulter()
-    this.createHandle = handler
-  }
-  
-  /**
-   * @param {string} name
-   * @returns {T | undefined}
-   */
-  get(name){
-    const id = this.paths.get(name)
-
-    if(id === undefined) return undefined
-
-    return this.assets.get(id)
+  constructor(type) {
+    this.type = type
   }
 
   /**
-   * @param {Handle<T>} handle
-   * @returns {T}
-   */
-  getByHandle(handle) {
-    const asset = this.assets.get(handle.handle)
-
-    assert(asset, 'The handle provided is invalid!Did you try to create your own handle?')
-
-    return asset
-  }
-
-  /**
-   * @param {Handle<T>} handle
-   * @param {T} asset
-   */
-  setByHandle(handle, asset) {
-    this.assets.set(handle.handle, asset)
-  }
-
-  /**
-   * @param {string} path
-   * @param {T} asset
-   */
-  setByPath(path, asset) {
-    const id = this.paths.get(path)
-
-    assert(id, 'The given path has not been loaded')
-
-    this.assets.set(id, asset)
-  }
-
-  /**
-   * @param {string} path 
    * @param {T} asset 
    * @returns {Handle<T>}
    */
-  add(path, asset) {
-    const id = this.paths.get(path) || this.assets.reserve()
+  add(asset) {
+    const id = this.assets.reserve()
 
-    this.assets.set(id, asset)
-    this.paths.set(path, id)
+    this.assets.set(id, new AssetEntry(asset))
 
-    return this.createHandle(id)
+    const handle = new Handle(this, id)
+
+    this.events.push(new AssetAdded(this.type, handle.id()))
+
+    return handle
   }
 
+  /**
+   * @param {Handle<T>} handle
+   * @param {T} asset
+   */
+  set(handle, asset) {
+    const entry = this.getEntry(handle)
+
+    if(!entry) return
+
+    const oldAsset = entry.asset
+
+    entry.asset = asset
+
+    if (oldAsset) {
+      this.events.push(new AssetModified(this.type, handle.id()))
+    } else {
+      this.events.push(new AssetAdded(this.type, handle.id()))
+    }
+  }
+
+  /**
+   * @param {string} uuid 
+   * @param {T} asset 
+   * @returns {Handle<T>}
+   */
+  setWithUUID(uuid, asset) {
+    const handle = this.uuids.get(uuid)
+
+    if (handle) {
+      this.set(handle, asset)
+
+      // TODO: clone this when asset dropping is added
+      return handle
+    }
+
+    const newHandle = this.add(asset)
+
+    // TODO: clone this when asset dropping is added
+    this.uuids.set(uuid, newHandle)
+
+    return newHandle
+  }
+
+  /**
+   * @param {Handle<T>} handle
+   * @returns {AssetEntry<T> | undefined}
+   */
+  getEntry(handle) {
+    const { index } = handle
+
+    return this.assets.get(index)
+  }
+
+  /**
+   * @param {Handle<T>} handle
+   * @returns {T | undefined}
+   */
+  get(handle) {
+    const entry = this.getEntry(handle)
+
+    if(!entry) return undefined
+
+    return entry.asset
+  }
+
+  /**
+   * @param {string} uuid
+   * @returns {T | undefined}
+   */
+  getByUUID(uuid) {
+    const handle = this.getHandleByUUID(uuid)
+
+    if (!handle) return undefined
+
+    return this.get(handle)
+  }
+
+  /**
+   * @param {AssetId} id
+   * @returns {T | undefined}
+   */
+  getByAssetId(id) {
+    const entry = this.assets.get(id)
+
+    if(!entry) return undefined
+
+    return this.assets.get(id).asset
+  }
+
+  /**
+   * @param {string} uuid 
+   * @returns {Handle<T> | undefined}
+   */
+  getHandleByUUID(uuid) {
+
+    // TODO: clone this when asset dropping is added
+    return this.uuids.get(uuid)
+  }
+
+  // TODO: Move to asset server when it is implemented
   /**
    * @param {string} path 
    * @returns {Handle<T>}
@@ -113,13 +168,14 @@ export class Assets {
   load(path) {
     const id = this.assets.reserve()
 
-    this.assets.set(id, this.create())
-    this.paths.set(path, id)
+    this.assets.set(id, new AssetEntry(undefined))
+    this.uuids.set(path, new Handle(this, id))
     this.toLoad.push(path)
 
-    return this.createHandle(id)
+    return new Handle(this, id)
   }
 
+  // TODO: Move to asset server when it is implemented
   /**
    * @returns {Readonly<string[]>}
    */
@@ -130,15 +186,109 @@ export class Assets {
 
     return load
   }
+
+  /**
+   * @returns {Readonly<AssetEvent<T>[]>}
+   */
+  flushEvents() {
+    const { events } = this
+
+    if (events.length) this.events = []
+
+    return events
+  }
+
+  /**
+   * @param {Handle<T>} handle
+   */
+  drop(handle){
+    const entry = this.getEntry(handle)
+    
+    entry.refCount -= 1
+
+    if(entry.refCount <= 0){
+      entry.asset = undefined
+      this.assets.recycle(handle.index)
+      this.events.push(new AssetDropped(this.type, handle.id()))
+    }
+  }
 }
 
 /**
  * @template T
- * @param {number} id 
- * @returns {Handle<T>}
  */
-function defaultHandler(id) {
-  return new Handle(id)
+export class Handle {
+
+  /**
+   * This only exists as a channel for reference counting, do not use for any
+   * other purpose!
+   * @private
+   * @readonly
+   * @type {Assets<T>}
+   */
+  assets
+
+  /**
+   * @readonly
+   * @type {number}
+   */
+  index
+
+  /**
+   * @param {Assets<T>} assets 
+   * @param {number} index 
+   */
+  constructor(assets, index){
+    this.index = index
+    this.assets = assets
+
+    const entry = assets.getEntry(this)
+
+    if(entry){
+      entry.refCount += 1
+    }
+  }
+
+  /**
+   * @returns {AssetId}
+   */
+  id(){
+    return /** @type {AssetId}*/(this.index)
+  }
+
+  clone(){
+    const { assets, index } = this
+
+    return new Handle(assets, index)
+  }
+
+  drop(){
+    this.assets.drop(this)
+  }
+}
+
+/**
+ * @template T
+ */
+export class AssetEntry {
+
+  /**
+   * @type {T | undefined}
+   */
+  asset
+
+  /**
+   * @type {number}
+   */
+  refCount
+
+  /**
+   * @param {T} asset
+   */
+  constructor(asset) {
+    this.asset = asset
+    this.refCount = 0
+  }
 }
 
 /**

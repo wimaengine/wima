@@ -1,5 +1,6 @@
 /** @import {ComponentHook} from '../../ecs/index.js' */
 
+import { throws } from '../../logger/index.js'
 import { Children, Parent } from '../components/index.js'
 
 
@@ -17,6 +18,9 @@ export function addSelfToParent(entity, world) {
 
   const children = world.get(parent.entity, Children)
 
+  if(parent.entity.equals(entity)){
+    throws(`THe entity ${entity.id()} cannot be its own parent!`)
+  }
   if (children) {
     children?.add(entity)
   } else {
@@ -62,6 +66,9 @@ export function addSelfToChildren(entity, world) {
     const child = children.list[i]
     const parent = world.get(child, Parent)
 
+    if(child.equals(entity)){
+      throws(`THe entity ${entity.id()} cannot be its own parent!`)
+    }
     if (!parent) {
       world.insert(child, [new Parent(entity)])
     } else {
@@ -84,9 +91,10 @@ export function despawnChildren(entity, world) {
     return
   }
 
-  for (let i = 0; i < children.list.length; i++) {
+  // Do not change this loop as children are despawned.
+  for (let i = children.list.length - 1; i >= 0; i--) {
     const child = children.list[i]
 
-    world.remove(child)
+    world.despawn(child)
   }
 }

@@ -1,19 +1,21 @@
 import {
   Mesh,
-  CanvasMeshedMaterial,
   createTransform2D,
   World,
-  Color,
   Demo,
   Query,
   EntityCommands,
   Cleanup,
-  warn,
-  Window,
-  Entity
+  Entity,
+  BasicMaterial,
+  Meshed,
+  BasicMaterial2D,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
+import { addDefaultCamera2D } from '../utils.js'
 
-export default new Demo('despawn', [init], [update])
+export default new Demo('despawn', [init, addDefaultCamera2D], [update])
 
 const itemWidth = 50
 const itemHeight = 50
@@ -25,36 +27,32 @@ const paddingHeight = 10
  */
 function init(world) {
   const commands = world.getResource(EntityCommands)
-  const meshes = world.getResourceByName('assets<mesh>')
-  const materials = world.getResourceByName('assets<material>')
-  const window = new Query(world, [Window]).single()
+  const meshes = world.getResource(MeshAssets)
+  const materials = world.getResource(BasicMaterialAssets)
 
-  if (!window) return warn('No window set up')
-
-  const width = window[0].getWidth()
-  const height = window[0].getHeight()
-  const nx = Math.floor(width / itemWidth)
-  const ny = Math.floor(height / itemHeight)
-  const mesh = meshes.add('material', Mesh.quad2D(
+  const width = 1000
+  const height = 600
+  const halfWidth = width / 2
+  const halfHeight = height / 2
+  const mesh = meshes.add(Mesh.quad2D(
     itemHeight - paddingWidth,
     itemWidth - paddingHeight
   ))
-  const material = materials.add('basic', new CanvasMeshedMaterial({
-    fill: new Color(1, 1, 1)
-  }))
+  const material = materials.add(new BasicMaterial())
 
-  for (let i = 0; i < nx * ny + 1; i++) {
-    const x = ((i % nx) * itemWidth) + itemWidth / 2
-    const y = Math.floor(i / nx) * itemHeight + itemHeight / 2
-
-    commands
-      .spawn()
-      .insertPrefab(createTransform2D(x, y))
-      .insert(mesh)
-      .insert(material)
-      .insert(new Marker())
-      .insert(new Cleanup())
-      .build()
+  for (let y = -halfHeight; y <= halfHeight; y += itemHeight) {
+    for (let x = -halfWidth; x < halfWidth; x += itemWidth) {
+      commands
+        .spawn()
+        .insertPrefab([
+          ...createTransform2D(x, y),
+          new Meshed(mesh),
+          new BasicMaterial2D(material),
+          new Marker(),
+          new Cleanup()
+        ])
+        .build()
+    }
   }
 }
 

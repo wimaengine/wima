@@ -1,18 +1,65 @@
-/** @import { ChaosPlugin } from './typedef/index.js' */
 /** @import { SystemFunc } from '../ecs/index.js' */
-/** @import { HandleProvider, Parser } from '../asset/index.js' */
-/** @import { Constructor } from '../reflect/index.js'*/
+/** @import { Constructor,TypeId } from '../reflect/index.js'*/
 
 import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
-import { EventPlugin } from '../event/index.js'
-import { assert, deprecate } from '../logger/index.js'
+import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
 import { SchedulerBuilder, SystemConfig } from './core/index.js'
-import { AssetParserPlugin, AssetPlugin } from '../asset/plugins/index.js'
+import { typeid } from '../reflect/index.js'
+
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
 
+export class PluginRegistry {
+
+  /**
+   * @type {Plugin[]}
+   */
+  list = []
+
+  /**
+   * @type {Set<TypeId>}
+   */
+  names = new Set()
+
+  /**
+   * @param {Plugin} plugin
+   */
+  add(plugin) {
+    this.list.push(plugin)
+    this.names.add(plugin.name())
+  }
+
+  /**
+   * @param {TypeId} plugin
+   */
+  hasTypeId(plugin) {
+    this.names.has(plugin)
+  }
+
+  /**
+   * @param {Plugin} plugin
+   */
+  has(plugin) {
+    this.hasTypeId(plugin.name())
+  }
+
+  /**
+   * @param {App} app 
+   */
+  register(app){
+    for (let i = 0; i < this.list.length; i++) {
+      this.list[i].register(app)
+    }
+  }
+}
 export class App {
+
+  /**
+   * @private
+   * @type {PluginRegistry}
+   */
+  plugins = new PluginRegistry()
 
   /**
    * @private
@@ -84,11 +131,11 @@ export class App {
    * @returns {this}
    */
   run() {
-    this.initialized = true
+    this.plugins.register(this)
 
     for (let i = 0; i < this.systemsevents.length; i++) {
       const ev = this.systemsevents[i]
-
+      
       this.systemBuilder.add(ev)
     }
 
@@ -96,21 +143,22 @@ export class App {
 
     this.systemBuilder.pushToScheduler(this.scheduler)
     this.scheduler.run(this.world)
+    this.initialized = true
 
     return this
   }
 
   /**
-   * @param {ChaosPlugin} plugin
+   * @param {Plugin} plugin
    */
   registerPlugin(plugin) {
-    plugin.register(this)
+    this.plugins.add(plugin)
 
     return this
   }
 
   /**
-   * @param {ChaosPlugin} debug
+   * @param {Plugin} debug
    */
   registerDebugger(debug) {
     return this.registerPlugin(debug)
@@ -136,60 +184,6 @@ export class App {
   }
 
   /**
-   * @deprecated
-   * @template {Function} T
-   * @param {T} event
-   */
-  registerEvent(event) {
-    deprecate('App.registerEvent()', 'EventPlugin')
-    this.registerPlugin(
-
-      // @ts-ignore
-      new EventPlugin({ event })
-    )
-
-    return this
-  }
-
-  /**
-   * @deprecated
-   * @template T
-   * @param {Function} asset
-   * @param {HandleProvider<T>} [handleprovider]
-   */
-  registerAsset(asset, handleprovider) {
-    this.registerPlugin(new AssetPlugin({
-
-      // this function will be removed so the cast does not 
-      // matter much
-      // eslint-disable-next-line object-shorthand
-      asset:/** @type {any}*/(asset),
-      handleprovider
-    }))
-
-    return this
-  }
-
-  /**
-   * @deprecated
-   * @template T
-   * @param {Function} asset 
-   * @param {Parser<T>} parser 
-   */
-  registerAssetParser(asset, parser) {
-    this.registerPlugin(new AssetParserPlugin({
-        
-      // this function will be removed so the cast does not 
-      // matter much
-      // eslint-disable-next-line object-shorthand
-      asset:/** @type {any}*/(asset),
-      parser
-    }))
-
-    return this
-  }
-
-  /**
    * @template T
    * @param {new (...args:any[])=>T} component
    * @param {ComponentHooks} hooks
@@ -210,5 +204,59 @@ export class App {
       .world.setResource(resource)
 
     return this
+  }
+}
+
+export class Plugin {
+
+  /**
+   * @param {App} _app
+   */
+  register(_app) { }
+
+  /**
+   * @returns {TypeId}
+   */
+  name() {
+
+    // SAFETY: `this.constructor` can be casted into a `Contructor`
+    return typeid(/** @type {Constructor}*/(this.constructor))
+  }
+}
+
+/**
+ * @abstract
+ */
+export class PluginGroup extends Plugin {
+
+  /**
+   * @private
+   * @type {Map<TypeId,Plugin>}
+   */
+  plugins = new Map()
+
+  /**
+   * @template {Plugin} T
+   * @param {T} plugin
+   * @returns {void}
+   */
+  add(plugin) {
+    this.plugins.set(plugin.name(), plugin)
+  }
+
+  /**
+   * @param {TypeId} id
+   */
+  remove(id) {
+    this.plugins.delete(id)
+  }
+
+  /**
+   * @param {App} app
+   */
+  register(app){
+    for (const plugin of this.plugins.values()) {
+      app.registerPlugin(plugin)
+    }
   }
 }

@@ -3,81 +3,63 @@ import {
   AppSchedule,
   World,
   FPSDebugger,
-  AudioPlugin,
-  CommandsPlugin,
-  DefaultTweenPlugin,
   DemoPlugin,
   DOMWindowPlugin,
-  InputPlugin,
-  StoragePlugin,
-  TimePlugin,
-  TransformPlugin,
-  WindowPlugin,
-  RenderCorePlugin,
   WebglRendererPlugin,
-  EulerIntegrator3DPlugin,
-  DevicePlugin,
-  MovablePlugin,
   MainWindow,
   Query,
   warn,
-  createCamera2D,
   WindowCommands,
-  Entity
+  Entity,
+  DefaultPlugin,
+  Windows
 } from 'wima'
 import {
   basictriangle,
-  colortriangle,
   changecolortriangle,
   geometries,
   rotatingtriangle,
   movingtriangle,
   cameraRotate,
   orthograhicCamera,
-  perspectiveCamera
+  perspectiveCamera,
+  translate3d,
+  rotate3d,
+  scale3d,
+  lookAt3d,
+  propagate3d
+
 } from './demos/index.js'
+import { ResourceAliasPlugin } from './demos/utils.js'
 
 const app = new App()
 
 app
-  .registerPlugin(new CommandsPlugin())
-  .registerPlugin(new DevicePlugin())
-  .registerPlugin(new AudioPlugin())
-  .registerPlugin(new TimePlugin())
-  .registerPlugin(new WindowPlugin())
-  .registerPlugin(new DOMWindowPlugin())
-  .registerPlugin(new InputPlugin())
-  .registerPlugin(new EulerIntegrator3DPlugin())
-  .registerPlugin(new TransformPlugin())
-  .registerPlugin(new MovablePlugin())
-  .registerPlugin(new RenderCorePlugin())
-  .registerPlugin(new StoragePlugin())
-  .registerPlugin(new DefaultTweenPlugin())
+  .registerPlugin(new ResourceAliasPlugin())
   .registerPlugin(new WebglRendererPlugin())
-  .registerDebugger(new FPSDebugger())
+  .registerPlugin(new DefaultPlugin())
+  .registerPlugin(new DOMWindowPlugin())
   .registerPlugin(new DemoPlugin({
     demos: [
       basictriangle,
-      colortriangle,
       changecolortriangle,
       geometries,
       rotatingtriangle,
       movingtriangle,
       cameraRotate,
       orthograhicCamera,
-      perspectiveCamera
+      perspectiveCamera,
+      translate3d,
+      rotate3d,
+      scale3d,
+      lookAt3d,
+      propagate3d
     ]
   }))
-  .registerSystem(AppSchedule.Startup, setupViewport)
-  .registerSystem(AppSchedule.Startup, setupCamera)
+  .registerDebugger(new FPSDebugger())
+  .registerSystem(AppSchedule.Update, setupViewport)
   .run()
 
-/**
- * @param {World} world
- */
-function setupCamera(world) {
-  world.create(createCamera2D())
-}
 
 /**
  * @param {World} world
@@ -85,13 +67,25 @@ function setupCamera(world) {
 function setupViewport(world) {
   const windowcommands = world.getResource(WindowCommands)
   const window = new Query(world, [Entity, MainWindow]).single()
-
+  const canvases = world.getResource(Windows)
+  const width = innerWidth
+  const height = innerHeight
 
   if (!window) return warn('No main window defined.')
-  
+
+  const [entity] = window
+  const canvas = canvases.getWindow(entity)
+
+  if (!canvas) return
+
+  const gl = canvas.getContext('webgl2')
+
+  if (!gl) return
+
+  gl.viewport(0, 0, width, height)
   windowcommands
-    .window(window[0])
-    .resize(300, 300)
+    .window(entity)
+    .resize(width, height)
 }
 
 addEventListener('contextmenu', (e) => e.preventDefault())

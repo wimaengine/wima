@@ -1,3 +1,4 @@
+import { Quaternion } from '../../math/index.js'
 import { Position3D, Orientation3D, Scale3D, GlobalTransform3D } from '../components/index.js'
 
 /**
@@ -23,9 +24,11 @@ export function createTransform3D(
   sy = 1,
   sz = 1
 ) {
+  const quaternion = Quaternion.fromEuler(ox, oy, oz)
+  
   return [
     new Position3D(x, y, z),
-    new Orientation3D().fromEuler(ox, oy, oz),
+    new Orientation3D().copy(quaternion),
     new Scale3D(sx, sy, sz),
     new GlobalTransform3D()
   ]

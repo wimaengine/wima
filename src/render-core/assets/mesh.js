@@ -115,29 +115,24 @@ export class Mesh {
   /**
    * @param {number} base
    * @param {number} height
-   * @param {number} angle
+   * @param {number} baseRatio
    * @returns {Mesh}
    */
-  static triangle2D(base, height, angle = Math.asin(height / base)) {
-    const geometry = new Mesh()
-    const l1 = new Vector2(base)
-    const l2 = Vector2.fromAngle(angle)
+  static triangle2D(base, height, baseRatio = 0) {
+    const mesh = new Mesh()
 
-    Vector2.multiplyScalar(l2, -height / Math.sin(angle), l2)
-    const x = -(l1.x + l2.x) / 3
-    const y = -l2.y / 3
-    const positions = new Float32Array([
-      x,
-      y,
-      l1.x + x,
-      l1.y + y,
-      l2.x + x,
-      l2.y + y
-    ])
+    mesh
+      .setIndices(new Uint16Array([0, 1, 2]))
+      .setAttribute('position2d', new MeshAttributeData(new Float32Array([
+        -base / 2,
+        -height / 2,
+        +base / 2,
+        -height / 2,
+        base / 2 * baseRatio,
+        height / 2
+      ])))
 
-    geometry.setAttribute('position2d', new MeshAttributeData(positions))
-
-    return geometry
+    return mesh
   }
 
   static triangle3D(base = 1, height = 1, baseL = 0) {
@@ -668,7 +663,7 @@ export class Mesh {
         center.x = radius * Math.cos(u)
         center.y = radius * Math.sin(u)
 
-        Vector3.sub(vertex, center, normal).normalize()
+        Vector3.subtract(vertex, center, normal).normalize()
 
         normals.push(normal.x, normal.y, normal.z)
 

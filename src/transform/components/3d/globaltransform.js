@@ -1,7 +1,3 @@
-import { Matrix3x4 } from '../../../math/index.js'
+import { Affine3 } from '../../../math/index.js'
 
-export class GlobalTransform3D extends Matrix3x4 {
-  compose(position, orientation, scale) {
-    Matrix3x4.compose(position, orientation, scale, this)
-  }
-}
+export class GlobalTransform3D extends Affine3 { }

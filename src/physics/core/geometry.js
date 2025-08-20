@@ -56,7 +56,7 @@ export class Geometry {
 
     for (let i = 0; i < vertices.length; i++) {
       const current = vertices[i]
-      const axis = Vector2.sub(previous, current)
+      const axis = Vector2.subtract(previous, current)
 
       Vector2.normal(axis, axis)
       Vector2.normalize(axis, axis)
@@ -96,7 +96,18 @@ export class Geometry {
  * @param {Vector2[]} axes
  */
 function checkifEquals(axis, axes) {
-  for (let i = 0; i < axes.length; i++) if (Vector2.absEqual(axis, axes[i])) return true
+  for (let i = 0; i < axes.length; i++) if (absEquals(axis, axes[i])) return true
 
   return false
+}
+
+/**
+ * @param {Vector2} v1
+ * @param {Vector2} v2
+ */
+function absEquals(v1, v2) {
+  return (
+    Math.abs(v1.x) === Math.abs(v2.x) ||
+    Math.abs(v1.y) === Math.abs(v2.y)
+  )
 }

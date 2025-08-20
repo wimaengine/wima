@@ -1,70 +1,80 @@
 import {
-  Assets,
-  WebglBasicMaterial,
   Demo,
-  Material,
   Mesh,
-  Orientation3D,
   Position3D,
-  Scale3D,
-  GlobalTransform3D,
   Rotation3D,
   World,
   Cleanup,
-  EntityCommands
+  EntityCommands,
+  BasicMaterial,
+  Meshed,
+  BasicMaterial3D,
+  createMovable3D,
+  Query,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
-import { addCamera3D } from './utils.js'
+import { addDefaultCamera3D } from '../../utils.js'
+
+export const geometries = new Demo(
+  'mesh geometries',
+  [addmeshes, addDefaultCamera3D],
+  [update]
+)
 
 /**
  * @param {World} world
  */
 function addmeshes(world) {
   const commands = world.getResource(EntityCommands)
-
-  /** @type {Assets<Mesh>} */
-  const meshes = world.getResourceByName('assets<mesh>')
-
-  /** @type {Assets<Material>} */
-  const materials = world.getResourceByName('assets<material>')
+  const meshes = world.getResource(MeshAssets)
+  const materials = world.getResource(BasicMaterialAssets)
 
   const geometries = [
-    meshes.add('triangle', Mesh.triangle3D()),
-    meshes.add('plane', Mesh.plane3D()),
-    meshes.add('circle', Mesh.circle3D()),
-    meshes.add('ring', Mesh.ring3D()),
-    meshes.add('cone', Mesh.cone()),
-    meshes.add('cube', Mesh.cube(0.7071, 0.7071, 0.7071)),
-    meshes.add('uv sphere', Mesh.uvSphere()),
-    meshes.add('torus', Mesh.torus()),
-    meshes.add('cylinder', Mesh.cylinder())
+    meshes.add( Mesh.triangle3D()),
+    meshes.add(Mesh.plane3D()),
+    meshes.add( Mesh.circle3D()),
+    meshes.add(Mesh.ring3D()),
+    meshes.add(Mesh.cone()),
+    meshes.add(Mesh.cube(0.7071, 0.7071, 0.7071)),
+    meshes.add(Mesh.uvSphere()),
+    meshes.add(Mesh.torus()),
+    meshes.add(Mesh.cylinder())
   ]
-  const material = materials.add('basic', new WebglBasicMaterial())
+  const material = materials.add(new BasicMaterial())
 
   const offsetX = -2.1,
     offsetY = 2,
     width = 1.1,
     height = 1.2,
     numX = 4
-  
+
   for (let i = 0; i < geometries.length; i++) {
     commands
       .spawn()
       .insertPrefab([
-        new Position3D(
-          offsetX + width * (i % numX),
-          offsetY - Math.floor(i / numX) * height,
-          -1
-        ),
-        new Orientation3D(),
-        new Scale3D(),
-        new Rotation3D().fromEuler(0, Math.PI / 1000, 0),
-        new GlobalTransform3D(),
-        geometries[i],
-        material,
+        ...createMovable3D(),
+        new Meshed(geometries[i]),
+        new BasicMaterial3D(material),
         new Cleanup()
       ])
+      .insert(new Position3D(
+        offsetX + width * (i % numX),
+        offsetY - Math.floor(i / numX) * height,
+        -1
+      ))
+      .insert(new Rotation3D())
       .build()
   }
 }
 
-export const geometries = new Demo('mesh geometries', [addmeshes, addCamera3D])
+/**
+ * @param {World} world
+ */
+function update(world){
+  const rotable = new Query(world, [Rotation3D])
+
+  rotable.each(([rotation]) => {
+    rotation.y = Math.PI / 4
+  })
+}

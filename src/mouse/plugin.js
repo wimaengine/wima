@@ -1,4 +1,4 @@
-import { App, AppSchedule } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { Mouse, MouseButtons } from './resources/index.js'
 import { MouseButton } from './core/index.js'
 import { World } from '../ecs/index.js'
@@ -7,7 +7,7 @@ import { MouseDown, MouseMove, MouseUp } from '../window/index.js'
 import { Vector2 } from '../math/index.js'
 import { typeidGeneric } from '../reflect/index.js'
 
-export class MousePlugin {
+export class MousePlugin extends Plugin{
 
   /**
    * @param {App} app
@@ -30,7 +30,7 @@ function updateMouse(world) {
 
   const move = /** @type {Events<MouseMove>} */(world.getResourceByTypeId(typeidGeneric(Events, [MouseMove]))).readLast()
 
-  mouse.delta.copy(Vector2.ZERO)
+  mouse.delta.copy(Vector2.Zero)
   mouse.lastPosition.copy(mouse.position)
 
   if (!move) return

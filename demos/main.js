@@ -3,25 +3,17 @@ import {
   AppSchedule,
   World,
   FPSDebugger,
-  AudioPlugin,
-  CommandsPlugin,
-  DefaultTweenPlugin,
+  Gizmo2DPlugin,
+  Gizmo3DPlugin,
   DOMWindowPlugin,
-  InputPlugin,
-  StoragePlugin,
-  TimePlugin,
-  TransformPlugin,
-  WindowPlugin,
-  RenderCorePlugin,
   Canvas2DRendererPlugin,
   DemoPlugin,
   MainWindow,
   Query,
   warn,
-  createCamera2D,
   Entity,
   WindowCommands,
-  DevicePlugin
+  DefaultPlugin
 } from 'wima'
 import {
   spawn,
@@ -30,27 +22,38 @@ import {
   mouse,
   touch,
   easing,
-  materials
+  materials,
+  lineStyle2d,
+  arcs2d,
+  shapes2d,
+  grid2d,
+  translate2d,
+  rotate2d,
+  scale2d,
+  propagate2d,
+  lookat2d
 } from './demos/index.js'
+import { Demo1, Demo2, ResourceAliasPlugin } from './demos/utils.js'
 
 const app = new App()
 
 app
-  .registerPlugin(new CommandsPlugin())
-  .registerPlugin(new DevicePlugin())
-  .registerPlugin(new AudioPlugin())
-  .registerPlugin(new TimePlugin())
-  .registerPlugin(new WindowPlugin())
+  .registerPlugin(new ResourceAliasPlugin())
+  .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
-  .registerPlugin(new InputPlugin())
-  .registerPlugin(new TransformPlugin())
-  .registerPlugin(new RenderCorePlugin())
-  .registerPlugin(new StoragePlugin())
-  .registerSystem(AppSchedule.Startup, setupViewport)
-  .registerSystem(AppSchedule.Startup, setupCamera)
-  .registerPlugin(new DefaultTweenPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
-  .registerDebugger(new FPSDebugger())
+  .registerPlugin(new Gizmo2DPlugin({
+    label: Demo1
+  }))
+  .registerPlugin(new Gizmo2DPlugin({
+    label: Demo2
+  }))
+  .registerPlugin(new Gizmo3DPlugin({
+    label: Demo1
+  }))
+  .registerPlugin(new Gizmo3DPlugin({
+    label: Demo2
+  }))
   .registerPlugin(new DemoPlugin({
     demos: [
       spawn,
@@ -59,17 +62,23 @@ app
       easing,
       keyboard,
       mouse,
-      touch
+      touch,
+      lineStyle2d,
+      arcs2d,
+      shapes2d,
+      grid2d,
+      shapes2d,
+      grid2d,
+      translate2d,
+      rotate2d,
+      scale2d,
+      propagate2d,
+      lookat2d
     ]
   }))
+  .registerSystem(AppSchedule.Update, setupViewport)
+  .registerDebugger(new FPSDebugger())
   .run()
-
-/**
- * @param {World} world
- */
-function setupCamera(world) {
-  world.create(createCamera2D())
-}
 
 /**
  * @param {World} world

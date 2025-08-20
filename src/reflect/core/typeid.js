@@ -5,14 +5,14 @@
  * @returns {TypeId}
  */
 export function typeid(type) {
-  return type.name
+  return /** @type {TypeId}*/(type.name)
 }
 
 /**
  * @template T
  * @template {Constructor[]} U
  * @param {Constructor<T>} type 
- * @param {U} types
+ * @param {[...U]} types
  * @returns {TypeId}
  */
 export function typeidGeneric(type, types) {
@@ -23,10 +23,10 @@ export function typeidGeneric(type, types) {
   let name = `${type.name}<`
   
   for (let i = 0; i < types.length - 1; i++) {
-    name += `${types[i]},`
+    name += `${types[i].name},`
   }
 
   name += `${types[types.length - 1].name}>`
  
-  return name
+  return /** @type {TypeId}*/(name)
 }

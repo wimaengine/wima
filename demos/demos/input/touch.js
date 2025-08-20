@@ -1,6 +1,5 @@
 import {
   Mesh,
-  CanvasMeshedMaterial,
   createTransform2D,
   World,
   Color,
@@ -11,10 +10,20 @@ import {
   Cleanup,
   Touches,
   Entity,
-  MaterialHandle,
-  Assets,
-  Material
+  Position2D,
+  BasicMaterial,
+  BasicMaterial2D,
+  Meshed,
+  BasicMaterialAssets,
+  MeshAssets
 } from 'wima'
+import { addDefaultCamera2D } from '../utils.js'
+
+export default new Demo(
+  'touch',
+  [init, addDefaultCamera2D],
+  [update]
+)
 
 /** @type {Map<number,Entity>} */
 class TouchtoEntityMap extends Map { }
@@ -24,25 +33,26 @@ class TouchtoEntityMap extends Map { }
  * @param {World} world
  */
 function init(world) {
+  const meshes = world.getResource(MeshAssets)
+  const materials = world.getResource(BasicMaterialAssets)
   const map = new TouchtoEntityMap()
   const commands = world.getResource(EntityCommands)
-  const meshes = world.getResourceByName('assets<mesh>')
-  const materials = world.getResourceByName('assets<material>')
 
   if (!window) return warn('No window set up')
 
-  const mesh = meshes.add('basic', Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(50, 50))
 
   for (let i = 0; i < 10; i++) {
     const entity = commands
       .spawn()
-      .insertPrefab(createTransform2D(0, 0))
-      .insert(mesh)
-      .insert(materials.add('keyboard', new CanvasMeshedMaterial({
-        stroke: new Color(0, 255, 0, 255),
-        strokeWidth: 10
-      })))
-      .insert(new Cleanup())
+      .insertPrefab([
+        ...createTransform2D(0, 0),
+        new Meshed(mesh),
+        new BasicMaterial2D(materials.add(new BasicMaterial({
+          color: Color.WHITE.clone()
+        }))),
+        new Cleanup()
+      ])
       .build()
 
     map.set(i, entity)
@@ -56,22 +66,26 @@ function init(world) {
  * @param {World} world
  */
 function update(world) {
-  const materials = /** @type {Assets<Material>} */(world.getResourceByName('assets<material>'))
+  const materials = world.getResource(BasicMaterialAssets)
   const touches = world.getResource(Touches)
   const map = world.getResource(TouchtoEntityMap)
-  const entities = new Query(world, [Entity, MaterialHandle])
+  const entities = new Query(world, [Position2D, BasicMaterial2D])
 
   map.forEach((id, key) => {
     const touch = touches.get(key)
-    const entity = entities.get(id)
-    const material = materials.getByHandle(entity[1])
+    const components = entities.get(id)
+
+    if (!components) return
+
+    const material = materials.get(components[1].handle)
+
+    if(!material) return
 
     if (touch) {
-      entity[0].copy(touch.position)
-      material.fill.a = 0
+      components[0].copy(touch.position)
+      material.color.copy(Color.RED)
     } else {
-      material.fill.a = 255
+      material.color.copy(Color.WHITE)
     }
   })
 }
-export default new Demo('touch', [init], [update])

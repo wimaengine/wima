@@ -31,9 +31,6 @@ export const PhysicsSettings = {
   warmStarting: false,
   impulseAccumulation: false,
   separationTolerance: 0.1,
-
-  // For all bodies
-  type: BodyType.DYNAMIC,
   mass: 1,
   restitution: 0.6,
   staticFriction: 1,

@@ -1,8 +1,38 @@
-/** @import { MaterialId } from '../typedef/index.js' */
 import { Material } from '../assets/index.js'
 import { Handle } from '../../asset/index.js'
 
 /**
- * @augments {Handle<Material>}
+ * @template {Material} T
  */
-export class MaterialHandle extends Handle {}
+export class Material2D {
+
+  /**
+   * @type {Handle<T>}
+   */
+  handle
+
+  /**
+   * @param {Handle<T>} handle
+   */
+  constructor(handle) {
+    this.handle = handle
+  }
+}
+
+/**
+ * @template {Material} T
+ */
+export class Material3D {
+
+  /**
+   * @type {Handle<T>}
+   */
+  handle
+
+  /**
+   * @param {Handle<T>} handle
+   */
+  constructor(handle) {
+    this.handle = handle
+  }
+}

@@ -7,8 +7,8 @@ import {
   Matrix2,
   Matrix3,
   Matrix4,
-  Matrix2x3,
-  Matrix3x4
+  Affine2,
+  Affine3
 } from '../../math/index.js'
 
 export class WebglRenderPipeline {
@@ -174,7 +174,7 @@ export class WebglRenderPipeline {
 
     if (!uniform) return
 
-    gl.uniformMatrix2fv(uniform.location, true, new Float32Array([...value]))
+    gl.uniformMatrix2fv(uniform.location, false, new Float32Array([...value]))
   }
 
   /**
@@ -187,7 +187,7 @@ export class WebglRenderPipeline {
 
     if (!uniform) return
 
-    gl.uniformMatrix3fv(uniform.location, true, new Float32Array([...value]))
+    gl.uniformMatrix3fv(uniform.location, false, new Float32Array([...value]))
   }
 
   /**
@@ -200,32 +200,32 @@ export class WebglRenderPipeline {
 
     if (!uniform) return
 
-    gl.uniformMatrix4fv(uniform.location, true, new Float32Array([...value]))
+    gl.uniformMatrix4fv(uniform.location, false, new Float32Array([...value]))
   }
 
   /**
    * @param {WebGL2RenderingContext} gl
    * @param {string} name
-   * @param {Matrix2x3} value
+   * @param {Affine2} value
    */
   setUniformMatrix2x3(gl, name, value) {
     const uniform = this.uniforms.get(name)
 
     if (!uniform) return
 
-    gl.uniformMatrix2x3fv(uniform.location, true, new Float32Array([...value]))
+    gl.uniformMatrix2x3fv(uniform.location, false, new Float32Array([...value]))
   }
 
   /**
    * @param {WebGL2RenderingContext} gl
    * @param {string} name
-   * @param {Matrix3x4} value
+   * @param {Affine3} value
    */
   setUniformMatrix3x4(gl, name, value) {
     const uniform = this.uniforms.get(name)
 
     if (!uniform) return
 
-    gl.uniformMatrix3x4fv(uniform.location, true, new Float32Array([...value]))
+    gl.uniformMatrix3x4fv(uniform.location, false, new Float32Array([...value]))
   }
 }

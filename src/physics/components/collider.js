@@ -129,7 +129,7 @@ export class Collider2D {
 
     const normal = Vector2.copy(vertex)
 
-    Vector2.sub(normal, shapeA.vertices[0], normal)
+    Vector2.subtract(normal, shapeA.vertices[0], normal)
     Vector2.normalize(normal, normal)
 
     // @ts-ignore

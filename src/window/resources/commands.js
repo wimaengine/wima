@@ -1,7 +1,7 @@
 /** @import {Entity, World} from '../../ecs/index.js' */
 import { CommandQueue } from '../../command/index.js'
 import { assert } from '../../logger/index.js'
-import { Vector2 } from '../../math/vector2.js'
+import { Vector2 } from '../../math/index.js'
 import { WindowCommand } from '../commands/index.js'
 import { WindowRequest } from '../core/request.js'
 

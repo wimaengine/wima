@@ -53,7 +53,7 @@ export function generateParserSystem(type) {
 
       if (result) {
 
-        assets.setByPath(rawpath, result)
+        assets.setWithUUID(rawpath, result)
         success.write(new AssetLoadSuccess(rawpath))
       } else {
 
