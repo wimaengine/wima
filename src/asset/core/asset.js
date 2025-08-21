@@ -220,6 +220,12 @@ export class Assets {
 export class Handle {
 
   /**
+   * @private
+   * @type {boolean}
+   */
+  dropped = false
+
+  /**
    * This only exists as a channel for reference counting, do not use for any
    * other purpose!
    * @private
@@ -262,8 +268,11 @@ export class Handle {
     return new Handle(assets, index)
   }
 
-  drop(){
+  drop() {
+    if (this.dropped) return
+
     this.assets.drop(this)
+    this.dropped = true
   }
 }
 
