@@ -6,14 +6,15 @@ import {
   Gizmo2DPlugin,
   Gizmo3DPlugin,
   DOMWindowPlugin,
-  Canvas2DRendererPlugin,
+  AnimationPlugin,
   DemoPlugin,
   MainWindow,
   Query,
   warn,
   Entity,
   WindowCommands,
-  DefaultPlugin
+  DefaultPlugin,
+  Canvas2DRendererPlugin
 } from 'wima'
 import {
   spawn,
@@ -34,6 +35,7 @@ import {
   lookat2d
 } from './demos/index.js'
 import { Demo1, Demo2, ResourceAliasPlugin } from './demos/utils.js'
+import { animation } from './demos/animation/index.js'
 
 const app = new App()
 
@@ -41,6 +43,7 @@ app
   .registerPlugin(new ResourceAliasPlugin())
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
+  .registerPlugin(new AnimationPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
   .registerPlugin(new Gizmo2DPlugin({
     label: Demo1
@@ -56,6 +59,7 @@ app
   }))
   .registerPlugin(new DemoPlugin({
     demos: [
+      animation,
       spawn,
       despawn,
       materials,
@@ -79,6 +83,9 @@ app
   .registerSystem(AppSchedule.Update, setupViewport)
   .registerDebugger(new FPSDebugger())
   .run()
+
+console.log(app)
+
 
 /**
  * @param {World} world

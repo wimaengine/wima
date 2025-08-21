@@ -1,0 +1,10 @@
+{
+    "eslint.options": {
+        "overrideConfigFile":"./.config/eslint.config.js"
+    },
+    "cSpell.words": [
+        "datastructures",
+        "despawn",
+        "Wima"
+    ]
+}

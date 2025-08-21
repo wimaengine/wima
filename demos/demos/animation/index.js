@@ -1,0 +1,1 @@
+export { default as animation } from './basic.js'
