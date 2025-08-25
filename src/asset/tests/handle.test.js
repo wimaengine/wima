@@ -97,15 +97,15 @@ describe('Testing `Handle`',()=>{
         const assets = new Assets(String)
         const asset = "Wima engine"
 
-        const handle = assets.add(asset)
-        handle.clone()
-        handle.clone()
+        const handle1 = assets.add(asset)
+        const handle2 = handle1.clone()
+        const handle3 = handle1.clone()
 
-        handle.drop()
-        handle.drop()
-        handle.drop()
+        handle1.drop()
+        handle2.drop()
+        handle3.drop()
 
-        const actual = assets.get(handle)
+        const actual = assets.get(handle1)
 
         deepStrictEqual(actual, undefined)
     })
@@ -114,15 +114,29 @@ describe('Testing `Handle`',()=>{
         const assets = new Assets(String)
         const asset = "Wima engine"
 
-        const handle = assets.add(asset)
+        const handle1 = assets.add(asset)
+        const handle2 = handle1.clone()
+        const handle3 = handle1.clone()
 
-        handle.clone()
-        handle.clone()
-
-        handle.drop()
-        handle.drop()
+        handle2.drop()
+        handle3.drop()
         
-        const actual = assets.get(handle)
+        const actual = assets.get(handle1)
+
+        deepStrictEqual(actual, asset)
+    })
+
+    test('`Handle.drop` only drops once.', () => {
+        const assets = new Assets(String)
+        const asset = "Wima engine"
+
+        const handle1 = assets.add(asset)
+        const handle2 = handle1.clone()
+
+        handle2.drop()
+        handle2.drop()
+        
+        const actual = assets.get(handle1)
 
         deepStrictEqual(actual, asset)
     })
