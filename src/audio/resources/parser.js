@@ -9,6 +9,12 @@ export class AudioParser extends Parser {
 
   /**
    * @private
+   * @type {Set<string>}
+   */
+  extensions
+  
+  /**
+   * @private
    * @type {OfflineAudioContext}
    */
   decoder
@@ -22,6 +28,7 @@ export class AudioParser extends Parser {
   }) {
     super()
     this.decoder = new OfflineAudioContext(options)
+    this.extensions = this.getExtensions()
   }
 
   /**
@@ -30,7 +37,7 @@ export class AudioParser extends Parser {
    * @param {Device} _device
    */
   verify(extension, _device) {
-    return document.createElement('audio').canPlayType(extension).length !== 0
+    return this.extensions.has(extension)
   }
 
   /**
@@ -54,5 +61,27 @@ export class AudioParser extends Parser {
     const audiobuffer = await this.decoder.decodeAudioData(raw)
 
     return new Audio(audiobuffer, raw)
+  }
+
+  getExtensions(){
+
+    // audio capabilities
+    const audio = document.createElement('audio')
+    const extensions = new Set()
+
+    if (audio.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/, '')) {
+      extensions.add('ogg')
+    }
+    if (audio.canPlayType('audio/mpeg;').replace(/^no$/, '')) {
+      extensions.add('mp3')
+    }
+    if (audio.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '')) {
+      extensions.add('wav')
+    }
+    if (audio.canPlayType('audio/x-m4a;').replace(/^no$/, '') || audio.canPlayType('audio/aac;').replace(/^no$/, '')) {
+      extensions.add('m4a')
+    }
+
+    return extensions
   }
 }
