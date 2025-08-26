@@ -3,7 +3,7 @@ import { AssetParserPlugin, AssetPlugin, Assets } from '../asset/index.js'
 import { typeidGeneric } from '../reflect/index.js'
 import { Audio } from './assets/index.js'
 import { AudioAdded, AudioDropped, AudioModified } from './events/index.js'
-import { AudioCommands, AudioParser, AudioAssets } from './resources/index.js'
+import { AudioCommands, AudioParser, AudioAssets, AudioGraph } from './resources/index.js'
 
 export class AudioPlugin extends Plugin {
 
@@ -15,6 +15,7 @@ export class AudioPlugin extends Plugin {
     const handler = new AudioCommands()
 
     app
+      .setResource(new AudioGraph())
       .setResource(handler)
       .registerPlugin(new AssetPlugin({
         asset:Audio,

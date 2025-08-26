@@ -1,3 +1,4 @@
+export * from './audio/index.js'
 export * from './transform/index.js'
 export * from './render/index.js'
 export * from './ecs/index.js'

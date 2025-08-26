@@ -18,6 +18,7 @@ import {
 import {
   spawn,
   despawn,
+  audioGraph,
   keyboard,
   mouse,
   touch,
@@ -63,6 +64,7 @@ app
       keyboard,
       mouse,
       touch,
+      audioGraph,
       lineStyle2d,
       arcs2d,
       shapes2d,
