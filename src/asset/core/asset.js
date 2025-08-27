@@ -68,7 +68,7 @@ export class Assets {
   set(handle, asset) {
     const entry = this.getEntry(handle)
 
-    if(!entry) return
+    if (!entry) return
 
     const oldAsset = entry.asset
 
@@ -121,7 +121,7 @@ export class Assets {
   get(handle) {
     const entry = this.getEntry(handle)
 
-    if(!entry) return undefined
+    if (!entry) return undefined
 
     return entry.asset
   }
@@ -145,7 +145,7 @@ export class Assets {
   getByAssetId(id) {
     const entry = this.assets.get(id)
 
-    if(!entry) return undefined
+    if (!entry) return undefined
 
     return this.assets.get(id).asset
   }
@@ -201,12 +201,12 @@ export class Assets {
   /**
    * @param {Handle<T>} handle
    */
-  drop(handle){
+  drop(handle) {
     const entry = this.getEntry(handle)
     
     entry.refCount -= 1
 
-    if(entry.refCount <= 0){
+    if (entry.refCount <= 0) {
       entry.asset = undefined
       this.assets.recycle(handle.index)
       this.events.push(new AssetDropped(this.type, handle.id()))
@@ -218,6 +218,12 @@ export class Assets {
  * @template T
  */
 export class Handle {
+
+  /**
+   * @private
+   * @type {boolean}
+   */
+  dropped = false
 
   /**
    * This only exists as a channel for reference counting, do not use for any
@@ -238,13 +244,13 @@ export class Handle {
    * @param {Assets<T>} assets 
    * @param {number} index 
    */
-  constructor(assets, index){
+  constructor(assets, index) {
     this.index = index
     this.assets = assets
 
     const entry = assets.getEntry(this)
 
-    if(entry){
+    if (entry) {
       entry.refCount += 1
     }
   }
@@ -252,18 +258,21 @@ export class Handle {
   /**
    * @returns {AssetId}
    */
-  id(){
-    return /** @type {AssetId}*/(this.index)
+  id() {
+    return /** @type {AssetId}*/ (this.index)
   }
 
-  clone(){
+  clone() {
     const { assets, index } = this
 
     return new Handle(assets, index)
   }
 
-  drop(){
+  drop() {
+    if (this.dropped) return
+
     this.assets.drop(this)
+    this.dropped = true
   }
 }
 
