@@ -1,6 +1,6 @@
 /** @import { Constructor, TypeId } from '../reflect/index.js'*/
 
-import { ArchetypeTable } from './tables/index.js'
+import { Tables } from './tables/index.js'
 import { TypeStore } from './typestore.js'
 import { assert } from '../logger/index.js'
 import { ComponentHooks } from './component/index.js'
@@ -13,7 +13,7 @@ export class World {
   /**
    * @private
    */
-  table = new ArchetypeTable()
+  table = new Tables()
 
   /**
    * @private
@@ -266,7 +266,7 @@ export class World {
   }
 
   /**
-   * @returns {ArchetypeTable}
+   * @returns {Tables}
    */
   getTable() {
     return this.table

@@ -3,7 +3,7 @@
 
 import { Entity } from './entities/index.js'
 import { World } from './registry.js'
-import { ArchetypeTable } from './tables/archetypetable.js'
+import { Tables } from './tables/index.js'
 import { typeid } from '../reflect/index.js'
 
 /**
@@ -72,7 +72,7 @@ export class Query {
   }
 
   /**
-   * @param {ArchetypeTable} table
+   * @param {Tables} table
    */
   update(table) {
     const { descriptors, components } = this

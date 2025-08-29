@@ -33,7 +33,7 @@ export class Table {
 /**
  * Store components in {@link Table archetypes}.
  */
-export class ArchetypeTable {
+export class Tables {
 
   /**
    * @private

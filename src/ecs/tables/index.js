@@ -1,1 +1,1 @@
-export * from './archetypetable.js'
+export * from './tables.js'
