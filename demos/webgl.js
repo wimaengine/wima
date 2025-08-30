@@ -12,7 +12,8 @@ import {
   WindowCommands,
   Entity,
   DefaultPlugin,
-  Windows
+  Windows,
+  AnimationPlugin
 } from 'wima'
 import {
   basictriangle,
@@ -27,7 +28,8 @@ import {
   rotate3d,
   scale3d,
   lookAt3d,
-  propagate3d
+  propagate3d,
+  basicAnimation3D
 
 } from './demos/index.js'
 import { ResourceAliasPlugin } from './demos/utils.js'
@@ -39,6 +41,7 @@ app
   .registerPlugin(new WebglRendererPlugin())
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
+  .registerPlugin(new AnimationPlugin())
   .registerPlugin(new DemoPlugin({
     demos: [
       basictriangle,
@@ -53,7 +56,8 @@ app
       rotate3d,
       scale3d,
       lookAt3d,
-      propagate3d
+      propagate3d,
+      basicAnimation3D
     ]
   }))
   .registerDebugger(new FPSDebugger())
