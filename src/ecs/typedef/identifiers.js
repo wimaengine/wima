@@ -17,4 +17,8 @@
 /**
  * @typedef {number & {__brand: "TableId"}} TableId
  */
+
+/**
+ * @typedef {number & {__brand: "TableRow"}} TableRow
+ */
 export default {}
