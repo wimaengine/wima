@@ -11,7 +11,7 @@
  */
 
 /**
- * @typedef {number} ArchetypeId
+ * @typedef {number & {__brand: "ArchetypeId"}} ArchetypeId
  */
 
 export default {}
