@@ -1,4 +1,4 @@
-/** @import { ArchetypeId, ArchetypeFilter } from '../typedef/index.js'*/
+/** @import { TableId, TableRow } from '../typedef/index.js'*/
 /** @import { TypeId } from '../../reflect/index.js'*/
 
 import { assert, throws } from '../../logger/index.js'
@@ -12,22 +12,186 @@ import { swapRemove } from '../../utils/index.js'
  * class A {}
  * class B {}
  * 
- * //This archetype contains entities with component A
+ * //This table contains entities with component A
  * const archetype1 = new Table()
- * archetype.components.set("A",[])
+ * table.components.set("A",[])
  * 
- * //This archetype contains entities with component A and B
+ * //This table contains entities with component A and B
  * const archetype2 = new Table()
- * archetype.components.set("A",[])
- * archetype.components.set("B",[])
+ * table.components.set("A",[])
+ * table.components.set("B",[])
  * ```
  */
 export class Table {
 
   /**
-   * @type {Map<TypeId,unknown[]>}
+   * @readonly
+   * @type {ReadonlyMap<TypeId,unknown[]>}
    */
-  components = new Map()
+  columns = new Map()
+
+  /**
+   * @private
+   */
+  length = 0
+
+  /**
+   * @param {TypeId[]} typeids
+   */
+  constructor(typeids) {
+    const map = new Map()
+
+    for (let i = 0; i < typeids.length; i++) {
+      map.set(typeids[i], [])
+    }
+
+    this.columns = map
+  }
+
+  /**
+   * @param {TypeId} typeid
+   * @param {TableRow} row
+   * @param {unknown} value
+   * @returns {void}
+   */
+  set(typeid, row, value) {
+    if (row >= this.size()) return
+
+    const column = this.columns.get(typeid)
+
+    if (column) column[row] = value
+  }
+
+  /**
+   * @param {TypeId} typeid
+   * @param {TableRow} row
+   * @returns {unknown | undefined}
+   */
+  get(typeid, row) {
+    const column = this.columns.get(typeid)
+
+    if (column) return column[row]
+
+    return undefined
+  }
+
+  /**
+   * ### SAFETY
+   * The allocated row should be immediately be filled with values
+   * before any other operation is done to the table.
+   * 
+   * @returns {TableRow}
+   */
+  reserve() {
+    const index = this.length
+
+    this.length += 1
+
+    return /** @type {TableRow} */(index)
+  }
+
+  /**
+   * @returns {number}
+   */
+  size() {
+    return this.length
+  }
+
+  /**
+   * @param {TypeId[]} ids
+   * @param {unknown[]} components
+   */
+  insert(ids, components) {
+    if (ids.length !== components.length) {
+      throws('The component list and id list should match!')
+    }
+
+    const index = this.reserve()
+
+    this.insertUnchecked(index, ids, components)
+
+    return index
+  }
+
+  /**
+   * ### Safety
+   * It is up to the caller to ensure it fills all the columns on the row.
+   * See the method {@link Table.insert } for a safer method.
+   * @param {TableRow} index
+   * @param {TypeId[]} ids 
+   * @param {unknown[]} components 
+   */
+  insertUnchecked(index, ids, components) {
+
+    for (let i = 0; i < components.length; i++) {
+      const list = this.columns.get(ids[i])
+
+      if (list) {
+        list[index] = components[i]
+      } else {
+        throws('Invalid table insertion!')
+      }
+    }
+  }
+
+  /**
+   * @param {TableRow} row
+   * @returns {void}
+   */
+  remove(row) {
+    for (const list of this.columns.values()) {
+      swapRemove(list, row)
+    }
+
+    this.length -= 1
+  }
+
+  /**
+   * @param {TableRow} row
+   * @returns {[TypeId[],unknown[]]}
+   */
+  extract(row) {
+    const components = []
+    const keys = []
+
+    for (const [key, list] of this.columns) {
+      keys.push(key)
+      components.push(list[row])
+    }
+
+    return [keys, components]
+  }
+
+  /**
+   * @param {TypeId[]} ids
+   * @returns {boolean} 
+   */
+  hasOnly(ids) {
+    if (ids.length !== this.columns.size) return false
+
+    for (let i = 0; i < ids.length; i++) {
+      if (!this.columns.has(ids[i])) return false
+    }
+
+    return true
+  }
+
+  /**
+   * @param {Table} newTable 
+   * @param {TableRow} row
+   * @returns {TableRow}
+   */
+  moveTo(newTable, row) {
+    const newIndex = newTable.reserve()
+
+    for (const [id, column] of this.columns) {
+      newTable.set(id, newIndex, column[row])
+    }
+
+    this.remove(row)
+
+    return newIndex
+  }
 }
 
 /**
