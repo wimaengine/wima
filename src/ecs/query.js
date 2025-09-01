@@ -1,4 +1,4 @@
-/** @import { ArchetypeId } from './typedef/index.js'*/
+/** @import { TableId } from './typedef/index.js'*/
 /** @import { Constructor, TypeId } from '../reflect/index.js'*/
 
 import { Entity } from './entities/index.js'
@@ -52,9 +52,9 @@ export class Query {
 
   /**
    * @private
-   * @type {Map<ArchetypeId,number>}
+   * @type {Map<TableId,number>}
    */
-  archmapper = new Map()
+  tablemapper = new Map()
 
   /**
    * @param {World} registry
@@ -68,7 +68,7 @@ export class Query {
       this.components[i] = []
     }
 
-    this.update(registry.getTable())
+    this.update(registry.getTables())
   }
 
   /**
@@ -76,20 +76,20 @@ export class Query {
    */
   update(table) {
     const { descriptors, components } = this
-    const archids = table.getArchetypeIds(descriptors, [])
+    const tableIds = table.getTableIds(descriptors, [])
     
-    for (let i = 0; i < archids.length; i++) {
-      this.archmapper.set(archids[i], i)
+    for (let i = 0; i < tableIds.length; i++) {
+      this.tablemapper.set(tableIds[i], i)
     }
 
     // This will help implement query filters
     // const archetypes = table.filterArchetypes((archetype)=>true)
     for (let i = 0; i < descriptors.length; i++) {
-      for (let j = 0; j < archids.length; j++) {
+      for (let j = 0; j < tableIds.length; j++) {
 
         // instead of keeping the component lists,keep the verified archetype
         // as their ids to get them later
-        const bin = table.getArchetype(archids[j]).components.get(descriptors[i])
+        const bin = table.getTable(tableIds[j]).columns.get(descriptors[i])
 
         components[i].push(bin)
       }
@@ -108,9 +108,9 @@ export class Query {
 
     if(!location) return null
 
-    const { archid, index } = location
-    const tableid = this.archmapper.get(
-      archid
+    const { tableId, index } = location
+    const tableid = this.tablemapper.get(
+      tableId
     )
 
     if (tableid === undefined) return null
