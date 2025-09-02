@@ -147,7 +147,7 @@ export class World {
     const tableRow = table.insert(newIds, components)
 
     location.tableId = tableId
-    location.archid = archetypeId
+    location.archetypeId = archetypeId
     location.index = tableRow
     this.callAddComponentHook(entity, newIds)
 
@@ -169,7 +169,7 @@ export class World {
     }
 
     // SAFETY:Object constructors can be casted from `Function` to `Constructor`
-    const { archid: oldArchetypeId, index, tableId: oldTableId } = location
+    const { archetypeId: oldArchetypeId, index, tableId: oldTableId } = location
     const oldArchetype = this.archetypes.get(oldArchetypeId)
     const oldTable = this.tables.getTable(oldTableId)
 
@@ -184,7 +184,7 @@ export class World {
 
     newTable.insertUnchecked(newIndex, newIds, components)
     location.tableId = newTableId
-    location.archid = newArchetypeId
+    location.archetypeId = newArchetypeId
     location.index = newIndex
 
     if (swapped) {
@@ -253,9 +253,9 @@ export class World {
     const location = this.entities.get(entity.index)
 
     if (!location) return
-
-    const { archid, tableId, index } = location
-    const archetype = this.archetypes.get(archid)
+    
+    const { archetypeId, tableId, index } = location
+    const archetype = this.archetypes.get(archetypeId)
     const table = this.tables.getTable(tableId)
 
     if (!archetype || !table) return
@@ -269,7 +269,7 @@ export class World {
     // SAFETY: -1 is the invalid identifier
     location.tableId = /** @type {TableId}*/ (-1)
     location.index = /** @type {TableRow}*/ (-1)
-    location.archid = /** @type {ArchetypeId}*/ (-1)
+    location.archetypeId = /** @type {ArchetypeId}*/ (-1)
     this.entities.recycle(entity.index)
 
     if (swapped) {
