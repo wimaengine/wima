@@ -109,7 +109,7 @@ export class World {
     if (archetype) {
       const [id, arch] = archetype
       const { tableId } = arch
-      const table = this.tables.getTable(tableId)
+      const table = this.tables.get(tableId)
 
       assert(table, `The archetype ${archetype[0]} has an invalid table.`)
 
@@ -171,8 +171,8 @@ export class World {
     // SAFETY:Object constructors can be casted from `Function` to `Constructor`
     const { archetypeId: oldArchetypeId, index, tableId: oldTableId } = location
     const oldArchetype = this.archetypes.get(oldArchetypeId)
-    const oldTable = this.tables.getTable(oldTableId)
-
+    const oldTable = this.tables.get(oldTableId)
+    
     if (!oldTable) return
 
     const newIds = (components.map((c) => typeid( /** @type {Constructor} */ (c.constructor))))
@@ -220,7 +220,7 @@ export class World {
     
     const { archetypeId, tableId, index } = location
     const archetype = this.archetypes.get(archetypeId)
-    const table = this.tables.getTable(tableId)
+    const table = this.tables.get(tableId)
 
     if (!archetype || !table) return
 
@@ -257,7 +257,7 @@ export class World {
     if (!location) return null
 
     const { tableId, index } = location
-    const table = this.tables.getTable(tableId)
+    const table = this.tables.get(tableId)
     const component = table?.get(typeid(type), index)
 
     // SAFETY: Fetched component with the typeid of `T`

@@ -227,7 +227,7 @@ export class Tables {
    * @param {TableId} id
    * @returns {Table | undefined}
    */
-  getTable(id) {
+  get(id) {
     return this.list[id]
   }
 

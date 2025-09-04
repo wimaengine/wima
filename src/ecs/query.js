@@ -89,7 +89,7 @@ export class Query {
 
         // instead of keeping the component lists,keep the verified archetype
         // as their ids to get them later
-        const bin = table.getTable(tableIds[j]).columns.get(descriptors[i])
+        const bin = table.get(tableIds[j]).columns.get(descriptors[i])
 
         components[i].push(bin)
       }
