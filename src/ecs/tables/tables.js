@@ -281,66 +281,6 @@ export class Tables {
   }
 
   /**
-   * @param {TableId} id
-   * @param {TableRow} index
-   * @returns {[TypeId[],unknown[]] | null}
-   */
-  extract(id, index) {
-    const table = this.getTable(id)
-
-    if (!table) return null
-
-    return table.extract(index)
-  }
-
-  /**
-   * @template {unknown[]} T
-   * @param {TableId} id
-   * @param {[...T]} components
-   * @param {TypeId[]} ids
-   * @returns {[TableId, TableRow]}
-   */
-  insert(id, components, ids) {
-    const table = this.getTable(id)
-
-    assert(table, `The table for ${ids} does not exist.`)
-
-    return [id, table.insert(ids, components)]
-  }
-
-  /**
-   * @param {TableId} id
-   * @param {TableRow} index
-   * @returns {void}
-   */
-  remove(id, index) {
-    const table = this.getTable(id)
-
-    if (!table) return
-
-    table.remove(index)
-  }
-
-  /**
-   * @template T
-   * @param {TableId} id
-   * @param {number} index
-   * @param {TypeId} compname
-   * @returns {T | null}
-   */
-  get(id, index, compname) {
-    const table = this.getTable(id)
-
-    if (!table) return null
-
-    const compList = table.columns.get(compname)
-
-    if (!compList) return null
-
-    return /** @type {T}*/ (compList[index])
-  }
-
-  /**
    * @returns {void}
    */
   clear() {
