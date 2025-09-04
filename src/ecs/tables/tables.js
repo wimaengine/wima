@@ -200,214 +200,144 @@ export class Table {
 export class Tables {
 
   /**
+   * 
+   * ## SAFETY:
+   * Guaranteed to be dense as it is private.
    * @private
    * @type {Table[]}
    */
   list = []
 
   /**
-   * @param {TypeId[]} comps
-   * @returns {ArchetypeId}
+   * @param {TypeId[]} typeIds
+   * @returns {[TableId,Table]}
    */
-  createArchetype(comps) {
-    const archetype = new Table()
+  createTable(typeIds) {
+    const table = new Table(typeIds)
 
-    for (let i = 0; i < comps.length; i++) {
-      archetype.components.set(comps[i], [])
-    }
+    // SAFETY: `Tables` allocates the table id
+    const id = /** @type {TableId}*/(this.list.length)
 
-    return this.list.push(archetype) - 1
+    this.list.push(table)
+
+    return [id, table]
   }
 
   /**
-   * @param {Table} archetype
-   * @param {TypeId[]} comps
-   * @returns {boolean} 
-   */
-  archetypeHasOnly(archetype, comps) {
-    if (this.getActualCompSize(comps) !== archetype.components.size) return false
-
-    for (let i = 0; i < comps.length; i++) {
-      if (!archetype.components.has(comps[i])) return false
-    }
-
-    return true
-  }
-
-  /**
-   * @private
-   * @param {TypeId[]} ids
-   * @returns {number}
-   */
-  getActualCompSize(ids){
-    return new Set(ids).size
-  }
-
-  /**
-   * @param {ArchetypeId} id
+   * @param {TableId} id
    * @returns {Table | undefined}
    */
-  getArchetype(id) {
+  getTable(id) {
     return this.list[id]
   }
 
   /**
-   * @param {ArchetypeFilter} filter
-   * @param {Table[]} out
-   * @returns {Table[]}
+   * @param {TypeId[]} ids
+   * @returns {[TableId,Table]}
    */
-  filterArchetypes(filter, out = []) {
+  resolveTableFor(ids) {
     for (let i = 0; i < this.list.length; i++) {
-      if (filter(this.list[i], i)) out.push(this.list[i])
-    }
+      const table = this.list[i]
+      const hasit = table.hasOnly(ids)
 
-    return out
-  }
+      if (hasit) {
 
-  /**
-   * @param {TypeId[]} comps
-   * @returns {ArchetypeId}
-   */
-  getArchetypeId(comps) {
-    for (let i = 0; i < this.list.length; i++) {
-      if (this.archetypeHasOnly(this.list[i], comps)) {
-        return i
+        // SAFETY: `Tables` allocates the table id
+        const id = /** @type {TableId} */(i)
+
+        return [id, table]
       }
     }
 
-    return -1
-  }
-
-  /**
-   * @param {TypeId[]} ids
-   * @returns {ArchetypeId}
-   */
-  resolveArchetypeFor(ids) {
-    for (let i = 0; i < this.list.length; i++) {
-      const hasit = this.archetypeHasOnly(this.list[i], ids)
-
-      if (hasit) return i
-    }
-
-    return this.createArchetype(ids)
+    return this.createTable(ids)
   }
 
   /**
    * @param {TypeId[]} comps
-   * @param {ArchetypeId[]} filtered
-   * @returns {ArchetypeId[]}
+   * @param {TableId[]} filtered
+   * @returns {TableId[]}
    */
-  getArchetypeIds(comps, filtered) {
+  getTableIds(comps, filtered) {
     for (let i = 0; i < this.list.length; i++) {
       let hasComponents = true
 
       for (let j = 0; j < comps.length; j++) {
-        if (!this.list[i].components.has(comps[j])) {
+        if (!this.list[i].columns.has(comps[j])) {
           hasComponents = false
           break
         }
       }
 
-      if (hasComponents) filtered.push(i)
+      if (hasComponents){
+
+        // SAFETY: `Tables` allocates the table id
+        const id = /** @type {TableId} */(i)
+
+        filtered.push(id)
+      }
     }
 
     return filtered
   }
 
   /**
-   * @template {unknown[]} T
-   * @param {ArchetypeId} id
-   * @param {TypeId[]} keys
-   * @param {[...T]} components
-   */
-  insertIntoArchetype(id, keys, components) {
-    const archetype = this.getArchetype(id)
-
-    if(!archetype) return
-
-    // SAFETY: Caller ensures the archetype has at least 1 component list
-    const index = /** @type {number}*/(archetype.components.values().next().value?.length)
-
-    for (let i = 0; i < components.length; i++) {
-      const list = archetype.components.get(keys[i])
-
-      if(list){
-        list[index] = components[i]
-      }else{
-        throws('Invalid archetype insertion!')
-      }
-    }
-
-    return index
-  }
-
-  /**
-   * @param {ArchetypeId} id
-   * @param {number} index
+   * @param {TableId} id
+   * @param {TableRow} index
    * @returns {[TypeId[],unknown[]] | null}
    */
   extract(id, index) {
-    const keys = []
-    const components = []
-    const archetype = this.getArchetype(id)
+    const table = this.getTable(id)
 
-    if(!archetype) return null
+    if (!table) return null
 
-    for (const [key, list] of archetype.components) {
-      keys.push(key)
-      components.push(list[index])
-    }
-
-    return [keys, components]
+    return table.extract(index)
   }
 
   /**
    * @template {unknown[]} T
+   * @param {TableId} id
    * @param {[...T]} components
    * @param {TypeId[]} ids
-   * @returns {[ArchetypeId,number]}
+   * @returns {[TableId, TableRow]}
    */
-  insert(components, ids) {
-    const archid = this.resolveArchetypeFor(ids)
-    const index = this.insertIntoArchetype(archid, ids, components)
+  insert(id, components, ids) {
+    const table = this.getTable(id)
 
-    assert(index, 'Internal error:Table exists but insertion failed!')
-    
-    return [archid, index]
+    assert(table, `The table for ${ids} does not exist.`)
+
+    return [id, table.insert(ids, components)]
   }
 
   /**
-   * @param {ArchetypeId} id
-   * @param {number} index
+   * @param {TableId} id
+   * @param {TableRow} index
    * @returns {void}
    */
   remove(id, index) {
-    const archetype = this.getArchetype(id)
+    const table = this.getTable(id)
 
-    if(!archetype) return 
+    if (!table) return
 
-    for (const list of archetype.components.values()) {
-      swapRemove(list, index)
-    }
+    table.remove(index)
   }
 
   /**
    * @template T
-   * @param {ArchetypeId} id
+   * @param {TableId} id
    * @param {number} index
    * @param {TypeId} compname
    * @returns {T | null}
    */
   get(id, index, compname) {
-    const archetype = this.getArchetype(id)
+    const table = this.getTable(id)
 
-    if (!archetype) return null
+    if (!table) return null
 
-    const compList = archetype.components.get(compname)
+    const compList = table.columns.get(compname)
 
     if (!compList) return null
 
-    return /** @type {T}*/(compList[index])
+    return /** @type {T}*/ (compList[index])
   }
 
   /**
