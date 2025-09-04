@@ -180,8 +180,7 @@ export class World {
     const combinedIds = [...existingIds, ...newIds]
     const [newTableId, newTable, newArchetypeId] = this.resolve(combinedIds)
     const newIndex = oldTable.moveTo(newTable, index)
-    const swapped = /** @type {Entity | null}*/ (this.tables.get(oldTableId, index, typeid(Entity)))
-
+    const swapped = /** @type {Entity | null}*/ (oldTable.get(typeid(Entity), index))
     newTable.insertUnchecked(newIndex, newIds, components)
     location.tableId = newTableId
     location.archetypeId = newArchetypeId
@@ -226,11 +225,11 @@ export class World {
     if (!archetype || !table) return
 
     this.callRemoveComponentHook(entity, archetype.types)
-    this.tables.remove(tableId, index)
-
+    table.remove(index)
+    
     // SAFETY: The fetched component is an `Entity`.
-    const swapped = /** @type {Entity | null}*/ (this.tables.get(tableId, index, typeid(Entity)))
-
+    const swapped = /** @type {Entity | null}*/ (table.get(typeid(Entity), index))
+    
     // SAFETY: -1 is the invalid identifier
     location.tableId = /** @type {TableId}*/ (-1)
     location.index = /** @type {TableRow}*/ (-1)
@@ -258,8 +257,11 @@ export class World {
     if (!location) return null
 
     const { tableId, index } = location
+    const table = this.tables.getTable(tableId)
+    const component = table?.get(typeid(type), index)
 
-    return this.tables.get(tableId, index, typeid(type))
+    // SAFETY: Fetched component with the typeid of `T`
+    return /**@type {T | undefined}*/(component)
   }
 
   /**
