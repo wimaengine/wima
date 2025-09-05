@@ -40,7 +40,7 @@ export function init(world) {
 
   const rawClip = createClip()
   const clip = clips.add(rawClip)
-  const mesh = meshes.add(Mesh.cube(0.5,0.5,0.5))
+  const mesh = meshes.add(Mesh.cube(0.5, 0.5, 0.5))
   const material = materials.add(new BasicMaterial())
   const targetname = '/bone'
   const animationplayer = new AnimationPlayer()
@@ -86,7 +86,7 @@ function createClip() {
     ...Vector3.set(1, -1, 0),
     ...Vector3.set(1, 1, 0),
     ...Vector3.set(-1, 1, 0)
-  ].map(n => n / 2)
+  ].map((n) => n / 2)
   rotate.keyframes = [
     ...Quaternion.fromEuler(0, 0, TAU),
     ...Quaternion.fromEuler(0, 0, HALF_PI * 3),
