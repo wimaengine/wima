@@ -6,14 +6,15 @@ import {
   Gizmo2DPlugin,
   Gizmo3DPlugin,
   DOMWindowPlugin,
-  Canvas2DRendererPlugin,
+  AnimationPlugin,
   DemoPlugin,
   MainWindow,
   Query,
   warn,
   Entity,
   WindowCommands,
-  DefaultPlugin
+  DefaultPlugin,
+  Canvas2DRendererPlugin
 } from 'wima'
 import {
   spawn,
@@ -32,7 +33,8 @@ import {
   rotate2d,
   scale2d,
   propagate2d,
-  lookat2d
+  lookat2d,
+  animation
 } from './demos/index.js'
 import { Demo1, Demo2, ResourceAliasPlugin } from './demos/utils.js'
 
@@ -42,6 +44,7 @@ app
   .registerPlugin(new ResourceAliasPlugin())
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
+  .registerPlugin(new AnimationPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
   .registerPlugin(new Gizmo2DPlugin({
     label: Demo1
@@ -57,6 +60,7 @@ app
   }))
   .registerPlugin(new DemoPlugin({
     demos: [
+      animation,
       spawn,
       despawn,
       materials,
