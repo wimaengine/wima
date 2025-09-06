@@ -230,6 +230,13 @@ export class Tables {
   get(id) {
     return this.list[id]
   }
+  
+  /**
+   * @returns {readonly Table[]}
+   */
+  values(){
+    return this.list
+  }
 
   /**
    * @param {TypeId[]} ids
