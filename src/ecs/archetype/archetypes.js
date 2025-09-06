@@ -46,7 +46,14 @@ export class Archetypes {
   size() {
     return this.archetypes.length
   }
-
+  
+  /**
+   * @returns {readonly Archetype[]}
+   */
+  values() {
+    return this.archetypes
+  }
+  
   /**
    * @param { TypeId[] } typeIds
    * @returns { [ArchetypeId,Archetype] | undefined }
