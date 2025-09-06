@@ -270,6 +270,13 @@ export class World {
   getTables() {
     return this.tables
   }
+ 
+  /**
+   * @returns {Archetypes}
+   */
+  getArchetypes() {
+    return this.archetypes
+  }
 
   /**
    * @template T
