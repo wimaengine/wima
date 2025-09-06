@@ -181,6 +181,7 @@ export class World {
     const [newTableId, newTable, newArchetypeId] = this.resolve(combinedIds)
     const newIndex = oldTable.moveTo(newTable, index)
     const swapped = /** @type {Entity | null}*/ (oldTable.get(typeid(Entity), index))
+
     newTable.insertUnchecked(newIndex, newIds, components)
     location.tableId = newTableId
     location.archetypeId = newArchetypeId
@@ -248,7 +249,7 @@ export class World {
   /**
    * @template T
    * @param {Entity} entity
-   * @param { new (...args:any[])=> T} type
+   * @param { Constructor<T>} type
    * @returns {T | null}
    */
   get(entity, type) {
@@ -261,7 +262,7 @@ export class World {
     const component = table?.get(typeid(type), index)
 
     // SAFETY: Fetched component with the typeid of `T`
-    return /**@type {T | undefined}*/(component)
+    return /** @type {T | undefined}*/(component)
   }
 
   /**
@@ -280,7 +281,7 @@ export class World {
 
   /**
    * @template T
-   * @param {new (...args:any[])=>T} resourceType
+   * @param {Constructor<T>} resourceType
    * @returns {T}
    */
   getResource(resourceType) {

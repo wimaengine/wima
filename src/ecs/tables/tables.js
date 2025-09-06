@@ -1,7 +1,7 @@
 /** @import { TableId, TableRow } from '../typedef/index.js'*/
 /** @import { TypeId } from '../../reflect/index.js'*/
 
-import { assert, throws } from '../../logger/index.js'
+import { throws } from '../../logger/index.js'
 import { swapRemove } from '../../utils/index.js'
 
 /**
