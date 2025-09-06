@@ -1,10 +1,10 @@
-/** @import { TableId } from './typedef/index.js'*/
+/** @import { TableId, TableRow } from './typedef/index.js'*/
 /** @import { Constructor, TypeId } from '../reflect/index.js'*/
 
 import { Entity } from './entities/index.js'
 import { World } from './registry.js'
-import { Tables } from './tables/index.js'
 import { typeid } from '../reflect/index.js'
+import { Table } from './tables/index.js'
 
 /**
  * Enables operations to be performed on specified set 
@@ -36,7 +36,7 @@ export class Query {
    * @private
    * @type {World}
    */
-  registry
+  world
 
   /**
    * @readonly
@@ -46,54 +46,37 @@ export class Query {
 
   /**
    * @private
-   * @type {any[][]}
+   * @type {TableId[]}
    */
-  components = []
+  tableIds = []
 
   /**
-   * @private
-   * @type {Map<TableId,number>}
-   */
-  tablemapper = new Map()
-
-  /**
-   * @param {World} registry
+   * @param {World} world
    * @param {[...TupleConstructor<T>]} componentTypes
    */
-  constructor(registry, componentTypes) {
-    this.registry = registry
+  constructor(world, componentTypes) {
+    this.world = world
     this.descriptors = componentTypes.map((c) => typeid(c))
 
-    for (let i = 0; i < componentTypes.length; i++) {
-      this.components[i] = []
-    }
-
-    this.update(registry.getTables())
+    this.update()
   }
 
   /**
-   * @param {Tables} table
+   * @returns {void}
    */
-  update(table) {
-    const { descriptors, components } = this
-    const tableIds = table.getTableIds(descriptors, [])
-    
-    for (let i = 0; i < tableIds.length; i++) {
-      this.tablemapper.set(tableIds[i], i)
-    }
+  update() {
+    const { world } = this
+    const archetypes = world.getArchetypes()
 
-    // This will help implement query filters
-    // const archetypes = table.filterArchetypes((archetype)=>true)
-    for (let i = 0; i < descriptors.length; i++) {
-      for (let j = 0; j < tableIds.length; j++) {
-
-        // instead of keeping the component lists,keep the verified archetype
-        // as their ids to get them later
-        const bin = table.get(tableIds[j]).columns.get(descriptors[i])
-
-        components[i].push(bin)
+    const tableIds = filterMap(archetypes.values(), (archetype) => {
+      if (archetype.has(this.descriptors)) {
+        return archetype.tableId
       }
-    }
+
+      return undefined
+    })
+
+    this.tableIds = tableIds
   }
 
   /**
@@ -103,44 +86,46 @@ export class Query {
    * @returns {T | null}
    */
   get(entity) {
-    const entities = this.registry.getEntities()
+    const { world, descriptors } = this
+    const entities = world.getEntities()
     const location = entities.get(entity.index)
 
-    if(!location) return null
+    if (!location) return null
 
     const { tableId, index } = location
-    const tableid = this.tablemapper.get(
-      tableId
-    )
+    const table = world.getTables().get(tableId)
 
-    if (tableid === undefined) return null
+    if (table === undefined) return null
+    if (index > table.size() || index < 0) return null
 
     const components = new Array(this.descriptors.length)
 
-    for (let i = 0; i < this.descriptors.length; i++) {
-      components[i] = this.components[i][tableid][index]
-    }
+    // Safety: We check the bounds above
+    mapComponents(table, descriptors, index, components)
 
     // SAFETY: Components are fetched in same order and types as the generic.
-    return /** @type {T}*/(components)
+    return /** @type {T}*/ (components)
   }
   
   /**
    * @param {EachFunc<T>} callback
    */
   each(callback) {
-    const components = new Array(this.descriptors.length)
+    const { tableIds, descriptors } = this
+    const tables = this.world.getTables()
 
-    if (!this.components[0]) return
+    // SAFETY: Components are fetched below.
+    const components = /** @type {T}*/(new Array(this.descriptors.length))
 
-    for (let j = 0; j < this.components[0].length; j++) {
-      for (let k = 0; k < this.components[0][j].length; k++) {
-        for (let l = 0; l < this.descriptors.length; l++) {
-          components[l] = this.components[l][j][k]
-        }
+    for (let i = 0; i < tableIds.length; i++) {
+      const table = tables.get(tableIds[i])
 
-        // @ts-ignore
-        // SAFETY: Components are type cast to the expected passed value
+      if (!table) continue
+
+      for (let row = 0; row < table.size(); row++) {
+
+        // SAFETY: Row is in bounds
+        mapComponents(table, descriptors, row, components)
         callback(components)
       }
     }
@@ -150,29 +135,38 @@ export class Query {
    * @param {EachCombinationFunc<T>} callback
    */
   eachCombination(callback) {
-    const components1 = new Array(this.descriptors.length)
-    const components2 = new Array(this.descriptors.length)
+    const { tableIds, descriptors } = this
+    const tables = this.world.getTables()
 
-    if (!this.components[0]) return
+    // SAFETY: Components are filled below
+    const components1 = /** @type {T}*/(new Array(this.descriptors.length))
+    const components2 = /** @type {T}*/(new Array(this.descriptors.length))
 
-    // This... many people will be very upset.
-    for (let j = 0; j < this.components[0].length; j++) {
-      for (let k = 0; k < this.components[0][j].length; k++) {
-        for (let l = j; l < this.components[0].length; l++) {
-          const nextup = l === j ? k + 1 : 0
+    for (let i = 0; i < tableIds.length; i++) {
+      const table1 = tables.get(tableIds[i])
 
-          for (let m = nextup; m < this.components[0][l].length; m++) {
+      if (!table1) continue
 
-            for (let n = 0; n < this.descriptors.length; n++) {
-              components1[n] = this.components[n][j][k]
-              components2[n] = this.components[n][l][m]
-            }
+      for (let j = i; j < tableIds.length; j++) {
+        const table2 = tables.get(tableIds[i])
 
-            // @ts-ignore
-            // SAFETY: Components are type cast to the expected passed value
+        if (!table2) continue
+
+        for (let row1 = 0; row1 < table1.size(); row1++) {
+
+          // SAFETY: Row is in bounds
+          mapComponents(table1, descriptors, row1, components1)
+
+          const nextup = i === j ? row1 + 1 : 0
+
+          for (let row2 = nextup; row2 < table2.size(); row2++) {
+
+            // SAFETY: Row is in bounds
+            mapComponents(table2, descriptors, row2, components2)
             callback(components1, components2)
           }
         }
+
       }
     }
   }
@@ -181,17 +175,25 @@ export class Query {
    * @returns {T | null}
    */
   single() {
-    const components = new Array(this.descriptors.length)
+    const { descriptors, world, tableIds } = this
+    const tables = world.getTables()
 
-    if (!this.components[0] || !this.components[0][0] || this.components[0][0][0] === undefined) return null
+    for (let i = 0; i < tableIds.length; i++) {
+      const table = tables.get(tableIds[i])
 
-    for (let i = 0; i < this.descriptors.length; i++) {
-      components[i] = this.components[i][0][0]
+      if (!table) continue
+      if (table.size() < 1) continue
+
+      // SAFETY: Components are fetched below.
+      const components = /** @type {T}*/(new Array(this.descriptors.length))
+
+      // SAFETY: Table row is in bounds as checked above.
+      mapComponents(table, descriptors, 0, components)
+
+      return components
     }
 
-    // @ts-ignore
-    // SAFETY: Components are type cast to the expected return value
-    return components
+    return null
   }
 
   /**
@@ -200,15 +202,61 @@ export class Query {
    * @returns {number}
    */
   count() {
+    const { tableIds } = this
+    const tables = this.world.getTables()
     let sum = 0
 
-    if (!this.components[0]) return 0
+    for (let i = 0; i < tableIds.length; i++) {
+      const table = tables.get(tableIds[i])
 
-    for (let i = 0; i < this.components[0].length; i++) {
-      sum += this.components[0][i].length
+      if (!table) continue
+
+      sum += table.size()
     }
-
+    
     return sum
+  }
+}
+
+/**
+ * @template T
+ * @template U
+ * @param { readonly T[] } arr
+ * @param { (element:T, index:number) => U | undefined } callback
+ * @returns { U[] }
+ */
+function filterMap(arr, callback) {
+  const results = []
+
+  for (let i = 0; i < arr.length; i++) {
+    const result = callback(arr[i], i)
+
+    if (result !== undefined) {
+      results.push(result)
+    }
+  }
+
+  return results
+}
+
+/**
+ * ### Safety
+ * The table row should be guaranteed to be in bounds by the caller.
+ * The table should also contain all the components described by the descriptor.
+ * 
+ * @template {unknown[]} T
+ * @param {Table} table
+ * @param {TypeId[]} descriptor
+ * @param {number} row
+ * @param {[...T]} list
+ * 
+ */
+function mapComponents(table, descriptor, row, list) {
+  for (let i = 0; i < descriptor.length; i++) {
+    const type = descriptor[i]
+
+    // SAFETY:index guaranteed to be in bounds by the caller.The value should be there.
+    list[i] = /** @type {unknown}*/ (table.get(type, /** @type {TableRow} */ (row)))
   }
 }
 
