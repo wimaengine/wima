@@ -86,7 +86,7 @@ export class Query {
    * @returns {T | null}
    */
   get(entity) {
-    const { world, descriptors } = this
+    const { world, descriptors, tableIds } = this
     const entities = world.getEntities()
     const location = entities.get(entity.index)
 
@@ -96,6 +96,7 @@ export class Query {
     const table = world.getTables().get(tableId)
 
     if (table === undefined) return null
+    if (!tableIds.includes(tableId)) return null
     if (index > table.size() || index < 0) return null
 
     const components = new Array(this.descriptors.length)
