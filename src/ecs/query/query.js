@@ -1,10 +1,10 @@
-/** @import { TableId, TableRow } from './typedef/index.js'*/
-/** @import { Constructor, TypeId } from '../reflect/index.js'*/
+/** @import { TableId, TableRow } from '../typedef/index.js'*/
+/** @import { Constructor, TypeId } from '../../reflect/index.js'*/
 
-import { Entity } from './entities/index.js'
-import { World } from './registry.js'
-import { typeid } from '../reflect/index.js'
-import { Table } from './tables/index.js'
+import { Entity } from '../entities/index.js'
+import { World } from '../registry.js'
+import { typeid } from '../../reflect/index.js'
+import { Table } from '../tables/index.js'
 
 /**
  * Enables operations to be performed on specified set 
