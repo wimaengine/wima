@@ -1,5 +1,5 @@
 export * from './archetype/index.js'
-export * from './query.js'
+export * from './query/index.js'
 export * from './registry.js'
 export * from './schedule/index.js'
 export * from './typestore.js'

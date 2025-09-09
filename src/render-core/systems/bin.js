@@ -1,6 +1,6 @@
 /** @import { SystemFunc } from '../../ecs/index.js' */
 /** @import { Constructor } from '../../reflect/index.js' */
-import { Query } from '../../ecs/query.js'
+import { Query } from '../../ecs/index.js'
 import { typeid } from '../../reflect/index.js'
 import { GlobalTransform2D, GlobalTransform3D } from '../../transform/index.js'
 import { Material } from '../assets/material.js'
