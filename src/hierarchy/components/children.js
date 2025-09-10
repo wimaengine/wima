@@ -1,5 +1,10 @@
 /** @import { Entity } from '../../ecs/index.js' */
 
+import { VisitEntities } from '../../relationship/index.js'
+
+/**
+ * @implements {VisitEntities}
+ */
 export class Children {
 
   /**
@@ -28,6 +33,9 @@ export class Children {
    */
   remove(entity) {
     this.list.splice(this.list.indexOf(entity), 1)
+  }
+  visit(){
+    return this.list
   }
 
   /**
