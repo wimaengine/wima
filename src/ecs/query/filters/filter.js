@@ -51,3 +51,30 @@ export class Has {
 export function has(component) {
   return new Has(component)
 }
+
+/**
+ * @template T
+ * @implements {QueryFilter}
+ */
+export class Without {
+
+  /**
+   * @type {TypeId}
+   */
+  typeid
+
+  /**
+   * @param {Constructor<T>} component
+   */
+  constructor(component){
+    this.typeid = typeid(component)
+  }
+
+  /**
+   * @param {readonly TypeId[]} types 
+   * @returns {boolean}
+   */
+  archetype(types){
+    return !types.includes(this.typeid)
+  }
+}
