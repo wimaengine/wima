@@ -78,3 +78,12 @@ export class Without {
     return !types.includes(this.typeid)
   }
 }
+
+/**
+ * @template T
+ * @param {Constructor<T>} component
+ * @returns {Without<T>}
+ */
+export function without(component) {
+  return new Without(component)
+}
