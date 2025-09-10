@@ -5,6 +5,8 @@ import { Entity } from '../entities/index.js'
 import { World } from '../registry.js'
 import { typeid } from '../../reflect/index.js'
 import { Table } from '../tables/index.js'
+import { Archetype } from '../archetype/index.js'
+import { QueryFilter } from './filters/filter.js'
 
 /**
  * Enables operations to be performed on specified set 
@@ -29,6 +31,7 @@ import { Table } from '../tables/index.js'
  * ```
  * 
  * @template {unknown[]} T
+ * @template {QueryFilter[]} [U = []]
  */
 export class Query {
 
@@ -45,6 +48,12 @@ export class Query {
   descriptors = []
 
   /**
+   * @readonly
+   * @type {U}
+   */
+  filters
+
+  /**
    * @private
    * @type {TableId[]}
    */
@@ -53,11 +62,18 @@ export class Query {
   /**
    * @param {World} world
    * @param {[...TupleConstructor<T>]} componentTypes
+   * @param {[...U]} filters
    */
-  constructor(world, componentTypes) {
+  constructor(
+    world,
+    componentTypes,
+
+    // SAFETY: The default value matches the default template value
+    filters = /** @type {U}*/([])
+  ) {
     this.world = world
     this.descriptors = componentTypes.map((c) => typeid(c))
-
+    this.filters = filters
     this.update()
   }
 
@@ -69,11 +85,14 @@ export class Query {
     const archetypes = world.getArchetypes()
 
     const tableIds = filterMap(archetypes.values(), (archetype) => {
-      if (archetype.has(this.descriptors)) {
-        return archetype.tableId
+      if (!archetype.has(this.descriptors)) {
+        return undefined
+      }
+      if(!filter(archetype, this.filters)){
+        return undefined
       }
 
-      return undefined
+      return archetype.tableId
     })
 
     this.tableIds = tableIds
@@ -259,6 +278,20 @@ function mapComponents(table, descriptor, row, list) {
     // SAFETY:index guaranteed to be in bounds by the caller.The value should be there.
     list[i] = /** @type {unknown}*/ (table.get(type, /** @type {TableRow} */ (row)))
   }
+}
+
+/**
+ * @param {Archetype} archetype
+ * @param {QueryFilter[]} filters 
+ */
+function filter(archetype, filters) {
+  for (let i = 0; i < filters.length; i++) {
+    if(!filters[i].archetype(archetype.types)){
+      return false
+    }
+  }
+
+  return true
 }
 
 /**
