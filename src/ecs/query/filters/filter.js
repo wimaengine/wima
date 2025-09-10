@@ -42,3 +42,12 @@ export class Has {
     return types.includes(this.typeid)
   }
 }
+
+/**
+ * @template T
+ * @param {Constructor<T>} component
+ * @returns {Has<T>}
+ */
+export function has(component) {
+  return new Has(component)
+}
