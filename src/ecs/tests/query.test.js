@@ -1,5 +1,5 @@
 import { test, describe } from "node:test";
-import { Entity, Query, World } from "../index.js";
+import { Entity, Query, has, without, World } from "../index.js";
 import assert, { strictEqual } from "node:assert";
 import { typeid } from "../../reflect/index.js";
 
@@ -109,6 +109,20 @@ describe("Testing `Query`", () => {
     )
   })
 
+  test('query with a single filter.', () => {
+    const world = createWorld()
+    const query = new Query(world, [A],[has(B)])
+
+    strictEqual(query.count(), 20)
+  })
+
+  test('query with multiple filters.', () => {
+    const world = createWorld()
+    const query = new Query(world, [A],[has(B),without(C)])
+
+    strictEqual(query.count(), 10)
+  })
+
   test('query for combination of entities', () => {
     const world = createWorld()
     const query = new Query(world, [A, B, C])
@@ -147,7 +161,7 @@ describe("Testing `Query`", () => {
     strictEqual(count,45)
   })
 
-  test('query for count of entities+', () => {
+  test('query for count of entities', () => {
     const world = createWorld()
     const query = new Query(world, [A])
 
