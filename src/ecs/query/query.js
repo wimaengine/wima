@@ -69,7 +69,7 @@ export class Query {
     componentTypes,
 
     // SAFETY: The default value matches the default template value
-    filters = /**@type {U}*/([])
+    filters = /** @type {U}*/([])
   ) {
     this.world = world
     this.descriptors = componentTypes.map((c) => typeid(c))
