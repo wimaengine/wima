@@ -1,8 +1,6 @@
 import {
   Demo,
   World,
-  Affine2,
-  Vector2,
   VirtualClock,
   BasicMaterial,
   BasicMaterial2D,
@@ -14,12 +12,13 @@ import {
   Parent,
   Query,
   Children,
-  Rotary,
-  Position2D,
   Orientation2D,
-  Scale2D,
   BasicMaterialAssets,
-  MeshAssets
+  MeshAssets,
+  without,
+  has,
+  PI,
+  QUARTER_PI
 } from 'wima'
 import { addDefaultCamera2D } from '../../utils.js'
 
@@ -46,7 +45,6 @@ function addMeshes(world) {
       ...createTransform2D(),
       new Meshed(mesh),
       new BasicMaterial2D(material),
-      new Root(),
       new Cleanup()
     ])
     .build()
@@ -54,7 +52,7 @@ function addMeshes(world) {
   const child = commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(200),
+      ...createTransform2D(200, 0, 0, 0.5, 0.5),
       new Meshed(mesh),
       new BasicMaterial2D(material),
       new Parent(parent),
@@ -65,7 +63,7 @@ function addMeshes(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(),
+      ...createTransform2D(200, 0, 0, 0.5, 0.5),
       new Meshed(mesh),
       new BasicMaterial2D(material),
       new Cleanup(),
@@ -80,60 +78,14 @@ function addMeshes(world) {
  * @param {World} world
  */
 function update(world) {
-  const root = new Query(world, [Position2D, Orientation2D, Scale2D, Children, Root]).single()
-  const parents = new Query(world, [Position2D, Orientation2D, Scale2D, Children])
-  const children = new Query(world, [Position2D, Orientation2D, Scale2D, Parent])
-  const elapsed = world.getResource(VirtualClock).getElapsed()
+  const parent = new Query(world, [Orientation2D], [has(Children), without(Parent)]).single()
+  const child = new Query(world, [Orientation2D], [has(Children), has(Parent)]).single()
+  const grandChild = new Query(world, [Orientation2D], [has(Parent), without(Children)]).single()
+  const delta = world.getResource(VirtualClock).getDelta()
 
-  const parentTransform = Affine2.compose(
-    new Vector2(0, 0),
-    Rotary.fromAngle(elapsed * 0.5),
-    Vector2.splat(1)
-  )
-  const childTransform = Affine2.compose(
-    new Vector2(200, 0),
-    Rotary.fromAngle(elapsed * 0.5),
-    Vector2.splat(0.5)
-  )
+  if(!parent || !child || !grandChild) return
 
-  const grandChildTransform = Affine2.compose(
-    new Vector2(200, 0),
-    Rotary.identity(),
-    Vector2.splat(0.5)
-  )
-  const childFinalTransform = Affine2.multiply(parentTransform, childTransform)
-  const grandChildFinalTransform = Affine2.multiply(childFinalTransform, grandChildTransform)
-
-  if (!root) return
-
-  const [parPosition, parOrientation, parScale] = root
-  const [finparPosition, finparOrientation, finparScale] = parentTransform.decompose()
-
-  parPosition.copy(finparPosition)
-  parOrientation.value = Rotary.toAngle(finparOrientation)
-  parScale.copy(finparScale)
-
-  const child = parents.get(root[3].list[0])
-
-  if (!child) return
-
-  const [childPosition, childOrientation, childScale] = child
-  const [finChildPosition, finChildOrientation, finChildScale] = childFinalTransform.decompose()
-
-  childPosition.copy(finChildPosition)
-  childOrientation.value = Rotary.toAngle(finChildOrientation)
-  childScale.copy(finChildScale)
-
-  const grandChild = children.get(child[3].list[0])
-
-  if (!grandChild) return
-
-  const [grChildPosition, grChildOrientation, grChildScale] = grandChild
-  const [fingrChildPosition, fingrChildOrientation, fingrChildScale] = grandChildFinalTransform.decompose()
-
-  grChildPosition.copy(fingrChildPosition)
-  grChildOrientation.value = Rotary.toAngle(fingrChildOrientation)
-  grChildScale.copy(fingrChildScale)
+  parent[0].value += QUARTER_PI * delta
+  child[0].value += QUARTER_PI * delta
+  grandChild[0].value += PI * delta
 }
-
-class Root { }

@@ -1,8 +1,6 @@
 import {
   Demo,
   World,
-  Affine3,
-  Vector3,
   VirtualClock,
   BasicMaterial,
   BasicMaterial3D,
@@ -15,11 +13,12 @@ import {
   Parent,
   Query,
   Children,
-  Scale3D,
-  Position3D,
   Orientation3D,
   BasicMaterialAssets,
-  MeshAssets
+  MeshAssets,
+  has,
+  QUARTER_PI,
+  without
 } from 'wima'
 import { addDefaultCamera3D } from '../../utils.js'
 
@@ -46,15 +45,14 @@ function addMeshes(world) {
       ...createTransform3D(),
       new Meshed(mesh),
       new BasicMaterial3D(material),
-      new Root(),
       new Cleanup()
     ])
     .build()
-  
+
   const child = commands
     .spawn()
     .insertPrefab([
-      ...createTransform3D(),
+      ...createTransform3D(1, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5),
       new Meshed(mesh),
       new BasicMaterial3D(material),
       new Parent(parent),
@@ -65,14 +63,14 @@ function addMeshes(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform3D(),
+      ...createTransform3D(0.5, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5),
       new Meshed(mesh),
       new BasicMaterial3D(material),
       new Cleanup(),
       new Parent(child)
     ])
     .build()
-  
+
 }
 
 // TODO: Revisit when transform propagation lands.
@@ -80,60 +78,14 @@ function addMeshes(world) {
  * @param {World} world
  */
 function update(world) {
-  const root = new Query(world, [Position3D, Orientation3D, Scale3D, Children, Root]).single()
-  const parents = new Query(world, [Position3D, Orientation3D, Scale3D, Children])
-  const children = new Query(world, [Position3D, Orientation3D, Scale3D, Parent])
-  const elapsed = world.getResource(VirtualClock).getElapsed()
+  const parent = new Query(world, [Orientation3D], [has(Children), without(Parent)]).single()
+  const child = new Query(world, [Orientation3D], [has(Children), has(Parent)]).single()
+  const grandChild = new Query(world, [Orientation3D], [has(Parent), without(Children)]).single()
+  const delta = world.getResource(VirtualClock).getDelta()
+  
+  if (!parent || !child || !grandChild) return
 
-  const parentTransform = Affine3.compose(
-    new Vector3(0, 0),
-    Quaternion.rotateZ(elapsed * 0.5),
-    Vector3.splat(1)
-  )
-  const childTransform = Affine3.compose(
-    new Vector3(1, 0),
-    Quaternion.rotateZ(elapsed * 0.5),
-    Vector3.splat(0.5)
-  )
-
-  const grandChildTransform = Affine3.compose(
-    new Vector3(0.5, 0),
-    Quaternion.identity(),
-    Vector3.splat(0.5)
-  )
-  const childFinalTransform = Affine3.multiply(parentTransform, childTransform)
-  const grandChildFinalTransform = Affine3.multiply(childFinalTransform, grandChildTransform)
-
-  if (!root) return
-
-  const [parPosition, parOrientation, parScale] = root
-  const [finparPosition, finparOrientation, finparScale] = parentTransform.decompose()
-
-  parPosition.copy(finparPosition)
-  parOrientation.copy(finparOrientation)
-  parScale.copy(finparScale)
-
-  const child = parents.get(root[3].list[0])
-
-  if (!child) return
-
-  const [childPosition, childOrientation, childScale] = child
-  const [finChildPosition, finChildOrientation, finChildScale] = childFinalTransform.decompose()
-
-  childPosition.copy(finChildPosition)
-  childOrientation.copy(finChildOrientation)
-  childScale.copy(finChildScale)
-
-  const grandChild = children.get(child[3].list[0])
-
-  if (!grandChild) return
-
-  const [grChildPosition, grChildOrientation, grChildScale] = grandChild
-  const [fingrChildPosition, fingrChildOrientation, fingrChildScale] = grandChildFinalTransform.decompose()
-
-  grChildPosition.copy(fingrChildPosition)
-  grChildOrientation.copy(fingrChildOrientation)
-  grChildScale.copy(fingrChildScale)
+  parent[0].multiply(Quaternion.fromEuler(0, 0, QUARTER_PI * delta))
+  child[0].multiply(Quaternion.fromEuler(0, 0, QUARTER_PI * delta))
+  grandChild[0].multiply(Quaternion.fromEuler(0, 0, QUARTER_PI * delta))
 }
-
-class Root {}
