@@ -1,6 +1,6 @@
 import { Entity, has, Query, without, World } from '../../ecs/index.js'
 import { Children, Parent } from '../../hierarchy/index.js'
-import { Affine2, Rotary } from '../../math/index.js'
+import { Affine2, Affine3, Rotary } from '../../math/index.js'
 import { RelationshipQuery } from '../../relationship/index.js'
 import { Position2D, Orientation2D, Scale2D, GlobalTransform2D, Position3D, Orientation3D, Scale3D, GlobalTransform3D } from '../components/index.js'
 
@@ -37,6 +37,22 @@ export function propagateTransform2D(world) {
   roots.each(([entity]) => {
     hierachyTransforms.treebfs(entity, ([childTransform], [parentTransform]) => {
       const finalTransform = Affine2.multiply(parentTransform, childTransform)
+
+      childTransform.copy(finalTransform)
+    })
+  })
+}
+
+/**
+ * @param {World} world 
+ */
+export function propagateTransform3D(world) {
+  const hierachyTransforms = new RelationshipQuery(world, Children, Parent, [GlobalTransform3D])
+  const roots = new Query(world, [Entity], [has(Children), without(Parent)])
+
+  roots.each(([entity]) => {
+    hierachyTransforms.treebfs(entity, ([childTransform], [parentTransform]) => {
+      const finalTransform = Affine3.multiply(parentTransform, childTransform)
 
       childTransform.copy(finalTransform)
     })
