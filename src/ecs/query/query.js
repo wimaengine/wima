@@ -1,5 +1,6 @@
+/** @import { TupleConstructor } from '../core/index.js'*/
 /** @import { TableId, TableRow } from '../typedef/index.js'*/
-/** @import { Constructor, TypeId } from '../../reflect/index.js'*/
+/** @import { TypeId } from '../../reflect/index.js'*/
 
 import { Entity } from '../entities/index.js'
 import { World } from '../registry.js'
@@ -307,9 +308,4 @@ function filter(archetype, filters) {
  * @param {[...T]} components1
  * @param {[...T]} components2
  * @returns {void}
- */
-
-/**
- * @template {unknown[]} T
- * @typedef {{[K in keyof T]:Constructor<T[K]>}} TupleConstructor
  */

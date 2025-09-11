@@ -1,4 +1,5 @@
 /** @import { Constructor, TypeId } from '../reflect/index.js'*/
+/** @import { TupleConstructor } from './core/index.js'*/
 /** @import { ArchetypeId, TableId, TableRow } from './typedef/index.js'*/
 
 import { Table, Tables } from './tables/index.js'
@@ -198,6 +199,47 @@ export class World {
   }
 
   /**
+   * @template {unknown[]} T
+   * @param {Entity} entity
+   * @param {TupleConstructor<T>} components 
+   */
+  remove(entity, components) {
+    const location = this.entities.get(entity.index)
+    
+    if (!location) {
+      return
+    }
+
+    const { archetypeId: oldArchetypeId, index, tableId: oldTableId } = location
+    const oldArchetype = this.archetypes.get(oldArchetypeId)
+    const oldTable = this.tables.get(oldTableId)
+    
+    if (!oldTable) return
+    
+    const removedIds = (components.map((c) => typeid(c)))
+    const existingIds = oldArchetype.types
+    const newIds = removeElements(existingIds, removedIds)
+    const [newTableId, newTable, newArchetypeId] = this.resolve(newIds)
+
+    this.callRemoveComponentHook(entity, removedIds)
+
+    const newIndex = oldTable.moveTo(newTable, index)
+    const swapped = /** @type {Entity | null}*/ (oldTable.get(typeid(Entity), index))
+
+    location.tableId = newTableId
+    location.archetypeId = newArchetypeId
+    location.index = newIndex
+
+    if (swapped) {
+      const swappedlocation = /** @type {EntityLocation} */ (this.entities.get(swapped.index))
+
+      swappedlocation.index = index
+    }
+
+    this.callInsertComponentHook(entity, newIds)
+  }
+
+  /**
    * @template {{}[]} T
    * @param {[...T][]} entities
    */
@@ -379,4 +421,14 @@ export class World {
  */
 function deduplicate(newIds) {
   return [...new Set(newIds)]
+}
+
+/**
+ * @private
+ * @param {readonly TypeId[]} arr
+ * @param {readonly TypeId[]} remove
+ * @returns {TypeId[]}
+ */
+function removeElements(arr, remove) {
+  return arr.filter((e) => !remove.includes(e))
 }
