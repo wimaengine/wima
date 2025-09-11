@@ -209,8 +209,7 @@ export class World {
     if (!location) {
       return
     }
-    
-    // SAFETY:Object constructors can be casted from `Function` to `Constructor`
+
     const { archetypeId: oldArchetypeId, index, tableId: oldTableId } = location
     const oldArchetype = this.archetypes.get(oldArchetypeId)
     const oldTable = this.tables.get(oldTableId)
@@ -219,7 +218,7 @@ export class World {
     
     const removedIds = (components.map((c) => typeid(c)))
     const existingIds = oldArchetype.types
-    const newIds = removeElements(existingIds,removedIds)
+    const newIds = removeElements(existingIds, removedIds)
     const [newTableId, newTable, newArchetypeId] = this.resolve(newIds)
 
     this.callRemoveComponentHook(entity, removedIds)
@@ -430,6 +429,6 @@ function deduplicate(newIds) {
  * @param {readonly TypeId[]} remove
  * @returns {TypeId[]}
  */
-function removeElements(arr,remove) {
-  return arr.filter(e=>!remove.includes(e))
+function removeElements(arr, remove) {
+  return arr.filter((e) => !remove.includes(e))
 }

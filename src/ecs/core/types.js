@@ -1,4 +1,4 @@
-/**@import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../reflect/index.js' */
 
 /**
  * @template {unknown[]} T
