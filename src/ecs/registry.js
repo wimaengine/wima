@@ -313,7 +313,7 @@ export class World {
    * @returns {EntityCell}
    */
   getEntity(entity){
-    return new EntityCell(this,entity)
+    return new EntityCell(this, entity)
   }
 
   /**
