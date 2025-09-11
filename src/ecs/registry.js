@@ -10,6 +10,7 @@ import { Entities, Entity } from './entities/index.js'
 import { Archetypes, Archetype } from './archetype/index.js'
 import { EntityLocation } from './entities/location.js'
 import { typeid } from '../reflect/index.js'
+import { EntityCell } from './entities/entitycell.js'
 
 export class World {
 
@@ -305,6 +306,14 @@ export class World {
 
     // SAFETY: Fetched component with the typeid of `T`
     return /** @type {T | undefined}*/(component)
+  }
+
+  /**
+   * @param {Entity} entity
+   * @returns {EntityCell}
+   */
+  getEntity(entity){
+    return new EntityCell(this, entity)
   }
 
   /**
