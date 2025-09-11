@@ -1,6 +1,6 @@
 import { App, AppSchedule, Plugin } from '../app/index.js'
 import { World } from '../ecs/index.js'
-import { Timer, TimerMode, VirtualClock } from '../time/index.js'
+import { TimerMode, VirtualClock } from '../time/index.js'
 import { RAFTimer } from './resources/index.js'
 
 export class FPSDebugger extends Plugin {
@@ -10,7 +10,7 @@ export class FPSDebugger extends Plugin {
    */
   register(app) {
     app
-      .setResource(new RAFTimer(1, TimerMode.Repeat))
+      .setResource(new RAFTimer({ duration: 1, mode: TimerMode.Repeat }))
       .registerSystem(AppSchedule.Startup, setUpUI)
       .registerSystem(AppSchedule.Update, updateFPSCounter)
       .registerSystem(AppSchedule.Update, updateRAFTimer)
@@ -41,7 +41,7 @@ function updateFPSCounter(world) {
   const clock = world.getResource(VirtualClock)
   const timer = world.getResource(RAFTimer)
 
-  if (!timer.finished) return
+  if (!timer.cycleStarted()) return
 
   const container = document.querySelector('#fps-container')
   const fps = Math.round(clock.getFrameRate())
@@ -56,5 +56,5 @@ function updateRAFTimer(world) {
   const clock = world.getResource(VirtualClock)
   const timer = world.getResource(RAFTimer)
 
-  Timer.update(timer, clock.getDelta())
+  timer.update(clock.getDelta())
 }
