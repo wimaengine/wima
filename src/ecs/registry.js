@@ -118,8 +118,8 @@ export class World {
       return [tableId, table, id, arch]
     }
 
-    const [tableId, table] = this.tables.resolveTableFor(typeIds)
-    const newArchetype = new Archetype(tableId, typeIds)
+    const [tableId, table] = this.tables.resolveTableFor(actualTypeIds)
+    const newArchetype = new Archetype(tableId, actualTypeIds)
     const id = this.archetypes.set(newArchetype)
 
     return [tableId, table, id, newArchetype]
