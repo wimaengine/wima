@@ -1,9 +1,12 @@
-import { App, Plugin } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
 import { AssetParserPlugin, AssetPlugin, Assets } from '../asset/index.js'
+import { ComponentHooks } from '../ecs/index.js'
 import { typeidGeneric } from '../reflect/index.js'
 import { Audio } from './assets/index.js'
+import { AudioPlayer, removeAudioPlayerSink } from './components/index.js'
 import { AudioAdded, AudioDropped, AudioModified } from './events/index.js'
 import { AudioCommands, AudioParser, AudioAssets, AudioGraph } from './resources/index.js'
+import { playAudio, updatePlayers } from './systems/index.js'
 
 export class AudioPlugin extends Plugin {
 
@@ -15,20 +18,28 @@ export class AudioPlugin extends Plugin {
     const handler = new AudioCommands()
 
     app
+      .registerType(AudioPlayer)
+      .setComponentHooks(AudioPlayer, new ComponentHooks(
+        null,
+        removeAudioPlayerSink
+      ))
       .setResource(new AudioGraph())
       .setResource(handler)
       .registerPlugin(new AssetPlugin({
-        asset:Audio,
-        events:{
-          added:AudioAdded,
-          modified:AudioModified,
-          dropped:AudioDropped
+        asset: Audio,
+        events: {
+          added: AudioAdded,
+          modified: AudioModified,
+          dropped: AudioDropped
         }
       }))
       .registerPlugin(new AssetParserPlugin({
         asset: Audio,
         parser: new AudioParser()
       }))
+      .registerSystem(AppSchedule.Update, playAudio)
+      .registerSystem(AppSchedule.Update, updatePlayers)
+
     window.addEventListener('pointerdown', resumeAudio)
 
     world.setResourceAlias(typeidGeneric(Assets, [Audio]), AudioAssets)
