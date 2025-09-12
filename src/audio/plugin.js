@@ -3,10 +3,10 @@ import { AssetParserPlugin, AssetPlugin, Assets } from '../asset/index.js'
 import { ComponentHooks } from '../ecs/index.js'
 import { typeidGeneric } from '../reflect/index.js'
 import { Audio } from './assets/index.js'
-import { AudioPlayer, removeAudioPlayerSink } from './components/index.js'
+import { AudioPlayer, AudioOscillator, removeAudioPlayerSink, removeOscillatorSink } from './components/index.js'
 import { AudioAdded, AudioDropped, AudioModified } from './events/index.js'
 import { AudioCommands, AudioParser, AudioAssets, AudioGraph } from './resources/index.js'
-import { playAudio, updatePlayers } from './systems/index.js'
+import { playAudio, updatePlayers, playOscillators, updateOscillators } from './systems/index.js'
 
 export class AudioPlugin extends Plugin {
 
@@ -23,6 +23,11 @@ export class AudioPlugin extends Plugin {
         null,
         removeAudioPlayerSink
       ))
+      .registerType(AudioOscillator)
+      .setComponentHooks(AudioOscillator, new ComponentHooks(
+        null,
+        removeOscillatorSink
+      ))
       .setResource(new AudioGraph())
       .setResource(handler)
       .registerPlugin(new AssetPlugin({
@@ -38,7 +43,9 @@ export class AudioPlugin extends Plugin {
         parser: new AudioParser()
       }))
       .registerSystem(AppSchedule.Update, playAudio)
+      .registerSystem(AppSchedule.Update, playOscillators)
       .registerSystem(AppSchedule.Update, updatePlayers)
+      .registerSystem(AppSchedule.Update, updateOscillators)
 
     window.addEventListener('pointerdown', resumeAudio)
 
