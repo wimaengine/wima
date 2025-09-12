@@ -1,5 +1,5 @@
 import { Query, World } from '../../ecs/index.js'
-import { TimerMode } from '../../time/index.js'
+import { VirtualClock, TimerMode } from '../../time/index.js'
 import { AudioAssets, AudioGraph } from '../resources/index.js'
 import { AudioPlayer } from '../components/index.js'
 
@@ -45,6 +45,19 @@ export function playAudio(world) {
       playback.duration = source.audiobuffer.duration
       player.sourceNode = id
     }
+  })
+}
+
+/**
+ * @param {World} world
+ */
+export function updatePlayers(world) {
+  const players = new Query(world, [AudioPlayer])
+  const clock = world.getResource(VirtualClock)
+  const delta = clock.getDelta()
+
+  players.each(([player]) => {
+    player.playback.update(delta)
   })
 }
 
