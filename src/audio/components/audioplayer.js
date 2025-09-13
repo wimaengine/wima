@@ -25,7 +25,7 @@ export class AudioPlayer {
   /**
    * @type {Timer}
    */
-  playback = new Timer(1000000)
+  playback
 
   /**
    * @param {AudioPlayerOptions} [options]
@@ -33,7 +33,10 @@ export class AudioPlayer {
   constructor({ attach, audio, playbackMode = TimerMode.Once } = {}) {
     this.attach = attach
     this.audio = audio
-    this.playback.mode = playbackMode
+    this.playback = new Timer({
+      duration:1000000,
+      mode: playbackMode
+    })
   }
 }
 

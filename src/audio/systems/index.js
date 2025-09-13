@@ -41,7 +41,7 @@ export function playAudio(world) {
         graph.connect(id, root)
       }
 
-      node.start(0, playback.elapsed)
+      node.start(0, playback.elapsed())
       playback.duration = source.audiobuffer.duration
       player.sourceNode = id
     }
