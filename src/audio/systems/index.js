@@ -78,7 +78,7 @@ export function playOscillators(world) {
         graph.connect(id, root)
       }
       
-      node.start(playback.elapsed)
+      node.start(playback.elapsed())
       oscillator.sourceNode = id
     }
   })

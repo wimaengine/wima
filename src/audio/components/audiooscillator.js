@@ -33,7 +33,7 @@ export class AudioOscillator {
   /**
    * @type {Timer}
    */
-  playback = new Timer(1000000)
+  playback = new Timer({ duration:1000000 })
   
   /**
    * @param {AudioOscillatorOptions} [options]
