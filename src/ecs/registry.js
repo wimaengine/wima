@@ -118,8 +118,8 @@ export class World {
       return [tableId, table, id, arch]
     }
 
-    const [tableId, table] = this.tables.resolveTableFor(typeIds)
-    const newArchetype = new Archetype(tableId, typeIds)
+    const [tableId, table] = this.tables.resolveTableFor(actualTypeIds)
+    const newArchetype = new Archetype(tableId, actualTypeIds)
     const id = this.archetypes.set(newArchetype)
 
     return [tableId, table, id, newArchetype]
@@ -181,18 +181,23 @@ export class World {
     const existingIds = oldArchetype.types
     const combinedIds = [...existingIds, ...newIds]
     const [newTableId, newTable, newArchetypeId] = this.resolve(combinedIds)
-    const newIndex = oldTable.moveTo(newTable, index)
-    const swapped = /** @type {Entity | null}*/ (oldTable.get(typeid(Entity), index))
 
-    newTable.insertUnchecked(newIndex, newIds, components)
-    location.tableId = newTableId
-    location.archetypeId = newArchetypeId
-    location.index = newIndex
+    if (newTableId === oldTableId) {
+      oldTable.insertUnchecked(index, newIds, components)
+    } else {
+      const newIndex = oldTable.moveTo(newTable, index)
+      const swapped = /** @type {Entity | null}*/ (oldTable.get(typeid(Entity), index))
 
-    if (swapped) {
-      const swappedlocation = /** @type {EntityLocation} */ (this.entities.get(swapped.index))
-      
-      swappedlocation.index = index
+      newTable.insertUnchecked(newIndex, newIds, components)
+      location.tableId = newTableId
+      location.archetypeId = newArchetypeId
+      location.index = newIndex
+
+      if (swapped) {
+        const swappedlocation = /** @type {EntityLocation} */ (this.entities.get(swapped.index))
+  
+        swappedlocation.index = index
+      }
     }
 
     this.callAddComponentHook(entity, newIds)
