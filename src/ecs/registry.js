@@ -182,7 +182,7 @@ export class World {
     const combinedIds = [...existingIds, ...newIds]
     const [newTableId, newTable, newArchetypeId] = this.resolve(combinedIds)
 
-    if (newTableId == oldTableId) {
+    if (newTableId === oldTableId) {
       oldTable.insertUnchecked(index, newIds, components)
     } else {
       const newIndex = oldTable.moveTo(newTable, index)
