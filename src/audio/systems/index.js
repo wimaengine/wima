@@ -1,7 +1,7 @@
 import { Query, World } from '../../ecs/index.js'
 import { VirtualClock, TimerMode } from '../../time/index.js'
 import { AudioAssets, AudioGraph } from '../resources/index.js'
-import { AudioPlayer } from '../components/index.js'
+import { AudioPlayer, AudioOscillator, AudioOscillatorType } from '../components/index.js'
 
 
 /**
@@ -51,6 +51,42 @@ export function playAudio(world) {
 /**
  * @param {World} world
  */
+export function playOscillators(world) {
+  const graph = world.getResource(AudioGraph)
+  const oscillators = new Query(world, [AudioOscillator])
+  const ctx = graph.getContext()
+  const root = graph.getRoot()
+  
+  
+  oscillators.each(([oscillator]) => {
+    const { type, frequency, sourceNode, detune, playback, attach } = oscillator
+    
+    if (sourceNode) {
+      
+      // update node if a playback is requested
+    } else {
+      const node = new OscillatorNode(ctx, {
+        detune,
+        frequency,
+        type: mapType(type)
+      })
+      const id = graph.add(node)
+      
+      if (attach) {
+        graph.connect(id, attach)
+      } else {
+        graph.connect(id, root)
+      }
+      
+      node.start(playback.elapsed())
+      oscillator.sourceNode = id
+    }
+  })
+}
+
+/**
+ * @param {World} world
+ */
 export function updatePlayers(world) {
   const players = new Query(world, [AudioPlayer])
   const clock = world.getResource(VirtualClock)
@@ -58,6 +94,19 @@ export function updatePlayers(world) {
 
   players.each(([player]) => {
     player.playback.update(delta)
+  })
+}
+
+/**
+ * @param {World} world
+ */
+export function updateOscillators(world) {
+  const oscillators = new Query(world, [AudioOscillator])
+  const clock = world.getResource(VirtualClock)
+  const delta = clock.getDelta()
+  
+  oscillators.each(([oscillator]) => {
+    oscillator.playback.update(delta)
   })
 }
 
@@ -74,5 +123,29 @@ function looped(playbackMode) {
 
     default:
       return false
+  }
+}
+
+/**
+ * @param {AudioOscillatorType} type
+ * @throws {string}
+ * @returns {OscillatorType}
+ */
+function mapType(type) {
+  switch (type) {
+    case AudioOscillatorType.SawTooth:
+      return 'sawtooth'
+
+    case AudioOscillatorType.Sine:
+      return 'sine'
+
+    case AudioOscillatorType.Square:
+      return 'square'
+
+    case AudioOscillatorType.Triangle:
+      return 'triangle'
+
+    default:
+      throw 'No such `AudioOscillatorType` exists.'
   }
 }
