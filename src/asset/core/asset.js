@@ -111,14 +111,12 @@ export class Assets {
     if (handle) {
       this.set(handle, asset)
 
-      // TODO: clone this when asset dropping is added
-      return handle
+      return handle.clone()
     }
 
     const newHandle = this.add(asset)
 
-    // TODO: clone this when asset dropping is added
-    this.uuids.set(uuid, newHandle)
+    this.uuids.set(uuid, newHandle.clone())
 
     return newHandle
   }
@@ -175,8 +173,7 @@ export class Assets {
    */
   getHandleByUUID(uuid) {
 
-    // TODO: clone this when asset dropping is added
-    return this.uuids.get(uuid)
+    return this.uuids.get(uuid)?.clone()
   }
 
   // TODO: Move to asset server when it is implemented
