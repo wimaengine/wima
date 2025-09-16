@@ -1,21 +1,37 @@
+/**@import {TypeId} from '../../reflect/index.js' */
+/**@import {AssetId} from '../types/index.js' */
 export class AssetLoadFail {
-
+  
+  /**
+   * @type {TypeId}
+   */
+  typeId
+  
+  /**
+   * @type {AssetId}
+   */
+  assetId
+  
   /**
    * @type {string}
    */
-  url
-
+  path
+  
   /**
    * @type {string}
    */
   reason
-
+  
   /**
-   * @param {string} url
+   * @param {TypeId} typeId
+   * @param {AssetId} assetId
+   * @param {string} path
    * @param {string} reason
    */
-  constructor(url, reason){
-    this.url = url
+  constructor(typeId, assetId, path, reason) {
+    this.typeId = typeId
+    this.assetId = assetId
+    this.path = path
     this.reason = reason
   }
 }
