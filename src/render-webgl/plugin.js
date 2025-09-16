@@ -6,6 +6,7 @@ import { MainWindow, Window, Windows } from '../window/index.js'
 import { WebglMaterialPlugin } from './plugins/index.js'
 import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from './resources/index.js'
 import { basicMaterial3DFragment, basicMaterial3DVertex } from './shaders/index.js'
+import { disposeDroppedMeshes, queueMeshes } from './systems/index.js'
 
 export class WebglRendererPlugin extends Plugin {
 
@@ -29,6 +30,8 @@ export class WebglRendererPlugin extends Plugin {
         vertex3d: basicMaterial3DVertex,
         fragment3d: basicMaterial3DFragment
       }))
+      .registerSystem(AppSchedule.Update, disposeDroppedMeshes)
+      .registerSystem(AppSchedule.Update, queueMeshes)
   }
 }
 
