@@ -1,6 +1,7 @@
 /** @import { Constructor } from '../reflect/index.js'*/
 
-import { App, AppSchedule, Plugin, SystemConfig } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
+import { SystemConfig } from '../schedule/index.js'
 import { makeEventClear } from './systems/index.js'
 import { Events } from './core/index.js'
 import { typeidGeneric } from '../reflect/index.js'
