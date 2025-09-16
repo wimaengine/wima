@@ -1,9 +1,8 @@
 import { App, AppSchedule, Plugin } from '../app/index.js'
-import { ComponentHooks, Entity, Query, World } from '../ecs/index.js'
+import { Entity, Query, World } from '../ecs/index.js'
 import { warn } from '../logger/index.js'
-import { MeshAttribute, ProgramCache, BasicMaterial, Meshed } from '../render-core/index.js'
+import { MeshAttribute, ProgramCache, BasicMaterial } from '../render-core/index.js'
 import { MainWindow, Window, Windows } from '../window/index.js'
-import { meshAddHook2 } from './hooks/index.js'
 import { WebglMaterialPlugin } from './plugins/index.js'
 import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from './resources/index.js'
 import { basicMaterial3DFragment, basicMaterial3DVertex } from './shaders/index.js'
@@ -18,7 +17,6 @@ export class WebglRendererPlugin extends Plugin {
 
     registerDefaultAttributeLocs(attribute)
     app
-      .setComponentHooks(Meshed, new ComponentHooks(meshAddHook2))
       .setResource(new ProgramCache())
       .setResource(new MeshCache())
       .setResource(new UBOCache())
