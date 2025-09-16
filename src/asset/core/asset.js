@@ -238,6 +238,18 @@ export class Assets {
   upgrade(assetId) {
     return new Handle(this, assetId)
   }
+
+  /**
+   * @returns {Handle<T>}
+   * 
+   */
+  reserve() {
+    const id = this.assets.reserve()
+
+    this.assets.set(id, new AssetEntry(undefined))
+
+    return new Handle(this, id)
+  }
 }
 
 /**
