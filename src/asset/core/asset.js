@@ -231,6 +231,13 @@ export class Assets {
       this.events.push(new AssetDropped(this.type, handle.id()))
     }
   }
+
+  /**
+   * @param {AssetId} assetId
+   */
+  upgrade(assetId) {
+    return new Handle(this, assetId)
+  }
 }
 
 /**
