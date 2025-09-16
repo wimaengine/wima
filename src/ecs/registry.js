@@ -390,6 +390,14 @@ export class World {
   }
 
   /**
+   * @template T
+   * @param {Constructor<T>} type
+   */
+  removeResource(type){
+    this.removeResourceByTypeId(typeid(type))
+  }
+
+  /**
    * @param {TypeId} typeId
    */
   removeResourceByTypeId(typeId){
