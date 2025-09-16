@@ -237,6 +237,43 @@ export function queueMeshes(world) {
 }
 
 /**
+ * @param {World} world
+ */
+export function disposeDroppedMeshes(world) {
+
+  /** @type {Events<MeshDropped>} */
+  const dropped = world.getResourceByTypeId(typeidGeneric(Events, [MeshDropped]))
+  
+  /**@type {MeshCache<WebGLVertexArrayObject>} */
+  const cache = world.getResource(MeshCache)
+  const windows = new Query(world, [Entity, Window, MainWindow])
+  const canvases = world.getResource(Windows)
+
+  // TODO: Find a way to decouple to allow multi-window support.
+  const window = windows.single()
+
+  if (!window) return warn('Please define the main window for rendering.')
+
+  const canvas = canvases.getWindow(window[0])
+
+  if (!canvas) return
+
+  const gl = canvas.getContext('webgl2')
+
+  if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
+  dropped.each((drop) => {
+    const { id } = drop.data
+    const vao = cache.get(id)
+
+    if(!vao) return
+
+    gl.deleteVertexArray(vao)
+    
+    cache.delete(id)
+  })
+}
+
+/**
  * @param {WebGL2RenderingContext} gl
  * @param {AssetId} id
  * @param {Assets<Mesh>} meshes
