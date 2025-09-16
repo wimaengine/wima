@@ -10,7 +10,7 @@ import { typeid, typeidGeneric } from '../../reflect/index.js'
 import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from '../resources/index.js'
 import { Camera, Material, Mesh, MeshAdded, MeshModified, MeshDropped, RenderLists3D, ShaderStage } from '../../render-core/index.js'
 import { WebglRenderPipeline, createShader, validateShader, createProgram, validateProgram, createVAO } from '../core/index.js'
-import { AssetEvent, Assets } from '../../asset/index.js'
+import { Assets } from '../../asset/index.js'
 import { GlobalTransform3D } from '../../transform/index.js'
 import { Affine3 } from '../../math/index.js'
 import { Events } from '../../event/index.js'
@@ -146,12 +146,12 @@ export function genRender(type) {
 
       const pipeline = programs.get(materialtypeid)
 
-      if(!pipeline) return
+      if (!pipeline) return
 
       const opaquepass = renderlist.getOpaquePass(materialtypeid)
 
-      if(!opaquepass) return
-      
+      if (!opaquepass) return
+
       for (let i = 0; i < opaquepass.length; i++) {
         const { meshid, materialid, transform } = opaquepass[i]
         const meshTransform = Affine3.toMatrix4(transform)
@@ -230,7 +230,8 @@ export function queueMeshes(world) {
     const { id } = event.data
 
     // SAFETY:Guaranteed to exist as it was added before modified.
-    const vao = /**@type {WebGLVertexArrayObject} */ (cache.get(id))
+    const vao = /** @type {WebGLVertexArrayObject} */ (cache.get(id))
+
     gl.deleteVertexArray(vao)
     updateMesh(gl, id, meshes, cache, attributes)
   })
@@ -244,7 +245,7 @@ export function disposeDroppedMeshes(world) {
   /** @type {Events<MeshDropped>} */
   const dropped = world.getResourceByTypeId(typeidGeneric(Events, [MeshDropped]))
   
-  /**@type {MeshCache<WebGLVertexArrayObject>} */
+  /** @type {MeshCache<WebGLVertexArrayObject>} */
   const cache = world.getResource(MeshCache)
   const windows = new Query(world, [Entity, Window, MainWindow])
   const canvases = world.getResource(Windows)
@@ -261,6 +262,7 @@ export function disposeDroppedMeshes(world) {
   const gl = canvas.getContext('webgl2')
 
   if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
+
   dropped.each((drop) => {
     const { id } = drop.data
     const vao = cache.get(id)
