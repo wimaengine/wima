@@ -1,9 +1,14 @@
 export class Name {
+
   /**
    * @type {string}
    */
   value
-  constructor(name = "") {
+
+  /**
+   * @param {string} name 
+   */
+  constructor(name = '') {
     this.value = name
   }
 }
