@@ -80,6 +80,25 @@ export class Assets {
       this.events.push(new AssetAdded(this.type, handle.id()))
     }
   }
+  /**
+   * @param {AssetId} assetId
+   * @param {T} asset
+   */
+  setUsingAssetId(assetId, asset) {
+    const entry = this.assets.get(assetId)
+
+    if (!entry) return
+
+    const oldAsset = entry.asset
+
+    entry.asset = asset
+
+    if (oldAsset) {
+      this.events.push(new AssetModified(this.type, assetId))
+    } else {
+      this.events.push(new AssetAdded(this.type, assetId))
+    }
+  }
 
   /**
    * @param {string} uuid 
