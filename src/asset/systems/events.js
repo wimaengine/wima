@@ -1,10 +1,11 @@
-/** @import { SystemFunc } from '../../ecs/index.js' */
+/** @import { SystemFunc, World } from '../../ecs/index.js' */
 /** @import { Constructor } from '../../reflect/index.js' */
 /** @import { AssetEvents } from '../index.js' */
 import { Assets } from '../core/index.js'
 import { Events } from '../../event/index.js'
 import { typeid, typeidGeneric } from '../../reflect/index.js'
-import { AssetAdded, AssetDropped, AssetModified } from '../events/index.js'
+import { AssetServer } from '../resources/index.js'
+import { AssetAdded, AssetDropped, AssetModified, AssetLoadSuccess, AssetLoadFail } from '../events/index.js'
 import { warnOnce } from '../../logger/index.js'
 
 /**
@@ -50,5 +51,31 @@ export function updateAssetEvents(assetType, eventType) {
         warnOnce(`The asset event \`${name}\` is not handled!`)
       }
     }
+  }
+}
+
+/**
+ * @template T
+ * @param {World} world 
+ * @returns {void}
+ */
+export function updateAssetLoadEvents(world) {
+  const server = world.getResource(AssetServer)
+
+  /**@type {Events<AssetLoadSuccess>} */
+  const sucessEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadSuccess]))
+
+  /**@type {Events<AssetLoadFail>} */
+  const failEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
+
+  const succeeded = server.flushLoadSuccess()
+  const failed = server.flushLoadFail()
+
+  for (let i = 0; i < succeeded.length; i++) {
+    sucessEvents.write(succeeded[i])
+  }
+
+  for (let i = 0; i < failed.length; i++) {
+    failEvents.write(failed[i])
   }
 }
