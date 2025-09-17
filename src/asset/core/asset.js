@@ -25,13 +25,6 @@ export class Assets {
    */
   uuids = new Map()
 
-  // TODO: Move to asset server when it is implemented
-  /**
-   * @private
-   * @type {string[]}
-   */
-  toLoad = []
-
   /**
    * @private
    * @type {AssetEvent<T>[]}
@@ -176,33 +169,6 @@ export class Assets {
     return this.uuids.get(uuid)?.clone()
   }
 
-  // TODO: Move to asset server when it is implemented
-  /**
-   * @param {string} path 
-   * @returns {Handle<T>}
-   */
-  load(path) {
-    const id = this.assets.reserve()
-
-    this.assets.set(id, new AssetEntry(undefined))
-    this.uuids.set(path, new Handle(this, id))
-    this.toLoad.push(path)
-
-    return new Handle(this, id)
-  }
-
-  // TODO: Move to asset server when it is implemented
-  /**
-   * @returns {Readonly<string[]>}
-   */
-  flushToLoad() {
-    const load = this.toLoad
-
-    if (load.length) this.toLoad = []
-
-    return load
-  }
-
   /**
    * @returns {Readonly<AssetEvent<T>[]>}
    */
@@ -219,7 +185,7 @@ export class Assets {
    */
   drop(handle) {
     const entry = this.getEntry(handle)
-    
+
     entry.refCount -= 1
 
     if (entry.refCount <= 0) {
