@@ -1,9 +1,12 @@
 /** @import { SystemFunc, World } from '../../ecs/index.js' */
 /** @import { Constructor } from '../../reflect/index.js' */
 /** @import { AssetDropped, AssetEvent, Parser } from '../index.js' */
+import { Events } from '../../event/index.js'
 import { typeidGeneric } from '../../reflect/index.js'
 import { Assets } from '../core/index.js'
 import { AssetServer } from '../resources/index.js'
+import { AssetLoadFail } from '../events/index.js'
+import { error } from '../../logger/index.js'
 
 /**
  * @template T
@@ -47,4 +50,20 @@ export function updateAssets(world) {
 
     assets.setUsingAssetId(assetId, asset)
   }
+}
+
+/**
+ * @param {World} world
+ */
+export function logFailedLoads(world) {
+  const server = world.getResource(AssetServer)
+
+  /**@type {Events<AssetLoadFail>} */
+  const events = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
+
+  events.each((event) => {
+    const { data } = event
+
+    error(`\`AssetServer\` error loading "${data.path}": ${data.reason}`)
+  })
 }
