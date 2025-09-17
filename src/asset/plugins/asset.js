@@ -2,12 +2,11 @@
 /** @import { HandleProvider } from '../core/index.js' */
 
 import { App, AppSchedule, Plugin } from '../../app/index.js'
-import { EventPlugin } from '../../event/plugin.js'
+import { EventPlugin } from '../../event/index.js'
 import { typeidGeneric } from '../../reflect/index.js'
 import { Assets } from '../core/index.js'
-import { AssetAdded, AssetDropped, AssetLoadFail, AssetLoadSuccess, AssetModified } from '../events/index.js'
-import { AssetBasePath } from '../resources/index.js'
-import { updateAssetEvents } from '../systems/index.js'
+import { AssetAdded, AssetDropped, AssetModified } from '../events/index.js'
+import { updateAssetEvents, registerAssetOnAssetServer, unloadDroppedAssets } from '../systems/index.js'
 
 
 /**
@@ -15,55 +14,44 @@ import { updateAssetEvents } from '../systems/index.js'
  */
 
 export class AssetPlugin extends Plugin {
-
+  
   /**
    * @readonly
    * @type {string}
    */
   path
-
+  
   /**
    * @readonly
    * @type {Constructor<T>}
    */
   asset
-
+  
   /**
    * @readonly
    * @type {AssetEvents<T>}
    */
   events
-
+  
   /**
    * @param {AssetPluginOptions<T>} options
    */
   constructor(options) {
     super()
     const { path = '', asset, events } = options
-
+    
     this.asset = asset
     this.events = events
     this.path = path
   }
-
+  
   /**
    * @param {App} app
    */
   register(app) {
     const { asset, path, events } = this
     const world = app.getWorld()
-
-
-    // TODO - Separate the events to become for each
-    // asset type
-    app
-      .registerPlugin(new EventPlugin({
-        event: AssetLoadSuccess
-      }))
-      .registerPlugin(new EventPlugin({
-        event: AssetLoadFail
-      }))
-
+    
     if (events) {
       app
         .registerPlugin(new EventPlugin({
@@ -76,18 +64,16 @@ export class AssetPlugin extends Plugin {
           event: events.dropped
         }))
         .registerSystem(AppSchedule.Update, updateAssetEvents(asset, events))
+        .registerSystem(AppSchedule.Update, unloadDroppedAssets(events.dropped))
     }
-
-    world.setResourceByTypeId(
-      typeidGeneric(AssetBasePath, [asset]),
-      new AssetBasePath(path)
-    )
+    
+   app.registerSystem(AppSchedule.Startup, registerAssetOnAssetServer(asset))
     world.setResourceByTypeId(
       typeidGeneric(Assets, [asset]),
       new Assets(asset)
     )
   }
-
+  
   name() {
     return typeidGeneric(AssetPlugin, [this.asset])
   }
