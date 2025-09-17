@@ -4,7 +4,7 @@
 import { Events } from '../../event/index.js'
 import { typeidGeneric } from '../../reflect/index.js'
 import { Assets } from '../core/index.js'
-import { AssetServer } from '../resources/index.js'
+import { AssetServer, LoadState } from '../resources/index.js'
 import { AssetLoadFail } from '../events/index.js'
 import { error } from '../../logger/index.js'
 
@@ -66,4 +66,24 @@ export function logFailedLoads(world) {
 
     error(`\`AssetServer\` error loading "${data.path}": ${data.reason}`)
   })
+}
+
+/**
+ * @template T
+ * @template {AssetDropped<T>} U
+ * @param {Constructor<U>} dropEvent
+ * @returns {SystemFunc}
+ */
+export function unloadDroppedAssets(dropEvent) {
+  return function unloadDroppedAssets(world) {
+    /**@type {Events<U>} */
+    const events = world.getResourceByTypeId(typeidGeneric(Events, [dropEvent]))
+    const server = world.getResource(AssetServer)
+
+    events.each((event)=>{
+      const { data } = event
+
+      server.dropAssetInfo(data.id)
+    })
+  }
 }
