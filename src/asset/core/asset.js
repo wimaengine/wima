@@ -25,13 +25,6 @@ export class Assets {
    */
   uuids = new Map()
 
-  // TODO: Move to asset server when it is implemented
-  /**
-   * @private
-   * @type {string[]}
-   */
-  toLoad = []
-
   /**
    * @private
    * @type {AssetEvent<T>[]}
@@ -82,6 +75,26 @@ export class Assets {
   }
 
   /**
+   * @param {AssetId} assetId
+   * @param {T} asset
+   */
+  setUsingAssetId(assetId, asset) {
+    const entry = this.assets.get(assetId)
+
+    if (!entry) return
+
+    const oldAsset = entry.asset
+
+    entry.asset = asset
+
+    if (oldAsset) {
+      this.events.push(new AssetModified(this.type, assetId))
+    } else {
+      this.events.push(new AssetAdded(this.type, assetId))
+    }
+  }
+
+  /**
    * @param {string} uuid 
    * @param {T} asset 
    * @returns {Handle<T>}
@@ -92,14 +105,12 @@ export class Assets {
     if (handle) {
       this.set(handle, asset)
 
-      // TODO: clone this when asset dropping is added
-      return handle
+      return handle.clone()
     }
 
     const newHandle = this.add(asset)
 
-    // TODO: clone this when asset dropping is added
-    this.uuids.set(uuid, newHandle)
+    this.uuids.set(uuid, newHandle.clone())
 
     return newHandle
   }
@@ -156,35 +167,7 @@ export class Assets {
    */
   getHandleByUUID(uuid) {
 
-    // TODO: clone this when asset dropping is added
-    return this.uuids.get(uuid)
-  }
-
-  // TODO: Move to asset server when it is implemented
-  /**
-   * @param {string} path 
-   * @returns {Handle<T>}
-   */
-  load(path) {
-    const id = this.assets.reserve()
-
-    this.assets.set(id, new AssetEntry(undefined))
-    this.uuids.set(path, new Handle(this, id))
-    this.toLoad.push(path)
-
-    return new Handle(this, id)
-  }
-
-  // TODO: Move to asset server when it is implemented
-  /**
-   * @returns {Readonly<string[]>}
-   */
-  flushToLoad() {
-    const load = this.toLoad
-
-    if (load.length) this.toLoad = []
-
-    return load
+    return this.uuids.get(uuid)?.clone()
   }
 
   /**
@@ -203,7 +186,7 @@ export class Assets {
    */
   drop(handle) {
     const entry = this.getEntry(handle)
-    
+
     entry.refCount -= 1
 
     if (entry.refCount <= 0) {
@@ -211,6 +194,25 @@ export class Assets {
       this.assets.recycle(handle.index)
       this.events.push(new AssetDropped(this.type, handle.id()))
     }
+  }
+
+  /**
+   * @param {AssetId} assetId
+   */
+  upgrade(assetId) {
+    return new Handle(this, assetId)
+  }
+
+  /**
+   * @returns {Handle<T>}
+   * 
+   */
+  reserve() {
+    const id = this.assets.reserve()
+
+    this.assets.set(id, new AssetEntry(undefined))
+
+    return new Handle(this, id)
   }
 }
 

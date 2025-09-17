@@ -1,6 +1,5 @@
 import { Parser } from '../../asset/index.js'
 import { Audio } from '../assets/index.js'
-import { Device } from '../../device/index.js'
 
 /**
  * @augments {Parser<Audio>}
@@ -34,9 +33,8 @@ export class AudioParser extends Parser {
   /**
    * @inheritdoc
    * @param {string} extension
-   * @param {Device} _device
    */
-  verify(extension, _device) {
+  verify(extension) {
     return this.extensions.has(extension)
   }
 

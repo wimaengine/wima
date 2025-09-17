@@ -1,5 +1,4 @@
 import { throws } from '../../logger/index.js'
-import { Device } from '../../device/index.js'
 
 /**
  * @abstract 
@@ -19,10 +18,9 @@ export class Parser {
 
   /**
    * @param {string} _extension 
-   * @param {Device} _device 
    * @returns {boolean}
    */
-  verify(_extension, _device){
+  verify(_extension){
     throws(`Implement the method \`verify\` on \`${this.constructor.name}\``)
 
     return false
