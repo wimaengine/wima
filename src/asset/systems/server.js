@@ -32,3 +32,19 @@ export function registerAssetParserOnAssetServer(type, parser) {
     server.registerParser(type, parser)
   }
 }
+
+/**
+ * @param {World} world
+ */
+export function updateAssets(world) {
+  const server = world.getResource(AssetServer)
+  const loaded = server.flushLoadedAssets()
+
+  for (let i = 0; i < loaded.length; i++) {
+    const { asset, typeId, assetId } = loaded[i]
+    const assets = server.getAssets(typeId)
+    if (!assets) continue
+
+    assets.setUsingAssetId(assetId, asset)
+  }
+}
