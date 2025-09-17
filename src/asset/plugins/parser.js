@@ -2,7 +2,7 @@
 import { App, AppSchedule, Plugin } from '../../app/index.js'
 import { typeidGeneric } from '../../reflect/index.js'
 import { Parser } from '../core/index.js'
-import { generateParserSystem } from '../systems/index.js'
+import { registerAssetParserOnAssetServer } from '../systems/index.js'
 
 
 /**
@@ -41,12 +41,10 @@ export class AssetParserPlugin extends Plugin {
     const { asset, parser } = this
 
     app
-      .registerSystem(AppSchedule.Update, generateParserSystem(asset))
-      .getWorld()
-      .setResourceByTypeId(typeidGeneric(Parser, [asset]), parser)
+      .registerSystem(AppSchedule.Startup, registerAssetParserOnAssetServer(asset, parser))
   }
 
-  name(){
+  name() {
     return typeidGeneric(AssetParserPlugin, [this.asset])
   }
 }
