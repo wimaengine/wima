@@ -1,6 +1,6 @@
 import { Scheduler } from '../index.js'
 import { assert } from '../../logger/index.js'
-import { SystemConfig } from '../../app/core/systemconfig.js'
+import { SystemConfig } from './systemconfig.js'
 
 export class SchedulerBuilder {
 
