@@ -1,11 +1,25 @@
 /** @import {Constructor, TypeId,} from '../types/index.js' */
+
+/**
+ * This function converts a string to a `TypeId`.This function should be used in some special cases where a type does not actually exist on runtime e.g enums, union types e.t.c.
+ * See `typeid` or `typeidGeneric` for safer methods of getting `TypeId`s.
+ * 
+ * # Safety
+ * This function is inherently unsafe as any string can be converted to a `TypeId` without it actually having a backing type.Use sparingly or dont use it if possible.
+ * 
+ * @param {string} name
+ */
+export function setTypeId(name) {
+  return /** @type {TypeId}*/(name)
+}
+
 /**
  * @template T
  * @param {Constructor<T>} type 
  * @returns {TypeId}
  */
 export function typeid(type) {
-  return /** @type {TypeId}*/(type.name)
+  return setTypeId(type.name)
 }
 
 /**
@@ -28,5 +42,5 @@ export function typeidGeneric(type, types) {
 
   name += `${types[types.length - 1].name}>`
  
-  return /** @type {TypeId}*/(name)
+  return /** @type {TypeId}*/ (name)
 }
