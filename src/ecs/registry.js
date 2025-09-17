@@ -369,6 +369,15 @@ export class World {
 
   /**
    * @template T
+   * @param {Constructor<T>} resourceType
+   * @returns {boolean}
+   */
+  hasResource(resourceType) {
+    return this.hasResourceByTypeId(typeid(resourceType))
+  }
+
+  /**
+   * @template T
    * @param {TypeId} id
    * @returns {boolean}
    */
