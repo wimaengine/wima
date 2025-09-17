@@ -17,8 +17,8 @@ import { warnOnce } from '../../logger/index.js'
 export function updateAssetEvents(assetType, eventType) {
   const assetsId = typeidGeneric(Assets, [assetType])
   const addEventsId = typeidGeneric(Events, [eventType.added])
-  const modifiedEventsId = typeidGeneric(Events, [eventType.added])
-  const droppedEventsId = typeidGeneric(Events, [eventType.added])
+  const modifiedEventsId = typeidGeneric(Events, [eventType.modified])
+  const droppedEventsId = typeidGeneric(Events, [eventType.dropped])
 
   return function updateAssetEvents(world) {
 
