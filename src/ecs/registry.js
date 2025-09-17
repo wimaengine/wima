@@ -370,6 +370,29 @@ export class World {
   /**
    * @template T
    * @param {TypeId} id
+   * @returns {boolean}
+   */
+  hasResourceByTypeId(id) {
+    const resource = this.resources[id]
+    
+    if (resource) {
+      return true
+    }
+    
+    const aliasedid = this.resourceAliases.get(id)
+    
+    if (!aliasedid) return false
+    
+    const aliasedResource = this.resources[aliasedid]
+    
+    if (!aliasedResource) return false
+    
+    return true
+  }
+  
+  /**
+   * @template T
+   * @param {TypeId} id
    * @param {T} resource
    * @returns {void}
    */
