@@ -21,11 +21,12 @@ export default new Demo(
 function init(world) {
   const server = world.getResource(AssetServer)
   const commands = world.getResource(EntityCommands)
+
   commands
     .spawn()
     .insertPrefab([
       new AudioPlayer({
-        audio: server.load(Audio,'assets/audio/bad-apple.m4a'),
+        audio: server.load(Audio, 'assets/audio/bad-apple.m4a'),
         playbackMode: TimerMode.Repeat
       }),
       new Cleanup()])

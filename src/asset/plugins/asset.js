@@ -14,44 +14,37 @@ import { updateAssetEvents, registerAssetOnAssetServer, unloadDroppedAssets } fr
  */
 
 export class AssetPlugin extends Plugin {
-  
-  /**
-   * @readonly
-   * @type {string}
-   */
-  path
-  
+
   /**
    * @readonly
    * @type {Constructor<T>}
    */
   asset
-  
+
   /**
    * @readonly
    * @type {AssetEvents<T>}
    */
   events
-  
+
   /**
    * @param {AssetPluginOptions<T>} options
    */
   constructor(options) {
     super()
-    const { path = '', asset, events } = options
-    
+    const { asset, events } = options
+
     this.asset = asset
     this.events = events
-    this.path = path
   }
-  
+
   /**
    * @param {App} app
    */
   register(app) {
-    const { asset, path, events } = this
+    const { asset, events } = this
     const world = app.getWorld()
-    
+
     if (events) {
       app
         .registerPlugin(new EventPlugin({
@@ -66,14 +59,14 @@ export class AssetPlugin extends Plugin {
         .registerSystem(AppSchedule.Update, updateAssetEvents(asset, events))
         .registerSystem(AppSchedule.Update, unloadDroppedAssets(events.dropped))
     }
-    
-   app.registerSystem(AppSchedule.Startup, registerAssetOnAssetServer(asset))
+
+    app.registerSystem(AppSchedule.Startup, registerAssetOnAssetServer(asset))
     world.setResourceByTypeId(
       typeidGeneric(Assets, [asset]),
       new Assets(asset)
     )
   }
-  
+
   name() {
     return typeidGeneric(AssetPlugin, [this.asset])
   }

@@ -73,6 +73,7 @@ export class Assets {
       this.events.push(new AssetAdded(this.type, handle.id()))
     }
   }
+
   /**
    * @param {AssetId} assetId
    * @param {T} asset

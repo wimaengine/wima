@@ -6,6 +6,7 @@ import { updateAssets, updateAssetLoadEvents, logFailedLoads } from '../systems/
 
 
 export class AssetServerPlugin extends Plugin {
+
   /**
    * @param {App} app
    */

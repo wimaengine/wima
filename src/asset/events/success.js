@@ -1,8 +1,8 @@
-/**@import {TypeId} from '../../reflect/index.js' */
-/**@import {AssetId} from '../types/index.js' */
+/** @import {TypeId} from '../../reflect/index.js' */
+/** @import {AssetId} from '../types/index.js' */
 
 export class AssetLoadSuccess {
-  
+
   /**
    * @type {TypeId}
    */
@@ -12,11 +12,12 @@ export class AssetLoadSuccess {
    * @type {AssetId}
    */
   assetId
-  
+
   /**
    * @type {string}
    */
   path
+
   /**
    * @param {TypeId} typeId
    * @param {AssetId} assetId

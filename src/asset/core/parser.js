@@ -1,5 +1,4 @@
 import { throws } from '../../logger/index.js'
-import { Device } from '../../device/index.js'
 
 /**
  * @abstract 

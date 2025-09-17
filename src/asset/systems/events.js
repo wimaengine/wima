@@ -46,7 +46,7 @@ export function updateAssetEvents(assetType, eventType) {
       } else if (event instanceof AssetDropped) {
         droppedEvents.write(event)
       } else {
-        const name = typeid(/** @type {Constructor}*/(event.constructor))
+        const name = typeid( /** @type {Constructor}*/(event.constructor))
 
         warnOnce(`The asset event \`${name}\` is not handled!`)
       }
@@ -62,10 +62,10 @@ export function updateAssetEvents(assetType, eventType) {
 export function updateAssetLoadEvents(world) {
   const server = world.getResource(AssetServer)
 
-  /**@type {Events<AssetLoadSuccess>} */
+  /** @type {Events<AssetLoadSuccess>} */
   const sucessEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadSuccess]))
 
-  /**@type {Events<AssetLoadFail>} */
+  /** @type {Events<AssetLoadFail>} */
   const failEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
 
   const succeeded = server.flushLoadSuccess()

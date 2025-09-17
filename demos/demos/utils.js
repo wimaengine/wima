@@ -17,7 +17,7 @@ import {
   BasicMaterial,
   Parser,
   AudioParser,
-  ImageParser,
+  ImageParser
 } from 'wima'
 
 // gizmo labels
@@ -65,7 +65,7 @@ export class ResourceAliasPlugin extends Plugin {
     world.setResourceAlias(typeidGeneric(Gizmo2D, [Demo1]), Demo1Gizmo2D)
     world.setResourceAlias(typeidGeneric(Gizmo2D, [Demo2]), Demo2Gizmo2D)
 
-    //HACK: This is a hack until system sets and ordering is introduced.
+    // HACK: This is a hack until system sets and ordering is introduced.
     {
       app
         .registerSystem(AppSchedule.Startup, registerAssetOnAssetServer(Audio))

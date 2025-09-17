@@ -1,5 +1,5 @@
-/**@import { TypeId, Constructor } from '../../reflect/index.js' */
-/**@import { AssetId } from '../types/index.js' */
+/** @import { TypeId, Constructor } from '../../reflect/index.js' */
+/** @import { AssetId } from '../types/index.js' */
 import { typeid } from '../../reflect/index.js'
 import { assert } from '../../logger/index.js'
 import { getFileExtension, swapRemove } from '../../utils/index.js'
@@ -59,6 +59,7 @@ export class AssetServer {
    */
   registerAsset(assets) {
     const typeId = typeid(assets.type)
+
     this.assets.set(typeId, assets)
   }
 
@@ -75,7 +76,7 @@ export class AssetServer {
    * @template T
    * @param {Constructor<T>} type
    * @param {string} path
-   * @return {Handle<T>}
+   * @returns {Handle<T>}
    */
   load(type, path) {
     const typeId = typeid(type)
@@ -88,6 +89,7 @@ export class AssetServer {
     const assetInfo = this.assetInfos.getByPath(completePath)
 
     if (assetInfo) {
+
       // SAFETY: handle is generated from `Assets` backing `T`
       return /** @type {Handle<T>} */ (assets.upgrade(assetInfo.id))
     }
@@ -116,14 +118,17 @@ export class AssetServer {
       this.loaded.push(new AssetLoadSuccess(typeId, assetId, path))
       this.loadedAssets.push(asset)
       info.loadstate = LoadState.Loaded
-    } catch (error) {
-      let message = ""
-      if (typeof error === "string") {
+    } catch(error) {
+      let message = ''
+
+      if (typeof error === 'string') {
         message = error
       } else if (error instanceof Error) {
+        
+        // eslint-disable-next-line prefer-destructuring
         message = error.message
       } else {
-        console.error("Unhandled Error: ", error)
+        console.error('Unhandled Error: ', error)
       }
 
       this.failed.push(new AssetLoadFail(
@@ -149,7 +154,7 @@ export class AssetServer {
     const parser = this.parsers.get(typeId)
 
     if (!parser) {
-      throw `No parser registered for the asset type.`
+      throw 'No parser registered for the asset type.'
     }
 
     if (!parser.verify(extension)) {
@@ -161,10 +166,11 @@ export class AssetServer {
     if (!response.ok) {
       throw response.statusText
     }
+
     const result = await parser.parse(response)
 
     if (!result) {
-      throw "Could not parse the asset."
+      throw 'Could not parse the asset.'
     }
 
     return new UntypedAsset(typeId, assetId, result)
@@ -212,7 +218,9 @@ export class AssetServer {
    */
   flushLoadSuccess() {
     const buffer = this.loaded
+
     this.loaded = []
+
     return buffer
   }
 
@@ -221,7 +229,9 @@ export class AssetServer {
    */
   flushLoadFail() {
     const buffer = this.failed
+
     this.failed = []
+
     return buffer
   }
 
@@ -230,7 +240,9 @@ export class AssetServer {
    */
   flushLoadedAssets() {
     const buffer = this.loadedAssets
+
     this.loadedAssets = []
+
     return buffer
   }
 }
@@ -254,6 +266,7 @@ class UntypedAsset {
    * @type {unknown}
    */
   asset
+
   /**
    * @param {TypeId} typeId
    * @param {AssetId} assetId
@@ -267,6 +280,7 @@ class UntypedAsset {
 }
 
 class AssetInfo {
+
   /**
    * @readonly
    * @type {AssetId}
@@ -294,16 +308,19 @@ class AssetInfo {
 }
 
 class AssetInfos {
+
   /**
    * @private
    * @type {AssetInfo[]}
    */
   assets = []
+
   /**
    * @private
    * @type {Map<AssetId,number>}
    */
   assetIds = new Map()
+
   /**
    * @private
    * @type {Map<string,number>}
@@ -383,16 +400,19 @@ class AssetInfos {
  * @enum {number}
  */
 export const LoadState = {
+
   /**
    * @readonly
    */
   Loading: 1,
+
   /**
    * @readonly
    */
   Failed: 2,
+
   /**
    * @readonly
    */
-  Loaded: 3,
+  Loaded: 3
 }

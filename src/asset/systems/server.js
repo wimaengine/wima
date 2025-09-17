@@ -4,7 +4,7 @@
 import { Events } from '../../event/index.js'
 import { typeidGeneric } from '../../reflect/index.js'
 import { Assets } from '../core/index.js'
-import { AssetServer, LoadState } from '../resources/index.js'
+import { AssetServer } from '../resources/index.js'
 import { AssetLoadFail } from '../events/index.js'
 import { error } from '../../logger/index.js'
 
@@ -46,6 +46,7 @@ export function updateAssets(world) {
   for (let i = 0; i < loaded.length; i++) {
     const { asset, typeId, assetId } = loaded[i]
     const assets = server.getAssets(typeId)
+
     if (!assets) continue
 
     assets.setUsingAssetId(assetId, asset)
@@ -56,9 +57,8 @@ export function updateAssets(world) {
  * @param {World} world
  */
 export function logFailedLoads(world) {
-  const server = world.getResource(AssetServer)
 
-  /**@type {Events<AssetLoadFail>} */
+  /** @type {Events<AssetLoadFail>} */
   const events = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
 
   events.each((event) => {
@@ -76,11 +76,12 @@ export function logFailedLoads(world) {
  */
 export function unloadDroppedAssets(dropEvent) {
   return function unloadDroppedAssets(world) {
-    /**@type {Events<U>} */
+
+    /** @type {Events<U>} */
     const events = world.getResourceByTypeId(typeidGeneric(Events, [dropEvent]))
     const server = world.getResource(AssetServer)
 
-    events.each((event)=>{
+    events.each((event) => {
       const { data } = event
 
       server.dropAssetInfo(data.id)
