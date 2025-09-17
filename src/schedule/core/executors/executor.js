@@ -1,4 +1,4 @@
-import { World } from '../../registry.js'
+import { World } from '../../../ecs/index.js'
 import { Schedule } from '../schedule.js'
 
 /**

@@ -1,6 +1,6 @@
-/** @import {SystemFunc,SystemId} from '../typedef/index.js' */
+/** @import {SystemFunc,SystemId} from '../../ecs/typedef/index.js' */
 import { Bitset } from '../../datastructures/index.js'
-import { World } from '../registry.js'
+import { World } from '../../ecs/index.js'
 
 /**
  * Stores a collection of {@link SystemFunc systems} which 

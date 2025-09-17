@@ -1,4 +1,4 @@
-import { World } from '../registry.js'
+import { World } from '../../ecs/index.js'
 import { Executor } from './executors/index.js'
 import { Schedule } from './schedule.js'
 
@@ -58,7 +58,7 @@ export class Executable {
     this.executor.start(world, this.schedule)
   }
   stop() {
-    this, this.executor.stop()
+    this.executor.stop()
   }
 
   /**

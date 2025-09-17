@@ -1,10 +1,10 @@
 /** @import { SystemFunc } from '../ecs/index.js' */
 /** @import { Constructor,TypeId } from '../reflect/index.js'*/
 
-import { World, Scheduler, Executor, ComponentHooks, RAFExecutor, ImmediateExecutor } from '../ecs/index.js'
+import { World, ComponentHooks } from '../ecs/index.js'
+import { SystemConfig, Scheduler, Executor, RAFExecutor, ImmediateExecutor, SchedulerBuilder } from '../schedule/index.js'
 import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
-import { SchedulerBuilder, SystemConfig } from './core/index.js'
 import { typeid } from '../reflect/index.js'
 
 

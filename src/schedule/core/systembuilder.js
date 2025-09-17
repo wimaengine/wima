@@ -1,4 +1,4 @@
-import { Scheduler } from '../../ecs/index.js'
+import { Scheduler } from '../index.js'
 import { assert } from '../../logger/index.js'
 import { SystemConfig } from './systemconfig.js'
 
@@ -26,7 +26,7 @@ export class SchedulerBuilder {
 
       const schedule = scheduler.get(config.schedule)
 
-      assert(schedule, `The schedule label ${scheduler} is not set in the provided \`Scheduler\`.`)
+      assert(schedule, `The schedule label "${config.schedule}" is not set in the provided \`Scheduler\`.`)
 
       schedule.add(config.system)
     }
