@@ -18,3 +18,17 @@ export function registerAssetOnAssetServer(type) {
     server.registerAsset(assets)
   }
 }
+
+/**
+ * @template T
+ * @param {Constructor<T>} type 
+ * @param {Parser<T>} parser 
+ * @returns {SystemFunc}
+ */
+export function registerAssetParserOnAssetServer(type, parser) {
+  return function registerAssetParsedOnAssetServer(world) {
+    const server = world.getResource(AssetServer)
+
+    server.registerParser(type, parser)
+  }
+}
