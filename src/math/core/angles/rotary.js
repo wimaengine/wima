@@ -314,6 +314,21 @@ export class Rotary {
   }
 
   /**
+   * @param {Rotary} a
+   * @param {Rotary} b
+   * @param {number} t
+   */
+  static slerp(a,b,t, out = new Rotary()){
+    const x = (a.cos + b.cos) * t
+    const y = (a.sin + b.sin) * t
+    const length = Math.sqrt(x * x + y * y)
+
+    out.cos = x / length
+    out.sin = y / length
+    return out
+  }
+
+  /**
    * @param {Rotary} rot1
    * @param {Rotary} rot2
    */
