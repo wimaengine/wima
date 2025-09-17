@@ -1,5 +1,5 @@
 import { test, describe } from "node:test";
-import { deepStrictEqual } from "node:assert";
+import { deepStrictEqual, throws } from "node:assert";
 import { World } from "../registry.js";
 import { typeid } from "../../reflect/index.js";
 import { Entity } from "../entities/entity.js";
@@ -88,6 +88,22 @@ describe("Testing `World`", () => {
 
     deepStrictEqual(world.hasResourceByTypeId(typeid(TestResource)), true)
     deepStrictEqual(world.hasResourceByTypeId(typeid(TestAlias)), false)
+  })
+
+  test('Removing a resource on a world.', () => {
+    const world = new World()
+    world.setResource(new TestResource())
+    world.removeResource(TestResource)
+
+    throws(()=>world.getResource(TestResource))
+  })
+
+  test('Removing a resource on a world by `TypeId`.', () => {
+    const world = new World()
+    world.setResource(new TestResource())
+    world.removeResourceByTypeId(typeid(TestResource))
+
+    throws(()=>world.getResource(TestResource))
   })
 
   test('Resource aliases point to correct resource.', () => {

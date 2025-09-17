@@ -27,7 +27,7 @@ export class World {
 
   /**
    * @private
-   * @type {Record<string,any>}
+   * @type {Record<TypeId,any>}
    */
   resources = {}
 
@@ -419,6 +419,22 @@ export class World {
     const id = typeid(/** @type {Constructor<T>} */(resource.constructor))
 
     this.setResourceByTypeId(id, resource)
+  }
+
+  /**
+   * @template T
+   * @param {Constructor<T>} type
+   */
+  removeResource(type){
+    this.removeResourceByTypeId(typeid(type))
+  }
+
+  /**
+   * @param {TypeId} typeId
+   */
+  removeResourceByTypeId(typeId){
+    delete this.resources[typeId]
+    this.resourceAliases.delete(typeId)
   }
 
   /**
