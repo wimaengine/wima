@@ -84,7 +84,7 @@ export class Rotary {
    * @returns {this}
    */
   multiply(rotary) {
-    Rotary.multiply(rotary, this)
+    Rotary.multiply(rotary, this, this)
 
     return this
   }
