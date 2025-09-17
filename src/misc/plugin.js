@@ -1,6 +1,7 @@
 import { App, Plugin } from '../app/index.js'
 import { ProfilerPlugin } from '../profiler/index.js'
 import { AudioPlugin } from '../audio/index.js'
+import { AssetServerPlugin } from '../asset/index.js'
 import { CommandsPlugin } from '../command/index.js'
 import { Damping2DPlugin, Damping3DPlugin } from '../damping/index.js'
 import { DevicePlugin } from '../device/index.js'
@@ -27,6 +28,7 @@ export class DefaultPlugin extends Plugin {
       .registerPlugin(new TimePlugin())
       .registerPlugin(new DevicePlugin())
       .registerPlugin(new StoragePlugin())
+      .registerPlugin(new AssetServerPlugin())
       .registerPlugin(new AudioPlugin())
       .registerPlugin(new InputPlugin())
       .registerPlugin(new HierarchyPlugin())
