@@ -3,7 +3,7 @@ import { deepStrictEqual } from "node:assert";
 import { World } from "../registry.js";
 import { typeid } from "../../reflect/index.js";
 import { Entity } from "../entities/entity.js";
-class A { 
+class A {
   number = 0
 }
 class B {
@@ -16,7 +16,7 @@ class TestResource {
   id = 12
 }
 
-class TestAlias extends TestResource {}
+class TestAlias extends TestResource { }
 
 describe("Testing `World`", () => {
   test('Entity is spawned correctly into a world.', () => {
@@ -25,7 +25,7 @@ describe("Testing `World`", () => {
     const entityCell = world.getEntity(entity)
     const components = [...entityCell.components()]
 
-    deepStrictEqual(components,[typeid(A),typeid(B),typeid(C),typeid(Entity)])
+    deepStrictEqual(components, [typeid(A), typeid(B), typeid(C), typeid(Entity)])
   })
 
   test('Entity is despawned correctly from a world.', () => {
@@ -35,7 +35,7 @@ describe("Testing `World`", () => {
     const entityCell = world.getEntity(entity)
     const components = [...entityCell.components()]
 
-    deepStrictEqual(components,[])
+    deepStrictEqual(components, [])
   })
 
   test('Components are inserted into an entity.', () => {
@@ -45,7 +45,7 @@ describe("Testing `World`", () => {
     const entityCell = world.getEntity(entity)
     const components = [...entityCell.components()]
 
-    deepStrictEqual(components,[typeid(Entity),typeid(A),typeid(B),typeid(C)])
+    deepStrictEqual(components, [typeid(Entity), typeid(A), typeid(B), typeid(C)])
   })
 
   test('Components are removed from an entity.', () => {
@@ -55,7 +55,7 @@ describe("Testing `World`", () => {
     const entityCell = world.getEntity(entity)
     const components = [...entityCell.components()]
 
-    deepStrictEqual(components,[typeid(C),typeid(Entity)])
+    deepStrictEqual(components, [typeid(C), typeid(Entity)])
   })
 
   test('Set and get correct resource on world.', () => {
@@ -63,23 +63,39 @@ describe("Testing `World`", () => {
     world.setResource(new TestResource())
     const resource = world.getResource(TestResource)
 
-    deepStrictEqual(resource,new TestResource())
+    deepStrictEqual(resource, new TestResource())
   })
 
   test('Set and get correct resource on world by `TypeId`.', () => {
     const world = new World()
-    world.setResourceByTypeId(typeid(TestResource),new TestResource())
+    world.setResourceByTypeId(typeid(TestResource), new TestResource())
     const resource = world.getResourceByTypeId(typeid(TestResource))
 
-    deepStrictEqual(resource,new TestResource())
+    deepStrictEqual(resource, new TestResource())
+  })
+
+  test('World has resource.', () => {
+    const world = new World()
+    world.setResource(new TestResource())
+
+    deepStrictEqual(world.hasResource(TestResource), true)
+    deepStrictEqual(world.hasResource(TestAlias), false)
+  })
+
+  test('World has resource by `TypeId`.', () => {
+    const world = new World()
+    world.setResource(new TestResource())
+
+    deepStrictEqual(world.hasResourceByTypeId(typeid(TestResource)), true)
+    deepStrictEqual(world.hasResourceByTypeId(typeid(TestAlias)), false)
   })
 
   test('Resource aliases point to correct resource.', () => {
     const world = new World()
     world.setResource(new TestResource())
-    world.setResourceAlias(typeid(TestResource),TestAlias)
+    world.setResourceAlias(typeid(TestResource), TestAlias)
     const resource = world.getResource(TestAlias)
 
-    deepStrictEqual(resource,new TestResource())
+    deepStrictEqual(resource, new TestResource())
   })
 })
