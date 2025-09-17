@@ -1,16 +1,19 @@
-/** @import {SystemFunc} from '../../ecs/index.js' */
+/** @import {SystemFunc, World} from '../../ecs/index.js' */
 /** @import { Constructor } from '../../reflect/index.js' */
-/** @import {UniformBind} from '../../render-core/index.js' */
+/** @import {UniformBind } from '../../render-core/index.js' */
+/** @import { AssetId } from '../../asset/index.js' */
+
 import { Entity, Query } from '../../ecs/index.js'
 import { assert, warn } from '../../logger/index.js'
 import { Windows, MainWindow, Window } from '../../window/index.js'
 import { typeid, typeidGeneric } from '../../reflect/index.js'
 import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from '../resources/index.js'
-import { Camera, Material, Mesh, RenderLists3D, ShaderStage } from '../../render-core/index.js'
-import { WebglRenderPipeline, createShader, validateShader, createProgram, validateProgram } from '../core/index.js'
+import { Camera, Material, Mesh, MeshAdded, MeshModified, MeshDropped, RenderLists3D, ShaderStage } from '../../render-core/index.js'
+import { WebglRenderPipeline, createShader, validateShader, createProgram, validateProgram, createVAO } from '../core/index.js'
 import { Assets } from '../../asset/index.js'
 import { GlobalTransform3D } from '../../transform/index.js'
 import { Affine3 } from '../../math/index.js'
+import { Events } from '../../event/index.js'
 
 /**
  * @template T
@@ -143,12 +146,12 @@ export function genRender(type) {
 
       const pipeline = programs.get(materialtypeid)
 
-      if(!pipeline) return
+      if (!pipeline) return
 
       const opaquepass = renderlist.getOpaquePass(materialtypeid)
 
-      if(!opaquepass) return
-      
+      if (!opaquepass) return
+
       for (let i = 0; i < opaquepass.length; i++) {
         const { meshid, materialid, transform } = opaquepass[i]
         const meshTransform = Affine3.toMatrix4(transform)
@@ -182,4 +185,109 @@ export function genRender(type) {
       }
     })
   }
+}
+
+/**
+ * @param {World} world
+ */
+export function queueMeshes(world) {
+
+  /** @type {Events<MeshAdded>} */
+  const added = world.getResourceByTypeId(typeidGeneric(Events, [MeshAdded]))
+
+  /** @type {Events<MeshModified>} */
+  const modified = world.getResourceByTypeId(typeidGeneric(Events, [MeshModified]))
+
+  /** @type {Assets<Mesh>} */
+  const meshes = world.getResourceByTypeId(typeidGeneric(Assets, [Mesh]))
+  
+  /** @type {MeshCache<WebGLVertexArrayObject>} */
+  const cache = world.getResource(MeshCache)
+  const attributes = world.getResource(AttributeMap)
+  const windows = new Query(world, [Entity, Window, MainWindow])
+  const canvases = world.getResource(Windows)
+
+  // TODO: Find a way to decouple to allow multi-window support.
+  const window = windows.single()
+
+  if (!window) return warn('Please define the main window for rendering.')
+
+  const canvas = canvases.getWindow(window[0])
+
+  if (!canvas) return
+
+  const gl = canvas.getContext('webgl2')
+
+  if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
+
+  added.each((event) => {
+    const { id } = event.data
+
+    updateMesh(gl, id, meshes, cache, attributes)
+  })
+
+  modified.each((event) => {
+    const { id } = event.data
+
+    // SAFETY:Guaranteed to exist as it was added before modified.
+    const vao = /** @type {WebGLVertexArrayObject} */ (cache.get(id))
+
+    gl.deleteVertexArray(vao)
+    updateMesh(gl, id, meshes, cache, attributes)
+  })
+}
+
+/**
+ * @param {World} world
+ */
+export function disposeDroppedMeshes(world) {
+
+  /** @type {Events<MeshDropped>} */
+  const dropped = world.getResourceByTypeId(typeidGeneric(Events, [MeshDropped]))
+  
+  /** @type {MeshCache<WebGLVertexArrayObject>} */
+  const cache = world.getResource(MeshCache)
+  const windows = new Query(world, [Entity, Window, MainWindow])
+  const canvases = world.getResource(Windows)
+
+  // TODO: Find a way to decouple to allow multi-window support.
+  const window = windows.single()
+
+  if (!window) return warn('Please define the main window for rendering.')
+
+  const canvas = canvases.getWindow(window[0])
+
+  if (!canvas) return
+
+  const gl = canvas.getContext('webgl2')
+
+  if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
+
+  dropped.each((drop) => {
+    const { id } = drop.data
+    const vao = cache.get(id)
+
+    if(!vao) return
+
+    gl.deleteVertexArray(vao)
+    
+    cache.delete(id)
+  })
+}
+
+/**
+ * @param {WebGL2RenderingContext} gl
+ * @param {AssetId} id
+ * @param {Assets<Mesh>} meshes
+ * @param {MeshCache<WebGLVertexArrayObject>} cache
+ * @param {AttributeMap} attributeMap
+ */
+function updateMesh(gl, id, meshes, cache, attributeMap) {
+  const mesh = meshes.getByAssetId(id)
+
+  assert(mesh, 'Internal error: Mesh should have been loaded before sending to gpu')
+
+  const vao = createVAO(gl, mesh, attributeMap)
+
+  cache.set(id, vao)
 }
