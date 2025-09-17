@@ -16,6 +16,7 @@ import { TimePlugin } from '../time/index.js'
 import { Transform2DPlugin, Transform3DPlugin } from '../transform/index.js'
 import { DefaultTweenPlugin } from '../tween/index.js'
 import { WindowPlugin } from '../window/index.js'
+import { NamePlugin } from '../name/index.js'
 
 export class DefaultPlugin extends Plugin {
 
@@ -25,6 +26,7 @@ export class DefaultPlugin extends Plugin {
   register(app) {
     app
       .registerPlugin(new TimePlugin())
+      .registerPlugin(new NamePlugin())
       .registerPlugin(new DevicePlugin())
       .registerPlugin(new StoragePlugin())
       .registerPlugin(new AudioPlugin())

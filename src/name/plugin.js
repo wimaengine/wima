@@ -1,7 +1,7 @@
-import { App } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { Name } from './components/index.js'
 
-export class NamePlugin {
+export class NamePlugin extends Plugin {
 
   /**
    * @param {App} app
