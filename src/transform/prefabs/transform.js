@@ -17,7 +17,7 @@ export function createTransform2D(
 ) {
   return [
     new Position2D(dx, dy),
-    new Orientation2D(a),
+    new Orientation2D(Math.cos(a),Math.sin(a)),
     new Scale2D(sx, sy),
     new GlobalTransform2D()
   ]

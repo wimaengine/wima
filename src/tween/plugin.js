@@ -11,7 +11,7 @@ import {
   TweenRepeat,
   Tween
 } from './components/index.js'
-import { Vector2, Quaternion, Vector3, Angle } from '../math/index.js'
+import { Vector2, Quaternion, Vector3, Angle, Rotary } from '../math/index.js'
 import { generateTweenFlipSystem, generateTweenRepeatTween, generateTweenTimerSystem, generateTweenUpdateSystem } from './systems/index.js'
 import { Orientation2D, Orientation3D, Position2D, Position3D, Scale2D, Scale3D } from '../transform/index.js'
 import { typeidGeneric } from '../reflect/index.js'
@@ -36,7 +36,7 @@ export class DefaultTweenPlugin extends Plugin {
       .registerPlugin(new TweenPlugin({
         component: Orientation2D,
         tween: Orientation2DTween,
-        interpolation: Angle.lerp
+        interpolation: Rotary.slerp
       }))
       .registerPlugin(new TweenPlugin({
         component: Orientation3D,

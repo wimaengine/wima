@@ -18,7 +18,8 @@ import {
   without,
   has,
   PI,
-  QUARTER_PI
+  QUARTER_PI,
+  Rotary
 } from 'wima'
 import { addDefaultCamera2D } from '../../utils.js'
 
@@ -85,7 +86,7 @@ function update(world) {
 
   if(!parent || !child || !grandChild) return
 
-  parent[0].value += QUARTER_PI * delta
-  child[0].value += QUARTER_PI * delta
-  grandChild[0].value += PI * delta
+  parent[0].multiply(Rotary.fromAngle(QUARTER_PI * delta))
+  child[0].multiply(Rotary.fromAngle(QUARTER_PI * delta))
+  grandChild[0].multiply(Rotary.fromAngle(PI * delta))
 }

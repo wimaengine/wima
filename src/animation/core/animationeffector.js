@@ -1,5 +1,6 @@
 /** @import { Entity } from '../../ecs/index.js' */
 import { World } from '../../ecs/registry.js'
+import { Rotary } from '../../math/index.js'
 import { Position2D, Orientation2D, Scale2D, Position3D, Orientation3D, Scale3D } from '../../transform/index.js'
 
 /**
@@ -65,7 +66,7 @@ export class Orientation2DAnimationEffector extends AnimationEffector {
   static apply(world, entity, results) {
     const component = world.get(entity, this.componentType)
     
-    component.value = results[0]
+    component.copy(Rotary.fromAngle(results[0]))
   }
   static elementSize() {
     return 1

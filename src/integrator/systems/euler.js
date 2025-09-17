@@ -1,5 +1,5 @@
 import { Query, World } from '../../ecs/index.js'
-import { Quaternion, Vector2, Vector3 } from '../../math/index.js'
+import { Quaternion, Rotary, Vector2, Vector3 } from '../../math/index.js'
 import { Acceleration2D, Acceleration3D, Rotation2D, Rotation3D, Torque2D, Torque3D, Velocity2D, Velocity3D } from '../../movable/index.js'
 import { Orientation2D, Orientation3D, Position2D, Position3D } from '../../transform/index.js'
 
@@ -57,7 +57,8 @@ export function updateOrientationEuler2D(world) {
   const dt = 1 / 60
 
   query.each(([orientation, rotation]) => {
-    orientation.value += rotation.value * dt
+    const angle = Rotary.fromAngle(rotation.value * dt)
+    orientation.multiply(angle)
   })
 }
 
