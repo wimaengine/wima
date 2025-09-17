@@ -92,3 +92,48 @@ export class StructInfo extends TypeInfo {
     return this.fields.length
   }
 }
+
+export class EnumInfo extends TypeInfo {
+
+  /**
+   * @readonly
+   * @type {ReadonlyMap<string,number>}
+   */
+  variants
+  
+  /**
+   * @param {Record<string,number>} variants
+   */
+  constructor(variants){
+    super()
+    const map = new Map()
+
+    for (const variant in variants) {
+      map.set(variant, variants[variant])
+    }
+
+    this.variants = map
+  }
+  
+  /**
+   * @param {string} variant
+   * @returns {number}
+   */
+  get(variant){
+    return this.variants.get(variant)
+  }
+
+  /**
+   * @returns {Iterable<string>}
+   */
+  getVariants(){
+    return this.variants.keys()
+  }
+  
+  /**
+   * @returns {MapIterator<[string,number]>}
+   */
+  * [Symbol.iterator](){
+    return this.variants.entries()
+  }
+}
