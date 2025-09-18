@@ -1,4 +1,4 @@
-import { clamp } from '../math/index.js'
+import { clamp } from '../../math/index.js'
 
 export class Timer {
 
