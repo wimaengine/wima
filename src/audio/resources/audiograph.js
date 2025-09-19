@@ -74,6 +74,14 @@ export class AudioGraph {
     }
   }
 
+  /**
+   * @param {NodeId} id
+   * @returns {AudioGraphNode}
+   */
+  get(id) {
+    return this.graph.getNode(id)?.weight
+  }
+
   /*
    *
   disconnect(from, to) {
