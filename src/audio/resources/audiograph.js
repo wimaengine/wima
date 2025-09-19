@@ -82,6 +82,40 @@ export class AudioGraph {
     return this.graph.getNode(id)?.weight
   }
 
+  /**
+   * @param {NodeId} id 
+   * @param {AudioGraphNode} value 
+   * @returns {void}
+   */
+  update(id, value) {
+    const node = this.graph.getNode(id)
+
+    if (!node) return
+
+    const previousValue = node.weight
+
+    if (previousValue) {
+      if(
+        previousValue instanceof OscillatorNode ||
+        previousValue instanceof ConstantSourceNode ||
+        previousValue instanceof AudioBufferSourceNode ||
+        previousValue instanceof AudioScheduledSourceNode
+      ) previousValue.stop()
+
+      previousValue.disconnect()
+    }
+
+    if (value) {
+      for (const neighbour of this.graph.getNeighbours(id)) {
+        const node = this.graph.getNodeWeight(neighbour)
+
+        if (node) value.connect(node)
+      }
+    }
+
+    node.weight = value
+  }
+
   /*
    *
   disconnect(from, to) {
