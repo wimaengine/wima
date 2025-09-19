@@ -85,19 +85,6 @@ export function playOscillators(world) {
 }
 
 /**
- * @param {World} world
- */
-export function updateOscillators(world) {
-  const oscillators = new Query(world, [AudioOscillator])
-  const clock = world.getResource(VirtualClock)
-  const delta = clock.getDelta()
-  
-  oscillators.each(([oscillator]) => {
-    oscillator.playback.update(delta)
-  })
-}
-
-/**
  * @param {TimerMode} playbackMode
  */
 function looped(playbackMode) {
