@@ -26,11 +26,11 @@ export class AudioGraph {
   constructor(options) {
     const context = new AudioContext(options)
     const rootid = this.add(context.destination)
-    
+
     this.context = context
     this.root = rootid
     addEventListener('pointerdown', resumeAudio)
-    
+
     /**
      *
      */
@@ -38,7 +38,7 @@ export class AudioGraph {
       const ctx = context
 
       ctx.resume()
-      
+
       if (ctx.state === 'running') {
         removeEventListener('pointerdown', resumeAudio)
       }
@@ -50,7 +50,7 @@ export class AudioGraph {
   getContext() {
     return this.context
   }
-  
+
   /**
    * @param {AudioGraphNode} node
    */
@@ -69,7 +69,6 @@ export class AudioGraph {
     this.graph.addEdge(from, to)
 
     if (node1 && node2) {
-      this.graph.addEdge(from, to)
       node1.connect(node2)
     }
   }
