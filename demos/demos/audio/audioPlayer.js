@@ -6,7 +6,8 @@ import {
   TimerMode,
   EntityCommands,
   Cleanup,
-  Audio
+  Audio,
+  Timer
 } from 'wima'
 import { addDefaultCamera3D } from '../utils.js'
 
@@ -27,8 +28,11 @@ function init(world) {
     .insertPrefab([
       new AudioPlayer({
         audio: server.load(Audio, 'assets/audio/bad-apple.m4a'),
-        playbackMode: TimerMode.Repeat
       }),
-      new Cleanup()])
+      new Timer({
+        mode: TimerMode.Repeat
+      }),
+      new Cleanup()
+    ])
     .build()
 }

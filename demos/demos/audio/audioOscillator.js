@@ -3,7 +3,9 @@ import {
   World,
   AudioOscillator,
   EntityCommands,
-  Cleanup
+  Cleanup,
+  Timer,
+  TimerMode
 } from 'wima'
 import { addDefaultCamera3D } from '../utils.js'
 
@@ -22,6 +24,9 @@ function init(world) {
     .spawn()
     .insertPrefab([
       new AudioOscillator(),
+      new Timer({
+        mode: TimerMode.Repeat
+      }),
       new Cleanup()
     ])
     .build()
