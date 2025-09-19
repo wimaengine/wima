@@ -6,7 +6,7 @@ import { Audio } from './assets/index.js'
 import { AudioPlayer, AudioOscillator, removeAudioPlayerSink, removeOscillatorSink } from './components/index.js'
 import { AudioAdded, AudioDropped, AudioModified } from './events/index.js'
 import { AudioCommands, AudioParser, AudioAssets, AudioGraph } from './resources/index.js'
-import { playAudio, updatePlayers, playOscillators, updateOscillators } from './systems/index.js'
+import { playAudio, playOscillators } from './systems/index.js'
 
 export class AudioPlugin extends Plugin {
 
@@ -44,8 +44,6 @@ export class AudioPlugin extends Plugin {
       }))
       .registerSystem(AppSchedule.Update, playAudio)
       .registerSystem(AppSchedule.Update, playOscillators)
-      .registerSystem(AppSchedule.Update, updatePlayers)
-      .registerSystem(AppSchedule.Update, updateOscillators)
 
     window.addEventListener('pointerdown', resumeAudio)
 
