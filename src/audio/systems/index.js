@@ -72,32 +72,49 @@ export function playAudio(world) {
  */
 export function playOscillators(world) {
   const graph = world.getResource(AudioGraph)
-  const oscillators = new Query(world, [AudioOscillator])
+  const oscillators = new Query(world, [AudioOscillator, Timer])
   const ctx = graph.getContext()
   const root = graph.getRoot()
-  
-  
-  oscillators.each(([oscillator]) => {
-    const { type, frequency, sourceNode, detune, playback, attach } = oscillator
-    
+
+  oscillators.each(([oscillator, playback]) => {
+    const { type, frequency, sourceNode, detune, attach } = oscillator
+
     if (sourceNode) {
-      
-      // update node if a playback is requested
-    } else {
+      if (playback.completed()) {
+        graph.update(sourceNode, undefined)
+      }
+      if (!playback.playbackChanged()) return
+      if (playback.paused) {
+        graph.update(sourceNode, undefined)
+
+        return
+      }
+
       const node = new OscillatorNode(ctx, {
         detune,
         frequency,
         type: mapType(type)
       })
-      const id = graph.add(node)
-      
+
+      node.start(0)
+      graph.update(sourceNode, node)
+
+    } else {
+
+      // SAFETY: Since we dont know when the actual audio source will load, we set this node's weight to undefined.
+      // TODO: Maybe do this in a component hook?
+      const id = graph.add(undefined)
+
       if (attach) {
         graph.connect(id, attach)
       } else {
         graph.connect(id, root)
       }
-      
-      node.start(playback.elapsed())
+
+      const elapsed = playback.elapsed()
+
+      playback.reset()
+      playback.seek(elapsed)
       oscillator.sourceNode = id
     }
   })
