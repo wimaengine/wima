@@ -1,5 +1,5 @@
 import { test, describe } from "node:test";
-import { Timer, TimerMode } from "../timer.js";
+import { Timer, TimerMode } from "../index.js";
 import { strictEqual } from "node:assert";
 
 describe("Testing `Timer`", () => {
