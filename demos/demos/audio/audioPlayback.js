@@ -52,9 +52,11 @@ function update(world) {
   const audios = new Query(world, [AudioPlayer, Timer])
   const clock = world.getResource(VirtualClock)
   const timer = world.getResource(AudioTimer)
-  audios.each(([player, playback]) => {
+
+  audios.each(([_player, playback]) => {
     if (timer.cycleStarted()) {
       const count = timer.cyclesCompleted()
+
       if (count === 1) {
         playback.pause()
       } else if (count === 2) {

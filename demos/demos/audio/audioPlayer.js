@@ -27,7 +27,7 @@ function init(world) {
     .spawn()
     .insertPrefab([
       new AudioPlayer({
-        audio: server.load(Audio, 'assets/audio/bad-apple.m4a'),
+        audio: server.load(Audio, 'assets/audio/bad-apple.m4a')
       }),
       new Timer({
         mode: TimerMode.Repeat
