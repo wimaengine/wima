@@ -1,4 +1,4 @@
-import { GlobalTransform2D, Orientation2D, Position2D, Scale2D } from '../../transform/index.js'
+import { createTransform2D, GlobalTransform2D, Orientation2D, Position2D, Scale2D } from '../../transform/index.js'
 import { Velocity2D, Rotation2D, Acceleration2D, Torque2D } from '../components/index.js'
 
 /**
@@ -8,7 +8,7 @@ import { Velocity2D, Rotation2D, Acceleration2D, Torque2D } from '../components/
  * @returns {[Position2D, Orientation2D, Scale2D, GlobalTransform2D, Velocity2D, Rotation2D, Acceleration2D, Torque2D]}
  */
 export function createMovable2D(x = 0, y = 0, a = 0) {
-  return [new Position2D(x, y), new Orientation2D(a), new Scale2D(), new GlobalTransform2D(), new Velocity2D(), new Rotation2D(), new Acceleration2D(), new Torque2D()]
+  return [...createTransform2D(x, y, a), new Velocity2D(), new Rotation2D(), new Acceleration2D(), new Torque2D()]
 }
 
 /**

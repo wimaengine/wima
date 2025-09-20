@@ -95,7 +95,8 @@ function updateLookers(world) {
     target[0].x,
     target[0].y
   )
-
+  const offset = Rotary.fromAngle(-HALF_PI)
+  
   lookers.each(([orientation, transform]) => {
     const position = new Vector2(
       transform.x,
@@ -105,9 +106,8 @@ function updateLookers(world) {
 
     // eslint-disable-next-line no-unused-vars
     const [_, finalOrientation] = lookAt.decompose()
-    const angle = Rotary.toAngle(finalOrientation)
 
-    orientation.value = angle - HALF_PI
+    orientation.copy(finalOrientation.multiply(offset))
   })
 }
 

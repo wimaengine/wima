@@ -1,5 +1,5 @@
 import { Query, World } from '../../ecs/index.js'
-import { Vector2 } from '../../math/index.js'
+import { Rotary, Vector2 } from '../../math/index.js'
 import { Acceleration2D, Rotation2D, Torque2D, Velocity2D } from '../../movable/index.js'
 import { Orientation2D, Position2D } from '../../transform/index.js'
 
@@ -33,7 +33,7 @@ export function updateOrientationVerlet2D(world) {
   query.each(([orientation, rotation, torque]) => {
     torque.value *= dt * 0.5
     rotation.value += torque.value
-    orientation.value += rotation.value * dt + torque.value * dt
+    orientation.multiply(Rotary.fromAngle(rotation.value * dt + torque.value * dt))
     rotation.value += torque.value * dt * 0.5
     torque.value = 0
   })

@@ -84,7 +84,7 @@ export class Rotary {
    * @returns {this}
    */
   multiply(rotary) {
-    Rotary.multiply(rotary, this)
+    Rotary.multiply(rotary, this, this)
 
     return this
   }
@@ -311,6 +311,23 @@ export class Rotary {
     }
 
     return TAU - angle
+  }
+
+  /**
+   * @param {Rotary} a
+   * @param {Rotary} b
+   * @param {number} t
+   * @param {Rotary} out
+   */
+  static slerp(a, b, t, out = new Rotary()){
+    const x = (a.cos + b.cos) * t
+    const y = (a.sin + b.sin) * t
+    const length = Math.sqrt(x * x + y * y)
+
+    out.cos = x / length
+    out.sin = y / length
+
+    return out
   }
 
   /**

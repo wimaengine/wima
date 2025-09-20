@@ -1,3 +1,3 @@
-import { Angle } from '../../../math/index.js'
+import { Rotary } from '../../../math/index.js'
 
-export class Orientation2D extends Angle{}
+export class Orientation2D extends Rotary {}
