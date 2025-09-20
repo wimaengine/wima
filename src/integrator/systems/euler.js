@@ -58,6 +58,7 @@ export function updateOrientationEuler2D(world) {
 
   query.each(([orientation, rotation]) => {
     const angle = Rotary.fromAngle(rotation.value * dt)
+
     orientation.multiply(angle)
   })
 }

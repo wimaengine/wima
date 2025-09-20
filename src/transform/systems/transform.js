@@ -1,6 +1,6 @@
 import { Entity, has, Query, without, World } from '../../ecs/index.js'
 import { Children, Parent } from '../../hierarchy/index.js'
-import { Affine2, Affine3, Rotary } from '../../math/index.js'
+import { Affine2, Affine3 } from '../../math/index.js'
 import { RelationshipQuery } from '../../relationship/index.js'
 import { Position2D, Orientation2D, Scale2D, GlobalTransform2D, Position3D, Orientation3D, Scale3D, GlobalTransform3D } from '../components/index.js'
 

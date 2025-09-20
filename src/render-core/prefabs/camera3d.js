@@ -1,4 +1,3 @@
-import { Quaternion } from '../../math/index.js'
 import { Orientation3D, Position3D, Scale3D, GlobalTransform3D, createTransform3D } from '../../transform/index.js'
 import { Camera, RenderLists3D } from '../components/index.js'
 import { } from '../plugins/index.js'
