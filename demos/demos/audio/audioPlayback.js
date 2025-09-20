@@ -1,14 +1,15 @@
 import {
   Demo,
   World,
-  AudioAssets,
+  Audio,
   AudioPlayer,
   TimerMode,
   EntityCommands,
   Cleanup,
   Timer,
   Query,
-  VirtualClock
+  VirtualClock,
+  AssetServer
 } from 'wima'
 import { addDefaultCamera3D } from '../utils.js'
 
@@ -22,7 +23,7 @@ export default new Demo(
  * @param {World} world
  */
 function init(world) {
-  const audioSources = world.getResource(AudioAssets)
+  const server = world.getResource(AssetServer)
   const commands = world.getResource(EntityCommands)
   
   world.setResource(new AudioTimer({
@@ -33,7 +34,7 @@ function init(world) {
     .spawn()
     .insertPrefab([
       new AudioPlayer({
-        audio: audioSources.load('assets/audio/bad-apple.m4a')
+        audio: server.load(Audio, 'assets/audio/bad-apple.m4a')
       }),
       new Timer({
         mode: TimerMode.Once,
