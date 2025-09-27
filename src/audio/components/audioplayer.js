@@ -1,7 +1,6 @@
 /** @import { NodeId } from '../../datastructures/index.js' */
 /** @import { ComponentHook } from '../../ecs/index.js' */
 import { Handle } from '../../asset/index.js'
-import { Timer, TimerMode } from '../../time/index.js'
 import { Audio } from '../assets/index.js'
 import { AudioGraph } from '../resources/index.js'
 
@@ -23,20 +22,11 @@ export class AudioPlayer {
   audio
 
   /**
-   * @type {Timer}
-   */
-  playback
-
-  /**
    * @param {AudioPlayerOptions} [options]
    */
-  constructor({ attach, audio, playbackMode = TimerMode.Once } = {}) {
+  constructor({ attach, audio } = {}) {
     this.attach = attach
     this.audio = audio
-    this.playback = new Timer({
-      duration:1000000,
-      mode: playbackMode
-    })
   }
 }
 
@@ -68,5 +58,4 @@ export function removeAudioPlayerSink(entity, world) {
  * @typedef AudioPlayerOptions
  * @property {NodeId} [attach]
  * @property {Handle<Audio>} [audio]
- * @property {TimerMode} [playbackMode]
  */
