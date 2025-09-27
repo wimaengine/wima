@@ -1,6 +1,5 @@
 /** @import { NodeId } from '../../datastructures/index.js' */
 /** @import { ComponentHook } from '../../ecs/index.js' */
-import { Timer } from '../../time/index.js'
 import { AudioGraph } from '../resources/index.js'
 
 export class AudioOscillator {
@@ -29,11 +28,6 @@ export class AudioOscillator {
    * @type {number}
    */
   frequency
-  
-  /**
-   * @type {Timer}
-   */
-  playback = new Timer({ duration:1000000 })
   
   /**
    * @param {AudioOscillatorOptions} [options]
