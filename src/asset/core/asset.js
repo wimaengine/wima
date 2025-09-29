@@ -301,10 +301,3 @@ export class AssetEntry {
     this.refCount = 0
   }
 }
-
-/**
- * @template T
- * @callback HandleProvider
- * @param {number} id
- * @returns {Handle<T>}
- */
