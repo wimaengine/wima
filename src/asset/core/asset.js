@@ -268,16 +268,24 @@ export class Handle {
   index
 
   /**
-   * @param {Assets<T>} assets 
-   * @param {number} index 
+   * @readonly
+   * @type {number}
    */
-  constructor(assets, index) {
+  generation = 0
+
+  /**
+   * @param {Assets<T>} assets
+   * @param {number} index
+   * @param {number} generation
+   */
+  constructor(assets, index, generation) {
     this.index = index
+    this.generation = generation
     this.assets = assets
 
     const entry = assets.getEntry(this)
 
-    if (entry) {
+    if (entry && entry.generation === generation) {
       entry.refCount += 1
     }
   }
@@ -286,13 +294,13 @@ export class Handle {
    * @returns {AssetId}
    */
   id() {
-    return /** @type {AssetId}*/ (this.index)
+    return /** @type {AssetId}*/ (packInto64Int(this.index, this.generation))
   }
 
   clone() {
-    const { assets, index } = this
+    const { assets, index, generation } = this
 
-    return new Handle(assets, index)
+    return new Handle(assets, index, generation)
   }
 
   drop() {
