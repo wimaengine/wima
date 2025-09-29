@@ -1,5 +1,6 @@
 /** @import {AssetId} from '../types/index.js' */
 /** @import {Constructor} from '../../reflect/index.js'*/
+import { packInto64Int, unpackFrom64Int } from '../../algorithms/index.js'
 import { DenseList } from '../../datastructures/index.js'
 import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events/assets.js'
 
@@ -43,12 +44,10 @@ export class Assets {
    * @returns {Handle<T>}
    */
   add(asset) {
-    const id = this.assets.reserve()
+    const handle = this.reserve()
+    const entry = this.getEntry(handle)
 
-    this.assets.set(id, new AssetEntry(asset))
-
-    const handle = new Handle(this, id)
-
+    entry.asset = asset
     this.events.push(new AssetAdded(this.type, handle.id()))
 
     return handle
@@ -79,7 +78,7 @@ export class Assets {
    * @param {T} asset
    */
   setUsingAssetId(assetId, asset) {
-    const entry = this.assets.get(assetId)
+    const entry = this.getEntryByAssetId(assetId)
 
     if (!entry) return
 
@@ -120,9 +119,9 @@ export class Assets {
    * @returns {AssetEntry<T> | undefined}
    */
   getEntry(handle) {
-    const { index } = handle
+    const { index, generation } = handle
 
-    return this.assets.get(index)
+    return this.getEntryInternal(index, generation)
   }
 
   /**
@@ -179,11 +178,11 @@ export class Assets {
    * @returns {T | undefined}
    */
   getByAssetId(id) {
-    const entry = this.assets.get(id)
+    const entry = this.getEntryByAssetId(id)
 
     if (!entry) return undefined
 
-    return this.assets.get(id).asset
+    return entry.asset
   }
 
   /**
@@ -225,7 +224,9 @@ export class Assets {
    * @param {AssetId} assetId
    */
   upgrade(assetId) {
-    return new Handle(this, assetId)
+    const [index, generation] = unpackFrom64Int(assetId)
+
+    return new Handle(this, index, generation)
   }
 
   /**
@@ -233,11 +234,21 @@ export class Assets {
    * 
    */
   reserve() {
-    const id = this.assets.reserve()
+    const index = this.assets.reserve()
+    const entry = this.assets.get(index)
 
-    this.assets.set(id, new AssetEntry(undefined))
+    if (entry) {
+      entry.generation += 1
 
-    return new Handle(this, id)
+      return new Handle(this, index, entry.generation)
+    }
+
+    const newEntry = new AssetEntry(undefined)
+
+    newEntry.generation += 1
+    this.assets.set(index, newEntry)
+
+    return new Handle(this, index, newEntry.generation)
   }
 }
 
