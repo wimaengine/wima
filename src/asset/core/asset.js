@@ -126,6 +126,31 @@ export class Assets {
   }
 
   /**
+   * @param {AssetId} assetId
+   * @returns {AssetEntry<T> | undefined}
+   */
+  getEntryByAssetId(assetId) {
+    const [index, generation] = unpackFrom64Int(assetId)
+
+    return this.getEntryInternal(index, generation)
+  }
+
+  /**
+   * @private
+   * @param {number} index
+   * @param {number} generation
+   */
+  getEntryInternal(index, generation) {
+    const entry = this.assets.get(index)
+
+    if (!entry) return undefined
+
+    if (entry.generation !== generation) return undefined
+
+    return entry
+  }
+
+  /**
    * @param {Handle<T>} handle
    * @returns {T | undefined}
    */
