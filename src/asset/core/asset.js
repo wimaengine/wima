@@ -324,13 +324,17 @@ export class AssetEntry {
   /**
    * @type {number}
    */
-  refCount
+  refCount = 0
+
+  /**
+   * @type {number}
+   */
+  generation = 0
 
   /**
    * @param {T} asset
    */
   constructor(asset) {
     this.asset = asset
-    this.refCount = 0
   }
 }
