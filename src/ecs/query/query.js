@@ -107,10 +107,10 @@ export class Query {
    */
   get(entity) {
     const { world, descriptors, tableIds } = this
-    const entities = world.getEntities()
-    const location = entities.get(entity.index)
+    const cell = world.getEntity(entity)
+    const {location} = cell
 
-    if (!location) return null
+    if (!cell.exists()) return null
 
     const { tableId, index } = location
     const table = world.getTables().get(tableId)
