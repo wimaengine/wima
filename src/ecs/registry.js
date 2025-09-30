@@ -134,13 +134,20 @@ export class World {
    */
   spawn(components) {
     const entityIndex = this.entities.reserve()
+    let location = this.entities.get(entityIndex)
 
-    // SAFETY: the entity was reserved in this function so we know its there.
-    const location = /** @type {EntityLocation}*/ (this.entities.get(entityIndex))
+    if(!location){
+      const newLocation = new EntityLocation()
+
+      this.entities.set(entityIndex, newLocation)
+      location = newLocation
+    }
+
+    location.generation += 1
 
     // SAFETY:Object constructors can be casted from `Function` to `Constructor`
-    const newIds = (components.map((c) => typeid( /** @type {Constructor} */ (c.constructor))))
-    const entity = new Entity(entityIndex)
+    const newIds = (components.map((c) => typeid( /** @type {Constructor} */(c.constructor))))
+    const entity = new Entity(entityIndex, location.generation)
 
     newIds.push(typeid(Entity))
     components.push(entity)
@@ -166,7 +173,7 @@ export class World {
   insert(entity, components) {
     const location = this.entities.get(entity.index)
 
-    if (!location) {
+    if (!location || location.generation !== entity.generation) {
       return
     }
 
@@ -212,7 +219,7 @@ export class World {
   remove(entity, components) {
     const location = this.entities.get(entity.index)
     
-    if (!location) {
+    if (!location || location.generation !== entity.generation) {
       return
     }
 
@@ -265,7 +272,9 @@ export class World {
   despawn(entity) {
     const location = this.entities.get(entity.index)
 
-    if (!location) return
+    if (!location || location.generation !== entity.generation){
+      return
+    }
     
     const { archetypeId, tableId, index } = location
     const archetype = this.archetypes.get(archetypeId)
@@ -303,7 +312,9 @@ export class World {
   get(entity, type) {
     const location = this.entities.get(entity.index)
 
-    if (!location) return null
+    if (!location || location.generation !== entity.generation) {
+      return null
+    }
 
     const { tableId, index } = location
     const table = this.tables.get(tableId)

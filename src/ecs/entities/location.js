@@ -13,6 +13,11 @@ export class EntityLocation {
   index
 
   /**
+   * @type {number}
+   */
+  generation = 0
+
+  /**
    * @type {ArchetypeId}
    */
   archetypeId
