@@ -28,8 +28,8 @@ describe("Testing `EntityCell`", () => {
     const cell1 = world.getEntity(entity1)
     const cell2 = world.getEntity(entity2)
 
-    deepStrictEqual(cell1.id(), new Entity(0))
-    deepStrictEqual(cell2.id(), new Entity(1))
+    deepStrictEqual(cell1.id(), new Entity(0, 1))
+    deepStrictEqual(cell2.id(), new Entity(1, 1))
   })
 
   test('`EntityCell` tests entity existence correctly.', () => {

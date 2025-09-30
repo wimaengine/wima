@@ -28,6 +28,26 @@ describe("Testing `World`", () => {
     deepStrictEqual(components, [typeid(A), typeid(B), typeid(C), typeid(Entity)])
   })
 
+  test('Entity generation starts at one.', () => {
+    const world = new World()
+    const entity = world.spawn([new A(), new B(), new C()])
+
+    deepStrictEqual(entity,new Entity(0,1))
+  })
+
+  test('Entity generation is incremented.', () => {
+    const world = new World()
+    const entity1 = world.spawn([new A(), new B(), new C()])
+    world.despawn(entity1)
+    const entity2 = world.spawn([new A(), new B(), new C()])
+    world.despawn(entity2)
+    const entity3 = world.spawn([new A(), new B(), new C()])
+
+    deepStrictEqual(entity1,new Entity(0,1))
+    deepStrictEqual(entity2,new Entity(0,2))
+    deepStrictEqual(entity3,new Entity(0,3))
+  })
+
   test('Entity is despawned correctly from a world.', () => {
     const world = new World()
     const entity = world.spawn([new A(), new B(), new C()])
@@ -36,6 +56,21 @@ describe("Testing `World`", () => {
     const components = [...entityCell.components()]
 
     deepStrictEqual(components, [])
+  })
+
+  test('Invalidated entity cannot be accessed on same index', () => {
+    const world = new World()
+    const entity1 = world.spawn([new A()])
+    world.despawn(entity1)
+    const entity2 = world.spawn([new A()])
+
+    const cell1 = world.getEntity(entity1)
+    const cell2 = world.getEntity(entity2)
+  
+    deepStrictEqual(entity1,new Entity(0,1))
+    deepStrictEqual(entity2,new Entity(0,2))
+    deepStrictEqual(cell1.exists(), false)
+    deepStrictEqual(cell2.exists(), true)
   })
 
   test('Components are inserted into an entity.', () => {
