@@ -7,10 +7,18 @@ export class Entity {
   index
 
   /**
-   * @param {number} index
+   * @readonly
+   * @type {number}
    */
-  constructor(index){
+  generation
+
+  /**
+   * @param {number} index
+   * @param {number} generation
+   */
+  constructor(index, generation){
     this.index = index
+    this.generation = generation
   }
 
   /**
