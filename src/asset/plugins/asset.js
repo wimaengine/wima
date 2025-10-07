@@ -1,5 +1,4 @@
 /** @import { Constructor } from '../../reflect/index.js' */
-/** @import { HandleProvider } from '../core/index.js' */
 
 import { App, AppSchedule, Plugin } from '../../app/index.js'
 import { EventPlugin } from '../../event/index.js'

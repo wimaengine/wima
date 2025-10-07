@@ -1,4 +1,5 @@
 /** @import { PlaybackSettings } from '../core/index.js'*/
+/** @import { AssetId } from '../../asset/index.js'*/
 import { Handle } from '../../asset/index.js'
 import { Playback } from '../core/index.js'
 import { AnimationClip } from '../assets/index.js'
@@ -6,7 +7,7 @@ import { AnimationClip } from '../assets/index.js'
 export class AnimationPlayer {
 
   /**
-   * @type {Map<number,Playback>}
+   * @type {Map<AssetId,Playback>}
    */
   animations = new Map()
 

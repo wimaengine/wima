@@ -54,7 +54,7 @@ describe("Testing `Assets`", () => {
     test('`Assets.get` returns undefined on invalid handle', () => {
         const assets = new Assets(String)
 
-        const handle = new Handle(assets,0)
+        const handle = new Handle(assets,0, 1)
         const actual = assets.get(handle)
 
         strictEqual(actual, undefined)
@@ -182,7 +182,7 @@ describe("Testing `Assets`", () => {
     test('`Assets.getByAssetId` returns undefined on invalid assetid', () => {
         const assets = new Assets(String)
 
-        const handle = new Handle(assets,0).id()
+        const handle = new Handle(assets,0, 1).id()
         const actual = assets.getByAssetId(handle)
 
         strictEqual(actual, undefined)
@@ -252,13 +252,11 @@ describe("Testing `Assets`", () => {
     test('Assets provides the right events when asset is added/modified using uuid', () => {
         const assets = new Assets(String)
         const asset = "Wima engine"
-        const uuid1 = "124-ufy7f-yrffu-67ftcgh"
-        const uuid2 = "1243f-ufy7f-eggfu-6cghjeha46"
 
-        const handle1 = assets.setWithUUID(uuid1,asset)
-        const handle2 = assets.setWithUUID(uuid2,asset)
-        assets.setWithUUID(uuid1,asset)
-        assets.setWithUUID(uuid2,asset)
+        const handle1 = assets.add(asset)
+        const handle2 = assets.add(asset)
+        assets.set(handle1,asset)
+        assets.set(handle2,asset)
         const events = assets.flushEvents()
 
         deepStrictEqual(events[0], new AssetAdded(String, handle1.id()))
