@@ -75,7 +75,7 @@ describe("Testing `Query`", () => {
   test('query for single component, specific entity', () => {
     const world = createWorld()
     const query = new Query(world, [A])
-    const entity = new Entity(0)
+    const entity = new Entity(0, 1)
     const components = query.get(entity)
     assert(components)
 
@@ -89,7 +89,7 @@ describe("Testing `Query`", () => {
   test('query for multiple components, specific entity', () => {
     const world = createWorld()
     const query = new Query(world, [A, B, C])
-    const entity = new Entity(0)
+    const entity = new Entity(0, 1)
     const components = query.get(entity)
 
     assert(components)

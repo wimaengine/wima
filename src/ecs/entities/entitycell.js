@@ -38,8 +38,14 @@ export class EntityCell {
    */
   constructor(world, entity) {
     const entities = world.getEntities()
+    const location = entities.get(entity.index)
 
-    this.location = entities.get(entity.index) || new EntityLocation()
+    if(location && location.generation === entity.generation){
+      this.location = location
+    } else {
+      this.location = new EntityLocation()
+    }
+
     this.tables = world.getTables()
     this.archetypes = world.getArchetypes()
     this.entity = entity
