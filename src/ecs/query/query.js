@@ -108,7 +108,7 @@ export class Query {
   get(entity) {
     const { world, descriptors, tableIds } = this
     const cell = world.getEntity(entity)
-    const {location} = cell
+    const { location } = cell
 
     if (!cell.exists()) return null
 
