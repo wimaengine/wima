@@ -82,8 +82,8 @@ export class AudioGraph {
   }
 
   /**
-   * @param {NodeId} id 
-   * @param {AudioGraphNode} value 
+   * @param {NodeId} id
+   * @param {AudioGraphNode} value
    * @returns {void}
    */
   update(id, value) {
@@ -94,7 +94,7 @@ export class AudioGraph {
     const previousValue = node.weight
 
     if (previousValue) {
-      if(
+      if (
         previousValue instanceof OscillatorNode ||
         previousValue instanceof ConstantSourceNode ||
         previousValue instanceof AudioBufferSourceNode ||
@@ -120,13 +120,13 @@ export class AudioGraph {
   disconnect(from, to) {
     const node1 = this.graph.getNodeWeight(from)
     const node2 = this.graph.getNodeWeight(to).
-   
+
     if (node1 && node2) {
       this.graph.removeEdge(from, to)
       node1.disconnect(node2)
     }.
   }.
-   
+
   remove(id) {}
    */
 }

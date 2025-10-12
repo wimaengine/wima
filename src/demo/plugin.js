@@ -18,7 +18,7 @@ export class DemoPlugin extends Plugin {
   demos
 
   /**
-   * @param {DemoPluginOptions} demos 
+   * @param {DemoPluginOptions} demos
    */
   constructor({ demos = [] }) {
     super()

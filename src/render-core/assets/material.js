@@ -4,17 +4,17 @@ export class Material {
   /**
    * @returns {string}
    */
-  vertex(){
+  vertex() {
     return ''
   }
 
   /**
    * @returns {string}
    */
-  fragment(){
+  fragment() {
     return ''
   }
-  static default(){
+  static default() {
     return new Material()
   }
 }

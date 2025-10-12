@@ -2,7 +2,6 @@ import { Query, World } from '../../ecs/index.js'
 import { Rotary } from '../../math/index.js'
 import { Position2D, Orientation2D, Scale2D, Position3D, Orientation3D, Scale3D, RemoteTransform2D, RemoteTransform3D } from '../components/index.js'
 
-
 /**
  * @param {World} world
  */

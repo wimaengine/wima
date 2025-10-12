@@ -3,12 +3,12 @@
 import { AudioGraph } from '../resources/index.js'
 
 export class AudioOscillator {
-  
+
   /**
    * @type {NodeId | undefined}
    */
   sourceNode
-  
+
   /**
    * @type {AudioOscillatorType}
    */
@@ -18,7 +18,7 @@ export class AudioOscillator {
    * @type {NodeId | undefined}
    */
   attach
-  
+
   /**
    * @type {number}
    */
@@ -28,12 +28,12 @@ export class AudioOscillator {
    * @type {number}
    */
   frequency
-  
+
   /**
    * @param {AudioOscillatorOptions} [options]
    */
   constructor({
-    attach, 
+    attach,
     type = AudioOscillatorType.Sine,
     detune = 0,
     frequency = 440
@@ -57,7 +57,7 @@ export function removeOscillatorSink(entity, world) {
 
   if (node) {
     node.stop()
-    
+
     // TODO: Remove the audio sink from the graph when removing nodes on a graph
     // is available.
   }

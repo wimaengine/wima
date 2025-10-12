@@ -8,9 +8,9 @@ export class Camera {
   projection
 
   /**
-   * @param {Projection} projection 
-   * @param {number} near 
-   * @param {number} far 
+   * @param {Projection} projection
+   * @param {number} near
+   * @param {number} far
    */
   constructor(projection = new PerspectiveProjection(), near = 0.1, far = 1000) {
     this.projection = projection

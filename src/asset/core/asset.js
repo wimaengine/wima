@@ -40,7 +40,7 @@ export class Assets {
   }
 
   /**
-   * @param {T} asset 
+   * @param {T} asset
    * @returns {Handle<T>}
    */
   add(asset) {
@@ -94,8 +94,8 @@ export class Assets {
   }
 
   /**
-   * @param {string} uuid 
-   * @param {T} asset 
+   * @param {string} uuid
+   * @param {T} asset
    * @returns {Handle<T>}
    */
   setWithUUID(uuid, asset) {
@@ -186,7 +186,7 @@ export class Assets {
   }
 
   /**
-   * @param {string} uuid 
+   * @param {string} uuid
    * @returns {Handle<T> | undefined}
    */
   getHandleByUUID(uuid) {
@@ -231,7 +231,7 @@ export class Assets {
 
   /**
    * @returns {Handle<T>}
-   * 
+   *
    */
   reserve() {
     const index = this.assets.reserve()

@@ -52,6 +52,6 @@ function update(world) {
   const query = new Query(world, [Rotation3D, Meshed])
 
   query.each(([rotation]) => {
-    rotation.y = PI 
+    rotation.y = PI
   })
 }

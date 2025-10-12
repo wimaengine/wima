@@ -6,9 +6,9 @@ export class Angular2DDamping {
   value
 
   /**
-   * @param {number} value 
+   * @param {number} value
    */
-  constructor(value = 0){
+  constructor(value = 0) {
     this.value = value
   }
 }
@@ -20,9 +20,9 @@ export class Angular3DDamping {
   value
 
   /**
-   * @param {number} value 
+   * @param {number} value
    */
-  constructor(value = 0){
+  constructor(value = 0) {
     this.value = value
   }
 }

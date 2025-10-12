@@ -6,7 +6,7 @@ import {
 } from '../components/index.js'
 import { App, Plugin } from '../../app/index.js'
 
-export class Movable3DPlugin extends Plugin{
+export class Movable3DPlugin extends Plugin {
 
   /**
    * @param {App} app

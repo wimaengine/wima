@@ -9,7 +9,7 @@ export class Archetypes {
    * @type {Archetype[]}
    */
   archetypes = []
-  
+
   /**
    * @param {TypeId[]} types
    * @returns {boolean}
@@ -18,7 +18,7 @@ export class Archetypes {
     for (let i = 0; i < this.archetypes.length; i++) {
       if (this.archetypes[i].has(types)) return true
     }
-    
+
     return false
   }
 
@@ -29,7 +29,7 @@ export class Archetypes {
   get(id) {
     return this.archetypes[id]
   }
-  
+
   /**
    * @param {Archetype} archetype
    * @returns {ArchetypeId}
@@ -39,7 +39,6 @@ export class Archetypes {
 
     this.archetypes.push(archetype)
 
-
     // SAFETY: This class is the one allocating ids.
     return /** @type {ArchetypeId}*/ (id)
   }
@@ -47,14 +46,14 @@ export class Archetypes {
   size() {
     return this.archetypes.length
   }
-  
+
   /**
    * @returns {readonly Archetype[]}
    */
   values() {
     return this.archetypes
   }
-  
+
   /**
    * @param { TypeId[] } typeIds
    * @returns { [ArchetypeId,Archetype] | undefined }
@@ -62,7 +61,7 @@ export class Archetypes {
   getArchetypeWithOnly(typeIds) {
     for (let i = 0; i < this.archetypes.length; i++) {
       const archetype = this.archetypes[i]
-      
+
       if (archetype.hasOnly(typeIds)) {
 
         // SAFETY: This class is the one allocating ids.
@@ -71,7 +70,7 @@ export class Archetypes {
         return [id, archetype]
       }
     }
-    
+
     return undefined
   }
 }

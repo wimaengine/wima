@@ -24,7 +24,7 @@ export class Canvas2DMaterialPlugin extends Plugin {
   material
 
   /**
-   * @param {Canvas2DMaterialPluginOptions<T>} options 
+   * @param {Canvas2DMaterialPluginOptions<T>} options
    */
   constructor({ update, material }) {
     super()

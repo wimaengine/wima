@@ -17,11 +17,11 @@ export class Shader {
    * @param {ShaderStage} stage
    * @param {string} source
    */
-  constructor(stage, source){
+  constructor(stage, source) {
     this.stage = stage
     this.source = source
   }
-  static default(){
+  static default() {
     return new Shader(ShaderStage.Fragment, '')
   }
 }

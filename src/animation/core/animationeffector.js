@@ -29,8 +29,8 @@ export class Position2DAnimationEffector extends AnimationEffector {
    */
   static apply(world, entity, results) {
     const component = world.get(entity, this.componentType)
-    
-    component.set(results[0], results[1] )
+
+    component.set(results[0], results[1])
   }
   static elementSize() {
     return 2
@@ -47,7 +47,7 @@ export class Position3DAnimationEffector extends AnimationEffector {
    */
   static apply(world, entity, results) {
     const component = world.get(entity, this.componentType)
-        
+
     component.set(results[0], results[1], results[2])
   }
   static elementSize() {
@@ -65,7 +65,7 @@ export class Orientation2DAnimationEffector extends AnimationEffector {
    */
   static apply(world, entity, results) {
     const component = world.get(entity, this.componentType)
-    
+
     component.copy(Rotary.fromAngle(results[0]))
   }
   static elementSize() {
@@ -83,7 +83,7 @@ export class Orientation3DAnimationEffector extends AnimationEffector {
    */
   static apply(world, entity, results) {
     const component = world.get(entity, this.componentType)
-    
+
     component.set(results[0], results[1], results[2], results[3])
   }
   static elementSize() {
@@ -119,7 +119,7 @@ export class Scale3DAnimationEffector extends AnimationEffector {
    */
   static apply(world, entity, results) {
     const component = world.get(entity, this.componentType)
-    
+
     component.set(results[0], results[1], results[2])
   }
   static elementSize() {

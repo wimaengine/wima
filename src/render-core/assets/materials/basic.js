@@ -9,7 +9,7 @@ export class BasicMaterial extends Material {
   color = new Color()
 
   /**
-   * @param {BasicMaterialOptions} options 
+   * @param {BasicMaterialOptions} options
    */
   constructor({
     color = new Color()
@@ -17,7 +17,6 @@ export class BasicMaterial extends Material {
     super()
     this.color = color
   }
-
 
   asUniformBind() {
     return new Float32Array([...this.color]).buffer

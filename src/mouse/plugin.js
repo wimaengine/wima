@@ -7,7 +7,7 @@ import { MouseDown, MouseMove, MouseUp } from '../window/index.js'
 import { Vector2 } from '../math/index.js'
 import { typeidGeneric } from '../reflect/index.js'
 
-export class MousePlugin extends Plugin{
+export class MousePlugin extends Plugin {
 
   /**
    * @param {App} app

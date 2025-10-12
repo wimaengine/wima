@@ -1,7 +1,7 @@
 import { Vector2 } from '../../../math/index.js'
 
 export class MouseMove {
-  
+
   /**
    * @readonly
    * @type {Vector2}
@@ -13,7 +13,7 @@ export class MouseMove {
    * @type {Vector2}
    */
   delta = new Vector2()
-  
+
   /**
    * @param {MouseEvent} event
    */

@@ -11,11 +11,11 @@ import { swapRemove } from '../../utils/index.js'
  * //components
  * class A {}
  * class B {}
- * 
+ *
  * //This table contains entities with component A
  * const archetype1 = new Table()
  * table.components.set("A",[])
- * 
+ *
  * //This table contains entities with component A and B
  * const archetype2 = new Table()
  * table.components.set("A",[])
@@ -79,7 +79,7 @@ export class Table {
    * ### SAFETY
    * The allocated row should be immediately be filled with values
    * before any other operation is done to the table.
-   * 
+   *
    * @returns {TableRow}
    */
   reserve() {
@@ -118,8 +118,8 @@ export class Table {
    * It is up to the caller to ensure it fills all the columns on the row.
    * See the method {@link Table.insert } for a safer method.
    * @param {TableRow} index
-   * @param {TypeId[]} ids 
-   * @param {unknown[]} components 
+   * @param {TypeId[]} ids
+   * @param {unknown[]} components
    */
   insertUnchecked(index, ids, components) {
 
@@ -164,7 +164,7 @@ export class Table {
 
   /**
    * @param {TypeId[]} ids
-   * @returns {boolean} 
+   * @returns {boolean}
    */
   hasOnly(ids) {
     if (ids.length !== this.columns.size) return false
@@ -177,7 +177,7 @@ export class Table {
   }
 
   /**
-   * @param {Table} newTable 
+   * @param {Table} newTable
    * @param {TableRow} row
    * @returns {TableRow}
    */
@@ -200,7 +200,7 @@ export class Table {
 export class Tables {
 
   /**
-   * 
+   *
    * ## SAFETY:
    * Guaranteed to be dense as it is private.
    * @private
@@ -230,11 +230,11 @@ export class Tables {
   get(id) {
     return this.list[id]
   }
-  
+
   /**
    * @returns {readonly Table[]}
    */
-  values(){
+  values() {
     return this.list
   }
 
@@ -275,7 +275,7 @@ export class Tables {
         }
       }
 
-      if (hasComponents){
+      if (hasComponents) {
 
         // SAFETY: `Tables` allocates the table id
         const id = /** @type {TableId} */(i)

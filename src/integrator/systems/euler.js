@@ -63,7 +63,6 @@ export function updateOrientationEuler2D(world) {
   })
 }
 
-
 /**
  * @param {World} world
  */
@@ -119,7 +118,7 @@ export function updatePositionEuler3D(world) {
  */
 export function updateOrientationEuler3D(world) {
   const query = new Query(world, [Orientation3D, Rotation3D])
-  const dt = 1 / 60 
+  const dt = 1 / 60
 
   query.each(([orientation, rotation]) => {
     const temp1 = Vector3.multiplyScalar(rotation, dt)
@@ -127,6 +126,6 @@ export function updateOrientationEuler3D(world) {
 
     orientation.multiply(temp)
     orientation.normalize()
-    
+
   })
 }

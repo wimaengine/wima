@@ -40,7 +40,7 @@ export class Broadphase2D {
   queryPoint(point, target = []) {
     return this.inner.queryPoint(point, target)
   }
-  clear(){
+  clear() {
     this.inner.clear()
   }
 
@@ -48,7 +48,7 @@ export class Broadphase2D {
    * @param {Entity} entity
    * @param {BoundingBox2D} broadphase
    */
-  push(entity, broadphase){
+  push(entity, broadphase) {
     this.inner.push(entity, broadphase)
   }
 }

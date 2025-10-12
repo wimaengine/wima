@@ -68,7 +68,6 @@ function spawnMouseFollower(world) {
   world.setResource(new MouseEntity(entity))
 }
 
-
 /**
  * @param {World} world
  */

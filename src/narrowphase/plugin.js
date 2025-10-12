@@ -6,7 +6,7 @@ import { getSATContacts } from './systems/index.js'
  * Uses the Separation Axis Theorem.
  * Best when your body shapes have few vertices.
  */
-export class NarrowPhase2DPlugin extends Plugin{
+export class NarrowPhase2DPlugin extends Plugin {
 
   /**
    * @param {App} app

@@ -4,22 +4,22 @@ export class KeyUp {
    * @type {string}
    */
   key
-  
+
   /**
    * @type {string}
    */
   code
-  
+
   /**
    * @type {number}
    */
   location
-  
+
   /**
    * @type {EventTarget | null}
    */
   target
-  
+
   /**
    * @param {KeyboardEvent} event
    */

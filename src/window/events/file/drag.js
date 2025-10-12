@@ -6,7 +6,7 @@ export class FileDrag {
   /**
    * @param {DragEvent} event
    */
-  constructor(event){
+  constructor(event) {
     this.position.set(event.clientX, event.clientY)
   }
 }

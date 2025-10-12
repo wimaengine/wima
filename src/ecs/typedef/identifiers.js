@@ -13,7 +13,7 @@
 /**
  * @typedef {number & {__brand: "ArchetypeId"}} ArchetypeId
  */
- 
+
 /**
  * @typedef {number & {__brand: "TableId"}} TableId
  */

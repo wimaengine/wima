@@ -1,4 +1,4 @@
-export class Linear2DDamping{
+export class Linear2DDamping {
 
   /**
    * @type {number}
@@ -6,9 +6,9 @@ export class Linear2DDamping{
   value
 
   /**
-   * @param {number} value 
+   * @param {number} value
    */
-  constructor(value = 0){
+  constructor(value = 0) {
     this.value = value
   }
 }
@@ -21,9 +21,9 @@ export class Linear3DDamping {
   value
 
   /**
-   * @param {number} value 
+   * @param {number} value
    */
-  constructor(value = 0){
+  constructor(value = 0) {
     this.value = value
   }
 }

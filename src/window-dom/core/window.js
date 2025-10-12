@@ -14,5 +14,5 @@ export function setUpWindowEvents(world, target) {
     const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [WindowResize]))
 
     dispatch.write(new WindowResize(event))
-  }) 
+  })
 }

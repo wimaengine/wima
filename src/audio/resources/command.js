@@ -45,7 +45,7 @@ export class AudioCommands {
   masterGainNode
 
   /**
-   * @param {AudioContext} ctx 
+   * @param {AudioContext} ctx
    */
   constructor(ctx = new AudioContext()) {
     this.ctx = ctx
@@ -81,13 +81,13 @@ export class AudioCommands {
   stop(id) {
     const playback = this.playbacks[id]
     const audio = this.audio[playback]
-    
+
     audio.disconnect()
     this.playbacks[id] = -1
   }
 
   /**
-   * 
+   *
    */
   mute() {
     this.internalVolume = this.masterGainNode.gain.value
@@ -95,14 +95,13 @@ export class AudioCommands {
   }
 
   /**
-   * 
+   *
    */
   unmute() {
     this.masterGainNode.gain.value = this.internalVolume
   }
 
-
-  /** 
+  /**
    * @returns {AudioContext}
    */
   getContext() {

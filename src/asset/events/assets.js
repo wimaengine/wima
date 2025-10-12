@@ -18,7 +18,7 @@ export class AssetEvent {
   type
 
   /**
-   * @param {Constructor<T>} type 
+   * @param {Constructor<T>} type
    * @param {AssetId} handle
    */
   constructor(type, handle) {

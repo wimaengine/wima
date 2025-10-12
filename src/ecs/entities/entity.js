@@ -18,7 +18,7 @@ export class Entity {
    * @param {number} index
    * @param {number} generation
    */
-  constructor(index, generation){
+  constructor(index, generation) {
     this.index = index
     this.generation = generation
   }
@@ -26,7 +26,7 @@ export class Entity {
   /**
    * @param {Entity} other
    */
-  equals(other){
+  equals(other) {
     return (
       this.index === other.index &&
       this.generation === other.generation
@@ -36,7 +36,7 @@ export class Entity {
   /**
    * @returns {EntityId}
    */
-  id(){
+  id() {
     const { index, generation } = this
 
     return packInto64Int(index, generation)
@@ -45,7 +45,7 @@ export class Entity {
   /**
    * @param {EntityId} id
    */
-  static from(id){
+  static from(id) {
     const [index, generation] = unpackFrom64Int(id)
 
     return new Entity(index, generation)

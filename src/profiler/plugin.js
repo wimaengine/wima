@@ -53,7 +53,7 @@ function updateProfileViewer(registry) {
 
   const container = document.getElementById('profile-view')
 
-  if(!container)return warn('no html element found to bind profiler to')
+  if (!container) return warn('no html element found to bind profiler to')
 
   container.innerHTML = ''
 

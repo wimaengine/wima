@@ -279,7 +279,7 @@ export class Vector3 {
 
   /**
    * @param {number} scalar
-   * @param {Vector3} out 
+   * @param {Vector3} out
    */
   static splat(scalar, out = new Vector3()) {
     out.x = scalar
@@ -560,8 +560,8 @@ export class Vector3 {
   }
 
   /**
-   * @param {Vector3} out 
-   * @returns 
+   * @param {Vector3} out
+   * @returns
    */
   static random(out) {
     const theta = Math.random() * Math.PI * 2

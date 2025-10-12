@@ -1,16 +1,16 @@
 /**
  * Packs two numbers into a single number.
- * 
+ *
  * #### Note
  * This operation is should be analogous to packing two 32 bit
  * numbers into a 64 bit number in the high and low bits.Due
  * to language limitations, the high bits of this implementation
  * can only be up to 2 ^ 20, otherwise the output will be garbled
  * nonsense.
- * 
- * @param {number} low 
+ *
+ * @param {number} low
  * @param {number} high
- * @returns 
+ * @returns
  */
 export function packInto64Int(low, high) {
 
@@ -21,15 +21,15 @@ export function packInto64Int(low, high) {
 
 /**
  * Unpacks two numbers from a single number.
- * 
+ *
  * #### Note
  * This operation is should be analogous to unpacking two 32 bit
  * numbers from 64 bit number in the high and low bits.Due
  * to language limitations, the number passed into this function
  * can only be up to 2 ^ 53, otherwise the output will be garbled
  * nonsense.
- * 
- * @param {number} value 
+ *
+ * @param {number} value
  */
 export function unpackFrom64Int(value) {
 

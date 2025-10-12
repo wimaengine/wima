@@ -9,8 +9,7 @@ import {
   drawVelocity
 } from '../systems/index.js'
 
-
-export class Physics2DDebuggerPlugin extends Plugin{
+export class Physics2DDebuggerPlugin extends Plugin {
 
   /**
    * @param {BodyDebbuggerOptions} options

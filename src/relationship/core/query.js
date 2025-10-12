@@ -25,13 +25,13 @@ export class RelationshipQuery {
 
   /**
    * @private
-   * @type {Query<[Relationship,...Data], Filter>} 
+   * @type {Query<[Relationship,...Data], Filter>}
    */
   ancestors
 
   /**
    * @private
-   * @type {Query<[Target,...Data], Filter>} 
+   * @type {Query<[Target,...Data], Filter>}
    */
   descendants
 

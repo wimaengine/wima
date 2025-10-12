@@ -7,11 +7,11 @@ import { typeid } from '../../../reflect/index.js'
 export class QueryFilter {
 
   /**
-   * @param {readonly TypeId[]} _types 
+   * @param {readonly TypeId[]} _types
    * @throws {string} When the method is not implemented.
    * @returns {boolean}
    */
-  archetype(_types){
+  archetype(_types) {
     throw `Implement ${this.constructor.name}.archetype`
   }
 }
@@ -30,15 +30,15 @@ export class Has {
   /**
    * @param {Constructor<T>} component
    */
-  constructor(component){
+  constructor(component) {
     this.typeid = typeid(component)
   }
 
   /**
-   * @param {readonly TypeId[]} types 
+   * @param {readonly TypeId[]} types
    * @returns {boolean}
    */
-  archetype(types){
+  archetype(types) {
     return types.includes(this.typeid)
   }
 }
@@ -66,15 +66,15 @@ export class Without {
   /**
    * @param {Constructor<T>} component
    */
-  constructor(component){
+  constructor(component) {
     this.typeid = typeid(component)
   }
 
   /**
-   * @param {readonly TypeId[]} types 
+   * @param {readonly TypeId[]} types
    * @returns {boolean}
    */
-  archetype(types){
+  archetype(types) {
     return !types.includes(this.typeid)
   }
 }

@@ -151,7 +151,7 @@ export class Rotary {
 
   /**
    * @param {Rotary} out
-   * @returns {Rotary} 
+   * @returns {Rotary}
    */
   static identity(out = new Rotary()) {
     out.cos = 1
@@ -160,9 +160,9 @@ export class Rotary {
     return out
   }
 
-  /** 
+  /**
    * @param {Rotary} out
-   * @returns {Rotary} 
+   * @returns {Rotary}
    */
   static zero(out = new Rotary()) {
     out.cos = 0
@@ -208,8 +208,8 @@ export class Rotary {
   }
 
   /**
-   * @param {number} angle 
-   * @param {Rotary} out 
+   * @param {number} angle
+   * @param {Rotary} out
    */
   static rotate(angle, out = new Rotary()) {
     const { cos: cosA, sin: sinA } = out
@@ -290,8 +290,8 @@ export class Rotary {
   }
 
   /**
-   * @param {Matrix2} matrix 
-   * @param {Rotary} out 
+   * @param {Matrix2} matrix
+   * @param {Rotary} out
    */
   static fromRotationMatrix(matrix, out = new Rotary()) {
     out.cos = matrix.a
@@ -319,7 +319,7 @@ export class Rotary {
    * @param {number} t
    * @param {Rotary} out
    */
-  static slerp(a, b, t, out = new Rotary()){
+  static slerp(a, b, t, out = new Rotary()) {
     const x = (a.cos + b.cos) * t
     const y = (a.sin + b.sin) * t
     const length = Math.sqrt(x * x + y * y)

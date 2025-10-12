@@ -8,7 +8,7 @@ export class Archetype {
    * @type {readonly TypeId[]}
    */
   types
-  
+
   /**
    * @readonly
    * @type {TableId}
@@ -23,7 +23,7 @@ export class Archetype {
     this.types = types
     this.tableId = tableId
   }
-  
+
   /**
    * @param {TypeId[]} typeids
    * @returns {boolean}
@@ -35,18 +35,18 @@ export class Archetype {
 
     return true
   }
-  
+
   /**
    * @param {TypeId[]} typeIds
-   * @returns {boolean} 
+   * @returns {boolean}
    */
   hasOnly(typeIds) {
     if (typeIds.length !== this.types.length) return false
-    
+
     for (let i = 0; i < typeIds.length; i++) {
       if (!this.types.includes(typeIds[i])) return false
     }
-    
+
     return true
   }
 }

@@ -25,7 +25,7 @@ export class Field {
   }
 }
 
-export class OpaqueInfo extends TypeInfo {  
+export class OpaqueInfo extends TypeInfo {
   static default() {
     return new OpaqueInfo()
   }
@@ -39,14 +39,14 @@ export class StructInfo extends TypeInfo {
    * @type {Map<string,number>}
    */
   names = new Map()
-  
+
   /**
    * @readonly
    * @private
    * @type {Field[]}
    */
   fields = []
-  
+
   /**
    * @param {Record<string,Field>} record
    */
@@ -70,7 +70,7 @@ export class StructInfo extends TypeInfo {
   get(name) {
     const index = this.names.get(name)
 
-    if(index === undefined) return undefined
+    if (index === undefined) return undefined
 
     return this.getByIndex(index)
   }
@@ -87,8 +87,8 @@ export class StructInfo extends TypeInfo {
   fieldNames() {
     return this.names.keys()
   }
-  
-  size(){
+
+  size() {
     return this.fields.length
   }
 }
@@ -100,11 +100,11 @@ export class EnumInfo extends TypeInfo {
    * @type {ReadonlyMap<string,number>}
    */
   variants
-  
+
   /**
    * @param {Record<string,number>} variants
    */
-  constructor(variants){
+  constructor(variants) {
     super()
     const map = new Map()
 
@@ -114,26 +114,26 @@ export class EnumInfo extends TypeInfo {
 
     this.variants = map
   }
-  
+
   /**
    * @param {string} variant
    * @returns {number}
    */
-  get(variant){
+  get(variant) {
     return this.variants.get(variant)
   }
 
   /**
    * @returns {Iterable<string>}
    */
-  getVariants(){
+  getVariants() {
     return this.variants.keys()
   }
-  
+
   /**
    * @returns {MapIterator<[string,number]>}
    */
-  * [Symbol.iterator](){
+  * [Symbol.iterator]() {
     return this.variants.entries()
   }
 }

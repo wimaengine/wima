@@ -82,7 +82,7 @@ function update(world) {
   const child = new Query(world, [Orientation3D], [has(Children), has(Parent)]).single()
   const grandChild = new Query(world, [Orientation3D], [has(Parent), without(Children)]).single()
   const delta = world.getResource(VirtualClock).getDelta()
-  
+
   if (!parent || !child || !grandChild) return
 
   parent[0].multiply(Quaternion.fromEuler(0, 0, QUARTER_PI * delta))

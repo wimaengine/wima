@@ -6,7 +6,7 @@ export class NamePlugin extends Plugin {
   /**
    * @param {App} app
    */
-  register(app){
+  register(app) {
     app.registerType(Name)
   }
 }

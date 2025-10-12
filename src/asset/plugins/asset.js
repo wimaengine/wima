@@ -7,7 +7,6 @@ import { Assets } from '../core/index.js'
 import { AssetAdded, AssetDropped, AssetModified } from '../events/index.js'
 import { updateAssetEvents, registerAssetOnAssetServer, unloadDroppedAssets } from '../systems/index.js'
 
-
 /**
  * @template T
  */

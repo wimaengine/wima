@@ -6,7 +6,7 @@ export class Name {
   value
 
   /**
-   * @param {string} name 
+   * @param {string} name
    */
   constructor(name = '') {
     this.value = name

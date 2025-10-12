@@ -57,7 +57,7 @@ export function addDefaultCamera2D(world) {
 export class ResourceAliasPlugin extends Plugin {
 
   /**
-   * @param {App} app 
+   * @param {App} app
    */
   register(app) {
     const world = app.getWorld()
@@ -94,7 +94,7 @@ export function registerAssetOnAssetServer(type) {
 
 /**
  * @template T
- * @param {new (...args:any[])=> T} type 
+ * @param {new (...args:any[])=> T} type
  * @param {Parser<T>} parser
  * @returns {(world:World)=>void}
  */

@@ -6,7 +6,7 @@ import { TouchCancel, TouchEnd, TouchMove, TouchStart } from '../window/index.js
 import { TouchPointer } from './core/index.js'
 import { Touches } from './resources/touches.js'
 
-export class TouchPlugin extends Plugin{
+export class TouchPlugin extends Plugin {
 
   /**
    * @param {App} app
@@ -17,7 +17,6 @@ export class TouchPlugin extends Plugin{
       .setResource(new Touches())
   }
 }
-
 
 /**
  * @param {World} world
@@ -35,7 +34,7 @@ function updateTouch(world) {
   const end = world.getResourceByTypeId(typeidGeneric(Events, [TouchEnd]))
 
   /** @type {Events<TouchCancel>} */
-  const cancel = world.getResourceByTypeId(typeidGeneric(Events, [TouchCancel]))  
+  const cancel = world.getResourceByTypeId(typeidGeneric(Events, [TouchCancel]))
 
   start.each((event) => {
     const { data } = event

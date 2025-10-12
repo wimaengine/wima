@@ -23,7 +23,7 @@ export class Timer {
   paused
 
   /**
-   * @private 
+   * @private
    * @type {number}
    */
   elapsedCount = 0

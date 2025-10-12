@@ -16,12 +16,12 @@ export default new Demo(
 )
 class Playing {
   handle
-  
+
   /**
    * @type {number?}
    */
   value
-  
+
   /**
    * @param {Handle<Audio>} handle
    */
@@ -36,7 +36,7 @@ class Playing {
 function init(world) {
   const server = world.getResource(AssetServer)
   const handle = server.load(Audio, 'assets/audio/hit.mp3')
-  
+
   world.setResource(new Playing(handle))
 }
 
@@ -48,18 +48,18 @@ function playAudio(world) {
   const audioGraph = world.getResource(AudioGraph)
   const audioSources = world.getResource(AudioAssets)
   const audioSource = audioSources.get(current.handle)
-  
+
   if (current.value || !audioSource) {
     return
   }
-  
+
   const ctx = audioGraph.getContext()
   const source = new AudioBufferSourceNode(ctx, {
     buffer: audioSource.audiobuffer,
     loop: true
   })
   const sourceId = audioGraph.add(source)
-  
+
   audioGraph.connect(sourceId, audioGraph.getRoot())
   source.start()
   current.value = sourceId

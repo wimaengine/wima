@@ -11,12 +11,12 @@ export function executeWindowCommands(world) {
   const windows = new Query(world, [Window])
 
   const buffer = commands.getBuffer()
-  
+
   for (let i = 0; i < buffer.length; i++) {
     const command = buffer[i]
     const canvas = canvases.getWindow(command.entity)
 
-    if(!canvas) return
+    if (!canvas) return
 
     const [window] = /** @type {[Window]} */(windows.get(command.entity))
 
@@ -29,7 +29,7 @@ export function executeWindowCommands(world) {
 /**
  * @param {WindowCommand} command
  * @param {HTMLCanvasElement} canvas
- * @param {Window} window 
+ * @param {Window} window
  */
 function execute(command, canvas, window) {
   switch (command.type) {

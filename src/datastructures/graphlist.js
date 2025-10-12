@@ -49,7 +49,7 @@ export class GraphEdge {
   /**
    * @param {number} from
    * @param {number} to
-   * @param {T} weight 
+   * @param {T} weight
    */
   constructor(from, to, weight) {
     this.from = from

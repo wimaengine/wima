@@ -1,7 +1,7 @@
 /** @import {SystemFunc} from '../../ecs/index.js'*/
 /** @import {TypeId} from '../../reflect/index.js'*/
 /**
- * @param {TypeId} id 
+ * @param {TypeId} id
  * @returns {SystemFunc}
  */
 export function makeEventClear(id) {

@@ -12,7 +12,7 @@ export class Audio {
     this.audiobuffer = audiobuffer
   }
 
-  static default(){
+  static default() {
     return new Audio(new AudioBuffer({
       sampleRate:44800,
       length:1

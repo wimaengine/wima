@@ -13,8 +13,8 @@ export class CollisionPair {
   b
 
   /**
-   * @param {Entity} a 
-   * @param {Entity} b 
+   * @param {Entity} a
+   * @param {Entity} b
    */
   constructor(a, b) {
     this.a = a

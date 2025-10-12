@@ -37,7 +37,7 @@ export class Bitset {
     return Bitset.get(this, index)
   }
 
-  length(){
+  length() {
     return this.size
   }
 

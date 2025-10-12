@@ -15,7 +15,7 @@ export class SystemConfig {
    * @param {SystemFunc} system
    * @param {string} schedule
    */
-  constructor(system, schedule){
+  constructor(system, schedule) {
     this.system = system
     this.schedule = schedule
   }

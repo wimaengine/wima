@@ -3,15 +3,15 @@ import { Camera, RenderLists3D } from '../components/index.js'
 import { } from '../plugins/index.js'
 
 /**
- * @param {number} x 
- * @param {number} y 
- * @param {number} z 
- * @param {number} ox 
- * @param {number} oy 
- * @param {number} oz 
- * @param {number} sx 
- * @param {number} sy 
- * @param {number} sz 
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @param {number} ox
+ * @param {number} oy
+ * @param {number} oz
+ * @param {number} sx
+ * @param {number} sy
+ * @param {number} sz
  * @returns {[Position3D,Orientation3D,Scale3D,GlobalTransform3D,Camera,RenderLists3D]}
  */
 export function createCamera3D(

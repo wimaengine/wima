@@ -5,7 +5,7 @@ import { MouseDown, MouseUp, MouseMove, MouseWheel, MouseEnter, MouseLeave } fro
 
 /**
  * @param {World} world
- * @param {HTMLElement} target 
+ * @param {HTMLElement} target
  */
 export function setupMouseEvents(world, target) {
   target.addEventListener('mousedown', (e) => {

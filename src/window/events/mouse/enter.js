@@ -7,7 +7,7 @@ export class MouseEnter {
    * @type {Vector2}
    */
   position = new Vector2()
-  
+
   /**
    * @param {MouseEvent} event
    */

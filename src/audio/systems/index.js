@@ -3,7 +3,6 @@ import { Timer, TimerMode } from '../../time/index.js'
 import { AudioAssets, AudioGraph } from '../resources/index.js'
 import { AudioPlayer, AudioOscillator, AudioOscillatorType } from '../components/index.js'
 
-
 /**
  * @param {World} world
  */

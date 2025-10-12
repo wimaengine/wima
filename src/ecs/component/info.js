@@ -2,7 +2,6 @@
 
 import { ComponentHooks } from './hooks.js'
 
-
 export class ComponentInfo {
 
   /**

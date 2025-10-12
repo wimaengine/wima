@@ -64,7 +64,6 @@ app
   .registerSystem(AppSchedule.Update, setupViewport)
   .run()
 
-
 /**
  * @param {World} world
  */

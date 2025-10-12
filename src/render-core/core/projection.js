@@ -45,8 +45,8 @@ export class PerspectiveProjection extends Projection {
   aspect
 
   /**
-   * @param {number} fov 
-   * @param {number} aspect 
+   * @param {number} fov
+   * @param {number} aspect
    */
   constructor(fov = Math.PI / 2, aspect = 1) {
     super()
@@ -71,7 +71,7 @@ export class PerspectiveProjection extends Projection {
 
     return PerspectiveProjection.from(left, left + width, top, top - height, near, far)
   }
-  
+
   /**
    * @param {number} left
    * @param {number} right

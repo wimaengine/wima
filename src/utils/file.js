@@ -2,10 +2,10 @@
  * @param {string} url
  * @returns {string}
  */
-export function getFileName(url){
+export function getFileName(url) {
   const prelude = url.split('/').pop()
 
-  if(!prelude)return ''
+  if (!prelude) return ''
 
   return prelude.split('.')[0]
 }
@@ -14,10 +14,10 @@ export function getFileName(url){
  * @param {string} url
  * @returns {string}
  */
-export function getFileExtension(url){
+export function getFileExtension(url) {
   const prelude = url.split('.').pop()
 
-  if(!prelude) return ''
+  if (!prelude) return ''
 
   return prelude
 }

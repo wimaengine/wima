@@ -4,7 +4,6 @@ import { typeidGeneric } from '../../reflect/index.js'
 import { Parser } from '../core/index.js'
 import { registerAssetParserOnAssetServer } from '../systems/index.js'
 
-
 /**
  * @template T
  */
@@ -24,7 +23,7 @@ export class AssetParserPlugin extends Plugin {
   parser
 
   /**
-   * @param {AssetParserPluginOptions<T>} options 
+   * @param {AssetParserPluginOptions<T>} options
    */
   constructor(options) {
     super()

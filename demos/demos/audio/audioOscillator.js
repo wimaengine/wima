@@ -19,7 +19,7 @@ export default new Demo(
  */
 function init(world) {
   const commands = world.getResource(EntityCommands)
-  
+
   commands
     .spawn()
     .insertPrefab([

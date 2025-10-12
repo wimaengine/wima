@@ -24,7 +24,7 @@ export class EntityLocation {
 
   /**
    * @param {ArchetypeId} archetypeId
-   * @param {TableRow} index 
+   * @param {TableRow} index
    * @param {TableId} tableId
    */
   constructor(

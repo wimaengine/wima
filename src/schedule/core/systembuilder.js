@@ -13,14 +13,14 @@ export class SchedulerBuilder {
   /**
    * @param {SystemConfig} config
    */
-  add(config){
+  add(config) {
     this.systems.push(config)
   }
 
   /**
    * @param {Scheduler} scheduler
    */
-  pushToScheduler(scheduler){
+  pushToScheduler(scheduler) {
     for (let i = 0; i < this.systems.length; i++) {
       const config = this.systems[i]
 

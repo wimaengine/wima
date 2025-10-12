@@ -12,7 +12,7 @@ export class Gravity2DPlugin extends Plugin {
   gravity
 
   /**
-   * @param {Gravity2DPluginOptions} options 
+   * @param {Gravity2DPluginOptions} options
    */
   constructor({ gravity = new Vector2(0, -980) } = {}) {
     super()
@@ -38,7 +38,7 @@ export class Gravity3DPlugin extends Plugin {
   gravity
 
   /**
-   * @param {Gravity3DPluginOptions} options 
+   * @param {Gravity3DPluginOptions} options
    */
   constructor({ gravity = new Vector3(0, -980, 0) } = {}) {
     super()

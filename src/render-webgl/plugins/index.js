@@ -7,7 +7,6 @@ import { typeidGeneric } from '../../reflect/index.js'
 import { Material } from '../../render-core/index.js'
 import { genRegisterBuffer, genRender, genRenderPipeline } from '../systems/index.js'
 
-
 /**
  * @template {Material & UniformBind} T
  */
@@ -32,7 +31,7 @@ export class WebglMaterialPlugin {
   fragment3d
 
   /**
-   * @param {WebglMaterialPluginOptions<T>} options 
+   * @param {WebglMaterialPluginOptions<T>} options
    */
   constructor({
     fragment3d,
@@ -45,7 +44,7 @@ export class WebglMaterialPlugin {
   }
 
   /**
-   * @param {App} app 
+   * @param {App} app
    */
   register(app) {
     const { material, vertex3d, fragment3d } = this

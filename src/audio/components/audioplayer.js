@@ -37,16 +37,16 @@ export function removeAudioPlayerSink(entity, world) {
   const graph = world.getResource(AudioGraph)
   const audio = world.get(entity, AudioPlayer)
 
-  if(!audio){
+  if (!audio) {
     return
   }
-  
+
   audio.audio?.drop()
 
   // SAFETY: The node referenced by the player is guaranteed to be a `AudioBufferSourceNode`.
   const node = /** @type {AudioBufferSourceNode | undefined} */(graph.graph.getNode(audio.sourceNode)?.weight)
-  
-  if(node){
+
+  if (node) {
     node.stop()
 
     // TODO: Remove the audio sink from the graph when removing nodes on a graph

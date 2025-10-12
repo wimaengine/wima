@@ -13,11 +13,10 @@ export class Children {
    */
   list = []
 
-   
   /**
    * @param {Entity[]} children
    */
-  constructor(children = []){
+  constructor(children = []) {
     this.list = children
   }
 
@@ -34,13 +33,13 @@ export class Children {
   remove(entity) {
     this.list.splice(this.list.indexOf(entity), 1)
   }
-  visit(){
+  visit() {
     return this.list
   }
 
   /**
    */
-  clear(){
+  clear() {
     this.list.length = 0
   }
 }

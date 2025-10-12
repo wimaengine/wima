@@ -28,7 +28,6 @@ export default new Demo(
 /** @type {Map<number,Entity>} */
 class TouchtoEntityMap extends Map { }
 
-
 /**
  * @param {World} world
  */
@@ -79,7 +78,7 @@ function update(world) {
 
     const material = materials.get(components[1].handle)
 
-    if(!material) return
+    if (!material) return
 
     if (touch) {
       components[0].copy(touch.position)

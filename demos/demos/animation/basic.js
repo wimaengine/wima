@@ -39,10 +39,10 @@ export function init(world) {
   const rawClip = createClip()
   const clip = clips.add(rawClip)
   const mesh = meshes.add(Mesh.quad2D(50, 50))
-  const material = materials.add(new BasicMaterial())  
+  const material = materials.add(new BasicMaterial())
   const targetname = '/bone'
   const animationplayer = new AnimationPlayer()
-  
+
   animationplayer.set(clip, {
     duration: rawClip.duration,
     repeatMode: PlaybackRepeat.Forever
@@ -51,7 +51,7 @@ export function init(world) {
     .spawn()
     .insert(animationplayer)
     .build()
-  
+
   commands
     .spawn()
     .insertPrefab([
@@ -69,15 +69,15 @@ export function init(world) {
  */
 function createClip() {
   const clip = new AnimationClip()
-  
+
   const translate = new AnimationTrack(Position2DAnimationEffector)
   const rotate = new AnimationTrack(Orientation2DAnimationEffector)
   const scale = new AnimationTrack(Scale2DAnimationEffector)
-  
+
   translate.times = [0, 2, 4, 6, 8]
   rotate.times = [0, 2, 4, 6, 8]
   scale.times = [0, 2, 4, 6, 8]
-  
+
   translate.keyframes = [
     -100,
     100,
@@ -109,11 +109,11 @@ function createClip() {
     1,
     1
   ]
-  
+
   clip.add('/bone', translate)
   clip.add('/bone', rotate)
   clip.add('/bone', scale)
   clip.calculateDuration()
-  
+
   return clip
 }

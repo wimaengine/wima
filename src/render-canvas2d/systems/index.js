@@ -12,8 +12,8 @@ import { MainWindow, Windows, Window } from '../../window/index.js'
 /**
  * @template {Material} T
  * @param {Constructor<T>} type
- * @param {Canvas2DFunction<T>} renderMaterial 
- * @returns {SystemFunc} 
+ * @param {Canvas2DFunction<T>} renderMaterial
+ * @returns {SystemFunc}
  */
 export function genrender(type, renderMaterial) {
   const meshid = typeidGeneric(Assets, [Mesh])

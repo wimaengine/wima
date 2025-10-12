@@ -6,7 +6,7 @@ import { World } from '../ecs/index.js'
 import { KeyCode } from './core/key.js'
 import { typeidGeneric } from '../reflect/index.js'
 
-export class KeyboardPlugin extends Plugin{
+export class KeyboardPlugin extends Plugin {
 
   /**
    * @param {App} app
