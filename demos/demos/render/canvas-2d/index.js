@@ -1,1 +1,0 @@
-export { default as materials } from './material.js'
