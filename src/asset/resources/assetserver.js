@@ -89,9 +89,9 @@ export class AssetServer {
   /**
    * @private
    * @readonly
-   * @type {Map<TypeId, Parser<unknown>>}
+   * @type {Parsers}
    */
-  parsers = new Map()
+  parsers = new Parsers()
 
   /**
    * @private
@@ -140,7 +140,7 @@ export class AssetServer {
    * @param {Parser<T>} parser
    */
   registerParser(type, parser) {
-    this.parsers.set(typeid(type), parser)
+    this.parsers.add(parser)
   }
 
   /**
@@ -222,15 +222,7 @@ export class AssetServer {
    */
   async internalFetch(assetId, typeId, path) {
     const extension = getFileExtension(path)
-    const parser = this.parsers.get(typeId)
-
-    if (!parser) {
-      throw 'No parser registered for the asset type.'
-    }
-
-    if (!parser.verify(extension)) {
-      throw `The extension "${extension}" is not supported by \`${parser.constructor.name}\``
-    }
+    const parser = this.parsers.get(typeId, extension)
 
     const response = await fetch(path)
 
