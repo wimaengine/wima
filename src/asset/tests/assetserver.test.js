@@ -1,6 +1,6 @@
-import { deepStrictEqual, notDeepStrictEqual, strictEqual } from "assert";
+import { deepStrictEqual, notDeepStrictEqual } from "assert";
 import test, { describe,todo } from "node:test";
-import { Assets, AssetServer, LoadState, Parser } from "../index.js";
+import { Assets, AssetServer, Parser } from "../index.js";
 
 class Text {
   inner = ''
@@ -16,11 +16,14 @@ class Text {
  * @extends {Parser<Text>}
  */
 class TextParser extends Parser {
+  constructor(){
+    super(Text)
+  }
   /**
-   * @param {string} extension
+   * @override
    */
-  verify(extension){
-    return extension === 'txt'
+  getExtensions(){
+    return ['txt']
   }
 
   /**
@@ -50,9 +53,6 @@ describe('Testing `AssetServer`', () => {
     // simulates `unloadDroppedAssets`
     server.dropAssetInfo(handle1.id())
     
-    // TODO: Remove when handles are unique
-    // handles arent unique yet, so this ensures handle is at a different index
-    const handle3 = server.load(Text,"/assets/text/sample2.txt")
     const handle2 = server.load(Text,"/assets/text/sample.txt")
 
     notDeepStrictEqual(handle1.id(),handle2.id())
