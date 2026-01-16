@@ -20,6 +20,7 @@ import { WindowPlugin } from '../window/index.js'
 import { NamePlugin } from '../name/index.js'
 import { ReflectPlugin } from '../reflect/plugin.js'
 import { CorePlugin } from '../core/plugin.js'
+import { ScenePlugin } from '../scene/index.js'
 
 export class DefaultPlugin extends PluginGroup {
   constructor() {
@@ -50,5 +51,6 @@ export class DefaultPlugin extends PluginGroup {
     this.add(new RenderCorePlugin())
     this.add(new WindowPlugin())
     this.add(new CommandsPlugin())
+    this.add(new ScenePlugin())
   }
 }
