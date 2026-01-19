@@ -47,7 +47,7 @@ function addmesh(world) {
 /**
  * @param {World} world
  */
-function update(world){
+function update(world) {
   const rotable = new Query(world, [Rotation3D])
 
   rotable.each(([rotation]) => {

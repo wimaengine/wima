@@ -7,9 +7,9 @@ export class FileDrop {
   path
 
   /**
-   * @param {DragEvent} event 
+   * @param {DragEvent} event
    */
-  constructor(event){
+  constructor(event) {
     this.path = event.dataTransfer?.files || new FileList()
   }
 }

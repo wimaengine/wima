@@ -19,7 +19,7 @@ export class Window {
   selector
 
   /**
-   * @param {WindowOptions} options 
+   * @param {WindowOptions} options
    */
   constructor({ selector, width = 720, height = 360 } = {}) {
     this.selector = selector
@@ -29,17 +29,16 @@ export class Window {
 
   /**
    * Returns width of the window.
-   * 
+   *
    * @returns {number}
    */
   getWidth() {
     return this.width
   }
 
-
   /**
    * Returns the height of the window.
-   * 
+   *
    * @returns {number}
    */
   getHeight() {
@@ -50,7 +49,7 @@ export class Window {
    * @param {number} width
    * @param {number} height
    */
-  set(width, height){
+  set(width, height) {
     this.width = width
     this.height = height
   }

@@ -1,7 +1,6 @@
 /** @import { TouchId } from "../typedef/index.js" */
 import { TouchPointer } from '../core/index.js'
 
-
 /**
  * Handles the touch input of an application from a smartphone,tablet or PCs with touchscreens.
  */
@@ -12,7 +11,7 @@ export class Touches {
    * @type {(TouchPointer | null)[]}
    */
   list = new Array(10).fill(null)
-  
+
   /**
    * @returns {TouchPointer | null}
    */
@@ -20,10 +19,10 @@ export class Touches {
     for (let i = 0; i < this.list.length; i++) {
       if (this.list[i]) return this.list[i]
     }
-  
+
     return null
   }
-  
+
   /**
    * @returns {TouchPointer | null}
    */
@@ -31,17 +30,17 @@ export class Touches {
     for (let i = 9; i >= 0; i--) {
       if (this.list[i]) return this.list[i]
     }
-  
+
     return null
   }
-  
+
   /**
    * @returns {TouchPointer[]}
    */
   getActive() {
     return this.list.filter((e) => e !== null)
   }
-  
+
   /**
    * @param {TouchId} id
    * @param {TouchPointer | null} pointer
@@ -49,7 +48,7 @@ export class Touches {
   set(id, pointer) {
     this.list[id] = pointer
   }
-  
+
   /**
    * @param {TouchId} id
    * @returns {TouchPointer | null}
@@ -58,4 +57,3 @@ export class Touches {
     return this.list[id]
   }
 }
-  

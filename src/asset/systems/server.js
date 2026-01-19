@@ -10,7 +10,7 @@ import { error } from '../../logger/index.js'
 
 /**
  * @template T
- * @param {Constructor<T>} type 
+ * @param {Constructor<T>} type
  * @returns {SystemFunc}
  */
 export function registerAssetOnAssetServer(type) {
@@ -24,8 +24,8 @@ export function registerAssetOnAssetServer(type) {
 
 /**
  * @template T
- * @param {Constructor<T>} type 
- * @param {Parser<T>} parser 
+ * @param {Constructor<T>} type
+ * @param {Parser<T>} parser
  * @returns {SystemFunc}
  */
 export function registerAssetParserOnAssetServer(type, parser) {

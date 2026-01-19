@@ -62,7 +62,7 @@ export class DefaultTweenPlugin extends Plugin {
 /**
  * @template T
  */
-export class TweenPlugin extends Plugin{
+export class TweenPlugin extends Plugin {
 
   /**
    * @readonly
@@ -83,7 +83,7 @@ export class TweenPlugin extends Plugin{
   interpolation
 
   /**
-   * @param {TweenPluginOptions<T>} options 
+   * @param {TweenPluginOptions<T>} options
    */
   constructor({ component, tween, interpolation }) {
     super()
@@ -106,7 +106,7 @@ export class TweenPlugin extends Plugin{
       .registerSystem(AppSchedule.Update, generateTweenUpdateSystem(this.component, this.tween, this.interpolation))
   }
 
-  name(){
+  name() {
     return typeidGeneric(TweenPlugin, [this.component])
   }
 }

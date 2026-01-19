@@ -34,7 +34,7 @@ export class AnimationPlayer {
   get(handle) {
     return this.animations.get(handle.id())
   }
-  
+
   /**
    * @param {Handle<AnimationClip>} handle
    */
@@ -50,52 +50,52 @@ export class AnimationPlayer {
   start(handle) {
     const playback = this.get(handle)
 
-    if(playback){
+    if (playback) {
       playback.start()
     }
 
     return this
   }
-  
+
   /**
    * @param {Handle<AnimationClip>} handle
    */
   stop(handle) {
     const playback = this.get(handle)
 
-    if(playback){
+    if (playback) {
       playback.stop()
     }
 
     return this
   }
-  
+
   /**
    * @param {Handle<AnimationClip>} handle
    */
   play(handle) {
     const playback = this.get(handle)
 
-    if(playback){
+    if (playback) {
       playback.play()
     }
 
     return this
   }
-  
+
   /**
    * @param {Handle<AnimationClip>} handle
    */
   pause(handle) {
     const playback = this.get(handle)
 
-    if(playback){
+    if (playback) {
       playback.pause()
     }
 
     return this
   }
-  
+
   startAll() {
     this.animations.forEach((playback) => {
       playback.start()
@@ -103,7 +103,7 @@ export class AnimationPlayer {
 
     return this
   }
-  
+
   stopAll() {
     this.animations.forEach((playback) => {
       playback.stop()
@@ -111,7 +111,7 @@ export class AnimationPlayer {
 
     return this
   }
-  
+
   playAll() {
     this.animations.forEach((playback) => {
       playback.play()
@@ -119,7 +119,7 @@ export class AnimationPlayer {
 
     return this
   }
-  
+
   pauseAll() {
     this.animations.forEach((playback) => {
       playback.pause()

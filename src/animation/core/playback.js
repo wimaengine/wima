@@ -28,7 +28,7 @@ export class Playback {
   paused = false
 
   /**
-   * @param {PlaybackSettings} options 
+   * @param {PlaybackSettings} options
    */
   constructor({
     duration,
@@ -39,7 +39,7 @@ export class Playback {
     this.speed = speed
     this.repeatMode = repeatMode
   }
-  
+
   start() {
     this.elapsed = 0
     this.play()
@@ -62,7 +62,7 @@ export class Playback {
     if (this.paused) {
       return
     }
-    
+
     const seekTime = this.elapsed + delta * this.speed
 
     this.elapsed = seekTime
@@ -72,7 +72,7 @@ export class Playback {
         break
 
       case PlaybackRepeat.Forever:
-        
+
         this.elapsed %= this.duration
         break
     }

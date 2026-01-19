@@ -3,7 +3,7 @@
  * @param {IterableIterator<any>} options
  * @param {((this: GlobalEventHandlers, ev: Event) => any) | null} onChange
  */
-export function createDropDown( options, onChange) {
+export function createDropDown(options, onChange) {
   const select = document.createElement('select')
 
   for (const n of options) {

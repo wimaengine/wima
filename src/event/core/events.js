@@ -4,21 +4,21 @@ import { CEvent } from './event.js'
 // TODO - use a pooling to reduce memory allocations.
 /**
  * A buffer of events that are of the same type.
- * 
+ *
  * @template T
  * @example
  * ```typescript
  * //Creates a new event dispatcher with string as its event payload.
  * const dispatch = new Events<string>()
- * 
+ *
  * //adds an event to dispatcher
  * dispatch.write("hello there")
- * 
+ *
  * //gets all events in the event dispatch
  * dispatch.each(event=>{
  *   console.log(event.data)//outputs "hello world"
  * })
- * 
+ *
  * //Removes all buffered events.
  * dispatch.clear()
  * ```
@@ -30,7 +30,7 @@ export class Events {
    * @type {CEvent<T>[]}
    */
   writeBuffer = []
-  
+
   /**
    * @private
    * @type {CEvent<T>[]}
@@ -56,7 +56,7 @@ export class Events {
 
   /**
    * Returns the first of the events captured if any event is captured.
-   * 
+   *
    * @returns {CEvent<T> | undefined}
    */
   readFirst() {
@@ -77,7 +77,7 @@ export class Events {
     this.writeBuffer.push(new CEvent(data))
   }
 
-  count(){
+  count() {
     return this.readBuffer.length
   }
 }

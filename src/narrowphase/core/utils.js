@@ -1,7 +1,6 @@
 import { Vector2 } from '../../math/index.js'
 import { PhysicsProperties, Collider2D } from '../../physics/components/index.js'
 
-
 /**
  * @param {PhysicsProperties} propA
  * @param {PhysicsProperties} propB

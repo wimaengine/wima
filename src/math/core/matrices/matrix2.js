@@ -222,8 +222,8 @@ export class Matrix2 {
   }
 
   /**
-   * @param {Matrix2} matrix 
-   * @param {Matrix2} out 
+   * @param {Matrix2} matrix
+   * @param {Matrix2} out
    * @returns {Matrix2}
    */
   static transpose(matrix, out = new Matrix2()) {
@@ -238,7 +238,7 @@ export class Matrix2 {
   }
 
   /**
-   * @param {Matrix2} out 
+   * @param {Matrix2} out
    * @returns {Matrix2}
    */
   static identity(out = new Matrix2()) {
@@ -248,7 +248,7 @@ export class Matrix2 {
   }
 
   /**
-   * @param {Matrix2} out 
+   * @param {Matrix2} out
    * @returns {Matrix2}
    */
   static zero(out = new Matrix2()) {
@@ -258,7 +258,7 @@ export class Matrix2 {
   }
 
   /**
-   * @param {Matrix2} matrix 
+   * @param {Matrix2} matrix
    * @returns {number}
    */
   static determinant(matrix) {
@@ -266,7 +266,7 @@ export class Matrix2 {
   }
 
   /**
-   * @param {Matrix2} matrix 
+   * @param {Matrix2} matrix
    * @returns {number}
    */
   static trace(matrix) {
@@ -334,8 +334,8 @@ export class Matrix2 {
   }
 
   /**
-   * @param {Matrix2} matrix1 
-   * @param {Matrix2} matrix2 
+   * @param {Matrix2} matrix1
+   * @param {Matrix2} matrix2
    * @param {Matrix2} out
    * @returns {Matrix2}
    */
@@ -393,8 +393,8 @@ export class Matrix2 {
   }
 
   /**
-   * @param {Matrix2} matrix 
-   * @param {Matrix2} out 
+   * @param {Matrix2} matrix
+   * @param {Matrix2} out
    * @returns {Matrix2}
    */
   static invert(matrix, out = new Matrix2()) {
@@ -416,8 +416,8 @@ export class Matrix2 {
   }
 
   /**
-   * @param {Matrix2} matrix1 
-   * @param {Matrix2} matrix2 
+   * @param {Matrix2} matrix1
+   * @param {Matrix2} matrix2
    * @returns {boolean}
    */
   static equal(matrix1, matrix2) {

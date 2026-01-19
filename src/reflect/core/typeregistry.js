@@ -9,7 +9,7 @@ export class TypeRegistry {
    * @type {Map<TypeId,TypeEntry>}
    */
   inner = new Map()
-  
+
   /**
    * @template T
    * @param {Constructor<T>} type
@@ -20,7 +20,7 @@ export class TypeRegistry {
 
     this.registerTypeId(typeId, info)
   }
-  
+
   /**
    * @param {TypeId} typeId
    * @param {TypeInfo} info
@@ -30,7 +30,7 @@ export class TypeRegistry {
 
     this.inner.set(typeId, entry)
   }
-  
+
   /**
    * @template T
    * @param {Constructor<T>} type
@@ -40,14 +40,14 @@ export class TypeRegistry {
 
     this.unregisterTypeId(typeId)
   }
-  
+
   /**
    * @param {TypeId} typeId
    */
   unregisterTypeId(typeId) {
     this.inner.delete(typeId)
   }
-  
+
   /**
    * @template T
    * @param {Constructor<T>} type
@@ -56,7 +56,7 @@ export class TypeRegistry {
   get(type) {
     return this.getByTypeId(typeid(type))
   }
-  
+
   /**
    * @param {TypeId} typeId
    */

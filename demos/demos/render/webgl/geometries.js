@@ -31,9 +31,9 @@ function addmeshes(world) {
   const materials = world.getResource(BasicMaterialAssets)
 
   const geometries = [
-    meshes.add( Mesh.triangle3D()),
+    meshes.add(Mesh.triangle3D()),
     meshes.add(Mesh.plane3D()),
-    meshes.add( Mesh.circle3D()),
+    meshes.add(Mesh.circle3D()),
     meshes.add(Mesh.ring3D()),
     meshes.add(Mesh.cone()),
     meshes.add(Mesh.cube(0.7071, 0.7071, 0.7071)),
@@ -71,7 +71,7 @@ function addmeshes(world) {
 /**
  * @param {World} world
  */
-function update(world){
+function update(world) {
   const rotable = new Query(world, [Rotation3D])
 
   rotable.each(([rotation]) => {

@@ -3,12 +3,11 @@
 import { throws } from '../../logger/index.js'
 import { Children, Parent } from '../components/index.js'
 
-
 /**
- * Component hook that ensures when a child 
- * entity is spawned, the parent list is 
+ * Component hook that ensures when a child
+ * entity is spawned, the parent list is
  * updated.
- * 
+ *
  * @type {ComponentHook}
  */
 export function addSelfToParent(entity, world) {
@@ -18,24 +17,24 @@ export function addSelfToParent(entity, world) {
 
   const children = world.get(parent.entity, Children)
 
-  if(parent.entity.equals(entity)){
+  if (parent.entity.equals(entity)) {
     throws(`THe entity ${entity.id()} cannot be its own parent!`)
   }
   if (children) {
     children?.add(entity)
   } else {
 
-    // Immediate insertion as insert commands on 
+    // Immediate insertion as insert commands on
     // `EntityCommands` will override each other.
     world.insert(parent.entity, [new Children([entity])])
   }
 }
 
 /**
- * Component hook that ensures when a child 
- * entity is despawned, the parent list is 
+ * Component hook that ensures when a child
+ * entity is despawned, the parent list is
  * updated.
- * 
+ *
  * @type {ComponentHook}
  */
 export function removeSelfFromParent(entity, world) {
@@ -52,7 +51,7 @@ export function removeSelfFromParent(entity, world) {
  * Component hook that ensures the children of
  * an entity have the parent component referencing
  * the entity.
- * 
+ *
  * @type {ComponentHook}
  */
 export function addSelfToChildren(entity, world) {
@@ -66,7 +65,7 @@ export function addSelfToChildren(entity, world) {
     const child = children.list[i]
     const parent = world.get(child, Parent)
 
-    if(child.equals(entity)){
+    if (child.equals(entity)) {
       throws(`THe entity ${entity.id()} cannot be its own parent!`)
     }
     if (!parent) {
@@ -81,7 +80,7 @@ export function addSelfToChildren(entity, world) {
  * Component hook that ensures when the parent
  * is despawned, the children entities are also
  * despawned 'recursively'.
- * 
+ *
  * @type {ComponentHook}
  */
 export function despawnChildren(entity, world) {

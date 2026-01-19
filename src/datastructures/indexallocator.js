@@ -16,19 +16,19 @@ export class IndexAllocator {
   recycled = []
 
   /**
-   * @param {T} index 
+   * @param {T} index
    */
-  recycle(index){
+  recycle(index) {
     this.recycled.push(index)
   }
 
   /**
    * @returns {T}
    */
-  reserve(){
+  reserve() {
     const recycled = this.recycled.pop()
-        
-    if(recycled !== undefined) return recycled
+
+    if (recycled !== undefined) return recycled
 
     const index = this.nextid
 
@@ -39,7 +39,7 @@ export class IndexAllocator {
     return /** @type {T}*/(index)
   }
 
-  count(){
+  count() {
     return (this.nextid - 1)
   }
 }

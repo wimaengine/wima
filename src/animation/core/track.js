@@ -36,7 +36,6 @@ export class AnimationTrack {
       }
     }
 
-
     // the len of keyframes is equal to times
     if (this.keyframes.length / this.effector.elementSize() !== this.times.length) {
       return false
@@ -44,24 +43,24 @@ export class AnimationTrack {
 
     return true
   }
-  
+
   length() {
     return this.times.length
   }
-  
+
   /**
    * @param {any} delta
    */
   getCurrent(delta) {
     const [indexA, indexB, t] = this.getCurrentLerp(delta)
-    
+
     const computed = []
     const elementSize = this.effector.elementSize()
-    
+
     for (let i = 0; i < elementSize; i++) {
       const a = this.keyframes[indexA * elementSize + i]
       const b = this.keyframes[indexB * elementSize + i]
-      
+
       const value = lerp(a, b, t)
 
       computed[i] = value
@@ -94,11 +93,11 @@ export class AnimationTrack {
 
     const start = this.times[timestamp - 1]
     const end = this.times[timestamp]
-    
+
     const distance = start - end
     const covered = start - delta
     const centage = covered / distance
-    
+
     return [timestamp - 1, timestamp, centage]
   }
 }

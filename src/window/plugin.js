@@ -39,7 +39,7 @@ export class WindowPlugin extends Plugin {
   primaryWindowOptions
 
   /**
-   * @param {WindowPluginOptions} options 
+   * @param {WindowPluginOptions} options
    */
   constructor({
     initPrimaryWindow = true,
@@ -51,7 +51,7 @@ export class WindowPlugin extends Plugin {
   }
 
   /**
-   * @param {App} app 
+   * @param {App} app
    */
   register(app) {
     app
@@ -113,7 +113,7 @@ export class WindowPlugin extends Plugin {
 }
 
 /**
- * @param {World} world 
+ * @param {World} world
  */
 function initPrimaryWindow(world) {
   const commands = world.getResource(EntityCommands)
@@ -121,7 +121,7 @@ function initPrimaryWindow(world) {
   commands
     .spawn()
     .insertPrefab([
-      new Window(), 
+      new Window(),
       new MainWindow()
     ])
     .build()

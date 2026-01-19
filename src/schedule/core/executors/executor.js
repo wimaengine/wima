@@ -2,23 +2,23 @@ import { World } from '../../../ecs/index.js'
 import { Schedule } from '../schedule.js'
 
 /**
- * Classes which implement/extend {@link Executor `Executor`} takes a 
+ * Classes which implement/extend {@link Executor `Executor`} takes a
  * {@link Schedule schedule} and executes the systems on it
  * using a {@link World world}.
- * 
+ *
  * @see {@link ImmediateExecutor}
  * @see {@link TimeoutExecutor}
  * @see {@link IntervalExecutor}
  * @see {@link RAFExecutor}
- * 
+ *
  * @example
  * ```ts
  * class SomeExecutor extends Executor {}
- * 
+ *
  * const world = new World()
  * const schedule = new Schedule()
  * const executor = new SomeExecutor()
- * 
+ *
  * executor.start(world, schedule)
  * ```
  */

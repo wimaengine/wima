@@ -22,7 +22,7 @@ export function openWindow(entity, world) {
     element = document.createElement('canvas')
     warn(`The provided selector '${window.selector}' does not yield a canvas element.`)
   }
-  
+
   const canvas = /** @type {HTMLCanvasElement}*/(element)
 
   windows.setWindow(entity, canvas)
@@ -34,7 +34,7 @@ export function openWindow(entity, world) {
   // on the canvas element.
   canvas.tabIndex = -1
   canvas.focus()
-  
+
   setupMouseEvents(world, canvas)
   setUpTouchEvents(world, canvas)
   setUpKeyboardEvents(world, canvas)
@@ -48,8 +48,8 @@ export function openWindow(entity, world) {
 export function closeWindow(entity, world) {
   const windows = world.getResource(Windows)
   const canvas = windows.getWindow(entity)
-  
-  if(!canvas) return
+
+  if (!canvas) return
 
   canvas.remove()
   windows.delete(entity)

@@ -10,27 +10,27 @@ import { Archetype } from '../archetype/index.js'
 import { QueryFilter } from './filters/filter.js'
 
 /**
- * Enables operations to be performed on specified set 
+ * Enables operations to be performed on specified set
  * of components components on a {@link World}.
- * Ensure that the component types matches up with the 
- * component names given in the second parameter of 
+ * Ensure that the component types matches up with the
+ * component names given in the second parameter of
  * the query in lower case.
  * @example
  * ```ts
  * class A {}
  * class B {}
- * 
+ *
  * const world = new World()
  *   .registerType(A)
  *   .registerType(B)
  * const query = new Query<[A, B]>(world, ['a','b'])
- * 
+ *
  * // you can now use the query to perform operations
  * // on entities with components `A` and `B`
- * // see the {@link Query} methods to know what operations 
+ * // see the {@link Query} methods to know what operations
  * // are available
  * ```
- * 
+ *
  * @template {unknown[]} T
  * @template {QueryFilter[]} [U = []]
  */
@@ -89,7 +89,7 @@ export class Query {
       if (!archetype.has(this.descriptors)) {
         return undefined
       }
-      if(!filter(archetype, this.filters)){
+      if (!filter(archetype, this.filters)) {
         return undefined
       }
 
@@ -101,7 +101,7 @@ export class Query {
 
   /**
    * Gets the components of a given entity.
-   * 
+   *
    * @param {Entity} entity
    * @returns {T | null}
    */
@@ -127,7 +127,7 @@ export class Query {
     // SAFETY: Components are fetched in same order and types as the generic.
     return /** @type {T}*/ (components)
   }
-  
+
   /**
    * @param {EachFunc<T>} callback
    */
@@ -234,7 +234,7 @@ export class Query {
 
       sum += table.size()
     }
-    
+
     return sum
   }
 }
@@ -264,13 +264,13 @@ function filterMap(arr, callback) {
  * ### Safety
  * The table row should be guaranteed to be in bounds by the caller.
  * The table should also contain all the components described by the descriptor.
- * 
+ *
  * @template {unknown[]} T
  * @param {Table} table
  * @param {TypeId[]} descriptor
  * @param {number} row
  * @param {[...T]} list
- * 
+ *
  */
 function mapComponents(table, descriptor, row, list) {
   for (let i = 0; i < descriptor.length; i++) {
@@ -283,11 +283,11 @@ function mapComponents(table, descriptor, row, list) {
 
 /**
  * @param {Archetype} archetype
- * @param {QueryFilter[]} filters 
+ * @param {QueryFilter[]} filters
  */
 function filter(archetype, filters) {
   for (let i = 0; i < filters.length; i++) {
-    if(!filters[i].archetype(archetype.types)){
+    if (!filters[i].archetype(archetype.types)) {
       return false
     }
   }

@@ -116,7 +116,6 @@ export function genenerateDrawGizmo3Dsystem(label) {
   }
 }
 
-
 /**
  * @param {GizmoLineJoin} type
  * @returns {CanvasLineJoin}

@@ -21,7 +21,7 @@ export function setUpTouchEvents(world, target) {
 
     /** @type {Events<TouchMove>} */
     const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [TouchMove]))
-    
+
     for (let i = 0; i < e.changedTouches.length; i++) {
       dispatch.write(new TouchMove(e.changedTouches[i]))
     }

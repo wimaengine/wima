@@ -45,8 +45,8 @@ export function genRegisterBuffer(type) {
 /**
  * @template T
  * @param {Constructor<T>} type
- * @param {string} vertexSource 
- * @param {string} fragmentSource 
+ * @param {string} vertexSource
+ * @param {string} fragmentSource
  * @returns {SystemFunc}
  */
 export function genRenderPipeline(type, vertexSource, fragmentSource) {
@@ -200,7 +200,7 @@ export function queueMeshes(world) {
 
   /** @type {Assets<Mesh>} */
   const meshes = world.getResourceByTypeId(typeidGeneric(Assets, [Mesh]))
-  
+
   /** @type {MeshCache<WebGLVertexArrayObject>} */
   const cache = world.getResource(MeshCache)
   const attributes = world.getResource(AttributeMap)
@@ -244,7 +244,7 @@ export function disposeDroppedMeshes(world) {
 
   /** @type {Events<MeshDropped>} */
   const dropped = world.getResourceByTypeId(typeidGeneric(Events, [MeshDropped]))
-  
+
   /** @type {MeshCache<WebGLVertexArrayObject>} */
   const cache = world.getResource(MeshCache)
   const windows = new Query(world, [Entity, Window, MainWindow])
@@ -267,10 +267,10 @@ export function disposeDroppedMeshes(world) {
     const { id } = drop.data
     const vao = cache.get(id)
 
-    if(!vao) return
+    if (!vao) return
 
     gl.deleteVertexArray(vao)
-    
+
     cache.delete(id)
   })
 }

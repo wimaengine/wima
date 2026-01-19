@@ -7,7 +7,6 @@ import { assert } from '../logger/index.js'
 import { AppSchedule } from './schedules.js'
 import { typeid } from '../reflect/index.js'
 
-
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
 
 export class PluginRegistry {
@@ -45,9 +44,9 @@ export class PluginRegistry {
   }
 
   /**
-   * @param {App} app 
+   * @param {App} app
    */
-  register(app){
+  register(app) {
     for (let i = 0; i < this.list.length; i++) {
       this.list[i].register(app)
     }
@@ -83,7 +82,7 @@ export class App {
    * This will be removed in future revisions
    * with no prior notice after system ordering is
    * added.
-   * 
+   *
    * @type {SystemConfig[]}
    */
   systemsevents = []
@@ -107,7 +106,7 @@ export class App {
 
   /**
    * Return the world of the app.
-   * 
+   *
    * @returns {World}
    */
   getWorld() {
@@ -127,7 +126,7 @@ export class App {
    * Starts up the {@link App}.
    * Prevents calls to {@link App.registerSystem},
    * {@link App.registerPlugin} and {@link App.setResource}.
-   * 
+   *
    * @returns {this}
    */
   run() {
@@ -135,7 +134,7 @@ export class App {
 
     for (let i = 0; i < this.systemsevents.length; i++) {
       const ev = this.systemsevents[i]
-      
+
       this.systemBuilder.add(ev)
     }
 
@@ -254,7 +253,7 @@ export class PluginGroup extends Plugin {
   /**
    * @param {App} app
    */
-  register(app){
+  register(app) {
     for (const plugin of this.plugins.values()) {
       app.registerPlugin(plugin)
     }

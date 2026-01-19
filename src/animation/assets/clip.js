@@ -11,7 +11,7 @@ export class AnimationClip {
    * @type {number}
    */
   duration = 0
-  
+
   /**
    * @param {string} name
    * @param {AnimationTrack} track
@@ -20,22 +20,22 @@ export class AnimationClip {
   add(name, track) {
     const tracks = this.tracks.get(name)
 
-    if (tracks){
+    if (tracks) {
       tracks.push(track)
-    } else{
+    } else {
       this.tracks.set(name, [track])
     }
 
     return this
   }
-  
+
   /**
    * @param {string} id
    */
   getTracks(id) {
     return this.tracks.get(id)
   }
-  
+
   /**
    * @param {string} name
    * @returns {void}
@@ -43,21 +43,21 @@ export class AnimationClip {
   remove(name) {
     this.tracks.delete(name)
   }
-  
+
   calculateDuration() {
     this.duration = 0
     this.tracks.forEach((tracks) => {
       for (let i = 0; i < tracks.length; i++) {
         const track = tracks[i]
         const contender = track.times[track.times.length - 1]
-        
+
         if (this.duration < contender) {
           this.duration = contender
         }
       }
     })
   }
-  
+
   validate() {
     for (const tracks of this.tracks.values()) {
       for (let i = 0; i < tracks.length; i++) {
@@ -69,7 +69,7 @@ export class AnimationClip {
 
     return true
   }
-  
+
   static
   default() {
     return new AnimationClip()

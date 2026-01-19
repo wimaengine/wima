@@ -40,12 +40,12 @@ export class EventPlugin extends Plugin {
   register(app) {
     const { event } = this
     const name = typeidGeneric(Events, [event])
-    
+
     app
       .registerType(event)
       .getWorld()
       .setResourceByTypeId(name, new Events())
-    
+
     // TODO - Once system ordering is implemented,remove this
     // and `App.systemsevents`.
     if (this.autoClearEvent) {
@@ -53,7 +53,7 @@ export class EventPlugin extends Plugin {
     }
   }
 
-  name(){
+  name() {
     return typeidGeneric(EventPlugin, [this.event])
   }
 }

@@ -5,7 +5,7 @@
 export const TextureFormat = {
 
   // gl.DEPTH_COMPONENT
-  Depth: 0x1902, 
+  Depth: 0x1902,
   Red: 0x1903,
   Alpha: 0x1906,
   RGB: 0x1907,

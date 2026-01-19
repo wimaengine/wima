@@ -34,7 +34,7 @@ export class Mesh {
 
   /**
    * @param {string} name
-   * @returns {MeshAttributeData | undefined} 
+   * @returns {MeshAttributeData | undefined}
    */
   getAttribute(name) {
     return this.attributes.get(name)
@@ -58,7 +58,7 @@ export class Mesh {
   }
 
   /**
-   * @param {string} name 
+   * @param {string} name
    */
   deleteAttribute(name) {
     this.attributes.delete(name)
@@ -105,7 +105,7 @@ export class Mesh {
 
       positions.push(position.x, position.y)
     }
-    
+
     geometry
       .setAttribute('position2d', new MeshAttributeData(new Float32Array(positions)))
 
@@ -336,7 +336,7 @@ export class Mesh {
       switch (j) {
 
         // special handling for 1st vertex on path
-        case 0: 
+        case 0:
           dx = points[j + 1].x - points[j].x
           dy = points[j + 1].y - points[j].y
 
@@ -353,14 +353,14 @@ export class Mesh {
           break
 
           // special handling for last Vertex on path
-        case (points.length - 1): 
+        case (points.length - 1):
 
           initNormals.push(prevNormal.x, prevNormal.y, prevNormal.z)
 
           break
 
         // default handling for all vertices in between
-        default: 
+        default:
 
           dx = points[j + 1].x - points[j].x
           dy = points[j + 1].y - points[j].y
@@ -449,7 +449,7 @@ export class Mesh {
 
       // @ts-ignore
 
-      normals = [], 
+      normals = [],
 
       // @ts-ignore
       uvs = []
@@ -460,19 +460,19 @@ export class Mesh {
     buildPlane('z', 'y', 'x', -1, -1, depth, height, width, depthSegments, heightSegments)
 
     // nx
-    buildPlane('z', 'y', 'x', 1, -1, depth, height, -width, depthSegments, heightSegments) 
+    buildPlane('z', 'y', 'x', 1, -1, depth, height, -width, depthSegments, heightSegments)
 
     // py
-    buildPlane('x', 'z', 'y', 1, 1, width, depth, height, widthSegments, depthSegments) 
+    buildPlane('x', 'z', 'y', 1, 1, width, depth, height, widthSegments, depthSegments)
 
     // ny
     buildPlane('x', 'z', 'y', 1, -1, width, depth, -height, widthSegments, depthSegments)
 
     // pz
-    buildPlane('x', 'y', 'z', 1, -1, width, height, depth, widthSegments, heightSegments) 
+    buildPlane('x', 'y', 'z', 1, -1, width, height, depth, widthSegments, heightSegments)
 
     // nz
-    buildPlane('x', 'y', 'z', -1, -1, width, height, -depth, widthSegments, heightSegments) 
+    buildPlane('x', 'y', 'z', -1, -1, width, height, -depth, widthSegments, heightSegments)
 
     // SAFETY: Already guaranteed arrays contain number type.
     mesh
@@ -815,7 +815,7 @@ export class Mesh {
 
     return Mesh.cylinder(0, radius, height, radialSegments, heightSegments, openEnded, thetaStart, thetaLength)
   }
-  
+
   static default() {
     return new Mesh()
   }

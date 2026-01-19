@@ -11,7 +11,7 @@ export class AudioParser extends Parser {
    * @type {Set<string>}
    */
   extensions
-  
+
   /**
    * @private
    * @type {OfflineAudioContext}
@@ -48,7 +48,7 @@ export class AudioParser extends Parser {
     return new Audio(audiobuffer)
   }
 
-  getExtensions(){
+  getExtensions() {
 
     // audio capabilities
     const audio = document.createElement('audio')

@@ -6,8 +6,8 @@ import { invert } from '../functions/index.js'
 /**
  * Represents a 3x4 affine.
  * Can be used to represent 3 dimensional rotation, scale,skew and translation.
- * 
- * 
+ *
+ *
  *  | a | d | g | j |
  *  |---|---|---|---|
  *  | b | e | h | k |
@@ -397,7 +397,7 @@ export class Affine3 {
   }
 
   /**
-   * @param {Affine3} affine 
+   * @param {Affine3} affine
    * @returns {[Vector3,Quaternion,Vector3]}
    */
   static decompose(affine) {
@@ -593,27 +593,26 @@ export class Affine3 {
     const ty = 2 * (qz * x - qx * z)
     const tz = 2 * (qx * y - qy * x)
     const matrixA = new Matrix3(
-      affine.a, 
-      affine.d, 
+      affine.a,
+      affine.d,
       affine.f,
-      affine.b, 
-      affine.e, 
+      affine.b,
+      affine.e,
       affine.h,
-      affine.c, 
-      affine.f, 
+      affine.c,
+      affine.f,
       affine.i
     )
 
-     
     const matrixB = new Matrix3(
-      2 * (q00 + q11) - 1, 
-      2 * (q12 - q03), 
+      2 * (q00 + q11) - 1,
+      2 * (q12 - q03),
       2 * (q13 + q02),
-      2 * (q12 + q03), 
-      2 * (q00 + q22) - 1, 
+      2 * (q12 + q03),
+      2 * (q00 + q22) - 1,
       2 * (q23 + q01),
-      2 * (q13 + q02), 
-      2 * (q12 + q03), 
+      2 * (q13 + q02),
+      2 * (q12 + q03),
       2 * (q00 + q33) - 1
     )
 

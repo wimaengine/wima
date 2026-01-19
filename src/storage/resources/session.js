@@ -26,7 +26,7 @@ export class Session {
   get(k) {
     const json = sessionStorage.getItem(k)
 
-    if(!json)return undefined
+    if (!json) return undefined
 
     return JSON.parse(json)
   }

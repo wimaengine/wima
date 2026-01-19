@@ -26,9 +26,8 @@ export function synctransform3D(world) {
   })
 }
 
-
 /**
- * @param {World} world 
+ * @param {World} world
  */
 export function propagateTransform2D(world) {
   const hierachyTransforms = new RelationshipQuery(world, Children, Parent, [GlobalTransform2D])
@@ -44,7 +43,7 @@ export function propagateTransform2D(world) {
 }
 
 /**
- * @param {World} world 
+ * @param {World} world
  */
 export function propagateTransform3D(world) {
   const hierachyTransforms = new RelationshipQuery(world, Children, Parent, [GlobalTransform3D])

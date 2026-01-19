@@ -47,7 +47,7 @@ export class WebglRenderPipeline {
     for (let i = 0; i < uniformNum; i++) {
       const info = gl.getActiveUniform(this.program, i)
 
-      if(!info)continue
+      if (!info) continue
 
       const location = gl.getUniformLocation(this.program, info.name)
 
@@ -67,9 +67,9 @@ export class WebglRenderPipeline {
       const indices = gl.getActiveUniformBlockParameter(this.program, i, gl.UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES)
       const offsets = gl.getActiveUniforms(this.program, indices, gl.UNIFORM_OFFSET)
       const size = gl.getActiveUniformBlockParameter(this.program, i, gl.UNIFORM_BLOCK_DATA_SIZE)
-      
-      if(!name)continue
-      
+
+      if (!name) continue
+
       const ubo = ubos.get(name)
 
       this.uniformBuffers.set(name, {
@@ -147,7 +147,7 @@ export class WebglRenderPipeline {
     const uniform = this.uniforms.get(name)
 
     if (!uniform) return
-    
+
     gl.uniform3f(uniform.location, value.x, value.y, value.z)
   }
 

@@ -6,14 +6,14 @@ import { Schedule } from './schedule.js'
 /**
  * Stores labeled {@link Schedule schedules} which are
  * bound to a given {@link Executor executor}.
- * 
+ *
  * @example
  * ```ts
  * class SomeExecutor extends Executor {}
- * 
+ *
  * scheduler.set("primary",new SomeExecutor())
  * scheduler.set("secondary",new SomeExecutor())
- * 
+ *
  * const primarySchedule = scheduler.get("primary")
  * ```
  */

@@ -45,7 +45,7 @@ export function createBufferData(gl, type, data, bufferUsage) {
  */
 export function createShader(gl, src, type) {
   const shader = gl.createShader(type)
-  
+
   assert(shader, 'Shader could not be created.')
   gl.shaderSource(shader, src)
   gl.compileShader(shader)

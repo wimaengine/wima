@@ -1,7 +1,6 @@
 import { Affine3 } from '../../../math/index.js'
 import { Entity } from '../../../ecs/index.js'
 
-
 export class RemoteTransform3D {
 
   /**

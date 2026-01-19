@@ -4,7 +4,6 @@ import { AssetServer } from '../resources/index.js'
 import { AssetLoadFail, AssetLoadSuccess } from '../events/index.js'
 import { updateAssets, updateAssetLoadEvents, logFailedLoads } from '../systems/index.js'
 
-
 export class AssetServerPlugin extends Plugin {
 
   /**

@@ -25,7 +25,7 @@ export default new Demo(
 function init(world) {
   const server = world.getResource(AssetServer)
   const commands = world.getResource(EntityCommands)
-  
+
   world.setResource(new AudioTimer({
     mode: TimerMode.Repeat,
     duration: 5
@@ -74,12 +74,12 @@ function update(world) {
       } else if (count === 7) {
         playback.speed = 1
         playback.seek(200)
-      } else if(count === 8) {
+      } else if (count === 8) {
         timer.reset()
       }
     }
   })
-  
+
   timer.update(clock.getDelta())
 }
 

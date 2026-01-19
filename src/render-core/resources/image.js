@@ -13,7 +13,7 @@ export class ImageParser extends Parser {
   verify(_extension) {
     return true
   }
-  
+
   /**
    * @param {Response} response
    */

@@ -1,13 +1,13 @@
 import { Vector2 } from '../../../math/index.js'
 
 export class MouseLeave {
-  
+
   /**
    * @readonly
    * @type {Vector2}
    */
   position = new Vector2()
-  
+
   /**
    * @param {MouseEvent} event
    */

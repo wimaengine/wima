@@ -13,7 +13,7 @@ export class AnimationPlugin extends Plugin {
    */
   register(app) {
     const world = app.getWorld()
-    
+
     app
       .registerType(AnimationPlayer)
       .registerType(AnimationTarget)

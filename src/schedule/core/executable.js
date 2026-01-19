@@ -5,7 +5,7 @@ import { Schedule } from './schedule.js'
 /**
  * This is the binding between an {@link Executor executor} and a
  * {@link Schedule schedule}.
- * 
+ *
  * @example
  * ```ts
  * class SomeExecutor extends Executor {
@@ -13,19 +13,19 @@ import { Schedule } from './schedule.js'
  *     schedule.run(world,schedule)
  *   }
  * }
- * 
+ *
  * function helloWorld(){
  *   console.log("hello world")
  * }
- * 
+ *
  * const world = new World()
  * const schedule = new Schedule()
  * const executor = new Executor()
  * const executable = new Executable(schedule, executor)
- * 
+ *
  * //Runs the schedule with the given executor
  * //outputs "hello world" to the console.
- * executable.start() 
+ * executable.start()
  * ```
  */
 export class Executable {

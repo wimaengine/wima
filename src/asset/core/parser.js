@@ -1,7 +1,7 @@
 import { throws } from '../../logger/index.js'
 
 /**
- * @abstract 
+ * @abstract
  * @template T
  */
 export class Parser {
@@ -17,10 +17,10 @@ export class Parser {
   }
 
   /**
-   * @param {string} _extension 
+   * @param {string} _extension
    * @returns {boolean}
    */
-  verify(_extension){
+  verify(_extension) {
     throws(`Implement the method \`verify\` on \`${this.constructor.name}\``)
 
     return false

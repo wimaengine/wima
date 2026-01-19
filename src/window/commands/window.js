@@ -2,7 +2,7 @@
 import { Command } from '../../command/index.js'
 import { WindowRequest } from '../core/index.js'
 
-export class WindowCommand extends Command{
+export class WindowCommand extends Command {
 
   /**
    * @readonly
@@ -27,7 +27,7 @@ export class WindowCommand extends Command{
    * @param {WindowRequest} type
    * @param {any} data
    */
-  constructor(entity, type, data){
+  constructor(entity, type, data) {
     super()
     this.entity = entity
     this.type = type

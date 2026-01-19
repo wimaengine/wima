@@ -61,7 +61,7 @@ export class World {
 
   /**
    * @private
-   * @param {Entity} entity 
+   * @param {Entity} entity
    * @param {readonly TypeId[]} newIds
    */
   callAddComponentHook(entity, newIds) {
@@ -74,7 +74,7 @@ export class World {
 
   /**
    * @private
-   * @param {Entity} entity 
+   * @param {Entity} entity
    * @param {readonly TypeId[]} newIds
    */
   callRemoveComponentHook(entity, newIds) {
@@ -87,9 +87,9 @@ export class World {
 
   /**
    * @private
-   * @param {Entity} entity 
+   * @param {Entity} entity
    * @param {readonly TypeId[]} newIds
-   * 
+   *
    */
   callInsertComponentHook(entity, newIds) {
     for (let i = 0; i < newIds.length; i++) {
@@ -136,7 +136,7 @@ export class World {
     const entityIndex = this.entities.reserve()
     let location = this.entities.get(entityIndex)
 
-    if(!location){
+    if (!location) {
       const newLocation = new EntityLocation()
 
       this.entities.set(entityIndex, newLocation)
@@ -146,7 +146,7 @@ export class World {
     location.generation += 1
 
     // SAFETY:Object constructors can be casted from `Function` to `Constructor`
-    const newIds = (components.map((c) => typeid( /** @type {Constructor} */(c.constructor))))
+    const newIds = (components.map((c) => typeid(/** @type {Constructor} */(c.constructor))))
     const entity = new Entity(entityIndex, location.generation)
 
     newIds.push(typeid(Entity))
@@ -181,10 +181,10 @@ export class World {
     const { archetypeId: oldArchetypeId, index, tableId: oldTableId } = location
     const oldArchetype = this.archetypes.get(oldArchetypeId)
     const oldTable = this.tables.get(oldTableId)
-    
+
     if (!oldTable) return
 
-    const newIds = (components.map((c) => typeid( /** @type {Constructor} */ (c.constructor))))
+    const newIds = (components.map((c) => typeid(/** @type {Constructor} */ (c.constructor))))
     const existingIds = oldArchetype.types
     const combinedIds = [...existingIds, ...newIds]
     const [newTableId, newTable, newArchetypeId] = this.resolve(combinedIds)
@@ -202,7 +202,7 @@ export class World {
 
       if (swapped) {
         const swappedlocation = /** @type {EntityLocation} */ (this.entities.get(swapped.index))
-  
+
         swappedlocation.index = index
       }
     }
@@ -214,11 +214,11 @@ export class World {
   /**
    * @template {unknown[]} T
    * @param {Entity} entity
-   * @param {TupleConstructor<T>} components 
+   * @param {TupleConstructor<T>} components
    */
   remove(entity, components) {
     const location = this.entities.get(entity.index)
-    
+
     if (!location || location.generation !== entity.generation) {
       return
     }
@@ -226,9 +226,9 @@ export class World {
     const { archetypeId: oldArchetypeId, index, tableId: oldTableId } = location
     const oldArchetype = this.archetypes.get(oldArchetypeId)
     const oldTable = this.tables.get(oldTableId)
-    
+
     if (!oldTable) return
-    
+
     const removedIds = (components.map((c) => typeid(c)))
     const existingIds = oldArchetype.types
     const newIds = removeElements(existingIds, removedIds)
@@ -272,10 +272,10 @@ export class World {
   despawn(entity) {
     const location = this.entities.get(entity.index)
 
-    if (!location || location.generation !== entity.generation){
+    if (!location || location.generation !== entity.generation) {
       return
     }
-    
+
     const { archetypeId, tableId, index } = location
     const archetype = this.archetypes.get(archetypeId)
     const table = this.tables.get(tableId)
@@ -284,10 +284,10 @@ export class World {
 
     this.callRemoveComponentHook(entity, archetype.types)
     table.remove(index)
-    
+
     // SAFETY: The fetched component is an `Entity`.
     const swapped = /** @type {Entity | null}*/ (table.get(typeid(Entity), index))
-    
+
     // SAFETY: -1 is the invalid identifier
     location.tableId = /** @type {TableId}*/ (-1)
     location.index = /** @type {TableRow}*/ (-1)
@@ -328,7 +328,7 @@ export class World {
    * @param {Entity} entity
    * @returns {EntityCell}
    */
-  getEntity(entity){
+  getEntity(entity) {
     return new EntityCell(this, entity)
   }
 
@@ -338,7 +338,7 @@ export class World {
   getTables() {
     return this.tables
   }
- 
+
   /**
    * @returns {Archetypes}
    */
@@ -394,22 +394,22 @@ export class World {
    */
   hasResourceByTypeId(id) {
     const resource = this.resources[id]
-    
+
     if (resource) {
       return true
     }
-    
+
     const aliasedid = this.resourceAliases.get(id)
-    
+
     if (!aliasedid) return false
-    
+
     const aliasedResource = this.resources[aliasedid]
-    
+
     if (!aliasedResource) return false
-    
+
     return true
   }
-  
+
   /**
    * @template T
    * @param {TypeId} id
@@ -436,22 +436,22 @@ export class World {
    * @template T
    * @param {Constructor<T>} type
    */
-  removeResource(type){
+  removeResource(type) {
     this.removeResourceByTypeId(typeid(type))
   }
 
   /**
    * @param {TypeId} typeId
    */
-  removeResourceByTypeId(typeId){
+  removeResourceByTypeId(typeId) {
     delete this.resources[typeId]
     this.resourceAliases.delete(typeId)
   }
 
   /**
    * @template T
-   * @param {TypeId} id 
-   * @param {Constructor<T>} alias 
+   * @param {TypeId} id
+   * @param {Constructor<T>} alias
    */
   setResourceAlias(id, alias) {
     this.resourceAliases.set(typeid(alias), id)
@@ -485,7 +485,6 @@ export class World {
     this.tables.clear()
   }
 }
-
 
 /**
  * @private

@@ -10,8 +10,8 @@ import { warnOnce } from '../../logger/index.js'
 
 /**
  * @template T
- * @param {Constructor<T>} assetType 
- * @param {AssetEvents<T>} eventType 
+ * @param {Constructor<T>} assetType
+ * @param {AssetEvents<T>} eventType
  * @returns {SystemFunc}
  */
 export function updateAssetEvents(assetType, eventType) {
@@ -46,7 +46,7 @@ export function updateAssetEvents(assetType, eventType) {
       } else if (event instanceof AssetDropped) {
         droppedEvents.write(event)
       } else {
-        const name = typeid( /** @type {Constructor}*/(event.constructor))
+        const name = typeid(/** @type {Constructor}*/(event.constructor))
 
         warnOnce(`The asset event \`${name}\` is not handled!`)
       }
@@ -56,7 +56,7 @@ export function updateAssetEvents(assetType, eventType) {
 
 /**
  * @template T
- * @param {World} world 
+ * @param {World} world
  * @returns {void}
  */
 export function updateAssetLoadEvents(world) {

@@ -2,7 +2,6 @@ import { Vector2 } from '../../math/index.js'
 import { Geometry } from '../core/geometry.js'
 import { ShapeType } from '../settings.js'
 
-
 /**
  * This class makes a body tangible
  * to collision detection and response.Without it,the body will not be able to interact with other bodies.
@@ -105,7 +104,6 @@ export class Collider2D {
       new Vector2(),
       new Vector2(radius, radius)
     ])
-
 
     // @ts-ignore
     shape.type = Collider2D.Circle

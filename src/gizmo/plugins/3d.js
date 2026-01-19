@@ -22,7 +22,7 @@ export class Gizmo3DPlugin extends Plugin {
   settings
 
   /**
-   * @param {Gizmo3DPluginSettings<T>} param0 
+   * @param {Gizmo3DPluginSettings<T>} param0
    */
   constructor({
     label,

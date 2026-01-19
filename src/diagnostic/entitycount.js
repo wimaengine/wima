@@ -2,7 +2,7 @@ import { App, AppSchedule } from '../app/index.js'
 import { World, Entity, Query } from '../ecs/index.js'
 
 export class EntityCountDiagnosticPlugin {
-  
+
   /**
    * @param {App} app
    */
@@ -18,7 +18,7 @@ export class EntityCountDiagnosticPlugin {
  */
 function setUpUI() {
   const container = document.body.appendChild(document.createElement('div'))
-  
+
   container.id = 'entity-count-container'
   container.style.position = 'absolute'
   container.style.top = '34px'
@@ -37,6 +37,6 @@ function updateEntityCount(world) {
   const entities = new Query(world, [Entity])
   const num = entities.count()
   const container = document.querySelector('#entity-count-container')
-  
+
   if (container) container.innerHTML = `${num} entities`
 }

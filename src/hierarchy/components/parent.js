@@ -19,7 +19,7 @@ export class Parent {
   constructor(entity) {
     this.entity = entity
   }
-  visit(){
+  visit() {
     return [this.entity]
   }
 }

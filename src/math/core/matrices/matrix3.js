@@ -4,9 +4,9 @@ import { Vector3 } from '../vectors/index.js'
 /**
  * Represents a 3x3 square matrix.
  * Can br used to represent 3 dimensional rotation, scale and skew.
- * 
+ *
  * Column major.
- * 
+ *
  *  | a | d | g |
  *  |---|---|---|
  *  | b | e | h |
@@ -272,8 +272,8 @@ export class Matrix3 {
   }
 
   /**
-   * @param {Matrix3} matrix 
-   * @param {Matrix3} [out=new Matrix3()] 
+   * @param {Matrix3} matrix
+   * @param {Matrix3} [out=new Matrix3()]
    */
   static copy(matrix, out = new Matrix3()) {
     out.a = matrix.a
@@ -291,7 +291,7 @@ export class Matrix3 {
 
   /**
    * @param {Matrix3} matrix
-   * @param {Matrix3} [out=new Matrix3()] 
+   * @param {Matrix3} [out=new Matrix3()]
    */
   static transpose(matrix, out = new Matrix3()) {
     const { a, b, c, d, e, f, g, h, i } = matrix
@@ -310,8 +310,8 @@ export class Matrix3 {
   }
 
   /**
-   * @param {Matrix3} [out= new Matrix3()] 
-   * @returns 
+   * @param {Matrix3} [out= new Matrix3()]
+   * @returns
    */
   static identity(out = new Matrix3()) {
     Matrix3.set(1, 0, 0, 0, 1, 0, 0, 0, 1, out)
@@ -320,7 +320,7 @@ export class Matrix3 {
   }
 
   /**
-   * @param {Matrix3} out 
+   * @param {Matrix3} out
    * @returns {Matrix3}
    */
   static zero(out = new Matrix3()) {
@@ -337,7 +337,7 @@ export class Matrix3 {
   }
 
   /**
-   * @param {Matrix3} matrix 
+   * @param {Matrix3} matrix
    * @returns {number}
    */
   static trace(matrix) {
@@ -425,9 +425,9 @@ export class Matrix3 {
   }
 
   /**
-   * @param {Matrix3} matrix1 
-   * @param {Matrix3} matrix2 
-   * @param {Matrix3} out 
+   * @param {Matrix3} matrix1
+   * @param {Matrix3} matrix2
+   * @param {Matrix3} out
    */
   static multiply(matrix1, matrix2, out = new Matrix3()) {
     const a11 = matrix1.a,
@@ -485,9 +485,9 @@ export class Matrix3 {
   }
 
   /**
-   * @param {Matrix3} matrix1 
-   * @param {Matrix3} matrix2 
-   * @param {Matrix3} out 
+   * @param {Matrix3} matrix1
+   * @param {Matrix3} matrix2
+   * @param {Matrix3} out
    */
   static divide(matrix1, matrix2, out = new Matrix3()) {
     const multiplier = this.invert(matrix2)

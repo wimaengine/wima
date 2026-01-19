@@ -3,17 +3,17 @@ import { World } from '../../../ecs/index.js'
 import { Schedule } from '../schedule.js'
 
 /**
- * This executor executes every given duration after it is 
+ * This executor executes every given duration after it is
  * {@link IntervalExecutor.start started}.
- * 
+ *
  * This is a wrapper for {@link  https://developer.mozilla.org/en-US/docs/Web/API/setInterval `setInterval`}.
  */
 export class IntervalExecutor extends Executor {
 
   /**
-   * @param {number} duration 
+   * @param {number} duration
    */
-  constructor(duration = 0){
+  constructor(duration = 0) {
     super(duration)
   }
 

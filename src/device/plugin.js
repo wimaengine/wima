@@ -5,7 +5,7 @@ import { Device } from './resources/index.js'
 export class DevicePlugin extends Plugin {
 
   /**
-   * @param {App} app 
+   * @param {App} app
    */
   register(app) {
     const device = new Device()
@@ -16,7 +16,7 @@ export class DevicePlugin extends Plugin {
     // rendering capabilities
     device.capabilities.canvas = !!window.CanvasRenderingContext2D
     device.capabilities.webgl = !!window.WebGLRenderingContext
-        
+
     // @ts-ignore
     // Safety: Navigator.gpu is implemented in webgpu enabled devices
     device.capabilities.webgpu = !!navigator.gpu
@@ -33,7 +33,7 @@ export class DevicePlugin extends Plugin {
     } else if (/Windows/.test(ua)) {
       device.platform = PlatformOS.Windows
     }
-        
+
     // browser
     if (/Chrome/.test(ua)) {
       device.browser = Browser.Chrome

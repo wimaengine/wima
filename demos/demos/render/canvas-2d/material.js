@@ -25,7 +25,7 @@ export async function init(world) {
   const commands = world.getResource(EntityCommands)
   const meshes = world.getResource(MeshAssets)
   const basicMaterials = world.getResource(BasicMaterialAssets)
-  
+
   const mesh = meshes.add(Mesh.quad2D(50, 50))
   const material = basicMaterials.add(new BasicMaterial())
 

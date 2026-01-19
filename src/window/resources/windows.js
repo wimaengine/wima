@@ -12,9 +12,9 @@ export class Windows {
    * @param {Entity} entity
    * @returns {HTMLCanvasElement | undefined}
    */
-  getWindow(entity){
+  getWindow(entity) {
     const window = this.entities.get(entity.id())
-    
+
     return window
   }
 
@@ -22,14 +22,14 @@ export class Windows {
    * @param {Entity} entity
    * @param {HTMLCanvasElement} window
    */
-  setWindow(entity, window){
+  setWindow(entity, window) {
     this.entities.set(entity.id(), window)
   }
-  
+
   /**
    * @param {Entity} entity
    */
-  delete(entity){
+  delete(entity) {
     this.entities.delete(entity.id())
   }
 }

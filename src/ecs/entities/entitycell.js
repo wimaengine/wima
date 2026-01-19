@@ -8,7 +8,7 @@ import { EntityLocation } from './location.js'
 
 // TODO: This currently does not work with adding or removing components,
 // it can be improved to do that but it will require removing the same
-// functionality on the `World` class to avoid conflicting acesses. 
+// functionality on the `World` class to avoid conflicting acesses.
 export class EntityCell {
 
   /**
@@ -40,7 +40,7 @@ export class EntityCell {
     const entities = world.getEntities()
     const location = entities.get(entity.index)
 
-    if(location && location.generation === entity.generation){
+    if (location && location.generation === entity.generation) {
       this.location = location
     } else {
       this.location = new EntityLocation()
@@ -114,9 +114,9 @@ export class EntityCell {
     if (archetype) {
       return archetype.types
     }
- 
+
     return []
-    
+
   }
 
   /**

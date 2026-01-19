@@ -3,19 +3,19 @@ import { Bitset } from '../../datastructures/index.js'
 import { World } from '../../ecs/index.js'
 
 /**
- * Stores a collection of {@link SystemFunc systems} which 
+ * Stores a collection of {@link SystemFunc systems} which
  * are in order.
  * @example
  * ```ts
  * function helloWorld(){
  *   console.log("hello world")
  * }
- * 
+ *
  * const schedule = new Schedule()
- * 
+ *
  * //Add the system to the schedule
  * schedule.add(helloWorld)
- * 
+ *
  * //runs systems in the schedule
  * schedule.run()
  * ```

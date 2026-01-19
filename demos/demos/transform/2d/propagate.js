@@ -84,7 +84,7 @@ function update(world) {
   const grandChild = new Query(world, [Orientation2D], [has(Parent), without(Children)]).single()
   const delta = world.getResource(VirtualClock).getDelta()
 
-  if(!parent || !child || !grandChild) return
+  if (!parent || !child || !grandChild) return
 
   parent[0].multiply(Rotary.fromAngle(QUARTER_PI * delta))
   child[0].multiply(Rotary.fromAngle(QUARTER_PI * delta))

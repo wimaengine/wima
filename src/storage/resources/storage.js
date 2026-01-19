@@ -25,7 +25,7 @@ export class Storage {
   get(k) {
     const json = localStorage.getItem(k)
 
-    if(!json)return undefined
+    if (!json) return undefined
 
     return JSON.parse(json)
   }

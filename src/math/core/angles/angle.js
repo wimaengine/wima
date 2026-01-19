@@ -26,7 +26,7 @@ export class Angle {
    * @param {number} t
    * @param {Angle} out
    */
-  static lerp(a, b, t, out){
+  static lerp(a, b, t, out) {
     out.value = lerp(a.value, b.value, t)
   }
 

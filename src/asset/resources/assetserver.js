@@ -65,7 +65,7 @@ export class AssetServer {
 
   /**
    * @template T
-   * @param {Constructor<T>} type 
+   * @param {Constructor<T>} type
    * @param {Parser<T>} parser
    */
   registerParser(type, parser) {
@@ -124,7 +124,7 @@ export class AssetServer {
       if (typeof error === 'string') {
         message = error
       } else if (error instanceof Error) {
-        
+
         // eslint-disable-next-line prefer-destructuring
         message = error.message
       } else {
@@ -270,7 +270,7 @@ class UntypedAsset {
   /**
    * @param {TypeId} typeId
    * @param {AssetId} assetId
-   * @param {unknown} asset 
+   * @param {unknown} asset
    */
   constructor(typeId, assetId, asset) {
     this.typeId = typeId

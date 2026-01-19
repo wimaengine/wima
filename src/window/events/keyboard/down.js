@@ -1,25 +1,25 @@
 export class KeyDown {
-  
+
   /**
    * @type {string}
    */
   key
-  
+
   /**
    * @type {string}
    */
   code
-  
+
   /**
    * @type {number}
    */
   location
-  
+
   /**
    * @type {EventTarget | null}
    */
   target
-  
+
   /**
    * @param {KeyboardEvent} event
    */

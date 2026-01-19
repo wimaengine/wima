@@ -69,7 +69,6 @@ function update(world) {
   })
 }
 
-
 /**
  * @param {World} world
  */

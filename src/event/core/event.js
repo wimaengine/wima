@@ -1,6 +1,6 @@
 /**
  * Represents an event.
- * 
+ *
  * @template T
  */
 export class CEvent {
@@ -10,7 +10,7 @@ export class CEvent {
    * @type {T}
    */
   data
-    
+
   /**
    * @param {T} data
    */

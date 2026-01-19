@@ -24,7 +24,7 @@ export class Material2DPlugin extends Plugin {
   asset
 
   /**
-   * @param {Material2DPluginOptions<T>} param0 
+   * @param {Material2DPluginOptions<T>} param0
    */
   constructor({ component, asset }) {
     super()
@@ -69,7 +69,7 @@ export class Material3DPlugin extends Plugin {
   asset
 
   /**
-   * @param {Material3DPluginOptions<T>} param0 
+   * @param {Material3DPluginOptions<T>} param0
    */
   constructor({ component, asset }) {
     super()

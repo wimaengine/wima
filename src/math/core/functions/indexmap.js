@@ -1,8 +1,8 @@
 import { Vector2, Vector3 } from '../vectors/index.js'
 
 /**
- * @param {number} value 
- * @param {number} width 
+ * @param {number} value
+ * @param {number} width
  * @returns {Vector2}
  */
 export function mapToIndex2D(value, width) {

@@ -1,5 +1,5 @@
 let tmpID = 0
- 
+
 /**
  * Generates a unique id starting from 0 when called.
  *
@@ -10,10 +10,10 @@ export function generateIDBasic() {
 }
 
 /**
- * Removes an element by its index from an array by 
+ * Removes an element by its index from an array by
  * swapping it with the last element and popping it
  * off the array.
- * Use this when order of elements in the array do 
+ * Use this when order of elements in the array do
  * not matter.
  *
  * @template T
@@ -23,15 +23,15 @@ export function generateIDBasic() {
  */
 export function swapRemove(arr, index) {
   if (index === -1) return
-  if (arr.length - 1 === index){
+  if (arr.length - 1 === index) {
     arr.pop()
-     
+
     return
   }
 
   const temp2 = arr.pop()
 
-  if(!temp2)return
+  if (!temp2) return
 
   arr[index] = temp2
 
@@ -42,8 +42,8 @@ export function swapRemove(arr, index) {
  * Performs no operations on any given input.
  * Used as a callback function where no operaion
  * is required.
- * 
+ *
  * @template {any[]} T
  * @param {T} _args
  */
-export function noop(..._args){}
+export function noop(..._args) {}

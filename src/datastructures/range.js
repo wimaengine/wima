@@ -15,14 +15,14 @@ export class Range {
     this.start = start
     this.end = end
   }
-  
+
   /**
    * @returns {boolean}
    */
   valid() {
     return this.start <= this.end
   }
-  
+
   /**
    * @param {number} t
    */
