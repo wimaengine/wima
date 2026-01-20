@@ -1,4 +1,4 @@
-/** @import {Constructor, TypeId,} from '../types/index.js' */
+/** @import {Constructor, TupleFnConstructor, TypeId,} from '../types/index.js' */
 
 /**
  * This function converts a string to a `TypeId`.This function should be used in some special cases where a type does not actually exist on runtime e.g enums, union types e.t.c.
@@ -43,4 +43,14 @@ export function typeidGeneric(type, types) {
   name += `${types[types.length - 1].name}>`
 
   return /** @type {TypeId}*/ (name)
+}
+
+/**
+ * @template {(...args: any[]) => any} F
+ * @param {F} _func
+ * @param {TupleFnConstructor<Parameters<F>>} input
+ * @param {Constructor<ReturnType<F>>} output
+ */
+export function typeidFunction(_func, input, output) {
+  return setTypeId(`fn(${input.map(e=>typeid(e)).join(',')}):${typeid(output)}`)
 }
