@@ -1,5 +1,5 @@
 import { test, describe } from "node:test";
-import { Field, OpaqueInfo, StructInfo, EnumInfo, typeid, setTypeId, TypeRegistry } from "../core/index.js";
+import { Field, OpaqueInfo, StructInfo, EnumInfo, FunctionInfo, typeid, setTypeId, TypeRegistry, typeidFunction } from "../core/index.js";
 import { deepStrictEqual } from "node:assert";
 
 describe("Testing `TypeRegistry`", () => {
@@ -44,11 +44,52 @@ describe("Testing `TypeRegistry`", () => {
     deepStrictEqual(registry.getByTypeId(typeid)?.info, new EnumInfo(TestEnum))
   })
 
+  test('`TypeRegistry` registers function info by type id', () => {
+    class A {
+      value = ""
+    }
+    /**
+     * @param {A} _a
+     * @param {boolean} _b
+     * @returns 
+     */
+    function marr(_a, _b) {
+      return ""
+    }
+    // @ts-ignore
+    const id = typeidFunction(marr,[A, Boolean], String)
+    const registry = new TypeRegistry()
+
+    registry.registerTypeId(id, new FunctionInfo([typeid(Number), typeid(String)], typeid(Boolean)))
+    deepStrictEqual(
+      registry.getByTypeId(id)?.info,
+      new FunctionInfo([typeid(Number), typeid(String)], typeid(Boolean))
+    )
+  })
+
   test('`TypeRegistry` correctly unregisters types', () => {
     const registry = new TypeRegistry()
 
     registry.register(Number, OpaqueInfo.default())
     registry.unregister(Number)
     deepStrictEqual(registry.get(Number), undefined)
+  })
+
+  test('`TypeRegistry` correctly unregisters type ids', () => {
+    const registry = new TypeRegistry()
+    const id = setTypeId("ManualId")
+
+    registry.registerTypeId(id, OpaqueInfo.default())
+    registry.unregisterTypeId(id)
+    deepStrictEqual(registry.getByTypeId(id), undefined)
+  })
+
+  test('`TypeRegistry` can retrieve by type id for classes', () => {
+    class Test { }
+    const registry = new TypeRegistry()
+    const id = typeid(Test)
+
+    registry.register(Test, StructInfo.default())
+    deepStrictEqual(registry.getByTypeId(id)?.info, StructInfo.default())
   })
 })
