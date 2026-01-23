@@ -1,0 +1,1 @@
+export { default as basicScene2D } from './basic2d.js'
