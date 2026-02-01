@@ -1,5 +1,4 @@
 import {
-  Demo,
   Mesh,
   OrthographicProjection,
   Rotation3D,

@@ -1,5 +1,4 @@
 import {
-  Demo,
   Mesh,
   Rotation3D,
   World,

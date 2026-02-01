@@ -1,6 +1,6 @@
 import {
   BasicMaterial,
-  Demo,
+
   Mesh,
   Scale2D,
   World,

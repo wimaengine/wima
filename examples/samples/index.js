@@ -8,12 +8,12 @@ import { default as tween } from './tween/index.js'
 import { default as gizmos } from './gizmos/index.js'
 
 export default {
-  "animation": animation,
-  "audio": audio,
-  "transform": transform,
-  "render": render,
-  "ecs": ecs,
-  "input": input,
-  "tween": tween,
-  "gizmos": gizmos
+  'animation': animation,
+  'audio': audio,
+  'transform': transform,
+  'render': render,
+  'ecs': ecs,
+  'input': input,
+  'tween': tween,
+  'gizmos': gizmos
 }

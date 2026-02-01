@@ -22,6 +22,7 @@ import {
 import { addDefaultCamera2D, HackPlugin, setupViewport } from '../../utils.js'
 
 const app = new App()
+
 app
   .registerPlugin(new HackPlugin())
   .registerPlugin(new DefaultPlugin())
@@ -33,6 +34,7 @@ app
   .registerSystem(AppSchedule.Update, setupViewport)
   .registerDebugger(new FPSDebugger())
   .run()
+
 /**
  * @param {World} world
  */

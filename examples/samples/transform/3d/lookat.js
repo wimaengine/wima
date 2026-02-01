@@ -1,6 +1,5 @@
 import {
   BasicMaterial,
-  Demo,
   Mesh,
   World,
   Cleanup,
@@ -25,8 +24,7 @@ import {
   FPSDebugger,
   WebglRendererPlugin
 } from 'wima'
-import { addDefaultCamera3D, HackPlugin, setupViewport, setupViewportWebgl } from '../../utils.js'
-
+import { addDefaultCamera3D, HackPlugin, setupViewportWebgl } from '../../utils.js'
 
 class Target { }
 class Looker { }

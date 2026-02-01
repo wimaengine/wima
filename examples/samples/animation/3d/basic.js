@@ -1,7 +1,6 @@
 import {
   Mesh,
   World,
-  Demo,
   Cleanup,
   AnimationClip,
   AnimationTrack,
@@ -29,9 +28,10 @@ import {
   DefaultPlugin,
   DOMWindowPlugin,
   FPSDebugger,
-  WebglRendererPlugin
+  WebglRendererPlugin,
+  AnimationPlugin
 } from 'wima'
-import { addDefaultCamera3D, HackPlugin, setupViewport, setupViewportWebgl } from '../../utils.js'
+import { addDefaultCamera3D, HackPlugin, setupViewportWebgl } from '../../utils.js'
 
 const app = new App()
 
@@ -39,13 +39,16 @@ app
   .registerPlugin(new HackPlugin())
   .registerPlugin(new WebglRendererPlugin())
   .registerPlugin(new DefaultPlugin())
+  .registerPlugin(new AnimationPlugin())
   .registerPlugin(new DOMWindowPlugin())
   .registerDebugger(new FPSDebugger())
   .registerSystem(AppSchedule.Startup, init)
-  .registerSystem(AppSchedule.Update, addDefaultCamera3D)
+  .registerSystem(AppSchedule.Startup, addDefaultCamera3D)
   .registerSystem(AppSchedule.Update, setupViewportWebgl)
   .run()
-  
+
+console.log(app)
+
 /**
  * @param {World} world
  */

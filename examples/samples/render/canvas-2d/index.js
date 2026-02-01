@@ -1,5 +1,5 @@
-const materials = new URL("./material.js", import.meta.url)
+const materials = new URL('./material.js', import.meta.url)
 
 export default {
-  "materials": materials
+  'materials': materials
 }

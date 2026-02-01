@@ -18,6 +18,7 @@ import {
 import { HackPlugin, addDefaultCamera2D, setupViewport } from '../../utils.js'
 
 class Demo { }
+
 /**
  * @augments {Gizmo2D<Demo>}
  */
@@ -26,7 +27,7 @@ class DemoGizmo2D extends Gizmo2D { }
 const app = new App()
 
 // We have to alias the gizmo resource manually
-app.getWorld().setResourceAlias(typeidGeneric(Gizmo2D,[Demo]), DemoGizmo2D)
+app.getWorld().setResourceAlias(typeidGeneric(Gizmo2D, [Demo]), DemoGizmo2D)
 
 app
   .registerPlugin(new HackPlugin())

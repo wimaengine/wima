@@ -1,5 +1,4 @@
 import {
-  Demo,
   World,
   AssetServer,
   AudioPlayer,
@@ -20,12 +19,13 @@ import { HackPlugin, setupViewport } from '../utils.js'
 
 // Why use a plugin? The current implentation does not have system sets and
 // systems registered directly on the App are precede ones registered by plugins.
-// This conflict is between internal engine system and external engine systems ordering. 
+// This conflict is between internal engine system and external engine systems ordering.
 class MyPlugin extends Plugin {
+
   /**
    * @param {App} app
    */
-  register(app){
+  register(app) {
     app.registerSystem(AppSchedule.Startup, init)
   }
 }
@@ -53,7 +53,7 @@ function init(world) {
     .spawn()
     .insertPrefab([
       new AudioPlayer({
-        audio: server.load(Audio, '../assets/audio/bad-apple.m4a')
+        audio: server.load(Audio, '/audio/bad-apple.m4a')
       }),
       new Timer({
         mode: TimerMode.Repeat

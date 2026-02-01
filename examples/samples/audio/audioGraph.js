@@ -33,12 +33,13 @@ class Playing {
 
 // Why use a plugin? The current implentation does not have system sets and
 // systems registered directly on the App are precede ones registered by plugins.
-// This conflict is between internal engine system and external engine systems ordering. 
+// This conflict is between internal engine system and external engine systems ordering.
 class MyPlugin extends Plugin {
+
   /**
    * @param {App} app
    */
-  register(app){
+  register(app) {
     app.registerSystem(AppSchedule.Startup, init)
   }
 }
@@ -60,7 +61,7 @@ app
  */
 function init(world) {
   const server = world.getResource(AssetServer)
-  const handle = server.load(Audio, 'assets/audio/hit.mp3')
+  const handle = server.load(Audio, '/audio/hit.mp3')
 
   world.setResource(new Playing(handle))
 }

@@ -1,5 +1,4 @@
 import {
-  Demo,
   Mesh,
   Color,
   World,

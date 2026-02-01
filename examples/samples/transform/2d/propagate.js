@@ -1,5 +1,4 @@
 import {
-  Demo,
   World,
   VirtualClock,
   BasicMaterial,

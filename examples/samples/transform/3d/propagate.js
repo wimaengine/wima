@@ -1,5 +1,4 @@
 import {
-  Demo,
   World,
   VirtualClock,
   BasicMaterial,
@@ -26,7 +25,7 @@ import {
   FPSDebugger,
   WebglRendererPlugin
 } from 'wima'
-import { addDefaultCamera3D, HackPlugin, setupViewport, setupViewportWebgl } from '../../utils.js'
+import { addDefaultCamera3D, HackPlugin, setupViewportWebgl } from '../../utils.js'
 
 const app = new App()
 

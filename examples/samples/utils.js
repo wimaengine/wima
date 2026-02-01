@@ -10,7 +10,6 @@ import {
   Plugin,
   App,
   typeidGeneric,
-  Gizmo2D,
   Audio,
   Image,
   Mesh,
@@ -65,30 +64,30 @@ export function setupViewport(world) {
 }
 
 /**
-* @param {World} world
-*/
+ * @param {World} world
+ */
 export function setupViewportWebgl(world) {
- const windowcommands = world.getResource(WindowCommands)
- const window = new Query(world, [Entity, MainWindow]).single()
- const canvases = world.getResource(Windows)
- const width = innerWidth
- const height = innerHeight
+  const windowcommands = world.getResource(WindowCommands)
+  const window = new Query(world, [Entity, MainWindow]).single()
+  const canvases = world.getResource(Windows)
+  const width = innerWidth
+  const height = innerHeight
 
- if (!window) return warn('No main window defined.')
+  if (!window) return warn('No main window defined.')
 
- const [entity] = window
- const canvas = canvases.getWindow(entity)
+  const [entity] = window
+  const canvas = canvases.getWindow(entity)
 
- if (!canvas) return
+  if (!canvas) return
 
- const gl = canvas.getContext('webgl2')
+  const gl = canvas.getContext('webgl2')
 
- if (!gl) return
+  if (!gl) return
 
- gl.viewport(0, 0, width, height)
- windowcommands
-   .window(entity)
-   .resize(width, height)
+  gl.viewport(0, 0, width, height)
+  windowcommands
+    .window(entity)
+    .resize(width, height)
 }
 
 // Sometimes features that are supposed to be there arent, this plugin
@@ -99,6 +98,7 @@ export class HackPlugin extends Plugin {
    * @param {App} app
    */
   register(app) {
+
     // HACK: This is a hack until system sets and ordering is introduced.
     {
       app

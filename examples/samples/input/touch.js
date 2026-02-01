@@ -3,7 +3,6 @@ import {
   createTransform2D,
   World,
   Color,
-  Demo,
   Query,
   EntityCommands,
   warn,

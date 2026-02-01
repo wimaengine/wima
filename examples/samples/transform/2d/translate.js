@@ -1,6 +1,5 @@
 import {
   BasicMaterial,
-  Demo,
   Mesh,
   Position2D,
   World,
