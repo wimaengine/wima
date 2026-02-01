@@ -1,7 +1,7 @@
 {
   "include": [
     "../src",
-    "../demos"
+    "../examples"
   ],
   "exclude":[
 ],

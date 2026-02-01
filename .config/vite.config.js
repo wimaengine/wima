@@ -3,10 +3,11 @@ import {resolve} from 'path'
 import { cwd } from "process"
 
 export default defineConfig({
+    publicDir:'assets',
     server: {
         port: 8082,
         strictPort: true,
-        open: "/demos/index.html",
+        open: "/examples/index.html",
     },
     resolve: {
         alias: [{

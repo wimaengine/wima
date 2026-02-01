@@ -35,15 +35,15 @@ class TextParser extends Parser {
 describe('Testing `AssetServer`', () => {
   test('Asset is cached by server.', () => {
     const server = createServer()
-    const handle1 = server.load(Text,"/demos/assets/text/sample.txt")
-    const handle2 = server.load(Text,"/demos/assets/text/sample.txt")
+    const handle1 = server.load(Text,"/assets/text/sample.txt")
+    const handle2 = server.load(Text,"/assets/text/sample.txt")
 
     deepStrictEqual(handle1.id(),handle2.id())
   })
 
   test('Unloaded asset gets new handle when reloaded.', () => {
     const server = createServer()
-    const handle1 = server.load(Text,"/demos/assets/text/sample.txt")
+    const handle1 = server.load(Text,"/assets/text/sample.txt")
 
     
     handle1.drop()
@@ -52,8 +52,8 @@ describe('Testing `AssetServer`', () => {
     
     // TODO: Remove when handles are unique
     // handles arent unique yet, so this ensures handle is at a different index
-    const handle3 = server.load(Text,"/demos/assets/text/sample2.txt")
-    const handle2 = server.load(Text,"/demos/assets/text/sample.txt")
+    const handle3 = server.load(Text,"/assets/text/sample2.txt")
+    const handle2 = server.load(Text,"/assets/text/sample.txt")
 
     notDeepStrictEqual(handle1.id(),handle2.id())
   })
