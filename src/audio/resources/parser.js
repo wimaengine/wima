@@ -8,12 +8,6 @@ export class AudioParser extends Parser {
 
   /**
    * @private
-   * @type {Set<string>}
-   */
-  extensions
-
-  /**
-   * @private
    * @type {OfflineAudioContext}
    */
   decoder
@@ -25,17 +19,8 @@ export class AudioParser extends Parser {
     sampleRate: 44100,
     length: 512
   }) {
-    super()
+    super(Audio)
     this.decoder = new OfflineAudioContext(options)
-    this.extensions = this.getExtensions()
-  }
-
-  /**
-   * @inheritdoc
-   * @param {string} extension
-   */
-  verify(extension) {
-    return this.extensions.has(extension)
   }
 
   /**
@@ -52,19 +37,19 @@ export class AudioParser extends Parser {
 
     // audio capabilities
     const audio = document.createElement('audio')
-    const extensions = new Set()
+    const extensions = []
 
     if (audio.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/, '')) {
-      extensions.add('ogg')
+      extensions.push('ogg')
     }
     if (audio.canPlayType('audio/mpeg;').replace(/^no$/, '')) {
-      extensions.add('mp3')
+      extensions.push('mp3')
     }
     if (audio.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '')) {
-      extensions.add('wav')
+      extensions.push('wav')
     }
     if (audio.canPlayType('audio/x-m4a;').replace(/^no$/, '') || audio.canPlayType('audio/aac;').replace(/^no$/, '')) {
-      extensions.add('m4a')
+      extensions.push('m4a')
     }
 
     return extensions
