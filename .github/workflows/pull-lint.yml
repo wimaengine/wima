@@ -4,21 +4,43 @@ on:
   pull_request:
     branches: ["main","dev"]
 jobs:
-  lint-src:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      source: ${{ steps.filter.outputs.source }}
+      examples: ${{ steps.filter.outputs.examples }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            source:
+              - 'src/**'
+              - 'packages/**'
+              - 'addons/**'
+            examples:
+              - 'examples/**'
+  lint-source:
+    needs: changes
+    if: needs.changes.outputs.source == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - run: npm ci
       - run: npm run lint:src-dry -- --max-warnings=0
-  lint-demos:
+  lint-examples:
+    needs: changes
+    if: needs.changes.outputs.examples == 'true'
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
       - run: npm ci
-      - run: npm run lint:demos-dry -- --max-warnings=0
+      - run: npm run lint:examples-dry -- --max-warnings=0
   tests:
+    needs: compiles
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,6 +48,7 @@ jobs:
       - run: npm ci
       - run: npm run test
   builds:
+    needs: compiles
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -33,6 +56,8 @@ jobs:
       - run: npm ci
       - run: npm run build
   compiles:
+    needs: changes
+    if: needs.changes.outputs.source == 'true'
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v4
