@@ -1,0 +1,26 @@
+Copyright © Wima Engine Authors 2024-present. All rights reserved.
+
+Permission is granted to use this work for personal and educational purposes only, under the following conditions:
+
+1. Non-Commercial Use.
+   This work may NOT be used, in whole or in part, for any commercial purpose without the express prior written permission of the copyright holder.  
+   Commercial purposes include, but are not limited to:
+   - Selling, licensing, or otherwise monetizing the work or any derivative thereof;
+   - Using the work in any product, service, or platform that generates revenue or commercial advantage;
+   - Using the work in marketing, advertising, or promotional materials.
+
+2. No Redistribution.
+   You may NOT redistribute, upload, share, publish, or otherwise make this work or any modified version of it available to others in any form, including but not limited to public websites, repositories, file-sharing services, or physical media.
+
+3. Personal and Educational Use Only.
+   You may use and modify the work solely for your own personal study, research, practice, or classroom learning.  
+   Any modified versions must remain private and may not be shared or published.
+
+4. Attribution.
+   When referencing or displaying this work for educational purposes, appropriate credit must be given to the copyright holder, including the holder’s name and a link to the original source (if available).
+
+5. No Endorsement.
+   The copyright holder’s name, likeness, or identity may not be used to endorse or promote any derivative works, products, or services without explicit written permission.
+
+6. No Warranty.
+   This work is provided “as is,” without any express or implied warranty. The copyright holder shall not be liable for any claim, damages, or other liability arising from the use or inability to use this work.

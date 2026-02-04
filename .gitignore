@@ -2,4 +2,7 @@ node_modules
 types
 dist
 docs
+
+# Temp files
 *.txt
+!LICENSE.txt
