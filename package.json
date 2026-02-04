@@ -7,7 +7,7 @@
     "url": "https://github.com/wimaengine/wima/issues"
   },
   "type": "module",
-  "license": "MIT",
+  "license": "SEE LICENSE in LICENSE.txt",
   "main": "./dist/index.umd.js",
   "types": "./dist/index.d.ts",
   "exports": {
