@@ -11,9 +11,12 @@ jobs:
       examples: ${{ steps.filter.outputs.examples }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: dorny/paths-filter@v3
         id: filter
         with:
+          token: ''
           filters: |
             source:
               - 'src/**'
