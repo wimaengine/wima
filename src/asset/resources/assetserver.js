@@ -1,11 +1,82 @@
 /** @import { TypeId, Constructor } from '../../reflect/index.js' */
 /** @import { AssetId } from '../types/index.js' */
 import { typeid } from '../../reflect/index.js'
-import { assert } from '../../logger/index.js'
+import { assert, warn } from '../../logger/index.js'
 import { getFileExtension, swapRemove } from '../../utils/index.js'
 import { Assets, Handle, Parser } from '../core/index.js'
 import { AssetLoadSuccess, AssetLoadFail } from '../events/index.js'
 
+/**
+ * @typedef {number} ParserId
+ */
+export class Parsers {
+
+  /**
+   * @private
+   * @type {Parser<unknown>[]}
+   */
+  parsers = []
+
+  /**
+   * @private
+   * @type {Map<string, Map<TypeId,ParserId>>}
+   */
+  extensions = new Map()
+
+  /**
+   * @template T
+   * @param {Parser<T>} parser
+   */
+  add(parser) {
+    const id = this.parsers.length
+    const typeId = typeid(parser.asset)
+    const extensions = parser.getExtensions()
+
+    this.parsers.push(parser)
+
+    for (let i = 0; i < extensions.length; i++) {
+      const extension = extensions[i]
+      const extensionMap = this.extensions.get(extension)
+
+      if (extensionMap) {
+        if (extensionMap.has(typeId)) {
+          warn(`Overriding a parser already present with asset type \`${typeId}\` and with extension "${extension}"".`)
+        }
+
+        extensionMap.set(typeId, id)
+      } else {
+        this.extensions.set(extension, new Map([[typeId, id]]))
+      }
+    }
+  }
+
+  /**
+   * @template T
+   * @param {TypeId} type
+   * @param {string} extension
+   * @returns {Parser<T>}
+   * @throws {string}
+   */
+  get(type, extension) {
+    const extensions = this.extensions.get(extension)
+
+    if (!extensions) {
+      throw 'The given extension does not have a parser registered'
+    }
+
+    const parserId = extensions.get(type)
+
+    if (parserId === undefined) {
+      throw 'The given asset type does not support the given extension'
+    }
+
+    const parser = this.parsers[parserId]
+
+    assert(parser, 'Internal error: The givk&en parser index is invalid.')
+
+    return /** @type {Parser<T>} */(parser)
+  }
+}
 export class AssetServer {
 
   /**
@@ -18,9 +89,9 @@ export class AssetServer {
   /**
    * @private
    * @readonly
-   * @type {Map<TypeId, Parser<unknown>>}
+   * @type {Parsers}
    */
-  parsers = new Map()
+  parsers = new Parsers()
 
   /**
    * @private
@@ -69,7 +140,7 @@ export class AssetServer {
    * @param {Parser<T>} parser
    */
   registerParser(type, parser) {
-    this.parsers.set(typeid(type), parser)
+    this.parsers.add(parser)
   }
 
   /**
@@ -151,15 +222,7 @@ export class AssetServer {
    */
   async internalFetch(assetId, typeId, path) {
     const extension = getFileExtension(path)
-    const parser = this.parsers.get(typeId)
-
-    if (!parser) {
-      throw 'No parser registered for the asset type.'
-    }
-
-    if (!parser.verify(extension)) {
-      throw `The extension "${extension}" is not supported by \`${parser.constructor.name}\``
-    }
+    const parser = this.parsers.get(typeId, extension)
 
     const response = await fetch(path)
 

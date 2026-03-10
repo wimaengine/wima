@@ -7,11 +7,14 @@ import { Vector2 } from '../../math/index.js'
  */
 export class ImageParser extends Parser {
 
-  /**
-   * @param {string} _extension
-   */
-  verify(_extension) {
-    return true
+  constructor() {
+    super(Image)
+  }
+
+  getExtensions() {
+
+    // TODO: Actually get the supported image formats
+    return ['png', 'jpeg']
   }
 
   /**
