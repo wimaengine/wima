@@ -137,3 +137,50 @@ export class EnumInfo extends TypeInfo {
     return this.variants.entries()
   }
 }
+
+export class FunctionInfo extends TypeInfo {
+
+  /**
+   * @readonly
+   * @type {ReadonlyArray<TypeId>}
+   */
+  parameterTypes
+
+  /**
+   * @readonly
+   * @type {TypeId}
+   */
+  returnType
+
+  /**
+   * @param {TypeId[]} parameterTypes
+   * @param {TypeId} returnType
+   */
+  constructor(parameterTypes, returnType) {
+    super()
+    this.parameterTypes = parameterTypes
+    this.returnType = returnType
+  }
+
+  /**
+   * @param {number} index
+   * @returns {TypeId | undefined}
+   */
+  getParameter(index) {
+    return this.parameterTypes[index]
+  }
+
+  /**
+   * @returns {ReadonlyArray<TypeId>}
+   */
+  getParameters() {
+    return this.parameterTypes
+  }
+
+  /**
+   * @returns {TypeId}
+   */
+  getReturnType() {
+    return this.returnType
+  }
+}
