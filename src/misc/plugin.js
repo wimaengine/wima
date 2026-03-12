@@ -1,4 +1,4 @@
-import { App, Plugin } from '../app/index.js'
+import { PluginGroup } from '../app/index.js'
 import { ProfilerPlugin } from '../profiler/index.js'
 import { AudioPlugin } from '../audio/index.js'
 import { AssetServerPlugin } from '../asset/index.js'
@@ -19,36 +19,32 @@ import { DefaultTweenPlugin } from '../tween/index.js'
 import { WindowPlugin } from '../window/index.js'
 import { NamePlugin } from '../name/index.js'
 
-export class DefaultPlugin extends Plugin {
-
-  /**
-   * @param {App} app
-   */
-  register(app) {
-    app
-      .registerPlugin(new TimePlugin())
-      .registerPlugin(new NamePlugin())
-      .registerPlugin(new DevicePlugin())
-      .registerPlugin(new StoragePlugin())
-      .registerPlugin(new AssetServerPlugin())
-      .registerPlugin(new AudioPlugin())
-      .registerPlugin(new InputPlugin())
-      .registerPlugin(new HierarchyPlugin())
-      .registerPlugin(new Movable2DPlugin())
-      .registerPlugin(new Movable3DPlugin())
-      .registerPlugin(new Gravity2DPlugin())
-      .registerPlugin(new Gravity3DPlugin())
-      .registerPlugin(new Physics2DPlugin())
-      .registerPlugin(new Damping2DPlugin())
-      .registerPlugin(new Damping3DPlugin())
-      .registerPlugin(new DefaultTweenPlugin())
-      .registerPlugin(new Transform2DPlugin())
-      .registerPlugin(new Transform3DPlugin())
-      .registerPlugin(new EulerIntegrator2DPlugin())
-      .registerPlugin(new EulerIntegrator3DPlugin())
-      .registerPlugin(new ProfilerPlugin())
-      .registerPlugin(new RenderCorePlugin())
-      .registerPlugin(new WindowPlugin())
-      .registerPlugin(new CommandsPlugin())
+export class DefaultPlugin extends PluginGroup {
+  constructor() {
+    super()
+    this.add(new TimePlugin())
+    this.add(new NamePlugin())
+    this.add(new DevicePlugin())
+    this.add(new StoragePlugin())
+    this.add(new AssetServerPlugin())
+    this.add(new AudioPlugin())
+    this.add(new InputPlugin())
+    this.add(new HierarchyPlugin())
+    this.add(new Movable2DPlugin())
+    this.add(new Movable3DPlugin())
+    this.add(new Gravity2DPlugin())
+    this.add(new Gravity3DPlugin())
+    this.add(new Physics2DPlugin())
+    this.add(new Damping2DPlugin())
+    this.add(new Damping3DPlugin())
+    this.add(new DefaultTweenPlugin())
+    this.add(new Transform2DPlugin())
+    this.add(new Transform3DPlugin())
+    this.add(new EulerIntegrator2DPlugin())
+    this.add(new EulerIntegrator3DPlugin())
+    this.add(new ProfilerPlugin())
+    this.add(new RenderCorePlugin())
+    this.add(new WindowPlugin())
+    this.add(new CommandsPlugin())
   }
 }
