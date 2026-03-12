@@ -52,5 +52,5 @@ export function typeidGeneric(type, types) {
  * @param {Constructor<ReturnType<F>>} output
  */
 export function typeidFunction(_func, input, output) {
-  return setTypeId(`fn(${input.map(e=>typeid(e)).join(',')}):${typeid(output)}`)
+  return setTypeId(`fn(${input.map((e) => typeid(e)).join(',')}):${typeid(output)}`)
 }

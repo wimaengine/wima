@@ -139,6 +139,7 @@ export class EnumInfo extends TypeInfo {
 }
 
 export class FunctionInfo extends TypeInfo {
+
   /**
    * @readonly
    * @type {ReadonlyArray<TypeId>}
