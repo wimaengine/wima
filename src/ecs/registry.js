@@ -342,16 +342,17 @@ export class World {
   /**
    * @returns {ReadonlyMap<TypeId, unknown>}
    */
-  getResources(){
+  getResources() {
     return this.resources
   }
 
   /**
    * @returns {ReadonlyMap<TypeId, TypeId>}
    */
-  getResourceAliases(){
+  getResourceAliases() {
     return this.resourceAliases
   }
+
   /**
    * @returns {Archetypes}
    */
@@ -377,8 +378,9 @@ export class World {
     const resource = this.resources.get(id)
 
     if (resource) {
+
       // SAFETY: The typeid should match the type, caller's responsibility
-      return /**@type {T}*/(resource)
+      return /** @type {T}*/(resource)
     }
 
     const aliasedid = this.resourceAliases.get(id)
@@ -388,8 +390,9 @@ export class World {
     const aliasedResource = this.resources.get(aliasedid)
 
     assert(aliasedResource, `The resource alias \`${id}\` points to a non-existent resource \`${aliasedid}\`.`)
+
     // SAFETY: The aliased typeid should match the type, caller's responsibility
-    return /**@type {T}*/(aliasedResource)
+    return /** @type {T}*/(aliasedResource)
   }
 
   /**
