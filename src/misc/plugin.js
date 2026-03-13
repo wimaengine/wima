@@ -18,10 +18,12 @@ import { Transform2DPlugin, Transform3DPlugin } from '../transform/index.js'
 import { DefaultTweenPlugin } from '../tween/index.js'
 import { WindowPlugin } from '../window/index.js'
 import { NamePlugin } from '../name/index.js'
+import { ReflectPlugin } from '../reflect/plugin.js'
 
 export class DefaultPlugin extends PluginGroup {
   constructor() {
     super()
+    this.add(new ReflectPlugin())
     this.add(new TimePlugin())
     this.add(new NamePlugin())
     this.add(new DevicePlugin())
