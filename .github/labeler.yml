@@ -160,6 +160,11 @@ mod:tween:
       - any-glob-to-any-file:
           - 'src/tween/**'
 
+mod:type:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/type/**'
+
 mod:window:
   - changed-files:
       - any-glob-to-any-file:
