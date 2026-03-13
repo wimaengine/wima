@@ -1,7 +1,7 @@
 import { test, describe } from "node:test";
 import { Entity, World } from "../../index.js";
 import { deepStrictEqual } from "assert";
-import { typeid } from "../../../reflect/index.js";
+import { typeid } from "../../../type/index.js";
 
 describe("Testing `EntityCell`", () => {
   test('`EntityCell` gets correct component ids', () => {

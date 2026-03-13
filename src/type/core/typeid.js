@@ -1,4 +1,4 @@
-/** @import {Constructor, TupleFnConstructor, TypeId,} from '../types/index.js' */
+/** @import {Constructor, TupleFnConstructor, TypeId } from './typedef/index.js' */
 
 /**
  * This function converts a string to a `TypeId`.This function should be used in some special cases where a type does not actually exist on runtime e.g enums, union types e.t.c.

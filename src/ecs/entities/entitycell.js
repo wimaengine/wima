@@ -1,6 +1,6 @@
-/** @import { Constructor,TypeId } from '../../reflect/index.js' */
+/** @import { Constructor,TypeId } from '../../type/index.js' */
 /** @import {World} from '../registry.js' */
-import { typeid } from '../../reflect/index.js'
+import { typeid } from '../../type/index.js'
 import { Archetypes } from '../archetype/index.js'
 import { Tables } from '../tables/index.js'
 import { Entity } from './entity.js'

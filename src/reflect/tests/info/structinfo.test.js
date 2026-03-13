@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
 import { Field, StructInfo } from "../../core/info.js";
-import { typeid } from "../../core/typeid.js";
+import { typeid } from "../../../type/core/typeid.js";
 import { deepStrictEqual, strictEqual } from "assert";
 
 describe("Testing `StructInfo`", () => {

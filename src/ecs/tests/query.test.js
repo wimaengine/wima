@@ -1,7 +1,7 @@
 import { test, describe } from "node:test";
 import { Entity, Query, has, without, World } from "../index.js";
 import assert, { strictEqual } from "node:assert";
-import { typeid } from "../../reflect/index.js";
+import { typeid } from "../../type/index.js";
 
 describe("Testing `Query`", () => {
   test('query for single component, single entity', () => {
@@ -13,7 +13,7 @@ describe("Testing `Query`", () => {
 
     const [componentA] = components
     strictEqual(
-      typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentA.constructor)),
+      typeid(/**@type {import("../../type/index.js").Constructor}*/(componentA.constructor)),
       typeid(A)
     )
   })
@@ -27,15 +27,15 @@ describe("Testing `Query`", () => {
 
     const [componentA, componentB, componentC] = components
     strictEqual(
-      typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentA.constructor)),
+      typeid(/**@type {import("../../type/index.js").Constructor}*/(componentA.constructor)),
       typeid(A)
     )
     strictEqual(
-      typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentB.constructor)),
+      typeid(/**@type {import("../../type/index.js").Constructor}*/(componentB.constructor)),
       typeid(B)
     )
     strictEqual(
-      typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentC.constructor)),
+      typeid(/**@type {import("../../type/index.js").Constructor}*/(componentC.constructor)),
       typeid(C)
     )
   })
@@ -46,7 +46,7 @@ describe("Testing `Query`", () => {
 
     query.each(([component]) => {
       strictEqual(
-        typeid(/**@type {import("../../reflect/index.js").Constructor}*/(component.constructor)),
+        typeid(/**@type {import("../../type/index.js").Constructor}*/(component.constructor)),
         typeid(A)
       )
     })
@@ -58,15 +58,15 @@ describe("Testing `Query`", () => {
 
     query.each(([componentA, componentB, componentC]) => {
       strictEqual(
-        typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentA.constructor)),
+        typeid(/**@type {import("../../type/index.js").Constructor}*/(componentA.constructor)),
         typeid(A)
       )
       strictEqual(
-        typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentB.constructor)),
+        typeid(/**@type {import("../../type/index.js").Constructor}*/(componentB.constructor)),
         typeid(B)
       )
       strictEqual(
-        typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentC.constructor)),
+        typeid(/**@type {import("../../type/index.js").Constructor}*/(componentC.constructor)),
         typeid(C)
       )
     })
@@ -81,7 +81,7 @@ describe("Testing `Query`", () => {
 
     const [componentA] = components
     strictEqual(
-      typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentA.constructor)),
+      typeid(/**@type {import("../../type/index.js").Constructor}*/(componentA.constructor)),
       typeid(A)
     )
   })
@@ -96,15 +96,15 @@ describe("Testing `Query`", () => {
 
     const [componentA, componentB, componentC] = components
     strictEqual(
-      typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentA.constructor)),
+      typeid(/**@type {import("../../type/index.js").Constructor}*/(componentA.constructor)),
       typeid(A)
     )
     strictEqual(
-      typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentB.constructor)),
+      typeid(/**@type {import("../../type/index.js").Constructor}*/(componentB.constructor)),
       typeid(B)
     )
     strictEqual(
-      typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentC.constructor)),
+      typeid(/**@type {import("../../type/index.js").Constructor}*/(componentC.constructor)),
       typeid(C)
     )
   })
@@ -130,28 +130,28 @@ describe("Testing `Query`", () => {
 
     query.eachCombination(([componentA1, componentB1, componentC1],[componentA2, componentB2, componentC2]) => {
       strictEqual(
-        typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentA1.constructor)),
+        typeid(/**@type {import("../../type/index.js").Constructor}*/(componentA1.constructor)),
         typeid(A)
       )
       strictEqual(
-        typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentB1.constructor)),
+        typeid(/**@type {import("../../type/index.js").Constructor}*/(componentB1.constructor)),
         typeid(B)
       )
       strictEqual(
-        typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentC1.constructor)),
+        typeid(/**@type {import("../../type/index.js").Constructor}*/(componentC1.constructor)),
         typeid(C)
       )
 
       strictEqual(
-        typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentA2.constructor)),
+        typeid(/**@type {import("../../type/index.js").Constructor}*/(componentA2.constructor)),
         typeid(A)
       )
       strictEqual(
-        typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentB2.constructor)),
+        typeid(/**@type {import("../../type/index.js").Constructor}*/(componentB2.constructor)),
         typeid(B)
       )
       strictEqual(
-        typeid(/**@type {import("../../reflect/index.js").Constructor}*/(componentC2.constructor)),
+        typeid(/**@type {import("../../type/index.js").Constructor}*/(componentC2.constructor)),
         typeid(C)
       )
       count += 1

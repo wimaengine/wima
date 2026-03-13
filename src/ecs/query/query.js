@@ -1,10 +1,9 @@
-/** @import { TupleConstructor } from '../core/index.js'*/
 /** @import { TableId, TableRow } from '../typedef/index.js'*/
-/** @import { TypeId } from '../../reflect/index.js'*/
+/** @import { TypeId, TupleConstructor  } from '../../type/index.js'*/
 
 import { Entity } from '../entities/index.js'
 import { World } from '../registry.js'
-import { typeid } from '../../reflect/index.js'
+import { typeid } from '../../type/index.js'
 import { Table } from '../tables/index.js'
 import { Archetype } from '../archetype/index.js'
 import { QueryFilter } from './filters/filter.js'

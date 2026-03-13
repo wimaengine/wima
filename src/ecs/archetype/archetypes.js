@@ -1,4 +1,4 @@
-/** @import { TypeId } from '../../reflect/index.js' */
+/** @import { TypeId } from '../../type/index.js' */
 /** @import { ArchetypeId } from '../typedef/index.js' */
 import { Archetype } from './archetype.js'
 

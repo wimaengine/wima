@@ -1,9 +1,11 @@
 /**
+ * @typedef {string & { __brand:'TypeId' }} TypeId
+ */
+
+/**
  * @template [T = unknown]
  * @typedef {new (...args:any[])=>T} Constructor
  */
-
-/** @import { Constructor } from '../../reflect/index.js' */
 
 /**
  * @template {unknown[]} T

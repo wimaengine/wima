@@ -1,5 +1,5 @@
 /** @import { TableId, TableRow } from '../typedef/index.js'*/
-/** @import { TypeId } from '../../reflect/index.js'*/
+/** @import { TypeId } from '../../type/index.js'*/
 
 import { throws } from '../../logger/index.js'
 import { swapRemove } from '../../utils/index.js'

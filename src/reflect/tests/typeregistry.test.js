@@ -1,6 +1,8 @@
 import { test, describe } from "node:test";
-import { Field, OpaqueInfo, StructInfo, EnumInfo, FunctionInfo, typeid, setTypeId, TypeRegistry, typeidFunction } from "../core/index.js";
+import { Field, OpaqueInfo, StructInfo, EnumInfo, FunctionInfo } from "../core/index.js";
 import { deepStrictEqual } from "node:assert";
+import { setTypeId, typeid, typeidFunction } from "../../type/index.js";
+import { TypeRegistry } from "../resources/index.js";
 
 describe("Testing `TypeRegistry`", () => {
   const TestEnum = {
