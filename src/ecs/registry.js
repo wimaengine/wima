@@ -27,9 +27,9 @@ export class World {
 
   /**
    * @private
-   * @type {Record<TypeId,any>}
+   * @type {Map<TypeId,unknown>}
    */
-  resources = {}
+  resources = new Map()
 
   /**
    * @private
@@ -340,6 +340,20 @@ export class World {
   }
 
   /**
+   * @returns {ReadonlyMap<TypeId, unknown>}
+   */
+  getResources() {
+    return this.resources
+  }
+
+  /**
+   * @returns {ReadonlyMap<TypeId, TypeId>}
+   */
+  getResourceAliases() {
+    return this.resourceAliases
+  }
+
+  /**
    * @returns {Archetypes}
    */
   getArchetypes() {
@@ -361,21 +375,24 @@ export class World {
    * @returns {T}
    */
   getResourceByTypeId(id) {
-    const resource = this.resources[id]
+    const resource = this.resources.get(id)
 
     if (resource) {
-      return resource
+
+      // SAFETY: The typeid should match the type, caller's responsibility
+      return /** @type {T}*/(resource)
     }
 
     const aliasedid = this.resourceAliases.get(id)
 
     assert(aliasedid, `The resource or resource alias \`${id}\` is non existent.`)
 
-    const aliasedResource = this.resources[aliasedid]
+    const aliasedResource = this.resources.get(aliasedid)
 
     assert(aliasedResource, `The resource alias \`${id}\` points to a non-existent resource \`${aliasedid}\`.`)
 
-    return aliasedResource
+    // SAFETY: The aliased typeid should match the type, caller's responsibility
+    return /** @type {T}*/(aliasedResource)
   }
 
   /**
@@ -393,7 +410,7 @@ export class World {
    * @returns {boolean}
    */
   hasResourceByTypeId(id) {
-    const resource = this.resources[id]
+    const resource = this.resources.get(id)
 
     if (resource) {
       return true
@@ -403,7 +420,7 @@ export class World {
 
     if (!aliasedid) return false
 
-    const aliasedResource = this.resources[aliasedid]
+    const aliasedResource = this.resources.get(aliasedid)
 
     if (!aliasedResource) return false
 
@@ -417,7 +434,7 @@ export class World {
    * @returns {void}
    */
   setResourceByTypeId(id, resource) {
-    this.resources[id] = resource
+    this.resources.set(id, resource)
   }
 
   /**
@@ -444,7 +461,7 @@ export class World {
    * @param {TypeId} typeId
    */
   removeResourceByTypeId(typeId) {
-    delete this.resources[typeId]
+    this.resources.delete(typeId)
     this.resourceAliases.delete(typeId)
   }
 
