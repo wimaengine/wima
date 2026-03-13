@@ -345,6 +345,13 @@ export class World {
   getResources(){
     return this.resources
   }
+
+  /**
+   * @returns {ReadonlyMap<TypeId, TypeId>}
+   */
+  getResourceAliases(){
+    return this.resourceAliases
+  }
   /**
    * @returns {Archetypes}
    */
