@@ -340,6 +340,12 @@ export class World {
   }
 
   /**
+   * @returns {ReadonlyMap<TypeId, unknown>}
+   */
+  getResources(){
+    return this.resources
+  }
+  /**
    * @returns {Archetypes}
    */
   getArchetypes() {
