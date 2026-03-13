@@ -1,9 +1,9 @@
 /** @import { SystemFunc, World } from '../../ecs/index.js' */
-/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../type/index.js' */
 /** @import { AssetEvents } from '../index.js' */
 import { Assets } from '../core/index.js'
 import { Events } from '../../event/index.js'
-import { typeid, typeidGeneric } from '../../reflect/index.js'
+import { typeid, typeidGeneric } from '../../type/index.js'
 import { AssetServer } from '../resources/index.js'
 import { AssetAdded, AssetDropped, AssetModified, AssetLoadSuccess, AssetLoadFail } from '../events/index.js'
 import { warnOnce } from '../../logger/index.js'

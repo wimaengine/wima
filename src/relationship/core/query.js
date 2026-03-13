@@ -1,5 +1,5 @@
-/** @import { QueryFilter, TupleConstructor,EntityId } from '../../ecs/index.js' */
-/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { QueryFilter,EntityId } from '../../ecs/index.js' */
+/** @import { Constructor, TupleConstructor } from '../../type/index.js' */
 import { Query, World, Entity } from '../../ecs/index.js'
 import { VisitEntities } from './visitentities.js'
 

@@ -1,5 +1,4 @@
-/** @import { Constructor, TypeId } from '../reflect/index.js'*/
-/** @import { TupleConstructor } from './core/index.js'*/
+/** @import { Constructor, TypeId, TupleConstructor } from '../type/index.js'*/
 /** @import { ArchetypeId, TableId, TableRow } from './typedef/index.js'*/
 
 import { Table, Tables } from './tables/index.js'
@@ -9,7 +8,7 @@ import { ComponentHooks } from './component/index.js'
 import { Entities, Entity } from './entities/index.js'
 import { Archetypes, Archetype } from './archetype/index.js'
 import { EntityLocation } from './entities/location.js'
-import { typeid } from '../reflect/index.js'
+import { typeid } from '../type/index.js'
 import { EntityCell } from './entities/entitycell.js'
 
 export class World {

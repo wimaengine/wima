@@ -1,7 +1,7 @@
 import { test, describe } from "node:test";
 import { deepStrictEqual, throws } from "node:assert";
 import { World } from "../registry.js";
-import { typeid } from "../../reflect/index.js";
+import { typeid } from "../../type/index.js";
 import { Entity } from "../entities/entity.js";
 class A {
   number = 0

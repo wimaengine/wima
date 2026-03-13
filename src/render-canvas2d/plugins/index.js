@@ -1,8 +1,8 @@
-/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../type/index.js' */
 /** @import { Canvas2DFunction } from '../types/index.js' */
 
 import { App, AppSchedule, Plugin } from '../../app/index.js'
-import { typeidGeneric } from '../../reflect/index.js'
+import { typeidGeneric } from '../../type/index.js'
 import { genrender } from '../systems/index.js'
 import { Material } from '../../render-core/index.js'
 

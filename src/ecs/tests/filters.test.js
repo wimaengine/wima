@@ -1,7 +1,7 @@
 import { test, describe } from "node:test";
 import { has, without } from "../index.js";
 import { strictEqual } from "node:assert";
-import { typeid } from "../../reflect/index.js";
+import { typeid } from "../../type/index.js";
 
 describe("Testing query filters", () => {
   test('Testing `With` filter.', () => {

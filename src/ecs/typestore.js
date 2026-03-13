@@ -1,8 +1,8 @@
 /** @import { ComponentId } from './typedef/index.js'*/
-/** @import { Constructor,TypeId } from '../reflect/index.js'*/
+/** @import { Constructor,TypeId } from '../type/index.js'*/
 
 import { ComponentInfo } from './component/index.js'
-import { typeid } from '../reflect/index.js'
+import { typeid } from '../type/index.js'
 
 export class TypeStore {
 

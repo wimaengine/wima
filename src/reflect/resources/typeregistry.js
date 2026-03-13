@@ -1,6 +1,6 @@
-/** @import { TypeId, Constructor } from '../types/index.js' */
-import { TypeInfo } from './info.js'
-import { typeid } from './typeid.js'
+/** @import { TypeId, Constructor } from '../../type/index.js' */
+import { TypeInfo } from '../core/info.js'
+import { typeid } from '../../type/index.js'
 
 export class TypeRegistry {
 

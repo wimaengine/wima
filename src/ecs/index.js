@@ -1,6 +1,5 @@
 export * from './archetype/index.js'
 export * from './query/index.js'
-export * from './core/index.js'
 export * from './registry.js'
 export * from './typestore.js'
 export * from './component/index.js'

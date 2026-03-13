@@ -1,4 +1,4 @@
-/** @import { TypeId } from '../types/index.js' */
+/** @import { TypeId } from '../../type/index.js' */
 export class TypeInfo {}
 
 export class Field {

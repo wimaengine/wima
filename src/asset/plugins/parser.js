@@ -1,6 +1,6 @@
-/** @import {Constructor} from '../../reflect/index.js' */
+/** @import {Constructor} from '../../type/index.js' */
 import { App, AppSchedule, Plugin } from '../../app/index.js'
-import { typeidGeneric } from '../../reflect/index.js'
+import { typeidGeneric } from '../../type/index.js'
 import { Parser } from '../core/index.js'
 import { registerAssetParserOnAssetServer } from '../systems/index.js'
 

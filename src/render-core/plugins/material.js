@@ -1,7 +1,7 @@
-/** @import { Constructor, TypeId } from '../../reflect/index.js' */
+/** @import { Constructor, TypeId } from '../../type/index.js' */
 
 import { App, AppSchedule, Plugin } from '../../app/index.js'
-import { typeidGeneric } from '../../reflect/index.js'
+import { typeidGeneric } from '../../type/index.js'
 import { Material } from '../assets/index.js'
 import { Material2D, Material3D } from '../components/index.js'
 import { genBinRenderables2D, genBinRenderables3D } from '../systems/index.js'

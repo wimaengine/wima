@@ -1,6 +1,6 @@
-/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../type/index.js' */
 import { App, AppSchedule, Plugin } from '../../app/index.js'
-import { typeidGeneric } from '../../reflect/index.js'
+import { typeidGeneric } from '../../type/index.js'
 import { Gizmo2D, GizmoSettings } from '../core/index.js'
 import { genenerateDrawGizmo2Dsystem } from '../systems/index.js'
 

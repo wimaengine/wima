@@ -1,5 +1,5 @@
 /** @import {AssetId} from '../../asset/index.js' */
-/** @import {TypeId} from '../../reflect/index.js' */
+/** @import {TypeId} from '../../type/index.js' */
 import { GlobalTransform2D, GlobalTransform3D } from '../../transform/index.js'
 
 /**

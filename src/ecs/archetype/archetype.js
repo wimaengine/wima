@@ -1,4 +1,4 @@
-/** @import { TypeId } from '../../reflect/index.js' */
+/** @import { TypeId } from '../../type/index.js' */
 /** @import { TableId } from '../typedef/index.js' */
 
 export class Archetype {

@@ -1,12 +1,12 @@
 /** @import {SystemFunc, World} from '../../ecs/index.js' */
-/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../type/index.js' */
 /** @import {UniformBind } from '../../render-core/index.js' */
 /** @import { AssetId } from '../../asset/index.js' */
 
 import { Entity, Query } from '../../ecs/index.js'
 import { assert, warn } from '../../logger/index.js'
 import { Windows, MainWindow, Window } from '../../window/index.js'
-import { typeid, typeidGeneric } from '../../reflect/index.js'
+import { typeid, typeidGeneric } from '../../type/index.js'
 import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from '../resources/index.js'
 import { Camera, Material, Mesh, MeshAdded, MeshModified, MeshDropped, RenderLists3D, ShaderStage } from '../../render-core/index.js'
 import { WebglRenderPipeline, createShader, validateShader, createProgram, validateProgram, createVAO } from '../core/index.js'

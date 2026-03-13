@@ -4,7 +4,7 @@ import { KeyUp, KeyDown } from '../window/index.js'
 import { Events } from '../event/index.js'
 import { World } from '../ecs/index.js'
 import { KeyCode } from './core/key.js'
-import { typeidGeneric } from '../reflect/index.js'
+import { typeidGeneric } from '../type/index.js'
 
 export class KeyboardPlugin extends Plugin {
 

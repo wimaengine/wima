@@ -1,7 +1,7 @@
 import { App, Plugin } from '../app/index.js'
 import { OpaqueInfo } from './core/info.js'
-import { setTypeId } from './core/typeid.js'
-import { TypeRegistry } from './core/typeregistry.js'
+import { setTypeId } from '../type/index.js'
+import { TypeRegistry } from './resources/index.js'
 
 export class ReflectPlugin extends Plugin {
 

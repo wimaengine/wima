@@ -1,5 +1,5 @@
-/** @import { TypeId, Constructor } from '../../../reflect/index.js'*/
-import { typeid } from '../../../reflect/index.js'
+/** @import { TypeId, Constructor } from '../../../type/index.js'*/
+import { typeid } from '../../../type/index.js'
 
 /**
  * @interface
