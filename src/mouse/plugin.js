@@ -5,7 +5,7 @@ import { World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
 import { MouseDown, MouseMove, MouseUp } from '../window/index.js'
 import { Vector2 } from '../math/index.js'
-import { typeidGeneric } from '../reflect/index.js'
+import { typeidGeneric } from '../type/index.js'
 
 export class MousePlugin extends Plugin {
 

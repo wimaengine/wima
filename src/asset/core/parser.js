@@ -1,4 +1,4 @@
-/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../type/index.js' */
 import { throws } from '../../logger/index.js'
 
 /**

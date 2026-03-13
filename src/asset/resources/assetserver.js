@@ -1,6 +1,6 @@
-/** @import { TypeId, Constructor } from '../../reflect/index.js' */
+/** @import { TypeId, Constructor } from '../../type/index.js' */
 /** @import { AssetId } from '../types/index.js' */
-import { typeid } from '../../reflect/index.js'
+import { typeid } from '../../type/index.js'
 import { assert, warn } from '../../logger/index.js'
 import { getFileExtension, swapRemove } from '../../utils/index.js'
 import { Assets, Handle, Parser } from '../core/index.js'

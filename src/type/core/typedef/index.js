@@ -9,6 +9,6 @@
 
 /**
  * @template {unknown[]} T
- * @typedef {{[K in keyof T]:Constructor<T[K]>}} TupleFnConstructor
+ * @typedef {{[K in keyof T]:Constructor<T[K]>}} TupleConstructor
  */
 export default {}

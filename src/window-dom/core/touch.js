@@ -1,6 +1,6 @@
 import { World } from '../../ecs/index.js'
 import { Events } from '../../event/index.js'
-import { typeidGeneric } from '../../reflect/index.js'
+import { typeidGeneric } from '../../type/index.js'
 import { TouchCancel, TouchEnd, TouchMove, TouchStart } from '../../window/index.js'
 
 /**

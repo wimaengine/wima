@@ -1,7 +1,7 @@
 import { App, AppSchedule, Plugin } from '../app/index.js'
 import { AssetParserPlugin, AssetPlugin, Assets } from '../asset/index.js'
 import { ComponentHooks } from '../ecs/index.js'
-import { typeidGeneric } from '../reflect/index.js'
+import { typeidGeneric } from '../type/index.js'
 import { Audio } from './assets/index.js'
 import { AudioPlayer, AudioOscillator, removeAudioPlayerSink, removeOscillatorSink } from './components/index.js'
 import { AudioAdded, AudioDropped, AudioModified } from './events/index.js'

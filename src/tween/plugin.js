@@ -14,7 +14,7 @@ import {
 import { Vector2, Quaternion, Vector3, Rotary } from '../math/index.js'
 import { generateTweenFlipSystem, generateTweenRepeatTween, generateTweenTimerSystem, generateTweenUpdateSystem } from './systems/index.js'
 import { Orientation2D, Orientation3D, Position2D, Position3D, Scale2D, Scale3D } from '../transform/index.js'
-import { typeidGeneric } from '../reflect/index.js'
+import { typeidGeneric } from '../type/index.js'
 
 export class DefaultTweenPlugin extends Plugin {
 

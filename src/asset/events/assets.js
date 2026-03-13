@@ -1,5 +1,5 @@
 /** @import { AssetId } from '../types/index.js' */
-/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../type/index.js' */
 
 /**
  * @abstract

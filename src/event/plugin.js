@@ -1,10 +1,10 @@
-/** @import { Constructor } from '../reflect/index.js'*/
+/** @import { Constructor } from '../type/index.js'*/
 
 import { App, AppSchedule, Plugin } from '../app/index.js'
 import { SystemConfig } from '../schedule/index.js'
 import { makeEventClear } from './systems/index.js'
 import { Events } from './core/index.js'
-import { typeidGeneric } from '../reflect/index.js'
+import { typeidGeneric } from '../type/index.js'
 
 /**
  * @template T

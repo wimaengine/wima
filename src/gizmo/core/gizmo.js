@@ -1,4 +1,4 @@
-/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../type/index.js' */
 import { Color } from '../../color/index.js'
 import { Affine2, Affine3, Vector2, Vector3, BVector2, TAU, Rotary } from '../../math/index.js'
 import { GizmoSettings } from './settings.js'
