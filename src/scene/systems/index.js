@@ -17,7 +17,7 @@ export function spawnScenes(world) {
 
     const list = spawner.get(assetId)
     for (let i = 0; i < list.length; i++) {
-      const entity = new Entity(list[i])
+      const entity = Entity.from(list[i])
       const instance = instances.get(entity)
 
       if (!instance) continue

@@ -1,7 +1,6 @@
 import {
   Mesh,
   World,
-  Demo,
   EntityCommands,
   Cleanup,
   BasicMaterial,
@@ -16,10 +15,15 @@ import {
   createCamera3D,
   MeshAssets,
   BasicMaterialAssets,
-  Color
+  Color,
+  App,
+  AppSchedule,
+  DefaultPlugin,
+  DOMWindowPlugin,
+  FPSDebugger,
+  WebglRendererPlugin
 } from 'wima'
-
-export default new Demo('scene/basic 3d', [init])
+import { HackPlugin, setupViewportWebgl } from '../utils.js'
 
 const itemWidth = 0.5
 const itemHeight = 0.5
@@ -27,6 +31,19 @@ const itemDepth = 0.5
 const paddingWidth = 0.2
 const paddingHeight = 0.2
 const paddingDepth = 0.2
+
+const app = new App()
+
+app
+  .registerPlugin(new HackPlugin())
+  .registerPlugin(new WebglRendererPlugin())
+  .registerPlugin(new DefaultPlugin())
+  .registerPlugin(new DOMWindowPlugin())
+  .registerDebugger(new FPSDebugger())
+  .registerSystem(AppSchedule.Startup, init)
+  .registerSystem(AppSchedule.Update, setupViewportWebgl)
+  .run()
+
 /**
  * @param {World} world
  */
@@ -73,7 +90,7 @@ function createScene(meshes, materials) {
   for (let x = -halfWidth; x <= halfWidth; x += itemWidth) {
     for (let y = -halfHeight; y <= halfHeight; y += itemHeight) {
       for (let z = -halfDepth; z <= halfDepth; z += itemDepth) {
-        scene.set(new Entity(index), [
+        scene.set(new Entity(index, 1), [
           ...createTransform3D(x, y, z),
           new Meshed(mesh.clone()),
           new BasicMaterial3D(material.clone()),
@@ -83,7 +100,7 @@ function createScene(meshes, materials) {
       }
     }
   }
-  scene.set(new Entity(index), [...createCamera3D(0,0,5), new Cleanup()])
+  scene.set(new Entity(index, 1), [...createCamera3D(0,0,5), new Cleanup()])
 
   // We drop these since they are unused.
   mesh.drop()

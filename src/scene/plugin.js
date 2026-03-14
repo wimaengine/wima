@@ -6,7 +6,7 @@ import { SceneAssets, SceneSpawner } from './resources/index.js'
 import { initSceneInstance } from './hooks/index.js';
 import { AssetPlugin, Assets } from '../asset/index.js';
 import { SceneAdded, SceneDropped, SceneModified } from './events/index.js';
-import { typeidGeneric } from '../reflect/index.js';
+import { typeidGeneric } from '../type/index.js';
 import { spawnScenes } from './systems/index.js';
 
 export class ScenePlugin extends Plugin {

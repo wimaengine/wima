@@ -2,7 +2,6 @@ import {
   Mesh,
   createTransform2D,
   World,
-  Demo,
   EntityCommands,
   Cleanup,
   BasicMaterial,
@@ -16,15 +15,31 @@ import {
   createCamera2D,
   MeshAssets,
   BasicMaterialAssets,
-  Color
+  Color,
+  AppSchedule,
+  Canvas2DRendererPlugin,
+  DefaultPlugin,
+  DOMWindowPlugin,
+  FPSDebugger,
+  App
 } from 'wima'
-
-export default new Demo('scene/basic 2d', [init])
+import { HackPlugin, setupViewport } from '../utils.js'
 
 const itemWidth = 50
 const itemHeight = 50
 const paddingWidth = 10
 const paddingHeight = 10
+
+const app = new App()
+app
+  .registerPlugin(new HackPlugin())
+  .registerPlugin(new DefaultPlugin())
+  .registerPlugin(new DOMWindowPlugin())
+  .registerPlugin(new Canvas2DRendererPlugin())
+  .registerSystem(AppSchedule.Startup, init)
+  .registerSystem(AppSchedule.Update, setupViewport)
+  .registerDebugger(new FPSDebugger())
+  .run()
 
 /**
  * @param {World} world
@@ -68,7 +83,7 @@ function createScene(meshes, materials) {
   // Adds the entities to the scene
   for (let y = -halfHeight; y <= halfHeight; y += itemHeight) {
     for (let x = -halfWidth; x < halfWidth; x += itemWidth) {
-      scene.set(new Entity(index), [
+      scene.set(new Entity(index, 1), [
         ...createTransform2D(x, y),
         new Meshed(mesh.clone()),
         new BasicMaterial2D(material.clone()),
@@ -77,7 +92,7 @@ function createScene(meshes, materials) {
       index += 1
     }
   }
-  scene.set(new Entity(index), [...createCamera2D(), new Cleanup()])
+  scene.set(new Entity(index, 1), [...createCamera2D(), new Cleanup()])
   // We drop these since they are unused.
   mesh.drop()
   material.drop()

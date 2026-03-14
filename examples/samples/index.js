@@ -6,6 +6,7 @@ import { default as ecs } from './ecs/index.js'
 import { default as input } from './input/index.js'
 import { default as tween } from './tween/index.js'
 import { default as gizmos } from './gizmos/index.js'
+import { default as scene } from './scene/index.js'
 
 export default {
   'animation': animation,
@@ -15,5 +16,6 @@ export default {
   'ecs': ecs,
   'input': input,
   'tween': tween,
-  'gizmos': gizmos
+  'gizmos': gizmos,
+  'scene': scene,
 }
