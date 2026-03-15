@@ -1,6 +1,6 @@
-import { Entity, Query, World } from "../../ecs/index.js"
-import { SceneInstance } from "../components/index.js"
-import { SceneAssets, SceneSpawner } from "../resources/index.js"
+import { Entity, Query, World } from '../../ecs/index.js'
+import { SceneInstance } from '../components/index.js'
+import { SceneAssets, SceneSpawner } from '../resources/index.js'
 
 /**
  * @param {World} world
@@ -16,6 +16,7 @@ export function spawnScenes(world) {
     if (!scene) continue
 
     const list = spawner.get(assetId)
+
     for (let i = 0; i < list.length; i++) {
       const entity = Entity.from(list[i])
       const instance = instances.get(entity)
@@ -23,9 +24,10 @@ export function spawnScenes(world) {
       if (!instance) continue
 
       // TODO: Actually supply a type registry
-      //@ts-ignore
-      scene.toWorld(world,instance[0],undefined)
+      // @ts-ignore
+      scene.toWorld(world, instance[0], undefined)
     }
+
     spawner.clear(assetId)
   }
 }

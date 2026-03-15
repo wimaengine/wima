@@ -54,6 +54,7 @@ function init(world) {
   const materials = world.getResource(BasicMaterialAssets)
 
   const scene = scenes.add(createScene(meshes, materials))
+
   commands
     .spawn()
     .insertPrefab([
@@ -79,13 +80,14 @@ function createScene(meshes, materials) {
   const mesh = meshes.add(Mesh.cube(
     itemHeight - paddingWidth,
     itemWidth - paddingHeight,
-    itemDepth - paddingDepth,
+    itemDepth - paddingDepth
   ))
   const material = materials.add(new BasicMaterial({
     color: new Color(0, 1, 1)
   }))
 
   let index = 0
+
   // Adds the entities to the scene
   for (let x = -halfWidth; x <= halfWidth; x += itemWidth) {
     for (let y = -halfHeight; y <= halfHeight; y += itemHeight) {
@@ -100,7 +102,8 @@ function createScene(meshes, materials) {
       }
     }
   }
-  scene.set(new Entity(index, 1), [...createCamera3D(0,0,5), new Cleanup()])
+
+  scene.set(new Entity(index, 1), [...createCamera3D(0, 0, 5), new Cleanup()])
 
   // We drop these since they are unused.
   mesh.drop()

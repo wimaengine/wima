@@ -31,6 +31,7 @@ const paddingWidth = 10
 const paddingHeight = 10
 
 const app = new App()
+
 app
   .registerPlugin(new HackPlugin())
   .registerPlugin(new DefaultPlugin())
@@ -50,7 +51,8 @@ function init(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const scene = scenes.add(createScene(meshes,materials))
+  const scene = scenes.add(createScene(meshes, materials))
+
   commands
     .spawn()
     .insertPrefab([
@@ -76,10 +78,11 @@ function createScene(meshes, materials) {
     itemWidth - paddingHeight
   ))
   const material = materials.add(new BasicMaterial({
-    color:new Color(1,1,0)
+    color:new Color(1, 1, 0)
   }))
 
   let index = 0
+
   // Adds the entities to the scene
   for (let y = -halfHeight; y <= halfHeight; y += itemHeight) {
     for (let x = -halfWidth; x < halfWidth; x += itemWidth) {
@@ -92,9 +95,12 @@ function createScene(meshes, materials) {
       index += 1
     }
   }
+
   scene.set(new Entity(index, 1), [...createCamera2D(), new Cleanup()])
+
   // We drop these since they are unused.
   mesh.drop()
   material.drop()
+
   return scene
 }

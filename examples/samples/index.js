@@ -17,5 +17,5 @@ export default {
   'input': input,
   'tween': tween,
   'gizmos': gizmos,
-  'scene': scene,
+  'scene': scene
 }

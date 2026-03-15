@@ -1,15 +1,16 @@
-import { App, AppSchedule, Plugin } from '../app/index.js';
-import { ComponentHooks } from '../ecs/index.js';
+import { App, AppSchedule, Plugin } from '../app/index.js'
+import { ComponentHooks } from '../ecs/index.js'
 import { Scene } from './assets/index.js'
 import { SceneInstance } from './components/index.js'
 import { SceneAssets, SceneSpawner } from './resources/index.js'
-import { initSceneInstance } from './hooks/index.js';
-import { AssetPlugin, Assets } from '../asset/index.js';
-import { SceneAdded, SceneDropped, SceneModified } from './events/index.js';
-import { typeidGeneric } from '../type/index.js';
-import { spawnScenes } from './systems/index.js';
+import { initSceneInstance } from './hooks/index.js'
+import { AssetPlugin, Assets } from '../asset/index.js'
+import { SceneAdded, SceneDropped, SceneModified } from './events/index.js'
+import { typeidGeneric } from '../type/index.js'
+import { spawnScenes } from './systems/index.js'
 
 export class ScenePlugin extends Plugin {
+
   /**
    * @param {App} app
    */
@@ -28,9 +29,10 @@ export class ScenePlugin extends Plugin {
       .setComponentHooks(SceneInstance, new ComponentHooks(
         initSceneInstance
       ))
-      .registerSystem(AppSchedule.Update,spawnScenes)
+      .registerSystem(AppSchedule.Update, spawnScenes)
 
-      const world = app.getWorld()
-      world.setResourceAlias(typeidGeneric(Assets,[Scene]),SceneAssets)
-    }
+    const world = app.getWorld()
+
+    world.setResourceAlias(typeidGeneric(Assets, [Scene]), SceneAssets)
+  }
 }
