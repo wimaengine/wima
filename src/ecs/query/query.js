@@ -116,7 +116,7 @@ export class Query {
 
     if (table === undefined) return null
     if (!tableIds.includes(tableId)) return null
-    if (index > table.size() || index < 0) return null
+    if (index >= table.size() || index < 0) return null
 
     const components = new Array(this.descriptors.length)
 
@@ -168,7 +168,7 @@ export class Query {
       if (!table1) continue
 
       for (let j = i; j < tableIds.length; j++) {
-        const table2 = tables.get(tableIds[i])
+        const table2 = tables.get(tableIds[j])
 
         if (!table2) continue
 
