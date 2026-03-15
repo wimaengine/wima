@@ -1,26 +1,34 @@
-Copyright © Wima Engine Authors 2024-present. All rights reserved.
+Copyright © Wima Engine Authors 2024–present.
 
-Permission is granted to use this work for personal and educational purposes only, under the following conditions:
+Permission is hereby granted to any person obtaining a copy of this work and associated documentation files (the “Work”) to use, copy, modify, and redistribute the Work, subject to the following conditions:
 
-1. Non-Commercial Use.
-   This work may NOT be used, in whole or in part, for any commercial purpose without the express prior written permission of the copyright holder.  
+1. Non-Commercial Use Only
+   The Work and any derivative works may not be used, in whole or in part, for any commercial purpose without prior written permission from the copyright holder.
+
    Commercial purposes include, but are not limited to:
-   - Selling, licensing, or otherwise monetizing the work or any derivative thereof;
-   - Using the work in any product, service, or platform that generates revenue or commercial advantage;
-   - Using the work in marketing, advertising, or promotional materials.
 
-2. No Redistribution.
-   You may NOT redistribute, upload, share, publish, or otherwise make this work or any modified version of it available to others in any form, including but not limited to public websites, repositories, file-sharing services, or physical media.
+   * Selling, licensing, sublicensing, or otherwise monetizing the Work or any derivative works;
+   * Using the Work within any product, service, or platform that generates revenue or commercial advantage.
 
-3. Personal and Educational Use Only.
-   You may use and modify the work solely for your own personal study, research, practice, or classroom learning.  
-   Any modified versions must remain private and may not be shared or published.
+   This restriction applies only to the software itself and derivative software.
+   It does not restrict creating educational, journalistic, or informational content about the Work, including tutorials, videos, blogs, documentation, reviews, or demonstrations, even if such content generates revenue.
 
-4. Attribution.
-   When referencing or displaying this work for educational purposes, appropriate credit must be given to the copyright holder, including the holder’s name and a link to the original source (if available).
+2. Redistribution and Collaboration
+   You may copy, redistribute, publish, and share the Work, including modified versions of it, in any medium or format.
 
-5. No Endorsement.
-   The copyright holder’s name, likeness, or identity may not be used to endorse or promote any derivative works, products, or services without explicit written permission.
+3. Share-Alike Requirement
+   Any modified or derivative versions of the Work must be distributed under the same license terms as this license.
 
-6. No Warranty.
-   This work is provided “as is,” without any express or implied warranty. The copyright holder shall not be liable for any claim, damages, or other liability arising from the use or inability to use this work.
+4. Attribution
+   All copies or substantial portions of the Work, including modified versions, must include:
+
+   * Proper credit to the original copyright holder; and
+   * A copy of this license or a link to the original source repository.
+
+5. No Endorsement
+   The name, identity, or likeness of the copyright holder or contributors may not be used to endorse or promote derivative works, products, or services without explicit prior written permission.
+
+6. No Warranty
+   The Work is provided “as is”, without warranty of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.
+
+   In no event shall the authors or copyright holders be liable for any claim, damages, or other liability arising from, out of, or in connection with the Work or the use or other dealings in the Work.
