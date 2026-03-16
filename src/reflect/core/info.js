@@ -184,3 +184,27 @@ export class FunctionInfo extends TypeInfo {
     return this.returnType
   }
 }
+
+export class ArrayInfo extends TypeInfo {
+
+  /**
+   * @readonly
+   * @type {TypeId}
+   */
+  elementType
+
+  /**
+   * @param {TypeId} elementType
+   */
+  constructor(elementType) {
+    super()
+    this.elementType = elementType
+  }
+
+  /**
+   * @returns {TypeId}
+   */
+  getElementType() {
+    return this.elementType
+  }
+}
