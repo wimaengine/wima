@@ -208,3 +208,27 @@ export class ArrayInfo extends TypeInfo {
     return this.elementType
   }
 }
+
+export class SetInfo extends TypeInfo {
+
+  /**
+   * @readonly
+   * @type {TypeId}
+   */
+  elementType
+
+  /**
+   * @param {TypeId} elementType
+   */
+  constructor(elementType) {
+    super()
+    this.elementType = elementType
+  }
+
+  /**
+   * @returns {TypeId}
+   */
+  getElementType() {
+    return this.elementType
+  }
+}
