@@ -13,9 +13,9 @@ export class Broadphase2DPlugin extends Plugin {
   innerBroadphase
 
   /**
-   * @param {Broadphase2DPluginOptions} options 
+   * @param {Broadphase2DPluginOptions} options
    */
-  constructor({ broadphase }){
+  constructor({ broadphase }) {
     super()
     this.innerBroadphase = broadphase
   }

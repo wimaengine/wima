@@ -1,11 +1,11 @@
 import { World } from '../../ecs/index.js'
 import { Events } from '../../event/index.js'
-import { typeidGeneric } from '../../reflect/index.js'
+import { typeidGeneric } from '../../type/index.js'
 import { MouseDown, MouseUp, MouseMove, MouseWheel, MouseEnter, MouseLeave } from '../../window/index.js'
 
 /**
  * @param {World} world
- * @param {HTMLElement} target 
+ * @param {HTMLElement} target
  */
 export function setupMouseEvents(world, target) {
   target.addEventListener('mousedown', (e) => {

@@ -17,7 +17,7 @@ export class RemoteTransform2DPlugin extends Plugin {
 export class RemoteTransform3DPlugin extends Plugin {
 
   /**
-   * @param {App} app 
+   * @param {App} app
    */
   register(app) {
     app

@@ -1,10 +1,10 @@
-/** @import {Constructor} from '../../reflect/index.js' */
+/** @import {Constructor} from '../../type/index.js' */
 /** @import {Canvas2DFunction} from '../types/index.js' */
 /** @import {SystemFunc} from '../../ecs/index.js' */
 import { Assets } from '../../asset/index.js'
 import { Entity, Query } from '../../ecs/index.js'
 import { warn } from '../../logger/index.js'
-import { typeidGeneric, typeid } from '../../reflect/index.js'
+import { typeidGeneric, typeid } from '../../type/index.js'
 import { Material, Mesh, TextureCache, RenderLists2D, Camera } from '../../render-core/index.js'
 import { GlobalTransform2D } from '../../transform/index.js'
 import { MainWindow, Windows, Window } from '../../window/index.js'
@@ -12,8 +12,8 @@ import { MainWindow, Windows, Window } from '../../window/index.js'
 /**
  * @template {Material} T
  * @param {Constructor<T>} type
- * @param {Canvas2DFunction<T>} renderMaterial 
- * @returns {SystemFunc} 
+ * @param {Canvas2DFunction<T>} renderMaterial
+ * @returns {SystemFunc}
  */
 export function genrender(type, renderMaterial) {
   const meshid = typeidGeneric(Assets, [Mesh])

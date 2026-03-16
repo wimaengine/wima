@@ -38,7 +38,6 @@ export class Geometry {
     for (let i = 0; i < geometry.normals.length; i++) {
       const normal = Vector2.rotate(geometry.normals[i], angle)
 
-
       // @ts-ignore
       out.push(normal)
     }

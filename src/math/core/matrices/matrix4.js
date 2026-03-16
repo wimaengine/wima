@@ -3,9 +3,9 @@ import { invert } from '../functions/index.js'
 /**
  * Represents a 4x4 square matrix.
  * Can be used to represent 3 dimensional rotation, scale and skew.
- * 
+ *
  * Column major.
- * 
+ *
  *  | a | e | i | m |
  *  |---|---|---|---|
  *  | b | f | j | n |
@@ -95,22 +95,22 @@ export class Matrix4 {
   p = 1
 
   /**
-   * @param {number} n11 
-   * @param {number} n12 
-   * @param {number} n13 
-   * @param {number} n14 
-   * @param {number} n21 
-   * @param {number} n22 
-   * @param {number} n23 
-   * @param {number} n24 
-   * @param {number} n31 
-   * @param {number} n32 
-   * @param {number} n33 
-   * @param {number} n34 
-   * @param {number} n41 
-   * @param {number} n42 
-   * @param {number} n43 
-   * @param {number} n44 
+   * @param {number} n11
+   * @param {number} n12
+   * @param {number} n13
+   * @param {number} n14
+   * @param {number} n21
+   * @param {number} n22
+   * @param {number} n23
+   * @param {number} n24
+   * @param {number} n31
+   * @param {number} n32
+   * @param {number} n33
+   * @param {number} n34
+   * @param {number} n41
+   * @param {number} n42
+   * @param {number} n43
+   * @param {number} n44
    */
   constructor(
     n11 = 1,
@@ -313,23 +313,23 @@ export class Matrix4 {
   }
 
   /**
-   * @param {number} n11 
-   * @param {number} n12 
-   * @param {number} n13 
-   * @param {number} n14 
-   * @param {number} n21 
-   * @param {number} n22 
-   * @param {number} n23 
-   * @param {number} n24 
-   * @param {number} n31 
-   * @param {number} n32 
-   * @param {number} n33 
-   * @param {number} n34 
-   * @param {number} n41 
-   * @param {number} n42 
-   * @param {number} n43 
-   * @param {number} n44 
-   * @param {Matrix4} out 
+   * @param {number} n11
+   * @param {number} n12
+   * @param {number} n13
+   * @param {number} n14
+   * @param {number} n21
+   * @param {number} n22
+   * @param {number} n23
+   * @param {number} n24
+   * @param {number} n31
+   * @param {number} n32
+   * @param {number} n33
+   * @param {number} n34
+   * @param {number} n41
+   * @param {number} n42
+   * @param {number} n43
+   * @param {number} n44
+   * @param {Matrix4} out
    * @returns {Matrix4}
    */
   static set(
@@ -398,8 +398,8 @@ export class Matrix4 {
   }
 
   /**
-   * @param {Matrix4} matrix 
-   * @param {Matrix4} out 
+   * @param {Matrix4} matrix
+   * @param {Matrix4} out
    * @returns {Matrix4}
    */
   static transpose(matrix, out = new Matrix4()) {
@@ -438,7 +438,7 @@ export class Matrix4 {
   }
 
   /**
-   * @param {Matrix4} out 
+   * @param {Matrix4} out
    * @returns {Matrix4}
    */
   static identity(out = new Matrix4()) {
@@ -467,7 +467,7 @@ export class Matrix4 {
   }
 
   /**
-   * @param {Matrix4} out 
+   * @param {Matrix4} out
    * @returns {Matrix4}
    */
   static zero(out = new Matrix4()) {
@@ -495,7 +495,7 @@ export class Matrix4 {
   }
 
   /**
-   * @param {Matrix4} matrix 
+   * @param {Matrix4} matrix
    * @returns {number}
    */
   static determinant(matrix) {
@@ -554,7 +554,7 @@ export class Matrix4 {
   }
 
   /**
-   * @param {Matrix4} matrix 
+   * @param {Matrix4} matrix
    * @returns {number}
    */
   static trace(matrix) {
@@ -763,9 +763,9 @@ export class Matrix4 {
   }
 
   /**
-   * @param {Matrix4} matrix1 
-   * @param {Matrix4} matrix2 
-   * @param {Matrix4} out 
+   * @param {Matrix4} matrix1
+   * @param {Matrix4} matrix2
+   * @param {Matrix4} out
    */
   static divide(matrix1, matrix2, out = new Matrix4()) {
     const multiplier = this.invert(matrix2)
@@ -787,8 +787,8 @@ export class Matrix4 {
   }
 
   /**
-   * @param {Matrix4} matrix 
-   * @param {Matrix4} out 
+   * @param {Matrix4} matrix
+   * @param {Matrix4} out
    * @returns {Matrix4}
    */
   static invert(matrix, out = new Matrix4()) {
@@ -844,8 +844,8 @@ export class Matrix4 {
   }
 
   /**
-   * @param {Matrix4} matrix1 
-   * @param {Matrix4} matrix2 
+   * @param {Matrix4} matrix1
+   * @param {Matrix4} matrix2
    * @returns {boolean}
    */
   static equal(matrix1, matrix2) {

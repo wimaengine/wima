@@ -1,9 +1,10 @@
-/** @import { Constructor } from '../reflect/index.js'*/
+/** @import { Constructor } from '../type/index.js'*/
 
-import { App, AppSchedule, Plugin, SystemConfig } from '../app/index.js'
+import { App, AppSchedule, Plugin } from '../app/index.js'
+import { SystemConfig } from '../schedule/index.js'
 import { makeEventClear } from './systems/index.js'
 import { Events } from './core/index.js'
-import { typeidGeneric } from '../reflect/index.js'
+import { typeidGeneric } from '../type/index.js'
 
 /**
  * @template T
@@ -39,12 +40,12 @@ export class EventPlugin extends Plugin {
   register(app) {
     const { event } = this
     const name = typeidGeneric(Events, [event])
-    
+
     app
       .registerType(event)
       .getWorld()
       .setResourceByTypeId(name, new Events())
-    
+
     // TODO - Once system ordering is implemented,remove this
     // and `App.systemsevents`.
     if (this.autoClearEvent) {
@@ -52,7 +53,7 @@ export class EventPlugin extends Plugin {
     }
   }
 
-  name(){
+  name() {
     return typeidGeneric(EventPlugin, [this.event])
   }
 }

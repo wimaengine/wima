@@ -6,7 +6,7 @@ import { addSelfToChildren, despawnChildren, addSelfToParent, removeSelfFromPare
 export class HierarchyPlugin extends Plugin {
 
   /**
-   * @param {App} app 
+   * @param {App} app
    */
   register(app) {
     app

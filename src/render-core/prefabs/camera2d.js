@@ -1,4 +1,4 @@
-import { GlobalTransform2D, Orientation2D, Position2D, Scale2D } from '../../transform/index.js'
+import { createTransform2D, GlobalTransform2D, Orientation2D, Position2D, Scale2D } from '../../transform/index.js'
 import { Camera, RenderLists2D } from '../components/index.js'
 
 /**
@@ -10,5 +10,5 @@ import { Camera, RenderLists2D } from '../components/index.js'
  * @returns {[Position2D,Orientation2D,Scale2D,GlobalTransform2D,Camera,RenderLists2D]}
  */
 export function createCamera2D(x = 0, y = 0, a = 0, sx = 1, sy = 1) {
-  return [new Position2D(x, y), new Orientation2D(a), new Scale2D(sx, sy), new GlobalTransform2D(), new Camera(), new RenderLists2D()]
+  return [...createTransform2D(x, y, a, sx, sy), new Camera(), new RenderLists2D()]
 }

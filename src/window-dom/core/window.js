@@ -1,6 +1,6 @@
 import { World } from '../../ecs/index.js'
 import { Events } from '../../event/index.js'
-import { typeidGeneric } from '../../reflect/index.js'
+import { typeidGeneric } from '../../type/index.js'
 import { WindowResize } from '../../window/index.js'
 
 /**
@@ -14,5 +14,5 @@ export function setUpWindowEvents(world, target) {
     const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [WindowResize]))
 
     dispatch.write(new WindowResize(event))
-  }) 
+  })
 }

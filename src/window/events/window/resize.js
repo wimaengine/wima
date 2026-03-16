@@ -4,7 +4,7 @@ export class WindowResize {
    * @readonly
    * @type {number}
    */
-  width 
+  width
 
   /**
    * @readonly
@@ -15,7 +15,7 @@ export class WindowResize {
   /**
    * @param {UIEvent} event
    */
-  constructor(event){
+  constructor(event) {
     this.width = /** @type {HTMLCanvasElement}*/(event.target).width
     this.height = /** @type {HTMLCanvasElement}*/(event.target).height
   }

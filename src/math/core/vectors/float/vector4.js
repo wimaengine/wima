@@ -23,10 +23,10 @@ export class Vector4 {
   w
 
   /**
-   * @param {number} x 
-   * @param {number} y 
-   * @param {number} z 
-   * @param {number} w 
+   * @param {number} x
+   * @param {number} y
+   * @param {number} z
+   * @param {number} w
    */
   constructor(x = 0, y = 0, z = 0, w = 0) {
     this.x = x
@@ -319,7 +319,7 @@ export class Vector4 {
   }
 
   /**
-   * @param {Vector4} v 
+   * @param {Vector4} v
    */
   static magnitude(v) {
     return Math.sqrt(Vector4.magnitudeSquared(v))
@@ -347,8 +347,8 @@ export class Vector4 {
   }
 
   /**
-   * @param {Vector4} v 
-   * @param {Vector4} out 
+   * @param {Vector4} v
+   * @param {Vector4} out
    */
   static normalize(v, out = new Vector4()) {
     const length = this.magnitude(v) || 1
@@ -386,7 +386,7 @@ export class Vector4 {
   /**
    * @param {Vector4} a
    * @param {Vector4} b
-   * @param {Vector4} out 
+   * @param {Vector4} out
    */
   static add(a, b, out = new Vector4()) {
     out.x = a.x + b.x
@@ -399,9 +399,9 @@ export class Vector4 {
   }
 
   /**
-   * @param {Vector4} v 
-   * @param {number} s 
-   * @param {Vector4} out 
+   * @param {Vector4} v
+   * @param {number} s
+   * @param {Vector4} out
    */
   static addScalar(v, s, out = new Vector4()) {
 
@@ -428,9 +428,9 @@ export class Vector4 {
   }
 
   /**
-   * @param {Vector4} v 
-   * @param {number} s 
-   * @param {Vector4} out 
+   * @param {Vector4} v
+   * @param {number} s
+   * @param {Vector4} out
    */
   static subtractScalar(v, s, out = new Vector4()) {
     out.x = v.x - s
@@ -441,7 +441,7 @@ export class Vector4 {
     return out
   }
 
-  /** 
+  /**
    * @param {Vector4} a
    * @param {Vector4} b
    * @param {Vector4} out
@@ -456,9 +456,9 @@ export class Vector4 {
   }
 
   /**
-   * @param {Vector4} v 
-   * @param {number} s 
-   * @param {Vector4} out 
+   * @param {Vector4} v
+   * @param {number} s
+   * @param {Vector4} out
    */
   static multiplyScalar(v, s, out = new Vector4()) {
     out.x = v.x * s
@@ -493,8 +493,8 @@ export class Vector4 {
   }
 
   /**
-   * @param {Vector4} v 
-   * @param {Vector4} out 
+   * @param {Vector4} v
+   * @param {Vector4} out
    */
   static reverse(v, out = new Vector4()) {
     out.x = -v.x
@@ -519,9 +519,9 @@ export class Vector4 {
   }
 
   /**
-   * @param {Vector4} a 
-   * @param {Vector4} b 
-   * @returns 
+   * @param {Vector4} a
+   * @param {Vector4} b
+   * @returns
    */
   static dot(a, b) {
     return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w

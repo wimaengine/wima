@@ -29,7 +29,7 @@ export class WindowCommands {
   }
 
   /**
-   * @param {number} width 
+   * @param {number} width
    * @param {number} height
    */
   resize(width, height) {
@@ -60,10 +60,10 @@ export class WindowCommands {
   /**
    * @returns {Readonly<WindowCommand[]>}
    */
-  getBuffer(){
+  getBuffer() {
     return this.buffer.getQueue()
   }
-  clear(){
+  clear() {
     this.buffer.clear()
   }
 }

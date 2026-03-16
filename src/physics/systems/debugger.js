@@ -107,7 +107,7 @@ export function drawShapes(world) {
 
   const canvas = canvases.getWindow(window[0])
 
-  if(!canvas) return
+  if (!canvas) return
 
   const ctx = canvas.getContext('2d')
 
@@ -151,7 +151,7 @@ export function drawArms(world) {
 
   const canvas = canvases.getWindow(window[0])
 
-  if(!canvas) return
+  if (!canvas) return
 
   const ctx = canvas.getContext('2d')
 
@@ -163,7 +163,7 @@ export function drawArms(world) {
     const posA = world.get(contacts[i].entityA, Position2D)
     const posB = world.get(contacts[i].entityB, Position2D)
 
-    if(!posA || !posB ) return
+    if (!posA || !posB) return
 
     for (let j = 0; j < contacts[i].contactData.contactNo; j++) {
       drawArmRaw(ctx, posA, contacts[i].contactData.contactPoints[j])
@@ -188,12 +188,11 @@ export function drawContacts(world) {
 
   const canvas = canvases.getWindow(window[0])
 
-  if(!canvas) return
+  if (!canvas) return
 
   const ctx = canvas.getContext('2d')
 
   if (!ctx) return
-
 
   for (let i = 0; i < clmd.length; i++) {
     const [p1, p2] = clmd[i].contactData.contactPoints

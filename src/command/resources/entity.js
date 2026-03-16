@@ -91,7 +91,7 @@ export class EntityCommands {
 
   /**
    * Inserts a component into a given entity.
-   * 
+   *
    * @template T
    * @param {T} component
    */

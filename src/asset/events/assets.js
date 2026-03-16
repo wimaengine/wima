@@ -1,5 +1,5 @@
 /** @import { AssetId } from '../types/index.js' */
-/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../type/index.js' */
 
 /**
  * @abstract
@@ -18,7 +18,7 @@ export class AssetEvent {
   type
 
   /**
-   * @param {Constructor<T>} type 
+   * @param {Constructor<T>} type
    * @param {AssetId} handle
    */
   constructor(type, handle) {

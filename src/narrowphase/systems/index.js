@@ -8,7 +8,6 @@ import { Position2D } from '../../transform/index.js'
 import { Rotation2D, Velocity2D } from '../../movable/index.js'
 import { CollisionPairs } from '../../broadphase/index.js'
 
-
 const
   tmp2 = {
     min: 0,

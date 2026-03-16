@@ -1,0 +1,191 @@
+mod:algorithm:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/algorithms/**'
+
+mod:animation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/animation/**'
+
+mod:app:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/app/**'
+
+mod:asset:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/asset/**'
+
+mod:audio:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/audio/**'
+
+mod:color:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/color/**'
+
+mod:command:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/command/**'
+
+mod:datastructure:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/datastructures/**'
+
+mod:demo:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/demo/**'
+          - 'examples/**'
+
+mod:device:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/device/**'
+
+mod:diagnostic:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/diagnostic/**'
+
+mod:ecs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/ecs/**'
+
+mod:event:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/event/**'
+
+mod:geometry:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/geometry/**'
+
+mod:gizmos:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/gizmo/**'
+
+mod:hierarchy:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/hierarchy/**'
+
+mod:input:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/input/**'
+          - 'src/input-core/**'
+          - 'src/keyboard/**'
+          - 'src/mouse/**'
+          - 'src/touch/**'
+
+mod:logger:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/logger/**'
+
+mod:math:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/math/**'
+
+mod:misc:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/misc/**'
+
+mod:movable:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/movable/**'
+
+mod:noise:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/noise/**'
+
+mod:physics:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/physics/**'
+          - 'src/broadphase/**'
+          - 'src/narrowphase/**'
+          - 'src/gravity/**'
+          - 'src/damping/**'
+          - 'src/integrator/**'
+
+mod:reflect:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/reflect/**'
+
+mod:relationship:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/relationship/**'
+
+mod:render:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/render-canvas2d/**'
+          - 'src/render-core/**'
+          - 'src/render-webgl/**'
+
+mod:schedule:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/schedule/**'
+
+mod:time:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/time/**'
+
+mod:transform:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/transform/**'
+
+mod:tween:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/tween/**'
+
+mod:type:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/type/**'
+
+mod:window:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/window/**'
+          - 'src/window-dom/**'
+
+scope:documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '**/*.md'
+
+scope:config:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.config/**'
+          - 'package.json'
+          - 'package-lock.json'
+          - 'tsconfig.json'
+
+type:ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/workflows/**'
+          - '.husky/**'

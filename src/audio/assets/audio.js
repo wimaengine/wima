@@ -1,18 +1,21 @@
 export class Audio {
 
   /**
-   * @param {AudioBuffer} audiobuffer
-   * @param {ArrayBuffer} raw
+   * @type {AudioBuffer}
    */
-  constructor(audiobuffer, raw) {
+  audiobuffer
+
+  /**
+   * @param {AudioBuffer} audiobuffer
+   */
+  constructor(audiobuffer) {
     this.audiobuffer = audiobuffer
-    this.raw = raw
   }
 
-  static default(){
+  static default() {
     return new Audio(new AudioBuffer({
       sampleRate:44800,
       length:1
-    }), new ArrayBuffer(0))
+    }))
   }
 }

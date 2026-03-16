@@ -95,8 +95,8 @@ export function wrap(value, min, max) {
 }
 
 /**
- * @param {number} a 
- * @param {number} b 
+ * @param {number} a
+ * @param {number} b
  * @returns {number}
  */
 export function cantorPair(a, b) {
@@ -105,8 +105,8 @@ export function cantorPair(a, b) {
 }
 
 /**
- * @param {number} a 
- * @param {number} b 
+ * @param {number} a
+ * @param {number} b
  * @returns {number}
  */
 export function cantorPairSigned(a, b) {

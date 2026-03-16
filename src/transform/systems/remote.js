@@ -2,7 +2,6 @@ import { Query, World } from '../../ecs/index.js'
 import { Rotary } from '../../math/index.js'
 import { Position2D, Orientation2D, Scale2D, Position3D, Orientation3D, Scale3D, RemoteTransform2D, RemoteTransform3D } from '../components/index.js'
 
-
 /**
  * @param {World} world
  */
@@ -20,7 +19,7 @@ export function transformRemote2D(world) {
       position.copy(entity[0]).add(offPosition)
     }
     if (remote.copyOrientation) {
-      orientation.value = entity[1].value + Rotary.toAngle(offOrientation)
+      orientation.copy(Rotary.multiply(entity[1], offOrientation))
     }
     if (remote.copyScale) {
       scale.copy(entity[2]).multiply(offScale)

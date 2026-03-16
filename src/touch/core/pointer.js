@@ -8,17 +8,17 @@ export class TouchPointer {
    * @type {TouchId}
    */
   id = 0
-  
+
   /**
    * @type {Vector2}
    */
   position = new Vector2()
-  
+
   /**
    * @type {Vector2}
    */
   lastposition = new Vector2()
-  
+
   /**
    * @param {number} id
    */

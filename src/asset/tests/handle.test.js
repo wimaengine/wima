@@ -97,15 +97,15 @@ describe('Testing `Handle`',()=>{
         const assets = new Assets(String)
         const asset = "Wima engine"
 
-        const handle = assets.add(asset)
-        handle.clone()
-        handle.clone()
+        const handle1 = assets.add(asset)
+        const handle2 = handle1.clone()
+        const handle3 = handle1.clone()
 
-        handle.drop()
-        handle.drop()
-        handle.drop()
+        handle1.drop()
+        handle2.drop()
+        handle3.drop()
 
-        const actual = assets.get(handle)
+        const actual = assets.get(handle1)
 
         deepStrictEqual(actual, undefined)
     })
@@ -114,16 +114,68 @@ describe('Testing `Handle`',()=>{
         const assets = new Assets(String)
         const asset = "Wima engine"
 
-        const handle = assets.add(asset)
+        const handle1 = assets.add(asset)
+        const handle2 = handle1.clone()
+        const handle3 = handle1.clone()
 
-        handle.clone()
-        handle.clone()
-
-        handle.drop()
-        handle.drop()
+        handle2.drop()
+        handle3.drop()
         
-        const actual = assets.get(handle)
+        const actual = assets.get(handle1)
 
         deepStrictEqual(actual, asset)
+    })
+
+    test('`Handle.drop` only drops once.', () => {
+        const assets = new Assets(String)
+        const asset = "Wima engine"
+
+        const handle1 = assets.add(asset)
+        const handle2 = handle1.clone()
+
+        handle2.drop()
+        handle2.drop()
+        
+        const actual = assets.get(handle1)
+
+        deepStrictEqual(actual, asset)
+    })
+
+    test('`Handle` generation starts at one (case 1).', () => {
+        const assets = new Assets(String)
+        const asset = "Wima engine"
+
+        const handle = assets.add(asset)
+
+        deepStrictEqual(handle.generation, 1)
+    })
+
+    test('`Handle` generation starts at one (case 2).', () => {
+        const assets = new Assets(String)
+        const asset = "Wima engine"
+
+        const handle1 = assets.add(asset)
+        const handle2 = assets.add(asset)
+
+        deepStrictEqual(handle1.generation, 1)
+        deepStrictEqual(handle2.generation, 1)
+    })
+
+    test('Recycled `Handle`s have incremented generation.', () => {
+        const assets = new Assets(String)
+        const asset = "Wima engine"
+
+        const handle1 = assets.add(asset)
+        handle1.drop()
+        const handle2 = assets.add(asset)
+        handle2.drop()
+        const handle3 = assets.add(asset)
+
+        deepStrictEqual(handle1.index, 0)
+        deepStrictEqual(handle1.generation, 1)
+        deepStrictEqual(handle2.index, 0)
+        deepStrictEqual(handle2.generation, 2)
+        deepStrictEqual(handle3.index, 0)
+        deepStrictEqual(handle3.generation, 3)
     })
 })

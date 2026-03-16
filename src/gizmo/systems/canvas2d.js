@@ -1,4 +1,4 @@
-/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../type/index.js' */
 /** @import { SystemFunc } from '../../ecs/index.js' */
 import { Entity, Query } from '../../ecs/index.js'
 import {
@@ -9,7 +9,7 @@ import {
   GizmoLineCap
 } from '../core/index.js'
 import { warn } from '../../logger/index.js'
-import { typeidGeneric } from '../../reflect/index.js'
+import { typeidGeneric } from '../../type/index.js'
 import { Windows, Window } from '../../window/index.js'
 
 /**
@@ -115,7 +115,6 @@ export function genenerateDrawGizmo3Dsystem(label) {
     gizmo.buffer.clear()
   }
 }
-
 
 /**
  * @param {GizmoLineJoin} type

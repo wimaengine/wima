@@ -3,7 +3,7 @@ import { TextureCache, BasicMaterial } from '../render-core/index.js'
 import { renderBasicMaterial } from './core/index.js'
 import { Canvas2DMaterialPlugin } from './plugins/index.js'
 
-export class Canvas2DRendererPlugin extends Plugin{
+export class Canvas2DRendererPlugin extends Plugin {
 
   /**
    * @param {App} app

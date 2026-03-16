@@ -23,7 +23,7 @@ export class Clock {
   delta = 0
 
   /**
-   * 
+   *
    */
   start() {
     Clock.start(this)
@@ -51,7 +51,7 @@ export class Clock {
   }
 
   /**
-   * @param {number} accumulate 
+   * @param {number} accumulate
    * @returns {number}
    */
   update(accumulate = performance.now()) {

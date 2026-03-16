@@ -1,5 +1,7 @@
 name: Node.js Package
 
+permissions:
+  id-token: write
 on:
   release:
     types: [published]
@@ -13,8 +15,19 @@ jobs:
         with:
           node-version: 20
           registry-url: https://registry.npmjs.org/
+          cache: npm
       - run: npm ci
       - run: npm run build
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Check version
+        run: |
+          VERSION_TAG="${GITHUB_REF#refs/tags/}"
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          if [ "$VERSION_TAG" != "$PACKAGE_VERSION" ]; then
+            echo "Error: Git tag ($VERSION_TAG) does not match package.json version ($PACKAGE_VERSION)"
+            exit 1
+          fi
+      - name: Publish check
+        run: npm publish --dry-run
+
+      - name: Publish to npm
+        run: npm publish --provenance

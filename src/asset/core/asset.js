@@ -1,5 +1,6 @@
 /** @import {AssetId} from '../types/index.js' */
-/** @import {Constructor} from '../../reflect/index.js'*/
+/** @import {Constructor} from '../../type/index.js'*/
+import { packInto64Int, unpackFrom64Int } from '../../algorithms/index.js'
 import { DenseList } from '../../datastructures/index.js'
 import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events/assets.js'
 
@@ -25,13 +26,6 @@ export class Assets {
    */
   uuids = new Map()
 
-  // TODO: Move to asset server when it is implemented
-  /**
-   * @private
-   * @type {string[]}
-   */
-  toLoad = []
-
   /**
    * @private
    * @type {AssetEvent<T>[]}
@@ -46,16 +40,14 @@ export class Assets {
   }
 
   /**
-   * @param {T} asset 
+   * @param {T} asset
    * @returns {Handle<T>}
    */
   add(asset) {
-    const id = this.assets.reserve()
+    const handle = this.reserve()
+    const entry = this.getEntry(handle)
 
-    this.assets.set(id, new AssetEntry(asset))
-
-    const handle = new Handle(this, id)
-
+    entry.asset = asset
     this.events.push(new AssetAdded(this.type, handle.id()))
 
     return handle
@@ -68,7 +60,7 @@ export class Assets {
   set(handle, asset) {
     const entry = this.getEntry(handle)
 
-    if(!entry) return
+    if (!entry) return
 
     const oldAsset = entry.asset
 
@@ -82,8 +74,28 @@ export class Assets {
   }
 
   /**
-   * @param {string} uuid 
-   * @param {T} asset 
+   * @param {AssetId} assetId
+   * @param {T} asset
+   */
+  setUsingAssetId(assetId, asset) {
+    const entry = this.getEntryByAssetId(assetId)
+
+    if (!entry) return
+
+    const oldAsset = entry.asset
+
+    entry.asset = asset
+
+    if (oldAsset) {
+      this.events.push(new AssetModified(this.type, assetId))
+    } else {
+      this.events.push(new AssetAdded(this.type, assetId))
+    }
+  }
+
+  /**
+   * @param {string} uuid
+   * @param {T} asset
    * @returns {Handle<T>}
    */
   setWithUUID(uuid, asset) {
@@ -92,14 +104,12 @@ export class Assets {
     if (handle) {
       this.set(handle, asset)
 
-      // TODO: clone this when asset dropping is added
-      return handle
+      return handle.clone()
     }
 
     const newHandle = this.add(asset)
 
-    // TODO: clone this when asset dropping is added
-    this.uuids.set(uuid, newHandle)
+    this.uuids.set(uuid, newHandle.clone())
 
     return newHandle
   }
@@ -109,9 +119,34 @@ export class Assets {
    * @returns {AssetEntry<T> | undefined}
    */
   getEntry(handle) {
-    const { index } = handle
+    const { index, generation } = handle
 
-    return this.assets.get(index)
+    return this.getEntryInternal(index, generation)
+  }
+
+  /**
+   * @param {AssetId} assetId
+   * @returns {AssetEntry<T> | undefined}
+   */
+  getEntryByAssetId(assetId) {
+    const [index, generation] = unpackFrom64Int(assetId)
+
+    return this.getEntryInternal(index, generation)
+  }
+
+  /**
+   * @private
+   * @param {number} index
+   * @param {number} generation
+   */
+  getEntryInternal(index, generation) {
+    const entry = this.assets.get(index)
+
+    if (!entry) return undefined
+
+    if (entry.generation !== generation) return undefined
+
+    return entry
   }
 
   /**
@@ -121,7 +156,7 @@ export class Assets {
   get(handle) {
     const entry = this.getEntry(handle)
 
-    if(!entry) return undefined
+    if (!entry) return undefined
 
     return entry.asset
   }
@@ -143,48 +178,20 @@ export class Assets {
    * @returns {T | undefined}
    */
   getByAssetId(id) {
-    const entry = this.assets.get(id)
+    const entry = this.getEntryByAssetId(id)
 
-    if(!entry) return undefined
+    if (!entry) return undefined
 
-    return this.assets.get(id).asset
+    return entry.asset
   }
 
   /**
-   * @param {string} uuid 
+   * @param {string} uuid
    * @returns {Handle<T> | undefined}
    */
   getHandleByUUID(uuid) {
 
-    // TODO: clone this when asset dropping is added
-    return this.uuids.get(uuid)
-  }
-
-  // TODO: Move to asset server when it is implemented
-  /**
-   * @param {string} path 
-   * @returns {Handle<T>}
-   */
-  load(path) {
-    const id = this.assets.reserve()
-
-    this.assets.set(id, new AssetEntry(undefined))
-    this.uuids.set(path, new Handle(this, id))
-    this.toLoad.push(path)
-
-    return new Handle(this, id)
-  }
-
-  // TODO: Move to asset server when it is implemented
-  /**
-   * @returns {Readonly<string[]>}
-   */
-  flushToLoad() {
-    const load = this.toLoad
-
-    if (load.length) this.toLoad = []
-
-    return load
+    return this.uuids.get(uuid)?.clone()
   }
 
   /**
@@ -201,16 +208,51 @@ export class Assets {
   /**
    * @param {Handle<T>} handle
    */
-  drop(handle){
+  drop(handle) {
     const entry = this.getEntry(handle)
-    
+
     entry.refCount -= 1
 
-    if(entry.refCount <= 0){
+    if (entry.refCount <= 0) {
       entry.asset = undefined
       this.assets.recycle(handle.index)
       this.events.push(new AssetDropped(this.type, handle.id()))
     }
+  }
+
+  /**
+   * @param {AssetId} assetId
+   */
+  upgrade(assetId) {
+    const [index, generation] = unpackFrom64Int(assetId)
+
+    return new Handle(this, index, generation)
+  }
+
+  /**
+   * @returns {Handle<T>}
+   *
+   */
+  reserve() {
+    const index = this.assets.reserve()
+    const entry = this.assets.get(index)
+
+    if (entry) {
+      entry.generation += 1
+
+      return new Handle(this, index, entry.generation)
+    }
+
+    const newEntry = new AssetEntry(undefined)
+
+    newEntry.generation += 1
+    this.assets.set(index, newEntry)
+
+    return new Handle(this, index, newEntry.generation)
+  }
+
+  values() {
+    return this.assets.values()
   }
 }
 
@@ -218,6 +260,18 @@ export class Assets {
  * @template T
  */
 export class Handle {
+
+  /**
+   * @readonly
+   * @type {Constructor<T>}
+   */
+  type
+
+  /**
+   * @private
+   * @type {boolean}
+   */
+  dropped = false
 
   /**
    * This only exists as a channel for reference counting, do not use for any
@@ -235,16 +289,25 @@ export class Handle {
   index
 
   /**
-   * @param {Assets<T>} assets 
-   * @param {number} index 
+   * @readonly
+   * @type {number}
    */
-  constructor(assets, index){
+  generation = 0
+
+  /**
+   * @param {Assets<T>} assets
+   * @param {number} index
+   * @param {number} generation
+   */
+  constructor(assets, index, generation) {
     this.index = index
+    this.generation = generation
     this.assets = assets
+    this.type = assets.type
 
     const entry = assets.getEntry(this)
 
-    if(entry){
+    if (entry && entry.generation === generation) {
       entry.refCount += 1
     }
   }
@@ -252,18 +315,21 @@ export class Handle {
   /**
    * @returns {AssetId}
    */
-  id(){
-    return /** @type {AssetId}*/(this.index)
+  id() {
+    return /** @type {AssetId}*/ (packInto64Int(this.index, this.generation))
   }
 
-  clone(){
-    const { assets, index } = this
+  clone() {
+    const { assets, index, generation } = this
 
-    return new Handle(assets, index)
+    return new Handle(assets, index, generation)
   }
 
-  drop(){
+  drop() {
+    if (this.dropped) return
+
     this.assets.drop(this)
+    this.dropped = true
   }
 }
 
@@ -280,20 +346,17 @@ export class AssetEntry {
   /**
    * @type {number}
    */
-  refCount
+  refCount = 0
+
+  /**
+   * @type {number}
+   */
+  generation = 0
 
   /**
    * @param {T} asset
    */
   constructor(asset) {
     this.asset = asset
-    this.refCount = 0
   }
 }
-
-/**
- * @template T
- * @callback HandleProvider
- * @param {number} id
- * @returns {Handle<T>}
- */

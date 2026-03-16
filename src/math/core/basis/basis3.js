@@ -1,6 +1,5 @@
 import { Vector3 } from '../vectors/index.js'
 
-
 export class Basis3 {
 
   /**

@@ -1,6 +1,6 @@
 import { World } from '../../ecs/index.js'
 import { Events } from '../../event/index.js'
-import { typeidGeneric } from '../../reflect/index.js'
+import { typeidGeneric } from '../../type/index.js'
 import { TouchCancel, TouchEnd, TouchMove, TouchStart } from '../../window/index.js'
 
 /**
@@ -21,7 +21,7 @@ export function setUpTouchEvents(world, target) {
 
     /** @type {Events<TouchMove>} */
     const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [TouchMove]))
-    
+
     for (let i = 0; i < e.changedTouches.length; i++) {
       dispatch.write(new TouchMove(e.changedTouches[i]))
     }

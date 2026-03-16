@@ -12,7 +12,7 @@ export class WindowMove {
    * @param {number} x
    * @param {number} y
    */
-  constructor(x, y){
+  constructor(x, y) {
     this.position.set(x, y)
   }
 }

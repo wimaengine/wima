@@ -21,8 +21,8 @@ export class Image {
     this.raw = buffer
     this.dimensions = dimensions
   }
-    
-  static default(){
+
+  static default() {
     const array = new Uint8ClampedArray([1, 0, 1, 1])
 
     return new Image(array, new Vector2(1, 1))

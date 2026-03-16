@@ -1,11 +1,24 @@
+/** @import { Constructor } from '../../type/index.js' */
 import { throws } from '../../logger/index.js'
-import { Device } from '../../device/index.js'
 
 /**
- * @abstract 
+ * @abstract
  * @template T
  */
 export class Parser {
+
+  /**
+   * @readonly
+   * @type {Constructor<T>}
+   */
+  asset
+
+  /**
+   * @param {Constructor<T>} asset
+   */
+  constructor(asset) {
+    this.asset = asset
+  }
 
   /**
    * @param {Response} _response
@@ -18,13 +31,11 @@ export class Parser {
   }
 
   /**
-   * @param {string} _extension 
-   * @param {Device} _device 
-   * @returns {boolean}
+   * @returns {string[]}
    */
-  verify(_extension, _device){
-    throws(`Implement the method \`verify\` on \`${this.constructor.name}\``)
+  getExtensions() {
+    throws(`Implement the method \`getExtensions\` on \`${this.constructor.name}\``)
 
-    return false
+    return []
   }
 }

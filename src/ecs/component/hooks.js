@@ -9,27 +9,27 @@
  * ```ts
  * //a component
  * class A {}
- * 
+ *
  * function added(entity:Entity,world:World){
  *   console.log(`Entity {${entity}} with component A added`)
  * }
- *  
+ *
  * function inserted(entity:Entity,world:World){
  *   console.log(`Component A inserted into entity {${entity}}` )
  * }
- * 
+ *
  * function removed(entity:Entity,world:World){
  *   console.log(`Entity {${entity}} with component A removed`)
  * }
- * 
+ *
  * const world = new World()
  * const hooks = new ComponentHooks(added,inserted,removed)
- * 
+ *
  * world
  *   .registerType(A)
  *   .setComponentHooks(A,hooks)
  * ```
- * 
+ *
  */
 export class ComponentHooks {
 

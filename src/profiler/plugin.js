@@ -1,5 +1,5 @@
 import { Profiler, ProfilerTimer } from './resources/index.js'
-import { Timer, TimerMode, VirtualClock } from '../time/index.js'
+import { TimerMode, VirtualClock } from '../time/index.js'
 import { App, AppSchedule, Plugin } from '../app/index.js'
 import { World } from '../ecs/index.js'
 import { warn } from '../logger/index.js'
@@ -11,7 +11,7 @@ export class ProfilerPlugin extends Plugin {
    */
   register(app) {
     app.setResource(new Profiler())
-    app.setResource(new ProfilerTimer(1, TimerMode.Repeat))
+    app.setResource(new ProfilerTimer({ duration: 1, mode: TimerMode.Repeat }))
     setupProfileViewer(document.body)
     app.registerSystem(AppSchedule.Update, updateProfileViewer)
     app.registerSystem(AppSchedule.Update, updateProfileTimer)
@@ -39,7 +39,7 @@ function updateProfileTimer(registry) {
   const timer = registry.getResource(ProfilerTimer)
   const clock = registry.getResource(VirtualClock)
 
-  Timer.update(timer, clock.getDelta())
+  timer.update(clock.getDelta())
 }
 
 /**
@@ -49,11 +49,11 @@ function updateProfileViewer(registry) {
   const profiler = registry.getResource(Profiler)
   const timer = registry.getResource(ProfilerTimer)
 
-  if (!timer.finished) return
+  if (!timer.cycleEnded()) return
 
   const container = document.getElementById('profile-view')
 
-  if(!container)return warn('no html element found to bind profiler to')
+  if (!container) return warn('no html element found to bind profiler to')
 
   container.innerHTML = ''
 

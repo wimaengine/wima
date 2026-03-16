@@ -1,7 +1,7 @@
-/** @import { Constructor, TypeId } from '../../reflect/index.js' */
+/** @import { Constructor, TypeId } from '../../type/index.js' */
 
 import { App, AppSchedule, Plugin } from '../../app/index.js'
-import { typeidGeneric } from '../../reflect/index.js'
+import { typeidGeneric } from '../../type/index.js'
 import { Material } from '../assets/index.js'
 import { Material2D, Material3D } from '../components/index.js'
 import { genBinRenderables2D, genBinRenderables3D } from '../systems/index.js'
@@ -24,7 +24,7 @@ export class Material2DPlugin extends Plugin {
   asset
 
   /**
-   * @param {Material2DPluginOptions<T>} param0 
+   * @param {Material2DPluginOptions<T>} param0
    */
   constructor({ component, asset }) {
     super()
@@ -69,7 +69,7 @@ export class Material3DPlugin extends Plugin {
   asset
 
   /**
-   * @param {Material3DPluginOptions<T>} param0 
+   * @param {Material3DPluginOptions<T>} param0
    */
   constructor({ component, asset }) {
     super()

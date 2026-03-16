@@ -20,10 +20,10 @@ export class DenseList {
   allocator = new IndexAllocator()
 
   /**
-   * @param {T} object 
+   * @param {T} object
    * @returns {I}
    */
-  push(object){
+  push(object) {
     const index = this.allocator.reserve()
 
     this.list[index] = object
@@ -34,31 +34,38 @@ export class DenseList {
   /**
    * @param {I} index
    */
-  recycle(index){
+  recycle(index) {
     this.allocator.recycle(index)
   }
-    
+
   /**
-   * @param {I} index 
+   * @param {I} index
    * @returns {T | undefined}
    */
-  get(index){
+  get(index) {
     return this.list[index]
   }
 
   /**
-   * @param {I} index 
-   * @param {T} object 
+   * @param {I} index
+   * @param {T} object
    */
-  set(index, object){
-    assert(index <= this.allocator.count(), 'The index provided has never been allocated' )
-    this.list[index] = object    
+  set(index, object) {
+    assert(index <= this.allocator.count(), 'The index provided has never been allocated')
+    this.list[index] = object
   }
 
   /**
    * @returns {I}
    */
-  reserve(){
+  reserve() {
     return this.allocator.reserve()
+  }
+
+  /**
+   * @returns {ReadonlyArray<T>}
+   */
+  values() {
+    return this.list
   }
 }

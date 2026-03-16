@@ -1,5 +1,6 @@
+/** @import { AssetId } from '../../asset/index.js' */
 /**
  * @template T
- * @type {Map<number,T>}
+ * @augments {Map<AssetId,T>}
  */
 export class MeshCache extends Map {}

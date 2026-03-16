@@ -1,3 +1,5 @@
+import { packInto64Int, unpackFrom64Int } from '../../algorithms/packnumber.js'
+
 export class Entity {
 
   /**
@@ -7,24 +9,46 @@ export class Entity {
   index
 
   /**
-   * @param {number} index
+   * @readonly
+   * @type {number}
    */
-  constructor(index){
+  generation
+
+  /**
+   * @param {number} index
+   * @param {number} generation
+   */
+  constructor(index, generation) {
     this.index = index
+    this.generation = generation
   }
 
   /**
    * @param {Entity} other
    */
-  equals(other){
-    return this.index === other.index
+  equals(other) {
+    return (
+      this.index === other.index &&
+      this.generation === other.generation
+    )
   }
 
   /**
    * @returns {EntityId}
    */
-  id(){
-    return this.index
+  id() {
+    const { index, generation } = this
+
+    return packInto64Int(index, generation)
+  }
+
+  /**
+   * @param {EntityId} id
+   */
+  static from(id) {
+    const [index, generation] = unpackFrom64Int(id)
+
+    return new Entity(index, generation)
   }
 }
 

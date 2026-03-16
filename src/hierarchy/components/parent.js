@@ -1,5 +1,10 @@
 /** @import { Entity } from '../../ecs/index.js' */
 
+import { VisitEntities } from '../../relationship/index.js'
+
+/**
+ * @implements {VisitEntities}
+ */
 export class Parent {
 
   /**
@@ -13,5 +18,8 @@ export class Parent {
    */
   constructor(entity) {
     this.entity = entity
+  }
+  visit() {
+    return [this.entity]
   }
 }

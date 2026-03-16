@@ -1,25 +1,34 @@
-/** @import { Constructor, TypeId } from '../reflect/index.js'*/
+/** @import { Constructor, TypeId, TupleConstructor } from '../type/index.js'*/
+/** @import { ArchetypeId, TableId, TableRow } from './typedef/index.js'*/
 
-import { ArchetypeTable } from './tables/index.js'
+import { Table, Tables } from './tables/index.js'
 import { TypeStore } from './typestore.js'
 import { assert } from '../logger/index.js'
 import { ComponentHooks } from './component/index.js'
 import { Entities, Entity } from './entities/index.js'
+import { Archetypes, Archetype } from './archetype/index.js'
 import { EntityLocation } from './entities/location.js'
-import { typeid } from '../reflect/index.js'
+import { typeid } from '../type/index.js'
+import { EntityCell } from './entities/entitycell.js'
 
 export class World {
 
   /**
    * @private
    */
-  table = new ArchetypeTable()
+  tables = new Tables()
 
   /**
    * @private
-   * @type {Record<string,any>}
+   * @type {Archetypes}
    */
-  resources = {}
+  archetypes = new Archetypes()
+
+  /**
+   * @private
+   * @type {Map<TypeId,unknown>}
+   */
+  resources = new Map()
 
   /**
    * @private
@@ -51,12 +60,12 @@ export class World {
 
   /**
    * @private
-   * @param {Entity} entity 
-   * @param {TypeId[]} ids
+   * @param {Entity} entity
+   * @param {readonly TypeId[]} newIds
    */
-  callAddComponentHook(entity, ids) {
-    for (let i = 0; i < ids.length; i++) {
-      const hook = this.typestore.getByTypeId(ids[i])?.getHooks().add
+  callAddComponentHook(entity, newIds) {
+    for (let i = 0; i < newIds.length; i++) {
+      const hook = this.typestore.getByTypeId(newIds[i])?.getHooks().add
 
       if (hook) hook(entity, this)
     }
@@ -64,12 +73,12 @@ export class World {
 
   /**
    * @private
-   * @param {Entity} entity 
-   * @param {TypeId[]} ids
+   * @param {Entity} entity
+   * @param {readonly TypeId[]} newIds
    */
-  callRemoveComponentHook(entity, ids) {
-    for (let i = 0; i < ids.length; i++) {
-      const hook = this.typestore.getByTypeId(ids[i])?.getHooks().remove
+  callRemoveComponentHook(entity, newIds) {
+    for (let i = 0; i < newIds.length; i++) {
+      const hook = this.typestore.getByTypeId(newIds[i])?.getHooks().remove
 
       if (hook) hook(entity, this)
     }
@@ -77,16 +86,42 @@ export class World {
 
   /**
    * @private
-   * @param {Entity} entity 
-   * @param {TypeId[]} ids
-   * 
+   * @param {Entity} entity
+   * @param {readonly TypeId[]} newIds
+   *
    */
-  callInsertComponentHook(entity, ids) {
-    for (let i = 0; i < ids.length; i++) {
-      const hook = this.typestore.getByTypeId(ids[i])?.getHooks().insert
+  callInsertComponentHook(entity, newIds) {
+    for (let i = 0; i < newIds.length; i++) {
+      const hook = this.typestore.getByTypeId(newIds[i])?.getHooks().insert
 
       if (hook) hook(entity, this)
     }
+  }
+
+  /**
+   * @param {TypeId[]} typeIds
+   * @returns {[TableId, Table, ArchetypeId, Archetype]}
+   */
+  resolve(typeIds) {
+    const actualTypeIds = deduplicate(typeIds)
+
+    const archetype = this.archetypes.getArchetypeWithOnly(actualTypeIds)
+
+    if (archetype) {
+      const [id, arch] = archetype
+      const { tableId } = arch
+      const table = this.tables.get(tableId)
+
+      assert(table, `The archetype ${archetype[0]} has an invalid table.`)
+
+      return [tableId, table, id, arch]
+    }
+
+    const [tableId, table] = this.tables.resolveTableFor(actualTypeIds)
+    const newArchetype = new Archetype(tableId, actualTypeIds)
+    const id = this.archetypes.set(newArchetype)
+
+    return [tableId, table, id, newArchetype]
   }
 
   /**
@@ -98,22 +133,31 @@ export class World {
    */
   spawn(components) {
     const entityIndex = this.entities.reserve()
+    let location = this.entities.get(entityIndex)
 
-    // SAFETY: the entity was reserved in this function so we know its there.
-    const location = /** @type {EntityLocation}*/(this.entities.get(entityIndex))
+    if (!location) {
+      const newLocation = new EntityLocation()
+
+      this.entities.set(entityIndex, newLocation)
+      location = newLocation
+    }
+
+    location.generation += 1
 
     // SAFETY:Object constructors can be casted from `Function` to `Constructor`
-    const ids = (components.map((c) => typeid(/** @type {Constructor} */(c.constructor))))
-    const entity = new Entity(entityIndex)
+    const newIds = (components.map((c) => typeid(/** @type {Constructor} */(c.constructor))))
+    const entity = new Entity(entityIndex, location.generation)
 
-    ids.push(typeid(Entity))
+    newIds.push(typeid(Entity))
     components.push(entity)
 
-    const [id, tableIndex] = this.table.insert(components, ids)
+    const [tableId, table, archetypeId] = this.resolve(newIds)
+    const tableRow = table.insert(newIds, components)
 
-    location.archid = id
-    location.index = tableIndex
-    this.callAddComponentHook(entity, ids)
+    location.tableId = tableId
+    location.archetypeId = archetypeId
+    location.index = tableRow
+    this.callAddComponentHook(entity, newIds)
 
     return entity
   }
@@ -128,75 +172,83 @@ export class World {
   insert(entity, components) {
     const location = this.entities.get(entity.index)
 
-    assert(location, 'Cannot insert to an entity not created on the world.Use `World.create()` then try to insert the given entity into the world.')
+    if (!location || location.generation !== entity.generation) {
+      return
+    }
 
     // SAFETY:Object constructors can be casted from `Function` to `Constructor`
-    const ids = (components.map((c) => typeid(/** @type {Constructor} */(c.constructor))))
-    const { archid, index } = location
-    const extracted = this.table.extract(archid, index)
+    const { archetypeId: oldArchetypeId, index, tableId: oldTableId } = location
+    const oldArchetype = this.archetypes.get(oldArchetypeId)
+    const oldTable = this.tables.get(oldTableId)
 
-    assert(extracted, 'Invalid extraction on insert')
+    if (!oldTable) return
 
-    const [idextract, extract] = extracted
+    const newIds = (components.map((c) => typeid(/** @type {Constructor} */ (c.constructor))))
+    const existingIds = oldArchetype.types
+    const combinedIds = [...existingIds, ...newIds]
+    const [newTableId, newTable, newArchetypeId] = this.resolve(combinedIds)
 
-    this.table.remove(archid, index)
+    if (newTableId === oldTableId) {
+      oldTable.insertUnchecked(index, newIds, components)
+    } else {
+      const newIndex = oldTable.moveTo(newTable, index)
+      const swapped = /** @type {Entity | null}*/ (oldTable.get(typeid(Entity), index))
 
-    const [combinedid, combined] = this.resolveCombine(
-      idextract,
-      extract,
-      ids,
-      components
-    )
+      newTable.insertUnchecked(newIndex, newIds, components)
+      location.tableId = newTableId
+      location.archetypeId = newArchetypeId
+      location.index = newIndex
 
-    const [id, newIndex] = this.table.insert(combined, combinedid)
-    const swapped = /** @type {Entity | null}*/(this.table.get(archid, index, typeid(Entity)))
+      if (swapped) {
+        const swappedlocation = /** @type {EntityLocation} */ (this.entities.get(swapped.index))
 
-    location.archid = id
+        swappedlocation.index = index
+      }
+    }
+
+    this.callAddComponentHook(entity, newIds)
+    this.callInsertComponentHook(entity, existingIds)
+  }
+
+  /**
+   * @template {unknown[]} T
+   * @param {Entity} entity
+   * @param {TupleConstructor<T>} components
+   */
+  remove(entity, components) {
+    const location = this.entities.get(entity.index)
+
+    if (!location || location.generation !== entity.generation) {
+      return
+    }
+
+    const { archetypeId: oldArchetypeId, index, tableId: oldTableId } = location
+    const oldArchetype = this.archetypes.get(oldArchetypeId)
+    const oldTable = this.tables.get(oldTableId)
+
+    if (!oldTable) return
+
+    const removedIds = (components.map((c) => typeid(c)))
+    const existingIds = oldArchetype.types
+    const newIds = removeElements(existingIds, removedIds)
+    const [newTableId, newTable, newArchetypeId] = this.resolve(newIds)
+
+    this.callRemoveComponentHook(entity, removedIds)
+
+    const newIndex = oldTable.moveTo(newTable, index)
+    const swapped = /** @type {Entity | null}*/ (oldTable.get(typeid(Entity), index))
+
+    location.tableId = newTableId
+    location.archetypeId = newArchetypeId
     location.index = newIndex
 
     if (swapped) {
-      const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped.index))
+      const swappedlocation = /** @type {EntityLocation} */ (this.entities.get(swapped.index))
 
       swappedlocation.index = index
     }
 
-    this.callInsertComponentHook(entity, idextract)
-    this.callAddComponentHook(entity, ids)
-  }
-
-  /**
-   * @private
-   * @param {TypeId[]} ids 
-   * @param {unknown[]} components
-   * @param {TypeId[]} ids2 
-   * @param {unknown[]} components2
-   * @returns {[TypeId[],unknown[]]}
-   */
-  resolveCombine(ids, components, ids2, components2) {
-    const combineids = /** @type {TypeId[]}*/([])
-    const combinecomponents = /** @type {unknown[]}*/([])
-
-    for (let i = 0; i < ids.length; i++) {
-      const id = ids[i]
-      const component = components[i]
-
-      if (ids2.includes(id)) {
-        continue
-      }
-
-      combineids.push(id)
-      combinecomponents.push(component)
-    }
-
-    for (let i = 0; i < ids2.length; i++) {
-      const id = ids2[i]
-      const component = components2[i]
-
-      combineids.push(id)
-      combinecomponents.push(component)
-    }
-
-    return [combineids, combinecomponents]
+    this.callInsertComponentHook(entity, newIds)
   }
 
   /**
@@ -219,31 +271,32 @@ export class World {
   despawn(entity) {
     const location = this.entities.get(entity.index)
 
-    if (!location) return
-
-    const { archid, index } = location
-
-    if (archid === -1 || index === -1) return
-
-    // TODO - Use a method that iterates through componentlists to call remove hook.
-    const extracted = this.table.extract(archid, index)
-
-    if (extracted) {
-      const [extractid] = extracted
-
-      this.callRemoveComponentHook(entity, extractid)
+    if (!location || location.generation !== entity.generation) {
+      return
     }
 
-    this.table.remove(archid, index)
+    const { archetypeId, tableId, index } = location
+    const archetype = this.archetypes.get(archetypeId)
+    const table = this.tables.get(tableId)
 
-    const swapped = /** @type {Entity | null}*/(this.table.get(archid, index, typeid(Entity)))
+    if (!archetype || !table) return
 
-    location.archid = -1
-    location.index = -1
+    this.callRemoveComponentHook(entity, archetype.types)
+    table.remove(index)
+
+    // SAFETY: The fetched component is an `Entity`.
+    const swapped = /** @type {Entity | null}*/ (table.get(typeid(Entity), index))
+
+    // SAFETY: -1 is the invalid identifier
+    location.tableId = /** @type {TableId}*/ (-1)
+    location.index = /** @type {TableRow}*/ (-1)
+    location.archetypeId = /** @type {ArchetypeId}*/ (-1)
     this.entities.recycle(entity.index)
 
     if (swapped) {
-      const swappedlocation = /** @type {EntityLocation} */(this.entities.get(swapped.index))
+
+      // SAFETY: The swapped entity still exists.
+      const swappedlocation = /** @type {EntityLocation} */ (this.entities.get(swapped.index))
 
       swappedlocation.index = index
     }
@@ -252,29 +305,63 @@ export class World {
   /**
    * @template T
    * @param {Entity} entity
-   * @param { new (...args:any[])=> T} type
+   * @param { Constructor<T>} type
    * @returns {T | null}
    */
   get(entity, type) {
     const location = this.entities.get(entity.index)
 
-    if (!location) return null
+    if (!location || location.generation !== entity.generation) {
+      return null
+    }
 
-    const { archid, index } = location
+    const { tableId, index } = location
+    const table = this.tables.get(tableId)
+    const component = table?.get(typeid(type), index)
 
-    return this.table.get(archid, index, typeid(type))
+    // SAFETY: Fetched component with the typeid of `T`
+    return /** @type {T | undefined}*/(component)
   }
 
   /**
-   * @returns {ArchetypeTable}
+   * @param {Entity} entity
+   * @returns {EntityCell}
    */
-  getTable() {
-    return this.table
+  getEntity(entity) {
+    return new EntityCell(this, entity)
+  }
+
+  /**
+   * @returns {Tables}
+   */
+  getTables() {
+    return this.tables
+  }
+
+  /**
+   * @returns {ReadonlyMap<TypeId, unknown>}
+   */
+  getResources() {
+    return this.resources
+  }
+
+  /**
+   * @returns {ReadonlyMap<TypeId, TypeId>}
+   */
+  getResourceAliases() {
+    return this.resourceAliases
+  }
+
+  /**
+   * @returns {Archetypes}
+   */
+  getArchetypes() {
+    return this.archetypes
   }
 
   /**
    * @template T
-   * @param {new (...args:any[])=>T} resourceType
+   * @param {Constructor<T>} resourceType
    * @returns {T}
    */
   getResource(resourceType) {
@@ -287,21 +374,56 @@ export class World {
    * @returns {T}
    */
   getResourceByTypeId(id) {
-    const resource = this.resources[id]
+    const resource = this.resources.get(id)
 
     if (resource) {
-      return resource
+
+      // SAFETY: The typeid should match the type, caller's responsibility
+      return /** @type {T}*/(resource)
     }
 
     const aliasedid = this.resourceAliases.get(id)
 
     assert(aliasedid, `The resource or resource alias \`${id}\` is non existent.`)
 
-    const aliasedResource = this.resources[aliasedid]
+    const aliasedResource = this.resources.get(aliasedid)
 
     assert(aliasedResource, `The resource alias \`${id}\` points to a non-existent resource \`${aliasedid}\`.`)
 
-    return aliasedResource
+    // SAFETY: The aliased typeid should match the type, caller's responsibility
+    return /** @type {T}*/(aliasedResource)
+  }
+
+  /**
+   * @template T
+   * @param {Constructor<T>} resourceType
+   * @returns {boolean}
+   */
+  hasResource(resourceType) {
+    return this.hasResourceByTypeId(typeid(resourceType))
+  }
+
+  /**
+   * @template T
+   * @param {TypeId} id
+   * @returns {boolean}
+   */
+  hasResourceByTypeId(id) {
+    const resource = this.resources.get(id)
+
+    if (resource) {
+      return true
+    }
+
+    const aliasedid = this.resourceAliases.get(id)
+
+    if (!aliasedid) return false
+
+    const aliasedResource = this.resources.get(aliasedid)
+
+    if (!aliasedResource) return false
+
+    return true
   }
 
   /**
@@ -311,7 +433,7 @@ export class World {
    * @returns {void}
    */
   setResourceByTypeId(id, resource) {
-    this.resources[id] = resource
+    this.resources.set(id, resource)
   }
 
   /**
@@ -328,8 +450,24 @@ export class World {
 
   /**
    * @template T
-   * @param {TypeId} id 
-   * @param {Constructor<T>} alias 
+   * @param {Constructor<T>} type
+   */
+  removeResource(type) {
+    this.removeResourceByTypeId(typeid(type))
+  }
+
+  /**
+   * @param {TypeId} typeId
+   */
+  removeResourceByTypeId(typeId) {
+    this.resources.delete(typeId)
+    this.resourceAliases.delete(typeId)
+  }
+
+  /**
+   * @template T
+   * @param {TypeId} id
+   * @param {Constructor<T>} alias
    */
   setResourceAlias(id, alias) {
     this.resourceAliases.set(typeid(alias), id)
@@ -360,6 +498,25 @@ export class World {
    * This removes all of the entities and components from the manager.
    */
   clear() {
-    this.table.clear()
+    this.tables.clear()
   }
+}
+
+/**
+ * @private
+ * @param {TypeId[]} newIds
+ * @returns {TypeId[]}
+ */
+function deduplicate(newIds) {
+  return [...new Set(newIds)]
+}
+
+/**
+ * @private
+ * @param {readonly TypeId[]} arr
+ * @param {readonly TypeId[]} remove
+ * @returns {TypeId[]}
+ */
+function removeElements(arr, remove) {
+  return arr.filter((e) => !remove.includes(e))
 }

@@ -1,13 +1,13 @@
 {
   "name": "wima",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "An ECS driven modular game engine.",
   "homepage": "https://wimaengine.github.io/wima/",
   "bugs": {
     "url": "https://github.com/wimaengine/wima/issues"
   },
   "type": "module",
-  "license": "MIT",
+  "license": "SEE LICENSE in LICENSE.txt",
   "main": "./dist/index.umd.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start": "vite --config .config/vite.config.js",
-    "dev": "npm run build:lib",
+    "dev": "vite --config .config/vite.config.js",
     "init": "husky .husky",
     "rollup": "rollup --config .config/rollup.config.js",
     "eslint": "eslint --config .config/eslint.config.js --ignore-pattern '**/*.test.js'",
@@ -35,12 +35,12 @@
     "build": "npm run build:lib && npm run build:docs",
     "build:lib": "npm run types && npm run rollup && npm run clean:types",
     "build:docs": "npm run typedoc",
-    "lint": "npm run lint:src && npm run lint:demos",
-    "lint:dry": "npm run lint:src-dry && npm run lint:demos-dry",
+    "lint": "npm run lint:src && npm run lint:examples",
+    "lint:dry": "npm run lint:src-dry && npm run lint:examples-dry",
     "lint:src-dry": "npm run eslint -- src",
-    "lint:demos-dry": "npm run eslint -- demos",
+    "lint:examples-dry": "npm run eslint -- examples",
     "lint:src": "npm run lint:src-dry -- --fix",
-    "lint:demos": "npm run lint:demos-dry -- --fix",
+    "lint:examples": "npm run lint:examples-dry -- --fix",
     "tsc:lint": "tsc -p .config/tsc.lint.json",
     "watch:src": "npm run rollup -- --watch",
     "watch:docs": "npm run typedoc -- --watch",

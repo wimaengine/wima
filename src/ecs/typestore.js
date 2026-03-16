@@ -1,8 +1,8 @@
 /** @import { ComponentId } from './typedef/index.js'*/
-/** @import { Constructor,TypeId } from '../reflect/index.js'*/
+/** @import { Constructor,TypeId } from '../type/index.js'*/
 
 import { ComponentInfo } from './component/index.js'
-import { typeid } from '../reflect/index.js'
+import { typeid } from '../type/index.js'
 
 export class TypeStore {
 
@@ -30,13 +30,13 @@ export class TypeStore {
   }
 
   /**
-   * @param {TypeId} id 
+   * @param {TypeId} id
    * @returns {ComponentId}
    */
-  setByTypeId(id){
+  setByTypeId(id) {
     const hasid = this.map.get(id)
 
-    if(hasid) return hasid
+    if (hasid) return hasid
 
     const compId = this.list.length
 
@@ -83,7 +83,7 @@ export class TypeStore {
   /**
    * @param {TypeId} typeId
    */
-  getByTypeId(typeId){
+  getByTypeId(typeId) {
     const id = this.getIdByTypeId(typeId)
 
     if (id === void 0) return undefined
@@ -114,21 +114,21 @@ export class TypeStore {
    * @param {Constructor<T>} component
    * @returns {number}
    */
-  getOrSet(component){
+  getOrSet(component) {
     return this.getOrSetByTypeId(typeid(component))
   }
 
   /**
    * @param {TypeId} typeid
    */
-  getOrSetByTypeId(typeid){
+  getOrSetByTypeId(typeid) {
     return this.getIdByTypeId(typeid) || this.setByTypeId(typeid)
   }
 
   /**
    * @returns {Iterable<ComponentInfo>}
    */
-  getInfos(){
+  getInfos() {
     return this.list
   }
 }

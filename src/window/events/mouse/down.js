@@ -7,13 +7,13 @@ export class MouseDown {
    * @type {number}
    */
   key
-  
+
   /**
    * @readonly
    * @type {Vector2}
    */
   position = new Vector2()
-  
+
   /**
    * @param {MouseEvent} event
    */

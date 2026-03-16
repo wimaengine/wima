@@ -2,7 +2,6 @@
 import { Vector2, Angle, clamp } from '../../math/index.js'
 import { PhysicsSettings } from '../../physics/settings.js'
 
-
 export class CollisionManifold {
 
   /**

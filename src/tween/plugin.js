@@ -11,10 +11,10 @@ import {
   TweenRepeat,
   Tween
 } from './components/index.js'
-import { Vector2, Quaternion, Vector3, Angle } from '../math/index.js'
+import { Vector2, Quaternion, Vector3, Rotary } from '../math/index.js'
 import { generateTweenFlipSystem, generateTweenRepeatTween, generateTweenTimerSystem, generateTweenUpdateSystem } from './systems/index.js'
 import { Orientation2D, Orientation3D, Position2D, Position3D, Scale2D, Scale3D } from '../transform/index.js'
-import { typeidGeneric } from '../reflect/index.js'
+import { typeidGeneric } from '../type/index.js'
 
 export class DefaultTweenPlugin extends Plugin {
 
@@ -36,7 +36,7 @@ export class DefaultTweenPlugin extends Plugin {
       .registerPlugin(new TweenPlugin({
         component: Orientation2D,
         tween: Orientation2DTween,
-        interpolation: Angle.lerp
+        interpolation: Rotary.slerp
       }))
       .registerPlugin(new TweenPlugin({
         component: Orientation3D,
@@ -62,7 +62,7 @@ export class DefaultTweenPlugin extends Plugin {
 /**
  * @template T
  */
-export class TweenPlugin extends Plugin{
+export class TweenPlugin extends Plugin {
 
   /**
    * @readonly
@@ -83,7 +83,7 @@ export class TweenPlugin extends Plugin{
   interpolation
 
   /**
-   * @param {TweenPluginOptions<T>} options 
+   * @param {TweenPluginOptions<T>} options
    */
   constructor({ component, tween, interpolation }) {
     super()
@@ -106,7 +106,7 @@ export class TweenPlugin extends Plugin{
       .registerSystem(AppSchedule.Update, generateTweenUpdateSystem(this.component, this.tween, this.interpolation))
   }
 
-  name(){
+  name() {
     return typeidGeneric(TweenPlugin, [this.component])
   }
 }

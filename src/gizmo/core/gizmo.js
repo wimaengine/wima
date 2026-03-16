@@ -1,4 +1,4 @@
-/** @import { Constructor } from '../../reflect/index.js' */
+/** @import { Constructor } from '../../type/index.js' */
 import { Color } from '../../color/index.js'
 import { Affine2, Affine3, Vector2, Vector3, BVector2, TAU, Rotary } from '../../math/index.js'
 import { GizmoSettings } from './settings.js'
@@ -65,7 +65,7 @@ export class Gizmo2D {
   settings
 
   /**
-   * @param {Constructor<T>} type 
+   * @param {Constructor<T>} type
    * @param {GizmoSettings} settings
    */
   constructor(type, settings) {
@@ -83,14 +83,14 @@ export class Gizmo2D {
   }
 
   /**
-   * @param {Affine2} matrix 
+   * @param {Affine2} matrix
    */
   setTransform(matrix) {
     this.transformation.copy(matrix)
   }
 
   /**
-   * @param {Affine2} matrix 
+   * @param {Affine2} matrix
    * @returns {this}
    */
   transform(matrix) {
@@ -100,8 +100,8 @@ export class Gizmo2D {
   }
 
   /**
-   * @param {number} x 
-   * @param {number} y 
+   * @param {number} x
+   * @param {number} y
    * @returns {this}
    */
   translate(x, y) {
@@ -111,7 +111,7 @@ export class Gizmo2D {
   }
 
   /**
-   * @param {number} angle 
+   * @param {number} angle
    * @returns {this}
    */
   rotate(angle) {
@@ -121,8 +121,8 @@ export class Gizmo2D {
   }
 
   /**
-   * @param {number} x 
-   * @param {number} y 
+   * @param {number} x
+   * @param {number} y
    * @returns {this}
    */
   scale(x, y) {
@@ -132,10 +132,10 @@ export class Gizmo2D {
   }
 
   /**
-   * @param {Vector2} start 
-   * @param {Vector2} end 
-   * @param {Color} color 
-   * @returns 
+   * @param {Vector2} start
+   * @param {Vector2} end
+   * @param {Color} color
+   * @returns
    */
   line(
     start = Vector2.Zero.clone(),
@@ -148,10 +148,10 @@ export class Gizmo2D {
   }
 
   /**
-   * @param {Vector2} start 
-   * @param {Vector2} end 
-   * @param {Color} colorStart 
-   * @param {Color} colorEnd 
+   * @param {Vector2} start
+   * @param {Vector2} end
+   * @param {Color} colorStart
+   * @param {Color} colorEnd
    * @returns {this}
    */
   lineGradient(start, end, colorStart, colorEnd) {
@@ -198,12 +198,12 @@ export class Gizmo2D {
   }
 
   /**
-   * @param {number} arcStart 
-   * @param {number} arcEnd 
-   * @param {number} radiusX 
-   * @param {number} radiusY 
-   * @param {Color} color 
-   * @param {number} resolution 
+   * @param {number} arcStart
+   * @param {number} arcEnd
+   * @param {number} radiusX
+   * @param {number} radiusY
+   * @param {Color} color
+   * @param {number} resolution
    * @returns {this}
    */
   arc(arcStart, arcEnd, radiusX = 1, radiusY = 1, color = Color.WHITE.clone(), resolution = 32) {
@@ -243,10 +243,10 @@ export class Gizmo2D {
   }
 
   /**
-   * @param {Vector2} cellCount 
-   * @param {Vector2} spacing 
-   * @param {Color} color 
-   * @param {BVector2} drawEdges 
+   * @param {Vector2} cellCount
+   * @param {Vector2} spacing
+   * @param {Color} color
+   * @param {BVector2} drawEdges
    * @returns {this}
    */
   grid(
@@ -281,7 +281,7 @@ export class Gizmo2D {
   }
 
   /**
-   * @param {number} length 
+   * @param {number} length
    * @returns {this}
    */
   axes(length) {
@@ -301,9 +301,9 @@ export class Gizmo2D {
   }
 
   /**
-   * @param {number} radius 
-   * @param {Color} color 
-   * @param {number} resolution 
+   * @param {number} radius
+   * @param {Color} color
+   * @param {number} resolution
    * @returns {this}
    */
   circle(radius, color, resolution = 32) {
@@ -385,7 +385,7 @@ export class Gizmo3D {
     this.settings = settings
   }
 
-  reset(){
+  reset() {
     Affine3.identity(this.transformation)
   }
 }

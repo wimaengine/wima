@@ -18,12 +18,12 @@ import {
   MeshDropped,
   MeshModified
 } from './events/index.js'
-import { typeidGeneric } from '../reflect/index.js'
+import { typeidGeneric } from '../type/index.js'
 
 export class RenderCorePlugin extends Plugin {
 
   /**
-   * @param {App} app 
+   * @param {App} app
    */
   register(app) {
     const world = app.getWorld()

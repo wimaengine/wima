@@ -51,7 +51,6 @@ export function throws(message) {
   throw new Error(marker + message)
 }
 
-
 /**
  * Throws an error if the supplied test is null or undefined.
  *

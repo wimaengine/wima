@@ -36,9 +36,9 @@ export class BoundingCircle {
   }
 
   /**
-   * @param {BoundingCircle} bound 
+   * @param {BoundingCircle} bound
    */
-  copy(bound){
+  copy(bound) {
     BoundingCircle.copy(bound, this)
   }
 

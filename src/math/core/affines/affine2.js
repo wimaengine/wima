@@ -1,7 +1,6 @@
 import { Rotary } from '../angles/index.js'
 import { Vector2 } from '../vectors/index.js'
 
-
 /**
  * A class that is used to transform positions through rotation, scaling and translation.
  *
@@ -264,7 +263,6 @@ export class Affine2 {
   static zero(out = new Affine2()) {
     this.set(0, 0, 0, 0, 0, 0, out)
 
-
     return out
   }
 
@@ -290,9 +288,9 @@ export class Affine2 {
 
   /**
    * @param {Affine2} affine
-   * @param {Vector2} position 
-   * @param {Rotary} orientation 
-   * @param {Vector2} scale 
+   * @param {Vector2} position
+   * @param {Rotary} orientation
+   * @param {Vector2} scale
    * @returns {[Vector2,Rotary,Vector2]}
    */
   static decompose(

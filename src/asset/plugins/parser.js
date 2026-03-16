@@ -1,9 +1,8 @@
-/** @import {Constructor} from '../../reflect/index.js' */
+/** @import {Constructor} from '../../type/index.js' */
 import { App, AppSchedule, Plugin } from '../../app/index.js'
-import { typeidGeneric } from '../../reflect/index.js'
+import { typeidGeneric } from '../../type/index.js'
 import { Parser } from '../core/index.js'
-import { generateParserSystem } from '../systems/index.js'
-
+import { registerAssetParserOnAssetServer } from '../systems/index.js'
 
 /**
  * @template T
@@ -24,7 +23,7 @@ export class AssetParserPlugin extends Plugin {
   parser
 
   /**
-   * @param {AssetParserPluginOptions<T>} options 
+   * @param {AssetParserPluginOptions<T>} options
    */
   constructor(options) {
     super()
@@ -41,12 +40,10 @@ export class AssetParserPlugin extends Plugin {
     const { asset, parser } = this
 
     app
-      .registerSystem(AppSchedule.Update, generateParserSystem(asset))
-      .getWorld()
-      .setResourceByTypeId(typeidGeneric(Parser, [asset]), parser)
+      .registerSystem(AppSchedule.Startup, registerAssetParserOnAssetServer(asset, parser))
   }
 
-  name(){
+  name() {
     return typeidGeneric(AssetParserPlugin, [this.asset])
   }
 }

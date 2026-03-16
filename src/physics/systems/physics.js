@@ -4,6 +4,7 @@ import { CollisionManifold, Contacts } from '../../narrowphase/index.js'
 import { PhysicsSettings } from '../settings.js'
 import { Collider2D } from '../components/index.js'
 import { Orientation2D, Position2D, Scale2D } from '../../transform/index.js'
+import { Rotary } from '../../math/index.js'
 
 /**
  * @param {World} world
@@ -15,7 +16,7 @@ export function updateBodies(world) {
     Collider2D.update(
       shape,
       position,
-      orientation.value,
+      Rotary.toAngle(orientation),
       scale
     )
   })
