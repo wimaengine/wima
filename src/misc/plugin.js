@@ -19,10 +19,12 @@ import { DefaultTweenPlugin } from '../tween/index.js'
 import { WindowPlugin } from '../window/index.js'
 import { NamePlugin } from '../name/index.js'
 import { ReflectPlugin } from '../reflect/plugin.js'
+import { CorePlugin } from '../core/plugin.js'
 
 export class DefaultPlugin extends PluginGroup {
   constructor() {
     super()
+    this.add(new CorePlugin())
     this.add(new ReflectPlugin())
     this.add(new TimePlugin())
     this.add(new NamePlugin())
