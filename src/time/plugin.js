@@ -1,9 +1,10 @@
 import { World } from '../ecs/index.js'
-import { AppSchedule, App, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { updateTimers } from './systems/index.js'
 import { VirtualClock } from './resource/index.js'
 import { Clock } from './clock.js'
 import { Timer } from './components/timer.js'
+import { AppSchedule } from '../core/index.js'
 
 export class TimePlugin extends Plugin {
 

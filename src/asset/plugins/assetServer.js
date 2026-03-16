@@ -1,8 +1,9 @@
-import { App, AppSchedule, Plugin } from '../../app/index.js'
+import { App, Plugin } from '../../app/index.js'
 import { EventPlugin } from '../../event/index.js'
 import { AssetServer } from '../resources/index.js'
 import { AssetLoadFail, AssetLoadSuccess } from '../events/index.js'
 import { updateAssets, updateAssetLoadEvents, logFailedLoads } from '../systems/index.js'
+import { AppSchedule } from '../../core/index.js'
 
 export class AssetServerPlugin extends Plugin {
 

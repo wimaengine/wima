@@ -1,4 +1,4 @@
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { Mouse, MouseButtons } from './resources/index.js'
 import { MouseButton } from './core/index.js'
 import { World } from '../ecs/index.js'
@@ -6,6 +6,7 @@ import { Events } from '../event/index.js'
 import { MouseDown, MouseMove, MouseUp } from '../window/index.js'
 import { Vector2 } from '../math/index.js'
 import { typeidGeneric } from '../type/index.js'
+import { AppSchedule } from '../core/index.js'
 
 export class MousePlugin extends Plugin {
 

@@ -1,4 +1,5 @@
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
+import { AppSchedule } from '../core/index.js'
 import { Contacts, SATNarrowphase2D } from './resources/index.js'
 import { getSATContacts } from './systems/index.js'
 

@@ -1,5 +1,6 @@
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { EntityCommands } from '../command/index.js'
+import { AppSchedule } from '../core/index.js'
 import { Query, World, Entity } from '../ecs/index.js'
 import { Storage } from '../storage/index.js'
 import { Cleanup } from './components/index.js'

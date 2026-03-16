@@ -1,4 +1,5 @@
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
+import { AppSchedule } from '../core/index.js'
 import { Entity, Query, World } from '../ecs/index.js'
 import { warn } from '../logger/index.js'
 import { MeshAttribute, ProgramCache, BasicMaterial } from '../render-core/index.js'

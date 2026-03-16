@@ -8,8 +8,9 @@ import {
   Scale3D,
   GlobalTransform3D
 } from '../components/index.js'
-import { App, AppSchedule, Plugin } from '../../app/index.js'
+import { App, Plugin } from '../../app/index.js'
 import { propagateTransform2D, propagateTransform3D, synctransform2D, synctransform3D } from '../systems/index.js'
+import { AppSchedule } from '../../core/index.js'
 
 export class Transform2DPlugin extends Plugin {
 

@@ -1,4 +1,5 @@
-import { App, AppSchedule } from '../app/index.js'
+import { App } from '../app/index.js'
+import { AppSchedule } from '../core/index.js'
 import { World, Entity, Query } from '../ecs/index.js'
 
 export class EntityCountDiagnosticPlugin {

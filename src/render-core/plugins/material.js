@@ -1,6 +1,7 @@
 /** @import { Constructor, TypeId } from '../../type/index.js' */
 
-import { App, AppSchedule, Plugin } from '../../app/index.js'
+import { App, Plugin } from '../../app/index.js'
+import { AppSchedule } from '../../core/index.js'
 import { typeidGeneric } from '../../type/index.js'
 import { Material } from '../assets/index.js'
 import { Material2D, Material3D } from '../components/index.js'
