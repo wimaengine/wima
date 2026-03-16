@@ -262,6 +262,12 @@ export class Assets {
 export class Handle {
 
   /**
+   * @readonly
+   * @type {Constructor<T>}
+   */
+  type
+
+  /**
    * @private
    * @type {boolean}
    */
@@ -297,6 +303,7 @@ export class Handle {
     this.index = index
     this.generation = generation
     this.assets = assets
+    this.type = assets.type
 
     const entry = assets.getEntry(this)
 
