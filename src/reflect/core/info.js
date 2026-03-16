@@ -184,3 +184,122 @@ export class FunctionInfo extends TypeInfo {
     return this.returnType
   }
 }
+
+export class ArrayInfo extends TypeInfo {
+
+  /**
+   * @readonly
+   * @type {TypeId}
+   */
+  elementType
+
+  /**
+   * @param {TypeId} elementType
+   */
+  constructor(elementType) {
+    super()
+    this.elementType = elementType
+  }
+
+  /**
+   * @returns {TypeId}
+   */
+  getElementType() {
+    return this.elementType
+  }
+}
+
+export class SetInfo extends TypeInfo {
+
+  /**
+   * @readonly
+   * @type {TypeId}
+   */
+  elementType
+
+  /**
+   * @param {TypeId} elementType
+   */
+  constructor(elementType) {
+    super()
+    this.elementType = elementType
+  }
+
+  /**
+   * @returns {TypeId}
+   */
+  getElementType() {
+    return this.elementType
+  }
+}
+
+export class MapInfo extends TypeInfo {
+
+  /**
+   * @readonly
+   * @type {TypeId}
+   */
+  keyType
+
+  /**
+   * @readonly
+   * @type {TypeId}
+   */
+  valueType
+
+  /**
+   * @param {TypeId} keyType
+   * @param {TypeId} valueType
+   */
+  constructor(keyType, valueType) {
+    super()
+    this.keyType = keyType
+    this.valueType = valueType
+  }
+
+  /**
+   * @returns {TypeId}
+   */
+  getKeyType() {
+    return this.keyType
+  }
+
+  /**
+   * @returns {TypeId}
+   */
+  getValueType() {
+    return this.valueType
+  }
+}
+
+export class TupleInfo extends TypeInfo {
+
+  /**
+   * @readonly
+   * @type {ReadonlyArray<TypeId>}
+   */
+  elementTypes
+
+  /**
+   * @param {TypeId[]} elementTypes
+   */
+  constructor(elementTypes) {
+    super()
+    this.elementTypes = elementTypes
+  }
+
+  /**
+   * @param {number} index
+   * @returns {TypeId | undefined}
+   */
+  getElement(index) {
+    return this.elementTypes[index]
+  }
+
+  /**
+   * @returns {ReadonlyArray<TypeId>}
+   */
+  getElements() {
+    return this.elementTypes
+  }
+}
