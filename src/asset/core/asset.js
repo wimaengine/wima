@@ -250,6 +250,10 @@ export class Assets {
 
     return new Handle(this, index, newEntry.generation)
   }
+
+  values(){
+    return this.assets.values()
+  }
 }
 
 /**

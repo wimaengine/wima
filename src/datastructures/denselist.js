@@ -61,4 +61,11 @@ export class DenseList {
   reserve() {
     return this.allocator.reserve()
   }
+
+  /**
+   * @returns {ReadonlyArray<T>}
+   */
+  values(){
+    return this.list
+  }
 }
