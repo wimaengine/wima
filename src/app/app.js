@@ -2,9 +2,8 @@
 /** @import { Constructor,TypeId } from '../type/index.js'*/
 
 import { World, ComponentHooks } from '../ecs/index.js'
-import { SystemConfig, Scheduler, Executor, RAFExecutor, ImmediateExecutor, SchedulerBuilder } from '../schedule/index.js'
+import { SystemConfig, Scheduler, Executor, SchedulerBuilder } from '../schedule/index.js'
 import { assert } from '../logger/index.js'
-import { AppSchedule } from './schedules.js'
 import { typeid } from '../type/index.js'
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
@@ -93,16 +92,7 @@ export class App {
    */
   systemBuilder = new SchedulerBuilder()
 
-  constructor() {
-    this.createSchedule(
-      AppSchedule.Startup,
-      new ImmediateExecutor()
-    )
-    this.createSchedule(
-      AppSchedule.Update,
-      new RAFExecutor()
-    )
-  }
+  constructor() {}
 
   /**
    * Return the world of the app.
