@@ -232,3 +232,42 @@ export class SetInfo extends TypeInfo {
     return this.elementType
   }
 }
+
+export class MapInfo extends TypeInfo {
+
+  /**
+   * @readonly
+   * @type {TypeId}
+   */
+  keyType
+
+  /**
+   * @readonly
+   * @type {TypeId}
+   */
+  valueType
+
+  /**
+   * @param {TypeId} keyType
+   * @param {TypeId} valueType
+   */
+  constructor(keyType, valueType) {
+    super()
+    this.keyType = keyType
+    this.valueType = valueType
+  }
+
+  /**
+   * @returns {TypeId}
+   */
+  getKeyType() {
+    return this.keyType
+  }
+
+  /**
+   * @returns {TypeId}
+   */
+  getValueType() {
+    return this.valueType
+  }
+}
