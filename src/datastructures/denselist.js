@@ -65,7 +65,7 @@ export class DenseList {
   /**
    * @returns {ReadonlyArray<T>}
    */
-  values(){
+  values() {
     return this.list
   }
 }
