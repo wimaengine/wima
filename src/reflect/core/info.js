@@ -271,3 +271,35 @@ export class MapInfo extends TypeInfo {
     return this.valueType
   }
 }
+
+export class TupleInfo extends TypeInfo {
+
+  /**
+   * @readonly
+   * @type {ReadonlyArray<TypeId>}
+   */
+  elementTypes
+
+  /**
+   * @param {TypeId[]} elementTypes
+   */
+  constructor(elementTypes) {
+    super()
+    this.elementTypes = elementTypes
+  }
+
+  /**
+   * @param {number} index
+   * @returns {TypeId | undefined}
+   */
+  getElement(index) {
+    return this.elementTypes[index]
+  }
+
+  /**
+   * @returns {ReadonlyArray<TypeId>}
+   */
+  getElements() {
+    return this.elementTypes
+  }
+}
