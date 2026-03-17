@@ -92,8 +92,6 @@ export class App {
    */
   systemBuilder = new SchedulerBuilder()
 
-  constructor() {}
-
   /**
    * Return the world of the app.
    *
