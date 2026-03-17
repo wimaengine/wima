@@ -1,4 +1,5 @@
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
+import { AppSchedule } from '../core/index.js'
 import { World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
 import { typeidGeneric } from '../type/index.js'

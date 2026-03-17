@@ -1,5 +1,6 @@
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { AssetParserPlugin, AssetPlugin, Assets } from '../asset/index.js'
+import { AppSchedule } from '../core/index.js'
 import { ComponentHooks } from '../ecs/index.js'
 import { typeidGeneric } from '../type/index.js'
 import { Audio } from './assets/index.js'

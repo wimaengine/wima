@@ -1,4 +1,5 @@
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
+import { AppSchedule } from '../core/index.js'
 import { Vector2, Vector3 } from '../math/index.js'
 import { Gravity2D, Gravity3D } from './resources/index.js'
 import { applyGravity2D, applyGravity3D } from './systems/index.js'

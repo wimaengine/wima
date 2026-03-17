@@ -17,12 +17,13 @@ import {
   WindowMove,
   WindowResize
 } from './events/index.js'
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { World } from '../ecs/index.js'
 import { Window, MainWindow } from './components/index.js'
 import { WindowCommands, Windows } from './resources/index.js'
 import { EventPlugin } from '../event/plugin.js'
 import { EntityCommands } from '../command/index.js'
+import { AppSchedule } from '../core/index.js'
 
 export class WindowPlugin extends Plugin {
 

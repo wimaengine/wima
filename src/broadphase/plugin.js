@@ -1,5 +1,6 @@
 /** @import {Broadphasable2D} from './resources/index.js'*/
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
+import { AppSchedule } from '../core/index.js'
 import { PhysicsHitbox } from './components/index.js'
 import { CollisionPairs, Broadphase2D } from './resources/index.js'
 import { getCollisionPairs, updateBroadphase2D } from './systems/index.js'

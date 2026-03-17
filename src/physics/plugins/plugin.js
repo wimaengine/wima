@@ -1,5 +1,5 @@
 import { Broadphase2DPlugin, NaiveBroadphase2D } from '../../broadphase/index.js'
-import { App, AppSchedule, Plugin } from '../../app/index.js'
+import { App, Plugin } from '../../app/index.js'
 import { ComponentHooks } from '../../ecs/index.js'
 import { NarrowPhase2DPlugin } from '../../narrowphase/index.js'
 import { EulerIntegrator2DPlugin } from '../../integrator/index.js'
@@ -7,6 +7,7 @@ import { Collider2D, PhysicsProperties, SoftBody2D, SoftBody3D } from '../compon
 import { physicspropertiesAddHook } from '../hooks/index.js'
 import { Gravity2DPlugin } from '../../gravity/index.js'
 import { collisionResponse, updateBodies, updateBounds } from '../systems/index.js'
+import { AppSchedule } from '../../core/index.js'
 
 export class Physics2DPlugin extends Plugin {
 

@@ -1,5 +1,5 @@
 /** @import {TweenLerp} from './typedef/index.js' */
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import {
   Position2DTween,
   Orientation2DTween,
@@ -15,6 +15,7 @@ import { Vector2, Quaternion, Vector3, Rotary } from '../math/index.js'
 import { generateTweenFlipSystem, generateTweenRepeatTween, generateTweenTimerSystem, generateTweenUpdateSystem } from './systems/index.js'
 import { Orientation2D, Orientation3D, Position2D, Position3D, Scale2D, Scale3D } from '../transform/index.js'
 import { typeidGeneric } from '../type/index.js'
+import { AppSchedule } from '../core/index.js'
 
 export class DefaultTweenPlugin extends Plugin {
 

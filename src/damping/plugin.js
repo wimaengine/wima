@@ -1,4 +1,5 @@
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
+import { AppSchedule } from '../core/index.js'
 import { Linear2DDamping, Angular2DDamping, Linear3DDamping, Angular3DDamping } from './resources/index.js'
 import { dampenRotation2D, dampenRotation3D, dampenVelocity2D, dampenVelocity3D } from './systems/index.js'
 

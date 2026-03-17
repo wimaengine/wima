@@ -2,7 +2,7 @@
 /** @import {UniformBind} from '../../render-core/index.js' */
 
 import { App } from '../../app/app.js'
-import { AppSchedule } from '../../app/schedules.js'
+import { AppSchedule } from '../../core/core/schedules.js'
 import { typeidGeneric } from '../../type/index.js'
 import { Material } from '../../render-core/index.js'
 import { genRegisterBuffer, genRender, genRenderPipeline } from '../systems/index.js'

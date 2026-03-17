@@ -1,5 +1,6 @@
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { AssetPlugin, Assets } from '../asset/index.js'
+import { AppSchedule } from '../core/index.js'
 import { typeidGeneric } from '../type/index.js'
 import { AnimationClip } from './assets/index.js'
 import { AnimationPlayer, AnimationTarget } from './components/index.js'

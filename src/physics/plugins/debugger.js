@@ -1,5 +1,6 @@
 /** @import {Entity} from '../../ecs/index.js' */
-import { App, AppSchedule, Plugin } from '../../app/index.js'
+import { App, Plugin } from '../../app/index.js'
+import { AppSchedule } from '../../core/index.js'
 import {
   drawArms,
   drawBounds,

@@ -1,4 +1,5 @@
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
+import { AppSchedule } from '../core/index.js'
 import { World } from '../ecs/index.js'
 import { TimerMode, VirtualClock } from '../time/index.js'
 import { RAFTimer } from './resources/index.js'

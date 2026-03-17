@@ -1,5 +1,5 @@
-import { App, Plugin } from '../app/app.js'
-import { AppSchedule } from '../app/schedules.js'
+import { App, Plugin } from '../app/index.js'
+import { AppSchedule } from '../core/index.js'
 import { World } from '../ecs/index.js'
 import { EntityCommands } from './resources/index.js'
 
