@@ -43,7 +43,7 @@ function addmesh(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(0.2, 0.2))
   const material = materials.add(new BasicMaterial())
 
   commands
@@ -66,7 +66,8 @@ function updateMesh(world) {
   const dt = clock.getElapsed()
 
   query.each(([position]) => {
-    position.x = Math.sin(dt) * 100
-    position.y = Math.cos(dt) * 100
+    const amplitude = 0.7
+    position.x = Math.sin(dt) * amplitude
+    position.y = Math.cos(dt) * amplitude
   })
 }

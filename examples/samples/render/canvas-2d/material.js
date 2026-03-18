@@ -39,13 +39,13 @@ function init(world) {
   const meshes = world.getResource(MeshAssets)
   const basicMaterials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(0.2, 0.2))
   const material = basicMaterials.add(new BasicMaterial())
 
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(-120, 0),
+      ...createTransform2D(-0.5, 0),
       new Meshed(mesh),
       new BasicMaterial2D(material),
       new Cleanup()

@@ -86,7 +86,6 @@ function spawnMeshes(world) {
 
 }
 
-// TODO: Revisit when transform propagation lands.
 /**
  * @param {World} world
  */

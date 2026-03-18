@@ -22,7 +22,7 @@ import {
   DOMWindowPlugin,
   FPSDebugger
 } from 'wima'
-import { addDefaultCamera2D, HackPlugin, setupViewport } from '../utils.js'
+import { addDefaultCamera2D, HackPlugin, setupViewport, pxToNdc } from '../utils.js'
 
 /** @type {Map<number,Entity>} */
 class TouchtoEntityMap extends Map { }
@@ -52,7 +52,7 @@ function init(world) {
 
   if (!window) return warn('No window set up')
 
-  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(0.1, 0.1))
 
   for (let i = 0; i < 10; i++) {
     const entity = commands
@@ -94,7 +94,7 @@ function update(world) {
     if (!material) return
 
     if (touch) {
-      components[0].copy(touch.position)
+      components[0].copy(pxToNdc(touch.position.x, touch.position.y))
       material.color.copy(Color.RED)
     } else {
       material.color.copy(Color.WHITE)

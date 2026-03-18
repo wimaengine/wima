@@ -50,7 +50,7 @@ function addMeshes(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add(Mesh.circle2D(50))
+  const mesh = meshes.add(Mesh.circle2D(0.1))
   const material = materials.add(new BasicMaterial())
 
   const parent = commands
@@ -66,7 +66,7 @@ function addMeshes(world) {
   const child = commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(200, 0, 0, 0.5, 0.5),
+      ...createTransform2D(0.4, 0, 0, 0.5, 0.5),
       new Meshed(mesh),
       new BasicMaterial2D(material),
       new Parent(parent),
@@ -77,7 +77,7 @@ function addMeshes(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(200, 0, 0, 0.5, 0.5),
+      ...createTransform2D(0.4, 0, 0, 0.5, 0.5),
       new Meshed(mesh),
       new BasicMaterial2D(material),
       new Cleanup(),
@@ -87,7 +87,6 @@ function addMeshes(world) {
 
 }
 
-// TODO: Revisit when transform propagation lands.
 /**
  * @param {World} world
  */

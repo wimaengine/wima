@@ -49,28 +49,29 @@ function init(world) {
   const basicMaterials = world.getResourceByTypeId(typeidGeneric(Assets, [BasicMaterial]))
 
   const material = basicMaterials.add(new BasicMaterial())
-  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(0.08, 0.08))
 
-  const width = 1000
-  const height = 600
-  const offset = -width
-  const stride = 100
+  const width = 1.8
+  const startY = -0.7
+  const endY = 0.7
   const easings = Object.keys(Easing)
+  const stride = easings.length > 1 ? width / (easings.length - 1) : width
+  const offset = -width / 2
 
   for (let i = 0; i < easings.length; i++) {
     const easeName = easings[i]
     const x = offset + i * stride
-    const y = -height / 2
+    const y = startY
 
     commands
       .spawn()
       .insertPrefab([
-        ...createTransform2D(x, y + 50),
+        ...createTransform2D(x, y),
         new Meshed(mesh),
         new BasicMaterial2D(material),
         new Position2DTween(
-          new Vector2(x, y + 50),
-          new Vector2(x, 0 - 100),
+          new Vector2(x, y),
+          new Vector2(x, endY),
           4,
           true,
           true,
