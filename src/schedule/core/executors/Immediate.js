@@ -11,9 +11,10 @@ export class ImmediateExecutor extends Executor {
   /**
    * @param {World} world
    * @param {Schedule} schedule
+   * @param {(error: Error, world: World) => void} [errorHandler]
    */
-  start(world, schedule) {
-    schedule.run(world)
+  start(world, schedule, errorHandler) {
+    schedule.run(world, errorHandler)
   }
   stop() {}
 }

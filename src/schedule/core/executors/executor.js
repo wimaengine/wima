@@ -44,7 +44,8 @@ export class Executor {
   /**
    * @param {World} _world
    * @param {Schedule} _schedule
+   * @param {(error: Error, world: World) => void} [_errorHandler]
    */
-  start(_world, _schedule) { }
+  start(_world, _schedule, _errorHandler) { }
   stop() { }
 }

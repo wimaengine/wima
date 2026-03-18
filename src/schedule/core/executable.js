@@ -9,8 +9,8 @@ import { Schedule } from './schedule.js'
  * @example
  * ```ts
  * class SomeExecutor extends Executor {
- *   start(world:World, schedule:Schedule){
- *     schedule.run(world,schedule)
+ *   start(world:World, schedule:Schedule, errorHandler){
+ *     schedule.run(world, errorHandler)
  *   }
  * }
  *
@@ -41,21 +41,28 @@ export class Executable {
    * @type {Schedule}
    */
   schedule
+  /**
+   * @private
+   * @type {((error: Error, world: World) => void) | undefined}
+   */
+  errorHandler
 
   /**
    * @param {Schedule} schedule
    * @param {Executor} executor
+   * @param {(error: Error, world: World) => void} [errorHandler]
    */
-  constructor(schedule, executor) {
+  constructor(schedule, executor, errorHandler) {
     this.schedule = schedule
     this.executor = executor
+    this.errorHandler = errorHandler
   }
 
   /**
    * @param {World} world
    */
   start(world) {
-    this.executor.start(world, this.schedule)
+    this.executor.start(world, this.schedule, this.errorHandler)
   }
   stop() {
     this.executor.stop()
