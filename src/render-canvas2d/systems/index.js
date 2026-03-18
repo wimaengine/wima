@@ -54,6 +54,7 @@ export function genrender(type, renderMaterial) {
 
       ctx.save()
       ctx.translate(offsetX, offsetY)
+      ctx.scale(offsetX, -offsetY)
       ctx.transform(
         view.a,
         view.b,
