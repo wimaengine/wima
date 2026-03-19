@@ -2,7 +2,7 @@
 /** @import {ComponentHook} from '../../ecs/index.js' */
 import { warn } from '../../logger/index.js'
 import { Window, Windows } from '../../window/index.js'
-import { setUpKeyboardEvents, setupMouseEvents, setUpTouchEvents, setUpWindowEvents, setUpFileEvents } from '../core/index.js'
+import { setUpKeyboardEvents, setupPointerEvents, setUpWindowEvents, setUpFileEvents } from '../core/index.js'
 
 /**
  * @type {ComponentHook}
@@ -35,8 +35,7 @@ export function openWindow(entity, world) {
   canvas.tabIndex = -1
   canvas.focus()
 
-  setupMouseEvents(world, canvas)
-  setUpTouchEvents(world, canvas)
+  setupPointerEvents(world, canvas)
   setUpKeyboardEvents(world, canvas)
   setUpWindowEvents(world, canvas)
   setUpFileEvents(world, canvas)

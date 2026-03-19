@@ -3,7 +3,7 @@ import { AppSchedule } from '../core/index.js'
 import { World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
 import { typeidGeneric } from '../type/index.js'
-import { TouchCancel, TouchEnd, TouchMove, TouchStart } from '../window/index.js'
+import { PointerCancel, PointerDown, PointerMove, PointerUp } from '../window/index.js'
 import { TouchPointer } from './core/index.js'
 import { Touches } from './resources/touches.js'
 
@@ -25,32 +25,40 @@ export class TouchPlugin extends Plugin {
 function updateTouch(world) {
   const touch = world.getResource(Touches)
 
-  /** @type {Events<TouchStart>} */
-  const start = world.getResourceByTypeId(typeidGeneric(Events, [TouchStart]))
+  /** @type {Events<PointerDown>} */
+  const start = world.getResourceByTypeId(typeidGeneric(Events, [PointerDown]))
 
-  /** @type {Events<TouchMove>} */
-  const move = world.getResourceByTypeId(typeidGeneric(Events, [TouchMove]))
+  /** @type {Events<PointerMove>} */
+  const move = world.getResourceByTypeId(typeidGeneric(Events, [PointerMove]))
 
-  /** @type {Events<TouchEnd>} */
-  const end = world.getResourceByTypeId(typeidGeneric(Events, [TouchEnd]))
+  /** @type {Events<PointerUp>} */
+  const end = world.getResourceByTypeId(typeidGeneric(Events, [PointerUp]))
 
-  /** @type {Events<TouchCancel>} */
-  const cancel = world.getResourceByTypeId(typeidGeneric(Events, [TouchCancel]))
+  /** @type {Events<PointerCancel>} */
+  const cancel = world.getResourceByTypeId(typeidGeneric(Events, [PointerCancel]))
 
   start.each((event) => {
     const { data } = event
-    const { id } = data
-    const pointer = new TouchPointer(id)
+
+    if (data.pointerType !== 'touch') return
+
+    const pointer = new TouchPointer(0)
 
     pointer.position.copy(data.position)
     pointer.lastposition.copy(pointer.position)
 
-    touch.set(id, pointer)
+    touch.set(data.id, pointer)
   })
 
   move.each((event) => {
     const { data } = event
-    const { id } = data
+
+    if (data.pointerType !== 'touch') return
+
+    const id = touch.getId(data.id)
+
+    if (!id) return
+
     const pointer = touch.get(id)
 
     if (!pointer) return
@@ -60,13 +68,17 @@ function updateTouch(world) {
   })
 
   end.each((event) => {
-    const { id } = event.data
+    const { data } = event
 
-    touch.set(id, null)
+    if (data.pointerType !== 'touch') return
+
+    touch.delete(data.id)
   })
   cancel.each((event) => {
-    const { id } = event.data
+    const { data } = event
 
-    touch.set(id, null)
+    if (data.pointerType !== 'touch') return
+
+    touch.delete(data.id)
   })
 }
