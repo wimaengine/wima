@@ -2,7 +2,7 @@
 /** @import { Constructor,TypeId } from '../type/index.js'*/
 
 import { World, ComponentHooks } from '../ecs/index.js'
-import { SystemConfig, Scheduler, Executor, SchedulerBuilder } from '../schedule/index.js'
+import { SystemConfig, Scheduler, SchedulerBuilder, Executable } from '../schedule/index.js'
 import { assert } from '../logger/index.js'
 import { typeid } from '../type/index.js'
 
@@ -73,6 +73,12 @@ export class App {
 
   /**
    * @private
+   * @type {import('../schedule/index.js').Runner}
+   */
+  runner = null
+
+  /**
+   * @private
    * @type {boolean}
    */
   initialized = false
@@ -102,13 +108,18 @@ export class App {
   }
 
   /**
-   * @template {Executor} T
-   * @param {string} label
-   * @param {T} executor
-   * @param {(error: Error, world: World) => void} [errorHandler]
+   * @param {{label: string, delay?: number, repeat?: boolean, errorHandler?: (error: Error, world: World) => void}} config
    */
-  createSchedule(label, executor, errorHandler) {
-    return this.scheduler.set(label, executor, errorHandler)
+  createSchedule(config) {
+    return this.scheduler.set(new Executable(config))
+  }
+
+  /**
+   * @param {import('../schedule/index.js').Runner} runner
+   */
+  setRunner(runner) {
+    this.runner = runner
+    return this
   }
 
   /**
@@ -130,7 +141,8 @@ export class App {
     this.systemsevents = []
 
     this.systemBuilder.pushToScheduler(this.scheduler)
-    this.scheduler.run(this.world)
+    assert(this.runner, 'App runner is not set. Call `app.setRunner(...)` before `app.run()`.')
+    this.runner(this.scheduler, this.world)
     this.initialized = true
 
     return this
