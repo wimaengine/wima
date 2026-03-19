@@ -3,7 +3,7 @@ import { Mouse, MouseButtons } from './resources/index.js'
 import { MouseButton } from './core/index.js'
 import { World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
-import { MouseDown, MouseMove, MouseUp } from '../window/index.js'
+import { PointerDown, PointerMove, PointerUp } from '../window/index.js'
 import { Vector2 } from '../math/index.js'
 import { typeidGeneric } from '../type/index.js'
 import { AppSchedule } from '../core/index.js'
@@ -28,8 +28,8 @@ export class MousePlugin extends Plugin {
  */
 function updateMouse(world) {
   const mouse = world.getResource(Mouse)
-
-  const move = /** @type {Events<MouseMove>} */(world.getResourceByTypeId(typeidGeneric(Events, [MouseMove]))).readLast()
+  const moves = /** @type {Events<PointerMove>} */(world.getResourceByTypeId(typeidGeneric(Events, [PointerMove])))
+  const move = moves.readLast()
 
   mouse.delta.copy(Vector2.Zero)
   mouse.lastPosition.copy(mouse.position)
@@ -46,21 +46,23 @@ function updateMouse(world) {
 function updateMouseButtons(world) {
   const buttons = world.getResource(MouseButtons)
 
-  /** @type {Events<MouseDown>} */
-  const down = world.getResourceByTypeId(typeidGeneric(Events, [MouseDown]))
+  /** @type {Events<PointerDown>} */
+  const down = world.getResourceByTypeId(typeidGeneric(Events, [PointerDown]))
 
-  /** @type {Events<MouseUp>} */
-  const up = world.getResourceByTypeId(typeidGeneric(Events, [MouseUp]))
+  /** @type {Events<PointerUp>} */
+  const up = world.getResourceByTypeId(typeidGeneric(Events, [PointerUp]))
 
   buttons.clearJustPressed()
   buttons.clearJustReleased()
 
   down.each((event) => {
+    if (event.data.pointerType !== 'mouse') return
     const button = mapMouseButtons(event.data.key)
 
     buttons.press(button)
   })
   up.each((event) => {
+    if (event.data.pointerType !== 'mouse') return
     const button = mapMouseButtons(event.data.key)
 
     buttons.release(button)

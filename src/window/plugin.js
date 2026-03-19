@@ -4,16 +4,13 @@ import {
   FileDrop,
   KeyDown,
   KeyUp,
-  MouseDown,
-  MouseEnter,
-  MouseLeave,
-  MouseMove,
-  MouseUp,
-  MouseWheel,
-  TouchCancel,
-  TouchEnd,
-  TouchMove,
-  TouchStart,
+  PointerCancel,
+  PointerDown,
+  PointerEnter,
+  PointerLeave,
+  PointerMove,
+  PointerWheel,
+  PointerUp,
   WindowMove,
   WindowResize
 } from './events/index.js'
@@ -71,34 +68,25 @@ export class WindowPlugin extends Plugin {
         event:KeyUp
       }))
       .registerPlugin(new EventPlugin({
-        event:MouseDown
+        event:PointerWheel
       }))
       .registerPlugin(new EventPlugin({
-        event:MouseUp
+        event:PointerDown
       }))
       .registerPlugin(new EventPlugin({
-        event:MouseMove
+        event:PointerUp
       }))
       .registerPlugin(new EventPlugin({
-        event:MouseWheel
+        event:PointerMove
       }))
       .registerPlugin(new EventPlugin({
-        event:MouseEnter
+        event:PointerEnter
       }))
       .registerPlugin(new EventPlugin({
-        event:MouseLeave
+        event:PointerLeave
       }))
       .registerPlugin(new EventPlugin({
-        event:TouchStart
-      }))
-      .registerPlugin(new EventPlugin({
-        event:TouchEnd
-      }))
-      .registerPlugin(new EventPlugin({
-        event:TouchMove
-      }))
-      .registerPlugin(new EventPlugin({
-        event:TouchCancel
+        event:PointerCancel
       }))
       .registerPlugin(new EventPlugin({
         event:FileDrag
