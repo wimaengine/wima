@@ -67,6 +67,7 @@ function updateMesh(world) {
 
   query.each(([position]) => {
     const amplitude = 0.7
+
     position.x = Math.sin(dt) * amplitude
     position.y = Math.cos(dt) * amplitude
   })
