@@ -1,6 +1,5 @@
 import { App, Plugin } from '../app/index.js'
-import { ImmediateExecutor, RAFExecutor } from '../schedule/index.js'
-import { AppSchedule } from './core/index.js'
+import { AppSchedule, defaultRunner } from './core/index.js'
 
 export class CorePlugin extends Plugin {
 
@@ -8,13 +7,12 @@ export class CorePlugin extends Plugin {
    * @param {App} app
    */
   register(app) {
+    app.setRunner(defaultRunner)
     app.createSchedule(
-      AppSchedule.Startup,
-      new ImmediateExecutor()
+      { label: AppSchedule.Startup, repeat: false }
     )
     app.createSchedule(
-      AppSchedule.Update,
-      new RAFExecutor()
+      { label: AppSchedule.Update, repeat: true }
     )
   }
 }
