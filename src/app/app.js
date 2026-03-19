@@ -119,6 +119,7 @@ export class App {
    */
   setRunner(runner) {
     this.runner = runner
+
     return this
   }
 

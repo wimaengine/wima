@@ -3,7 +3,7 @@
  * @type {import('../../schedule/index.js').Runner}
  */
 export function defaultRunner(scheduler, world) {
-  let tick = 0
+
   /** @type {Map<string, { active: boolean, nextRunAt: number }>} */
   const state = new Map()
 
@@ -19,10 +19,12 @@ export function defaultRunner(scheduler, world) {
   const update = (/** @type {number} */ time) => {
     for (const executable of scheduler.values()) {
       const execState = state.get(executable.label)
+
       if (!execState || !execState.active) continue
 
       if (time >= execState.nextRunAt) {
         executable.schedule.run(world, executable.errorHandler)
+
         if (executable.repeat) {
           execState.nextRunAt = time + executable.delay
         } else {
@@ -31,8 +33,8 @@ export function defaultRunner(scheduler, world) {
       }
     }
 
-    tick = requestAnimationFrame(update)
+    requestAnimationFrame(update)
   }
 
-  tick = requestAnimationFrame(update)
+  requestAnimationFrame(update)
 }
