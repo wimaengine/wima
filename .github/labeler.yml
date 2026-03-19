@@ -140,6 +140,11 @@ mod:render:
           - 'src/render-core/**'
           - 'src/render-webgl/**'
 
+mod:scene:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/scene/**'
+
 mod:schedule:
   - changed-files:
       - any-glob-to-any-file:
