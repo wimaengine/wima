@@ -16,9 +16,10 @@ export class TimeoutExecutor extends Executor {
   /**
    * @param {World} world
    * @param {Schedule} schedule
+   * @param {(error: Error, world: World) => void} [errorHandler]
    */
-  start(world, schedule) {
-    this.tick = window.setTimeout(() => { schedule.run(world) }, this.time)
+  start(world, schedule, errorHandler) {
+    this.tick = window.setTimeout(() => { schedule.run(world, errorHandler) }, this.time)
   }
   stop() {
     clearTimeout(this.tick)

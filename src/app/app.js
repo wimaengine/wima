@@ -105,9 +105,10 @@ export class App {
    * @template {Executor} T
    * @param {string} label
    * @param {T} executor
+   * @param {(error: Error, world: World) => void} [errorHandler]
    */
-  createSchedule(label, executor) {
-    return this.scheduler.set(label, executor)
+  createSchedule(label, executor, errorHandler) {
+    return this.scheduler.set(label, executor, errorHandler)
   }
 
   /**

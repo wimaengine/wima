@@ -20,9 +20,10 @@ export class IntervalExecutor extends Executor {
   /**
    * @param {World} world
    * @param {Schedule} schedule
+   * @param {(error: Error, world: World) => void} [errorHandler]
    */
-  start(world, schedule) {
-    this.tick = window.setInterval(() => { schedule.run(world) }, this.time)
+  start(world, schedule, errorHandler) {
+    this.tick = window.setInterval(() => { schedule.run(world, errorHandler) }, this.time)
   }
   stop() {
     clearInterval(this.tick)

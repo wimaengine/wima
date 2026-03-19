@@ -49,11 +49,32 @@ export class Schedule {
   }
 
   /**
-   * @param {World} registry
+   * @param {World} world
+   * @param {(error: Error, world: World) => void} [errorHandler]
    */
-  run(registry) {
+  run(world, errorHandler) {
+    const handler = errorHandler ?? defaultErrorHandler
+
     for (let i = 0; i < this.systems.length; i++) {
-      if (this.condition.get(i)) this.systems[i](registry)
+      try {
+        if (this.condition.get(i)) this.systems[i](world)
+      } catch(error) {
+        if (error instanceof Error) {
+          handler(error, world)
+        } else if (typeof error === 'string') {
+          handler(new Error(error), world)
+        } else {
+          handler(new Error(String(error)), world)
+        }
+      }
     }
   }
+}
+
+/**
+ * @param {Error} error
+ * @throws {Error}
+ */
+function defaultErrorHandler(error) {
+  throw error
 }

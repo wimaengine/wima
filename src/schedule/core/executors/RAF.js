@@ -17,15 +17,16 @@ export class RAFExecutor extends Executor {
   /**
    * @param {World} world
    * @param {Schedule} schedule
+   * @param {(error: Error, world: World) => void} [errorHandler]
    */
-  start(world, schedule) {
+  start(world, schedule, errorHandler) {
     this.tick = requestAnimationFrame(execute.bind(this))
 
     /**
      * @this {RAFExecutor}
      */
     function execute() {
-      schedule.run(world)
+      schedule.run(world, errorHandler)
       this.tick = requestAnimationFrame(execute.bind(this))
     }
   }

@@ -27,11 +27,12 @@ export class Scheduler {
   /**
    * @param {string} label
    * @param {Executor} executor
+   * @param {(error: Error, world: World) => void} [errorHandler]
    */
-  set(label, executor) {
+  set(label, executor, errorHandler) {
     const schedule = new Schedule()
 
-    this.executables.set(label, new Executable(schedule, executor))
+    this.executables.set(label, new Executable(schedule, executor, errorHandler))
   }
 
   /**
