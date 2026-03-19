@@ -39,7 +39,9 @@ function updateTouch(world) {
 
   start.each((event) => {
     const { data } = event
+
     if (data.pointerType !== 'touch') return
+
     const pointer = new TouchPointer(0)
 
     pointer.position.copy(data.position)
@@ -50,10 +52,13 @@ function updateTouch(world) {
 
   move.each((event) => {
     const { data } = event
+
     if (data.pointerType !== 'touch') return
+
     const id = touch.getId(data.id)
 
     if (!id) return
+
     const pointer = touch.get(id)
 
     if (!pointer) return
@@ -64,12 +69,16 @@ function updateTouch(world) {
 
   end.each((event) => {
     const { data } = event
+
     if (data.pointerType !== 'touch') return
+
     touch.delete(data.id)
   })
   cancel.each((event) => {
     const { data } = event
+
     if (data.pointerType !== 'touch') return
+
     touch.delete(data.id)
   })
 }

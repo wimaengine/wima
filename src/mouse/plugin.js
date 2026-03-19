@@ -57,12 +57,14 @@ function updateMouseButtons(world) {
 
   down.each((event) => {
     if (event.data.pointerType !== 'mouse') return
+
     const button = mapMouseButtons(event.data.key)
 
     buttons.press(button)
   })
   up.each((event) => {
     if (event.data.pointerType !== 'mouse') return
+
     const button = mapMouseButtons(event.data.key)
 
     buttons.release(button)

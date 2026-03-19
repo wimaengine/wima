@@ -72,9 +72,10 @@ export class Touches {
     }
 
     // Safety: Can only allocate id here
-    //@ts-ignore
+    // @ts-ignore
     pointer.id = id
     this.list[id] = pointer
+
     return id
   }
 
@@ -89,6 +90,7 @@ export class Touches {
 
     this.list[id] = undefined
     this.pointerMap.delete(pointerId)
+
     return id
   }
 
