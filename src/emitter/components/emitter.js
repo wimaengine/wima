@@ -24,14 +24,14 @@ export class Emitter {
    * @type {boolean}
    */
   enabled
- 
+
   /**
    * @type {Range}
    */
   lifetime
- 
+
   /**
-   * @param {EmitterOptions} options 
+   * @param {EmitterOptions} options
    */
   constructor({
     prefab,

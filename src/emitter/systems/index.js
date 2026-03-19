@@ -1,5 +1,5 @@
 import { Entity, has, Query, World } from '../../ecs/index.js'
-import { Timer, VirtualClock } from '../../time/index.js'
+import { Timer } from '../../time/index.js'
 import { EntityCommands } from '../../command/index.js'
 import { Position2D, Orientation2D, GlobalTransform2D, GlobalTransform3D, Orientation3D, Position3D, Scale3D } from '../../transform/index.js'
 import { Particle, Emitter } from '../components/index.js'
@@ -37,7 +37,7 @@ export function emitParticles2D(world) {
           // on this marker,add an option to disable adding it
           // on an emitter.
           new Particle(),
-          new Timer({duration:lifetime})
+          new Timer({ duration:lifetime })
         ])
         .build()
 
@@ -77,7 +77,7 @@ export function emitParticles3D(world) {
           new Orientation3D().copy(orientation),
           new Scale3D().copy(scale),
           new Particle(),
-          new Timer({duration: lifetime})
+          new Timer({ duration: lifetime })
         ])
         .build()
 
@@ -88,17 +88,15 @@ export function emitParticles3D(world) {
   })
 }
 
-// TODO: Move to time module.It seems that this functionality can be 
-// tacked onto Timer using another component to mark the entity as 
+// TODO: Move to time module.It seems that this functionality can be
+// tacked onto Timer using another component to mark the entity as
 // despawning when timer is done
 /**
  * @param {World} world
  */
 export function despawnParticles(world) {
-  const particles = new Query(world, [Entity, Timer],[has(Particle)])
+  const particles = new Query(world, [Entity, Timer], [has(Particle)])
   const commands = world.getResource(EntityCommands)
-  const clock = world.getResource(VirtualClock)
-  const delta = clock.getDelta()
 
   particles.each(([entity, timer]) => {
     if (timer.completed()) {

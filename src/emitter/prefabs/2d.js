@@ -4,7 +4,6 @@ import { createTransform2D, GlobalTransform2D, Orientation2D, Position2D, Scale2
 import { Children } from '../../hierarchy/index.js'
 import { Timer } from '../../time/index.js'
 
-
 /**
  * @param {EmitterOptions} [prefab]
  * @param {number} [x]

@@ -7,6 +7,7 @@ import { default as input } from './input/index.js'
 import { default as tween } from './tween/index.js'
 import { default as gizmos } from './gizmos/index.js'
 import { default as scene } from './scene/index.js'
+import { default as emitter } from './emitter/index.js'
 
 export default {
   'animation': animation,
@@ -17,5 +18,6 @@ export default {
   'input': input,
   'tween': tween,
   'gizmos': gizmos,
-  'scene': scene
+  'scene': scene,
+  'emitter': emitter
 }

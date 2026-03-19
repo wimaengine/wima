@@ -1,7 +1,6 @@
 import {
   Mesh,
   World,
-  Demo,
   EntityCommands,
   Cleanup,
   Emitter,
@@ -25,11 +24,30 @@ import {
   Entity,
   rand,
   HALF_PI,
-  Timer
+  Timer,
+  App,
+  AppSchedule,
+  Canvas2DRendererPlugin,
+  DefaultPlugin,
+  DOMWindowPlugin,
+  FPSDebugger,
+  Emitter2DPlugin
 } from 'wima'
-import { addDefaultCamera2D } from '../../utils.js'
+import { addDefaultCamera2D, HackPlugin, setupViewport } from '../../utils.js'
 
-export default new Demo('emitter2d/duration', [init, addDefaultCamera2D])
+const app = new App()
+
+app
+  .registerPlugin(new HackPlugin())
+  .registerPlugin(new DefaultPlugin())
+  .registerPlugin(new DOMWindowPlugin())
+  .registerPlugin(new Canvas2DRendererPlugin())
+  .registerPlugin(new Emitter2DPlugin())
+  .registerSystem(AppSchedule.Startup, init)
+  .registerSystem(AppSchedule.Startup, addDefaultCamera2D)
+  .registerSystem(AppSchedule.Update, setupViewport)
+  .registerDebugger(new FPSDebugger())
+  .run()
 
 /**
  * @param {World} world
@@ -39,7 +57,7 @@ function init(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(0.08, 0.08))
   const material = materials.add(new BasicMaterial())
 
   /**
@@ -55,22 +73,22 @@ function init(world) {
   }
 
   /**
-   * @param {EntityCommands} commands 
-   * @param {Entity} entity 
+   * @param {EntityCommands} commands
+   * @param {Entity} entity
    */
   function patch(commands, entity) {
     commands
       .entity(entity)
       .insertPrefab([
-        new Velocity2D(0, 100),
+        new Velocity2D(0, 0.6),
         new Rotation2D(rand(-HALF_PI, HALF_PI))
       ])
       .build()
   }
 
   const number = 10
-  const width = 50
-  const padding = 30
+  const width = 0.08
+  const padding = 0.06
   const offset = -((width + padding) * number) / 2
 
   for (let i = 0; i < number; i++) {
@@ -88,7 +106,7 @@ function init(world) {
         new Timer({ duration: 0.2 * i, mode: TimerMode.Repeat }),
         new Cleanup()
       ])
-      .insert(new Position2D(offset + i * (width + padding), -200))
+      .insert(new Position2D(offset + i * (width + padding), -0.7))
       .build()
   }
 }

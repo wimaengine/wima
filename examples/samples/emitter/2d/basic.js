@@ -1,7 +1,6 @@
 import {
   Mesh,
   World,
-  Demo,
   Query,
   EntityCommands,
   Cleanup,
@@ -30,15 +29,31 @@ import {
   rand,
   HALF_PI,
   Timer,
-  has
+  has,
+  App,
+  AppSchedule,
+  Canvas2DRendererPlugin,
+  DefaultPlugin,
+  DOMWindowPlugin,
+  FPSDebugger,
+  Emitter2DPlugin
 } from 'wima'
-import { addDefaultCamera2D } from '../../utils.js'
+import { addDefaultCamera2D, HackPlugin, setupViewport } from '../../utils.js'
 
-export default new Demo(
-  'emitter2d/basic',
-  [init, addDefaultCamera2D],
-  [update]
-)
+const app = new App()
+
+app
+  .registerPlugin(new HackPlugin())
+  .registerPlugin(new DefaultPlugin())
+  .registerPlugin(new DOMWindowPlugin())
+  .registerPlugin(new Canvas2DRendererPlugin())
+  .registerPlugin(new Emitter2DPlugin())
+  .registerSystem(AppSchedule.Startup, init)
+  .registerSystem(AppSchedule.Startup, addDefaultCamera2D)
+  .registerSystem(AppSchedule.Update, update)
+  .registerSystem(AppSchedule.Update, setupViewport)
+  .registerDebugger(new FPSDebugger())
+  .run()
 
 /**
  * @param {World} world
@@ -48,7 +63,7 @@ function init(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(0.08, 0.08))
   const material = materials.add(new BasicMaterial())
 
   /**
@@ -64,15 +79,15 @@ function init(world) {
   }
 
   /**
-   * @param {EntityCommands} commands 
-   * @param {Entity} entity 
+   * @param {EntityCommands} commands
+   * @param {Entity} entity
    */
   function patch(commands, entity) {
     commands
       .entity(entity)
       .insertPrefab([
-        new Velocity2D(rand(100,200)),
-        new Rotation2D(rand(-HALF_PI,HALF_PI))
+        new Velocity2D(rand(0.3, 0.6)),
+        new Rotation2D(rand(-HALF_PI, HALF_PI))
       ])
       .build()
   }
@@ -93,7 +108,7 @@ function init(world) {
  * @param {World} world
  */
 function update(world) {
-  const emitters = new Query(world, [Timer],[has(Emitter)])
+  const emitters = new Query(world, [Timer], [has(Emitter)])
   const touches = world.getResource(Touches)
   const mouse = world.getResource(MouseButtons)
   const device = world.getResource(Device)

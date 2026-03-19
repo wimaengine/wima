@@ -1,7 +1,6 @@
 import {
   Mesh,
   World,
-  Demo,
   Query,
   EntityCommands,
   Cleanup,
@@ -29,11 +28,31 @@ import {
   rand,
   Range,
   createEmitter3D,
-  Timer
+  Timer,
+  App,
+  AppSchedule,
+  DefaultPlugin,
+  DOMWindowPlugin,
+  FPSDebugger,
+  WebglRendererPlugin,
+  Emitter3DPlugin
 } from 'wima'
-import { addDefaultCamera3D } from '../../utils.js'
+import { addDefaultCamera3D, HackPlugin, setupViewportWebgl } from '../../utils.js'
 
-export default new Demo('emitter3d/basic', [init, addDefaultCamera3D], [update])
+const app = new App()
+
+app
+  .registerPlugin(new HackPlugin())
+  .registerPlugin(new WebglRendererPlugin())
+  .registerPlugin(new DefaultPlugin())
+  .registerPlugin(new DOMWindowPlugin())
+  .registerPlugin(new Emitter3DPlugin())
+  .registerSystem(AppSchedule.Startup, init)
+  .registerSystem(AppSchedule.Startup, addDefaultCamera3D)
+  .registerSystem(AppSchedule.Update, setupViewportWebgl)
+  .registerSystem(AppSchedule.Update, update)
+  .registerDebugger(new FPSDebugger())
+  .run()
 
 /**
  * @param {World} world
@@ -59,8 +78,8 @@ function init(world) {
   }
 
   /**
-   * @param {EntityCommands} commands 
-   * @param {Entity} entity 
+   * @param {EntityCommands} commands
+   * @param {Entity} entity
    */
   function patch(commands, entity) {
     commands
