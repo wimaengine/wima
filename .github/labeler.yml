@@ -59,6 +59,11 @@ mod:ecs:
       - any-glob-to-any-file:
           - 'src/ecs/**'
 
+mod:emitter:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/emitter/**'
+
 mod:event:
   - changed-files:
       - any-glob-to-any-file:
