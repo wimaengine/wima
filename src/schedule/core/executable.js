@@ -41,6 +41,7 @@ export class Executable {
    * @type {Schedule}
    */
   schedule
+
   /**
    * @private
    * @type {((error: Error, world: World) => void) | undefined}

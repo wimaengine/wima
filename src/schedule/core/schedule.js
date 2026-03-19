@@ -53,12 +53,12 @@ export class Schedule {
    * @param {(error: Error, world: World) => void} [errorHandler]
    */
   run(world, errorHandler) {
-    const handler =  errorHandler ?? defaultErrorHandler
-  
+    const handler = errorHandler ?? defaultErrorHandler
+
     for (let i = 0; i < this.systems.length; i++) {
       try {
         if (this.condition.get(i)) this.systems[i](world)
-      } catch (error) {
+      } catch(error) {
         if (error instanceof Error) {
           handler(error, world)
         } else if (typeof error === 'string') {
@@ -76,5 +76,5 @@ export class Schedule {
  * @throws {Error}
  */
 function defaultErrorHandler(error) {
-    throw error
+  throw error
 }
