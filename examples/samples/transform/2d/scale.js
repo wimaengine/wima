@@ -44,7 +44,7 @@ function addmesh(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(0.25, 0.25))
   const material = materials.add(new BasicMaterial())
 
   commands

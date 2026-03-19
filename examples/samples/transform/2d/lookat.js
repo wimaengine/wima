@@ -55,11 +55,11 @@ function spawnLookers(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add(Mesh.triangle2D(10, 50))
+  const mesh = meshes.add(Mesh.triangle2D(0.05, 0.15))
   const material = materials.add(new BasicMaterial())
 
-  for (let x = -innerWidth / 2; x < innerWidth / 2; x += 100) {
-    for (let y = -innerHeight / 2; y < innerHeight / 2; y += 100) {
+  for (let x = -0.8; x <= 0.8; x += 0.4) {
+    for (let y = -0.6; y <= 0.6; y += 0.4) {
       commands
         .spawn()
         .insertPrefab([
@@ -83,7 +83,7 @@ function spawnTarget(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const mesh = meshes.add(Mesh.circle2D(10))
+  const mesh = meshes.add(Mesh.circle2D(0.05))
   const material = materials.add(new BasicMaterial({
     color:new Color(0, 1, 1)
   }))
@@ -139,8 +139,8 @@ function updateTarget(world) {
   const speed = 0.3
   const frequencyX = 3
   const frequencyY = 1
-  const amplitudeX = innerWidth / 2 - 100
-  const amplitudeY = innerHeight / 2 - 100
+  const amplitudeX = 0.7
+  const amplitudeY = 0.7
 
   if (!target) return
 

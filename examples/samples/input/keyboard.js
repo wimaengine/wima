@@ -26,12 +26,12 @@ import { addDefaultCamera2D, HackPlugin, setupViewport } from '../utils.js'
 /** @type {Map<KeyCode,Entity>} */
 class KeytoEntityMap extends Map { }
 
-const offsetX = -400
-const offsetY = -100
-const itemWidth = 50
-const itemHeight = 50
-const paddingWidth = 10
-const paddingHeight = 10
+const offsetX = -0.9
+const offsetY = 0.7
+const itemWidth = 0.12
+const itemHeight = 0.12
+const paddingWidth = 0.03
+const paddingHeight = 0.03
 const app = new App()
 
 app
@@ -108,8 +108,8 @@ function spawnDigits(world) {
 
   for (let i = 0; i < digits.length; i++) {
     const digit = /** @type {KeyCode}*/(digits[i])
-    const x = offsetX + (i % digits.length) * (itemWidth + paddingWidth) + paddingWidth
-    const y = offsetY + Math.floor(i / digits.length) * (itemHeight + paddingHeight)
+    const x = offsetX + (i * (itemWidth + paddingWidth)) + (itemWidth / 2)
+    const y = offsetY
     const entity = commands
       .spawn()
       .insertPrefab([
@@ -132,7 +132,7 @@ function spawnAlphabet(world) {
   const commands = world.getResource(EntityCommands)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
-  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(itemWidth, itemHeight))
   const alphabet = [
     KeyCode.KeyQ,
     KeyCode.KeyW,
@@ -171,8 +171,10 @@ function spawnAlphabet(world) {
     // eslint-disable-next-line no-nested-ternary
     const ny = i < 10 ? 0 : i < 19 ? 1 : 2
 
-    const x = offsetX + nx * (itemWidth + paddingWidth) + paddingWidth + itemWidth / 2 + ((itemWidth + paddingWidth) / 2 * ny)
-    const y = offsetY + ny * (itemHeight + paddingHeight) + itemHeight / 2 + itemHeight + paddingHeight
+    const rowSpacing = itemHeight + paddingHeight
+    const baseY = offsetY - rowSpacing * 1.5
+    const x = offsetX + nx * (itemWidth + paddingWidth) + (itemWidth / 2) + ((itemWidth + paddingWidth) / 2 * ny)
+    const y = baseY - (rowSpacing * ny)
 
     const entity = commands
       .spawn()

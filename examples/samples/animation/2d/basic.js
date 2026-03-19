@@ -75,7 +75,7 @@ function init(world) {
 
   const rawClip = createClip()
   const clip = clips.add(rawClip)
-  const mesh = meshes.add(Mesh.quad2D(50, 50))
+  const mesh = meshes.add(Mesh.quad2D(0.15, 0.15))
   const material = materials.add(new BasicMaterial())
   const targetname = '/bone'
   const animationplayer = new AnimationPlayer()
@@ -92,7 +92,7 @@ function init(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(100, 100),
+      ...createTransform2D(0.3, 0.3),
       new Meshed(mesh),
       new BasicMaterial2D(material),
       new AnimationTarget(player, targetname),
@@ -116,16 +116,16 @@ function createClip() {
   scale.times = [0, 2, 4, 6, 8]
 
   translate.keyframes = [
-    -100,
-    100,
-    -100,
-    -100,
-    100,
-    -100,
-    100,
-    100,
-    -100,
-    100
+    -0.5,
+    0.5,
+    -0.5,
+    -0.5,
+    0.5,
+    -0.5,
+    0.5,
+    0.5,
+    -0.5,
+    0.5
   ]
   rotate.keyframes = [
     0,

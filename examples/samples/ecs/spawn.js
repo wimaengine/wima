@@ -22,10 +22,10 @@ import { addDefaultCamera2D, HackPlugin, setupViewport } from '../utils.js'
 
 class Marker { }
 
-const itemWidth = 50
-const itemHeight = 50
-const paddingWidth = 10
-const paddingHeight = 10
+const itemWidth = 0.12
+const itemHeight = 0.12
+const paddingWidth = 0.03
+const paddingHeight = 0.03
 const app = new App()
 
 app
@@ -51,11 +51,11 @@ function update(world) {
   const mesh = meshes.add(Mesh.quad2D(itemHeight - paddingWidth, itemWidth - paddingHeight))
   const material = materials.add(new BasicMaterial())
 
-  const width = 1000
-  const height = 600
-  const nx = Math.floor(width / itemWidth)
-  const x = ((entities.count() % nx) * itemWidth) - width / 2
-  const y = Math.floor(entities.count() / nx) * itemHeight - height / 2
+  const width = 1.8
+  const height = 1.2
+  const nx = Math.floor(width / (itemWidth + paddingWidth))
+  const x = ((entities.count() % nx) * (itemWidth + paddingWidth)) - width / 2 + itemWidth / 2
+  const y = Math.floor(entities.count() / nx) * (itemHeight + paddingHeight) - height / 2 + itemHeight / 2
 
   if (y > height / 2) return
 

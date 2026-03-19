@@ -22,10 +22,10 @@ import { addDefaultCamera2D, HackPlugin, setupViewport } from '../utils.js'
 
 class Marker { }
 
-const itemWidth = 50
-const itemHeight = 50
-const paddingWidth = 10
-const paddingHeight = 10
+const itemWidth = 0.12
+const itemHeight = 0.12
+const paddingWidth = 0.03
+const paddingHeight = 0.03
 const app = new App()
 
 app
@@ -48,8 +48,8 @@ function init(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
-  const width = 1000
-  const height = 600
+  const width = 1.8
+  const height = 1.2
   const halfWidth = width / 2
   const halfHeight = height / 2
   const mesh = meshes.add(Mesh.quad2D(
@@ -58,8 +58,8 @@ function init(world) {
   ))
   const material = materials.add(new BasicMaterial())
 
-  for (let y = -halfHeight; y <= halfHeight; y += itemHeight) {
-    for (let x = -halfWidth; x < halfWidth; x += itemWidth) {
+  for (let y = -halfHeight + itemHeight / 2; y <= halfHeight - itemHeight / 2; y += itemHeight + paddingHeight) {
+    for (let x = -halfWidth + itemWidth / 2; x <= halfWidth - itemWidth / 2; x += itemWidth + paddingWidth) {
       commands
         .spawn()
         .insertPrefab([
