@@ -1,18 +1,13 @@
-import { World } from '../../ecs/index.js'
 import { Executable } from './executable.js'
-import { Executor } from './executors/index.js'
 import { Schedule } from './schedule.js'
 
 /**
- * Stores labeled {@link Schedule schedules} which are
- * bound to a given {@link Executor executor}.
+ * Stores labeled {@link Executable executables}.
  *
  * @example
  * ```ts
- * class SomeExecutor extends Executor {}
- *
- * scheduler.set("primary",new SomeExecutor())
- * scheduler.set("secondary",new SomeExecutor())
+ * scheduler.set(new Executable({ label: "primary" }))
+ * scheduler.set(new Executable({ label: "secondary" }))
  *
  * const primarySchedule = scheduler.get("primary")
  * ```
@@ -25,14 +20,10 @@ export class Scheduler {
   executables = new Map()
 
   /**
-   * @param {string} label
-   * @param {Executor} executor
-   * @param {(error: Error, world: World) => void} [errorHandler]
+   * @param {Executable} executable
    */
-  set(label, executor, errorHandler) {
-    const schedule = new Schedule()
-
-    this.executables.set(label, new Executable(schedule, executor, errorHandler))
+  set(executable) {
+    this.executables.set(executable.label, executable)
   }
 
   /**
@@ -40,24 +31,13 @@ export class Scheduler {
    * @returns {Schedule | undefined}
    */
   get(label) {
-    return this.executables.get(label)?.getSchedule()
+    return this.executables.get(label)?.schedule
   }
 
   /**
-   * @param {World} world
+   * @returns {IterableIterator<Executable>}
    */
-  run(world) {
-    const executables = this.executables.values()
-
-    for (const executable of executables) {
-      executable.start(world)
-    }
-  }
-  stop() {
-    const executables = this.executables.values()
-
-    for (const executable of executables) {
-      executable.stop()
-    }
+  values() {
+    return this.executables.values()
   }
 }

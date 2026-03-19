@@ -1,78 +1,68 @@
 import { World } from '../../ecs/index.js'
-import { Executor } from './executors/index.js'
 import { Schedule } from './schedule.js'
 
 /**
- * This is the binding between an {@link Executor executor} and a
- * {@link Schedule schedule}.
+ * This is the binding between a labeled {@link Schedule schedule}
+ * and its runtime configuration.
  *
  * @example
  * ```ts
- * class SomeExecutor extends Executor {
- *   start(world:World, schedule:Schedule, errorHandler){
- *     schedule.run(world, errorHandler)
- *   }
- * }
- *
  * function helloWorld(){
  *   console.log("hello world")
  * }
  *
  * const world = new World()
- * const schedule = new Schedule()
- * const executor = new Executor()
- * const executable = new Executable(schedule, executor)
+ * const scheduler = new Scheduler()
+ * const runner = defaultRunner
+ * const executable = new Executable({ label: "startup", repeat: false })
  *
- * //Runs the schedule with the given executor
+ * scheduler.set(executable)
+ * scheduler.get("startup").add(helloWorld)
+ *
+ * //Runs the schedule with the given config
  * //outputs "hello world" to the console.
- * executable.start()
+ * runner.run(scheduler, world)
  * ```
  */
 export class Executable {
 
   /**
-   * @private
-   * @type {Executor}
+   * @readonly
+   * @type {string}
    */
-  executor
+  label
 
   /**
-   * @private
+   * @readonly
    * @type {Schedule}
    */
-  schedule
+  schedule = new Schedule()
 
   /**
-   * @private
+   * @readonly
+   * @type {boolean}
+   */
+  repeat
+
+  /**
+   * @readonly
+   * @type {number}
+   */
+  delay
+
+  /**
+   * @readonly
    * @type {((error: Error, world: World) => void) | undefined}
    */
   errorHandler
 
   /**
-   * @param {Schedule} schedule
-   * @param {Executor} executor
-   * @param {(error: Error, world: World) => void} [errorHandler]
+   * @param {{label: string, repeat?: boolean, delay?: number, errorHandler?: (error: Error, world: World) => void}} config
    */
-  constructor(schedule, executor, errorHandler) {
-    this.schedule = schedule
-    this.executor = executor
-    this.errorHandler = errorHandler
-  }
-
-  /**
-   * @param {World} world
-   */
-  start(world) {
-    this.executor.start(world, this.schedule, this.errorHandler)
-  }
-  stop() {
-    this.executor.stop()
-  }
-
-  /**
-   * @returns {Schedule}
-   */
-  getSchedule() {
-    return this.schedule
+  constructor(config) {
+    this.label = config.label
+    this.repeat = config.repeat ?? true
+    this.delay = config.delay ?? 0
+    this.errorHandler = config.errorHandler
   }
 }
