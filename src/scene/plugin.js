@@ -1,4 +1,4 @@
-import { App, AppSchedule, Plugin } from '../app/index.js'
+import { App, Plugin } from '../app/index.js'
 import { ComponentHooks } from '../ecs/index.js'
 import { Scene } from './assets/index.js'
 import { SceneInstance } from './components/index.js'
@@ -8,6 +8,7 @@ import { AssetPlugin, Assets } from '../asset/index.js'
 import { SceneAdded, SceneDropped, SceneModified } from './events/index.js'
 import { typeidGeneric } from '../type/index.js'
 import { spawnScenes } from './systems/index.js'
+import { AppSchedule } from '../core/index.js'
 
 export class ScenePlugin extends Plugin {
 
