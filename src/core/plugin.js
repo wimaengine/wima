@@ -1,5 +1,6 @@
 import { App, Plugin } from '../app/index.js'
 import { AppSchedule, defaultRunner } from './core/index.js'
+import { registerCoreTypes } from './systems/index.js'
 
 export class CorePlugin extends Plugin {
 
@@ -14,5 +15,6 @@ export class CorePlugin extends Plugin {
     app.createSchedule(
       { label: AppSchedule.Update, repeat: true }
     )
+    app.registerSystem(AppSchedule.Startup, registerCoreTypes)
   }
 }
