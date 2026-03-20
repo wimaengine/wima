@@ -5,7 +5,7 @@ import { typeidGeneric } from '../type/index.js'
 import { AnimationClip } from './assets/index.js'
 import { AnimationPlayer, AnimationTarget } from './components/index.js'
 import { AnimationClipAssets } from './resources/index.js'
-import { advanceAnimationPlayers, applyAnimations } from './systems/index.js'
+import { advanceAnimationPlayers, applyAnimations, registerAnimationTypes } from './systems/index.js'
 
 export class AnimationPlugin extends Plugin {
 
@@ -18,6 +18,7 @@ export class AnimationPlugin extends Plugin {
     app
       .registerType(AnimationPlayer)
       .registerType(AnimationTarget)
+      .registerSystem(AppSchedule.Startup, registerAnimationTypes)
       .registerPlugin(new AssetPlugin({
         asset:AnimationClip
       }))
