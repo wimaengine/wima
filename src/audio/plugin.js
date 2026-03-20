@@ -7,7 +7,7 @@ import { Audio } from './assets/index.js'
 import { AudioPlayer, AudioOscillator, removeAudioPlayerSink, removeOscillatorSink } from './components/index.js'
 import { AudioAdded, AudioDropped, AudioModified } from './events/index.js'
 import { AudioCommands, AudioParser, AudioAssets, AudioGraph } from './resources/index.js'
-import { playAudio, playOscillators } from './systems/index.js'
+import { playAudio, playOscillators, registerAudioTypes } from './systems/index.js'
 
 export class AudioPlugin extends Plugin {
 
@@ -29,6 +29,7 @@ export class AudioPlugin extends Plugin {
         null,
         removeOscillatorSink
       ))
+      .registerSystem(AppSchedule.Startup, registerAudioTypes)
       .setResource(new AudioGraph())
       .setResource(handler)
       .registerPlugin(new AssetPlugin({
