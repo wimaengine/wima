@@ -7,6 +7,7 @@ import { Cleanup } from './components/index.js'
 import { Demo } from './core/demo.js'
 import { CurrentDemo, DemoList } from './resources/index.js'
 import { createDropDown } from './utils.js'
+import { registerDemoTypes } from './systems/index.js'
 
 const storageLabel = 'demo'
 
@@ -34,6 +35,7 @@ export class DemoPlugin extends Plugin {
 
     app
       .registerType(Cleanup)
+      .registerSystem(AppSchedule.Startup, registerDemoTypes)
       .setResource(new DemoList(namedDemos))
       .setResource(new CurrentDemo(new Demo('default')))
       .registerSystem(AppSchedule.Startup, initDemo)
