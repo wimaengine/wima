@@ -3,7 +3,7 @@ import { App, Plugin } from '../../app/index.js'
 import { AppSchedule } from '../../core/index.js'
 import { typeidGeneric } from '../../type/index.js'
 import { Gizmo3D, GizmoSettings } from '../core/index.js'
-import { genenerateDrawGizmo3Dsystem } from '../systems/index.js'
+import { genenerateDrawGizmo3Dsystem, registerGizmo3DTypes } from '../systems/index.js'
 
 /**
  * @template T
@@ -44,6 +44,7 @@ export class Gizmo3DPlugin extends Plugin {
       .getWorld()
       .setResourceByTypeId(typeidGeneric(Gizmo3D, [label]), new Gizmo3D(label, settings))
     app
+      .registerSystem(AppSchedule.Startup, registerGizmo3DTypes(label))
       .registerSystem(AppSchedule.Update, genenerateDrawGizmo3Dsystem(label))
   }
 
