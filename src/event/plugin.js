@@ -2,7 +2,7 @@
 
 import { App, Plugin } from '../app/index.js'
 import { SystemConfig } from '../schedule/index.js'
-import { makeEventClear } from './systems/index.js'
+import { makeEventClear, registerEventTypes } from './systems/index.js'
 import { Events } from './core/index.js'
 import { typeidGeneric } from '../type/index.js'
 import { AppSchedule } from '../core/index.js'
@@ -44,6 +44,7 @@ export class EventPlugin extends Plugin {
 
     app
       .registerType(event)
+      .registerSystem(AppSchedule.Startup, registerEventTypes(event))
       .getWorld()
       .setResourceByTypeId(name, new Events())
 
