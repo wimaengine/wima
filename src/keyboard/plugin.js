@@ -6,6 +6,7 @@ import { World } from '../ecs/index.js'
 import { KeyCode } from './core/key.js'
 import { typeidGeneric } from '../type/index.js'
 import { AppSchedule } from '../core/index.js'
+import { registerKeyboardTypes } from './systems/index.js'
 
 export class KeyboardPlugin extends Plugin {
 
@@ -15,6 +16,7 @@ export class KeyboardPlugin extends Plugin {
   register(app) {
     app
       .setResource(new Keyboard())
+      .registerSystem(AppSchedule.Startup, registerKeyboardTypes)
       .registerSystem(AppSchedule.Update, updateKeyBoard)
   }
 }
