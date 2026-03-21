@@ -21,6 +21,9 @@ import { NamePlugin } from '../name/index.js'
 import { ReflectPlugin } from '../reflect/plugin.js'
 import { CorePlugin } from '../core/plugin.js'
 import { ScenePlugin } from '../scene/index.js'
+import { MathPlugin } from '../math/index.js'
+import { ColorPlugin } from '../color/index.js'
+import { GeometryPlugin } from '../geometry/index.js'
 
 export class DefaultPlugin extends PluginGroup {
   constructor() {
@@ -28,6 +31,9 @@ export class DefaultPlugin extends PluginGroup {
     this.add(new CorePlugin())
     this.add(new ReflectPlugin())
     this.add(new TimePlugin())
+    this.add(new MathPlugin())
+    this.add(new ColorPlugin())
+    this.add(new GeometryPlugin())
     this.add(new NamePlugin())
     this.add(new DevicePlugin())
     this.add(new StoragePlugin())
