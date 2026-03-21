@@ -39,3 +39,5 @@ export function applyGravity3D(world) {
     )
   })
 }
+
+export * from './types.js'
