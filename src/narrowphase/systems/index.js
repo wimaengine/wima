@@ -82,6 +82,8 @@ export function getSATContacts(world) {
   }
 }
 
+export * from './types.js'
+
 /**
  * @param {Collider2D} shapeA
  * @param {Collider2D} shapeB
