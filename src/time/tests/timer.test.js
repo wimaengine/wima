@@ -211,4 +211,5 @@ describe("Testing `Timer`", () => {
     strictEqual(timer1.cycleEnded(), false)
     strictEqual(timer2.cycleEnded(), true)
   })
+
 })
