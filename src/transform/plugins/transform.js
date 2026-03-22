@@ -9,7 +9,7 @@ import {
   GlobalTransform3D
 } from '../components/index.js'
 import { App, Plugin } from '../../app/index.js'
-import { propagateTransform2D, propagateTransform3D, synctransform2D, synctransform3D } from '../systems/index.js'
+import { propagateTransform2D, propagateTransform3D, registerTransform2DTypes, registerTransform3DTypes, synctransform2D, synctransform3D } from '../systems/index.js'
 import { AppSchedule } from '../../core/index.js'
 
 export class Transform2DPlugin extends Plugin {
@@ -23,6 +23,7 @@ export class Transform2DPlugin extends Plugin {
       .registerType(Orientation2D)
       .registerType(Scale2D)
       .registerType(GlobalTransform2D)
+      .registerSystem(AppSchedule.Startup, registerTransform2DTypes)
       .registerSystem(AppSchedule.Update, synctransform2D)
       .registerSystem(AppSchedule.Update, propagateTransform2D)
   }
@@ -39,6 +40,7 @@ export class Transform3DPlugin extends Plugin {
       .registerType(Orientation3D)
       .registerType(Scale3D)
       .registerType(GlobalTransform3D)
+      .registerSystem(AppSchedule.Startup, registerTransform3DTypes)
       .registerSystem(AppSchedule.Update, synctransform3D)
       .registerSystem(AppSchedule.Update, propagateTransform3D)
   }
