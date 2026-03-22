@@ -6,6 +6,7 @@ import { typeidGeneric } from '../type/index.js'
 import { PointerCancel, PointerDown, PointerMove, PointerUp } from '../window/index.js'
 import { TouchPointer } from './core/index.js'
 import { Touches } from './resources/touches.js'
+import { registerTouchTypes } from './systems/index.js'
 
 export class TouchPlugin extends Plugin {
 
@@ -16,6 +17,7 @@ export class TouchPlugin extends Plugin {
     app
       .registerSystem(AppSchedule.Update, updateTouch)
       .setResource(new Touches())
+      .registerSystem(AppSchedule.Startup, registerTouchTypes)
   }
 }
 
