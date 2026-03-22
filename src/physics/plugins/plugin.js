@@ -6,7 +6,7 @@ import { EulerIntegrator2DPlugin } from '../../integrator/index.js'
 import { Collider2D, PhysicsProperties, SoftBody2D, SoftBody3D } from '../components/index.js'
 import { physicspropertiesAddHook } from '../hooks/index.js'
 import { Gravity2DPlugin } from '../../gravity/index.js'
-import { collisionResponse, updateBodies, updateBounds } from '../systems/index.js'
+import { collisionResponse, registerPhysicsTypes, updateBodies, updateBounds } from '../systems/index.js'
 import { AppSchedule } from '../../core/index.js'
 
 export class Physics2DPlugin extends Plugin {
@@ -38,6 +38,7 @@ export class Physics2DPlugin extends Plugin {
       .registerType(PhysicsProperties)
       .registerType(SoftBody2D)
       .registerType(SoftBody3D)
+      .registerSystem(AppSchedule.Startup, registerPhysicsTypes)
       .setComponentHooks(
         PhysicsProperties,
         new ComponentHooks(
@@ -58,6 +59,7 @@ export class Physics2DPlugin extends Plugin {
       .registerPlugin(this.integrator)
   }
 }
+
 
 /**
  * @typedef Physics2DPluginOptions
