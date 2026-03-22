@@ -187,6 +187,8 @@ export function genRender(type) {
   }
 }
 
+export * from './types.js'
+
 /**
  * @param {World} world
  */
