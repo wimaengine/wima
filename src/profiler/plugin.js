@@ -4,6 +4,7 @@ import { App, Plugin } from '../app/index.js'
 import { World } from '../ecs/index.js'
 import { warn } from '../logger/index.js'
 import { AppSchedule } from '../core/index.js'
+import { registerProfilerTypes } from './systems/index.js'
 
 export class ProfilerPlugin extends Plugin {
 
@@ -13,6 +14,7 @@ export class ProfilerPlugin extends Plugin {
   register(app) {
     app.setResource(new Profiler())
     app.setResource(new ProfilerTimer({ duration: 1, mode: TimerMode.Repeat }))
+    app.registerSystem(AppSchedule.Startup, registerProfilerTypes)
     setupProfileViewer(document.body)
     app.registerSystem(AppSchedule.Update, updateProfileViewer)
     app.registerSystem(AppSchedule.Update, updateProfileTimer)
