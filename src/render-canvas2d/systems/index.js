@@ -94,3 +94,5 @@ export function genrender(type, renderMaterial) {
     })
   }
 }
+
+export * from './types.js'
