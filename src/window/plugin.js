@@ -21,6 +21,7 @@ import { WindowCommands, Windows } from './resources/index.js'
 import { EventPlugin } from '../event/plugin.js'
 import { EntityCommands } from '../command/index.js'
 import { AppSchedule } from '../core/index.js'
+import { registerWindowTypes } from './systems/index.js'
 
 export class WindowPlugin extends Plugin {
 
@@ -55,6 +56,7 @@ export class WindowPlugin extends Plugin {
     app
       .registerType(Window)
       .registerType(MainWindow)
+      .registerSystem(AppSchedule.Startup, registerWindowTypes)
       .registerPlugin(new EventPlugin({
         event:WindowMove
       }))
