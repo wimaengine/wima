@@ -1,16 +1,75 @@
 ## Objective
-What exactly does this pr do e.g fix a bug, upgrade packages, make a new feature.
+
+Describe the purpose of this PR clearly:
+
+* [e.g.] Fix a bug in `<module/system>`
+* [e.g.] Introduce `<feature>`
+* [e.g.] Refactor `<component>` for performance/maintainability
 
 ## Solution
-If applicable,explain the solution taken and why it was taken.
+
+Explain the approach taken and the reasoning behind it:
+
+* What was the root cause (if bug)?
+* What changes were made?
+* Why this approach instead of alternatives?
+
+Example:
+
+* Replaced `<old logic>` with `<new logic>` to eliminate `<issue>`
+* Introduced `<abstraction/system>` to improve `<concern>` (e.g. scheduling, rendering separation)
 
 ## Showcase
-If applicable,show how to use the feature being added.Recordings and screenshots can be added.
+
+Demonstrate how to use or verify the change:
+
+### Before
+
+```js
+// previous behavior or API
+```
+
+### After
+
+```js
+// new behavior or API
+```
+
+Optional:
+
+* Screenshots
+* GIFs / recordings
+* Benchmarks (if performance-related)
 
 ## Migration guide
-Incase of breaking changes,what do users need to do to migrate to next version?
+
+If there are breaking changes, specify exactly what users must update:
+
+* Replace:
+
+  ```js
+  oldAPI()
+  ```
+
+  with:
+
+  ```js
+  newAPI()
+  ```
+
+* Remove deprecated:
+
+  * `<method/property>`
+
+* Notes:
+
+  * Any edge cases or behavioral changes
+
+If no breaking changes:
+
+> No migration required.
 
 ## Checklist
-- [ ] My change requires a change to the documentation.
-- [ ] I have updated the documentation accordingly.
-- [ ] I have added tests to cover my changes.
+
+* [ ] I have updated the documentation accordingly.
+* [ ] I have added tests to cover my changes.
