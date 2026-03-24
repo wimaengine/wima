@@ -6,7 +6,6 @@ import {
   Query,
   EntityCommands,
   warn,
-  Cleanup,
   Touches,
   Entity,
   Position2D,
@@ -62,9 +61,7 @@ function init(world) {
         new Meshed(mesh),
         new BasicMaterial2D(materials.add(new BasicMaterial({
           color: Color.WHITE.clone()
-        }))),
-        new Cleanup()
-      ])
+        })))])
       .build()
 
     map.set(i, entity)

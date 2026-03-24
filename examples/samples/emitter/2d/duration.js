@@ -2,7 +2,6 @@ import {
   Mesh,
   World,
   EntityCommands,
-  Cleanup,
   Emitter,
   createEmitter2D,
   Position2D,
@@ -61,15 +60,13 @@ function init(world) {
   const material = materials.add(new BasicMaterial())
 
   /**
-   *@returns {[Position2D, Orientation2D, Scale2D, GlobalTransform2D, Velocity2D, Rotation2D, Acceleration2D, Torque2D, Meshed, BasicMaterial2D, Cleanup]}
+   *@returns {[Position2D, Orientation2D, Scale2D, GlobalTransform2D, Velocity2D, Rotation2D, Acceleration2D, Torque2D, Meshed, BasicMaterial2D]}
    */
   function particle() {
     return [
       ...createMovable2D(),
       new Meshed(mesh),
-      new BasicMaterial2D(material),
-      new Cleanup()
-    ]
+      new BasicMaterial2D(material)]
   }
 
   /**
@@ -103,9 +100,7 @@ function init(world) {
         }),
 
         // Sets the duration after which the emitter emits particles and how often.
-        new Timer({ duration: 0.2 * i, mode: TimerMode.Repeat }),
-        new Cleanup()
-      ])
+        new Timer({ duration: 0.2 * i, mode: TimerMode.Repeat })])
       .insert(new Position2D(offset + i * (width + padding), -0.7))
       .build()
   }

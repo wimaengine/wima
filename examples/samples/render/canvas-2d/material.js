@@ -2,7 +2,6 @@ import {
   Mesh,
   createTransform2D,
   World,
-  Cleanup,
   EntityCommands,
   BasicMaterial,
   Meshed,
@@ -47,8 +46,6 @@ function init(world) {
     .insertPrefab([
       ...createTransform2D(-0.5, 0),
       new Meshed(mesh),
-      new BasicMaterial2D(material),
-      new Cleanup()
-    ])
+      new BasicMaterial2D(material)])
     .build()
 }

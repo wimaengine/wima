@@ -2,7 +2,6 @@ import {
   Mesh,
   World,
   EntityCommands,
-  Cleanup,
   Emitter,
   TimerMode,
   Range,
@@ -64,15 +63,13 @@ function init(world) {
   const offset = -((width + padding) * number) / 2
 
   /**
-   *@returns {[Position3D, Orientation3D, Scale3D, GlobalTransform3D, Velocity3D, Rotation3D, Acceleration3D, Torque3D, Meshed, BasicMaterial3D, Cleanup]}
+   *@returns {[Position3D, Orientation3D, Scale3D, GlobalTransform3D, Velocity3D, Rotation3D, Acceleration3D, Torque3D, Meshed, BasicMaterial3D]}
    */
   function particle() {
     return [
       ...createMovable3D(),
       new Meshed(mesh),
-      new BasicMaterial3D(material),
-      new Cleanup()
-    ]
+      new BasicMaterial3D(material)]
   }
 
   /**
@@ -101,9 +98,7 @@ function init(world) {
         }),
 
         // Sets the duration after which the emitter emits particles and how often.
-        new Timer({ duration: 0.2 * i, mode: TimerMode.Repeat }),
-        new Cleanup()
-      ])
+        new Timer({ duration: 0.2 * i, mode: TimerMode.Repeat })])
       .insert(new Position3D(offset + i * (width + padding)))
       .build()
   }

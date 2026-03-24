@@ -2,7 +2,6 @@ import {
   Mesh,
   Color,
   World,
-  Cleanup,
   EntityCommands,
   BasicMaterial,
   createTransform3D,
@@ -57,9 +56,7 @@ function spawnMesh(world) {
     .insertPrefab([
       ...createTransform3D(),
       new Meshed(mesh),
-      new BasicMaterial3D(material),
-      new Cleanup()
-    ])
+      new BasicMaterial3D(material)])
     .build()
 }
 

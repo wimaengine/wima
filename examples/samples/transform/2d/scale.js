@@ -1,10 +1,8 @@
 import {
   BasicMaterial,
-
   Mesh,
   Scale2D,
   World,
-  Cleanup,
   Query,
   EntityCommands,
   VirtualClock,
@@ -52,9 +50,7 @@ function addmesh(world) {
     .insertPrefab([
       ...createTransform2D(),
       new Meshed(mesh),
-      new BasicMaterial2D(material),
-      new Cleanup()
-    ])
+      new BasicMaterial2D(material)])
     .build()
 }
 

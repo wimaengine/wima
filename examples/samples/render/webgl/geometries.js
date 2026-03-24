@@ -3,7 +3,6 @@ import {
   Position3D,
   Rotation3D,
   World,
-  Cleanup,
   EntityCommands,
   BasicMaterial,
   Meshed,
@@ -68,9 +67,7 @@ function spawnMeshes(world) {
       .insertPrefab([
         ...createMovable3D(),
         new Meshed(geometries[i]),
-        new BasicMaterial3D(material),
-        new Cleanup()
-      ])
+        new BasicMaterial3D(material)])
       .insert(new Position3D(
         offsetX + width * (i % numX),
         offsetY - Math.floor(i / numX) * height,

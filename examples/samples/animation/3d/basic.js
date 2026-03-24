@@ -1,7 +1,6 @@
 import {
   Mesh,
   World,
-  Cleanup,
   AnimationClip,
   AnimationTrack,
   AnimationTarget,
@@ -47,8 +46,6 @@ app
   .registerSystem(AppSchedule.Update, setupViewportWebgl)
   .run()
 
-console.log(app)
-
 /**
  * @param {World} world
  */
@@ -80,9 +77,7 @@ export function init(world) {
       ...createTransform3D(1, 1),
       new Meshed(mesh),
       new BasicMaterial3D(material),
-      new AnimationTarget(player, targetname),
-      new Cleanup()
-    ])
+      new AnimationTarget(player, targetname)])
     .build()
 }
 

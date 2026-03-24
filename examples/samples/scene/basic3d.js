@@ -2,7 +2,6 @@ import {
   Mesh,
   World,
   EntityCommands,
-  Cleanup,
   BasicMaterial,
   Meshed,
   Scene,
@@ -58,9 +57,7 @@ function init(world) {
   commands
     .spawn()
     .insertPrefab([
-      new SceneInstance(scene),
-      new Cleanup()
-    ])
+      new SceneInstance(scene)])
     .build()
 }
 
@@ -95,15 +92,13 @@ function createScene(meshes, materials) {
         scene.set(new Entity(index, 1), [
           ...createTransform3D(x, y, z),
           new Meshed(mesh.clone()),
-          new BasicMaterial3D(material.clone()),
-          new Cleanup()
-        ])
+          new BasicMaterial3D(material.clone())])
         index += 1
       }
     }
   }
 
-  scene.set(new Entity(index, 1), [...createCamera3D(0, 0, 5), new Cleanup()])
+  scene.set(new Entity(index, 1), [...createCamera3D(0, 0, 5)])
 
   // We drop these since they are unused.
   mesh.drop()

@@ -1,6 +1,5 @@
 import {
   World,
-  Cleanup,
   AppSchedule,
   AssetServer,
   Assets,
@@ -34,7 +33,7 @@ export function addDefaultCamera3D(world) {
 
   commands
     .spawn()
-    .insertPrefab([...createCamera3D(0, 0, 2), new Cleanup()])
+    .insertPrefab([...createCamera3D(0, 0, 2)])
     .build()
 }
 
@@ -46,7 +45,7 @@ export function addDefaultCamera2D(world) {
 
   commands
     .spawn()
-    .insertPrefab([...createCamera2D(), new Cleanup()])
+    .insertPrefab([...createCamera2D()])
     .build()
 }
 

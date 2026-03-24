@@ -2,7 +2,6 @@ import {
   BasicMaterial,
   Mesh,
   World,
-  Cleanup,
   EntityCommands,
   createMovable2D,
   Rotation2D,
@@ -51,9 +50,7 @@ function addmesh(world) {
     .insertPrefab([
       ...createMovable2D(),
       new Meshed(mesh),
-      new BasicMaterial2D(material),
-      new Cleanup()
-    ])
+      new BasicMaterial2D(material)])
     .insert(new Rotation2D(PI))
     .build()
 }

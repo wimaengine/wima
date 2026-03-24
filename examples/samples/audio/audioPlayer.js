@@ -4,7 +4,6 @@ import {
   AudioPlayer,
   TimerMode,
   EntityCommands,
-  Cleanup,
   Audio,
   Timer,
   App,
@@ -57,8 +56,6 @@ function init(world) {
       }),
       new Timer({
         mode: TimerMode.Repeat
-      }),
-      new Cleanup()
-    ])
+      })])
     .build()
 }

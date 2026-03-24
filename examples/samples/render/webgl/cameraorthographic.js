@@ -4,7 +4,6 @@ import {
   Rotation3D,
   Camera,
   World,
-  Cleanup,
   createCamera3D,
   EntityCommands,
   BasicMaterial,
@@ -47,9 +46,7 @@ function addCamera3D(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createCamera3D(0, 0, 1),
-      new Cleanup()
-    ])
+      ...createCamera3D(0, 0, 1)])
     .insert(new Camera(projection))
     .build()
 }
@@ -69,9 +66,7 @@ function spawnMesh(world) {
     .insertPrefab([
       ...createMovable3D(),
       new Meshed(mesh),
-      new BasicMaterial3D(material),
-      new Cleanup()
-    ])
+      new BasicMaterial3D(material)])
     .insert(new Rotation3D(0, Math.PI / 10, 0))
     .build()
 }

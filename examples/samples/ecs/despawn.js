@@ -4,7 +4,6 @@ import {
   World,
   Query,
   EntityCommands,
-  Cleanup,
   Entity,
   BasicMaterial,
   Meshed,
@@ -66,9 +65,7 @@ function init(world) {
           ...createTransform2D(x, y),
           new Meshed(mesh),
           new BasicMaterial2D(material),
-          new Marker(),
-          new Cleanup()
-        ])
+          new Marker()])
         .build()
     }
   }

@@ -4,7 +4,6 @@ import {
   AudioPlayer,
   TimerMode,
   EntityCommands,
-  Cleanup,
   Timer,
   Query,
   VirtualClock,
@@ -67,9 +66,7 @@ function init(world) {
       new Timer({
         mode: TimerMode.Once,
         duration: 0
-      }),
-      new Cleanup()
-    ])
+      })])
     .build()
 }
 

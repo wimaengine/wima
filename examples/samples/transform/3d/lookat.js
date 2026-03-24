@@ -2,7 +2,6 @@ import {
   BasicMaterial,
   Mesh,
   World,
-  Cleanup,
   Query,
   EntityCommands,
   VirtualClock,
@@ -64,9 +63,7 @@ function spawnLookers(world) {
           ...createTransform3D(x, y),
           new Meshed(mesh),
           new BasicMaterial3D(material),
-          new Looker(),
-          new Cleanup()
-        ])
+          new Looker()])
         .build()
     }
 
@@ -92,9 +89,7 @@ function spawnTarget(world) {
       ...createTransform3D(),
       new Meshed(mesh),
       new BasicMaterial3D(material),
-      new Target(),
-      new Cleanup()
-    ])
+      new Target()])
     .build()
 }
 
