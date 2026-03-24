@@ -2,7 +2,6 @@ import {
   World,
   AudioOscillator,
   EntityCommands,
-  Cleanup,
   Timer,
   TimerMode,
   App,
@@ -38,8 +37,6 @@ function init(world) {
       new AudioOscillator(),
       new Timer({
         mode: TimerMode.Repeat
-      }),
-      new Cleanup()
-    ])
+      })])
     .build()
 }

@@ -7,7 +7,6 @@ import {
   TweenFlip,
   createTransform2D,
   World,
-  Cleanup,
   EntityCommands,
   Assets,
   typeidGeneric,
@@ -80,9 +79,7 @@ function init(world) {
           Easing[easeName]
         ),
         new TweenRepeat(),
-        new TweenFlip(),
-        new Cleanup()
-      ])
+        new TweenFlip()])
       .build()
   }
 }

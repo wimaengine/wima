@@ -2,7 +2,6 @@ import {
   BasicMaterial,
   Mesh,
   World,
-  Cleanup,
   EntityCommands,
   createMovable3D,
   Rotation3D,
@@ -51,9 +50,7 @@ function spawnMesh(world) {
     .insertPrefab([
       ...createMovable3D(),
       new Meshed(mesh),
-      new BasicMaterial3D(material),
-      new Cleanup()
-    ])
+      new BasicMaterial3D(material)])
     .insert(new Rotation3D(0, PI, 0))
     .build()
 }

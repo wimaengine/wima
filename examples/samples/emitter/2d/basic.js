@@ -3,7 +3,6 @@ import {
   World,
   Query,
   EntityCommands,
-  Cleanup,
   Emitter,
   createEmitter2D,
   Touches,
@@ -67,15 +66,13 @@ function init(world) {
   const material = materials.add(new BasicMaterial())
 
   /**
-   *@returns {[Position2D, Orientation2D, Scale2D, GlobalTransform2D, Velocity2D, Rotation2D, Acceleration2D, Torque2D, Meshed, BasicMaterial2D, Cleanup]}
+   *@returns {[Position2D, Orientation2D, Scale2D, GlobalTransform2D, Velocity2D, Rotation2D, Acceleration2D, Torque2D, Meshed, BasicMaterial2D]}
    */
   function particle() {
     return [
       ...createMovable2D(),
       new Meshed(mesh.clone()),
-      new BasicMaterial2D(material.clone()),
-      new Cleanup()
-    ]
+      new BasicMaterial2D(material.clone())]
   }
 
   /**
@@ -98,9 +95,7 @@ function init(world) {
       ...createEmitter2D({
         prefab: particle,
         patch
-      }),
-      new Cleanup()
-    ])
+      })])
     .build()
 }
 

@@ -3,7 +3,6 @@ import {
   VirtualClock,
   BasicMaterial,
   BasicMaterial3D,
-  Cleanup,
   createTransform3D,
   EntityCommands,
   Mesh,
@@ -57,9 +56,7 @@ function spawnMeshes(world) {
     .insertPrefab([
       ...createTransform3D(),
       new Meshed(mesh),
-      new BasicMaterial3D(material),
-      new Cleanup()
-    ])
+      new BasicMaterial3D(material)])
     .build()
 
   const child = commands
@@ -68,9 +65,7 @@ function spawnMeshes(world) {
       ...createTransform3D(1, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5),
       new Meshed(mesh),
       new BasicMaterial3D(material),
-      new Parent(parent),
-      new Cleanup()
-    ])
+      new Parent(parent)])
     .build()
 
   commands
@@ -78,8 +73,7 @@ function spawnMeshes(world) {
     .insertPrefab([
       ...createTransform3D(0.5, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5),
       new Meshed(mesh),
-      new BasicMaterial3D(material),
-      new Cleanup(),
+      new BasicMaterial3D(material), ,
       new Parent(child)
     ])
     .build()

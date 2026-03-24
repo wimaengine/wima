@@ -38,12 +38,6 @@ mod:datastructure:
       - any-glob-to-any-file:
           - 'src/datastructures/**'
 
-mod:demo:
-  - changed-files:
-      - any-glob-to-any-file:
-          - 'src/demo/**'
-          - 'examples/**'
-
 mod:device:
   - changed-files:
       - any-glob-to-any-file:

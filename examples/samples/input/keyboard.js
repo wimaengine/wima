@@ -5,7 +5,6 @@ import {
   Color,
   Query,
   EntityCommands,
-  Cleanup,
   Keyboard,
   KeyCode,
   Entity,
@@ -115,9 +114,7 @@ function spawnDigits(world) {
       .insertPrefab([
         ...createTransform2D(x, y),
         new Meshed(mesh),
-        new BasicMaterial2D(materials.add(new BasicMaterial())),
-        new Cleanup()
-      ])
+        new BasicMaterial2D(materials.add(new BasicMaterial()))])
       .build()
 
     map.set(digit, entity)
@@ -181,9 +178,7 @@ function spawnAlphabet(world) {
       .insertPrefab([
         ...createTransform2D(x, y),
         new Meshed(mesh),
-        new BasicMaterial2D(materials.add(new BasicMaterial())),
-        new Cleanup()
-      ])
+        new BasicMaterial2D(materials.add(new BasicMaterial()))])
       .build()
 
     map.set(digit, entity)

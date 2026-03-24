@@ -5,14 +5,14 @@ import {
   Color,
   Query,
   EntityCommands,
-  Cleanup,
   KeyCode,
   MouseButton,
   Position2D,
   Entity,
   Mouse,
   MouseButtons,
-  Meshed, BasicMaterial,
+  Meshed,
+  BasicMaterial,
   BasicMaterial2D,
   BasicMaterialAssets,
   MeshAssets,
@@ -74,9 +74,7 @@ function spawnMouseFollower(world) {
       new Meshed(mesh),
       new BasicMaterial2D(materials.add(new BasicMaterial({
         color: Color.WHITE.clone()
-      }))),
-      new Cleanup()
-    ])
+      })))])
     .build()
 
   world.setResource(new MouseEntity(entity))
@@ -112,9 +110,7 @@ function spawnButtons(world) {
         new Meshed(mesh),
         new BasicMaterial2D(materials.add(new BasicMaterial({
           color: Color.WHITE.clone()
-        }))),
-        new Cleanup()
-      ])
+        })))])
       .build()
 
     map.set(digit, entity)

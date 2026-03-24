@@ -3,7 +3,6 @@ import {
   World,
   Query,
   EntityCommands,
-  Cleanup,
   Emitter,
   Touches,
   Device,
@@ -66,15 +65,13 @@ function init(world) {
   const material = materials.add(new BasicMaterial())
 
   /**
-   *@returns {[Position3D, Orientation3D, Scale3D, GlobalTransform3D, Velocity3D, Rotation3D, Acceleration3D, Torque3D, Meshed, BasicMaterial3D, Cleanup]}
+   *@returns {[Position3D, Orientation3D, Scale3D, GlobalTransform3D, Velocity3D, Rotation3D, Acceleration3D, Torque3D, Meshed, BasicMaterial3D]}
    */
   function particle() {
     return [
       ...createMovable3D(),
       new Meshed(mesh),
-      new BasicMaterial3D(material),
-      new Cleanup()
-    ]
+      new BasicMaterial3D(material)]
   }
 
   /**
@@ -98,9 +95,7 @@ function init(world) {
         lifetime:new Range(6, 8),
         prefab: particle,
         patch
-      }),
-      new Cleanup()
-    ])
+      })])
     .build()
 }
 

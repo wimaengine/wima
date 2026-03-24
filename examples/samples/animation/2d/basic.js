@@ -2,7 +2,6 @@ import {
   Mesh,
   createTransform2D,
   World,
-  Cleanup,
   AnimationClip,
   AnimationTrack,
   AnimationTarget,
@@ -95,9 +94,7 @@ function init(world) {
       ...createTransform2D(0.3, 0.3),
       new Meshed(mesh),
       new BasicMaterial2D(material),
-      new AnimationTarget(player, targetname),
-      new Cleanup()
-    ])
+      new AnimationTarget(player, targetname)])
     .build()
 }
 
