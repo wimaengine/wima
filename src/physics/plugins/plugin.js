@@ -60,7 +60,6 @@ export class Physics2DPlugin extends Plugin {
   }
 }
 
-
 /**
  * @typedef Physics2DPluginOptions
  * @property {Plugin} [broadphase]

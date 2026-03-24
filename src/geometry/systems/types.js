@@ -13,6 +13,7 @@ export function registerGeometryTypes(world) {
   const registry = world.getResource(TypeRegistry)
 
   const boundTypeId = setTypeId('BoundType')
+
   registry.registerTypeId(boundTypeId, new EnumInfo(BoundType))
 
   registry.register(BoundingBox2D, new StructInfo({

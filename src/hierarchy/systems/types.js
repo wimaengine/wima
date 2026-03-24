@@ -1,8 +1,7 @@
-import { World } from '../../ecs/index.js'
+import { Entity, World } from '../../ecs/index.js'
 import { ArrayInfo, Field, StructInfo } from '../../reflect/core/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
-import { Entity } from '../../ecs/index.js'
 import { Children, Parent } from '../components/index.js'
 
 /**
@@ -12,6 +11,7 @@ export function registerHierarchyTypes(world) {
   const registry = world.getResource(TypeRegistry)
 
   const entityArrayId = typeidGeneric(Array, [Entity])
+
   registry.registerTypeId(entityArrayId, new ArrayInfo(typeid(Entity)))
 
   registry.register(Children, new StructInfo({

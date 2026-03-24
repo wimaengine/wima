@@ -14,6 +14,7 @@ export function registerTimeTypes(world) {
   const registry = world.getResource(TypeRegistry)
 
   const timerModeId = setTypeId('TimerMode')
+
   registry.registerTypeId(timerModeId, new EnumInfo(TimerMode))
 
   registry.register(Timer, new StructInfo({

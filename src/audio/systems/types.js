@@ -27,7 +27,7 @@ export function registerAudioTypes(world) {
   registry.register(AudioPlayer, new StructInfo({
     sourceNode: new Field(typeid(Number), true),
     attach: new Field(typeid(Number), true),
-    audio: new Field(typeidGeneric(Handle,[Audio]), true)
+    audio: new Field(typeidGeneric(Handle, [Audio]), true)
   }))
   registry.register(AudioOscillator, new StructInfo({
     sourceNode: new Field(typeid(Number), true),

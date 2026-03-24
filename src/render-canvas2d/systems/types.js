@@ -11,6 +11,7 @@ export function registerCanvas2DTypes(world) {
   const registry = world.getResource(TypeRegistry)
 
   const htmlImageElementId = setTypeId('HTMLImageElement')
+
   registry.registerTypeId(htmlImageElementId, new StructInfo({}))
   registry.register(TextureCache, new MapInfo(typeid(Number), htmlImageElementId))
 }

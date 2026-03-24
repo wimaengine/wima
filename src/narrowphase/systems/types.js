@@ -1,8 +1,7 @@
-import { World } from '../../ecs/index.js'
+import { World, Entity } from '../../ecs/index.js'
 import { ArrayInfo, Field, MapInfo, StructInfo } from '../../reflect/core/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
-import { Entity } from '../../ecs/index.js'
 import { Angle, Vector2 } from '../../math/index.js'
 import { CollisionData, CollisionManifold, Jacobian } from '../core/index.js'
 import { Contacts, SATNarrowphase2D } from '../resources/index.js'
@@ -17,6 +16,7 @@ export function registerNarrowphase2DTypes(world) {
   const numberArrayId = typeidGeneric(Array, [Number])
   const vector2ArrayId = typeidGeneric(Array, [Vector2])
   const jacobianArrayId = typeidGeneric(Array, [Jacobian])
+
   registry.registerTypeId(collisionManifoldMapId, new MapInfo(typeid(String), typeid(CollisionManifold)))
   registry.registerTypeId(numberArrayId, new ArrayInfo(typeid(Number)))
   registry.registerTypeId(vector2ArrayId, new ArrayInfo(typeid(Vector2)))

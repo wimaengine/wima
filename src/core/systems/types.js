@@ -1,6 +1,6 @@
-import { Entity, World } from "../../ecs/index.js"
-import { Field, StructInfo, TypeRegistry } from "../../reflect/index.js"
-import { typeid } from "../../type/index.js"
+import { Entity, World } from '../../ecs/index.js'
+import { Field, StructInfo, TypeRegistry } from '../../reflect/index.js'
+import { typeid } from '../../type/index.js'
 
 /**
  * @param {World} world

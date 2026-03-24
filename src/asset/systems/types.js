@@ -17,11 +17,11 @@ export function registerAssetTypes(asset) {
   return function registerAssetTypes(world) {
     const registry = world.getResource(TypeRegistry)
 
-  registry.registerTypeId(typeidGeneric(Handle,[asset]), new StructInfo({
-    type: new Field(typeid(Function)),
-    index: new Field(typeid(Number)),
-    generation: new Field(typeid(Number))
-  }))
+    registry.registerTypeId(typeidGeneric(Handle, [asset]), new StructInfo({
+      type: new Field(typeid(Function)),
+      index: new Field(typeid(Number)),
+      generation: new Field(typeid(Number))
+    }))
     registry.registerTypeId(
       typeidGeneric(Assets, [asset]),
       new StructInfo({
@@ -38,6 +38,7 @@ export function registerAssetServerTypes(world) {
   const registry = world.getResource(TypeRegistry)
 
   const assetLoadFailArrayId = typeidGeneric(Array, [AssetLoadFail])
+
   registry.registerTypeId(assetLoadFailArrayId, new ArrayInfo(typeid(AssetLoadFail)))
 
   registry.register(AssetServer, new StructInfo({

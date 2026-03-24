@@ -3,8 +3,7 @@ import { MapInfo, StructInfo, Field, OpaqueInfo } from '../../reflect/core/index
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { setTypeId, typeid } from '../../type/index.js'
 import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from '../resources/index.js'
-import { ProgramCache } from '../../render-core/index.js'
-import { MeshAttribute } from '../../render-core/index.js'
+import { ProgramCache, MeshAttribute } from '../../render-core/index.js'
 import { WebglRenderPipeline } from '../core/renderpipeline.js'
 
 /**

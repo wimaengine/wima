@@ -22,6 +22,7 @@ export function registerRenderCoreTypes(world) {
   const meshAttributeMapId = typeidGeneric(Map, [String, MeshAttributeData])
   const shaderStageId = setTypeId('ShaderStage')
   const basicMaterialHandleId = typeidGeneric(Handle, [BasicMaterial])
+
   registry.registerTypeId(meshAttributeMapId, new MapInfo(typeid(String), typeid(MeshAttributeData)))
   registry.registerTypeId(shaderStageId, new EnumInfo(ShaderStage))
 
@@ -44,7 +45,7 @@ export function registerRenderCoreTypes(world) {
     color: new Field(typeid(Color))
   }))
   registry.register(Meshed, new StructInfo({
-    handle: new Field(typeidGeneric(Handle,[Mesh]))
+    handle: new Field(typeidGeneric(Handle, [Mesh]))
   }))
   registry.register(BasicMaterial2D, new StructInfo({
     handle: new Field(basicMaterialHandleId)
@@ -71,6 +72,7 @@ export function registerMaterialTypes(component, material) {
     const registry = world.getResource(TypeRegistry)
 
     const handleTypeId = typeidGeneric(Handle, [material])
+
     registry.registerTypeId(handleTypeId, new StructInfo({
       type: new Field(typeid(Function)),
       index: new Field(typeid(Number)),

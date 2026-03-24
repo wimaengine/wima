@@ -40,6 +40,7 @@ export function registerReflectTypes(world) {
   registry.registerTypeId(setTypeId('BigInt'), new OpaqueInfo())
 
   const typeIdId = setTypeId('TypeId')
+
   registry.registerTypeId(typeIdId, new OpaqueInfo())
 
   const mapStringNumberId = typeidGeneric(Map, [String, Number])

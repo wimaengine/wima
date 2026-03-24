@@ -99,7 +99,6 @@ export class Material3DPlugin extends Plugin {
   }
 }
 
-
 /**
  * @template {Material} T
  * @typedef Material2DPluginOptions
