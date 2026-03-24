@@ -6,7 +6,7 @@ import { EventPlugin } from '../../event/index.js'
 import { typeidGeneric } from '../../type/index.js'
 import { Assets } from '../core/index.js'
 import { AssetAdded, AssetDropped, AssetModified } from '../events/index.js'
-import { updateAssetEvents, registerAssetOnAssetServer, unloadDroppedAssets } from '../systems/index.js'
+import { registerAssetTypes, registerAssetOnAssetServer, unloadDroppedAssets, updateAssetEvents } from '../systems/index.js'
 
 /**
  * @template T
@@ -60,6 +60,7 @@ export class AssetPlugin extends Plugin {
     }
 
     app.registerSystem(AppSchedule.Startup, registerAssetOnAssetServer(asset))
+    app.registerSystem(AppSchedule.Startup, registerAssetTypes(asset))
     world.setResourceByTypeId(
       typeidGeneric(Assets, [asset]),
       new Assets(asset)

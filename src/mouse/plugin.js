@@ -7,6 +7,7 @@ import { PointerDown, PointerMove, PointerUp } from '../window/index.js'
 import { Vector2 } from '../math/index.js'
 import { typeidGeneric } from '../type/index.js'
 import { AppSchedule } from '../core/index.js'
+import { registerMouseTypes } from './systems/index.js'
 
 export class MousePlugin extends Plugin {
 
@@ -18,6 +19,7 @@ export class MousePlugin extends Plugin {
     app
       .setResource(new Mouse())
       .setResource(new MouseButtons())
+      .registerSystem(AppSchedule.Startup, registerMouseTypes)
       .registerSystem(AppSchedule.Update, updateMouse)
       .registerSystem(AppSchedule.Update, updateMouseButtons)
   }

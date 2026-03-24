@@ -1,6 +1,8 @@
 import { App, Plugin } from '../app/index.js'
+import { AppSchedule } from '../core/index.js'
 import { Browser, PlatformOS } from './core/index.js'
 import { Device } from './resources/index.js'
+import { registerDeviceTypes } from './systems/index.js'
 
 export class DevicePlugin extends Plugin {
 
@@ -11,7 +13,9 @@ export class DevicePlugin extends Plugin {
     const device = new Device()
     const ua = navigator.userAgent
 
-    app.setResource(device)
+    app
+      .setResource(device)
+      .registerSystem(AppSchedule.Startup, registerDeviceTypes)
 
     // rendering capabilities
     device.capabilities.canvas = !!window.CanvasRenderingContext2D

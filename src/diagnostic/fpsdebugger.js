@@ -3,6 +3,7 @@ import { AppSchedule } from '../core/index.js'
 import { World } from '../ecs/index.js'
 import { TimerMode, VirtualClock } from '../time/index.js'
 import { RAFTimer } from './resources/index.js'
+import { registerFpsDebuggerTypes } from './systems/index.js'
 
 export class FPSDebugger extends Plugin {
 
@@ -12,6 +13,7 @@ export class FPSDebugger extends Plugin {
   register(app) {
     app
       .setResource(new RAFTimer({ duration: 1, mode: TimerMode.Repeat }))
+      .registerSystem(AppSchedule.Startup, registerFpsDebuggerTypes)
       .registerSystem(AppSchedule.Startup, setUpUI)
       .registerSystem(AppSchedule.Update, updateFPSCounter)
       .registerSystem(AppSchedule.Update, updateRAFTimer)

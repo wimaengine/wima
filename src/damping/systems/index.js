@@ -55,3 +55,5 @@ export function dampenRotation3D(world) {
     rotation.z *= angular
   })
 }
+
+export * from './types.js'

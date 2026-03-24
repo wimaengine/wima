@@ -3,7 +3,7 @@ import { App, Plugin } from '../../app/index.js'
 import { AppSchedule } from '../../core/index.js'
 import { typeidGeneric } from '../../type/index.js'
 import { Gizmo2D, GizmoSettings } from '../core/index.js'
-import { genenerateDrawGizmo2Dsystem } from '../systems/index.js'
+import { genenerateDrawGizmo2Dsystem, registerGizmo2DTypes } from '../systems/index.js'
 
 /**
  * @template T
@@ -44,6 +44,7 @@ export class Gizmo2DPlugin extends Plugin {
       .getWorld()
       .setResourceByTypeId(typeidGeneric(Gizmo2D, [label]), new Gizmo2D(label, settings))
     app
+      .registerSystem(AppSchedule.Startup, registerGizmo2DTypes(label))
       .registerSystem(AppSchedule.Update, genenerateDrawGizmo2Dsystem(label))
   }
 

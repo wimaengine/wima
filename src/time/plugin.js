@@ -1,6 +1,6 @@
 import { World } from '../ecs/index.js'
 import { App, Plugin } from '../app/index.js'
-import { updateTimers } from './systems/index.js'
+import { registerTimeTypes, updateTimers } from './systems/index.js'
 import { VirtualClock } from './resource/index.js'
 import { Clock } from './clock.js'
 import { Timer } from './components/timer.js'
@@ -14,6 +14,7 @@ export class TimePlugin extends Plugin {
   register(app) {
     app
       .registerType(Timer)
+      .registerSystem(AppSchedule.Startup, registerTimeTypes)
       .setResource(new VirtualClock())
       .registerSystem(AppSchedule.Update, updateVirtualClock)
       .registerSystem(AppSchedule.Update, updateTimers)

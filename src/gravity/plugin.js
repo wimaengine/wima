@@ -2,7 +2,7 @@ import { App, Plugin } from '../app/index.js'
 import { AppSchedule } from '../core/index.js'
 import { Vector2, Vector3 } from '../math/index.js'
 import { Gravity2D, Gravity3D } from './resources/index.js'
-import { applyGravity2D, applyGravity3D } from './systems/index.js'
+import { applyGravity2D, applyGravity3D, registerGravity2DTypes, registerGravity3DTypes } from './systems/index.js'
 
 export class Gravity2DPlugin extends Plugin {
 
@@ -26,6 +26,7 @@ export class Gravity2DPlugin extends Plugin {
   register(app) {
     app
       .setResource(new Gravity2D().copy(this.gravity))
+      .registerSystem(AppSchedule.Startup, registerGravity2DTypes)
       .registerSystem(AppSchedule.Update, applyGravity2D)
   }
 }
@@ -52,6 +53,7 @@ export class Gravity3DPlugin extends Plugin {
   register(app) {
     app
       .setResource(new Gravity3D().copy(this.gravity))
+      .registerSystem(AppSchedule.Startup, registerGravity3DTypes)
       .registerSystem(AppSchedule.Update, applyGravity3D)
   }
 }

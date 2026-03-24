@@ -92,3 +92,5 @@ export function generateTweenUpdateSystem(component, tween, interpolate) {
     })
   }
 }
+
+export * from './types.js'

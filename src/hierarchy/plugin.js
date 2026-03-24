@@ -1,7 +1,9 @@
 import { App, Plugin } from '../app/index.js'
+import { AppSchedule } from '../core/index.js'
 import { ComponentHooks } from '../ecs/index.js'
 import { Children, Parent } from './components/index.js'
 import { addSelfToChildren, despawnChildren, addSelfToParent, removeSelfFromParent } from './hooks/index.js'
+import { registerHierarchyTypes } from './systems/index.js'
 
 export class HierarchyPlugin extends Plugin {
 
@@ -22,5 +24,6 @@ export class HierarchyPlugin extends Plugin {
         removeSelfFromParent,
         null
       ))
+      .registerSystem(AppSchedule.Startup, registerHierarchyTypes)
   }
 }
