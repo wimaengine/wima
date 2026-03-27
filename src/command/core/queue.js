@@ -1,20 +1,16 @@
 /** @import { CommandFn } from '../typedef/index.js' */
-import { World } from '../../ecs/index.js'
 import { Command } from './command.js'
 
-/**
- * @template {Command} T
- */
 export class CommandQueue {
 
   /**
    * @private
-   * @type {T[]}
+   * @type {Command[]}
    */
   queue = []
 
   /**
-   * @param {T} command
+   * @param {Command} command
    */
   add(command) {
     this.queue.push(command)
