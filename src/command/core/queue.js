@@ -9,22 +9,9 @@ export class CommandQueue {
 
   /**
    * @private
-   * @type {CommandFn<T>}
-   */
-  command
-
-  /**
-   * @private
    * @type {T[]}
    */
   queue = []
-
-  /**
-   * @param {CommandFn<T>} [commandfn]
-   */
-  constructor(commandfn = defaultCommandFn) {
-    this.command = commandfn
-  }
 
   /**
    * @param {T} command
@@ -33,36 +20,16 @@ export class CommandQueue {
     this.queue.push(command)
   }
 
-  /**
-   * @param {World} registry
-   */
-  apply(registry) {
-    for (let i = 0; i < this.queue.length; i++) {
-      this.command(this.queue[i], registry)
-    }
-  }
-  clear() {
-    this.queue.length = 0
-  }
+  drain(){
+    const queue = this.queue
+    this.queue = []
 
-  /**
-   * @returns {Readonly<T[]>}
-   */
-  getQueue() {
-    return this.queue
+    return queue
   }
-
   /**
    * @returns {number}
    */
   size() {
     return this.queue.length
   }
-}
-
-/**
- * @type {CommandFn<any>}
- */
-function defaultCommandFn(command, registry) {
-  command.execute(registry)
 }
