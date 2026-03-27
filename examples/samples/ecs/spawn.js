@@ -42,7 +42,7 @@ app
  * @param {World} world
  */
 function update(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const entities = new Query(world, [Entity, Marker])
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)

@@ -47,7 +47,7 @@ function init(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
   const map = new TouchtoEntityMap()
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
 
   if (!window) return warn('No window set up')
 

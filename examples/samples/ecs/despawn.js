@@ -43,7 +43,7 @@ app
  * @param {World} world
  */
 function init(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
@@ -75,7 +75,7 @@ function init(world) {
  * @param {World} world
  */
 function update(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const entities = new Query(world, [Entity, Marker])
   const entity = entities.single()
 

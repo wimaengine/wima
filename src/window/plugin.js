@@ -106,7 +106,7 @@ export class WindowPlugin extends Plugin {
  * @param {World} world
  */
 function initPrimaryWindow(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
 
   commands
     .spawn()

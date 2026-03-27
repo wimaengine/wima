@@ -29,7 +29,7 @@ import {
  * @param {World} world
  */
 export function addDefaultCamera3D(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
 
   commands
     .spawn()
@@ -41,7 +41,7 @@ export function addDefaultCamera3D(world) {
  * @param {World} world
  */
 export function addDefaultCamera2D(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
 
   commands
     .spawn()
@@ -53,7 +53,7 @@ export function addDefaultCamera2D(world) {
  * @param {World} world
  */
 export function setupViewport(world) {
-  const windowcommands = world.getResource(WindowCommands)
+  const windowcommands = new WindowCommands(world)
   const window = new Query(world, [Entity, MainWindow]).single()
 
   if (!window) return warn('No main window defined.')
@@ -67,7 +67,7 @@ export function setupViewport(world) {
  * @param {World} world
  */
 export function setupViewportWebgl(world) {
-  const windowcommands = world.getResource(WindowCommands)
+  const windowcommands = new WindowCommands(world)
   const window = new Query(world, [Entity, MainWindow]).single()
   const canvases = world.getResource(Windows)
   const width = innerWidth

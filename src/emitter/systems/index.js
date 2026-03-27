@@ -9,7 +9,7 @@ import { Particle, Emitter } from '../components/index.js'
  */
 export function emitParticles2D(world) {
   const emitters = new Query(world, [GlobalTransform2D, Emitter, Timer])
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
 
   emitters.each(([transform, emitter, timer]) => {
     if (!emitter.enabled || !timer.cycleStarted()) return
@@ -53,7 +53,7 @@ export function emitParticles2D(world) {
  */
 export function emitParticles3D(world) {
   const emitters = new Query(world, [GlobalTransform3D, Emitter, Timer])
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
 
   emitters.each(([transform, emitter, timer]) => {
     if (!emitter.enabled || !timer.cycleStarted()) return
@@ -96,7 +96,7 @@ export function emitParticles3D(world) {
  */
 export function despawnParticles(world) {
   const particles = new Query(world, [Entity, Timer], [has(Particle)])
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
 
   particles.each(([entity, timer]) => {
     if (timer.completed()) {

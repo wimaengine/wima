@@ -40,7 +40,7 @@ app
  * @param {World} world
  */
 function addCamera3D(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const projection = new OrthographicProjection()
 
   commands
@@ -55,7 +55,7 @@ function addCamera3D(world) {
  * @param {World} world
  */
 function spawnMesh(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
   const mesh = meshes.add(Mesh.triangle3D())

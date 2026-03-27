@@ -53,7 +53,7 @@ app
  * @param {World} world
  */
 function setupViewport(world) {
-  const windowcommands = world.getResource(WindowCommands)
+  const windowcommands = new WindowCommands(world)
   const window = new Query(world, [Entity, MainWindow]).single()
 
   if (!window) return warn('No main window defined.')
@@ -67,7 +67,7 @@ function setupViewport(world) {
  * @param {World} world
  */
 function init(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const clips = world.getResource(AnimationClipAssets)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)

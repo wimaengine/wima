@@ -29,7 +29,7 @@ app
  * @param {World} world
  */
 function init(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
 
   commands
     .spawn()

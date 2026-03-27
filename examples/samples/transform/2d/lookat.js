@@ -50,7 +50,7 @@ app
  * @param {World} world
  */
 function spawnLookers(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
@@ -76,7 +76,7 @@ function spawnLookers(world) {
  * @param {World} world
  */
 function spawnTarget(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 

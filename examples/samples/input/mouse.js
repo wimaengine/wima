@@ -65,7 +65,7 @@ function spawnMouseFollower(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
   const mesh = meshes.add(Mesh.quad2D(0.1, 0.1))
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
 
   const entity = commands
     .spawn()
@@ -87,7 +87,7 @@ function spawnButtons(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
   const map = new KeytoEntityMap()
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const mesh = meshes.add(Mesh.quad2D(itemWidth, itemHeight))
   const digits = [
     MouseButton.Left,

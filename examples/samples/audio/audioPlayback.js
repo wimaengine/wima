@@ -51,7 +51,7 @@ app
  */
 function init(world) {
   const server = world.getResource(AssetServer)
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
 
   world.setResource(new AudioTimer({
     mode: TimerMode.Repeat,
