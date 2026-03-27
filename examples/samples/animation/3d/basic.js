@@ -50,7 +50,7 @@ app
  * @param {World} world
  */
 export function init(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const clips = world.getResource(AnimationClipAssets)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)

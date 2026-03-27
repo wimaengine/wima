@@ -47,7 +47,7 @@ app
  * @param {World} world
  */
 function init(world) {
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const scenes = world.getResource(SceneAssets)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)

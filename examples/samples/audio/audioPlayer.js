@@ -46,7 +46,7 @@ app
  */
 function init(world) {
   const server = world.getResource(AssetServer)
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
 
   commands
     .spawn()

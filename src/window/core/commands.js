@@ -3,7 +3,7 @@ import { CommandQueue } from '../../command/index.js'
 import { assert } from '../../logger/index.js'
 import { Vector2 } from '../../math/index.js'
 import { WindowCommand } from '../commands/index.js'
-import { WindowRequest } from '../core/request.js'
+import { WindowRequest } from './request.js'
 
 export class WindowCommands {
 
@@ -15,9 +15,16 @@ export class WindowCommands {
 
   /**
    * @private
-   * @type {CommandQueue<WindowCommand>}
+   * @type {CommandQueue}
    */
-  buffer = new CommandQueue()
+  buffer
+
+  /**
+   * @param {World} [world]
+   */
+  constructor(world) {
+    this.buffer = world.getResource(CommandQueue)
+  }
 
   /**
    * @param {Entity} entity
@@ -55,15 +62,5 @@ export class WindowCommands {
     this.buffer.add(new WindowCommand(this.entity, WindowRequest.FullScreen, undefined))
 
     return this
-  }
-
-  /**
-   * @returns {Readonly<WindowCommand[]>}
-   */
-  getBuffer() {
-    return this.buffer.getQueue()
-  }
-  clear() {
-    this.buffer.clear()
   }
 }

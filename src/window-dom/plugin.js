@@ -1,9 +1,7 @@
 import { App, Plugin } from '../app/index.js'
-import { AppSchedule } from '../core/index.js'
 import { ComponentHooks } from '../ecs/index.js'
 import { Window } from '../window/index.js'
 import { closeWindow, openWindow } from './hooks/index.js'
-import { executeWindowCommands } from './systems/index.js'
 
 export class DOMWindowPlugin extends Plugin {
 
@@ -13,6 +11,5 @@ export class DOMWindowPlugin extends Plugin {
   register(app) {
     app
       .setComponentHooks(Window, new ComponentHooks(openWindow, closeWindow))
-      .registerSystem(AppSchedule.Update, executeWindowCommands)
   }
 }

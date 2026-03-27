@@ -87,7 +87,7 @@ function update(world) {
  */
 function spawnDigits(world) {
   const map = world.getResource(KeytoEntityMap)
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 
@@ -126,7 +126,7 @@ function spawnDigits(world) {
  */
 function spawnAlphabet(world) {
   const map = world.getResource(KeytoEntityMap)
-  const commands = world.getResource(EntityCommands)
+  const commands = new EntityCommands(world)
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
   const mesh = meshes.add(Mesh.quad2D(itemWidth, itemHeight))
