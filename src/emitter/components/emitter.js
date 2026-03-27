@@ -1,4 +1,4 @@
-import { EntityCommands } from '../../command/index.js'
+import { EntityCommands } from '../../core/index.js'
 import { Range } from '../../datastructures/index.js'
 import { Entity } from '../../ecs/index.js'
 

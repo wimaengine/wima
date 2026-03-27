@@ -1,6 +1,6 @@
 import { Entity, has, Query, World } from '../../ecs/index.js'
 import { Timer } from '../../time/index.js'
-import { EntityCommands } from '../../command/index.js'
+import { EntityCommands } from '../../core/index.js'
 import { Position2D, Orientation2D, GlobalTransform2D, GlobalTransform3D, Orientation3D, Position3D, Scale3D } from '../../transform/index.js'
 import { Particle, Emitter } from '../components/index.js'
 
