@@ -22,7 +22,7 @@ export class WindowCommands {
   /**
    * @param {World} [world]
    */
-  constructor(world){
+  constructor(world) {
     this.buffer = world.getResource(CommandQueue)
   }
 

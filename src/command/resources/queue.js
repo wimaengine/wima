@@ -16,12 +16,14 @@ export class CommandQueue {
     this.queue.push(command)
   }
 
-  drain(){
-    const queue = this.queue
+  drain() {
+    const { queue } = this
+
     this.queue = []
 
     return queue
   }
+
   /**
    * @returns {number}
    */

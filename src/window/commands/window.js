@@ -1,4 +1,4 @@
-import { Query,Entity, World } from '../../ecs/index.js'
+import { Query, Entity, World } from '../../ecs/index.js'
 import { Command } from '../../command/index.js'
 import { error } from '../../logger/index.js'
 import { WindowRequest } from '../core/index.js'
@@ -40,16 +40,16 @@ export class WindowCommand extends Command {
   /**
    * @param {World} world
    */
-  execute(world){
-  const canvases = world.getResource(Windows)
-  const windows = new Query(world, [Window])
-  const canvas = canvases.getWindow(this.entity)
+  execute(world) {
+    const canvases = world.getResource(Windows)
+    const windows = new Query(world, [Window])
+    const canvas = canvases.getWindow(this.entity)
 
-  if (!canvas) return
+    if (!canvas) return
 
-  const [window] = /** @type {[Window]} */(windows.get(this.entity))
+    const [window] = /** @type {[Window]} */(windows.get(this.entity))
 
-  execute(this, canvas, window)
+    execute(this, canvas, window)
   }
 }
 
