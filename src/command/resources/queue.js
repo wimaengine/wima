@@ -1,5 +1,5 @@
 /** @import { CommandFn } from '../typedef/index.js' */
-import { Command } from './command.js'
+import { Command } from '../core/command.js'
 
 export class CommandQueue {
 

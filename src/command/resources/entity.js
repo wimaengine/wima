@@ -1,5 +1,5 @@
 /** @import { Entity } from '../../ecs/index.js' */
-import { CommandQueue } from '../core/index.js'
+import { CommandQueue } from './queue.js'
 import { SpawnCommand, DespawnCommand } from '../commands/index.js'
 import { assert } from '../../logger/index.js'
 import { World } from '../../ecs/index.js'
@@ -10,15 +10,9 @@ export class EntityCommands {
 
   /**
    * @private
-   * @type {CommandQueue<SpawnCommand>}
+   * @type {CommandQueue}
    */
-  spawnqueue = new CommandQueue()
-
-  /**
-   * @private
-   * @type {CommandQueue<DespawnCommand>}
-   */
-  despawnqueue = new CommandQueue()
+  queue
 
   /**
    * @private
@@ -30,6 +24,7 @@ export class EntityCommands {
    * @param {World} world
    */
   constructor(world) {
+    this.queue = world.getResource(CommandQueue)
     this.world = world
   }
 
@@ -83,7 +78,7 @@ export class EntityCommands {
 
     const { entity } = this.buffered
 
-    this.spawnqueue.add(this.buffered)
+    this.queue.add(this.buffered)
     this.buffered = null
 
     return entity
@@ -119,18 +114,6 @@ export class EntityCommands {
    * @param {Entity} entity
    */
   despawn(entity) {
-    this.despawnqueue.add(new DespawnCommand(entity))
-  }
-
-  /**
-   * @param {World} world
-   */
-  apply(world) {
-    this.spawnqueue.apply(world)
-    this.despawnqueue.apply(world)
-  }
-  clear() {
-    this.spawnqueue.clear()
-    this.despawnqueue.clear()
+    this.queue.add(new DespawnCommand(entity))
   }
 }

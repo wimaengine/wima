@@ -1,7 +1,7 @@
 import { App, Plugin } from '../app/index.js'
 import { AppSchedule } from '../core/index.js'
 import { World } from '../ecs/index.js'
-import { EntityCommands } from './resources/index.js'
+import { CommandQueue } from './resources/index.js'
 
 export class CommandsPlugin extends Plugin {
 
@@ -10,17 +10,18 @@ export class CommandsPlugin extends Plugin {
    */
   register(app) {
     app
-      .setResource(new EntityCommands(app.getWorld()))
+      .setResource(new CommandQueue())
       .registerSystem(AppSchedule.Update, executeCommands)
   }
 }
 
 /**
- * @param {World} registry
+ * @param {World} world
  */
-function executeCommands(registry) {
-  const commands = registry.getResource(EntityCommands)
+function executeCommands(world) {
+  const commands = world.getResource(CommandQueue).drain()
 
-  commands.apply(registry)
-  commands.clear()
+  for (const command of commands) {
+    command.execute(world)
+  }
 }
