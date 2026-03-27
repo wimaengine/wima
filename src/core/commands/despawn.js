@@ -1,6 +1,6 @@
 /** @import { Entity } from '../../ecs/index.js' */
+import { Command } from '../../command/index.js'
 import { World } from '../../ecs/registry.js'
-import { Command } from '../core/index.js'
 
 export class DespawnCommand extends Command {
 
