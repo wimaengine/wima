@@ -1,5 +1,5 @@
 import { World, Entity } from '../../ecs/index.js'
-import { Command } from '../core/index.js'
+import { Command } from '../../command/index.js'
 
 export class SpawnCommand extends Command {
 

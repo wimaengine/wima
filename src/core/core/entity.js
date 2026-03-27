@@ -1,5 +1,5 @@
 /** @import { Entity } from '../../ecs/index.js' */
-import { CommandQueue } from './queue.js'
+import { CommandQueue } from '../../command/resources/queue.js'
 import { SpawnCommand, DespawnCommand } from '../commands/index.js'
 import { assert } from '../../logger/index.js'
 import { World } from '../../ecs/index.js'
