@@ -19,6 +19,23 @@ export class Parent {
   constructor(entity) {
     this.entity = entity
   }
+
+  /**
+   * @param {Parent} source
+   * @param {Parent} target
+   */
+  static copy(source, target = new Parent(source.entity)) {
+    target.entity = source.entity
+
+    return target
+  }
+
+  /**
+   * @param {Parent} target
+   */
+  static clone(target) {
+    return this.copy(target)
+  }
   visit() {
     return [this.entity]
   }
