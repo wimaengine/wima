@@ -31,13 +31,34 @@ export class Playback {
    * @param {PlaybackSettings} options
    */
   constructor({
-    duration,
+    duration = 1,
     speed = 1,
     repeatMode = PlaybackRepeat.None
-  }) {
+  } = {}) {
     this.duration = duration
     this.speed = speed
     this.repeatMode = repeatMode
+  }
+
+  /**
+   * @param {Playback} source
+   * @param {Playback} target
+   */
+  static copy(source, target = new Playback()) {
+    target.duration = source.duration
+    target.speed = source.speed
+    target.repeatMode = source.repeatMode
+    target.elapsed = source.elapsed
+    target.paused = source.paused
+
+    return target
+  }
+
+  /**
+   * @param {Playback} target
+   */
+  static clone(target) {
+    return this.copy(target)
   }
 
   start() {
@@ -81,7 +102,7 @@ export class Playback {
 
 /**
  * @typedef PlaybackSettings
- * @property {number} duration
+ * @property {number} [duration]
  * @property {number} [speed]
  * @property {PlaybackRepeat} [repeatMode]
  */
