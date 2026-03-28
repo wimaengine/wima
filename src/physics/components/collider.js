@@ -46,6 +46,29 @@ export class Collider2D {
   }
 
   /**
+   * @param {Collider2D} source
+   * @param {Collider2D} target
+   */
+  static copy(source, target = new Collider2D(source.vertices.map((v) => Vector2.copy(v)))) {
+    const vertices = source.vertices.map((v) => Vector2.copy(v))
+
+    target.vertices = vertices
+    target.geometry = new Geometry(vertices)
+    // @ts-ignore
+    target.type = source.type
+    target.angle = source.angle
+
+    return target
+  }
+
+  /**
+   * @param {Collider2D} target
+   */
+  static clone(target) {
+    return this.copy(target)
+  }
+
+  /**
    * @param {number} width
    * @param {number} height
    */
