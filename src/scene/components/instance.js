@@ -20,4 +20,21 @@ export class SceneInstance {
   constructor(handle) {
     this.handle = handle
   }
+
+  /**
+   * @param {SceneInstance} source
+   * @param {SceneInstance} target
+   */
+  static copy(source, target = new SceneInstance(source.handle)) {
+    target.handle = source.handle.clone()
+
+    return target
+  }
+
+  /**
+   * @param {SceneInstance} target
+   */
+  static clone(target) {
+    return this.copy(target)
+  }
 }
