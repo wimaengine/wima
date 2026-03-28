@@ -1,6 +1,6 @@
 /** @import { TypeId, Constructor } from '../../type/index.js' */
 import { TypeInfo } from '../core/info.js'
-import { typeid } from '../../type/index.js'
+import { typeid, typeidFunction } from '../../type/index.js'
 
 export class TypeRegistry {
 
@@ -74,9 +74,68 @@ export class TypeEntry {
   info
 
   /**
+   * @private
+   * @type {Map<string, MethodEntry>}
+   */
+  methods = new Map()
+
+  /**
    * @param {TypeInfo} info
    */
   constructor(info) {
     this.info = info
+  }
+
+  /**
+   * 
+   * @template {unknown[]} T
+   * @param {string} name 
+   * @param {[...T]} args 
+   * @returns {unknown}
+   */
+  call(name, args) {
+    const method = this.getMethod(name)
+
+    if(method){
+      return method.call(args)
+    } else {
+      return undefined
+    }
+  }
+  
+  /**
+   * @param {string} name
+   */
+  getMethod(name){
+    return this.methods.get(name)
+  }
+  /**
+   * @param {Function} method
+   */
+  setMethod(method) {
+    this.methods.set(method.name,new MethodEntry(method))
+  }
+}
+
+export class MethodEntry {
+  
+  /**
+   * @type {Function}
+   */
+  method
+
+  /**
+   * @param {Function} method
+   */
+  constructor(method){
+    this.method = method
+  }
+  /**
+   * @template {unknown[]} T
+   * @param {[...T]} [args]
+   * @returns {unknown}
+   */
+  call(args){
+    return this.method(...(args || []))
   }
 }
