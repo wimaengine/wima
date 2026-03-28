@@ -21,6 +21,23 @@ export class Children {
   }
 
   /**
+   * @param {Children} source
+   * @param {Children} target
+   */
+  static copy(source, target = new Children()) {
+    target.list = source.list.slice()
+
+    return target
+  }
+
+  /**
+   * @param {Children} target
+   */
+  static clone(target) {
+    return this.copy(target)
+  }
+
+  /**
    * @param {Entity} entity
    */
   add(entity) {
