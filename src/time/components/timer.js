@@ -81,6 +81,33 @@ export class Timer {
     this.paused = paused
   }
 
+  /**
+   * @param {Timer} source
+   * @param {Timer} target
+   */
+  static copy(source, target = new Timer()) {
+    target.mode = source.mode
+    target.duration = source.duration
+    target.speed = source.speed
+    target.paused = source.paused
+    target.elapsedCount = source.elapsedCount
+    target.elapsedTime = source.elapsedTime
+    target.finished = source.finished
+    target.startTicks = source.startTicks
+    target.endTicks = source.endTicks
+    target.playbackRequested = source.playbackRequested
+    target.playbackResolved = source.playbackResolved
+
+    return target
+  }
+
+  /**
+   * @param {Timer} target
+   */
+  static clone(target) {
+    return this.copy(target)
+  }
+
   elapsed() {
     return this.elapsedTime
   }
