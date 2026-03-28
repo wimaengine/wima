@@ -46,6 +46,27 @@ export class Emitter {
     this.burstCount = burstCount
     this.enabled = enabled
   }
+
+  /**
+   * @param {Emitter} source
+   * @param {Emitter} target
+   */
+  static copy(source, target = new Emitter()) {
+    target.prefab = source.prefab
+    target.patch = source.patch
+    target.lifetime = new Range(source.lifetime.start, source.lifetime.end)
+    target.burstCount = new Range(source.burstCount.start, source.burstCount.end)
+    target.enabled = source.enabled
+
+    return target
+  }
+
+  /**
+   * @param {Emitter} target
+   */
+  static clone(target) {
+    return this.copy(target)
+  }
 }
 
 /**
