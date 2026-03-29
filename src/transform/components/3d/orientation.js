@@ -14,6 +14,6 @@ export class Orientation3D extends Quaternion {
    * @param {Orientation3D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Orientation3D.copy(target)
   }
 }

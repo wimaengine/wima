@@ -14,6 +14,6 @@ export class PhysicsHitbox extends BoundingBox2D {
    * @param {PhysicsHitbox} target
    */
   static clone(target) {
-    return this.copy(target)
+    return PhysicsHitbox.copy(target)
   }
 }

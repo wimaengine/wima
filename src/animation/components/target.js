@@ -36,6 +36,6 @@ export class AnimationTarget {
    * @param {AnimationTarget} target
    */
   static clone(target) {
-    return this.copy(target)
+    return AnimationTarget.copy(target)
   }
 }

@@ -14,6 +14,6 @@ export class Orientation2D extends Rotary {
    * @param {Orientation2D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Orientation2D.copy(target)
   }
 }

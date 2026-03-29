@@ -65,7 +65,7 @@ export class Emitter {
    * @param {Emitter} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Emitter.copy(target)
   }
 }
 

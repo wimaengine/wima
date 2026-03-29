@@ -18,6 +18,6 @@ export class Scale3D extends Vector3 {
    * @param {Scale3D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Scale3D.copy(target)
   }
 }

@@ -4,6 +4,7 @@ import { GlobalTransform2D, GlobalTransform3D } from '../../transform/index.js'
 
 /**
  * @template T
+ * @abstract
  */
 export class RenderType {
 
@@ -46,23 +47,6 @@ export class RenderLists {
   opaquePass = new Map()
 
   /**
-   * @template U
-   * @param {RenderLists<U>} _source
-   * @param {RenderLists<U>} target
-   */
-  static copy(_source, target = new this()) {
-    return target
-  }
-
-  /**
-   * @template U
-   * @param {RenderLists<U>} target
-   */
-  static clone(target) {
-    return this.copy(target)
-  }
-
-  /**
    * @param {TypeId} id
    * @returns {RenderType<T>[] | undefined}
    */
@@ -91,9 +75,41 @@ export class RenderLists {
 /**
  * @augments RenderLists<GlobalTransform2D>
  */
-export class RenderLists2D extends RenderLists { }
+export class RenderLists2D extends RenderLists {
+  /**
+   * @param {RenderLists2D} _source
+   * @param {RenderLists2D} target
+   */
+  static copy(_source, target = new RenderLists2D()) {
+    return target
+  }
+
+  /**
+   * @param {RenderLists2D} target
+   */
+  static clone(target) {
+    return RenderLists2D.copy(target)
+  }
+ }
 
 /**
  * @augments RenderLists<GlobalTransform3D>
  */
-export class RenderLists3D extends RenderLists { }
+export class RenderLists3D extends RenderLists {
+    /**
+   * @template U
+   * @param {RenderLists3D} _source
+   * @param {RenderLists3D} target
+   */
+  static copy(_source, target = new RenderLists3D()) {
+    return target
+  }
+
+  /**
+   * @template U
+   * @param {RenderLists3D} target
+   */
+  static clone(target) {
+    return RenderLists3D.copy(target)
+  }
+ }

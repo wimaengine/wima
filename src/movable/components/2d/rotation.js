@@ -16,6 +16,6 @@ export class Rotation2D extends Angle {
    * @param {Rotation2D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Rotation2D.copy(target)
   }
 }

@@ -14,6 +14,6 @@ export class Rotation3D extends Vector3 {
    * @param {Rotation3D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Rotation3D.copy(target)
   }
 }

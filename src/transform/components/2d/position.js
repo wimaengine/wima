@@ -14,6 +14,6 @@ export class Position2D extends Vector2 {
    * @param {Position2D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Position2D.copy(target)
   }
 }

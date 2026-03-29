@@ -27,6 +27,6 @@ export class PhysicsProperties {
    * @param {PhysicsProperties} target
    */
   static clone(target) {
-    return this.copy(target)
+    return PhysicsProperties.copy(target)
   }
 }

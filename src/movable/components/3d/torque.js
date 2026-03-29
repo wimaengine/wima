@@ -14,6 +14,6 @@ export class Torque3D extends Vector3 {
    * @param {Torque3D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Torque3D.copy(target)
   }
 }

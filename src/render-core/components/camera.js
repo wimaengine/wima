@@ -41,7 +41,7 @@ export class Camera {
    * @param {Camera} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Camera.copy(target)
   }
   projectionMatrix() {
     return this.projection.asProjectionMatrix(this.near, this.far)

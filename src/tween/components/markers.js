@@ -12,7 +12,7 @@ export class TweenRepeat {
    * @param {TweenRepeat} target
    */
   static clone(target) {
-    return this.copy(target)
+    return TweenRepeat.copy(target)
   }
 }
 
@@ -30,6 +30,6 @@ export class TweenFlip {
    * @param {TweenFlip} target
    */
   static clone(target) {
-    return this.copy(target)
+    return TweenFlip.copy(target)
   }
 }

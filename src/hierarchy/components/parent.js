@@ -34,7 +34,7 @@ export class Parent {
    * @param {Parent} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Parent.copy(target)
   }
   visit() {
     return [this.entity]

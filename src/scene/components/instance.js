@@ -35,6 +35,6 @@ export class SceneInstance {
    * @param {SceneInstance} target
    */
   static clone(target) {
-    return this.copy(target)
+    return SceneInstance.copy(target)
   }
 }
