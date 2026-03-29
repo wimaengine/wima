@@ -12,7 +12,7 @@ import {
   TupleInfo,
   TypeInfo
 } from '../core/index.js'
-import { TypeEntry, TypeRegistry } from '../resources/index.js'
+import { MethodEntry, TypeEntry, TypeRegistry } from '../resources/index.js'
 
 /**
  * @param {World} world
@@ -47,11 +47,13 @@ export function registerReflectTypes(world) {
   const typeIdArrayId = setTypeId('Array<TypeId>')
   const fieldArrayId = typeidGeneric(Array, [Field])
   const typeEntryMapId = setTypeId('Map<TypeId,TypeEntry>')
+  const methodEntryMapId = setTypeId(`Map<TypeId,${MethodEntry.name}>`)
 
   registry.registerTypeId(mapStringNumberId, new MapInfo(typeid(String), typeid(Number)))
   registry.registerTypeId(typeIdArrayId, new ArrayInfo(typeIdId))
   registry.registerTypeId(fieldArrayId, new ArrayInfo(typeid(Field)))
   registry.registerTypeId(typeEntryMapId, new MapInfo(typeIdId, typeid(TypeEntry)))
+  registry.registerTypeId(methodEntryMapId, new MapInfo(typeIdId, typeid(MethodEntry)))
 
   registry.register(TypeInfo, new OpaqueInfo())
   registry.register(Field, new StructInfo({
@@ -83,8 +85,11 @@ export function registerReflectTypes(world) {
   registry.register(TupleInfo, new StructInfo({
     elementTypes: new Field(typeIdArrayId)
   }))
+  registry.register(MethodEntry, new StructInfo({
+    method: new Field(typeid(Function))
+  }))
   registry.register(TypeEntry, new StructInfo({
-    info: new Field(typeid(TypeInfo))
+    info: new Field(typeid(TypeInfo)),
   }))
   registry.register(TypeRegistry, new StructInfo({
     inner: new Field(typeEntryMapId)
