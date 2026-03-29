@@ -68,10 +68,8 @@ export class Tween {
 
       const ctor = value.constructor
 
-      // @ts-ignore
-      if (ctor && typeof ctor.copy === 'function') {
+      if ('copy' in ctor && typeof ctor.copy === 'function') {
 
-        // @ts-ignore
         return ctor.copy(value)
       }
 
