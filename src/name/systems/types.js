@@ -13,4 +13,6 @@ export function registerNameTypes(world) {
   registry.register(Name, new StructInfo({
     value: new Field(typeid(String))
   }))
+  registry.get(Name)?.setMethod(Name.copy)
+  registry.get(Name)?.setMethod(Name.clone)
 }

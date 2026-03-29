@@ -25,7 +25,11 @@ export function registerWindowTypes(world) {
     height: new Field(typeid(Number)),
     selector: new Field(typeid(String), true)
   }))
+  registry.get(Window)?.setMethod(Window.copy)
+  registry.get(Window)?.setMethod(Window.clone)
   registry.register(MainWindow, new StructInfo({}))
+  registry.get(MainWindow)?.setMethod(MainWindow.copy)
+  registry.get(MainWindow)?.setMethod(MainWindow.clone)
   registry.register(Windows, new StructInfo({
     entities: new Field(entityWindowMapId)
   }))

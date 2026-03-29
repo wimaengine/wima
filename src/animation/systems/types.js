@@ -40,12 +40,18 @@ export function registerAnimationTypes(world) {
     repeatMode: new Field(playbackRepeatId),
     paused: new Field(typeid(Boolean))
   }))
+  registry.get(Playback)?.setMethod(Playback.copy)
+  registry.get(Playback)?.setMethod(Playback.clone)
   registry.register(AnimationPlayer, new StructInfo({
     animations: new Field(playbackMapId),
     current: new Field(typeid(Number), true)
   }))
+  registry.get(AnimationPlayer)?.setMethod(AnimationPlayer.copy)
+  registry.get(AnimationPlayer)?.setMethod(AnimationPlayer.clone)
   registry.register(AnimationTarget, new StructInfo({
     player: new Field(typeid(Entity)),
     id: new Field(typeid(String))
   }))
+  registry.get(AnimationTarget)?.setMethod(AnimationTarget.copy)
+  registry.get(AnimationTarget)?.setMethod(AnimationTarget.clone)
 }

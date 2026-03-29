@@ -29,6 +29,8 @@ export function registerAudioTypes(world) {
     attach: new Field(typeid(Number), true),
     audio: new Field(typeidGeneric(Handle, [Audio]), true)
   }))
+  registry.get(AudioPlayer)?.setMethod(AudioPlayer.copy)
+  registry.get(AudioPlayer)?.setMethod(AudioPlayer.clone)
   registry.register(AudioOscillator, new StructInfo({
     sourceNode: new Field(typeid(Number), true),
     type: new Field(oscillatorTypeId),
@@ -36,6 +38,8 @@ export function registerAudioTypes(world) {
     detune: new Field(typeid(Number)),
     frequency: new Field(typeid(Number))
   }))
+  registry.get(AudioOscillator)?.setMethod(AudioOscillator.copy)
+  registry.get(AudioOscillator)?.setMethod(AudioOscillator.clone)
   registry.register(AudioGraph, new StructInfo({
     graph: new Field(typeid(GraphList))
   }))

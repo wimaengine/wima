@@ -16,4 +16,5 @@ export function registerColorTypes(world) {
     b: new Field(typeid(Number)),
     a: new Field(typeid(Number))
   }))
+  registry.get(Color)?.setMethod(Color.copy)
 }

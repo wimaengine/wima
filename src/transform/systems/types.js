@@ -26,14 +26,20 @@ export function registerTransform2DTypes(world) {
     x: new Field(typeid(Number)),
     y: new Field(typeid(Number))
   }))
+  registry.get(Position2D)?.setMethod(Position2D.copy)
+  registry.get(Position2D)?.setMethod(Position2D.clone)
   registry.register(Orientation2D, new StructInfo({
     cos: new Field(typeid(Number)),
     sin: new Field(typeid(Number))
   }))
+  registry.get(Orientation2D)?.setMethod(Orientation2D.copy)
+  registry.get(Orientation2D)?.setMethod(Orientation2D.clone)
   registry.register(Scale2D, new StructInfo({
     x: new Field(typeid(Number)),
     y: new Field(typeid(Number))
   }))
+  registry.get(Scale2D)?.setMethod(Scale2D.copy)
+  registry.get(Scale2D)?.setMethod(Scale2D.clone)
   registry.register(GlobalTransform2D, new StructInfo({
     a: new Field(typeid(Number)),
     b: new Field(typeid(Number)),
@@ -42,6 +48,8 @@ export function registerTransform2DTypes(world) {
     x: new Field(typeid(Number)),
     y: new Field(typeid(Number))
   }))
+  registry.get(GlobalTransform2D)?.setMethod(GlobalTransform2D.copy)
+  registry.get(GlobalTransform2D)?.setMethod(GlobalTransform2D.clone)
 }
 
 /**
@@ -55,17 +63,23 @@ export function registerTransform3DTypes(world) {
     y: new Field(typeid(Number)),
     z: new Field(typeid(Number))
   }))
+  registry.get(Position3D)?.setMethod(Position3D.copy)
+  registry.get(Position3D)?.setMethod(Position3D.clone)
   registry.register(Orientation3D, new StructInfo({
     x: new Field(typeid(Number)),
     y: new Field(typeid(Number)),
     z: new Field(typeid(Number)),
     w: new Field(typeid(Number))
   }))
+  registry.get(Orientation3D)?.setMethod(Orientation3D.copy)
+  registry.get(Orientation3D)?.setMethod(Orientation3D.clone)
   registry.register(Scale3D, new StructInfo({
     x: new Field(typeid(Number)),
     y: new Field(typeid(Number)),
     z: new Field(typeid(Number))
   }))
+  registry.get(Scale3D)?.setMethod(Scale3D.copy)
+  registry.get(Scale3D)?.setMethod(Scale3D.clone)
   registry.register(GlobalTransform3D, new StructInfo({
     a: new Field(typeid(Number)),
     b: new Field(typeid(Number)),
@@ -80,6 +94,8 @@ export function registerTransform3DTypes(world) {
     y: new Field(typeid(Number)),
     z: new Field(typeid(Number))
   }))
+  registry.get(GlobalTransform3D)?.setMethod(GlobalTransform3D.copy)
+  registry.get(GlobalTransform3D)?.setMethod(GlobalTransform3D.clone)
 }
 
 /**
@@ -95,6 +111,8 @@ export function registerRemoteTransform2DTypes(world) {
     entity: new Field(typeid(Entity)),
     offsetTransform: new Field(typeid(Affine2))
   }))
+  registry.get(RemoteTransform2D)?.setMethod(RemoteTransform2D.copy)
+  registry.get(RemoteTransform2D)?.setMethod(RemoteTransform2D.clone)
 }
 
 /**
@@ -110,4 +128,6 @@ export function registerRemoteTransform3DTypes(world) {
     entity: new Field(typeid(Entity)),
     offsetTransform: new Field(typeid(Affine3))
   }))
+  registry.get(RemoteTransform3D)?.setMethod(RemoteTransform3D.copy)
+  registry.get(RemoteTransform3D)?.setMethod(RemoteTransform3D.clone)
 }
