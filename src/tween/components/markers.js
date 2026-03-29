@@ -16,4 +16,20 @@ export class TweenRepeat {
   }
 }
 
-export class TweenFlip { }
+export class TweenFlip {
+
+  /**
+   * @param {TweenFlip} source
+   * @param {TweenFlip} target
+   */
+  static copy(source, target = new TweenFlip()) {
+    return target
+  }
+
+  /**
+   * @param {TweenFlip} target
+   */
+  static clone(target) {
+    return this.copy(target)
+  }
+}
