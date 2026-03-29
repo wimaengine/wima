@@ -89,11 +89,12 @@ export function registerMaterialTypes(component, material) {
     registry.register(component, new StructInfo({
       handle: new Field(handleTypeId)
     }))
-    if ("copy" in component && typeof component["copy"] === 'function') {
-      registry.get(component)?.setMethod(component["copy"])
+
+    if ('copy' in component && typeof component.copy === 'function') {
+      registry.get(component)?.setMethod(component.copy)
     }
-    if ("clone" in component && typeof component["clone"] === 'function') {
-      registry.get(component)?.setMethod(component["clone"])
+    if ('clone' in component && typeof component.clone === 'function') {
+      registry.get(component)?.setMethod(component.clone)
     }
   }
 }
