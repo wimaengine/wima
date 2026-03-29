@@ -70,6 +70,7 @@ export class Tween {
 
       // @ts-ignore
       if (ctor && typeof ctor.copy === 'function') {
+
         // @ts-ignore
         return ctor.copy(value)
       }

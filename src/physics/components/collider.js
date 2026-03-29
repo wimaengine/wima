@@ -54,6 +54,7 @@ export class Collider2D {
 
     target.vertices = vertices
     target.geometry = new Geometry(vertices)
+
     // @ts-ignore
     target.type = source.type
     target.angle = source.angle

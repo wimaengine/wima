@@ -48,7 +48,7 @@ export class AudioOscillator {
    * @param {AudioOscillator} source
    * @param {AudioOscillator} target
    */
-  static copy(source, target = new AudioOscillator()){
+  static copy(source, target = new AudioOscillator()) {
     target.sourceNode = source.sourceNode
     target.attach = source.attach
     target.type = source.type

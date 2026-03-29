@@ -23,7 +23,8 @@ export class Camera {
    * @param {Camera} target
    */
   static copy(source, target = new Camera(source.projection, source.near, source.far)) {
-    const {projection} = source
+    const { projection } = source
+
     if (projection instanceof PerspectiveProjection) {
       target.projection = new PerspectiveProjection(projection.fov, projection.aspect)
     } else if (projection instanceof OrthographicProjection) {

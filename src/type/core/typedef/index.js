@@ -19,6 +19,6 @@
 
 /**
  * @template T
- * @typedef {{ clone(value: T): T }} Clone 
+ * @typedef {{ clone(value: T): T }} Clone
  */
 export default {}
