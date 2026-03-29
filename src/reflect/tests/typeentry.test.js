@@ -36,6 +36,33 @@ describe("Testing `TypeEntry` method registry", () => {
     strictEqual(entry.call("multiply", [4, 5]), 20);
   });
 
+  test("`TypeEntry` can return all methods", () => {
+    /**
+     * @param {number} a
+     * @param {number} b
+     */
+    function add(a, b) {
+      return a + b;
+    }
+
+    /**
+     * @param {number} a
+     * @param {number} b
+     */
+    function multiply(a, b) {
+      return a + b;
+    }
+
+    const entry = new TypeEntry(StructInfo.default());
+    entry.setMethod(add);
+    entry.setMethod(multiply);
+
+    const methods = entry.getMethods();
+    strictEqual(methods.size, 2);
+    strictEqual(methods.get("add") instanceof MethodEntry, true);
+    strictEqual(methods.get("multiply") instanceof MethodEntry, true);
+  });
+
   test("`TypeEntry` returns undefined for missing methods", () => {
     const entry = new TypeEntry(StructInfo.default());
 
