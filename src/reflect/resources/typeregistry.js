@@ -115,6 +115,13 @@ export class TypeEntry {
   setMethod(method) {
     this.methods.set(method.name,new MethodEntry(method))
   }
+
+  /**
+   * @returns {ReadonlyMap<string, readonly MethodEntry>}
+   */
+  getMethods(){
+    return this.methods
+  }
 }
 
 export class MethodEntry {
