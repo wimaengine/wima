@@ -26,6 +26,8 @@ export function registerPhysicsTypes(world) {
     vertices: new Field(vector2ArrayId),
     geometry: new Field(typeid(Geometry))
   }))
+  registry.get(Collider2D)?.setMethod(Collider2D.copy)
+  registry.get(Collider2D)?.setMethod(Collider2D.clone)
   registry.register(PhysicsProperties, new StructInfo({
     invinertia: new Field(typeid(Number)),
     invmass: new Field(typeid(Number)),
@@ -35,6 +37,12 @@ export function registerPhysicsTypes(world) {
     restitution: new Field(typeid(Number)),
     kineticFriction: new Field(typeid(Number))
   }))
+  registry.get(PhysicsProperties)?.setMethod(PhysicsProperties.copy)
+  registry.get(PhysicsProperties)?.setMethod(PhysicsProperties.clone)
   registry.register(SoftBody2D, new StructInfo({}))
+  registry.get(SoftBody2D)?.setMethod(SoftBody2D.copy)
+  registry.get(SoftBody2D)?.setMethod(SoftBody2D.clone)
   registry.register(SoftBody3D, new StructInfo({}))
+  registry.get(SoftBody3D)?.setMethod(SoftBody3D.copy)
+  registry.get(SoftBody3D)?.setMethod(SoftBody3D.clone)
 }

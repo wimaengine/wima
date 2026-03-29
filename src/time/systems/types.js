@@ -23,6 +23,8 @@ export function registerTimeTypes(world) {
     speed: new Field(typeid(Number)),
     paused: new Field(typeid(Boolean))
   }))
+  registry.get(Timer)?.setMethod(Timer.copy)
+  registry.get(Timer)?.setMethod(Timer.clone)
   registry.register(Clock, new StructInfo({
     elapsed: new Field(typeid(Number)),
     lastTick: new Field(typeid(Number)),

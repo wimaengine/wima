@@ -14,16 +14,24 @@ export function registerMovable2DTypes(world) {
     x: new Field(typeid(Number)),
     y: new Field(typeid(Number))
   }))
+  registry.get(Velocity2D)?.setMethod(Velocity2D.copy)
+  registry.get(Velocity2D)?.setMethod(Velocity2D.clone)
   registry.register(Rotation2D, new StructInfo({
     value: new Field(typeid(Number))
   }))
+  registry.get(Rotation2D)?.setMethod(Rotation2D.copy)
+  registry.get(Rotation2D)?.setMethod(Rotation2D.clone)
   registry.register(Acceleration2D, new StructInfo({
     x: new Field(typeid(Number)),
     y: new Field(typeid(Number))
   }))
+  registry.get(Acceleration2D)?.setMethod(Acceleration2D.copy)
+  registry.get(Acceleration2D)?.setMethod(Acceleration2D.clone)
   registry.register(Torque2D, new StructInfo({
     value: new Field(typeid(Number))
   }))
+  registry.get(Torque2D)?.setMethod(Torque2D.copy)
+  registry.get(Torque2D)?.setMethod(Torque2D.clone)
 }
 
 /**
@@ -37,19 +45,27 @@ export function registerMovable3DTypes(world) {
     y: new Field(typeid(Number)),
     z: new Field(typeid(Number))
   }))
+  registry.get(Velocity3D)?.setMethod(Velocity3D.copy)
+  registry.get(Velocity3D)?.setMethod(Velocity3D.clone)
   registry.register(Rotation3D, new StructInfo({
     x: new Field(typeid(Number)),
     y: new Field(typeid(Number)),
     z: new Field(typeid(Number))
   }))
+  registry.get(Rotation3D)?.setMethod(Rotation3D.copy)
+  registry.get(Rotation3D)?.setMethod(Rotation3D.clone)
   registry.register(Acceleration3D, new StructInfo({
     x: new Field(typeid(Number)),
     y: new Field(typeid(Number)),
     z: new Field(typeid(Number))
   }))
+  registry.get(Acceleration3D)?.setMethod(Acceleration3D.copy)
+  registry.get(Acceleration3D)?.setMethod(Acceleration3D.clone)
   registry.register(Torque3D, new StructInfo({
     x: new Field(typeid(Number)),
     y: new Field(typeid(Number)),
     z: new Field(typeid(Number))
   }))
+  registry.get(Torque3D)?.setMethod(Torque3D.copy)
+  registry.get(Torque3D)?.setMethod(Torque3D.clone)
 }

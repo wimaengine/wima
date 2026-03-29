@@ -47,17 +47,25 @@ export function registerRenderCoreTypes(world) {
   registry.register(Meshed, new StructInfo({
     handle: new Field(typeidGeneric(Handle, [Mesh]))
   }))
+  registry.get(Meshed)?.setMethod(Meshed.copy)
+  registry.get(Meshed)?.setMethod(Meshed.clone)
   registry.register(BasicMaterial2D, new StructInfo({
     handle: new Field(basicMaterialHandleId)
   }))
+  registry.get(BasicMaterial2D)?.setMethod(BasicMaterial2D.copy)
+  registry.get(BasicMaterial2D)?.setMethod(BasicMaterial2D.clone)
   registry.register(BasicMaterial3D, new StructInfo({
     handle: new Field(basicMaterialHandleId)
   }))
+  registry.get(BasicMaterial3D)?.setMethod(BasicMaterial3D.copy)
+  registry.get(BasicMaterial3D)?.setMethod(BasicMaterial3D.clone)
   registry.register(Camera, new StructInfo({
     projection: new Field(typeid(Projection)),
     near: new Field(typeid(Number)),
     far: new Field(typeid(Number))
   }))
+  registry.get(Camera)?.setMethod(Camera.copy)
+  registry.get(Camera)?.setMethod(Camera.clone)
 }
 
 /**
@@ -81,5 +89,12 @@ export function registerMaterialTypes(component, material) {
     registry.register(component, new StructInfo({
       handle: new Field(handleTypeId)
     }))
+
+    if ('copy' in component && typeof component.copy === 'function') {
+      registry.get(component)?.setMethod(component.copy)
+    }
+    if ('clone' in component && typeof component.clone === 'function') {
+      registry.get(component)?.setMethod(component.clone)
+    }
   }
 }

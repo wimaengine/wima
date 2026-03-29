@@ -22,6 +22,8 @@ export function registerBroadphaseTypes2D(world) {
     max: new Field(typeid(Vector2)),
     min: new Field(typeid(Vector2))
   }))
+  registry.get(PhysicsHitbox)?.setMethod(PhysicsHitbox.copy)
+  registry.get(PhysicsHitbox)?.setMethod(PhysicsHitbox.clone)
   registry.register(Broadphase2D, new StructInfo({}))
   registry.register(CollisionPairs, new ArrayInfo(typeid(CollisionPair)))
 }

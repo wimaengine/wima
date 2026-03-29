@@ -21,9 +21,11 @@ export function registerGeometryTypes(world) {
     max: new Field(typeid(Vector2)),
     min: new Field(typeid(Vector2))
   }))
+  registry.get(BoundingBox2D)?.setMethod(BoundingBox2D.copy)
   registry.register(BoundingCircle, new StructInfo({
     type: new Field(boundTypeId),
     r: new Field(typeid(Number)),
     pos: new Field(typeid(Vector2))
   }))
+  registry.get(BoundingCircle)?.setMethod(BoundingCircle.copy)
 }

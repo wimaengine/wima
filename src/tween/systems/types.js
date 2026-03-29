@@ -24,6 +24,8 @@ export function registerTweenTypes(tween, valueType) {
       repeat: new Field(typeid(Boolean)),
       flip: new Field(typeid(Boolean))
     }))
+    registry.get(tween)?.setMethod(tween.copy)
+    registry.get(tween)?.setMethod(tween.clone)
   }
 }
 
@@ -36,5 +38,9 @@ export function registerTweenMarkerTypes() {
 
     registry.register(TweenFlip, new StructInfo({}))
     registry.register(TweenRepeat, new StructInfo({}))
+    registry.get(TweenFlip)?.setMethod(TweenFlip.copy)
+    registry.get(TweenFlip)?.setMethod(TweenFlip.clone)
+    registry.get(TweenRepeat)?.setMethod(TweenRepeat.copy)
+    registry.get(TweenRepeat)?.setMethod(TweenRepeat.clone)
   }
 }
