@@ -89,7 +89,7 @@ export function registerReflectTypes(world) {
     method: new Field(typeid(Function))
   }))
   registry.register(TypeEntry, new StructInfo({
-    info: new Field(typeid(TypeInfo)),
+    info: new Field(typeid(TypeInfo))
   }))
   registry.register(TypeRegistry, new StructInfo({
     inner: new Field(typeEntryMapId)

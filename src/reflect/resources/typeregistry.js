@@ -1,6 +1,6 @@
 /** @import { TypeId, Constructor } from '../../type/index.js' */
 import { TypeInfo } from '../core/info.js'
-import { typeid, typeidFunction } from '../../type/index.js'
+import { typeid } from '../../type/index.js'
 
 export class TypeRegistry {
 
@@ -87,45 +87,46 @@ export class TypeEntry {
   }
 
   /**
-   * 
    * @template {unknown[]} T
-   * @param {string} name 
-   * @param {[...T]} args 
+   * @param {string} name
+   * @param {[...T]} args
    * @returns {unknown}
    */
   call(name, args) {
     const method = this.getMethod(name)
 
-    if(method){
+    if (method) {
       return method.call(args)
-    } else {
-      return undefined
     }
+
+    return undefined
+
   }
-  
+
   /**
    * @param {string} name
    */
-  getMethod(name){
+  getMethod(name) {
     return this.methods.get(name)
   }
+
   /**
    * @param {Function} method
    */
   setMethod(method) {
-    this.methods.set(method.name,new MethodEntry(method))
+    this.methods.set(method.name, new MethodEntry(method))
   }
 
   /**
    * @returns {ReadonlyMap<string, readonly MethodEntry>}
    */
-  getMethods(){
+  getMethods() {
     return this.methods
   }
 }
 
 export class MethodEntry {
-  
+
   /**
    * @type {Function}
    */
@@ -134,15 +135,16 @@ export class MethodEntry {
   /**
    * @param {Function} method
    */
-  constructor(method){
+  constructor(method) {
     this.method = method
   }
+
   /**
    * @template {unknown[]} T
    * @param {[...T]} [args]
    * @returns {unknown}
    */
-  call(args){
+  call(args) {
     return this.method(...(args || []))
   }
 }
