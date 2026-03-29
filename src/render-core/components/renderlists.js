@@ -46,6 +46,23 @@ export class RenderLists {
   opaquePass = new Map()
 
   /**
+   * @template U
+   * @param {RenderLists<U>} _source
+   * @param {RenderLists<U>} target
+   */
+  static copy(_source, target = new this()) {
+    return target
+  }
+
+  /**
+   * @template U
+   * @param {RenderLists<U>} target
+   */
+  static clone(target) {
+    return this.copy(target)
+  }
+
+  /**
    * @param {TypeId} id
    * @returns {RenderType<T>[] | undefined}
    */

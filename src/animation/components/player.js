@@ -17,6 +17,30 @@ export class AnimationPlayer {
   current = null
 
   /**
+   * @param {AnimationPlayer} source
+   * @param {AnimationPlayer} target
+   */
+  static copy(source, target = new AnimationPlayer()) {
+    const animations = new Map()
+
+    source.animations.forEach((playback, id) => {
+      animations.set(id, Playback.copy(playback))
+    })
+
+    target.animations = animations
+    target.current = source.current
+
+    return target
+  }
+
+  /**
+   * @param {AnimationPlayer} target
+   */
+  static clone(target) {
+    return this.copy(target)
+  }
+
+  /**
    * @param {Handle<AnimationClip>} handle
    * @param {PlaybackSettings} settings
    */

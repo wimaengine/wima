@@ -28,6 +28,24 @@ export class Window {
   }
 
   /**
+   * @param {Window} source
+   * @param {Window} target
+   */
+  static copy(source, target = new Window()) {
+    target.width = source.width
+    target.height = source.height
+
+    return target
+  }
+
+  /**
+   * @param {Window} target
+   */
+  static clone(target) {
+    return this.copy(target)
+  }
+
+  /**
    * Returns width of the window.
    *
    * @returns {number}

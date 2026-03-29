@@ -28,6 +28,25 @@ export class AudioPlayer {
     this.attach = attach
     this.audio = audio
   }
+
+  /**
+   * @param {AudioPlayer} source
+   * @param {AudioPlayer} target
+   */
+  static copy(source, target = new AudioPlayer()) {
+    target.sourceNode = source.sourceNode
+    target.attach = source.attach
+    target.audio = source.audio
+
+    return target
+  }
+
+  /**
+   * @param {AudioPlayer} target
+   */
+  static clone(target) {
+    return this.copy(target)
+  }
 }
 
 /**
