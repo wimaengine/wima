@@ -74,9 +74,77 @@ export class TypeEntry {
   info
 
   /**
+   * @private
+   * @type {Map<string, MethodEntry>}
+   */
+  methods = new Map()
+
+  /**
    * @param {TypeInfo} info
    */
   constructor(info) {
     this.info = info
+  }
+
+  /**
+   * @template {unknown[]} T
+   * @param {string} name
+   * @param {[...T]} args
+   * @returns {unknown}
+   */
+  call(name, args) {
+    const method = this.getMethod(name)
+
+    if (method) {
+      return method.call(args)
+    }
+
+    return undefined
+
+  }
+
+  /**
+   * @param {string} name
+   */
+  getMethod(name) {
+    return this.methods.get(name)
+  }
+
+  /**
+   * @param {Function} method
+   */
+  setMethod(method) {
+    this.methods.set(method.name, new MethodEntry(method))
+  }
+
+  /**
+   * @returns {ReadonlyMap<string, readonly MethodEntry>}
+   */
+  getMethods() {
+    return this.methods
+  }
+}
+
+export class MethodEntry {
+
+  /**
+   * @type {Function}
+   */
+  method
+
+  /**
+   * @param {Function} method
+   */
+  constructor(method) {
+    this.method = method
+  }
+
+  /**
+   * @template {unknown[]} T
+   * @param {[...T]} [args]
+   * @returns {unknown}
+   */
+  call(args) {
+    return this.method(...(args || []))
   }
 }
