@@ -1,5 +1,6 @@
 /** @import {EntityId} from '../../ecs/index.js' */
 import { Entity, Query, World } from '../../ecs/index.js'
+import { Parent } from '../../hierarchy/index.js'
 import { warn } from '../../logger/index.js'
 import { TypeRegistry } from '../../reflect/index.js'
 import { SceneInstance } from '../components/index.js'
@@ -13,8 +14,9 @@ export class Scene {
    * @param {World} world
    * @param {SceneInstance} instance
    * @param {TypeRegistry} typeRegistry
+   * @param {Entity} [instanceEntity]
    */
-  toWorld(world, instance, typeRegistry) {
+  toWorld(world, instance, typeRegistry, instanceEntity) {
     const { entityMap } = instance
 
     for (const [entity, components] of this.entities) {
@@ -33,6 +35,9 @@ export class Scene {
         }
       }).filter((e)=>e !== undefined)
 
+      if (!clonedComponents.some((c)=>c.constructor === Parent)) {
+        clonedComponents.push(new Parent(instanceEntity))
+      }
       const worldEntity = world.spawn(clonedComponents)
 
       entityMap.set(worldEntity.id(), entity)
