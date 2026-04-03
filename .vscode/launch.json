@@ -5,48 +5,23 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "(Chrome):Launch main demo",
+      "name": "(Chrome): Launch examples",
       "type": "chrome",
       "request": "launch",
-      "url": "http://127.0.0.1:8082/demos/index.html",
-      "webRoot": "${workspaceFolder}"
-    },
-    {
-      "name": "(Chrome):Launch WebGL demo",
-      "request": "launch",
-      "type": "chrome",
-      "url": "http://127.0.0.1:8082/demos/webgl.html",
+      "url": "http://127.0.0.1:8082/examples/index.html",
       "webRoot": "${workspaceFolder}"
     },
     {
       "type": "firefox",
       "request": "launch",
       "reAttach": true,
-      "name": "(FireFox):Launch main demo",
-      "url": "http://127.0.0.1:8082/demos/index.html",
+      "name": "(FireFox): Launch examples",
+      "url": "http://127.0.0.1:8082/examples/index.html",
       "webRoot": "${workspaceFolder}",
       "pathMappings": [
         {
-          "url": "http://127.0.0.1:8082/demos",
-          "path": "${workspaceFolder}/demos"
-        },
-        {
-          "url": "http://127.0.0.1:8082/src",
-          "path": "${workspaceFolder}/src"
-        }
-      ]
-    },
-    {
-      "type": "firefox",
-      "request": "launch",
-      "reAttach": true,
-      "name": "(FireFox):Launch WebGL demo",
-      "url": "http://127.0.0.1:8082/demos/webgl.html",
-      "webRoot": "${workspaceFolder}",
-      "pathMappings": [
-        {
-          "url": "http://127.0.0.1:8082/demos",
-          "path": "${workspaceFolder}/demos"
+          "url": "http://127.0.0.1:8082/examples",
+          "path": "${workspaceFolder}/examples"
         },
         {
           "url": "http://127.0.0.1:8082/src",
@@ -59,6 +34,6 @@
       "name": "Run tests",
       "command": "npm run test",
       "request": "launch"
-    },
+    }
   ]
 }
