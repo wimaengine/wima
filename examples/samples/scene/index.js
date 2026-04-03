@@ -1,7 +1,7 @@
-const basic2d = new URL('./basic2d.js', import.meta.url)
-const basic3d = new URL('./basic3d.js', import.meta.url)
+import { default as d2 } from './2d/index.js'
+import { default as d3 } from './3d/index.js'
 
 export default {
-  'basic 2d': basic2d,
-  'basic3d': basic3d
+  '2d': d2,
+  '3d': d3,
 }

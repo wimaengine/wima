@@ -22,7 +22,7 @@ import {
   FPSDebugger,
   App
 } from 'wima'
-import { HackPlugin, setupViewport } from '../utils.js'
+import { HackPlugin, setupViewport } from '../../utils.js'
 
 const itemWidth = 50
 const itemHeight = 50
