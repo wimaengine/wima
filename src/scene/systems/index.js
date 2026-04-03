@@ -1,4 +1,5 @@
 import { Entity, Query, World } from '../../ecs/index.js'
+import { TypeRegistry } from '../../reflect/resources/index.js'
 import { SceneInstance } from '../components/index.js'
 import { SceneAssets, SceneSpawner } from '../resources/index.js'
 
@@ -9,6 +10,7 @@ export function spawnScenes(world) {
   const scenes = world.getResource(SceneAssets)
   const instances = new Query(world, [SceneInstance])
   const spawner = world.getResource(SceneSpawner)
+  const typeRegistry = world.getResource(TypeRegistry)
 
   for (const assetId of spawner.assets()) {
     const scene = scenes.getByAssetId(assetId)
@@ -23,9 +25,7 @@ export function spawnScenes(world) {
 
       if (!instance) continue
 
-      // TODO: Actually supply a type registry
-      // @ts-ignore
-      scene.toWorld(world, instance[0], undefined)
+      scene.toWorld(world, instance[0], typeRegistry)
     }
 
     spawner.clear(assetId)
