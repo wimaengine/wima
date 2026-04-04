@@ -12,12 +12,12 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.module.js",
-      "require": "./dist/index.umd.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.umd.js"
     }
   },
-  "author": "Wayne Mwashuma",
+  "author": "Wima engine contributors",
   "repository": {
     "type": "git",
     "url": "https://github.com/wimaengine/wima.git"
@@ -56,7 +56,7 @@
     "3D"
   ],
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "@stylistic/eslint-plugin": "^5.1.0",
     "@types/node": "^24.0.12",
     "eslint": "^9.30.1",
