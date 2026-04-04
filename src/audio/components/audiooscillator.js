@@ -62,7 +62,7 @@ export class AudioOscillator {
    * @param {AudioOscillator} target
    */
   static clone(target) {
-    return this.copy(target)
+    return AudioOscillator.copy(target)
   }
 }
 

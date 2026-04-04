@@ -93,6 +93,6 @@ export class Tween {
    * @param {Tween<U>} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Tween.copy(target)
   }
 }

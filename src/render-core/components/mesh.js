@@ -29,6 +29,6 @@ export class Meshed {
    * @param {Meshed} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Meshed.copy(target)
   }
 }

@@ -12,6 +12,6 @@ export class MainWindow {
    * @param {MainWindow} target
    */
   static clone(target) {
-    return this.copy(target)
+    return MainWindow.copy(target)
   }
 }

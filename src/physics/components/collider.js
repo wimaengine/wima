@@ -66,7 +66,7 @@ export class Collider2D {
    * @param {Collider2D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Collider2D.copy(target)
   }
 
   /**

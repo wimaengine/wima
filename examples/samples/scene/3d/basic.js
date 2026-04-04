@@ -22,7 +22,7 @@ import {
   FPSDebugger,
   WebglRendererPlugin
 } from 'wima'
-import { HackPlugin, setupViewportWebgl } from '../utils.js'
+import { HackPlugin, setupViewportWebgl } from '../../utils.js'
 
 const itemWidth = 0.5
 const itemHeight = 0.5

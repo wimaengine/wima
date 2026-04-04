@@ -53,6 +53,6 @@ export class RemoteTransform3D {
    * @param {RemoteTransform3D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return RemoteTransform3D.copy(target)
   }
 }

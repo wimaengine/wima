@@ -1,25 +1,47 @@
 /** @import {EntityId} from '../../ecs/index.js' */
 import { Entity, Query, World } from '../../ecs/index.js'
+import { Parent } from '../../hierarchy/index.js'
+import { warn } from '../../logger/index.js'
 import { TypeRegistry } from '../../reflect/index.js'
 import { SceneInstance } from '../components/index.js'
 
 export class Scene {
 
-  /** @type {Map<EntityId, {}[]> } */
+  /** @type {Map<EntityId, object[]> } */
   entities = new Map()
 
   /**
    * @param {World} world
    * @param {SceneInstance} instance
-   * @param {TypeRegistry} _typeRegistry
+   * @param {TypeRegistry} typeRegistry
+   * @param {Entity} [instanceEntity]
    */
-  toWorld(world, instance, _typeRegistry) {
+  toWorld(world, instance, typeRegistry, instanceEntity) {
     const { entityMap } = instance
 
     for (const [entity, components] of this.entities) {
 
-      // TODO: Actually clone them using the typeregistry.
-      const clonedComponents = components
+      const clonedComponents = components.map((component) => {
+
+        const { constructor } = component
+        const clone = typeRegistry
+          .get(/** @type {import('../../type/index.js').Constructor} */(constructor))
+          ?.call('clone', [component])
+
+        if (clone) {
+          return clone
+        }
+
+        warn(`The component \`${constructor.name}\` has not been cloned as there is no clone method registered in the \`TypeRegistry\``)
+
+        return undefined
+
+      }).filter((e) => e !== undefined)
+
+      if (!clonedComponents.some((c) => c.constructor === Parent)) {
+        clonedComponents.push(new Parent(instanceEntity))
+      }
+
       const worldEntity = world.spawn(clonedComponents)
 
       entityMap.set(worldEntity.id(), entity)
@@ -28,19 +50,33 @@ export class Scene {
 
   /**
    * @param {World} world
-   * @param {TypeRegistry} _typeRegistry
+   * @param {TypeRegistry} typeRegistry
    */
-  static fromWorld(world, _typeRegistry) {
+  static fromWorld(world, typeRegistry) {
     const scene = new Scene()
     const entities = new Query(world, [Entity])
 
     entities.each(([entity]) => {
       const cell = world.getEntity(entity)
-      const components = cell
-        .components()
+      const typeIds = cell.components()
+      const components = []
 
-        // TODO:  Clone the component instead using the type registry.
-        .map((id) => cell.getTypeId(id))
+      for (let i = 0; i < typeIds.length; i++) {
+        const typeId = typeIds[i]
+        const component = cell.getTypeId(typeId)
+        const clone = /** @type {object} */(typeRegistry
+          .getByTypeId(typeId)
+          ?.call('clone', [component]))
+
+        if (clone) {
+          components.push(clone)
+        } else {
+          const { constructor } = component
+          const name = constructor.name || 'Unknown'
+
+          warn(`The component \`${name}\` has not been cloned as there is no clone method registered in the \`TypeRegistry\``)
+        }
+      }
 
       scene.entities.set(entity.id(), components)
     })

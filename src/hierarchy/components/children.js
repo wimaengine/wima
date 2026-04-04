@@ -34,7 +34,7 @@ export class Children {
    * @param {Children} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Children.copy(target)
   }
 
   /**

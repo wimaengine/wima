@@ -42,7 +42,7 @@ export class Window {
    * @param {Window} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Window.copy(target)
   }
 
   /**

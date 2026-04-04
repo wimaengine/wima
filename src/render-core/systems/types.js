@@ -1,13 +1,13 @@
 /** @import { Constructor } from '../../type/index.js' */
 
 import { World } from '../../ecs/index.js'
-import { EnumInfo, Field, MapInfo, StructInfo } from '../../reflect/core/index.js'
+import { EnumInfo, Field, MapInfo, OpaqueInfo, StructInfo } from '../../reflect/core/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { setTypeId, typeid, typeidGeneric } from '../../type/index.js'
 import { Handle } from '../../asset/index.js'
 import { Color } from '../../color/index.js'
 import { Vector2 } from '../../math/index.js'
-import { Camera, Meshed } from '../components/index.js'
+import { Camera, Meshed, RenderLists2D, RenderLists3D } from '../components/index.js'
 import { BasicMaterial2D, BasicMaterial3D } from '../components/materials/index.js'
 import { MeshAttributeData } from '../core/attributedata.js'
 import { Projection, ShaderStage } from '../core/index.js'
@@ -66,6 +66,14 @@ export function registerRenderCoreTypes(world) {
   }))
   registry.get(Camera)?.setMethod(Camera.copy)
   registry.get(Camera)?.setMethod(Camera.clone)
+
+  registry.register(RenderLists2D, new OpaqueInfo())
+  registry.get(RenderLists2D)?.setMethod(RenderLists2D.copy)
+  registry.get(RenderLists2D)?.setMethod(RenderLists2D.clone)
+
+  registry.register(RenderLists3D, new OpaqueInfo())
+  registry.get(RenderLists3D)?.setMethod(RenderLists3D.copy)
+  registry.get(RenderLists3D)?.setMethod(RenderLists3D.clone)
 }
 
 /**

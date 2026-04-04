@@ -26,6 +26,6 @@ export class Name {
    * @param {Name} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Name.copy(target)
   }
 }

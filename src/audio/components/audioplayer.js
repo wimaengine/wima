@@ -45,7 +45,7 @@ export class AudioPlayer {
    * @param {AudioPlayer} target
    */
   static clone(target) {
-    return this.copy(target)
+    return AudioPlayer.copy(target)
   }
 }
 

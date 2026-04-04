@@ -12,6 +12,6 @@ export class Particle {
    * @param {Particle} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Particle.copy(target)
   }
 }

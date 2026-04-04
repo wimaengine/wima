@@ -105,7 +105,7 @@ export class Timer {
    * @param {Timer} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Timer.copy(target)
   }
 
   elapsed() {

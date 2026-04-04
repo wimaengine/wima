@@ -16,6 +16,6 @@ export class Torque2D extends Angle {
    * @param {Torque2D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Torque2D.copy(target)
   }
 }

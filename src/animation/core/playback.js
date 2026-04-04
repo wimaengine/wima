@@ -58,7 +58,7 @@ export class Playback {
    * @param {Playback} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Playback.copy(target)
   }
 
   start() {

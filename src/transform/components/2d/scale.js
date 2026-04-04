@@ -17,6 +17,6 @@ export class Scale2D extends Vector2 {
    * @param {Scale2D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Scale2D.copy(target)
   }
 }

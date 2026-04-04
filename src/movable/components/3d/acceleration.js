@@ -14,6 +14,6 @@ export class Acceleration3D extends Vector3 {
    * @param {Acceleration3D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Acceleration3D.copy(target)
   }
 }

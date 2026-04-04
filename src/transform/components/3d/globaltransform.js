@@ -14,6 +14,6 @@ export class GlobalTransform3D extends Affine3 {
    * @param {GlobalTransform3D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return GlobalTransform3D.copy(target)
   }
 }

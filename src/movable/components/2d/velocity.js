@@ -14,6 +14,6 @@ export class Velocity2D extends Vector2 {
    * @param {Velocity2D} target
    */
   static clone(target) {
-    return this.copy(target)
+    return Velocity2D.copy(target)
   }
 }
