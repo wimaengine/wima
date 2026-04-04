@@ -73,7 +73,7 @@ function spawnMeshes(world) {
     .insertPrefab([
       ...createTransform3D(0.5, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5),
       new Meshed(mesh),
-      new BasicMaterial3D(material), ,
+      new BasicMaterial3D(material),
       new Parent(child)
     ])
     .build()

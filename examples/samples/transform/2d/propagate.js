@@ -74,7 +74,7 @@ function addMeshes(world) {
     .insertPrefab([
       ...createTransform2D(0.4, 0, 0, 0.5, 0.5),
       new Meshed(mesh),
-      new BasicMaterial2D(material), ,
+      new BasicMaterial2D(material),
       new Parent(child)
     ])
     .build()
