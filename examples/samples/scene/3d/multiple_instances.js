@@ -28,7 +28,7 @@ import {
   DefaultPlugin,
   DOMWindowPlugin,
   FPSDebugger,
-  WebglRendererPlugin,
+  WebglRendererPlugin
 } from 'wima'
 import { addDefaultCamera3D, HackPlugin, setupViewportWebgl } from '../../utils.js'
 

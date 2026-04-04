@@ -3,5 +3,5 @@ import { default as d3 } from './3d/index.js'
 
 export default {
   '2d': d2,
-  '3d': d3,
+  '3d': d3
 }

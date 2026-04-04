@@ -76,6 +76,7 @@ export class RenderLists {
  * @augments RenderLists<GlobalTransform2D>
  */
 export class RenderLists2D extends RenderLists {
+
   /**
    * @param {RenderLists2D} _source
    * @param {RenderLists2D} target
@@ -90,13 +91,14 @@ export class RenderLists2D extends RenderLists {
   static clone(target) {
     return RenderLists2D.copy(target)
   }
- }
+}
 
 /**
  * @augments RenderLists<GlobalTransform3D>
  */
 export class RenderLists3D extends RenderLists {
-    /**
+
+  /**
    * @template U
    * @param {RenderLists3D} _source
    * @param {RenderLists3D} target
@@ -112,4 +114,4 @@ export class RenderLists3D extends RenderLists {
   static clone(target) {
     return RenderLists3D.copy(target)
   }
- }
+}

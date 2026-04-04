@@ -25,7 +25,7 @@ export function spawnScenes(world) {
 
       if (!instance) continue
 
-      scene.toWorld(world, instance[0], typeRegistry,entity)
+      scene.toWorld(world, instance[0], typeRegistry, entity)
     }
 
     spawner.clear(assetId)

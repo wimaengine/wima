@@ -21,23 +21,27 @@ export class Scene {
 
     for (const [entity, components] of this.entities) {
 
-      const clonedComponents = components.map((component)=>{
-        const constructor = /**@type {import('../../type/index.js').Constructor}*/(component.constructor)
+      const clonedComponents = components.map((component) => {
+
+        const { constructor } = component
         const clone = typeRegistry
-        .get(constructor)
-        ?.call("clone",[component])
+          .get(/** @type {import('../../type/index.js').Constructor} */(constructor))
+          ?.call('clone', [component])
 
-        if(clone){
+        if (clone) {
           return clone
-        } else {
-          warn(`The component \`${constructor.name}\` has not been cloned as there is no clone method registered in the \`TypeRegistry\``)
-          return undefined
         }
-      }).filter((e)=>e !== undefined)
 
-      if (!clonedComponents.some((c)=>c.constructor === Parent)) {
+        warn(`The component \`${constructor.name}\` has not been cloned as there is no clone method registered in the \`TypeRegistry\``)
+
+        return undefined
+
+      }).filter((e) => e !== undefined)
+
+      if (!clonedComponents.some((c) => c.constructor === Parent)) {
         clonedComponents.push(new Parent(instanceEntity))
       }
+
       const worldEntity = world.spawn(clonedComponents)
 
       entityMap.set(worldEntity.id(), entity)
@@ -60,15 +64,16 @@ export class Scene {
       for (let i = 0; i < typeIds.length; i++) {
         const typeId = typeIds[i]
         const component = cell.getTypeId(typeId)
-        const clone = /**@type {object} */(typeRegistry
+        const clone = /** @type {object} */(typeRegistry
           .getByTypeId(typeId)
-          ?.call("clone", [component]))
+          ?.call('clone', [component]))
 
         if (clone) {
           components.push(clone)
         } else {
-          const constructor = component.constructor
-          const name = constructor.name || "Unknown"
+          const { constructor } = component
+          const name = constructor.name || 'Unknown'
+
           warn(`The component \`${name}\` has not been cloned as there is no clone method registered in the \`TypeRegistry\``)
         }
       }
