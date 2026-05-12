@@ -239,10 +239,13 @@ export class PluginGroup extends Plugin {
   /**
    * @template {Plugin} T
    * @param {T} plugin
-   * @returns {void}
+   * @returns {this}
    */
   add(plugin) {
     this.plugins.set(plugin.name(), plugin)
+
+    return this
+
   }
 
   /**
@@ -250,6 +253,8 @@ export class PluginGroup extends Plugin {
    */
   remove(id) {
     this.plugins.delete(id)
+
+    return this
   }
 
   /**
