@@ -5,7 +5,7 @@ import { Assets } from '../../asset/index.js'
 import { Entity, Query } from '../../ecs/index.js'
 import { warn } from '../../logger/index.js'
 import { typeidGeneric, typeid } from '../../type/index.js'
-import { Material, Mesh, TextureCache, RenderLists2D, Camera } from '../../render-core/index.js'
+import { Material, Mesh, TextureCache, RenderLists2D, Camera, OrthographicProjection } from '../../render-core/index.js'
 import { GlobalTransform2D } from '../../transform/index.js'
 import { MainWindow, Windows, Window } from '../../window/index.js'
 
@@ -42,19 +42,41 @@ export function genrender(type, renderMaterial) {
 
     const ctx = canvas.getContext('2d')
 
-    const offsetX = window[1].getWidth() / 2
-    const offsetY = window[1].getHeight() / 2
+    const width = window[1].getWidth()
+    const height = window[1].getHeight()
+    const offsetX = width / 2
+    const offsetY = height / 2
 
     if (!ctx) return warn('2d context could not be created on the canvas.')
 
     // TODO: Return when this becomes default rendering system
     // ctx.clearRect(0, 0, canvas.width, canvas.height)
-    cameras.each(([cameraTransform, renderList]) => {
+    cameras.each(([cameraTransform, renderList, camera]) => {
       const view = GlobalTransform2D.invert(cameraTransform)
 
       ctx.save()
-      ctx.translate(offsetX, offsetY)
-      ctx.scale(offsetX, -offsetY)
+
+      if (camera.projection instanceof OrthographicProjection) {
+        const { projection } = camera
+        const projectionWidth = projection.right - projection.left
+        const projectionHeight = projection.top - projection.bottom
+        const projectionOffsetX = -(projection.right + projection.left) / projectionWidth
+        const projectionOffsetY = -(projection.top + projection.bottom) / projectionHeight
+
+        ctx.translate(offsetX, offsetY)
+        ctx.scale(offsetX, -offsetY)
+        ctx.transform(
+          2 / projectionWidth,
+          0,
+          0,
+          2 / projectionHeight,
+          projectionOffsetX,
+          projectionOffsetY
+        )
+      } else {
+        throw new Error('Unsupported camera projection for 2d camera')
+      }
+
       ctx.transform(
         view.a,
         view.b,
