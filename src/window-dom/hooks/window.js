@@ -11,25 +11,35 @@ export function openWindow(entity, world) {
 
   // SAFETY: Component is guaranteed as this is its component hook
   const window = /** @type {Window}*/(world.get(entity, Window))
+
+  if (window.selector) {
+    const canvas = document.querySelector(window.selector)
+    if (canvas instanceof HTMLCanvasElement) {
+      registerWindow(world,entity, canvas, window)
+      return
+    } else {
+      warn(`The provided selector '${window.selector}' does not yield a canvas element.`)
+    }
+  }
+
+  const canvas = document.createElement('canvas')
+
+  document.body.append(canvas)
+  registerWindow(world,entity, canvas, window)
+}
+
+/**
+ * @param {import("../../ecs/registry.js").World} world
+ * @param {import("../../ecs/index.js").Entity} entity
+ * @param {HTMLCanvasElement} canvas
+ * @param {Window} window
+ */
+function registerWindow(world, entity, canvas, window){
   const windows = world.getResource(Windows)
-  let element
-
-  if (window.selector) element = /** @type {HTMLElement | undefined}*/(document.querySelector(window.selector))
-  if (!element) {
-    element = document.createElement('canvas')
-  }
-  if (element.nodeName !== 'CANVAS') {
-    element = document.createElement('canvas')
-    warn(`The provided selector '${window.selector}' does not yield a canvas element.`)
-  }
-
-  const canvas = /** @type {HTMLCanvasElement}*/(element)
-
-  windows.setWindow(entity, canvas)
+  
   canvas.width = window.getWidth()
   canvas.height = window.getHeight()
-  document.body.append(canvas)
-
+  windows.setWindow(entity, canvas)
   // setting tabindex and focus to enable keyboard events
   // on the canvas element.
   canvas.tabIndex = -1
@@ -40,7 +50,6 @@ export function openWindow(entity, world) {
   setUpWindowEvents(world, canvas)
   setUpFileEvents(world, canvas)
 }
-
 /**
  * @type {ComponentHook}
  */
