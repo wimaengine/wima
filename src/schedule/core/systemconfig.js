@@ -5,6 +5,7 @@ export class SystemConfig {
    * @type {import("../../type/index.js").Constructor | undefined}
    */
   systemGroup
+
   /**
    * @type {SystemFunc}
    */
