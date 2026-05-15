@@ -13,6 +13,6 @@ export class ReflectPlugin extends Plugin {
 
     app
       .setResource(typeregistry)
-      .registerSystem(AppSchedule.Startup, registerReflectTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerReflectTypes })
   }
 }

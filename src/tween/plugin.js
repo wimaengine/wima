@@ -101,10 +101,10 @@ export class TweenPlugin extends Plugin {
       .registerType(this.tween)
       .registerType(TweenFlip)
       .registerType(TweenRepeat)
-      .registerSystem(AppSchedule.Update, generateTweenFlipSystem(this.tween))
-      .registerSystem(AppSchedule.Update, generateTweenRepeatTween(this.tween))
-      .registerSystem(AppSchedule.Update, generateTweenTimerSystem(this.tween))
-      .registerSystem(AppSchedule.Update, generateTweenUpdateSystem(this.component, this.tween, this.interpolation))
+      .registerSystem({ schedule: AppSchedule.Update, system: generateTweenFlipSystem(this.tween) })
+      .registerSystem({ schedule: AppSchedule.Update, system: generateTweenRepeatTween(this.tween) })
+      .registerSystem({ schedule: AppSchedule.Update, system: generateTweenTimerSystem(this.tween) })
+      .registerSystem({ schedule: AppSchedule.Update, system: generateTweenUpdateSystem(this.component, this.tween, this.interpolation) })
   }
 
   name() {

@@ -29,7 +29,7 @@ class MyPlugin extends Plugin {
    * @param {App} app
    */
   register(app) {
-    app.registerSystem(AppSchedule.Startup, init)
+    app.registerSystem({ schedule: AppSchedule.Startup, system: init })
   }
 }
 
@@ -41,8 +41,8 @@ app
   .registerPlugin(new DOMWindowPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
   .registerPlugin(new MyPlugin())
-  .registerSystem(AppSchedule.Update, setupViewport)
-  .registerSystem(AppSchedule.Update, update)
+  .registerSystem({ schedule: AppSchedule.Update, system: setupViewport })
+  .registerSystem({ schedule: AppSchedule.Update, system: update })
   .registerDebugger(new FPSDebugger())
   .run()
 

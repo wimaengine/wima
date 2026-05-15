@@ -41,8 +41,8 @@ export class Material2DPlugin extends Plugin {
 
     app
       .registerType(component)
-      .registerSystem(AppSchedule.Startup, registerMaterialTypes(component, asset))
-      .registerSystem(AppSchedule.Update, genBinRenderables2D(asset, component))
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerMaterialTypes(component, asset) })
+      .registerSystem({ schedule: AppSchedule.Update, system: genBinRenderables2D(asset, component) })
   }
 
   /**
@@ -87,8 +87,8 @@ export class Material3DPlugin extends Plugin {
 
     app
       .registerType(component)
-      .registerSystem(AppSchedule.Startup, registerMaterialTypes(component, asset))
-      .registerSystem(AppSchedule.Update, genBinRenderables3D(asset, component))
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerMaterialTypes(component, asset) })
+      .registerSystem({ schedule: AppSchedule.Update, system: genBinRenderables3D(asset, component) })
   }
 
   /**

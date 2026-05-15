@@ -1,29 +1,11 @@
-/** @import {SystemFunc} from "../../ecs/index.js" */
-export class SystemConfig {
+/** @import { SystemFunc } from "../../ecs/index.js" */
+/** @import { Constructor } from "../../type/index.js" */
 
-  /**
-   * @type {import("../../type/index.js").Constructor | undefined}
-   */
-  systemGroup
+/**
+ * @typedef SystemConfig
+ * @property {SystemFunc} system
+ * @property {string} schedule
+ * @property {Constructor | undefined} [systemGroup]
+ */
 
-  /**
-   * @type {SystemFunc}
-   */
-  system
-
-  /**
-   * @type {string}
-   */
-  schedule
-
-  /**
-   * @param {SystemFunc} system
-   * @param {string} schedule
-   * @param {import("../../type/index.js").Constructor | undefined} [systemGroup]
-   */
-  constructor(system, schedule, systemGroup) {
-    this.system = system
-    this.schedule = schedule
-    this.systemGroup = systemGroup
-  }
-}
+export default {}

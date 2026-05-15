@@ -9,8 +9,8 @@ export class EntityCountDiagnosticPlugin {
    */
   register(app) {
     app
-      .registerSystem(AppSchedule.Startup, setUpUI)
-      .registerSystem(AppSchedule.Update, updateEntityCount)
+      .registerSystem({ schedule: AppSchedule.Startup, system: setUpUI })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateEntityCount })
   }
 }
 

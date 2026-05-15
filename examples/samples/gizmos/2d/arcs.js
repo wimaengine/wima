@@ -37,11 +37,11 @@ app
   .registerPlugin(new Gizmo2DPlugin({
     label: Demo
   }))
-  .registerSystem(AppSchedule.Startup, init)
-  .registerSystem(AppSchedule.Startup, addDefaultCamera2D)
-  .registerSystem(AppSchedule.Update, setupViewport)
-  .registerSystem(AppSchedule.Update, drawCirclularArcs)
-  .registerSystem(AppSchedule.Update, drawEllipticalArcs)
+  .registerSystem({ schedule: AppSchedule.Startup, system: init })
+  .registerSystem({ schedule: AppSchedule.Startup, system: addDefaultCamera2D })
+  .registerSystem({ schedule: AppSchedule.Update, system: setupViewport })
+  .registerSystem({ schedule: AppSchedule.Update, system: drawCirclularArcs })
+  .registerSystem({ schedule: AppSchedule.Update, system: drawEllipticalArcs })
   .registerDebugger(new FPSDebugger())
   .run()
 

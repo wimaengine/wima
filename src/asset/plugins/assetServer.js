@@ -19,9 +19,9 @@ export class AssetServerPlugin extends Plugin {
       .registerPlugin(new EventPlugin({
         event: AssetLoadFail
       }))
-      .registerSystem(AppSchedule.Startup, registerAssetServerTypes)
-      .registerSystem(AppSchedule.Update, updateAssets)
-      .registerSystem(AppSchedule.Update, updateAssetLoadEvents)
-      .registerSystem(AppSchedule.Update, logFailedLoads)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetServerTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateAssets })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateAssetLoadEvents })
+      .registerSystem({ schedule: AppSchedule.Update, system: logFailedLoads })
   }
 }

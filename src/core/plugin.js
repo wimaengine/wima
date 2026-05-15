@@ -15,6 +15,6 @@ export class CorePlugin extends Plugin {
     app.createSchedule(
       { label: AppSchedule.Update, repeat: true }
     )
-    app.registerSystem(AppSchedule.Startup, registerCoreTypes)
+    app.registerSystem({ schedule: AppSchedule.Startup, system: registerCoreTypes })
   }
 }

@@ -50,9 +50,9 @@ export class WebglMaterialPlugin {
     const { material, vertex3d, fragment3d } = this
 
     app
-      .registerSystem(AppSchedule.Startup, genRegisterBuffer(material))
-      .registerSystem(AppSchedule.Update, genRenderPipeline(material, vertex3d, fragment3d))
-      .registerSystem(AppSchedule.Update, genRender(material))
+      .registerSystem({ schedule: AppSchedule.Startup, system: genRegisterBuffer(material) })
+      .registerSystem({ schedule: AppSchedule.Update, system: genRenderPipeline(material, vertex3d, fragment3d) })
+      .registerSystem({ schedule: AppSchedule.Update, system: genRender(material) })
   }
 
   name() {

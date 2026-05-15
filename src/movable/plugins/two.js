@@ -19,6 +19,6 @@ export class Movable2DPlugin extends Plugin {
       .registerType(Rotation2D)
       .registerType(Acceleration2D)
       .registerType(Torque2D)
-      .registerSystem(AppSchedule.Startup, registerMovable2DTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerMovable2DTypes })
   }
 }

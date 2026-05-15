@@ -19,9 +19,9 @@ export class MousePlugin extends Plugin {
     app
       .setResource(new Mouse())
       .setResource(new MouseButtons())
-      .registerSystem(AppSchedule.Startup, registerMouseTypes)
-      .registerSystem(AppSchedule.Update, updateMouse)
-      .registerSystem(AppSchedule.Update, updateMouseButtons)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerMouseTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateMouse })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateMouseButtons })
   }
 }
 

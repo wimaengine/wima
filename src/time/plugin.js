@@ -14,10 +14,10 @@ export class TimePlugin extends Plugin {
   register(app) {
     app
       .registerType(Timer)
-      .registerSystem(AppSchedule.Startup, registerTimeTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerTimeTypes })
       .setResource(new VirtualClock())
-      .registerSystem(AppSchedule.Update, updateVirtualClock)
-      .registerSystem(AppSchedule.Update, updateTimers)
+      .registerSystem({ schedule: AppSchedule.Update, system: updateVirtualClock })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateTimers })
   }
 }
 

@@ -36,8 +36,8 @@ app
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
-  .registerSystem(AppSchedule.Startup, init)
-  .registerSystem(AppSchedule.Update, setupViewport)
+  .registerSystem({ schedule: AppSchedule.Startup, system: init })
+  .registerSystem({ schedule: AppSchedule.Update, system: setupViewport })
   .registerDebugger(new FPSDebugger())
   .run()
 

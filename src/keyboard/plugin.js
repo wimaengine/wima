@@ -16,8 +16,8 @@ export class KeyboardPlugin extends Plugin {
   register(app) {
     app
       .setResource(new Keyboard())
-      .registerSystem(AppSchedule.Startup, registerKeyboardTypes)
-      .registerSystem(AppSchedule.Update, updateKeyBoard)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerKeyboardTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateKeyBoard })
   }
 }
 

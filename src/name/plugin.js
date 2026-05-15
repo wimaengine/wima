@@ -11,6 +11,6 @@ export class NamePlugin extends Plugin {
   register(app) {
     app
       .registerType(Name)
-      .registerSystem(AppSchedule.Startup, registerNameTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerNameTypes })
   }
 }

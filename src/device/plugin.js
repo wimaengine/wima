@@ -15,7 +15,7 @@ export class DevicePlugin extends Plugin {
 
     app
       .setResource(device)
-      .registerSystem(AppSchedule.Startup, registerDeviceTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerDeviceTypes })
 
     // rendering capabilities
     device.capabilities.canvas = !!window.CanvasRenderingContext2D

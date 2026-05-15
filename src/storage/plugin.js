@@ -13,6 +13,6 @@ export class StoragePlugin extends Plugin {
       .setResource(new Session())
       .setResource(new Storage())
       .setResource(new Cookies())
-      .registerSystem(AppSchedule.Startup, registerStorageTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerStorageTypes })
   }
 }

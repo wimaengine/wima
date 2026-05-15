@@ -8,6 +8,6 @@ export class GeometryPlugin extends Plugin {
    * @param {App} app
    */
   register(app) {
-    app.registerSystem(AppSchedule.Startup, registerGeometryTypes)
+    app.registerSystem({ schedule: AppSchedule.Startup, system: registerGeometryTypes })
   }
 }

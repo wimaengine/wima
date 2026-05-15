@@ -29,7 +29,7 @@ export class AudioPlugin extends Plugin {
         null,
         removeOscillatorSink
       ))
-      .registerSystem(AppSchedule.Startup, registerAudioTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerAudioTypes })
       .setResource(new AudioGraph())
       .setResource(handler)
       .registerPlugin(new AssetPlugin({
@@ -44,8 +44,8 @@ export class AudioPlugin extends Plugin {
         asset: Audio,
         parser: new AudioParser()
       }))
-      .registerSystem(AppSchedule.Update, playAudio)
-      .registerSystem(AppSchedule.Update, playOscillators)
+      .registerSystem({ schedule: AppSchedule.Update, system: playAudio })
+      .registerSystem({ schedule: AppSchedule.Update, system: playOscillators })
 
     window.addEventListener('pointerdown', resumeAudio)
 

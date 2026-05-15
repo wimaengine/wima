@@ -13,10 +13,10 @@ export class FPSDebugger extends Plugin {
   register(app) {
     app
       .setResource(new RAFTimer({ duration: 1, mode: TimerMode.Repeat }))
-      .registerSystem(AppSchedule.Startup, registerFpsDebuggerTypes)
-      .registerSystem(AppSchedule.Startup, setUpUI)
-      .registerSystem(AppSchedule.Update, updateFPSCounter)
-      .registerSystem(AppSchedule.Update, updateRAFTimer)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerFpsDebuggerTypes })
+      .registerSystem({ schedule: AppSchedule.Startup, system: setUpUI })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateFPSCounter })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateRAFTimer })
   }
 }
 

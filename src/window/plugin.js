@@ -55,7 +55,7 @@ export class WindowPlugin extends Plugin {
     app
       .registerType(Window)
       .registerType(MainWindow)
-      .registerSystem(AppSchedule.Startup, registerWindowTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerWindowTypes })
       .registerPlugin(new EventPlugin({
         event:WindowMove
       }))
@@ -97,7 +97,7 @@ export class WindowPlugin extends Plugin {
       }))
       .setResource(new Windows())
 
-    if (this.initPrimaryWindow) app.registerSystem(AppSchedule.Startup, initPrimaryWindow)
+    if (this.initPrimaryWindow) app.registerSystem({ schedule: AppSchedule.Startup, system: initPrimaryWindow })
   }
 }
 

@@ -39,7 +39,7 @@ export class Canvas2DMaterialPlugin extends Plugin {
   register(app) {
     const { material, update } = this
 
-    app.registerSystem(AppSchedule.Update, genrender(material, update))
+    app.registerSystem({ schedule: AppSchedule.Update, system: genrender(material, update) })
   }
 
   name() {

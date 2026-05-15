@@ -14,10 +14,10 @@ export class ProfilerPlugin extends Plugin {
   register(app) {
     app.setResource(new Profiler())
     app.setResource(new ProfilerTimer({ duration: 1, mode: TimerMode.Repeat }))
-    app.registerSystem(AppSchedule.Startup, registerProfilerTypes)
+    app.registerSystem({ schedule: AppSchedule.Startup, system: registerProfilerTypes })
     setupProfileViewer(document.body)
-    app.registerSystem(AppSchedule.Update, updateProfileViewer)
-    app.registerSystem(AppSchedule.Update, updateProfileTimer)
+    app.registerSystem({ schedule: AppSchedule.Update, system: updateProfileViewer })
+    app.registerSystem({ schedule: AppSchedule.Update, system: updateProfileTimer })
   }
 }
 

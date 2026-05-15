@@ -30,7 +30,7 @@ export class ScenePlugin extends Plugin {
       .setComponentHooks(SceneInstance, new ComponentHooks(
         initSceneInstance
       ))
-      .registerSystem(AppSchedule.Update, spawnScenes)
+      .registerSystem({ schedule: AppSchedule.Update, system: spawnScenes })
 
     const world = app.getWorld()
 

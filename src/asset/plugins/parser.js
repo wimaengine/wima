@@ -41,7 +41,7 @@ export class AssetParserPlugin extends Plugin {
     const { asset, parser } = this
 
     app
-      .registerSystem(AppSchedule.Startup, registerAssetParserOnAssetServer(asset, parser))
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetParserOnAssetServer(asset, parser) })
   }
 
   name() {

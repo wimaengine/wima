@@ -15,9 +15,9 @@ export class TouchPlugin extends Plugin {
    */
   register(app) {
     app
-      .registerSystem(AppSchedule.Update, updateTouch)
+      .registerSystem({ schedule: AppSchedule.Update, system: updateTouch })
       .setResource(new Touches())
-      .registerSystem(AppSchedule.Startup, registerTouchTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerTouchTypes })
   }
 }
 

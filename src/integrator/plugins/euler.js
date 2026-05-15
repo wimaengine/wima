@@ -18,10 +18,10 @@ export class EulerIntegrator2DPlugin extends Plugin {
    */
   register(app) {
     app
-      .registerSystem(AppSchedule.Update, updatePositionEuler2D)
-      .registerSystem(AppSchedule.Update, updateVelocityEuler2D)
-      .registerSystem(AppSchedule.Update, updateOrientationEuler2D)
-      .registerSystem(AppSchedule.Update, updateAngularEuler2D)
+      .registerSystem({ schedule: AppSchedule.Update, system: updatePositionEuler2D })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateVelocityEuler2D })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateOrientationEuler2D })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateAngularEuler2D })
   }
 }
 
@@ -32,9 +32,9 @@ export class EulerIntegrator3DPlugin extends Plugin {
    */
   register(app) {
     app
-      .registerSystem(AppSchedule.Update, updatePositionEuler3D)
-      .registerSystem(AppSchedule.Update, updateVelocityEuler3D)
-      .registerSystem(AppSchedule.Update, updateOrientationEuler3D)
-      .registerSystem(AppSchedule.Update, updateAngularEuler3D)
+      .registerSystem({ schedule: AppSchedule.Update, system: updatePositionEuler3D })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateVelocityEuler3D })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateOrientationEuler3D })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateAngularEuler3D })
   }
 }

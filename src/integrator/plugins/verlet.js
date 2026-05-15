@@ -9,7 +9,7 @@ export class VerletIntegrator2DPlugin extends Plugin {
    */
   register(app) {
     app
-      .registerSystem(AppSchedule.Update, updatePositionVerlet2D)
-      .registerSystem(AppSchedule.Update, updateOrientationVerlet2D)
+      .registerSystem({ schedule: AppSchedule.Update, system: updatePositionVerlet2D })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateOrientationVerlet2D })
   }
 }

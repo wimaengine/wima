@@ -42,9 +42,9 @@ app
   .registerPlugin(new DOMWindowPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
   .registerPlugin(new Emitter2DPlugin())
-  .registerSystem(AppSchedule.Startup, init)
-  .registerSystem(AppSchedule.Startup, addDefaultCamera2D)
-  .registerSystem(AppSchedule.Update, setupViewport)
+  .registerSystem({ schedule: AppSchedule.Startup, system: init })
+  .registerSystem({ schedule: AppSchedule.Startup, system: addDefaultCamera2D })
+  .registerSystem({ schedule: AppSchedule.Update, system: setupViewport })
   .registerDebugger(new FPSDebugger())
   .run()
 

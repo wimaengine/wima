@@ -25,15 +25,15 @@ export class WebglRendererPlugin extends Plugin {
       .setResource(new ClearColor())
       .setResource(attribute)
       .setResource(new WebglProgramCache())
-      .registerSystem(AppSchedule.Startup, registerWebglTypes)
-      .registerSystem(AppSchedule.Update, registerBuffers)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerWebglTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: registerBuffers })
       .registerPlugin(new WebglMaterialPlugin({
         material: BasicMaterial,
         vertex3d: basicMaterial3DVertex,
         fragment3d: basicMaterial3DFragment
       }))
-      .registerSystem(AppSchedule.Update, disposeDroppedMeshes)
-      .registerSystem(AppSchedule.Update, queueMeshes)
+      .registerSystem({ schedule: AppSchedule.Update, system: disposeDroppedMeshes })
+      .registerSystem({ schedule: AppSchedule.Update, system: queueMeshes })
   }
 }
 

@@ -13,7 +13,7 @@ export class Canvas2DRendererPlugin extends Plugin {
   register(app) {
     app
       .setResource(new TextureCache())
-      .registerSystem(AppSchedule.Startup, registerCanvas2DTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerCanvas2DTypes })
       .registerPlugin(new Canvas2DMaterialPlugin({
         material:BasicMaterial,
         update:renderBasicMaterial

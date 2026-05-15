@@ -55,12 +55,12 @@ export class AssetPlugin extends Plugin {
         .registerPlugin(new EventPlugin({
           event: events.dropped
         }))
-        .registerSystem(AppSchedule.Update, updateAssetEvents(asset, events))
-        .registerSystem(AppSchedule.Update, unloadDroppedAssets(events.dropped))
+        .registerSystem({ schedule: AppSchedule.Update, system: updateAssetEvents(asset, events) })
+        .registerSystem({ schedule: AppSchedule.Update, system: unloadDroppedAssets(events.dropped) })
     }
 
-    app.registerSystem(AppSchedule.Startup, registerAssetOnAssetServer(asset))
-    app.registerSystem(AppSchedule.Startup, registerAssetTypes(asset))
+    app.registerSystem({ schedule: AppSchedule.Startup, system: registerAssetOnAssetServer(asset) })
+    app.registerSystem({ schedule: AppSchedule.Startup, system: registerAssetTypes(asset) })
     world.setResourceByTypeId(
       typeidGeneric(Assets, [asset]),
       new Assets(asset)

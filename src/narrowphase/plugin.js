@@ -16,7 +16,7 @@ export class NarrowPhase2DPlugin extends Plugin {
     app
       .setResource(new Contacts())
       .setResource(new SATNarrowphase2D())
-      .registerSystem(AppSchedule.Startup, registerNarrowphase2DTypes)
-      .registerSystem(AppSchedule.Update, getSATContacts)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerNarrowphase2DTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: getSATContacts })
   }
 }

@@ -8,6 +8,6 @@ export class MathPlugin extends Plugin {
    * @param {App} app
    */
   register(app) {
-    app.registerSystem(AppSchedule.Startup, registerMathTypes)
+    app.registerSystem({ schedule: AppSchedule.Startup, system: registerMathTypes })
   }
 }

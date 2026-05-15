@@ -24,6 +24,6 @@ export class HierarchyPlugin extends Plugin {
         removeSelfFromParent,
         null
       ))
-      .registerSystem(AppSchedule.Startup, registerHierarchyTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerHierarchyTypes })
   }
 }

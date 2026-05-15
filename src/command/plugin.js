@@ -11,7 +11,7 @@ export class CommandsPlugin extends Plugin {
   register(app) {
     app
       .setResource(new CommandQueue())
-      .registerSystem(AppSchedule.Update, executeCommands)
+      .registerSystem({ schedule: AppSchedule.Update, system: executeCommands })
   }
 }
 

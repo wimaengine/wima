@@ -27,11 +27,11 @@ export class Broadphase2DPlugin extends Plugin {
   register(app) {
     app
       .registerType(PhysicsHitbox)
-      .registerSystem(AppSchedule.Startup, registerBroadphaseTypes2D)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerBroadphaseTypes2D })
       .setResource(new Broadphase2D(this.innerBroadphase))
       .setResource(new CollisionPairs())
-      .registerSystem(AppSchedule.Update, getCollisionPairs)
-      .registerSystem(AppSchedule.Update, updateBroadphase2D)
+      .registerSystem({ schedule: AppSchedule.Update, system: getCollisionPairs })
+      .registerSystem({ schedule: AppSchedule.Update, system: updateBroadphase2D })
   }
 }
 
