@@ -2,6 +2,10 @@
 export class SystemConfig {
 
   /**
+   * @type {import("../../type/index.js").Constructor | undefined}
+   */
+  systemGroup
+  /**
    * @type {SystemFunc}
    */
   system
@@ -14,9 +18,11 @@ export class SystemConfig {
   /**
    * @param {SystemFunc} system
    * @param {string} schedule
+   * @param {import("../../type/index.js").Constructor | undefined} [systemGroup]
    */
-  constructor(system, schedule) {
+  constructor(system, schedule, systemGroup) {
     this.system = system
     this.schedule = schedule
+    this.systemGroup = systemGroup
   }
 }
