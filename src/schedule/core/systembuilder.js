@@ -11,12 +11,24 @@ export class SchedulerBuilder {
   systems = []
 
   /**
+   * @private
+   * @type {SystemGroupConfig[]}
+   */
+  systemGroups = []
+
+  /**
    * @param {SystemConfig} config
    */
   add(config) {
     this.systems.push(config)
   }
 
+  /**
+   * @param {SystemGroupConfig} config
+   */
+  addGroup(config) {
+    this.systemGroups.push(config)
+  }
   /**
    * @param {Scheduler} scheduler
    */
@@ -32,3 +44,8 @@ export class SchedulerBuilder {
     }
   }
 }
+
+/**
+ * @typedef SystemGroupConfig
+ * @property {import('../../type/index.js').Constructor} label
+ */
