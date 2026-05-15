@@ -1,8 +1,9 @@
 /** @import { SystemFunc } from '../ecs/index.js' */
+/** @import { SystemConfig } from '../schedule/index.js' */
 /** @import { Constructor,TypeId } from '../type/index.js'*/
 
 import { World, ComponentHooks } from '../ecs/index.js'
-import { SystemConfig, Scheduler, SchedulerBuilder, Executable } from '../schedule/index.js'
+import { Scheduler, SchedulerBuilder, Executable } from '../schedule/index.js'
 import { assert } from '../logger/index.js'
 import { typeid } from '../type/index.js'
 
@@ -166,11 +167,10 @@ export class App {
   }
 
   /**
-   * @param {string} label
-   * @param {SystemFunc} system
+   * @param {SystemConfig} config
    */
-  registerSystem(label, system) {
-    this.systemBuilder.add(new SystemConfig(system, label))
+  registerSystem(config) {
+    this.systemBuilder.add(config)
 
     return this
   }
