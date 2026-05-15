@@ -36,12 +36,12 @@ app
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
   .registerDebugger(new FPSDebugger())
-  .registerSystem(AppSchedule.Startup, spawnLookers)
-  .registerSystem(AppSchedule.Startup, spawnTarget)
-  .registerSystem(AppSchedule.Startup, addDefaultCamera3D)
-  .registerSystem(AppSchedule.Update, setupViewportWebgl)
-  .registerSystem(AppSchedule.Update, updateLookers)
-  .registerSystem(AppSchedule.Update, updateTarget)
+  .registerSystem({ schedule: AppSchedule.Startup, system: spawnLookers })
+  .registerSystem({ schedule: AppSchedule.Startup, system: spawnTarget })
+  .registerSystem({ schedule: AppSchedule.Startup, system: addDefaultCamera3D })
+  .registerSystem({ schedule: AppSchedule.Update, system: setupViewportWebgl })
+  .registerSystem({ schedule: AppSchedule.Update, system: updateLookers })
+  .registerSystem({ schedule: AppSchedule.Update, system: updateTarget })
   .run()
 
 /**

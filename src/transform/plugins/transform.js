@@ -23,9 +23,9 @@ export class Transform2DPlugin extends Plugin {
       .registerType(Orientation2D)
       .registerType(Scale2D)
       .registerType(GlobalTransform2D)
-      .registerSystem(AppSchedule.Startup, registerTransform2DTypes)
-      .registerSystem(AppSchedule.Update, synctransform2D)
-      .registerSystem(AppSchedule.Update, propagateTransform2D)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerTransform2DTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: synctransform2D })
+      .registerSystem({ schedule: AppSchedule.Update, system: propagateTransform2D })
   }
 }
 
@@ -40,8 +40,8 @@ export class Transform3DPlugin extends Plugin {
       .registerType(Orientation3D)
       .registerType(Scale3D)
       .registerType(GlobalTransform3D)
-      .registerSystem(AppSchedule.Startup, registerTransform3DTypes)
-      .registerSystem(AppSchedule.Update, synctransform3D)
-      .registerSystem(AppSchedule.Update, propagateTransform3D)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerTransform3DTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: synctransform3D })
+      .registerSystem({ schedule: AppSchedule.Update, system: propagateTransform3D })
   }
 }

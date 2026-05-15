@@ -26,8 +26,8 @@ export class Gravity2DPlugin extends Plugin {
   register(app) {
     app
       .setResource(new Gravity2D().copy(this.gravity))
-      .registerSystem(AppSchedule.Startup, registerGravity2DTypes)
-      .registerSystem(AppSchedule.Update, applyGravity2D)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerGravity2DTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: applyGravity2D })
   }
 }
 
@@ -53,8 +53,8 @@ export class Gravity3DPlugin extends Plugin {
   register(app) {
     app
       .setResource(new Gravity3D().copy(this.gravity))
-      .registerSystem(AppSchedule.Startup, registerGravity3DTypes)
-      .registerSystem(AppSchedule.Update, applyGravity3D)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerGravity3DTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: applyGravity3D })
   }
 }
 

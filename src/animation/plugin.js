@@ -18,12 +18,12 @@ export class AnimationPlugin extends Plugin {
     app
       .registerType(AnimationPlayer)
       .registerType(AnimationTarget)
-      .registerSystem(AppSchedule.Startup, registerAnimationTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerAnimationTypes })
       .registerPlugin(new AssetPlugin({
         asset:AnimationClip
       }))
-      .registerSystem(AppSchedule.Update, advanceAnimationPlayers)
-      .registerSystem(AppSchedule.Update, applyAnimations)
+      .registerSystem({ schedule: AppSchedule.Update, system: advanceAnimationPlayers })
+      .registerSystem({ schedule: AppSchedule.Update, system: applyAnimations })
     world.setResourceAlias(typeidGeneric(Assets, [AnimationClip]), AnimationClipAssets)
   }
 }

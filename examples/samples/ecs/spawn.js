@@ -32,9 +32,9 @@ app
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
-  .registerSystem(AppSchedule.Startup, addDefaultCamera2D)
-  .registerSystem(AppSchedule.Update, setupViewport)
-  .registerSystem(AppSchedule.Update, update)
+  .registerSystem({ schedule: AppSchedule.Startup, system: addDefaultCamera2D })
+  .registerSystem({ schedule: AppSchedule.Update, system: setupViewport })
+  .registerSystem({ schedule: AppSchedule.Update, system: update })
   .registerDebugger(new FPSDebugger())
   .run()
 

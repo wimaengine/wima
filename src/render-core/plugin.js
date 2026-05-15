@@ -33,7 +33,7 @@ export class RenderCorePlugin extends Plugin {
     app
       .registerType(Meshed)
       .registerType(Camera)
-      .registerSystem(AppSchedule.Startup, registerRenderCoreTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerRenderCoreTypes })
       .registerPlugin(new AssetPlugin({
         asset: Image,
         events: {

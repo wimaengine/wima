@@ -102,12 +102,12 @@ export class HackPlugin extends Plugin {
     // HACK: This is a hack until system sets and ordering is introduced.
     {
       app
-        .registerSystem(AppSchedule.Startup, registerAssetOnAssetServer(Audio))
-        .registerSystem(AppSchedule.Startup, registerAssetOnAssetServer(Image))
-        .registerSystem(AppSchedule.Startup, registerAssetOnAssetServer(Mesh))
-        .registerSystem(AppSchedule.Startup, registerAssetOnAssetServer(BasicMaterial))
-        .registerSystem(AppSchedule.Startup, registerAssetParserOnAssetServer(Audio, new AudioParser()))
-        .registerSystem(AppSchedule.Startup, registerAssetParserOnAssetServer(Image, new ImageParser()))
+        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetOnAssetServer(Audio) })
+        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetOnAssetServer(Image) })
+        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetOnAssetServer(Mesh) })
+        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetOnAssetServer(BasicMaterial) })
+        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetParserOnAssetServer(Audio, new AudioParser()) })
+        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetParserOnAssetServer(Image, new ImageParser()) })
     }
   }
 }

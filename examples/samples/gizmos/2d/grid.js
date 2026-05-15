@@ -36,10 +36,10 @@ app
   .registerPlugin(new Gizmo2DPlugin({
     label: Demo
   }))
-  .registerSystem(AppSchedule.Startup, init)
-  .registerSystem(AppSchedule.Startup, addDefaultCamera2D)
-  .registerSystem(AppSchedule.Update, setupViewport)
-  .registerSystem(AppSchedule.Update, drawGrid)
+  .registerSystem({ schedule: AppSchedule.Startup, system: init })
+  .registerSystem({ schedule: AppSchedule.Startup, system: addDefaultCamera2D })
+  .registerSystem({ schedule: AppSchedule.Update, system: setupViewport })
+  .registerSystem({ schedule: AppSchedule.Update, system: drawGrid })
   .registerDebugger(new FPSDebugger())
   .run()
 

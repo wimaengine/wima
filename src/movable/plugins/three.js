@@ -19,6 +19,6 @@ export class Movable3DPlugin extends Plugin {
       .registerType(Rotation3D)
       .registerType(Acceleration3D)
       .registerType(Torque3D)
-      .registerSystem(AppSchedule.Startup, registerMovable3DTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerMovable3DTypes })
   }
 }

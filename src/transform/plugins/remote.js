@@ -11,8 +11,8 @@ export class RemoteTransform2DPlugin extends Plugin {
   register(app) {
     app
       .registerType(RemoteTransform2D)
-      .registerSystem(AppSchedule.Startup, registerRemoteTransform2DTypes)
-      .registerSystem(AppSchedule.Update, transformRemote2D)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerRemoteTransform2DTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: transformRemote2D })
   }
 }
 
@@ -24,7 +24,7 @@ export class RemoteTransform3DPlugin extends Plugin {
   register(app) {
     app
       .registerType(RemoteTransform3D)
-      .registerSystem(AppSchedule.Startup, registerRemoteTransform3DTypes)
-      .registerSystem(AppSchedule.Update, transformRemote3D)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerRemoteTransform3DTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: transformRemote3D })
   }
 }

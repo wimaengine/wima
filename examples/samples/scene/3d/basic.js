@@ -39,8 +39,8 @@ app
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
   .registerDebugger(new FPSDebugger())
-  .registerSystem(AppSchedule.Startup, init)
-  .registerSystem(AppSchedule.Update, setupViewportWebgl)
+  .registerSystem({ schedule: AppSchedule.Startup, system: init })
+  .registerSystem({ schedule: AppSchedule.Update, system: setupViewportWebgl })
   .run()
 
 /**

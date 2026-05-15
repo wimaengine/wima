@@ -12,9 +12,9 @@ export class Damping2DPlugin extends Plugin {
     app
       .setResource(new Linear2DDamping(0.01))
       .setResource(new Angular2DDamping(0.01))
-      .registerSystem(AppSchedule.Startup, registerDamping2DTypes)
-      .registerSystem(AppSchedule.Update, dampenVelocity2D)
-      .registerSystem(AppSchedule.Update, dampenRotation2D)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerDamping2DTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: dampenVelocity2D })
+      .registerSystem({ schedule: AppSchedule.Update, system: dampenRotation2D })
   }
 }
 
@@ -27,8 +27,8 @@ export class Damping3DPlugin extends Plugin {
     app
       .setResource(new Linear3DDamping(0.01))
       .setResource(new Angular3DDamping(0.01))
-      .registerSystem(AppSchedule.Startup, registerDamping3DTypes)
-      .registerSystem(AppSchedule.Update, dampenVelocity3D)
-      .registerSystem(AppSchedule.Update, dampenRotation3D)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerDamping3DTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: dampenVelocity3D })
+      .registerSystem({ schedule: AppSchedule.Update, system: dampenRotation3D })
   }
 }

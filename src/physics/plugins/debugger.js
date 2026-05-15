@@ -32,13 +32,13 @@ export class Physics2DDebuggerPlugin extends Plugin {
   register(app) {
     const { options } = this
 
-    if (options.drawPosition) app.registerSystem(AppSchedule.Update, drawPosition)
-    if (options.drawBounds) app.registerSystem(AppSchedule.Update, drawBounds)
-    if (options.drawShapes) app.registerSystem(AppSchedule.Update, drawShapes)
-    if (options.drawCollisionArm) app.registerSystem(AppSchedule.Update, drawArms)
-    if (options.drawContacts) app.registerSystem(AppSchedule.Update, drawContacts)
-    if (options.drawPosition) app.registerSystem(AppSchedule.Update, drawPosition)
-    if (options.drawVelocity) app.registerSystem(AppSchedule.Update, drawVelocity)
+    if (options.drawPosition) app.registerSystem({ schedule: AppSchedule.Update, system: drawPosition })
+    if (options.drawBounds) app.registerSystem({ schedule: AppSchedule.Update, system: drawBounds })
+    if (options.drawShapes) app.registerSystem({ schedule: AppSchedule.Update, system: drawShapes })
+    if (options.drawCollisionArm) app.registerSystem({ schedule: AppSchedule.Update, system: drawArms })
+    if (options.drawContacts) app.registerSystem({ schedule: AppSchedule.Update, system: drawContacts })
+    if (options.drawPosition) app.registerSystem({ schedule: AppSchedule.Update, system: drawPosition })
+    if (options.drawVelocity) app.registerSystem({ schedule: AppSchedule.Update, system: drawVelocity })
   }
 }
 

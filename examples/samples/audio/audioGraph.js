@@ -40,7 +40,7 @@ class MyPlugin extends Plugin {
    * @param {App} app
    */
   register(app) {
-    app.registerSystem(AppSchedule.Startup, init)
+    app.registerSystem({ schedule: AppSchedule.Startup, system: init })
   }
 }
 const app = new App()
@@ -51,8 +51,8 @@ app
   .registerPlugin(new DOMWindowPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
   .registerPlugin(new MyPlugin())
-  .registerSystem(AppSchedule.Update, setupViewport)
-  .registerSystem(AppSchedule.Update, playAudio)
+  .registerSystem({ schedule: AppSchedule.Update, system: setupViewport })
+  .registerSystem({ schedule: AppSchedule.Update, system: playAudio })
   .registerDebugger(new FPSDebugger())
   .run()
 

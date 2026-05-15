@@ -38,7 +38,7 @@ export class Physics2DPlugin extends Plugin {
       .registerType(PhysicsProperties)
       .registerType(SoftBody2D)
       .registerType(SoftBody3D)
-      .registerSystem(AppSchedule.Startup, registerPhysicsTypes)
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerPhysicsTypes })
       .setComponentHooks(
         PhysicsProperties,
         new ComponentHooks(
@@ -47,15 +47,15 @@ export class Physics2DPlugin extends Plugin {
           physicspropertiesAddHook
         )
       )
-    app.registerSystem(AppSchedule.Update, updateBodies)
+    app.registerSystem({ schedule: AppSchedule.Update, system: updateBodies })
 
-    if (this.autoUpdateBounds) app.registerSystem(AppSchedule.Update, updateBounds)
+    if (this.autoUpdateBounds) app.registerSystem({ schedule: AppSchedule.Update, system: updateBounds })
 
     app
       .registerPlugin(new Gravity2DPlugin())
       .registerPlugin(this.broadphase)
       .registerPlugin(this.narrowphase)
-      .registerSystem(AppSchedule.Update, collisionResponse)
+      .registerSystem({ schedule: AppSchedule.Update, system: collisionResponse })
       .registerPlugin(this.integrator)
   }
 }

@@ -12,8 +12,8 @@ export class Emitter2DPlugin extends Plugin {
     app
       .registerType(Particle)
       .registerType(Emitter)
-      .registerSystem(AppSchedule.Update, despawnParticles)
-      .registerSystem(AppSchedule.Update, emitParticles2D)
+      .registerSystem({ schedule: AppSchedule.Update, system: despawnParticles })
+      .registerSystem({ schedule: AppSchedule.Update, system: emitParticles2D })
 
   }
 }
@@ -27,8 +27,8 @@ export class Emitter3DPlugin extends Plugin {
     app
       .registerType(Particle)
       .registerType(Emitter)
-      .registerSystem(AppSchedule.Update, despawnParticles)
-      .registerSystem(AppSchedule.Update, emitParticles3D)
+      .registerSystem({ schedule: AppSchedule.Update, system: despawnParticles })
+      .registerSystem({ schedule: AppSchedule.Update, system: emitParticles3D })
 
   }
 }

@@ -44,8 +44,8 @@ export class Gizmo2DPlugin extends Plugin {
       .getWorld()
       .setResourceByTypeId(typeidGeneric(Gizmo2D, [label]), new Gizmo2D(label, settings))
     app
-      .registerSystem(AppSchedule.Startup, registerGizmo2DTypes(label))
-      .registerSystem(AppSchedule.Update, genenerateDrawGizmo2Dsystem(label))
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerGizmo2DTypes(label) })
+      .registerSystem({ schedule: AppSchedule.Update, system: genenerateDrawGizmo2Dsystem(label) })
   }
 
   name() {

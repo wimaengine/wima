@@ -25,9 +25,9 @@ app
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
   .registerDebugger(new FPSDebugger())
-  .registerSystem(AppSchedule.Startup, spawnMesh)
-  .registerSystem(AppSchedule.Startup, addDefaultCamera3D)
-  .registerSystem(AppSchedule.Update, setupViewportWebgl)
+  .registerSystem({ schedule: AppSchedule.Startup, system: spawnMesh })
+  .registerSystem({ schedule: AppSchedule.Startup, system: addDefaultCamera3D })
+  .registerSystem({ schedule: AppSchedule.Update, system: setupViewportWebgl })
   .run()
 
 /**
