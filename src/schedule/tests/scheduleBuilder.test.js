@@ -334,6 +334,53 @@ describe('Testing `SchedulerBuilder`', () => {
     deepStrictEqual(order, ['earlyOne', 'earlyTwo', 'lateOne', 'lateTwo'])
   })
 
+  test('treats empty groups as ordering barriers', () => {
+    const builder = new SchedulerBuilder()
+    const scheduler = new Scheduler()
+    const world = new World()
+    /** @type {string[]} */
+    const order = []
+
+    class StartPhase { }
+    class MiddlePhase { }
+    class EndPhase { }
+
+    function startSystem() { order.push('start') }
+    function endSystem() { order.push('end') }
+
+    scheduler.set(new Executable({ label: 'update' }))
+
+    builder.addGroup({
+      label: StartPhase,
+      schedule: 'update',
+      before: [MiddlePhase]
+    })
+    builder.addGroup({
+      label: MiddlePhase,
+      schedule: 'update',
+      before: [EndPhase]
+    })
+    builder.addGroup({
+      label: EndPhase,
+      schedule: 'update'
+    })
+    builder.add({
+      schedule: 'update',
+      systemGroup: EndPhase,
+      system: endSystem
+    })
+    builder.add({
+      schedule: 'update',
+      systemGroup: StartPhase,
+      system: startSystem
+    })
+
+    builder.pushToScheduler(scheduler)
+    scheduler.get('update')?.run(world)
+
+    deepStrictEqual(order, ['start', 'end'])
+  })
+
   test('inherits parent ordering constraints across descendants', () => {
     const builder = new SchedulerBuilder()
     const scheduler = new Scheduler()
