@@ -19,6 +19,7 @@
  * @typedef SystemGroupConfig
  * @property {Constructor} label
  * @property {string} schedule
+ * @property {Constructor | undefined} [parent]
  * @property {SystemOrderReference[] | undefined} [before]
  * @property {SystemOrderReference[] | undefined} [after]
  */

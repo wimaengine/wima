@@ -4,6 +4,8 @@ import { World } from '../../ecs/index.js'
 import { Executable, Scheduler, SchedulerBuilder } from '../index.js'
 
 class Phase { }
+class ParentPhase { }
+class ChildPhase { }
 class MissingPhase { }
 
 describe('Testing `SchedulerBuilder`', () => {
@@ -232,6 +234,119 @@ describe('Testing `SchedulerBuilder`', () => {
     deepStrictEqual(order, ['earlyOne', 'earlyTwo', 'lateOne', 'lateTwo'])
   })
 
+  test('inherits parent ordering constraints across descendants', () => {
+    const builder = new SchedulerBuilder()
+    const scheduler = new Scheduler()
+    const world = new World()
+    /** @type {string[]} */
+    const order = []
+
+    class RootPhase { }
+    class NestedPhase { }
+
+    function head() { order.push('head') }
+    function middle() { order.push('middle') }
+    function tail() { order.push('tail') }
+    function nested() { order.push('nested') }
+
+    scheduler.set(new Executable({ label: 'update' }))
+
+    builder.addGroup({
+      label: RootPhase,
+      schedule: 'update',
+      after: [head],
+      before: [middle, tail]
+    })
+    builder.addGroup({
+      label: NestedPhase,
+      parent: RootPhase,
+      schedule: 'update'
+    })
+    builder.add({
+      schedule: 'update',
+      system: head
+    })
+    builder.add({
+      schedule: 'update',
+      before: [tail],
+      system: middle
+    })
+    builder.add({
+      schedule: 'update',
+      systemGroup: NestedPhase,
+      system: nested
+    })
+    builder.add({
+      schedule: 'update',
+      system: tail
+    })
+
+    builder.pushToScheduler(scheduler)
+    scheduler.get('update')?.run(world)
+
+    deepStrictEqual(order, ['head', 'nested', 'middle', 'tail'])
+  })
+
+  test('combines inherited constraints from multiple ancestors', () => {
+    const builder = new SchedulerBuilder()
+    const scheduler = new Scheduler()
+    const world = new World()
+    /** @type {string[]} */
+    const order = []
+
+    class GrandPhase { }
+    class ParentPhase { }
+    class ChildPhase { }
+
+    function head() { order.push('head') }
+    function middle() { order.push('middle') }
+    function tail() { order.push('tail') }
+    function nested() { order.push('nested') }
+
+    scheduler.set(new Executable({ label: 'update' }))
+
+    builder.addGroup({
+      label: GrandPhase,
+      schedule: 'update',
+      before: [tail]
+    })
+    builder.addGroup({
+      label: ParentPhase,
+      parent: GrandPhase,
+      schedule: 'update',
+      after: [head],
+      before: [middle]
+    })
+    builder.addGroup({
+      label: ChildPhase,
+      parent: ParentPhase,
+      schedule: 'update'
+    })
+    builder.add({
+      schedule: 'update',
+      system: head
+    })
+    builder.add({
+      schedule: 'update',
+      before: [tail],
+      system: middle
+    })
+    builder.add({
+      schedule: 'update',
+      systemGroup: ChildPhase,
+      system: nested
+    })
+    builder.add({
+      schedule: 'update',
+      system: tail
+    })
+
+    builder.pushToScheduler(scheduler)
+    scheduler.get('update')?.run(world)
+
+    deepStrictEqual(order, ['head', 'nested', 'middle', 'tail'])
+  })
+
   test('keeps schedules isolated from each other', () => {
     const builder = new SchedulerBuilder()
     const scheduler = new Scheduler()
@@ -326,6 +441,39 @@ describe('Testing `SchedulerBuilder`', () => {
     })
 
     throws(() => builder.pushToScheduler(scheduler), /must be registered explicitly/)
+  })
+
+  test('requires parent groups to be registered explicitly', () => {
+    const builder = new SchedulerBuilder()
+    const scheduler = new Scheduler()
+
+    scheduler.set(new Executable({ label: 'update' }))
+    builder.addGroup({
+      label: ParentPhase,
+      parent: MissingPhase,
+      schedule: 'update'
+    })
+
+    throws(() => builder.pushToScheduler(scheduler), /parent system group/)
+  })
+
+  test('rejects cyclic group nesting', () => {
+    const builder = new SchedulerBuilder()
+    const scheduler = new Scheduler()
+
+    scheduler.set(new Executable({ label: 'update' }))
+    builder.addGroup({
+      label: ParentPhase,
+      parent: ChildPhase,
+      schedule: 'update'
+    })
+    builder.addGroup({
+      label: ChildPhase,
+      parent: ParentPhase,
+      schedule: 'update'
+    })
+
+    throws(() => builder.pushToScheduler(scheduler), /cyclic system group nesting/)
   })
 
   test('detects cyclic ordering constraints', () => {
