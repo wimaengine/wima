@@ -3,7 +3,7 @@
 import { App, Plugin } from '../app/index.js'
 import { makeEventClear, registerEventTypes } from './systems/index.js'
 import { Events } from './core/index.js'
-import { typeidGeneric } from '../type/index.js'
+import { typeid, typeidGeneric } from '../type/index.js'
 import { AppSchedule } from '../core/index.js'
 
 /**
@@ -43,14 +43,23 @@ export class EventPlugin extends Plugin {
 
     app
       .registerType(event)
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerEventTypes(event) })
+      .registerSystem({
+        label: `registerEventTypes<${typeid(event)}>`,
+        schedule: AppSchedule.Startup,
+        system: registerEventTypes(event)
+      })
       .getWorld()
       .setResourceByTypeId(name, new Events())
 
-    // TODO - Once system ordering is implemented,remove this
-    // and `App.systemsevents`.
     if (this.autoClearEvent) {
-      app.systemsevents.push({ schedule: AppSchedule.Update, system: makeEventClear(name) })
+      app
+        .registerSystemGroup({ label: event, schedule: AppSchedule.Update })
+        .registerSystem({
+          label: `clearEvents<${typeid(event)}>`,
+          schedule: AppSchedule.Update,
+          systemGroup: event,
+          system: makeEventClear(name)
+        })
     }
   }
 

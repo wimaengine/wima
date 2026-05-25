@@ -14,9 +14,10 @@ import {
 import { Vector2, Quaternion, Vector3, Rotary } from '../math/index.js'
 import { generateTweenFlipSystem, generateTweenRepeatTween, generateTweenTimerSystem, generateTweenUpdateSystem } from './systems/index.js'
 import { Orientation2D, Orientation3D, Position2D, Position3D, Scale2D, Scale3D } from '../transform/index.js'
-import { typeidGeneric } from '../type/index.js'
+import { typeid, typeidGeneric } from '../type/index.js'
 import { AppSchedule } from '../core/index.js'
 
+// TODO: Convert this into a plugin group
 export class DefaultTweenPlugin extends Plugin {
 
   /**
@@ -24,6 +25,7 @@ export class DefaultTweenPlugin extends Plugin {
    */
   register(app) {
     app
+      .registerPlugin(new CoreTweenPlugin())
       .registerPlugin(new TweenPlugin({
         component: Position2D,
         tween: Position2DTween,
@@ -55,6 +57,19 @@ export class DefaultTweenPlugin extends Plugin {
         interpolation: Vector3.lerp
       }))
   }
+}
+
+export class CoreTweenPlugin extends Plugin {
+
+  /**
+   * @param {App} app
+   */
+  register(app) {
+    app
+      .registerType(TweenFlip)
+      .registerType(TweenRepeat)
+  }
+
 }
 
 // TweenPlugin<T> where `T: Lerp`
@@ -99,12 +114,26 @@ export class TweenPlugin extends Plugin {
   register(app) {
     app
       .registerType(this.tween)
-      .registerType(TweenFlip)
-      .registerType(TweenRepeat)
-      .registerSystem({ schedule: AppSchedule.Update, system: generateTweenFlipSystem(this.tween) })
-      .registerSystem({ schedule: AppSchedule.Update, system: generateTweenRepeatTween(this.tween) })
-      .registerSystem({ schedule: AppSchedule.Update, system: generateTweenTimerSystem(this.tween) })
-      .registerSystem({ schedule: AppSchedule.Update, system: generateTweenUpdateSystem(this.component, this.tween, this.interpolation) })
+      .registerSystem({
+        schedule: AppSchedule.Update,
+        label: `flipTween<${typeid(this.component)}>`,
+        system: generateTweenFlipSystem(this.tween)
+      })
+      .registerSystem({
+        schedule: AppSchedule.Update,
+        label: `repeatTween<${typeid(this.component)}>`,
+        system: generateTweenRepeatTween(this.tween)
+      })
+      .registerSystem({
+        schedule: AppSchedule.Update,
+        label: `updateTimerTween<${typeid(this.component)}>`,
+        system: generateTweenTimerSystem(this.tween)
+      })
+      .registerSystem({
+        schedule: AppSchedule.Update,
+        label: `updateTween<${typeid(this.component)}>`,
+        system: generateTweenUpdateSystem(this.component, this.tween, this.interpolation)
+      })
   }
 
   name() {
