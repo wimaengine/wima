@@ -1,5 +1,5 @@
 import { App, Plugin } from '../app/index.js'
-import { AppSchedule, defaultRunner } from './core/index.js'
+import { AppSchedule, CoreSystems, defaultRunner } from './core/index.js'
 import { registerCoreTypes } from './systems/index.js'
 
 export class CorePlugin extends Plugin {
@@ -8,13 +8,70 @@ export class CorePlugin extends Plugin {
    * @param {App} app
    */
   register(app) {
-    app.setRunner(defaultRunner)
-    app.createSchedule(
-      { label: AppSchedule.Startup, repeat: false }
-    )
-    app.createSchedule(
-      { label: AppSchedule.Update, repeat: true }
-    )
-    app.registerSystem({ schedule: AppSchedule.Startup, system: registerCoreTypes })
+    app
+      .setRunner(defaultRunner)
+      .createSchedule({
+        label: AppSchedule.Startup,
+        repeat: false,
+        defaultSystemGroup: CoreSystems.Main
+      })
+      .createSchedule({
+        label: AppSchedule.Update,
+        repeat: true,
+        defaultSystemGroup: CoreSystems.Main
+      })
+      .registerSystemGroup({
+        label: CoreSystems.Start,
+        schedule: AppSchedule.Startup,
+        before: [CoreSystems.PreMain]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.PreMain,
+        schedule: AppSchedule.Startup,
+        before: [CoreSystems.Main]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.Main,
+        schedule: AppSchedule.Startup,
+        before: [CoreSystems.PostMain]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.PostMain,
+        schedule: AppSchedule.Startup,
+        before: [CoreSystems.End]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.End,
+        schedule: AppSchedule.Startup
+      })
+
+      .registerSystemGroup({
+        label: CoreSystems.Start,
+        schedule: AppSchedule.Update,
+        before: [CoreSystems.PreMain]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.PreMain,
+        schedule: AppSchedule.Update,
+        before: [CoreSystems.Main]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.Main,
+        schedule: AppSchedule.Update,
+        before: [CoreSystems.PostMain]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.PostMain,
+        schedule: AppSchedule.Update,
+        before: [CoreSystems.End]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.End,
+        schedule: AppSchedule.Update
+      })
+      .registerSystem({
+        schedule: AppSchedule.Startup,
+        system: registerCoreTypes
+      })
   }
 }
