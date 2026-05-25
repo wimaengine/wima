@@ -219,7 +219,7 @@ export class SchedulerBuilder {
    * @returns {SystemRegistration[]}
    */
   sortScheduleSystems(context) {
-    const graph = this.expandScheduleGraph(context)
+    const { graph, systemsByGraphId } = this.expandScheduleGraph(context)
     const sorted = kahnTopologySort(graph)
 
     if (!sorted) {
@@ -230,9 +230,10 @@ export class SchedulerBuilder {
     const ordered = []
 
     for (let i = 0; i < sorted.length; i++) {
-      const system = graph.getNodeWeight(sorted[i])
+      const system = systemsByGraphId.get(sorted[i])
 
-      assert(system, `Internal error: Could not resolve system node ${sorted[i]} on schedule "${context.label}".`)
+      if (!system) continue
+
       ordered.push(system)
     }
 
@@ -242,13 +243,21 @@ export class SchedulerBuilder {
   /**
    * @private
    * @param {ScheduleContext} context
-   * @returns {Graph<SystemRegistration, undefined>}
+   * @returns {{ graph: Graph<SystemRegistration | SystemGroupRegistration, undefined>, systemsByGraphId: Map<number, SystemRegistration> }}
    */
   expandScheduleGraph(context) {
-    const graph = /** @type {Graph<SystemRegistration, undefined>} */ (new Graph(true))
+    const graph = /** @type {Graph<SystemRegistration | SystemGroupRegistration, undefined>} */ (new Graph(true))
 
     /** @type {Map<number, number>} */
     const graphIdsBySystemId = new Map()
+
+    /** @type {Map<number, number>} */
+    const graphIdsByGroupId = new Map()
+
+    context.graphIdsByGroupId = graphIdsByGroupId
+
+    /** @type {Map<number, SystemRegistration>} */
+    const systemsByGraphId = new Map()
 
     /** @type {Map<number, number[]>} */
     const groupSystemsCache = new Map()
@@ -256,11 +265,19 @@ export class SchedulerBuilder {
     /** @type {Set<string>} */
     const edges = new Set()
 
+    for (let i = 0; i < context.groups.length; i++) {
+      const group = context.groups[i]
+      const graphId = graph.addNode(group)
+
+      graphIdsByGroupId.set(group.id, graphId)
+    }
+
     for (let i = 0; i < context.systems.length; i++) {
       const system = context.systems[i]
       const graphId = graph.addNode(system)
 
       graphIdsBySystemId.set(system.id, graphId)
+      systemsByGraphId.set(graphId, system)
     }
 
     for (let i = 0; i < context.systems.length; i++) {
@@ -281,13 +298,16 @@ export class SchedulerBuilder {
       }, group.config.before, group.config.after, groupSystemsCache)
     }
 
-    return graph
+    return {
+      graph,
+      systemsByGraphId
+    }
   }
 
   /**
    * @private
    * @param {ScheduleContext} context
-   * @param {Graph<SystemRegistration, undefined>} graph
+   * @param {Graph<SystemRegistration | SystemGroupRegistration, undefined>} graph
    * @param {Map<number, number>} graphIdsBySystemId
    * @param {Set<string>} edges
    * @param {ScheduleNodeRef} source
@@ -336,7 +356,7 @@ export class SchedulerBuilder {
   /**
    * @private
    * @param {ScheduleContext} context
-   * @param {Graph<SystemRegistration, undefined>} graph
+   * @param {Graph<SystemRegistration | SystemGroupRegistration, undefined>} graph
    * @param {Map<number, number>} graphIdsBySystemId
    * @param {Set<string>} edges
    * @param {ScheduleNodeRef} from
@@ -345,32 +365,78 @@ export class SchedulerBuilder {
    * @param {Map<number, number[]>} groupSystemsCache
    */
   addExpandedEdge(context, graph, graphIdsBySystemId, edges, from, to, targetLabel, groupSystemsCache) {
-    const fromSystems = this.expandNodeToSystems(context, from, groupSystemsCache)
-    const toSystems = this.expandNodeToSystems(context, to, groupSystemsCache)
+    const fromNodes = this.expandNodeToOrderingNodes(context, from, graphIdsBySystemId, groupSystemsCache)
+    const toNodes = this.expandNodeToOrderingNodes(context, to, graphIdsBySystemId, groupSystemsCache)
 
-    for (let i = 0; i < fromSystems.length; i++) {
-      for (let j = 0; j < toSystems.length; j++) {
-        const fromSystemId = fromSystems[i]
-        const toSystemId = toSystems[j]
+    for (let i = 0; i < fromNodes.length; i++) {
+      for (let j = 0; j < toNodes.length; j++) {
+        const fromNodeId = fromNodes[i]
+        const toNodeId = toNodes[j]
 
-        if (fromSystemId === toSystemId) {
+        if (fromNodeId === toNodeId) {
           throws(`The reference "${describeReference(targetLabel)}" creates a self-referential system ordering on schedule "${context.label}".`)
         }
 
-        const graphFrom = graphIdsBySystemId.get(fromSystemId)
-        const graphTo = graphIdsBySystemId.get(toSystemId)
-
-        assert(graphFrom !== undefined, `Internal error: Could not resolve graph node for system ${fromSystemId} on schedule "${context.label}".`)
-        assert(graphTo !== undefined, `Internal error: Could not resolve graph node for system ${toSystemId} on schedule "${context.label}".`)
-
-        const key = `${graphFrom}:${graphTo}`
+        const key = `${fromNodeId}:${toNodeId}`
 
         if (edges.has(key)) continue
 
         edges.add(key)
-        graph.addEdge(graphFrom, graphTo, undefined)
+        graph.addEdge(fromNodeId, toNodeId, undefined)
       }
     }
+  }
+
+  /**
+   * @private
+   * @param {ScheduleContext} context
+   * @param {ScheduleNodeRef} node
+   * @param {Map<number, number>} graphIdsBySystemId
+   * @param {Map<number, number[]>} groupSystemsCache
+   * @returns {number[]}
+   */
+  expandNodeToOrderingNodes(context, node, graphIdsBySystemId, groupSystemsCache) {
+    if (node.kind === ScheduleNodeKind.System) {
+      const graphId = graphIdsBySystemId.get(node.id)
+
+      assert(graphId !== undefined, `Internal error: Could not resolve graph node for system ${node.id} on schedule "${context.label}".`)
+
+      return [graphId]
+    }
+
+    const systems = this.expandGroupToSystems(context, node.id, groupSystemsCache, new Set())
+
+    if (systems.length > 0) {
+      /** @type {number[]} */
+      const graphIds = []
+
+      for (let i = 0; i < systems.length; i++) {
+        const graphId = graphIdsBySystemId.get(systems[i])
+
+        assert(graphId !== undefined, `Internal error: Could not resolve graph node for system ${systems[i]} on schedule "${context.label}".`)
+        graphIds.push(graphId)
+      }
+
+      return graphIds
+    }
+
+    const graphId = this.expandGroupToGraphNode(context, node.id)
+
+    return [graphId]
+  }
+
+  /**
+   * @private
+   * @param {ScheduleContext} context
+   * @param {number} groupId
+   * @returns {number}
+   */
+  expandGroupToGraphNode(context, groupId) {
+    const graphId = context.graphIdsByGroupId?.get(groupId)
+
+    assert(graphId !== undefined, `Internal error: Could not resolve graph node for system group ${groupId} on schedule "${context.label}".`)
+
+    return graphId
   }
 
   /**
@@ -445,6 +511,7 @@ function getOrCreateScheduleContext(schedules, label) {
     groups: [],
     nodesByLabel: new Map(),
     groupIdsByTypeId: new Map(),
+    graphIdsByGroupId: undefined,
     defaultSystemGroup: undefined
   })
 
@@ -475,6 +542,7 @@ const ScheduleNodeKind = Object.freeze({
  * @property {SystemGroupRegistration[]} groups
  * @property {Map<string, ScheduleNodeRef>} nodesByLabel
  * @property {Map<TypeId, number>} groupIdsByTypeId
+ * @property {Map<number, number> | undefined} graphIdsByGroupId
  * @property {Constructor | undefined} defaultSystemGroup
  */
 
