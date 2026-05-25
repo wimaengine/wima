@@ -407,6 +407,7 @@ export class SchedulerBuilder {
     const systems = this.expandGroupToSystems(context, node.id, groupSystemsCache, new Set())
 
     if (systems.length > 0) {
+
       /** @type {number[]} */
       const graphIds = []
 
