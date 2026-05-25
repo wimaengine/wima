@@ -37,7 +37,15 @@ export class SchedulerBuilder {
    * @param {Scheduler} scheduler
    */
   pushToScheduler(scheduler) {
-    const schedules = this.createScheduleContexts()
+
+    /** @type {Map<string, import('./executable.js').Executable['defaultSystemGroup']>} */
+    const defaultGroupsBySchedule = new Map()
+
+    for (const executable of scheduler.values()) {
+      defaultGroupsBySchedule.set(executable.label, executable.defaultSystemGroup)
+    }
+
+    const schedules = this.createScheduleContexts(defaultGroupsBySchedule)
 
     for (const [scheduleLabel, context] of schedules) {
       const schedule = scheduler.get(scheduleLabel)
@@ -52,9 +60,10 @@ export class SchedulerBuilder {
 
   /**
    * @private
+   * @param {Map<string, Constructor | undefined>} defaultGroupsBySchedule
    * @returns {Map<string, ScheduleContext>}
    */
-  createScheduleContexts() {
+  createScheduleContexts(defaultGroupsBySchedule) {
 
     /** @type {Map<string, ScheduleContext>} */
     const schedules = new Map()
@@ -115,11 +124,13 @@ export class SchedulerBuilder {
     }
 
     for (const [scheduleLabel, context] of schedules) {
+      context.defaultSystemGroup = defaultGroupsBySchedule.get(scheduleLabel)
+
       this.resolveGroupParents(context, scheduleLabel)
 
       for (let i = 0; i < context.systems.length; i++) {
         const system = context.systems[i]
-        const groupLabel = system.config.systemGroup
+        const groupLabel = system.config.systemGroup ?? context.defaultSystemGroup
 
         if (!groupLabel) continue
 
@@ -433,7 +444,8 @@ function getOrCreateScheduleContext(schedules, label) {
     systems: [],
     groups: [],
     nodesByLabel: new Map(),
-    groupIdsByTypeId: new Map()
+    groupIdsByTypeId: new Map(),
+    defaultSystemGroup: undefined
   })
 
   schedules.set(label, created)
@@ -463,6 +475,7 @@ const ScheduleNodeKind = Object.freeze({
  * @property {SystemGroupRegistration[]} groups
  * @property {Map<string, ScheduleNodeRef>} nodesByLabel
  * @property {Map<TypeId, number>} groupIdsByTypeId
+ * @property {Constructor | undefined} defaultSystemGroup
  */
 
 /**
