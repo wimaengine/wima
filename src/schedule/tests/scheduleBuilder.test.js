@@ -7,6 +7,9 @@ class Phase { }
 class ParentPhase { }
 class ChildPhase { }
 class MissingPhase { }
+class DefaultPhase { }
+class AlternatePhase { }
+class FencePhase { }
 
 describe('Testing `SchedulerBuilder`', () => {
   test('sorts systems topologically from their `before` and `after` labels', () => {
@@ -177,6 +180,103 @@ describe('Testing `SchedulerBuilder`', () => {
     scheduler.get('update')?.run(world)
 
     deepStrictEqual(order, ['prepare', 'first', 'second', 'finish'])
+  })
+
+  test('uses the schedule default system group when a system omits one', () => {
+    const builder = new SchedulerBuilder()
+    const scheduler = new Scheduler()
+    const world = new World()
+    /** @type {string[]} */
+    const order = []
+
+    function explicit() { order.push('explicit') }
+    function implicit() { order.push('implicit') }
+    function other() { order.push('other') }
+
+    scheduler.set(new Executable({
+      label: 'update',
+      defaultSystemGroup: DefaultPhase
+    }))
+
+    builder.addGroup({
+      label: DefaultPhase,
+      schedule: 'update',
+      before: [AlternatePhase]
+    })
+    builder.addGroup({
+      label: AlternatePhase,
+      schedule: 'update'
+    })
+    builder.add({
+      schedule: 'update',
+      systemGroup: DefaultPhase,
+      system: explicit
+    })
+    builder.add({
+      schedule: 'update',
+      system: implicit
+    })
+    builder.add({
+      schedule: 'update',
+      systemGroup: AlternatePhase,
+      system: other
+    })
+
+    builder.pushToScheduler(scheduler)
+    scheduler.get('update')?.run(world)
+
+    deepStrictEqual(order, ['explicit', 'implicit', 'other'])
+  })
+
+  test('prefers an explicit system group over the schedule default', () => {
+    const builder = new SchedulerBuilder()
+    const scheduler = new Scheduler()
+    const world = new World()
+    /** @type {string[]} */
+    const order = []
+
+    function explicit() { order.push('explicit') }
+    function implicit() { order.push('implicit') }
+    function fence() { order.push('fence') }
+
+    scheduler.set(new Executable({
+      label: 'update',
+      defaultSystemGroup: DefaultPhase
+    }))
+
+    builder.addGroup({
+      label: DefaultPhase,
+      schedule: 'update',
+      before: [FencePhase]
+    })
+    builder.addGroup({
+      label: AlternatePhase,
+      schedule: 'update',
+      after: [FencePhase]
+    })
+    builder.addGroup({
+      label: FencePhase,
+      schedule: 'update'
+    })
+    builder.add({
+      schedule: 'update',
+      system: implicit
+    })
+    builder.add({
+      schedule: 'update',
+      systemGroup: AlternatePhase,
+      system: explicit
+    })
+    builder.add({
+      schedule: 'update',
+      systemGroup: FencePhase,
+      system: fence
+    })
+
+    builder.pushToScheduler(scheduler)
+    scheduler.get('update')?.run(world)
+
+    deepStrictEqual(order, ['implicit', 'fence', 'explicit'])
   })
 
   test('orders groups relative to other groups', () => {
