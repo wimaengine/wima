@@ -1,21 +1,13 @@
 import {
   World,
-  AppSchedule,
   AssetServer,
   Assets,
   createCamera3D,
   EntityCommands,
   createCamera2D,
   Plugin,
-  App,
   typeidGeneric,
-  Audio,
-  Image,
-  Mesh,
-  BasicMaterial,
   Parser,
-  AudioParser,
-  ImageParser,
   Query,
   WindowCommands,
   Entity,
@@ -92,15 +84,8 @@ export function setupViewportWebgl(world) {
 
 // Sometimes features that are supposed to be there arent, this plugin
 // provides some hacks to "just enable" code to work until they land.
-export class HackPlugin extends Plugin {
-
-  /**
-   * @param {App} app
-   */
-  register(app) {
-
-  }
-}
+// TODO: Remove this
+export class HackPlugin extends Plugin {}
 
 /**
  * @template T
