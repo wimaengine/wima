@@ -165,6 +165,7 @@ export class SchedulerBuilder {
    * @param {ScheduleContext} context
    */
   assertNoGroupCycles(context) {
+
     /** @type {GroupVisitState[]} */
     const state = new Array(context.groups.length).fill(GroupVisitState.Unvisited)
 
@@ -184,6 +185,7 @@ export class SchedulerBuilder {
 
     if (visitState === GroupVisitState.Visiting) {
       const group = context.groups[groupId]
+
       throws(`Schedule "${context.label}" contains cyclic system group nesting involving "${group.config.label.name}".`)
     }
 
@@ -191,7 +193,7 @@ export class SchedulerBuilder {
 
     state[groupId] = GroupVisitState.Visiting
 
-    const parentId = context.groups[groupId].parentId
+    const { parentId } = context.groups[groupId]
 
     if (parentId !== undefined) {
       this.visitGroupHierarchy(context, parentId, state)
@@ -388,6 +390,7 @@ export class SchedulerBuilder {
 
     if (visiting.has(groupId)) {
       const group = context.groups[groupId]
+
       throws(`Schedule "${context.label}" contains cyclic system group nesting involving "${group.config.label.name}".`)
     }
 
