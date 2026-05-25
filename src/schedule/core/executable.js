@@ -52,17 +52,24 @@ export class Executable {
 
   /**
    * @readonly
+   * @type {import('../../type/index.js').Constructor | undefined}
+   */
+  defaultSystemGroup
+
+  /**
+   * @readonly
    * @type {((error: Error, world: World) => void) | undefined}
    */
   errorHandler
 
   /**
-   * @param {{label: string, repeat?: boolean, delay?: number, errorHandler?: (error: Error, world: World) => void}} config
+   * @param {{label: string, repeat?: boolean, delay?: number, errorHandler?: (error: Error, world: World) => void, defaultSystemGroup?: import('../../type/index.js').Constructor}} config
    */
   constructor(config) {
     this.label = config.label
     this.repeat = config.repeat ?? true
     this.delay = config.delay ?? 0
     this.errorHandler = config.errorHandler
+    this.defaultSystemGroup = config.defaultSystemGroup
   }
 }
