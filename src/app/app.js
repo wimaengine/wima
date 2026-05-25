@@ -103,7 +103,9 @@ export class App {
    * @param {{label: string, delay?: number, repeat?: boolean, errorHandler?: (error: Error, world: World) => void, defaultSystemGroup?: import('../type/index.js').Constructor}} config
    */
   createSchedule(config) {
-    return this.scheduler.set(new Executable(config))
+    this.scheduler.set(new Executable(config))
+
+    return this
   }
 
   /**
