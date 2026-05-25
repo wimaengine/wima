@@ -99,16 +99,6 @@ export class HackPlugin extends Plugin {
    */
   register(app) {
 
-    // HACK: This is a hack until system sets and ordering is introduced.
-    {
-      app
-        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetOnAssetServer(Audio) })
-        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetOnAssetServer(Image) })
-        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetOnAssetServer(Mesh) })
-        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetOnAssetServer(BasicMaterial) })
-        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetParserOnAssetServer(Audio, new AudioParser()) })
-        .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetParserOnAssetServer(Image, new ImageParser()) })
-    }
   }
 }
 

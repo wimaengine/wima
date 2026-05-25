@@ -102,6 +102,7 @@ export class SchedulerBuilder {
 
       context.systems.push(system)
       context.systemIdsByFunc.set(systemLabel, system.id)
+
       // context.systemIdsByFunc.set(systemLabel, system.id) // Removed as it's no longer used
 
       if (systemLabel !== '') {
@@ -216,9 +217,9 @@ export class SchedulerBuilder {
   addNodeOrdering(context, graph, graphIdsBySystemId, edges, source, before, after) {
     if (before) {
 
-
       for (let i = 0; i < before.length; i++) {
         const label = describeReference(before[i])
+
         this.addExpandedEdge(context, graph, graphIdsBySystemId, edges, source, this.resolveNode(context, label), before[i])
         this.addExpandedEdge(context, graph, graphIdsBySystemId, edges, source, this.resolveNode(context, label), label)
       }
@@ -227,6 +228,7 @@ export class SchedulerBuilder {
     if (after) {
       for (let i = 0; i < after.length; i++) {
         const label = describeReference(after[i])
+
         this.addExpandedEdge(context, graph, graphIdsBySystemId, edges, this.resolveNode(context, label), source, after[i])
         this.addExpandedEdge(context, graph, graphIdsBySystemId, edges, this.resolveNode(context, label), source, label)
       }
@@ -319,6 +321,7 @@ function getOrCreateScheduleContext(schedules, label) {
     nodesByLabel: new Map(),
     groupIdsByTypeId: new Map(),
     systemIdsByFunc: new Map()
+
     // systemIdsByFunc: new Map() // Removed as it's no longer used
   })
 

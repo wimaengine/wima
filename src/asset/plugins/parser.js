@@ -1,7 +1,7 @@
 /** @import {Constructor} from '../../type/index.js' */
 import { App, Plugin } from '../../app/index.js'
 import { AppSchedule } from '../../core/index.js'
-import { typeidGeneric } from '../../type/index.js'
+import { typeid, typeidGeneric } from '../../type/index.js'
 import { Parser } from '../core/index.js'
 import { registerAssetParserOnAssetServer } from '../systems/index.js'
 
@@ -41,7 +41,11 @@ export class AssetParserPlugin extends Plugin {
     const { asset, parser } = this
 
     app
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetParserOnAssetServer(asset, parser) })
+      .registerSystem({
+        label: `registerAssetParserOnAssetServer<${typeid(asset)}>`,
+        schedule: AppSchedule.Startup,
+        system: registerAssetParserOnAssetServer(asset, parser)
+      })
   }
 
   name() {

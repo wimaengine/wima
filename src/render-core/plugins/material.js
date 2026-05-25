@@ -2,7 +2,7 @@
 
 import { App, Plugin } from '../../app/index.js'
 import { AppSchedule } from '../../core/index.js'
-import { typeidGeneric } from '../../type/index.js'
+import { typeid, typeidGeneric } from '../../type/index.js'
 import { Material } from '../assets/index.js'
 import { Material2D, Material3D } from '../components/index.js'
 import { genBinRenderables2D, genBinRenderables3D, registerMaterialTypes } from '../systems/index.js'
@@ -41,8 +41,16 @@ export class Material2DPlugin extends Plugin {
 
     app
       .registerType(component)
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerMaterialTypes(component, asset) })
-      .registerSystem({ schedule: AppSchedule.Update, system: genBinRenderables2D(asset, component) })
+      .registerSystem({
+        schedule: AppSchedule.Startup,
+        label: `registerMaterialTypes<${typeid(asset)}>`,
+        system: registerMaterialTypes(component, asset)
+      })
+      .registerSystem({
+        schedule: AppSchedule.Update,
+        label: `registerMaterialTypes<${typeid(asset)}>`,
+        system: genBinRenderables2D(asset, component)
+      })
   }
 
   /**

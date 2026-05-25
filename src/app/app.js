@@ -1,5 +1,5 @@
 /** @import { SystemFunc } from '../ecs/index.js' */
-/** @import { SystemConfig } from '../schedule/index.js' */
+/** @import { SystemConfig, SystemGroupConfig } from '../schedule/index.js' */
 /** @import { Constructor,TypeId } from '../type/index.js'*/
 
 import { World, ComponentHooks } from '../ecs/index.js'
@@ -85,15 +85,6 @@ export class App {
   initialized = false
 
   /**
-   * This will be removed in future revisions
-   * with no prior notice after system ordering is
-   * added.
-   *
-   * @type {SystemConfig[]}
-   */
-  systemsevents = []
-
-  /**
    * @private
    * @type {SchedulerBuilder}
    */
@@ -134,14 +125,6 @@ export class App {
   run() {
     this.plugins.register(this)
 
-    for (let i = 0; i < this.systemsevents.length; i++) {
-      const ev = this.systemsevents[i]
-
-      this.systemBuilder.add(ev)
-    }
-
-    this.systemsevents = []
-
     this.systemBuilder.pushToScheduler(this.scheduler)
     assert(this.runner, 'App runner is not set. Call `app.setRunner(...)` before `app.run()`.')
     this.runner(this.scheduler, this.world)
@@ -171,6 +154,15 @@ export class App {
    */
   registerSystem(config) {
     this.systemBuilder.add(config)
+
+    return this
+  }
+
+  /**
+   * @param {SystemGroupConfig} config
+   */
+  registerSystemGroup(config) {
+    this.systemBuilder.addGroup(config)
 
     return this
   }

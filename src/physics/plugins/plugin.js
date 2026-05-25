@@ -5,10 +5,10 @@ import { NarrowPhase2DPlugin } from '../../narrowphase/index.js'
 import { EulerIntegrator2DPlugin } from '../../integrator/index.js'
 import { Collider2D, PhysicsProperties, SoftBody2D, SoftBody3D } from '../components/index.js'
 import { physicspropertiesAddHook } from '../hooks/index.js'
-import { Gravity2DPlugin } from '../../gravity/index.js'
 import { collisionResponse, registerPhysicsTypes, updateBodies, updateBounds } from '../systems/index.js'
 import { AppSchedule } from '../../core/index.js'
 
+// TODO: Convert to a plugin group
 export class Physics2DPlugin extends Plugin {
 
   /**
@@ -25,6 +25,8 @@ export class Physics2DPlugin extends Plugin {
     super()
     this.broadphase = broadphase
     this.narrowphase = narrowphase
+
+    // TODO: Remove this, legacy option
     this.integrator = integrator
     this.autoUpdateBounds = autoUpdateBounds
   }
@@ -52,11 +54,9 @@ export class Physics2DPlugin extends Plugin {
     if (this.autoUpdateBounds) app.registerSystem({ schedule: AppSchedule.Update, system: updateBounds })
 
     app
-      .registerPlugin(new Gravity2DPlugin())
       .registerPlugin(this.broadphase)
       .registerPlugin(this.narrowphase)
       .registerSystem({ schedule: AppSchedule.Update, system: collisionResponse })
-      .registerPlugin(this.integrator)
   }
 }
 

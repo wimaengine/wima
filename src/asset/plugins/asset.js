@@ -3,7 +3,7 @@
 import { App, Plugin } from '../../app/index.js'
 import { AppSchedule } from '../../core/index.js'
 import { EventPlugin } from '../../event/index.js'
-import { typeidGeneric } from '../../type/index.js'
+import { typeid, typeidGeneric } from '../../type/index.js'
 import { Assets } from '../core/index.js'
 import { AssetAdded, AssetDropped, AssetModified } from '../events/index.js'
 import { registerAssetTypes, registerAssetOnAssetServer, unloadDroppedAssets, updateAssetEvents } from '../systems/index.js'
@@ -55,12 +55,28 @@ export class AssetPlugin extends Plugin {
         .registerPlugin(new EventPlugin({
           event: events.dropped
         }))
-        .registerSystem({ schedule: AppSchedule.Update, system: updateAssetEvents(asset, events) })
-        .registerSystem({ schedule: AppSchedule.Update, system: unloadDroppedAssets(events.dropped) })
+        .registerSystem({
+          label: `updateAssetEvents<${typeid(asset)}>`,
+          schedule: AppSchedule.Update,
+          system: updateAssetEvents(asset, events)
+        })
+        .registerSystem({
+          label: `unloadDroppedAssets<${typeid(events.dropped)}>`,
+          schedule: AppSchedule.Update,
+          system: unloadDroppedAssets(events.dropped)
+        })
     }
 
-    app.registerSystem({ schedule: AppSchedule.Startup, system: registerAssetOnAssetServer(asset) })
-    app.registerSystem({ schedule: AppSchedule.Startup, system: registerAssetTypes(asset) })
+    app.registerSystem({
+      label: `registerAssetOnAssetServer<${typeid(asset)}>`,
+      schedule: AppSchedule.Startup,
+      system: registerAssetOnAssetServer(asset)
+    })
+    app.registerSystem({
+      label: `registerAssetTypes<${typeid(asset)}>`,
+      schedule: AppSchedule.Startup,
+      system: registerAssetTypes(asset)
+    })
     world.setResourceByTypeId(
       typeidGeneric(Assets, [asset]),
       new Assets(asset)
