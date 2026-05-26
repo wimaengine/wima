@@ -39,7 +39,7 @@ app
   .registerPlugin(new Canvas2DRendererPlugin())
   .registerSystem({ schedule: AppSchedule.Startup, system: init })
   .registerSystem({ schedule: AppSchedule.Update, system: setupViewport })
-  .registerSystem({ schedule: AppSchedule.Update, system: playAudio })
+  .registerSystem({ schedule: AppSchedule.Update, system: playAudioSource })
   .registerDebugger(new FPSDebugger())
   .run()
 
@@ -56,7 +56,7 @@ function init(world) {
 /**
  * @param {World} world
  */
-function playAudio(world) {
+function playAudioSource(world) {
   const current = world.getResource(Playing)
   const audioGraph = world.getResource(AudioGraph)
   const audioSources = world.getResource(AudioAssets)
