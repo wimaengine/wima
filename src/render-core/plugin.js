@@ -1,5 +1,5 @@
 import { App, Plugin } from '../app/index.js'
-import { AppSchedule } from '../core/index.js'
+import { AppSchedule, CoreSystems } from '../core/index.js'
 import { AssetParserPlugin, AssetPlugin, Assets } from '../asset/index.js'
 import { BasicMaterial2D, BasicMaterial3D, Camera, Meshed } from './components/index.js'
 import { Mesh, Shader, Image, BasicMaterial } from './assets/index.js'
@@ -33,7 +33,7 @@ export class RenderCorePlugin extends Plugin {
     app
       .registerType(Meshed)
       .registerType(Camera)
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerRenderCoreTypes })
+      .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerRenderCoreTypes })
       .registerPlugin(new AssetPlugin({
         asset: Image,
         events: {

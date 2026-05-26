@@ -1,7 +1,7 @@
 /** @import { Constructor, TypeId } from '../../type/index.js' */
 
 import { App, Plugin } from '../../app/index.js'
-import { AppSchedule } from '../../core/index.js'
+import { AppSchedule, CoreSystems } from '../../core/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
 import { Material } from '../assets/index.js'
 import { Material2D, Material3D } from '../components/index.js'
@@ -43,11 +43,13 @@ export class Material2DPlugin extends Plugin {
       .registerType(component)
       .registerSystem({
         schedule: AppSchedule.Startup,
+        systemGroup: CoreSystems.Start,
         label: `registerMaterialTypes<${typeid(asset)}>`,
         system: registerMaterialTypes(component, asset)
       })
       .registerSystem({
         schedule: AppSchedule.Update,
+        systemGroup: CoreSystems.PostMain,
         label: `registerMaterialTypes<${typeid(asset)}>`,
         system: genBinRenderables2D(asset, component)
       })
@@ -95,8 +97,18 @@ export class Material3DPlugin extends Plugin {
 
     app
       .registerType(component)
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerMaterialTypes(component, asset) })
-      .registerSystem({ schedule: AppSchedule.Update, system: genBinRenderables3D(asset, component) })
+      .registerSystem({
+        schedule: AppSchedule.Startup,
+        systemGroup: CoreSystems.Start,
+        label: `initRenderPipeline<${typeid(asset)}>`,
+        system: registerMaterialTypes(component, asset)
+      })
+      .registerSystem({
+        schedule: AppSchedule.Update,
+        systemGroup: CoreSystems.PostMain,
+        label: `binRenders3D<${typeid(asset)}>`,
+        system: genBinRenderables3D(asset, component)
+      })
   }
 
   /**

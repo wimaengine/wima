@@ -1,5 +1,5 @@
 import { App, Plugin } from '../app/index.js'
-import { AppSchedule } from '../core/index.js'
+import { AppSchedule, CoreSystems } from '../core/index.js'
 import { World } from '../ecs/index.js'
 import { TimerMode, VirtualClock } from '../time/index.js'
 import { RAFTimer } from './resources/index.js'
@@ -13,10 +13,10 @@ export class FPSDebugger extends Plugin {
   register(app) {
     app
       .setResource(new RAFTimer({ duration: 1, mode: TimerMode.Repeat }))
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerFpsDebuggerTypes })
-      .registerSystem({ schedule: AppSchedule.Startup, system: setUpUI })
-      .registerSystem({ schedule: AppSchedule.Update, system: updateFPSCounter })
-      .registerSystem({ schedule: AppSchedule.Update, system: updateRAFTimer })
+      .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerFpsDebuggerTypes })
+      .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: setUpUI })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateFPSCounter })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateRAFTimer })
   }
 }
 

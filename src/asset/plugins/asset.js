@@ -1,7 +1,7 @@
 /** @import { Constructor } from '../../type/index.js' */
 
 import { App, Plugin } from '../../app/index.js'
-import { AppSchedule } from '../../core/index.js'
+import { AppSchedule, CoreSystems } from '../../core/index.js'
 import { EventPlugin } from '../../event/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
 import { Assets } from '../core/index.js'
@@ -58,11 +58,13 @@ export class AssetPlugin extends Plugin {
         .registerSystem({
           label: `updateAssetEvents<${typeid(asset)}>`,
           schedule: AppSchedule.Update,
+          systemGroup: CoreSystems.End,
           system: updateAssetEvents(asset, events)
         })
         .registerSystem({
           label: `unloadDroppedAssets<${typeid(events.dropped)}>`,
           schedule: AppSchedule.Update,
+          systemGroup: CoreSystems.End,
           system: unloadDroppedAssets(events.dropped)
         })
     }
@@ -70,11 +72,13 @@ export class AssetPlugin extends Plugin {
     app.registerSystem({
       label: `registerAssetOnAssetServer<${typeid(asset)}>`,
       schedule: AppSchedule.Startup,
+      systemGroup: CoreSystems.Start,
       system: registerAssetOnAssetServer(asset)
     })
     app.registerSystem({
       label: `registerAssetTypes<${typeid(asset)}>`,
       schedule: AppSchedule.Startup,
+      systemGroup: CoreSystems.Start,
       system: registerAssetTypes(asset)
     })
     world.setResourceByTypeId(

@@ -3,7 +3,7 @@ import { TimerMode, VirtualClock } from '../time/index.js'
 import { App, Plugin } from '../app/index.js'
 import { World } from '../ecs/index.js'
 import { warn } from '../logger/index.js'
-import { AppSchedule } from '../core/index.js'
+import { AppSchedule, CoreSystems } from '../core/index.js'
 import { registerProfilerTypes } from './systems/index.js'
 
 export class ProfilerPlugin extends Plugin {
@@ -14,10 +14,10 @@ export class ProfilerPlugin extends Plugin {
   register(app) {
     app.setResource(new Profiler())
     app.setResource(new ProfilerTimer({ duration: 1, mode: TimerMode.Repeat }))
-    app.registerSystem({ schedule: AppSchedule.Startup, system: registerProfilerTypes })
+    app.registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerProfilerTypes })
     setupProfileViewer(document.body)
-    app.registerSystem({ schedule: AppSchedule.Update, system: updateProfileViewer })
-    app.registerSystem({ schedule: AppSchedule.Update, system: updateProfileTimer })
+    app.registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateProfileViewer })
+    app.registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateProfileTimer })
   }
 }
 

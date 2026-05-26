@@ -19,7 +19,7 @@ import { World } from '../ecs/index.js'
 import { Window, MainWindow } from './components/index.js'
 import { Windows } from './resources/index.js'
 import { EventPlugin } from '../event/plugin.js'
-import { AppSchedule, EntityCommands } from '../core/index.js'
+import { AppSchedule, CoreSystems, EntityCommands } from '../core/index.js'
 import { registerWindowTypes } from './systems/index.js'
 
 export class WindowPlugin extends Plugin {
@@ -55,7 +55,7 @@ export class WindowPlugin extends Plugin {
     app
       .registerType(Window)
       .registerType(MainWindow)
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerWindowTypes })
+      .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerWindowTypes })
       .registerPlugin(new EventPlugin({
         event:WindowMove
       }))

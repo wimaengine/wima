@@ -1,6 +1,6 @@
 /** @import {Constructor} from '../../type/index.js' */
 import { App, Plugin } from '../../app/index.js'
-import { AppSchedule } from '../../core/index.js'
+import { AppSchedule, CoreSystems } from '../../core/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
 import { Parser } from '../core/index.js'
 import { registerAssetParserOnAssetServer } from '../systems/index.js'
@@ -44,6 +44,7 @@ export class AssetParserPlugin extends Plugin {
       .registerSystem({
         label: `registerAssetParserOnAssetServer<${typeid(asset)}>`,
         schedule: AppSchedule.Startup,
+        systemGroup: CoreSystems.Start,
         system: registerAssetParserOnAssetServer(asset, parser)
       })
   }

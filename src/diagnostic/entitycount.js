@@ -1,5 +1,5 @@
 import { App } from '../app/index.js'
-import { AppSchedule } from '../core/index.js'
+import { AppSchedule, CoreSystems } from '../core/index.js'
 import { World, Entity, Query } from '../ecs/index.js'
 
 export class EntityCountDiagnosticPlugin {
@@ -9,8 +9,8 @@ export class EntityCountDiagnosticPlugin {
    */
   register(app) {
     app
-      .registerSystem({ schedule: AppSchedule.Startup, system: setUpUI })
-      .registerSystem({ schedule: AppSchedule.Update, system: updateEntityCount })
+      .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: setUpUI })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateEntityCount })
   }
 }
 

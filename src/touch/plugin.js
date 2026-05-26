@@ -1,5 +1,5 @@
 import { App, Plugin } from '../app/index.js'
-import { AppSchedule } from '../core/index.js'
+import { AppSchedule, CoreSystems } from '../core/index.js'
 import { World } from '../ecs/index.js'
 import { Events } from '../event/index.js'
 import { typeidGeneric } from '../type/index.js'
@@ -15,9 +15,9 @@ export class TouchPlugin extends Plugin {
    */
   register(app) {
     app
-      .registerSystem({ schedule: AppSchedule.Update, system: updateTouch })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.Start, system: updateTouch })
       .setResource(new Touches())
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerTouchTypes })
+      .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerTouchTypes })
   }
 }
 

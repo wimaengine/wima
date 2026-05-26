@@ -1,5 +1,5 @@
 import { App, Plugin } from '../app/index.js'
-import { AppSchedule } from '../core/index.js'
+import { AppSchedule, CoreSystems } from '../core/index.js'
 import { Entity, Query, World } from '../ecs/index.js'
 import { warn } from '../logger/index.js'
 import { MeshAttribute, ProgramCache, BasicMaterial } from '../render-core/index.js'
@@ -25,15 +25,15 @@ export class WebglRendererPlugin extends Plugin {
       .setResource(new ClearColor())
       .setResource(attribute)
       .setResource(new WebglProgramCache())
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerWebglTypes })
-      .registerSystem({ schedule: AppSchedule.Update, system: registerBuffers })
+      .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerWebglTypes })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.Start, system: registerBuffers })
       .registerPlugin(new WebglMaterialPlugin({
         material: BasicMaterial,
         vertex3d: basicMaterial3DVertex,
         fragment3d: basicMaterial3DFragment
       }))
-      .registerSystem({ schedule: AppSchedule.Update, system: disposeDroppedMeshes })
-      .registerSystem({ schedule: AppSchedule.Update, system: queueMeshes })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.PostMain, system: disposeDroppedMeshes })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.PostMain, system: queueMeshes })
   }
 }
 

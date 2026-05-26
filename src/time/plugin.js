@@ -4,7 +4,7 @@ import { registerTimeTypes, updateTimers } from './systems/index.js'
 import { VirtualClock } from './resource/index.js'
 import { Clock } from './clock.js'
 import { Timer } from './components/timer.js'
-import { AppSchedule } from '../core/index.js'
+import { AppSchedule, CoreSystems } from '../core/index.js'
 
 export class TimePlugin extends Plugin {
 
@@ -14,10 +14,10 @@ export class TimePlugin extends Plugin {
   register(app) {
     app
       .registerType(Timer)
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerTimeTypes })
+      .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerTimeTypes })
       .setResource(new VirtualClock())
-      .registerSystem({ schedule: AppSchedule.Update, system: updateVirtualClock })
-      .registerSystem({ schedule: AppSchedule.Update, system: updateTimers })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.Start, system: updateVirtualClock })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.Start, system: updateTimers })
   }
 }
 

@@ -1,10 +1,10 @@
 /** @import { Constructor } from '../type/index.js'*/
 
 import { App, Plugin } from '../app/index.js'
+import { AppSchedule, CoreSystems } from '../core/index.js'
 import { makeEventClear, registerEventTypes } from './systems/index.js'
 import { Events } from './core/index.js'
 import { typeid, typeidGeneric } from '../type/index.js'
-import { AppSchedule } from '../core/index.js'
 
 /**
  * @template T
@@ -46,6 +46,7 @@ export class EventPlugin extends Plugin {
       .registerSystem({
         label: `registerEventTypes<${typeid(event)}>`,
         schedule: AppSchedule.Startup,
+        systemGroup: CoreSystems.Start,
         system: registerEventTypes(event)
       })
       .getWorld()
@@ -53,11 +54,10 @@ export class EventPlugin extends Plugin {
 
     if (this.autoClearEvent) {
       app
-        .registerSystemGroup({ label: event, schedule: AppSchedule.Update })
         .registerSystem({
           label: `clearEvents<${typeid(event)}>`,
           schedule: AppSchedule.Update,
-          systemGroup: event,
+          systemGroup: CoreSystems.End,
           system: makeEventClear(name)
         })
     }
