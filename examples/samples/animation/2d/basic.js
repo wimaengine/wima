@@ -26,14 +26,9 @@ import {
   Canvas2DRendererPlugin,
   DefaultPlugin,
   DOMWindowPlugin,
-  Entity,
-  FPSDebugger,
-  MainWindow,
-  Query,
-  warn,
-  WindowCommands
+  FPSDebugger
 } from 'wima'
-import { addDefaultCamera2D, HackPlugin } from '../../utils.js'
+import { addDefaultCamera2D, HackPlugin, setupViewport } from '../../utils.js'
 
 const app = new App()
 
@@ -48,20 +43,6 @@ app
   .registerSystem({ schedule: AppSchedule.Startup, system: addDefaultCamera2D })
   .registerDebugger(new FPSDebugger())
   .run()
-
-/**
- * @param {World} world
- */
-function setupViewport(world) {
-  const windowcommands = new WindowCommands(world)
-  const window = new Query(world, [Entity, MainWindow]).single()
-
-  if (!window) return warn('No main window defined.')
-
-  windowcommands
-    .window(window[0])
-    .resize(innerWidth, innerHeight)
-}
 
 /**
  * @param {World} world
