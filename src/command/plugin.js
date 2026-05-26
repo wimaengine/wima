@@ -1,5 +1,5 @@
 import { App, Plugin } from '../app/index.js'
-import { AppSchedule } from '../core/index.js'
+import { AppSchedule, CoreSystems } from '../core/index.js'
 import { World } from '../ecs/index.js'
 import { CommandQueue } from './resources/index.js'
 
@@ -11,7 +11,16 @@ export class CommandsPlugin extends Plugin {
   register(app) {
     app
       .setResource(new CommandQueue())
-      .registerSystem({ schedule: AppSchedule.Update, system: executeCommands })
+      .registerSystem({
+        schedule: AppSchedule.Startup,
+        systemGroup: CoreSystems.End,
+        system: executeCommands
+      })
+      .registerSystem({
+        schedule: AppSchedule.Update,
+        systemGroup: CoreSystems.End,
+        system: executeCommands
+      })
   }
 }
 

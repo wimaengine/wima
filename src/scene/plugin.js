@@ -8,7 +8,7 @@ import { AssetPlugin, Assets } from '../asset/index.js'
 import { SceneAdded, SceneDropped, SceneModified } from './events/index.js'
 import { typeidGeneric } from '../type/index.js'
 import { spawnScenes } from './systems/index.js'
-import { AppSchedule } from '../core/index.js'
+import { AppSchedule, CoreSystems } from '../core/index.js'
 
 export class ScenePlugin extends Plugin {
 
@@ -30,7 +30,7 @@ export class ScenePlugin extends Plugin {
       .setComponentHooks(SceneInstance, new ComponentHooks(
         initSceneInstance
       ))
-      .registerSystem({ schedule: AppSchedule.Update, system: spawnScenes })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: spawnScenes })
 
     const world = app.getWorld()
 

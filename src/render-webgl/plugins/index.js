@@ -3,7 +3,8 @@
 
 import { App } from '../../app/app.js'
 import { AppSchedule } from '../../core/core/schedules.js'
-import { typeidGeneric } from '../../type/index.js'
+import { CoreSystems } from '../../core/core/systemgroups.js'
+import { typeid, typeidGeneric } from '../../type/index.js'
 import { Material } from '../../render-core/index.js'
 import { genRegisterBuffer, genRender, genRenderPipeline } from '../systems/index.js'
 
@@ -50,9 +51,24 @@ export class WebglMaterialPlugin {
     const { material, vertex3d, fragment3d } = this
 
     app
-      .registerSystem({ schedule: AppSchedule.Startup, system: genRegisterBuffer(material) })
-      .registerSystem({ schedule: AppSchedule.Update, system: genRenderPipeline(material, vertex3d, fragment3d) })
-      .registerSystem({ schedule: AppSchedule.Update, system: genRender(material) })
+      .registerSystem({
+        schedule: AppSchedule.Startup,
+        systemGroup: CoreSystems.Start,
+        label: `registerBuffers<${typeid(material)}>`,
+        system: genRegisterBuffer(material)
+      })
+      .registerSystem({
+        schedule: AppSchedule.Update,
+        systemGroup: CoreSystems.PostMain,
+        label: `initRenderPipeline<${typeid(material)}>`,
+        system: genRenderPipeline(material, vertex3d, fragment3d)
+      })
+      .registerSystem({
+        schedule: AppSchedule.Update,
+        systemGroup: CoreSystems.PostMain,
+        label: `renderToWebgl<${typeid(material)}>`,
+        system: genRender(material)
+      })
   }
 
   name() {

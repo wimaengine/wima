@@ -3,7 +3,7 @@ import { EventPlugin } from '../../event/index.js'
 import { AssetServer } from '../resources/index.js'
 import { AssetLoadFail, AssetLoadSuccess } from '../events/index.js'
 import { updateAssets, updateAssetLoadEvents, logFailedLoads, registerAssetServerTypes } from '../systems/index.js'
-import { AppSchedule } from '../../core/index.js'
+import { AppSchedule, CoreSystems } from '../../core/index.js'
 
 export class AssetServerPlugin extends Plugin {
 
@@ -19,9 +19,9 @@ export class AssetServerPlugin extends Plugin {
       .registerPlugin(new EventPlugin({
         event: AssetLoadFail
       }))
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerAssetServerTypes })
-      .registerSystem({ schedule: AppSchedule.Update, system: updateAssets })
-      .registerSystem({ schedule: AppSchedule.Update, system: updateAssetLoadEvents })
-      .registerSystem({ schedule: AppSchedule.Update, system: logFailedLoads })
+      .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerAssetServerTypes })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateAssets })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateAssetLoadEvents })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: logFailedLoads })
   }
 }
