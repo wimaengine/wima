@@ -485,6 +485,17 @@ export class SchedulerBuilder {
   systemGroups = []
 
   /**
+   * Clears the collected build state.
+   */
+  clear() {
+    this.systems = []
+    this.systemGroups = []
+    this.schedules = new Map()
+
+    return this
+  }
+
+  /**
    * @param {SystemConfig} config
    */
   add(config) {
@@ -549,6 +560,8 @@ export class SchedulerBuilder {
 
     return this.schedules
   }
+
+  static Instance = new SchedulerBuilder()
 }
 
 /**

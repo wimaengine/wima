@@ -85,12 +85,6 @@ export class App {
   initialized = false
 
   /**
-   * @private
-   * @type {SchedulerBuilder}
-   */
-  systemBuilder = new SchedulerBuilder()
-
-  /**
    * Return the world of the app.
    *
    * @returns {World}
@@ -127,7 +121,7 @@ export class App {
   run() {
     this.plugins.register(this)
 
-    this.systemBuilder.pushToScheduler(this.scheduler)
+    SchedulerBuilder.Instance.pushToScheduler(this.scheduler)
     assert(this.runner, 'App runner is not set. Call `app.setRunner(...)` before `app.run()`.')
     this.runner(this.scheduler, this.world)
     this.initialized = true
@@ -155,7 +149,7 @@ export class App {
    * @param {SystemConfig} config
    */
   registerSystem(config) {
-    this.systemBuilder.add(config)
+    SchedulerBuilder.Instance.add(config)
 
     return this
   }
@@ -164,7 +158,7 @@ export class App {
    * @param {SystemGroupConfig} config
    */
   registerSystemGroup(config) {
-    this.systemBuilder.addGroup(config)
+    SchedulerBuilder.Instance.addGroup(config)
 
     return this
   }
