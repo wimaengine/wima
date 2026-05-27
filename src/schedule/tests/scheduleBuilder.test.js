@@ -4,6 +4,8 @@ import { World } from '../../ecs/index.js'
 import { Executable, Scheduler, SchedulerBuilder } from '../index.js'
 
 class Phase { }
+class Startup { }
+class Update { }
 class ParentPhase { }
 class ChildPhase { }
 class MissingPhase { }
@@ -22,25 +24,25 @@ describe('Testing `SchedulerBuilder`', () => {
     function early() { order.push('early') }
     function middle() { order.push('middle') }
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
 
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       after: [middle],
       system: late
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       before: ['middle'],
       system: early
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       system: middle
     })
 
     builder.pushToScheduler(scheduler)
-    scheduler.get('update')?.run(world)
+    scheduler.get(Update)?.run(world)
 
     deepStrictEqual(order, ['early', 'middle', 'late'])
   })
@@ -54,21 +56,21 @@ describe('Testing `SchedulerBuilder`', () => {
     function systemA() { order.push('a') }
     function systemB() { order.push('b') }
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
 
     builder.add({
       label: 'first',
-      schedule: 'update',
+      schedule: Update,
       system: systemA
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       after: ['first'],
       system: systemB
     })
 
     builder.pushToScheduler(scheduler)
-    scheduler.get('update')?.run(world)
+    scheduler.get(Update)?.run(world)
 
     deepStrictEqual(order, ['a', 'b'])
   })
@@ -87,48 +89,48 @@ describe('Testing `SchedulerBuilder`', () => {
     function input() { updateOrder.push('input') }
     function render() { updateOrder.push('render') }
 
-    scheduler.set(new Executable({ label: 'startup' }))
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Startup }))
+    scheduler.set(new Executable({ label: Update }))
 
     builder.addGroup({
       label: Phase,
-      schedule: 'startup'
+      schedule: Startup
     })
     builder.add({
-      schedule: 'startup',
+      schedule: Startup,
       before: [Phase],
       system: boot
     })
     builder.add({
-      schedule: 'startup',
+      schedule: Startup,
       systemGroup: Phase,
       system: register
     })
 
     builder.addGroup({
       label: Phase,
-      schedule: 'update',
+      schedule: Update,
       after: ['input']
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: Phase,
       before: [render],
       system: simulate
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       system: input
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: Phase,
       system: render
     })
 
     builder.pushToScheduler(scheduler)
-    scheduler.get('startup')?.run(world)
-    scheduler.get('update')?.run(world)
+    scheduler.get(Startup)?.run(world)
+    scheduler.get(Update)?.run(world)
 
     deepStrictEqual(startupOrder, ['boot', 'register'])
     deepStrictEqual(updateOrder, ['input', 'simulate', 'render'])
@@ -148,36 +150,36 @@ describe('Testing `SchedulerBuilder`', () => {
     function second() { order.push('second') }
     function finish() { order.push('finish') }
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
 
     builder.addGroup({
       label: Phase,
-      schedule: 'update',
+      schedule: Update,
       after: ['prepare'],
       before: ['finish']
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       system: prepare
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: Phase,
       system: first
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: Phase,
       after: [first],
       system: second
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       system: finish
     })
 
     builder.pushToScheduler(scheduler)
-    scheduler.get('update')?.run(world)
+    scheduler.get(Update)?.run(world)
 
     deepStrictEqual(order, ['prepare', 'first', 'second', 'finish'])
   })
@@ -194,36 +196,36 @@ describe('Testing `SchedulerBuilder`', () => {
     function other() { order.push('other') }
 
     scheduler.set(new Executable({
-      label: 'update',
+      label: Update,
       defaultSystemGroup: DefaultPhase
     }))
 
     builder.addGroup({
       label: DefaultPhase,
-      schedule: 'update',
+      schedule: Update,
       before: [AlternatePhase]
     })
     builder.addGroup({
       label: AlternatePhase,
-      schedule: 'update'
+      schedule: Update
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: DefaultPhase,
       system: explicit
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       system: implicit
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: AlternatePhase,
       system: other
     })
 
     builder.pushToScheduler(scheduler)
-    scheduler.get('update')?.run(world)
+    scheduler.get(Update)?.run(world)
 
     deepStrictEqual(order, ['explicit', 'implicit', 'other'])
   })
@@ -240,41 +242,41 @@ describe('Testing `SchedulerBuilder`', () => {
     function fence() { order.push('fence') }
 
     scheduler.set(new Executable({
-      label: 'update',
+      label: Update,
       defaultSystemGroup: DefaultPhase
     }))
 
     builder.addGroup({
       label: DefaultPhase,
-      schedule: 'update',
+      schedule: Update,
       before: [FencePhase]
     })
     builder.addGroup({
       label: AlternatePhase,
-      schedule: 'update',
+      schedule: Update,
       after: [FencePhase]
     })
     builder.addGroup({
       label: FencePhase,
-      schedule: 'update'
+      schedule: Update
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       system: implicit
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: AlternatePhase,
       system: explicit
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: FencePhase,
       system: fence
     })
 
     builder.pushToScheduler(scheduler)
-    scheduler.get('update')?.run(world)
+    scheduler.get(Update)?.run(world)
 
     deepStrictEqual(order, ['implicit', 'fence', 'explicit'])
   })
@@ -294,42 +296,42 @@ describe('Testing `SchedulerBuilder`', () => {
     function lateOne() { order.push('lateOne') }
     function lateTwo() { order.push('lateTwo') }
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
 
     builder.addGroup({
       label: EarlyPhase,
-      schedule: 'update',
+      schedule: Update,
       before: [LatePhase]
     })
     builder.addGroup({
       label: LatePhase,
-      schedule: 'update'
+      schedule: Update
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: EarlyPhase,
       system: earlyOne
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: EarlyPhase,
       after: [earlyOne],
       system: earlyTwo
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: LatePhase,
       system: lateOne
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: LatePhase,
       after: [lateOne],
       system: lateTwo
     })
 
     builder.pushToScheduler(scheduler)
-    scheduler.get('update')?.run(world)
+    scheduler.get(Update)?.run(world)
 
     deepStrictEqual(order, ['earlyOne', 'earlyTwo', 'lateOne', 'lateTwo'])
   })
@@ -348,35 +350,35 @@ describe('Testing `SchedulerBuilder`', () => {
     function startSystem() { order.push('start') }
     function endSystem() { order.push('end') }
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
 
     builder.addGroup({
       label: StartPhase,
-      schedule: 'update',
+      schedule: Update,
       before: [MiddlePhase]
     })
     builder.addGroup({
       label: MiddlePhase,
-      schedule: 'update',
+      schedule: Update,
       before: [EndPhase]
     })
     builder.addGroup({
       label: EndPhase,
-      schedule: 'update'
+      schedule: Update
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: EndPhase,
       system: endSystem
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: StartPhase,
       system: startSystem
     })
 
     builder.pushToScheduler(scheduler)
-    scheduler.get('update')?.run(world)
+    scheduler.get(Update)?.run(world)
 
     deepStrictEqual(order, ['start', 'end'])
   })
@@ -396,40 +398,40 @@ describe('Testing `SchedulerBuilder`', () => {
     function tail() { order.push('tail') }
     function nested() { order.push('nested') }
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
 
     builder.addGroup({
       label: RootPhase,
-      schedule: 'update',
+      schedule: Update,
       after: [head],
       before: [middle, tail]
     })
     builder.addGroup({
       label: NestedPhase,
       parent: RootPhase,
-      schedule: 'update'
+      schedule: Update
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       system: head
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       before: [tail],
       system: middle
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: NestedPhase,
       system: nested
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       system: tail
     })
 
     builder.pushToScheduler(scheduler)
-    scheduler.get('update')?.run(world)
+    scheduler.get(Update)?.run(world)
 
     deepStrictEqual(order, ['head', 'nested', 'middle', 'tail'])
   })
@@ -450,46 +452,46 @@ describe('Testing `SchedulerBuilder`', () => {
     function tail() { order.push('tail') }
     function nested() { order.push('nested') }
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
 
     builder.addGroup({
       label: GrandPhase,
-      schedule: 'update',
+      schedule: Update,
       before: [tail]
     })
     builder.addGroup({
       label: ParentPhase,
       parent: GrandPhase,
-      schedule: 'update',
+      schedule: Update,
       after: [head],
       before: [middle]
     })
     builder.addGroup({
       label: ChildPhase,
       parent: ParentPhase,
-      schedule: 'update'
+      schedule: Update
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       system: head
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       before: [tail],
       system: middle
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: ChildPhase,
       system: nested
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       system: tail
     })
 
     builder.pushToScheduler(scheduler)
-    scheduler.get('update')?.run(world)
+    scheduler.get(Update)?.run(world)
 
     deepStrictEqual(order, ['head', 'nested', 'middle', 'tail'])
   })
@@ -506,23 +508,23 @@ describe('Testing `SchedulerBuilder`', () => {
     function sharedStartup() { startupOrder.push('sharedStartup') }
     function sharedUpdate() { updateOrder.push('sharedUpdate') }
 
-    scheduler.set(new Executable({ label: 'startup' }))
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Startup }))
+    scheduler.set(new Executable({ label: Update }))
 
     builder.add({
-      schedule: 'startup',
+      schedule: Startup,
       label: 'shared',
       system: sharedStartup
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       label: 'shared',
       system: sharedUpdate
     })
 
     builder.pushToScheduler(scheduler)
-    scheduler.get('startup')?.run(world)
-    scheduler.get('update')?.run(world)
+    scheduler.get(Startup)?.run(world)
+    scheduler.get(Update)?.run(world)
 
     deepStrictEqual(startupOrder, ['sharedStartup'])
     deepStrictEqual(updateOrder, ['sharedUpdate'])
@@ -532,14 +534,14 @@ describe('Testing `SchedulerBuilder`', () => {
     const builder = new SchedulerBuilder()
     const scheduler = new Scheduler()
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       label: 'duplicate',
       system: () => { }
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       label: 'duplicate',
       system: () => { }
     })
@@ -551,14 +553,14 @@ describe('Testing `SchedulerBuilder`', () => {
     const builder = new SchedulerBuilder()
     const scheduler = new Scheduler()
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
     builder.addGroup({
       label: Phase,
-      schedule: 'update'
+      schedule: Update
     })
     builder.addGroup({
       label: Phase,
-      schedule: 'update'
+      schedule: Update
     })
 
     throws(() => builder.pushToScheduler(scheduler), /Duplicate system group label/)
@@ -569,20 +571,20 @@ describe('Testing `SchedulerBuilder`', () => {
     const scheduler = new Scheduler()
 
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       system: () => { }
     })
 
-    throws(() => builder.pushToScheduler(scheduler), /The schedule label "update" is not set/)
+    throws(() => builder.pushToScheduler(scheduler), /The schedule label "Update" is not set/)
   })
 
   test('requires system groups to be registered explicitly', () => {
     const builder = new SchedulerBuilder()
     const scheduler = new Scheduler()
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       systemGroup: MissingPhase,
       system: () => { }
     })
@@ -594,11 +596,11 @@ describe('Testing `SchedulerBuilder`', () => {
     const builder = new SchedulerBuilder()
     const scheduler = new Scheduler()
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
     builder.addGroup({
       label: ParentPhase,
       parent: MissingPhase,
-      schedule: 'update'
+      schedule: Update
     })
 
     throws(() => builder.pushToScheduler(scheduler), /parent system group/)
@@ -608,16 +610,16 @@ describe('Testing `SchedulerBuilder`', () => {
     const builder = new SchedulerBuilder()
     const scheduler = new Scheduler()
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
     builder.addGroup({
       label: ParentPhase,
       parent: ChildPhase,
-      schedule: 'update'
+      schedule: Update
     })
     builder.addGroup({
       label: ChildPhase,
       parent: ParentPhase,
-      schedule: 'update'
+      schedule: Update
     })
 
     throws(() => builder.pushToScheduler(scheduler), /cyclic system group nesting/)
@@ -629,14 +631,14 @@ describe('Testing `SchedulerBuilder`', () => {
     function first() { }
     function second() { }
 
-    scheduler.set(new Executable({ label: 'update' }))
+    scheduler.set(new Executable({ label: Update }))
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       after: [second],
       system: first
     })
     builder.add({
-      schedule: 'update',
+      schedule: Update,
       after: [first],
       system: second
     })

@@ -1,15 +1,19 @@
 import { Executable } from './executable.js'
 import { Schedule } from './schedule.js'
+import { typeid } from '../../type/index.js'
 
 /**
  * Stores labeled {@link Executable executables}.
  *
  * @example
  * ```ts
- * scheduler.set(new Executable({ label: "primary" }))
- * scheduler.set(new Executable({ label: "secondary" }))
+ * class PrimarySchedule {}
+ * class SecondarySchedule {}
  *
- * const primarySchedule = scheduler.get("primary")
+ * scheduler.set(new Executable({ label: PrimarySchedule }))
+ * scheduler.set(new Executable({ label: SecondarySchedule }))
+ *
+ * const primarySchedule = scheduler.get(PrimarySchedule)
  * ```
  */
 export class Scheduler {
@@ -23,15 +27,15 @@ export class Scheduler {
    * @param {Executable} executable
    */
   set(executable) {
-    this.executables.set(executable.label, executable)
+    this.executables.set(typeid(executable.label), executable)
   }
 
   /**
-   * @param {string} label
+   * @param {import('../../type/index.js').Constructor} label
    * @returns {Schedule | undefined}
    */
   get(label) {
-    return this.executables.get(label)?.schedule
+    return this.executables.get(typeid(label))?.schedule
   }
 
   /**
