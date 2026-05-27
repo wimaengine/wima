@@ -61,6 +61,10 @@ export class WindowCommand extends Command {
 function execute(command, canvas, window) {
   switch (command.type) {
     case WindowRequest.Resize:
+      if (window.getWidth() === command.data.x && window.getHeight() === command.data.y) {
+        break
+      }
+
       canvas.width = command.data.x
       canvas.height = command.data.y
       window.set(canvas.width, canvas.height)
