@@ -42,15 +42,15 @@ export class SchedulerBuilder {
     const defaultGroupsBySchedule = new Map()
 
     for (const executable of scheduler.values()) {
-      defaultGroupsBySchedule.set(executable.label, executable.defaultSystemGroup)
+      defaultGroupsBySchedule.set(typeid(executable.label), executable.defaultSystemGroup)
     }
 
     const schedules = this.createScheduleContexts(defaultGroupsBySchedule)
 
-    for (const [scheduleLabel, context] of schedules) {
-      const schedule = scheduler.get(scheduleLabel)
+    for (const [, context] of schedules) {
+      const schedule = scheduler.get(context.label)
 
-      assert(schedule, `The schedule label "${scheduleLabel}" is not set in the provided \`Scheduler\`.`)
+      assert(schedule, `The schedule label "${context.label.name}" is not set in the provided \`Scheduler\`.`)
 
       for (const system of this.sortScheduleSystems(context)) {
         schedule.add(system.config.system)
@@ -74,7 +74,7 @@ export class SchedulerBuilder {
       const groupTypeId = typeid(config.label)
 
       if (context.groupIdsByTypeId.has(groupTypeId)) {
-        throws(`Duplicate system group label "${config.label.name}" on schedule "${config.schedule}".`)
+        throws(`Duplicate system group label "${config.label.name}" on schedule "${config.schedule.name}".`)
       }
 
       /** @type {SystemGroupRegistration} */
@@ -94,7 +94,7 @@ export class SchedulerBuilder {
         const existing = context.nodesByLabel.get(groupLabel)
 
         if (existing) {
-          throws(`Duplicate system group label "${groupLabel}" on schedule "${config.schedule}". Use a unique label or direct function references in ordering.`)
+          throws(`Duplicate system group label "${groupLabel}" on schedule "${config.schedule.name}". Use a unique label or direct function references in ordering.`)
         }
 
         context.nodesByLabel.set(groupLabel, { kind: ScheduleNodeKind.Group, id: group.id })
@@ -116,17 +116,17 @@ export class SchedulerBuilder {
         const existing = context.nodesByLabel.get(systemLabel)
 
         if (existing) {
-          throws(`Duplicate system label "${systemLabel}" on schedule "${config.schedule}". Use a unique label or direct function references in ordering.`)
+          throws(`Duplicate system label "${systemLabel}" on schedule "${config.schedule.name}". Use a unique label or direct function references in ordering.`)
         }
 
         context.nodesByLabel.set(systemLabel, { kind: ScheduleNodeKind.System, id: system.id })
       }
     }
 
-    for (const [scheduleLabel, context] of schedules) {
-      context.defaultSystemGroup = defaultGroupsBySchedule.get(scheduleLabel)
+    for (const [, context] of schedules) {
+      context.defaultSystemGroup = defaultGroupsBySchedule.get(typeid(context.label))
 
-      this.resolveGroupParents(context, scheduleLabel)
+      this.resolveGroupParents(context, context.label)
 
       for (let i = 0; i < context.systems.length; i++) {
         const system = context.systems[i]
@@ -137,7 +137,7 @@ export class SchedulerBuilder {
         const groupId = context.groupIdsByTypeId.get(typeid(groupLabel))
 
         if (groupId === undefined) {
-          throws(`The system group "${groupLabel.name}" must be registered explicitly before it can be used on schedule "${scheduleLabel}".`)
+          throws(`The system group "${groupLabel.name}" must be registered explicitly before it can be used on schedule "${context.label.name}".`)
         }
 
         context.groups[groupId].systems.push(system.id)
@@ -150,7 +150,7 @@ export class SchedulerBuilder {
   /**
    * @private
    * @param {ScheduleContext} context
-   * @param {string} scheduleLabel
+   * @param {Constructor} scheduleLabel
    */
   resolveGroupParents(context, scheduleLabel) {
     for (let i = 0; i < context.groups.length; i++) {
@@ -162,7 +162,7 @@ export class SchedulerBuilder {
       const parentId = context.groupIdsByTypeId.get(typeid(parentLabel))
 
       if (parentId === undefined) {
-        throws(`The parent system group "${parentLabel.name}" must be registered explicitly before it can be used on schedule "${scheduleLabel}".`)
+        throws(`The parent system group "${parentLabel.name}" must be registered explicitly before it can be used on schedule "${scheduleLabel.name}".`)
       }
 
       group.parentId = parentId
@@ -197,7 +197,7 @@ export class SchedulerBuilder {
     if (visitState === GroupVisitState.Visiting) {
       const group = context.groups[groupId]
 
-      throws(`Schedule "${context.label}" contains cyclic system group nesting involving "${group.config.label.name}".`)
+      throws(`Schedule "${context.label.name}" contains cyclic system group nesting involving "${group.config.label.name}".`)
     }
 
     if (visitState === GroupVisitState.Visited) return
@@ -223,7 +223,7 @@ export class SchedulerBuilder {
     const sorted = kahnTopologySort(graph)
 
     if (!sorted) {
-      throws(`Schedule "${context.label}" contains cyclic system ordering constraints.`)
+      throws(`Schedule "${context.label.name}" contains cyclic system ordering constraints.`)
     }
 
     /** @type {SystemRegistration[]} */
@@ -347,7 +347,7 @@ export class SchedulerBuilder {
     const node = context.nodesByLabel.get(stringLabel)
 
     if (!node) {
-      throws(`Could not resolve the system or system group label "${stringLabel}" on schedule "${context.label}".`)
+      throws(`Could not resolve the system or system group label "${stringLabel}" on schedule "${context.label.name}".`)
     }
 
     return node
@@ -374,7 +374,7 @@ export class SchedulerBuilder {
         const toNodeId = toNodes[j]
 
         if (fromNodeId === toNodeId) {
-          throws(`The reference "${describeReference(targetLabel)}" creates a self-referential system ordering on schedule "${context.label}".`)
+          throws(`The reference "${describeReference(targetLabel)}" creates a self-referential system ordering on schedule "${context.label.name}".`)
         }
 
         const key = `${fromNodeId}:${toNodeId}`
@@ -399,7 +399,7 @@ export class SchedulerBuilder {
     if (node.kind === ScheduleNodeKind.System) {
       const graphId = graphIdsBySystemId.get(node.id)
 
-      assert(graphId !== undefined, `Internal error: Could not resolve graph node for system ${node.id} on schedule "${context.label}".`)
+      assert(graphId !== undefined, `Internal error: Could not resolve graph node for system ${node.id} on schedule "${context.label.name}".`)
 
       return [graphId]
     }
@@ -414,7 +414,7 @@ export class SchedulerBuilder {
       for (let i = 0; i < systems.length; i++) {
         const graphId = graphIdsBySystemId.get(systems[i])
 
-        assert(graphId !== undefined, `Internal error: Could not resolve graph node for system ${systems[i]} on schedule "${context.label}".`)
+        assert(graphId !== undefined, `Internal error: Could not resolve graph node for system ${systems[i]} on schedule "${context.label.name}".`)
         graphIds.push(graphId)
       }
 
@@ -435,7 +435,7 @@ export class SchedulerBuilder {
   expandGroupToGraphNode(context, groupId) {
     const graphId = context.graphIdsByGroupId?.get(groupId)
 
-    assert(graphId !== undefined, `Internal error: Could not resolve graph node for system group ${groupId} on schedule "${context.label}".`)
+    assert(graphId !== undefined, `Internal error: Could not resolve graph node for system group ${groupId} on schedule "${context.label.name}".`)
 
     return graphId
   }
@@ -469,7 +469,7 @@ export class SchedulerBuilder {
     if (visiting.has(groupId)) {
       const group = context.groups[groupId]
 
-      throws(`Schedule "${context.label}" contains cyclic system group nesting involving "${group.config.label.name}".`)
+      throws(`Schedule "${context.label.name}" contains cyclic system group nesting involving "${group.config.label.name}".`)
     }
 
     visiting.add(groupId)
@@ -498,11 +498,12 @@ export class SchedulerBuilder {
 
 /**
  * @param {Map<string, ScheduleContext>} schedules
- * @param {string} label
+ * @param {Constructor} label
  * @returns {ScheduleContext}
  */
 function getOrCreateScheduleContext(schedules, label) {
-  const existing = schedules.get(label)
+  const scheduleTypeId = typeid(label)
+  const existing = schedules.get(scheduleTypeId)
 
   if (existing) return existing
 
@@ -516,7 +517,7 @@ function getOrCreateScheduleContext(schedules, label) {
     defaultSystemGroup: undefined
   })
 
-  schedules.set(label, created)
+  schedules.set(scheduleTypeId, created)
 
   return created
 }
@@ -538,7 +539,7 @@ const ScheduleNodeKind = Object.freeze({
 
 /**
  * @typedef ScheduleContext
- * @property {string} label
+ * @property {Constructor} label
  * @property {SystemRegistration[]} systems
  * @property {SystemGroupRegistration[]} groups
  * @property {Map<string, ScheduleNodeRef>} nodesByLabel

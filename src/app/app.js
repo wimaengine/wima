@@ -100,7 +100,7 @@ export class App {
   }
 
   /**
-   * @param {{label: string, delay?: number, repeat?: boolean, errorHandler?: (error: Error, world: World) => void, defaultSystemGroup?: import('../type/index.js').Constructor}} config
+   * @param {{label: import('../type/index.js').Constructor, delay?: number, repeat?: boolean, errorHandler?: (error: Error, world: World) => void, defaultSystemGroup?: import('../type/index.js').Constructor}} config
    */
   createSchedule(config) {
     this.scheduler.set(new Executable(config))

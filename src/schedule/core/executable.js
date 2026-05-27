@@ -1,4 +1,5 @@
 import { World } from '../../ecs/index.js'
+import { typeid } from '../../type/index.js'
 import { Schedule } from './schedule.js'
 
 /**
@@ -28,7 +29,7 @@ export class Executable {
 
   /**
    * @readonly
-   * @type {string}
+   * @type {import('../../type/index.js').Constructor}
    */
   label
 
@@ -63,7 +64,7 @@ export class Executable {
   errorHandler
 
   /**
-   * @param {{label: string, repeat?: boolean, delay?: number, errorHandler?: (error: Error, world: World) => void, defaultSystemGroup?: import('../../type/index.js').Constructor}} config
+   * @param {{label: import('../../type/index.js').Constructor, repeat?: boolean, delay?: number, errorHandler?: (error: Error, world: World) => void, defaultSystemGroup?: import('../../type/index.js').Constructor}} config
    */
   constructor(config) {
     this.label = config.label
@@ -71,5 +72,12 @@ export class Executable {
     this.delay = config.delay ?? 0
     this.errorHandler = config.errorHandler
     this.defaultSystemGroup = config.defaultSystemGroup
+  }
+
+  /**
+   * @returns {string}
+   */
+  get typeId() {
+    return typeid(this.label)
   }
 }
