@@ -49,8 +49,6 @@ export function genrender(type, renderMaterial) {
 
     if (!ctx) return warn('2d context could not be created on the canvas.')
 
-    // TODO: Return when this becomes default rendering system
-    // ctx.clearRect(0, 0, canvas.width, canvas.height)
     cameras.each(([cameraTransform, renderList, camera]) => {
       const view = GlobalTransform2D.invert(cameraTransform)
 
@@ -117,4 +115,5 @@ export function genrender(type, renderMaterial) {
   }
 }
 
+export * from './clear.js'
 export * from './types.js'
