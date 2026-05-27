@@ -14,6 +14,30 @@ class AlternatePhase { }
 class FencePhase { }
 
 describe('Testing `SchedulerBuilder`', () => {
+  test('creates schedule executables from builder configs', () => {
+    const builder = new SchedulerBuilder()
+    const scheduler = new Scheduler()
+    const world = new World()
+    /** @type {string[]} */
+    const order = []
+
+    function tick() { order.push('tick') }
+
+    builder.addSchedule({
+      label: Update,
+      repeat: false
+    })
+    builder.add({
+      schedule: Update,
+      system: tick
+    })
+
+    builder.pushToScheduler(scheduler)
+    scheduler.get(Update)?.run(world)
+
+    deepStrictEqual(order, ['tick'])
+  })
+
   test('sorts systems topologically from their `before` and `after` labels', () => {
     const builder = new SchedulerBuilder()
     const scheduler = new Scheduler()
