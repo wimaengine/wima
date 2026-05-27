@@ -10,7 +10,7 @@ export function defaultRunner(scheduler, world) {
   const now = performance.now()
 
   for (const executable of scheduler.values()) {
-    state.set(executable.label, {
+    state.set(executable.typeId, {
       active: true,
       nextRunAt: now + executable.delay
     })
@@ -18,7 +18,7 @@ export function defaultRunner(scheduler, world) {
 
   const update = (/** @type {number} */ time) => {
     for (const executable of scheduler.values()) {
-      const execState = state.get(executable.label)
+      const execState = state.get(executable.typeId)
 
       if (!execState || !execState.active) continue
 

@@ -1,21 +1,24 @@
 /**
- * The core schedules of an {@link App app}.
- *
- * @readonly
- * @enum {string}
+ * Core schedule labels used by an {@link App app}.
  */
-export const AppSchedule = {
+class Startup {}
+
+/**
+ * Main loop schedule.
+ */
+class Update {}
+
+export const AppSchedule = Object.freeze({
 
   /**
    * The schedule that updates systems it contains every frame.
-   * The frame rate is determined by the refesh rate of the device.
-   *
+   * The frame rate is determined by the refresh rate of the device.
    */
-  Update: 'mainupdate',
+  Update,
 
   /**
    * Schedule which runs once when the {@link App app} is
    * {@link App.run run}.
    */
-  Startup: 'startup'
-}
+  Startup
+})
