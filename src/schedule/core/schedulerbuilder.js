@@ -4,6 +4,7 @@
 import { Graph, kahnTopologySort } from 'vifaa'
 import { assert, throws } from '../../logger/index.js'
 import { typeid } from '../../type/index.js'
+import { Executable } from './executable.js'
 
 export class ScheduleContext {
 
@@ -474,6 +475,12 @@ export class SchedulerBuilder {
 
   /**
    * @private
+   * @type {{label: Constructor, delay?: number, repeat?: boolean, errorHandler?: (error: Error, world: import('../../ecs/index.js').World) => void, defaultSystemGroup?: Constructor}[]}
+   */
+  scheduleConfigs = []
+
+  /**
+   * @private
    * @type {SystemConfig[]}
    */
   systems = []
@@ -488,11 +495,19 @@ export class SchedulerBuilder {
    * Clears the collected build state.
    */
   clear() {
+    this.scheduleConfigs = []
     this.systems = []
     this.systemGroups = []
     this.schedules = new Map()
 
     return this
+  }
+
+  /**
+   * @param {{label: Constructor, delay?: number, repeat?: boolean, errorHandler?: (error: Error, world: import('../../ecs/index.js').World) => void, defaultSystemGroup?: Constructor}} config
+   */
+  addSchedule(config) {
+    this.scheduleConfigs.push(config)
   }
 
   /**
@@ -513,12 +528,16 @@ export class SchedulerBuilder {
    * @param {Scheduler} scheduler
    */
   pushToScheduler(scheduler) {
+    for (let i = 0; i < this.scheduleConfigs.length; i++) {
+      scheduler.set(new Executable(this.scheduleConfigs[i]))
+    }
 
     /** @type {Map<string,  Constructor>} */
     const defaultGroupsBySchedule = new Map()
 
-    for (const executable of scheduler.values()) {
-      defaultGroupsBySchedule.set(typeid(executable.label), executable.defaultSystemGroup)
+    for (let i = 0; i < this.scheduleConfigs.length; i++) {
+      const config = this.scheduleConfigs[i]
+      defaultGroupsBySchedule.set(typeid(config.label), config.defaultSystemGroup)
     }
 
     const schedules = this.createScheduleContexts(defaultGroupsBySchedule)

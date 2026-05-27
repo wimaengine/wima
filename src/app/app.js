@@ -1,9 +1,8 @@
-/** @import { SystemFunc } from '../ecs/index.js' */
 /** @import { SystemConfig, SystemGroupConfig } from '../schedule/index.js' */
 /** @import { Constructor,TypeId } from '../type/index.js'*/
 
 import { World, ComponentHooks } from '../ecs/index.js'
-import { Scheduler, SchedulerBuilder, Executable } from '../schedule/index.js'
+import { Scheduler, SchedulerBuilder } from '../schedule/index.js'
 import { assert } from '../logger/index.js'
 import { typeid } from '../type/index.js'
 
@@ -97,7 +96,7 @@ export class App {
    * @param {{label: import('../type/index.js').Constructor, delay?: number, repeat?: boolean, errorHandler?: (error: Error, world: World) => void, defaultSystemGroup?: import('../type/index.js').Constructor}} config
    */
   createSchedule(config) {
-    this.scheduler.set(new Executable(config))
+    SchedulerBuilder.Instance.addSchedule(config)
 
     return this
   }
