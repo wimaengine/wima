@@ -537,6 +537,7 @@ export class SchedulerBuilder {
 
     for (let i = 0; i < this.scheduleConfigs.length; i++) {
       const config = this.scheduleConfigs[i]
+
       defaultGroupsBySchedule.set(typeid(config.label), config.defaultSystemGroup)
     }
 
@@ -562,12 +563,14 @@ export class SchedulerBuilder {
     for (let i = 0; i < this.systemGroups.length; i++) {
       const config = this.systemGroups[i]
       const context = getOrCreateScheduleContext(this.schedules, config.schedule)
+
       context.addGroup(config)
     }
 
     for (let i = 0; i < this.systems.length; i++) {
       const config = this.systems[i]
       const context = getOrCreateScheduleContext(this.schedules, config.schedule)
+
       context.addSystem(config)
     }
 
