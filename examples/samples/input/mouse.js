@@ -60,7 +60,7 @@ function spawnMouseFollower(world) {
   const mesh = meshes.add(Mesh.quad2D(0.1, 0.1))
   const commands = new EntityCommands(world)
 
-  const entity = commands
+  commands
     .spawn()
     .insertPrefab([
       ...createTransform2D(),

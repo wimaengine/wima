@@ -13,8 +13,7 @@ import {
   AppSchedule,
   Canvas2DRendererPlugin,
   DOMWindowPlugin,
-  FPSDebugger,
-  Plugin
+  FPSDebugger
 } from 'wima'
 import { HackPlugin, setupViewport } from '../utils.js'
 
