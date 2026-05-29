@@ -11,23 +11,9 @@ import {
   Canvas2DRendererPlugin,
   DefaultPlugin,
   DOMWindowPlugin,
-  FPSDebugger,
-  Plugin
+  FPSDebugger
 } from 'wima'
 import { HackPlugin, setupViewport } from '../utils.js'
-
-// Why use a plugin? The current implentation does not have system sets and
-// systems registered directly on the App are precede ones registered by plugins.
-// This conflict is between internal engine system and external engine systems ordering.
-class MyPlugin extends Plugin {
-
-  /**
-   * @param {App} app
-   */
-  register(app) {
-    app.registerSystem({ schedule: AppSchedule.Startup, system: init })
-  }
-}
 
 const app = new App()
 
@@ -36,7 +22,7 @@ app
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
-  .registerPlugin(new MyPlugin())
+  .registerSystem({ schedule: AppSchedule.Startup, system: init })
   .registerSystem({ schedule: AppSchedule.Update, system: setupViewport })
   .registerDebugger(new FPSDebugger())
   .run()
