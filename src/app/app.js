@@ -1,9 +1,8 @@
-/** @import { SystemFunc } from '../ecs/index.js' */
 /** @import { SystemConfig, SystemGroupConfig } from '../schedule/index.js' */
 /** @import { Constructor,TypeId } from '../type/index.js'*/
 
 import { World, ComponentHooks } from '../ecs/index.js'
-import { Scheduler, SchedulerBuilder, Executable } from '../schedule/index.js'
+import { Scheduler, SchedulerBuilder } from '../schedule/index.js'
 import { assert } from '../logger/index.js'
 import { typeid } from '../type/index.js'
 
@@ -85,12 +84,6 @@ export class App {
   initialized = false
 
   /**
-   * @private
-   * @type {SchedulerBuilder}
-   */
-  systemBuilder = new SchedulerBuilder()
-
-  /**
    * Return the world of the app.
    *
    * @returns {World}
@@ -103,7 +96,7 @@ export class App {
    * @param {{label: import('../type/index.js').Constructor, delay?: number, repeat?: boolean, errorHandler?: (error: Error, world: World) => void, defaultSystemGroup?: import('../type/index.js').Constructor}} config
    */
   createSchedule(config) {
-    this.scheduler.set(new Executable(config))
+    SchedulerBuilder.Instance.addSchedule(config)
 
     return this
   }
@@ -127,7 +120,7 @@ export class App {
   run() {
     this.plugins.register(this)
 
-    this.systemBuilder.pushToScheduler(this.scheduler)
+    SchedulerBuilder.Instance.pushToScheduler(this.scheduler)
     assert(this.runner, 'App runner is not set. Call `app.setRunner(...)` before `app.run()`.')
     this.runner(this.scheduler, this.world)
     this.initialized = true
@@ -155,7 +148,7 @@ export class App {
    * @param {SystemConfig} config
    */
   registerSystem(config) {
-    this.systemBuilder.add(config)
+    SchedulerBuilder.Instance.add(config)
 
     return this
   }
@@ -164,7 +157,7 @@ export class App {
    * @param {SystemGroupConfig} config
    */
   registerSystemGroup(config) {
-    this.systemBuilder.addGroup(config)
+    SchedulerBuilder.Instance.addGroup(config)
 
     return this
   }

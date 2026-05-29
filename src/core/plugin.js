@@ -1,5 +1,6 @@
 import { App, Plugin } from '../app/index.js'
 import { AppSchedule, CoreSystems, defaultRunner } from './core/index.js'
+import { SchedulerBuilder } from '../schedule/index.js'
 import { registerCoreTypes } from './systems/index.js'
 
 export class CorePlugin extends Plugin {
@@ -9,6 +10,7 @@ export class CorePlugin extends Plugin {
    */
   register(app) {
     app
+      .setResource(SchedulerBuilder.Instance)
       .setRunner(defaultRunner)
       .createSchedule({
         label: AppSchedule.Startup,
