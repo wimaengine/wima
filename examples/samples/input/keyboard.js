@@ -34,27 +34,18 @@ const paddingHeight = 0.03
 const app = new App()
 
 app
+  .setResource(new KeytoEntityMap())
   .registerPlugin(new HackPlugin())
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
   .registerPlugin(new Canvas2DRendererPlugin())
   .registerSystem({ schedule: AppSchedule.Startup, system: addDefaultCamera2D })
-  .registerSystem({ schedule: AppSchedule.Startup, system: init })
   .registerSystem({ schedule: AppSchedule.Startup, system: spawnAlphabet })
   .registerSystem({ schedule: AppSchedule.Startup, system: spawnDigits })
   .registerSystem({ schedule: AppSchedule.Update, system: setupViewport })
   .registerSystem({ schedule: AppSchedule.Update, system: update })
   .registerDebugger(new FPSDebugger())
   .run()
-
-/**
- * @param {World} world
- */
-function init(world) {
-  const map = new KeytoEntityMap()
-
-  world.setResource(map)
-}
 
 /**
  * @param {World} world

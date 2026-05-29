@@ -29,6 +29,7 @@ class TouchtoEntityMap extends Map { }
 const app = new App()
 
 app
+  .setResource(new TouchtoEntityMap())
   .registerPlugin(new HackPlugin())
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
@@ -46,7 +47,7 @@ app
 function init(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
-  const map = new TouchtoEntityMap()
+  const map = world.getResource(TouchtoEntityMap)
   const commands = new EntityCommands(world)
 
   if (!window) return warn('No window set up')
@@ -67,8 +68,6 @@ function init(world) {
     map.set(i, entity)
 
   }
-
-  world.setResource(map)
 }
 
 /**

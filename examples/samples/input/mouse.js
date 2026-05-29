@@ -27,15 +27,7 @@ import { addDefaultCamera2D, HackPlugin, setupViewport, pxToNdc } from '../utils
 
 /** @type {Map<KeyCode,Entity>} */
 class KeytoEntityMap extends Map { }
-class MouseEntity {
-
-  /**
-   * @param {Entity} entity
-   */
-  constructor(entity) {
-    this.entity = entity
-  }
-}
+class MouseEntity {}
 
 const offsetX = -0.9
 const offsetY = 0.8
@@ -45,6 +37,7 @@ const paddingWidth = 0.05
 const app = new App()
 
 app
+  .setResource(new KeytoEntityMap())
   .registerPlugin(new HackPlugin())
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
@@ -74,10 +67,10 @@ function spawnMouseFollower(world) {
       new Meshed(mesh),
       new BasicMaterial2D(materials.add(new BasicMaterial({
         color: Color.WHITE.clone()
-      })))])
+      }))),
+      new MouseEntity()
+    ])
     .build()
-
-  world.setResource(new MouseEntity(entity))
 }
 
 /**
@@ -86,7 +79,7 @@ function spawnMouseFollower(world) {
 function spawnButtons(world) {
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
-  const map = new KeytoEntityMap()
+  const map = world.getResource(KeytoEntityMap)
   const commands = new EntityCommands(world)
   const mesh = meshes.add(Mesh.quad2D(itemWidth, itemHeight))
   const digits = [
@@ -115,18 +108,15 @@ function spawnButtons(world) {
 
     map.set(digit, entity)
   }
-
-  world.setResource(map)
 }
 
 /**
  * @param {World} world
  */
 function updateFollower(world) {
-  const { entity } = world.getResource(MouseEntity)
   const mouse = world.getResource(Mouse)
-  const query = new Query(world, [Position2D])
-  const components = query.get(entity)
+  const query = new Query(world, [Position2D, MouseEntity])
+  const components = query.single()
 
   if (!components) return
 
