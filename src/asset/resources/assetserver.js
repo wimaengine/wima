@@ -3,8 +3,8 @@
 import { typeid } from '../../type/index.js'
 import { assert, warn } from '../../logger/index.js'
 import { getFileExtension, swapRemove } from '../../utils/index.js'
-import { Assets, Handle, Parser } from '../core/index.js'
-import { AssetLoadSuccess, AssetLoadFail } from '../events/index.js'
+import { Assets, Handle, Parser, Exporter } from '../core/index.js'
+import { AssetLoadSuccess, AssetLoadFail, AssetLoadOperation } from '../events/index.js'
 
 /**
  * @typedef {number} ParserId
@@ -265,6 +265,32 @@ export class AssetServer {
   }
 
   /**
+   * @template T
+   * @param {Handle<T>} handle
+   * @param {string} [path]
+   */
+  save(handle, path) {
+    const typeId = typeid(handle.type)
+    const assetId = handle.id()
+    const info = this.assetInfos.getByAssetId(assetId)
+    const targetPath = path ?? info?.path
+
+    if (!targetPath) {
+      this.recordFailure(
+        typeId,
+        assetId,
+        path || "<unknown>",
+        'The given asset handle does not have a registered asset path.',
+        AssetLoadOperation.Saving
+      )
+
+      return
+    }
+
+    this.post(assetId, typeId, targetPath)
+  }
+
+  /**
    * @param {AssetId} assetId
    * @param {TypeId} typeId
    * @param {string} path
@@ -277,27 +303,78 @@ export class AssetServer {
       this.loaded.push(new AssetLoadSuccess(typeId, assetId, path))
       this.loadedAssets.push(asset)
       info.loadstate = LoadState.Loaded
-    } catch(error) {
-      let message = ''
-
-      if (typeof error === 'string') {
-        message = error
-      } else if (error instanceof Error) {
-
-        // eslint-disable-next-line prefer-destructuring
-        message = error.message
-      } else {
-        console.error('Unhandled Error: ', error)
-      }
-
-      this.failed.push(new AssetLoadFail(
-        typeId,
-        assetId,
-        path,
-        message
-      ))
+    } catch (error) {
+      this.recordFailure(typeId, assetId, path, error)
       info.loadstate = LoadState.Failed
     }
+  }
+
+  /**
+   * @private
+   * @param {AssetId} assetId
+   * @param {TypeId} typeId
+   * @param {string} path
+   */
+  async post(assetId, typeId, path) {
+    try {
+      const response = await fetch(path, {
+        method: 'POST',
+        body: await this.serialize(assetId, typeId, path)
+      })
+
+      if (!response.ok) {
+        this.recordFailure(typeId, assetId, path, response.statusText, AssetLoadOperation.Saving)
+      }
+    } catch(error) {
+      const message = typeof error === 'string'
+        ? error
+        : error instanceof Error
+          ? error.message
+          : 'Could not export the asset.'
+
+      this.recordFailure(typeId, assetId, path, message, AssetLoadOperation.Saving)
+    }
+  }
+
+  /**
+   * @private
+   * @param {AssetId} assetId
+   * @param {TypeId} typeId
+   * @param {string} path
+   * @returns {Promise<BodyInit | undefined>}
+   */
+  async serialize(assetId, typeId, path) {
+    const extension = getFileExtension(path)
+    const assets = this.assets.get(typeId)
+    const exporter = this.exporters.get(typeId, extension)
+
+    assert(assets, `No assets registered for the asset type \`${typeId}\` on \`AssetServer\``)
+
+    const asset = assets.getByAssetId(assetId)
+
+    if (asset === undefined) {
+      throw 'Could not find the asset to export.'
+    }
+
+    return exporter.serialize(asset)
+  }
+
+  /**
+   * @private
+   * @param {TypeId} typeId
+   * @param {AssetId} assetId
+   * @param {string} path
+   * @param {string} message
+   * @param {number} [operation=AssetLoadOperation.Loading]
+   */
+  recordFailure(typeId, assetId, path, message, operation = AssetLoadOperation.Loading) {
+    this.failed.push(new AssetLoadFail(
+      typeId,
+      assetId,
+      path,
+      message,
+      operation
+    ))
   }
 
   /**
