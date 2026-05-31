@@ -6,7 +6,7 @@ import { TypeRegistry } from '../../reflect/resources/index.js'
 import { Assets, Handle } from '../core/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
 import { AssetServer } from '../resources/index.js'
-import { AssetLoadFail } from '../events/index.js'
+import { AssetLoadFail, AssetSaveSuccess } from '../events/index.js'
 
 /**
  * @template T
@@ -38,10 +38,13 @@ export function registerAssetServerTypes(world) {
   const registry = world.getResource(TypeRegistry)
 
   const assetLoadFailArrayId = typeidGeneric(Array, [AssetLoadFail])
+  const assetSaveSuccessArrayId = typeidGeneric(Array, [AssetSaveSuccess])
 
   registry.registerTypeId(assetLoadFailArrayId, new ArrayInfo(typeid(AssetLoadFail)))
+  registry.registerTypeId(assetSaveSuccessArrayId, new ArrayInfo(typeid(AssetSaveSuccess)))
 
   registry.register(AssetServer, new StructInfo({
-    failed: new Field(assetLoadFailArrayId)
+    failed: new Field(assetLoadFailArrayId),
+    saved: new Field(assetSaveSuccessArrayId)
   }))
 }

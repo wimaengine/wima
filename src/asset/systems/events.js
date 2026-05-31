@@ -5,7 +5,7 @@ import { Assets } from '../core/index.js'
 import { Events } from '../../event/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
 import { AssetServer } from '../resources/index.js'
-import { AssetAdded, AssetDropped, AssetModified, AssetLoadSuccess, AssetLoadFail } from '../events/index.js'
+import { AssetAdded, AssetDropped, AssetModified, AssetLoadSuccess, AssetSaveSuccess, AssetLoadFail } from '../events/index.js'
 import { warnOnce } from '../../logger/index.js'
 
 /**
@@ -77,5 +77,22 @@ export function updateAssetLoadEvents(world) {
 
   for (let i = 0; i < failed.length; i++) {
     failEvents.write(failed[i])
+  }
+}
+
+/**
+ * @param {World} world
+ * @returns {void}
+ */
+export function updateAssetSaveEvents(world) {
+  const server = world.getResource(AssetServer)
+
+  /** @type {Events<AssetSaveSuccess>} */
+  const saveEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetSaveSuccess]))
+
+  const saved = server.flushSaveSuccess()
+
+  for (let i = 0; i < saved.length; i++) {
+    saveEvents.write(saved[i])
   }
 }

@@ -4,7 +4,7 @@ import { typeid } from '../../type/index.js'
 import { assert, warn } from '../../logger/index.js'
 import { getFileExtension, swapRemove } from '../../utils/index.js'
 import { Assets, Handle, Parser, Exporter } from '../core/index.js'
-import { AssetLoadSuccess, AssetLoadFail, AssetLoadOperation } from '../events/index.js'
+import { AssetLoadSuccess, AssetSaveSuccess, AssetLoadFail, AssetLoadOperation } from '../events/index.js'
 
 /**
  * @typedef {number} ParserId
@@ -199,6 +199,12 @@ export class AssetServer {
   loaded = []
 
   /**
+   * @private
+   * @type {AssetSaveSuccess[]}
+   */
+  saved = []
+
+  /**
    * @type {AssetLoadFail[]}
    */
   failed = []
@@ -324,6 +330,8 @@ export class AssetServer {
 
       if (!response.ok) {
         this.recordFailure(typeId, assetId, path, response.statusText, AssetLoadOperation.Saving)
+      } else {
+        this.saved.push(new AssetSaveSuccess(typeId, assetId, path))
       }
     } catch(error) {
       const message = typeof error === 'string' ?
@@ -448,6 +456,17 @@ export class AssetServer {
     const buffer = this.loaded
 
     this.loaded = []
+
+    return buffer
+  }
+
+  /**
+   * @returns {readonly AssetSaveSuccess[]}
+   */
+  flushSaveSuccess() {
+    const buffer = this.saved
+
+    this.saved = []
 
     return buffer
   }
