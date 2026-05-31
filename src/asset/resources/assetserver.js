@@ -77,6 +77,78 @@ export class Parsers {
     return /** @type {Parser<T>} */(parser)
   }
 }
+
+/**
+ * @typedef {number} ExporterId
+ */
+export class Exporters {
+
+  /**
+   * @private
+   * @type {Exporter<unknown>[]}
+   */
+  exporters = []
+
+  /**
+   * @private
+   * @type {Map<string, Map<TypeId,ExporterId>>}
+   */
+  extensions = new Map()
+
+  /**
+   * @template T
+   * @param {Exporter<T>} exporter
+   */
+  add(exporter) {
+    const id = this.exporters.length
+    const typeId = typeid(exporter.asset)
+    const extensions = exporter.getExtensions()
+
+    this.exporters.push(exporter)
+
+    for (let i = 0; i < extensions.length; i++) {
+      const extension = extensions[i]
+      const extensionMap = this.extensions.get(extension)
+
+      if (extensionMap) {
+        if (extensionMap.has(typeId)) {
+          warn(`Overriding an exporter already present with asset type \`${typeId}\` and with extension "${extension}"".`)
+        }
+
+        extensionMap.set(typeId, id)
+      } else {
+        this.extensions.set(extension, new Map([[typeId, id]]))
+      }
+    }
+  }
+
+  /**
+   * @template T
+   * @param {TypeId} type
+   * @param {string} extension
+   * @returns {Exporter<T>}
+   * @throws {string}
+   */
+  get(type, extension) {
+    const extensions = this.extensions.get(extension)
+
+    if (!extensions) {
+      throw 'The given extension does not have an exporter registered'
+    }
+
+    const exporterId = extensions.get(type)
+
+    if (exporterId === undefined) {
+      throw 'The given asset type does not support the given extension'
+    }
+
+    const exporter = this.exporters[exporterId]
+
+    assert(exporter, 'Internal error: The givk&en exporter index is invalid.')
+
+    return /** @type {Exporter<T>} */(exporter)
+  }
+}
 export class AssetServer {
 
   /**
@@ -92,6 +164,13 @@ export class AssetServer {
    * @type {Parsers}
    */
   parsers = new Parsers()
+
+  /**
+   * @private
+   * @readonly
+   * @type {Exporters}
+   */
+  exporters = new Exporters()
 
   /**
    * @private
@@ -141,6 +220,15 @@ export class AssetServer {
    */
   registerParser(type, parser) {
     this.parsers.add(parser)
+  }
+
+  /**
+   * @template T
+   * @param {Constructor<T>} type
+   * @param {Exporter<T>} exporter
+   */
+  registerExporter(type, exporter) {
+    this.exporters.add(exporter)
   }
 
   /**
