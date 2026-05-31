@@ -279,7 +279,7 @@ export class AssetServer {
       this.recordFailure(
         typeId,
         assetId,
-        path || "<unknown>",
+        path || '<unknown>',
         'The given asset handle does not have a registered asset path.',
         AssetLoadOperation.Saving
       )
@@ -287,7 +287,7 @@ export class AssetServer {
       return
     }
 
-    this.post(assetId, typeId, targetPath)
+    return this.post(assetId, typeId, targetPath)
   }
 
   /**
@@ -303,7 +303,7 @@ export class AssetServer {
       this.loaded.push(new AssetLoadSuccess(typeId, assetId, path))
       this.loadedAssets.push(asset)
       info.loadstate = LoadState.Loaded
-    } catch (error) {
+    } catch(error) {
       this.recordFailure(typeId, assetId, path, error)
       info.loadstate = LoadState.Failed
     }
@@ -326,11 +326,11 @@ export class AssetServer {
         this.recordFailure(typeId, assetId, path, response.statusText, AssetLoadOperation.Saving)
       }
     } catch(error) {
-      const message = typeof error === 'string'
-        ? error
-        : error instanceof Error
-          ? error.message
-          : 'Could not export the asset.'
+      const message = typeof error === 'string' ?
+        error :
+        error instanceof Error ?
+          error.message :
+          'Could not export the asset.'
 
       this.recordFailure(typeId, assetId, path, message, AssetLoadOperation.Saving)
     }
