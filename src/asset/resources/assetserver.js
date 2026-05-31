@@ -334,11 +334,15 @@ export class AssetServer {
         this.saved.push(new AssetSaveSuccess(typeId, assetId, path))
       }
     } catch(error) {
-      const message = typeof error === 'string' ?
-        error :
-        error instanceof Error ?
-          error.message :
-          'Could not export the asset.'
+      let message = 'Could not export the asset.'
+
+      if (typeof error === 'string') {
+        message = error
+      } else if (error instanceof Error) {
+        const { message: errorMessage } = error
+
+        message = errorMessage
+      }
 
       this.recordFailure(typeId, assetId, path, message, AssetLoadOperation.Saving)
     }
