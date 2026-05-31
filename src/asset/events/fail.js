@@ -1,5 +1,15 @@
 /** @import {TypeId} from '../../type/index.js' */
 /** @import {AssetId} from '../types/index.js' */
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const AssetLoadOperation = {
+  Loading: 1,
+  Saving: 2
+}
+
 export class AssetLoadFail {
 
   /**
