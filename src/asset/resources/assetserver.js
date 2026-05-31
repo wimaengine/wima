@@ -3,8 +3,8 @@
 import { typeid } from '../../type/index.js'
 import { assert, warn } from '../../logger/index.js'
 import { getFileExtension, swapRemove } from '../../utils/index.js'
-import { Assets, Handle, Parser } from '../core/index.js'
-import { AssetLoadSuccess, AssetLoadFail } from '../events/index.js'
+import { Assets, Handle, Parser, Exporter } from '../core/index.js'
+import { AssetLoadSuccess, AssetSaveSuccess, AssetLoadFail, AssetLoadOperation } from '../events/index.js'
 
 /**
  * @typedef {number} ParserId
@@ -77,6 +77,78 @@ export class Parsers {
     return /** @type {Parser<T>} */(parser)
   }
 }
+
+/**
+ * @typedef {number} ExporterId
+ */
+export class Exporters {
+
+  /**
+   * @private
+   * @type {Exporter<unknown>[]}
+   */
+  exporters = []
+
+  /**
+   * @private
+   * @type {Map<string, Map<TypeId,ExporterId>>}
+   */
+  extensions = new Map()
+
+  /**
+   * @template T
+   * @param {Exporter<T>} exporter
+   */
+  add(exporter) {
+    const id = this.exporters.length
+    const typeId = typeid(exporter.asset)
+    const extensions = exporter.getExtensions()
+
+    this.exporters.push(exporter)
+
+    for (let i = 0; i < extensions.length; i++) {
+      const extension = extensions[i]
+      const extensionMap = this.extensions.get(extension)
+
+      if (extensionMap) {
+        if (extensionMap.has(typeId)) {
+          warn(`Overriding an exporter already present with asset type \`${typeId}\` and with extension "${extension}"".`)
+        }
+
+        extensionMap.set(typeId, id)
+      } else {
+        this.extensions.set(extension, new Map([[typeId, id]]))
+      }
+    }
+  }
+
+  /**
+   * @template T
+   * @param {TypeId} type
+   * @param {string} extension
+   * @returns {Exporter<T>}
+   * @throws {string}
+   */
+  get(type, extension) {
+    const extensions = this.extensions.get(extension)
+
+    if (!extensions) {
+      throw 'The given extension does not have an exporter registered'
+    }
+
+    const exporterId = extensions.get(type)
+
+    if (exporterId === undefined) {
+      throw 'The given asset type does not support the given extension'
+    }
+
+    const exporter = this.exporters[exporterId]
+
+    assert(exporter, 'Internal error: The givk&en exporter index is invalid.')
+
+    return /** @type {Exporter<T>} */(exporter)
+  }
+}
 export class AssetServer {
 
   /**
@@ -92,6 +164,13 @@ export class AssetServer {
    * @type {Parsers}
    */
   parsers = new Parsers()
+
+  /**
+   * @private
+   * @readonly
+   * @type {Exporters}
+   */
+  exporters = new Exporters()
 
   /**
    * @private
@@ -120,6 +199,12 @@ export class AssetServer {
   loaded = []
 
   /**
+   * @private
+   * @type {AssetSaveSuccess[]}
+   */
+  saved = []
+
+  /**
    * @type {AssetLoadFail[]}
    */
   failed = []
@@ -141,6 +226,15 @@ export class AssetServer {
    */
   registerParser(type, parser) {
     this.parsers.add(parser)
+  }
+
+  /**
+   * @template T
+   * @param {Constructor<T>} type
+   * @param {Exporter<T>} exporter
+   */
+  registerExporter(type, exporter) {
+    this.exporters.add(exporter)
   }
 
   /**
@@ -177,6 +271,32 @@ export class AssetServer {
   }
 
   /**
+   * @template T
+   * @param {Handle<T>} handle
+   * @param {string} [path]
+   */
+  save(handle, path) {
+    const typeId = typeid(handle.type)
+    const assetId = handle.id()
+    const info = this.assetInfos.getByAssetId(assetId)
+    const targetPath = path ?? info?.path
+
+    if (!targetPath) {
+      this.recordFailure(
+        typeId,
+        assetId,
+        path || '<unknown>',
+        'The given asset handle does not have a registered asset path.',
+        AssetLoadOperation.Saving
+      )
+
+      return
+    }
+
+    return this.post(assetId, typeId, targetPath)
+  }
+
+  /**
    * @param {AssetId} assetId
    * @param {TypeId} typeId
    * @param {string} path
@@ -190,26 +310,83 @@ export class AssetServer {
       this.loadedAssets.push(asset)
       info.loadstate = LoadState.Loaded
     } catch(error) {
-      let message = ''
+      this.recordFailure(typeId, assetId, path, error)
+      info.loadstate = LoadState.Failed
+    }
+  }
+
+  /**
+   * @private
+   * @param {AssetId} assetId
+   * @param {TypeId} typeId
+   * @param {string} path
+   */
+  async post(assetId, typeId, path) {
+    try {
+      const response = await fetch(path, {
+        method: 'POST',
+        body: await this.serialize(assetId, typeId, path)
+      })
+
+      if (!response.ok) {
+        this.recordFailure(typeId, assetId, path, response.statusText, AssetLoadOperation.Saving)
+      } else {
+        this.saved.push(new AssetSaveSuccess(typeId, assetId, path))
+      }
+    } catch(error) {
+      let message = 'Could not export the asset.'
 
       if (typeof error === 'string') {
         message = error
       } else if (error instanceof Error) {
+        const { message: errorMessage } = error
 
-        // eslint-disable-next-line prefer-destructuring
-        message = error.message
-      } else {
-        console.error('Unhandled Error: ', error)
+        message = errorMessage
       }
 
-      this.failed.push(new AssetLoadFail(
-        typeId,
-        assetId,
-        path,
-        message
-      ))
-      info.loadstate = LoadState.Failed
+      this.recordFailure(typeId, assetId, path, message, AssetLoadOperation.Saving)
     }
+  }
+
+  /**
+   * @private
+   * @param {AssetId} assetId
+   * @param {TypeId} typeId
+   * @param {string} path
+   * @returns {Promise<BodyInit | undefined>}
+   */
+  async serialize(assetId, typeId, path) {
+    const extension = getFileExtension(path)
+    const assets = this.assets.get(typeId)
+    const exporter = this.exporters.get(typeId, extension)
+
+    assert(assets, `No assets registered for the asset type \`${typeId}\` on \`AssetServer\``)
+
+    const asset = assets.getByAssetId(assetId)
+
+    if (asset === undefined) {
+      throw 'Could not find the asset to export.'
+    }
+
+    return exporter.serialize(asset)
+  }
+
+  /**
+   * @private
+   * @param {TypeId} typeId
+   * @param {AssetId} assetId
+   * @param {string} path
+   * @param {string} message
+   * @param {number} [operation=AssetLoadOperation.Loading]
+   */
+  recordFailure(typeId, assetId, path, message, operation = AssetLoadOperation.Loading) {
+    this.failed.push(new AssetLoadFail(
+      typeId,
+      assetId,
+      path,
+      message,
+      operation
+    ))
   }
 
   /**
@@ -283,6 +460,17 @@ export class AssetServer {
     const buffer = this.loaded
 
     this.loaded = []
+
+    return buffer
+  }
+
+  /**
+   * @returns {readonly AssetSaveSuccess[]}
+   */
+  flushSaveSuccess() {
+    const buffer = this.saved
+
+    this.saved = []
 
     return buffer
   }

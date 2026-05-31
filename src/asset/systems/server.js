@@ -1,11 +1,11 @@
 /** @import { SystemFunc, World } from '../../ecs/index.js' */
 /** @import { Constructor } from '../../type/index.js' */
-/** @import { AssetDropped, AssetEvent, Parser } from '../index.js' */
+/** @import { AssetDropped, AssetEvent, Parser, Exporter } from '../index.js' */
 import { Events } from '../../event/index.js'
 import { typeidGeneric } from '../../type/index.js'
 import { Assets } from '../core/index.js'
 import { AssetServer } from '../resources/index.js'
-import { AssetLoadFail } from '../events/index.js'
+import { AssetLoadFail, AssetLoadOperation } from '../events/index.js'
 import { error } from '../../logger/index.js'
 
 /**
@@ -37,6 +37,20 @@ export function registerAssetParserOnAssetServer(type, parser) {
 }
 
 /**
+ * @template T
+ * @param {Constructor<T>} type
+ * @param {Exporter<T>} exporter
+ * @returns {SystemFunc}
+ */
+export function registerAssetExporterOnAssetServer(type, exporter) {
+  return function registerAssetExportedOnAssetServer(world) {
+    const server = world.getResource(AssetServer)
+
+    server.registerExporter(type, exporter)
+  }
+}
+
+/**
  * @param {World} world
  */
 export function updateAssets(world) {
@@ -63,8 +77,9 @@ export function logFailedLoads(world) {
 
   events.each((event) => {
     const { data } = event
+    const operation = data.operation === AssetLoadOperation.Saving ? 'saving' : 'loading'
 
-    error(`\`AssetServer\` error loading "${data.path}": ${data.reason}`)
+    error(`\`AssetServer\` error ${operation} "${data.path}": ${data.reason}`)
   })
 }
 
