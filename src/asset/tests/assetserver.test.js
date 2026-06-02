@@ -6,6 +6,7 @@ import { World } from "../../ecs/index.js";
 import { updateAssets } from "../systems/index.js";
 import { Events } from "../../event/index.js";
 import { AssetLoadSuccess, AssetSaveSuccess, AssetLoadFail } from "../events/index.js";
+import { TypeRegistry } from "../../reflect/resources/index.js";
 
 class Text {
   inner = ''
@@ -33,8 +34,9 @@ class TextParser extends Parser {
 
   /**
    * @param {Response} response
+   * @param {import("../../reflect/resources/index.js").TypeRegistry} _typeRegistry
    */
-  async parse(response){
+  async parse(response, _typeRegistry){
     const text = await response.text()
     return new Text(text)
   }
@@ -57,8 +59,9 @@ class TextExporter extends Exporter {
 
   /**
    * @param {Text} asset
+   * @param {import("../../reflect/resources/index.js").TypeRegistry} _typeRegistry
    */
-  async serialize(asset){
+  async serialize(asset, _typeRegistry){
     return JSON.stringify(asset)
   }
 }
@@ -176,6 +179,7 @@ function createWorld() {
   const server = new AssetServer()
 
   world.setResource(server)
+  world.setResource(new TypeRegistry())
   world.setResourceByTypeId(typeidGeneric(Assets, [Text]), assets)
   world.setResourceByTypeId(typeidGeneric(Events, [AssetLoadSuccess]), new Events())
   world.setResourceByTypeId(typeidGeneric(Events, [AssetSaveSuccess]), new Events())

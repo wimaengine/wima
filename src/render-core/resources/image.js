@@ -1,3 +1,4 @@
+/** @import { TypeRegistry } from '../../reflect/resources/index.js' */
 import { Parser } from '../../asset/core/parser.js'
 import { Image } from '../assets/index.js'
 import { Vector2 } from '../../math/index.js'
@@ -19,8 +20,9 @@ export class ImageParser extends Parser {
 
   /**
    * @param {Response} response
+   * @param {TypeRegistry} _typeRegistry
    */
-  async parse(response) {
+  async parse(response, _typeRegistry) {
     const raw = await response.arrayBuffer()
     const dimensions = await getDimensions(raw)
 

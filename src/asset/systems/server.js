@@ -3,6 +3,7 @@
 /** @import { AssetDropped, AssetEvent, Parser, Exporter } from '../index.js' */
 import { Events } from '../../event/index.js'
 import { typeidGeneric } from '../../type/index.js'
+import { TypeRegistry } from '../../reflect/resources/index.js'
 import { Assets } from '../core/index.js'
 import { AssetServer, LoadState } from '../resources/index.js'
 import { AssetLoadFail, AssetLoadOperation, AssetLoadSuccess, AssetSaveSuccess } from '../events/index.js'
@@ -61,6 +62,7 @@ export async function updateAssets(world) {
   const saveSuccessEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetSaveSuccess]))
   /** @type {Events<AssetLoadFail>} */
   const loadFailEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
+  const typeRegistry = world.getResource(TypeRegistry)
 
   const loadRequests = server.flushLoadRequests()
   const saveRequests = server.flushSaveRequests()
@@ -76,7 +78,7 @@ export async function updateAssets(world) {
         throw response.statusText
       }
 
-      const asset = await parser.parse(response)
+      const asset = await parser.parse(response, typeRegistry)
 
       if (!asset) {
         throw 'Could not parse the asset.'
@@ -125,7 +127,7 @@ export async function updateAssets(world) {
       const exporter = server.getExporter(typeId, path)
       const response = await fetch(path, {
         method: 'POST',
-        body: await exporter.serialize(asset)
+        body: await exporter.serialize(asset, typeRegistry)
       })
 
       if (!response.ok) {
