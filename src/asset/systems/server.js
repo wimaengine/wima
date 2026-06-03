@@ -56,10 +56,13 @@ export function registerAssetExporterOnAssetServer(type, exporter) {
  */
 export async function updateAssets(world) {
   const server = world.getResource(AssetServer)
+
   /** @type {Events<AssetLoadSuccess>} */
   const loadSuccessEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadSuccess]))
+
   /** @type {Events<AssetSaveSuccess>} */
   const saveSuccessEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetSaveSuccess]))
+
   /** @type {Events<AssetLoadFail>} */
   const loadFailEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
   const typeRegistry = world.getResource(TypeRegistry)
@@ -98,7 +101,9 @@ export async function updateAssets(world) {
       if (typeof error === 'string') {
         message = error
       } else if (error instanceof Error) {
-        message = error.message
+        const { message: errorMessage } = error
+
+        message = errorMessage
       }
 
       loadFailEvents.write(new AssetLoadFail(typeId, assetId, path, message))
@@ -141,7 +146,9 @@ export async function updateAssets(world) {
       if (typeof error === 'string') {
         message = error
       } else if (error instanceof Error) {
-        message = error.message
+        const { message: errorMessage } = error
+
+        message = errorMessage
       }
 
       loadFailEvents.write(new AssetLoadFail(typeId, assetId, path, message, AssetLoadOperation.Saving))

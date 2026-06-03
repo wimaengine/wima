@@ -4,7 +4,6 @@ import { typeid } from '../../type/index.js'
 import { assert, warn } from '../../logger/index.js'
 import { getFileExtension, swapRemove } from '../../utils/index.js'
 import { Assets, Handle, Parser, Exporter } from '../core/index.js'
-import { AssetLoadOperation } from '../events/index.js'
 
 /**
  * @typedef {number} ParserId
@@ -278,6 +277,7 @@ export class AssetServer {
         path || '<unknown>',
         'The given asset handle does not have a registered asset path.'
       ))
+
       return
     }
 
