@@ -1,6 +1,6 @@
 import { deepStrictEqual, notDeepStrictEqual } from "assert";
 import test, { describe } from "node:test";
-import { Assets, AssetServer, Exporter, Parser } from "../index.js";
+import { Assets, AssetServer, Exporter, Importer } from "../index.js";
 import { typeid, typeidGeneric } from "../../type/index.js";
 import { World } from "../../ecs/index.js";
 import { updateAssets } from "../systems/index.js";
@@ -19,9 +19,9 @@ class Text {
 }
 
 /**
- * @extends {Parser<Text>}
+ * @extends {Importer<Text>}
  */
-class TextParser extends Parser {
+class TextImporter extends Importer {
   constructor(){
     super(Text)
   }
@@ -36,7 +36,7 @@ class TextParser extends Parser {
    * @param {Response} response
    * @param {import("../../reflect/resources/index.js").TypeRegistry} _typeRegistry
    */
-  async parse(response, _typeRegistry){
+  async deserialize(response, _typeRegistry){
     const text = await response.text()
     return new Text(text)
   }
@@ -167,7 +167,7 @@ function createServer() {
   const server = new AssetServer()
 
   server.registerAsset(assets)
-  server.registerParser(Text,new TextParser())
+  server.registerImporter(Text,new TextImporter())
   server.registerExporter(Text,new TextExporter())
 
   return server
@@ -185,7 +185,7 @@ function createWorld() {
   world.setResourceByTypeId(typeidGeneric(Events, [AssetSaveSuccess]), new Events())
   world.setResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]), new Events())
   server.registerAsset(assets)
-  server.registerParser(Text,new TextParser())
+  server.registerImporter(Text,new TextImporter())
   server.registerExporter(Text,new TextExporter())
 
   return world

@@ -1,12 +1,12 @@
 import { App, Plugin } from '../app/index.js'
-import { AssetParserPlugin, AssetPlugin, Assets } from '../asset/index.js'
+import { AssetImporterPlugin, AssetPlugin, Assets } from '../asset/index.js'
 import { AppSchedule } from '../core/index.js'
 import { ComponentHooks } from '../ecs/index.js'
 import { typeidGeneric } from '../type/index.js'
 import { Audio } from './assets/index.js'
 import { AudioPlayer, AudioOscillator, removeAudioPlayerSink, removeOscillatorSink } from './components/index.js'
 import { AudioAdded, AudioDropped, AudioModified } from './events/index.js'
-import { AudioCommands, AudioParser, AudioAssets, AudioGraph } from './resources/index.js'
+import { AudioCommands, AudioImporter, AudioAssets, AudioGraph } from './resources/index.js'
 import { playAudio, playOscillators, registerAudioTypes } from './systems/index.js'
 
 export class AudioPlugin extends Plugin {
@@ -40,9 +40,9 @@ export class AudioPlugin extends Plugin {
           dropped: AudioDropped
         }
       }))
-      .registerPlugin(new AssetParserPlugin({
+      .registerPlugin(new AssetImporterPlugin({
         asset: Audio,
-        parser: new AudioParser()
+        importer: new AudioImporter()
       }))
       .registerSystem({ schedule: AppSchedule.Update, system: playAudio })
       .registerSystem({ schedule: AppSchedule.Update, system: playOscillators })

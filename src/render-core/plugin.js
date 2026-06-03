@@ -1,9 +1,9 @@
 import { App, Plugin } from '../app/index.js'
 import { AppSchedule, CoreSystems } from '../core/index.js'
-import { AssetParserPlugin, AssetPlugin, Assets } from '../asset/index.js'
+import { AssetImporterPlugin, AssetPlugin, Assets } from '../asset/index.js'
 import { BasicMaterial2D, BasicMaterial3D, Camera, Meshed } from './components/index.js'
 import { Mesh, Shader, Image, BasicMaterial } from './assets/index.js'
-import { BasicMaterialAssets, ImageAssets, ImageParser, MeshAssets } from './resources/index.js'
+import { BasicMaterialAssets, ImageAssets, ImageImporter, MeshAssets } from './resources/index.js'
 import { Material2DPlugin, Material3DPlugin } from './plugins/index.js'
 import {
   ImageAdded,
@@ -42,9 +42,9 @@ export class RenderCorePlugin extends Plugin {
           dropped: ImageDropped
         }
       }))
-      .registerPlugin(new AssetParserPlugin({
+      .registerPlugin(new AssetImporterPlugin({
         asset: Image,
-        parser: new ImageParser()
+        importer: new ImageImporter()
       }))
       .registerPlugin(new AssetPlugin({
         asset: Mesh,

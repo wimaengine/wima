@@ -1,4 +1,4 @@
 export * from './command.js'
-export * from './parser.js'
+export * from './importer.js'
 export * from './aliases.js'
 export * from './audiograph.js'

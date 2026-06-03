@@ -1,6 +1,6 @@
 /** @import { SystemFunc, World } from '../../ecs/index.js' */
 /** @import { Constructor } from '../../type/index.js' */
-/** @import { AssetDropped, AssetEvent, Parser, Exporter } from '../index.js' */
+/** @import { AssetDropped, AssetEvent, Importer, Exporter } from '../index.js' */
 import { Events } from '../../event/index.js'
 import { typeidGeneric } from '../../type/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
@@ -26,14 +26,14 @@ export function registerAssetOnAssetServer(type) {
 /**
  * @template T
  * @param {Constructor<T>} type
- * @param {Parser<T>} parser
+ * @param {Importer<T>} importer
  * @returns {SystemFunc}
  */
-export function registerAssetParserOnAssetServer(type, parser) {
-  return function registerAssetParsedOnAssetServer(world) {
+export function registerAssetImporterOnAssetServer(type, importer) {
+  return function registerAssetImporterOnAssetServer(world) {
     const server = world.getResource(AssetServer)
 
-    server.registerParser(type, parser)
+    server.registerImporter(type, importer)
   }
 }
 
@@ -74,17 +74,17 @@ export async function updateAssets(world) {
     const { assetId, info, path, typeId } = loadRequests[i]
 
     try {
-      const parser = server.getParser(typeId, path)
+      const importer = server.getImporter(typeId, path)
       const response = await fetch(path)
 
       if (!response.ok) {
         throw response.statusText
       }
 
-      const asset = await parser.parse(response, typeRegistry)
+      const asset = await importer.deserialize(response, typeRegistry)
 
       if (!asset) {
-        throw 'Could not parse the asset.'
+        throw 'Could not deserialize the asset.'
       }
 
       const assets = server.getAssets(typeId)

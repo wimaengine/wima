@@ -7,7 +7,6 @@ import {
   createCamera2D,
   Plugin,
   typeidGeneric,
-  Parser,
   Query,
   WindowCommands,
   Entity,
@@ -98,20 +97,6 @@ export function registerAssetOnAssetServer(type) {
     const assets = world.getResourceByTypeId(typeidGeneric(Assets, [type]))
 
     server.registerAsset(assets)
-  }
-}
-
-/**
- * @template T
- * @param {new (...args:any[])=> T} type
- * @param {Parser<T>} parser
- * @returns {(world:World)=>void}
- */
-export function registerAssetParserOnAssetServer(type, parser) {
-  return function registerAssetParsedOnAssetServer(world) {
-    const server = world.getResource(AssetServer)
-
-    server.registerParser(type, parser)
   }
 }
 

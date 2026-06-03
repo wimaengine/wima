@@ -3,35 +3,35 @@
 import { typeid } from '../../type/index.js'
 import { assert, warn } from '../../logger/index.js'
 import { getFileExtension, swapRemove } from '../../utils/index.js'
-import { Assets, Handle, Parser, Exporter } from '../core/index.js'
+import { Assets, Handle, Importer, Exporter } from '../core/index.js'
 
 /**
- * @typedef {number} ParserId
+ * @typedef {number} ImporterId
  */
-export class Parsers {
+export class Importers {
 
   /**
    * @private
-   * @type {Parser<unknown>[]}
+   * @type {Importer<unknown>[]}
    */
-  parsers = []
+  importers = []
 
   /**
    * @private
-   * @type {Map<string, Map<TypeId,ParserId>>}
+   * @type {Map<string, Map<TypeId,ImporterId>>}
    */
   extensions = new Map()
 
   /**
    * @template T
-   * @param {Parser<T>} parser
+   * @param {Importer<T>} importer
    */
-  add(parser) {
-    const id = this.parsers.length
-    const typeId = typeid(parser.asset)
-    const extensions = parser.getExtensions()
+  add(importer) {
+    const id = this.importers.length
+    const typeId = typeid(importer.asset)
+    const extensions = importer.getExtensions()
 
-    this.parsers.push(parser)
+    this.importers.push(importer)
 
     for (let i = 0; i < extensions.length; i++) {
       const extension = extensions[i]
@@ -39,7 +39,7 @@ export class Parsers {
 
       if (extensionMap) {
         if (extensionMap.has(typeId)) {
-          warn(`Overriding a parser already present with asset type \`${typeId}\` and with extension "${extension}"".`)
+          warn(`Overriding an importer already present with asset type \`${typeId}\` and with extension "${extension}"".`)
         }
 
         extensionMap.set(typeId, id)
@@ -53,27 +53,27 @@ export class Parsers {
    * @template T
    * @param {TypeId} type
    * @param {string} extension
-   * @returns {Parser<T>}
+   * @returns {Importer<T>}
    * @throws {string}
    */
   get(type, extension) {
     const extensions = this.extensions.get(extension)
 
     if (!extensions) {
-      throw 'The given extension does not have a parser registered'
+      throw 'The given extension does not have an importer registered'
     }
 
-    const parserId = extensions.get(type)
+    const importerId = extensions.get(type)
 
-    if (parserId === undefined) {
+    if (importerId === undefined) {
       throw 'The given asset type does not support the given extension'
     }
 
-    const parser = this.parsers[parserId]
+    const importer = this.importers[importerId]
 
-    assert(parser, 'Internal error: The givk&en parser index is invalid.')
+    assert(importer, 'Internal error: The givk&en importer index is invalid.')
 
-    return /** @type {Parser<T>} */(parser)
+    return /** @type {Importer<T>} */(importer)
   }
 }
 
@@ -161,9 +161,9 @@ export class AssetServer {
   /**
    * @private
    * @readonly
-   * @type {Parsers}
+   * @type {Importers}
    */
-  parsers = new Parsers()
+  importers = new Importers()
 
   /**
    * @private
@@ -211,10 +211,10 @@ export class AssetServer {
   /**
    * @template T
    * @param {Constructor<T>} type
-   * @param {Parser<T>} parser
+   * @param {Importer<T>} importer
    */
-  registerParser(type, parser) {
-    this.parsers.add(parser)
+  registerImporter(type, importer) {
+    this.importers.add(importer)
   }
 
   /**
@@ -288,12 +288,12 @@ export class AssetServer {
    * @template T
    * @param {TypeId} typeId
    * @param {string} path
-   * @returns {Parser<T>}
+   * @returns {Importer<T>}
    */
-  getParser(typeId, path) {
+  getImporter(typeId, path) {
     const extension = getFileExtension(path)
 
-    return this.parsers.get(typeId, extension)
+    return this.importers.get(typeId, extension)
   }
 
   /**
