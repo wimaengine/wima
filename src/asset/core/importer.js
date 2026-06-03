@@ -6,7 +6,7 @@ import { throws } from '../../logger/index.js'
  * @abstract
  * @template T
  */
-export class Parser {
+export class Importer {
 
   /**
    * @readonly
@@ -26,8 +26,8 @@ export class Parser {
    * @param {TypeRegistry} _typeRegistry
    * @returns {Promise<T | undefined>}
    */
-  async parse(_response, _typeRegistry) {
-    throws(`Implement the method \`parse\` on \`${this.constructor.name}\``)
+  async deserialize(_response, _typeRegistry) {
+    throws(`Implement the method \`deserialize\` on \`${this.constructor.name}\``)
 
     return undefined
   }
