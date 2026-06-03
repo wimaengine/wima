@@ -4,9 +4,8 @@
 import { Assets } from '../core/index.js'
 import { Events } from '../../event/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
-import { AssetServer } from '../resources/index.js'
-import { AssetAdded, AssetDropped, AssetModified, AssetLoadSuccess, AssetSaveSuccess, AssetLoadFail } from '../events/index.js'
-import { warnOnce } from '../../logger/index.js'
+import { AssetAdded, AssetDropped, AssetModified, AssetLoadFail, AssetLoadOperation } from '../events/index.js'
+import { error, warnOnce } from '../../logger/index.js'
 
 /**
  * @template T
@@ -55,44 +54,18 @@ export function updateAssetEvents(assetType, eventType) {
 }
 
 /**
- * @template T
  * @param {World} world
  * @returns {void}
  */
-export function updateAssetLoadEvents(world) {
-  const server = world.getResource(AssetServer)
-
-  /** @type {Events<AssetLoadSuccess>} */
-  const sucessEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadSuccess]))
+export function logFailedLoads(world) {
 
   /** @type {Events<AssetLoadFail>} */
-  const failEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
+  const events = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
 
-  const succeeded = server.flushLoadSuccess()
-  const failed = server.flushLoadFail()
+  events.each((event) => {
+    const { data } = event
+    const operation = data.operation === AssetLoadOperation.Saving ? 'saving' : 'loading'
 
-  for (let i = 0; i < succeeded.length; i++) {
-    sucessEvents.write(succeeded[i])
-  }
-
-  for (let i = 0; i < failed.length; i++) {
-    failEvents.write(failed[i])
-  }
-}
-
-/**
- * @param {World} world
- * @returns {void}
- */
-export function updateAssetSaveEvents(world) {
-  const server = world.getResource(AssetServer)
-
-  /** @type {Events<AssetSaveSuccess>} */
-  const saveEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetSaveSuccess]))
-
-  const saved = server.flushSaveSuccess()
-
-  for (let i = 0; i < saved.length; i++) {
-    saveEvents.write(saved[i])
-  }
+    error(`\`AssetServer\` error ${operation} "${data.path}": ${data.reason}`)
+  })
 }

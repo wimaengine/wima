@@ -4,7 +4,6 @@ import { typeid } from '../../type/index.js'
 import { assert, warn } from '../../logger/index.js'
 import { getFileExtension, swapRemove } from '../../utils/index.js'
 import { Assets, Handle, Parser, Exporter } from '../core/index.js'
-import { AssetLoadSuccess, AssetSaveSuccess, AssetLoadFail, AssetLoadOperation } from '../events/index.js'
 
 /**
  * @typedef {number} ParserId
@@ -149,6 +148,7 @@ export class Exporters {
     return /** @type {Exporter<T>} */(exporter)
   }
 }
+
 export class AssetServer {
 
   /**
@@ -188,26 +188,15 @@ export class AssetServer {
 
   /**
    * @private
-   * @type {UntypedAsset[]}
+   * @type {AssetLoadRequest[]}
    */
-  loadedAssets = []
+  loadRequests = []
 
   /**
    * @private
-   * @type {AssetLoadSuccess[]}
+   * @type {AssetSaveRequest[]}
    */
-  loaded = []
-
-  /**
-   * @private
-   * @type {AssetSaveSuccess[]}
-   */
-  saved = []
-
-  /**
-   * @type {AssetLoadFail[]}
-   */
-  failed = []
+  saveRequests = []
 
   /**
    * @template T
@@ -265,7 +254,7 @@ export class AssetServer {
     const newAssetInfo = new AssetInfo(completePath, assetId)
 
     this.assetInfos.add(newAssetInfo)
-    this.fetch(assetId, typeId, completePath, newAssetInfo)
+    this.loadRequests.push(new AssetLoadRequest(typeId, assetId, completePath, newAssetInfo))
 
     return handle
   }
@@ -282,138 +271,41 @@ export class AssetServer {
     const targetPath = path ?? info?.path
 
     if (!targetPath) {
-      this.recordFailure(
+      this.saveRequests.push(new AssetSaveRequest(
         typeId,
         assetId,
         path || '<unknown>',
-        'The given asset handle does not have a registered asset path.',
-        AssetLoadOperation.Saving
-      )
+        'The given asset handle does not have a registered asset path.'
+      ))
 
       return
     }
 
-    return this.post(assetId, typeId, targetPath)
+    this.saveRequests.push(new AssetSaveRequest(typeId, assetId, targetPath))
   }
 
   /**
-   * @param {AssetId} assetId
+   * @template T
    * @param {TypeId} typeId
    * @param {string} path
-   * @param {AssetInfo} info
+   * @returns {Parser<T>}
    */
-  async fetch(assetId, typeId, path, info) {
-    try {
-      const asset = await this.internalFetch(assetId, typeId, path)
-
-      this.loaded.push(new AssetLoadSuccess(typeId, assetId, path))
-      this.loadedAssets.push(asset)
-      info.loadstate = LoadState.Loaded
-    } catch(error) {
-      this.recordFailure(typeId, assetId, path, error)
-      info.loadstate = LoadState.Failed
-    }
-  }
-
-  /**
-   * @private
-   * @param {AssetId} assetId
-   * @param {TypeId} typeId
-   * @param {string} path
-   */
-  async post(assetId, typeId, path) {
-    try {
-      const response = await fetch(path, {
-        method: 'POST',
-        body: await this.serialize(assetId, typeId, path)
-      })
-
-      if (!response.ok) {
-        this.recordFailure(typeId, assetId, path, response.statusText, AssetLoadOperation.Saving)
-      } else {
-        this.saved.push(new AssetSaveSuccess(typeId, assetId, path))
-      }
-    } catch(error) {
-      let message = 'Could not export the asset.'
-
-      if (typeof error === 'string') {
-        message = error
-      } else if (error instanceof Error) {
-        const { message: errorMessage } = error
-
-        message = errorMessage
-      }
-
-      this.recordFailure(typeId, assetId, path, message, AssetLoadOperation.Saving)
-    }
-  }
-
-  /**
-   * @private
-   * @param {AssetId} assetId
-   * @param {TypeId} typeId
-   * @param {string} path
-   * @returns {Promise<BodyInit | undefined>}
-   */
-  async serialize(assetId, typeId, path) {
+  getParser(typeId, path) {
     const extension = getFileExtension(path)
-    const assets = this.assets.get(typeId)
-    const exporter = this.exporters.get(typeId, extension)
 
-    assert(assets, `No assets registered for the asset type \`${typeId}\` on \`AssetServer\``)
-
-    const asset = assets.getByAssetId(assetId)
-
-    if (asset === undefined) {
-      throw 'Could not find the asset to export.'
-    }
-
-    return exporter.serialize(asset)
+    return this.parsers.get(typeId, extension)
   }
 
   /**
-   * @private
-   * @param {TypeId} typeId
-   * @param {AssetId} assetId
-   * @param {string} path
-   * @param {string} message
-   * @param {number} [operation=AssetLoadOperation.Loading]
-   */
-  recordFailure(typeId, assetId, path, message, operation = AssetLoadOperation.Loading) {
-    this.failed.push(new AssetLoadFail(
-      typeId,
-      assetId,
-      path,
-      message,
-      operation
-    ))
-  }
-
-  /**
-   * @private
-   * @param {AssetId} assetId
+   * @template T
    * @param {TypeId} typeId
    * @param {string} path
-   * @throws {string | Error}
-   * @returns {Promise<UntypedAsset>}
+   * @returns {Exporter<T>}
    */
-  async internalFetch(assetId, typeId, path) {
+  getExporter(typeId, path) {
     const extension = getFileExtension(path)
-    const parser = this.parsers.get(typeId, extension)
 
-    const response = await fetch(path)
-
-    if (!response.ok) {
-      throw response.statusText
-    }
-
-    const result = await parser.parse(response)
-
-    if (!result) {
-      throw 'Could not parse the asset.'
-    }
-
-    return new UntypedAsset(typeId, assetId, result)
+    return this.exporters.get(typeId, extension)
   }
 
   /**
@@ -454,79 +346,33 @@ export class AssetServer {
   }
 
   /**
-   * @returns {readonly AssetLoadSuccess[]}
+   * @returns {readonly AssetLoadRequest[]}
    */
-  flushLoadSuccess() {
-    const buffer = this.loaded
+  flushLoadRequests() {
+    const buffer = this.loadRequests
 
-    this.loaded = []
+    this.loadRequests = []
 
     return buffer
   }
 
   /**
-   * @returns {readonly AssetSaveSuccess[]}
+   * @returns {readonly AssetSaveRequest[]}
    */
-  flushSaveSuccess() {
-    const buffer = this.saved
+  flushSaveRequests() {
+    const buffer = this.saveRequests
 
-    this.saved = []
+    this.saveRequests = []
 
     return buffer
   }
 
   /**
-   * @returns {readonly AssetLoadFail[]}
+   * @param {AssetInfo} info
+   * @param {number} state
    */
-  flushLoadFail() {
-    const buffer = this.failed
-
-    this.failed = []
-
-    return buffer
-  }
-
-  /**
-   * @returns {readonly UntypedAsset[]}
-   */
-  flushLoadedAssets() {
-    const buffer = this.loadedAssets
-
-    this.loadedAssets = []
-
-    return buffer
-  }
-}
-
-class UntypedAsset {
-
-  /**
-   * @readonly
-   * @type {TypeId}
-   */
-  typeId
-
-  /**
-   * @readonly
-   * @type {AssetId}
-   */
-  assetId
-
-  /**
-   * @readonly
-   * @type {unknown}
-   */
-  asset
-
-  /**
-   * @param {TypeId} typeId
-   * @param {AssetId} assetId
-   * @param {unknown} asset
-   */
-  constructor(typeId, assetId, asset) {
-    this.typeId = typeId
-    this.asset = asset
-    this.assetId = assetId
+  setLoadState(info, state) {
+    info.loadstate = state
   }
 }
 
@@ -555,6 +401,86 @@ class AssetInfo {
   constructor(path, assetId) {
     this.path = path
     this.id = assetId
+  }
+}
+
+class AssetLoadRequest {
+
+  /**
+   * @readonly
+   * @type {TypeId}
+   */
+  typeId
+
+  /**
+   * @readonly
+   * @type {AssetId}
+   */
+  assetId
+
+  /**
+   * @readonly
+   * @type {string}
+   */
+  path
+
+  /**
+   * @readonly
+   * @type {AssetInfo}
+   */
+  info
+
+  /**
+   * @param {TypeId} typeId
+   * @param {AssetId} assetId
+   * @param {string} path
+   * @param {AssetInfo} info
+   */
+  constructor(typeId, assetId, path, info) {
+    this.typeId = typeId
+    this.assetId = assetId
+    this.path = path
+    this.info = info
+  }
+}
+
+class AssetSaveRequest {
+
+  /**
+   * @readonly
+   * @type {TypeId}
+   */
+  typeId
+
+  /**
+   * @readonly
+   * @type {AssetId}
+   */
+  assetId
+
+  /**
+   * @readonly
+   * @type {string}
+   */
+  path
+
+  /**
+   * @readonly
+   * @type {string | undefined}
+   */
+  reason
+
+  /**
+   * @param {TypeId} typeId
+   * @param {AssetId} assetId
+   * @param {string} path
+   * @param {string} [reason]
+   */
+  constructor(typeId, assetId, path, reason) {
+    this.typeId = typeId
+    this.assetId = assetId
+    this.path = path
+    this.reason = reason
   }
 }
 

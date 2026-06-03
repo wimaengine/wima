@@ -3,10 +3,11 @@
 /** @import { AssetDropped, AssetEvent, Parser, Exporter } from '../index.js' */
 import { Events } from '../../event/index.js'
 import { typeidGeneric } from '../../type/index.js'
+import { TypeRegistry } from '../../reflect/resources/index.js'
 import { Assets } from '../core/index.js'
-import { AssetServer } from '../resources/index.js'
-import { AssetLoadFail, AssetLoadOperation } from '../events/index.js'
-import { error } from '../../logger/index.js'
+import { AssetServer, LoadState } from '../resources/index.js'
+import { AssetLoadFail, AssetLoadOperation, AssetLoadSuccess, AssetSaveSuccess } from '../events/index.js'
+import { assert } from '../../logger/index.js'
 
 /**
  * @template T
@@ -53,34 +54,106 @@ export function registerAssetExporterOnAssetServer(type, exporter) {
 /**
  * @param {World} world
  */
-export function updateAssets(world) {
+export async function updateAssets(world) {
   const server = world.getResource(AssetServer)
-  const loaded = server.flushLoadedAssets()
 
-  for (let i = 0; i < loaded.length; i++) {
-    const { asset, typeId, assetId } = loaded[i]
-    const assets = server.getAssets(typeId)
+  /** @type {Events<AssetLoadSuccess>} */
+  const loadSuccessEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadSuccess]))
 
-    if (!assets) continue
-
-    assets.setUsingAssetId(assetId, asset)
-  }
-}
-
-/**
- * @param {World} world
- */
-export function logFailedLoads(world) {
+  /** @type {Events<AssetSaveSuccess>} */
+  const saveSuccessEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetSaveSuccess]))
 
   /** @type {Events<AssetLoadFail>} */
-  const events = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
+  const loadFailEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
+  const typeRegistry = world.getResource(TypeRegistry)
 
-  events.each((event) => {
-    const { data } = event
-    const operation = data.operation === AssetLoadOperation.Saving ? 'saving' : 'loading'
+  const loadRequests = server.flushLoadRequests()
+  const saveRequests = server.flushSaveRequests()
 
-    error(`\`AssetServer\` error ${operation} "${data.path}": ${data.reason}`)
-  })
+  for (let i = 0; i < loadRequests.length; i++) {
+    const { assetId, info, path, typeId } = loadRequests[i]
+
+    try {
+      const parser = server.getParser(typeId, path)
+      const response = await fetch(path)
+
+      if (!response.ok) {
+        throw response.statusText
+      }
+
+      const asset = await parser.parse(response, typeRegistry)
+
+      if (!asset) {
+        throw 'Could not parse the asset.'
+      }
+
+      const assets = server.getAssets(typeId)
+
+      assert(assets, `No assets registered for the asset type \`${typeId}\` on \`AssetServer\``)
+
+      assets.setUsingAssetId(assetId, asset)
+      server.setLoadState(info, LoadState.Loaded)
+      loadSuccessEvents.write(new AssetLoadSuccess(typeId, assetId, path))
+    } catch(error) {
+      server.setLoadState(info, LoadState.Failed)
+      let message = 'Could not load the asset.'
+
+      if (typeof error === 'string') {
+        message = error
+      } else if (error instanceof Error) {
+        const { message: errorMessage } = error
+
+        message = errorMessage
+      }
+
+      loadFailEvents.write(new AssetLoadFail(typeId, assetId, path, message))
+    }
+  }
+
+  for (let i = 0; i < saveRequests.length; i++) {
+    const { assetId, path, reason, typeId } = saveRequests[i]
+
+    if (reason) {
+      loadFailEvents.write(new AssetLoadFail(typeId, assetId, path, reason, AssetLoadOperation.Saving))
+      continue
+    }
+
+    try {
+      const assets = server.getAssets(typeId)
+
+      assert(assets, `No assets registered for the asset type \`${typeId}\` on \`AssetServer\``)
+
+      const asset = assets.getByAssetId(assetId)
+
+      if (asset === undefined) {
+        throw 'Could not find the asset to export.'
+      }
+
+      const exporter = server.getExporter(typeId, path)
+      const response = await fetch(path, {
+        method: 'POST',
+        body: await exporter.serialize(asset, typeRegistry)
+      })
+
+      if (!response.ok) {
+        throw response.statusText
+      }
+
+      saveSuccessEvents.write(new AssetSaveSuccess(typeId, assetId, path))
+    } catch(error) {
+      let message = 'Could not export the asset.'
+
+      if (typeof error === 'string') {
+        message = error
+      } else if (error instanceof Error) {
+        const { message: errorMessage } = error
+
+        message = errorMessage
+      }
+
+      loadFailEvents.write(new AssetLoadFail(typeId, assetId, path, message, AssetLoadOperation.Saving))
+    }
+  }
 }
 
 /**

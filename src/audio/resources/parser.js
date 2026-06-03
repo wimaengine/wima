@@ -1,3 +1,4 @@
+/** @import { TypeRegistry } from '../../reflect/resources/index.js' */
 import { Parser } from '../../asset/index.js'
 import { Audio } from '../assets/index.js'
 
@@ -25,8 +26,9 @@ export class AudioParser extends Parser {
 
   /**
    * @param {Response} response
+   * @param {TypeRegistry} _typeRegistry
    */
-  async parse(response) {
+  async parse(response, _typeRegistry) {
     const raw = await response.arrayBuffer()
     const audiobuffer = await this.decoder.decodeAudioData(raw)
 
