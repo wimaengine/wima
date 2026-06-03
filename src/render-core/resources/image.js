@@ -1,12 +1,12 @@
 /** @import { TypeRegistry } from '../../reflect/resources/index.js' */
-import { Parser } from '../../asset/core/parser.js'
+import { Importer } from '../../asset/index.js'
 import { Image } from '../assets/index.js'
 import { Vector2 } from '../../math/index.js'
 
 /**
- * @augments {Parser<Image>}
+ * @augments {Importer<Image>}
  */
-export class ImageParser extends Parser {
+export class ImageImporter extends Importer {
 
   constructor() {
     super(Image)
@@ -22,7 +22,7 @@ export class ImageParser extends Parser {
    * @param {Response} response
    * @param {TypeRegistry} _typeRegistry
    */
-  async parse(response, _typeRegistry) {
+  async deserialize(response, _typeRegistry) {
     const raw = await response.arrayBuffer()
     const dimensions = await getDimensions(raw)
 
