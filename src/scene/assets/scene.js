@@ -77,6 +77,7 @@ export class Scene {
         const { constructor } = component
         const type = /** @type {import('../../type/index.js').Constructor} */ (constructor)
         const entry = typeRegistry.get(type)
+
         return fromSnapshot(component, world, entry)
       }).filter((e) => e !== undefined)
 

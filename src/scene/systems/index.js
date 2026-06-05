@@ -2,6 +2,7 @@ import { Entity, Query, World } from '../../ecs/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { SceneInstance } from '../components/index.js'
 import { SceneAssets, SceneSpawner } from '../resources/index.js'
+
 export * from './types.js'
 
 /**

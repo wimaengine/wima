@@ -9,12 +9,14 @@ import { abstractMethod } from '../../utils/errors.js'
  * @interface
  */
 export class ToSnapshot {
+
   /**
    * @param {World} _world
+   * @throws {string}
    * @returns {T}
    */
   toSnapshot(_world) {
-    throw abstractMethod(this,ToSnapshot,ToSnapshot.prototype.toSnapshot)
+    throw abstractMethod(this, ToSnapshot, ToSnapshot.prototype.toSnapshot)
   }
 }
 
@@ -25,12 +27,14 @@ export class ToSnapshot {
  * @interface
  */
 export class FromSnapshot {
+
   /**
    * @param {World} _world
+   * @throws {string}
    * @returns {T}
    */
   fromSnapshot(_world) {
-    throw abstractMethod(this,FromSnapshot,FromSnapshot.prototype.fromSnapshot)
+    throw abstractMethod(this, FromSnapshot, FromSnapshot.prototype.fromSnapshot)
   }
 }
 

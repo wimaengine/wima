@@ -43,14 +43,15 @@ export function swapRemove(arr, index) {
  * @param {string[]} args
  */
 export function formatString(string, ...args) {
-    return string.replace(/{(\d+)}/g, function (match, number) {
-        const index = parseInt(number)
-        if (typeof index == 'number') {
-            return args[index] || match
-        }
+  return string.replace(/{(\d+)}/g, (match, number) => {
+    const index = parseInt(number)
 
-        return match
-    })
+    if (typeof index === 'number') {
+      return args[index] || match
+    }
+
+    return match
+  })
 }
 
 /**

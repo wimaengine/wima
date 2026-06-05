@@ -401,10 +401,10 @@ export class HandleSnapshot {
 
     const assets = /** @type {Assets<T>} */ (server.getAssets(typeid(this.type)))
 
-    // TODO: This is inherently incorrect. When scene resources are added, 
+    // TODO: This is inherently incorrect. When scene resources are added,
     // the assetid will point to the wrong asset in the scene due to desync between
     // the scene and world when an assets are added/removed from the world or scene.
-    // Add a mapping between scene assets and world assets and use that to create 
+    // Add a mapping between scene assets and world assets and use that to create
     // the asset handle. Also ensure the assets are loaded into world before spawning
     // the scene into the world.
 
