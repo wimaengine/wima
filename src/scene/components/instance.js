@@ -1,6 +1,6 @@
 /** @import { EntityId } from '../../ecs/index.js' */
 /** @import { Scene } from "../assets/scene.js" */
-import { Handle } from '../../asset/index.js'
+import { Handle, HandleSnapshot } from '../../asset/index.js'
 
 export class SceneInstance {
 
@@ -36,5 +36,39 @@ export class SceneInstance {
    */
   static clone(target) {
     return SceneInstance.copy(target)
+  }
+
+  /**
+   * @param {import('../../ecs/index.js').World} world
+   * @returns {SceneInstanceSnapshot}
+   */
+  toSnapshot(world) {
+    return new SceneInstanceSnapshot(this.handle.toSnapshot(world))
+  }
+}
+
+/**
+ * Snapshot of a scene instance.
+ */
+export class SceneInstanceSnapshot {
+
+  /**
+   * @type {HandleSnapshot<Scene>}
+   */
+  handle
+
+  /**
+   * @param {HandleSnapshot<Scene>} handle
+   */
+  constructor(handle) {
+    this.handle = handle
+  }
+
+  /**
+   * @param {import('../../ecs/index.js').World} world
+   * @returns {SceneInstance}
+   */
+  fromSnapshot(world) {
+    return new SceneInstance(this.handle.fromSnapshot(world))
   }
 }

@@ -1,4 +1,4 @@
-import { Handle } from '../../asset/index.js'
+import { Handle, HandleSnapshot } from '../../asset/index.js'
 import { Mesh } from '../assets/index.js'
 
 export class Meshed {
@@ -30,5 +30,39 @@ export class Meshed {
    */
   static clone(target) {
     return Meshed.copy(target)
+  }
+
+  /**
+   * @param {import('../../ecs/index.js').World} world
+   * @returns {MeshedSnapshot}
+   */
+  toSnapshot(world) {
+    return new MeshedSnapshot(this.handle.toSnapshot(world))
+  }
+}
+
+/**
+ * Snapshot of a meshed component.
+ */
+export class MeshedSnapshot {
+
+  /**
+   * @type {HandleSnapshot<Mesh>}
+   */
+  handle
+
+  /**
+   * @param {HandleSnapshot<Mesh>} handle
+   */
+  constructor(handle) {
+    this.handle = handle
+  }
+
+  /**
+   * @param {import('../../ecs/index.js').World} world
+   * @returns {Meshed}
+   */
+  fromSnapshot(world) {
+    return new Meshed(this.handle.fromSnapshot(world))
   }
 }

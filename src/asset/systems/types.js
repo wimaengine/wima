@@ -3,7 +3,7 @@
 import { World } from '../../ecs/index.js'
 import { ArrayInfo, Field, StructInfo } from '../../reflect/core/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
-import { Assets, Handle } from '../core/index.js'
+import { Assets, Handle, HandleSnapshot } from '../core/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
 import { AssetServer } from '../resources/index.js'
 import { AssetLoadFail, AssetSaveSuccess } from '../events/index.js'
@@ -28,6 +28,12 @@ export function registerAssetTypes(asset) {
         type: new Field(typeid(Function))
       })
     )
+    registry.register(HandleSnapshot, new StructInfo({
+      type: new Field(typeid(Function)),
+      asset: new Field(typeid(Object))
+    }))
+    registry.get(HandleSnapshot)?.setMethod(HandleSnapshot.prototype.fromSnapshot)
+    registry.get(Handle)?.setMethod(Handle.prototype.toSnapshot)
   }
 }
 

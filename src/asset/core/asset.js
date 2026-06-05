@@ -2,7 +2,9 @@
 /** @import {Constructor} from '../../type/index.js'*/
 import { packInto64Int, unpackFrom64Int } from '../../algorithms/index.js'
 import { DenseList } from '../../datastructures/index.js'
+import { typeid } from '../../type/index.js'
 import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events/assets.js'
+import { AssetServer } from '../resources/assetserver.js'
 
 /**
  * @template T
@@ -325,11 +327,88 @@ export class Handle {
     return new Handle(assets, index, generation)
   }
 
+  /**
+   * Snapshot the handle with the asset server path when available.
+   *
+   * @param {import('../../ecs/index.js').World} world
+   * @returns {HandleSnapshot<T>}
+   */
+  toSnapshot(world) {
+    const server = world.getResource(AssetServer)
+    const info = server?.getAssetInfo(this)
+
+    if (info?.path) {
+      return new HandleSnapshot(this.type, info.path)
+    }
+
+    return new HandleSnapshot(this.type, this.id())
+  }
+
   drop() {
     if (this.dropped) return
 
     this.assets.drop(this)
     this.dropped = true
+  }
+}
+
+/**
+ * A snapshot of an asset handle.
+ *
+ * The snapshot preserves the asset type and id, and stores the asset server
+ * path when one is registered so the handle can be reloaded by path.
+ *
+ * @template T
+ */
+export class HandleSnapshot {
+
+  /**
+   * @readonly
+   * @type {Constructor<T>}
+   */
+  type
+
+  /**
+   * @readonly
+   * @type {AssetId | string}
+   */
+  asset
+
+  /**
+   * @param {Constructor<T>} type
+   * @param {AssetId | string} asset
+   */
+  constructor(type, asset) {
+    this.type = type
+    this.asset = asset
+  }
+
+  /**
+   * Restore the live handle from the asset server.
+   *
+   * If the asset server knows the path, we reload it by path. Otherwise we
+   * upgrade the stored asset id against the asset pool.
+   *
+   * @param {import('../../ecs/index.js').World} world
+   * @returns {Handle<T>}
+   */
+  fromSnapshot(world) {
+    const server = world.getResource(AssetServer)
+
+    if (typeof this.asset === 'string') {
+      return /** @type {Handle<T>} */ (server.load(this.type, this.asset))
+    }
+
+    const assets = /** @type {Assets<T>} */ (server.getAssets(typeid(this.type)))
+
+    // TODO: This is inherently incorrect. When scene resources are added, 
+    // the assetid will point to the wrong asset in the scene due to desync between
+    // the scene and world when an assets are added/removed from the world or scene.
+    // Add a mapping between scene assets and world assets and use that to create 
+    // the asset handle. Also ensure the assets are loaded into world before spawning
+    // the scene into the world.
+
+    return /** @type {Handle<T>} */ (assets.upgrade(this.asset))
   }
 }
 

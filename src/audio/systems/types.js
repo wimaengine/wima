@@ -3,9 +3,9 @@ import { EnumInfo, Field, OpaqueInfo, StructInfo } from '../../reflect/core/inde
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { setTypeId, typeid, typeidGeneric } from '../../type/index.js'
 import { GraphList } from '../../datastructures/index.js'
-import { Handle } from '../../asset/index.js'
+import { Handle, HandleSnapshot } from '../../asset/index.js'
 import { Audio } from '../assets/index.js'
-import { AudioOscillator, AudioOscillatorType, AudioPlayer } from '../components/index.js'
+import { AudioOscillator, AudioOscillatorType, AudioPlayer, AudioPlayerSnapshot } from '../components/index.js'
 import { AudioCommands, AudioGraph } from '../resources/index.js'
 
 /**
@@ -31,6 +31,13 @@ export function registerAudioTypes(world) {
   }))
   registry.get(AudioPlayer)?.setMethod(AudioPlayer.copy)
   registry.get(AudioPlayer)?.setMethod(AudioPlayer.clone)
+  registry.get(AudioPlayer)?.setMethod(AudioPlayer.prototype.toSnapshot)
+  registry.register(AudioPlayerSnapshot, new StructInfo({
+    sourceNode: new Field(typeid(Number), true),
+    attach: new Field(typeid(Number), true),
+    audio: new Field(typeid(HandleSnapshot), true)
+  }))
+  registry.get(AudioPlayerSnapshot)?.setMethod(AudioPlayerSnapshot.prototype.fromSnapshot)
   registry.register(AudioOscillator, new StructInfo({
     sourceNode: new Field(typeid(Number), true),
     type: new Field(oscillatorTypeId),

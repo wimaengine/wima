@@ -1,6 +1,6 @@
 /** @import { NodeId } from '../../datastructures/index.js' */
 /** @import { ComponentHook } from '../../ecs/index.js' */
-import { Handle } from '../../asset/index.js'
+import { Handle, HandleSnapshot } from '../../asset/index.js'
 import { Audio } from '../assets/index.js'
 import { AudioGraph } from '../resources/index.js'
 
@@ -46,6 +46,65 @@ export class AudioPlayer {
    */
   static clone(target) {
     return AudioPlayer.copy(target)
+  }
+
+  /**
+   * @param {import('../../ecs/index.js').World} world
+   * @returns {AudioPlayerSnapshot}
+   */
+  toSnapshot(world) {
+    return new AudioPlayerSnapshot(
+      this.sourceNode,
+      this.attach,
+      this.audio?.toSnapshot(world)
+    )
+  }
+}
+
+/**
+ * Snapshot of an audio player component.
+ */
+export class AudioPlayerSnapshot {
+
+  /**
+   * @type {NodeId | undefined}
+   */
+  sourceNode
+
+  /**
+   * @type {NodeId | undefined}
+   */
+  attach
+
+  /**
+   * @type {HandleSnapshot<Audio> | undefined}
+   */
+  audio
+
+  /**
+   * @param {NodeId | undefined} sourceNode
+   * @param {NodeId | undefined} attach
+   * @param {HandleSnapshot<Audio> | undefined} audio
+   */
+  constructor(sourceNode, attach, audio) {
+    this.sourceNode = sourceNode
+    this.attach = attach
+    this.audio = audio
+  }
+
+  /**
+   * @param {import('../../ecs/index.js').World} world
+   * @returns {AudioPlayer}
+   */
+  fromSnapshot(world) {
+    const player = new AudioPlayer({
+      attach: this.attach,
+      audio: this.audio?.fromSnapshot(world)
+    })
+
+    player.sourceNode = this.sourceNode
+
+    return player
   }
 }
 
