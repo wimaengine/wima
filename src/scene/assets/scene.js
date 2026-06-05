@@ -5,6 +5,58 @@ import { warn } from '../../logger/index.js'
 import { TypeRegistry } from '../../reflect/index.js'
 import { SceneInstance } from '../components/index.js'
 
+/**
+ * @param {unknown} component
+ * @param {World} world
+ * @param {import('../../reflect/resources/typeregistry.js').TypeEntry | undefined} entry
+ */
+function toSnapshot(component, world, entry) {
+  const method = entry?.getMethod('toSnapshot')
+
+  if (method) {
+    return method.method.call(component, world)
+  }
+
+  const clone = entry?.getMethod('clone')
+
+  if (clone) {
+    return clone.method.call(component)
+  }
+
+  const { constructor } = component
+  const name = constructor.name || 'Unknown'
+
+  warn(`The component \`${name}\` has not been snapshotted as there is no toSnapshot or clone method registered in the \`TypeRegistry\``)
+
+  return undefined
+}
+
+/**
+ * @param {unknown} component
+ * @param {World} world
+ * @param {import('../../reflect/resources/typeregistry.js').TypeEntry | undefined} entry
+ */
+function fromSnapshot(component, world, entry) {
+  const method = entry?.getMethod('fromSnapshot')
+
+  if (method) {
+    return method.method.call(component, world)
+  }
+
+  const clone = entry?.getMethod('clone')
+
+  if (clone) {
+    return clone.method.call(component)
+  }
+
+  const { constructor } = component
+  const name = constructor.name || 'Unknown'
+
+  warn(`The component \`${name}\` has not been restored as there is no fromSnapshot or clone method registered in the \`TypeRegistry\``)
+
+  return undefined
+}
+
 export class Scene {
 
   /** @type {Map<EntityId, object[]> } */
@@ -22,20 +74,11 @@ export class Scene {
     for (const [entity, components] of this.entities) {
 
       const clonedComponents = components.map((component) => {
-
         const { constructor } = component
-        const clone = typeRegistry
-          .get(/** @type {import('../../type/index.js').Constructor} */(constructor))
-          ?.call('clone', [component])
+        const type = /** @type {import('../../type/index.js').Constructor} */ (constructor)
+        const entry = typeRegistry.get(type)
 
-        if (clone) {
-          return clone
-        }
-
-        warn(`The component \`${constructor.name}\` has not been cloned as there is no clone method registered in the \`TypeRegistry\``)
-
-        return undefined
-
+        return fromSnapshot(component, world, entry)
       }).filter((e) => e !== undefined)
 
       if (!clonedComponents.some((c) => c.constructor === Parent)) {
@@ -64,17 +107,11 @@ export class Scene {
       for (let i = 0; i < typeIds.length; i++) {
         const typeId = typeIds[i]
         const component = cell.getTypeId(typeId)
-        const clone = /** @type {object} */(typeRegistry
-          .getByTypeId(typeId)
-          ?.call('clone', [component]))
+        const entry = typeRegistry.getByTypeId(typeId)
+        const snapshot = toSnapshot(component, world, entry)
 
-        if (clone) {
-          components.push(clone)
-        } else {
-          const { constructor } = component
-          const name = constructor.name || 'Unknown'
-
-          warn(`The component \`${name}\` has not been cloned as there is no clone method registered in the \`TypeRegistry\``)
+        if (snapshot) {
+          components.push(/** @type {object} */ (snapshot))
         }
       }
 

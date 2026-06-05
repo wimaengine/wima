@@ -1,6 +1,8 @@
 import { deepStrictEqual, strictEqual } from "assert";
 import test, { describe } from "node:test";
 import { Assets } from "../core/index.js";
+import { AssetServer } from "../resources/index.js";
+import { World } from "../../ecs/index.js";
 
 describe('Testing `Handle`',()=>{
     test('`Handle` clone is same as original', () => {
@@ -177,5 +179,37 @@ describe('Testing `Handle`',()=>{
         deepStrictEqual(handle2.generation, 2)
         deepStrictEqual(handle3.index, 0)
         deepStrictEqual(handle3.generation, 3)
+    })
+
+    test('`Handle` snapshot restores from asset server path.', () => {
+        const world = new World()
+        const assets = new Assets(String)
+        const server = new AssetServer()
+
+        world.setResource(server)
+        server.registerAsset(assets)
+
+        const handle = server.load(String, '/assets/text/sample.txt')
+        const snapshot = handle.toSnapshot(world)
+        const restored = snapshot.fromSnapshot(world)
+
+        strictEqual(snapshot.asset, '/assets/text/sample.txt')
+        deepStrictEqual(restored.id(), handle.id())
+    })
+
+    test('`Handle` snapshot restores from asset id when no path is registered.', () => {
+        const world = new World()
+        const assets = new Assets(String)
+        const server = new AssetServer()
+
+        world.setResource(server)
+        server.registerAsset(assets)
+
+        const handle = assets.add('Wima engine')
+        const snapshot = handle.toSnapshot(world)
+        const restored = snapshot.fromSnapshot(world)
+
+        strictEqual(snapshot.asset, handle.id())
+        deepStrictEqual(restored.id(), handle.id())
     })
 })

@@ -39,6 +39,22 @@ export function swapRemove(arr, index) {
 }
 
 /**
+ * @param {string} string
+ * @param {string[]} args
+ */
+export function formatString(string, ...args) {
+  return string.replace(/{(\d+)}/g, (match, number) => {
+    const index = parseInt(number)
+
+    if (typeof index === 'number') {
+      return args[index] || match
+    }
+
+    return match
+  })
+}
+
+/**
  * Performs no operations on any given input.
  * Used as a callback function where no operaion
  * is required.
