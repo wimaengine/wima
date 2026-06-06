@@ -54,7 +54,7 @@ describe("Testing `Assets`", () => {
     test('`Assets.get` returns undefined on invalid handle', () => {
         const assets = new Assets(String)
 
-        const handle = new Handle(assets,0, 1)
+        const handle = new Handle(assets.channel, String, 0, 1)
         const actual = assets.get(handle)
 
         strictEqual(actual, undefined)
@@ -182,7 +182,7 @@ describe("Testing `Assets`", () => {
     test('`Assets.getByAssetId` returns undefined on invalid assetid', () => {
         const assets = new Assets(String)
 
-        const handle = new Handle(assets,0, 1).id()
+        const handle = new Handle(assets.channel, String, 0, 1).id()
         const actual = assets.getByAssetId(handle)
 
         strictEqual(actual, undefined)
@@ -271,6 +271,7 @@ describe("Testing `Assets`", () => {
 
         const handle = assets.add(asset)
         assets.drop(handle)
+        assets.update()
         const events = assets.flushEvents()
 
         deepStrictEqual(events[1], new AssetDropped(String, handle.id()))
