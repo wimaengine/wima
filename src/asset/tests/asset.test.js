@@ -1,6 +1,7 @@
 import { test, describe } from "node:test";
 import { deepStrictEqual, strictEqual } from "node:assert";
-import { Assets,Handle } from "../core/index.js";
+import { Handle } from "../core/index.js";
+import { Assets } from "../resources/index.js";
 import { AssetAdded, AssetDropped, AssetModified } from "../events/assets.js";
 
 describe("Testing `Assets`", () => {

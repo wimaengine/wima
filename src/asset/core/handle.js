@@ -1,5 +1,5 @@
 /** @import {AssetId} from '../types/index.js' */
-/** @import {Assets} from './asset.js' */
+/** @import {Assets} from '../resources/assets.js' */
 /** @import {Constructor} from '../../type/index.js'*/
 
 import { packInto64Int } from '../../algorithms/index.js'

@@ -2,7 +2,7 @@
 /** @import { Constructor } from '../../type/index.js' */
 
 import { typeidGeneric } from '../../type/index.js'
-import { Assets } from '../core/index.js'
+import { Assets } from '../resources/index.js'
 
 /**
  * Drain the queued handle lifecycle messages for a single asset pool.

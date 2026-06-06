@@ -3,7 +3,8 @@
 import { typeid } from '../../type/index.js'
 import { assert, warn } from '../../logger/index.js'
 import { getFileExtension, swapRemove } from '../../utils/index.js'
-import { Assets, Handle, Importer, Exporter } from '../core/index.js'
+import { Handle, Importer, Exporter } from '../core/index.js'
+import { Assets } from './assets.js'
 
 /**
  * @typedef {number} ImporterId

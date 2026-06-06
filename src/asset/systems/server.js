@@ -4,8 +4,7 @@
 import { Events } from '../../event/index.js'
 import { typeidGeneric } from '../../type/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
-import { Assets } from '../core/index.js'
-import { AssetServer, LoadState } from '../resources/index.js'
+import { AssetServer, Assets, LoadState } from '../resources/index.js'
 import { AssetLoadFail, AssetLoadOperation, AssetLoadSuccess, AssetSaveSuccess } from '../events/index.js'
 import { assert } from '../../logger/index.js'
 

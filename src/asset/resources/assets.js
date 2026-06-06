@@ -1,10 +1,11 @@
 /** @import {AssetId} from '../types/index.js' */
-/** @import {Constructor} from '../../type/index.js'*/
+/** @import {Constructor} from '../../type/index.js' */
+
 import { unpackFrom64Int } from '../../algorithms/index.js'
 import { DenseList } from '../../datastructures/index.js'
 import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events/assets.js'
-import { AssetChannel, AssetChannelMessageType } from './channel.js'
-import { Handle } from './handle.js'
+import { AssetChannel, AssetChannelMessageType } from '../core/channel.js'
+import { Handle } from '../core/handle.js'
 
 /**
  * @template T

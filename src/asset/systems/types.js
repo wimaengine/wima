@@ -3,9 +3,9 @@
 import { World } from '../../ecs/index.js'
 import { ArrayInfo, Field, StructInfo } from '../../reflect/core/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
-import { Assets, Handle, HandleSnapshot } from '../core/index.js'
+import { AssetServer, Assets } from '../resources/index.js'
+import { Handle, HandleSnapshot } from '../core/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
-import { AssetServer } from '../resources/index.js'
 import { AssetLoadFail, AssetSaveSuccess } from '../events/index.js'
 
 /**

@@ -1,6 +1,6 @@
 import { deepStrictEqual, strictEqual } from "assert";
 import test, { describe } from "node:test";
-import { Assets } from "../core/index.js";
+import { Assets } from "../resources/index.js";
 import { AssetServer } from "../resources/index.js";
 import { World } from "../../ecs/index.js";
 
