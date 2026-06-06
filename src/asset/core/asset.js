@@ -5,6 +5,7 @@ import { DenseList } from '../../datastructures/index.js'
 import { typeid } from '../../type/index.js'
 import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events/assets.js'
 import { AssetServer } from '../resources/assetserver.js'
+import { AssetChannel, AssetChannelMessageType } from './channel.js'
 
 /**
  * @template T
@@ -33,6 +34,12 @@ export class Assets {
    * @type {AssetEvent<T>[]}
    */
   events = []
+
+  /**
+   * @readonly
+   * @type {AssetChannel<T>}
+   */
+  channel = new AssetChannel()
 
   /**
    * @param {Constructor<T>} type
@@ -192,7 +199,6 @@ export class Assets {
    * @returns {Handle<T> | undefined}
    */
   getHandleByUUID(uuid) {
-
     return this.uuids.get(uuid)?.clone()
   }
 
@@ -213,6 +219,8 @@ export class Assets {
   drop(handle) {
     const entry = this.getEntry(handle)
 
+    if (!entry) return
+
     entry.refCount -= 1
 
     if (entry.refCount <= 0) {
@@ -224,11 +232,18 @@ export class Assets {
 
   /**
    * @param {AssetId} assetId
+   * @returns {Handle<T> | undefined}
    */
   upgrade(assetId) {
     const [index, generation] = unpackFrom64Int(assetId)
+    const entry = this.getEntryInternal(index, generation)
 
-    return new Handle(this, index, generation)
+    if (!entry) {
+      return
+    }
+    entry.refCount += 1
+    
+    return new Handle(this.channel, this.type, index, generation)
   }
 
   /**
@@ -241,20 +256,71 @@ export class Assets {
 
     if (entry) {
       entry.generation += 1
+      entry.refCount = 1
 
-      return new Handle(this, index, entry.generation)
+      return new Handle(this.channel, this.type, index, entry.generation)
     }
 
     const newEntry = new AssetEntry(undefined)
 
     newEntry.generation += 1
+    newEntry.refCount = 1
     this.assets.set(index, newEntry)
 
-    return new Handle(this, index, newEntry.generation)
+    return new Handle(this.channel, this.type, index, newEntry.generation)
   }
 
   values() {
     return this.assets.values()
+  }
+
+  /**
+   * Drain and apply queued handle lifecycle messages.
+   */
+  update() {
+    const messages = this.channel.flush()
+
+    for (let i = 0; i < messages.length; i++) {
+      const message = messages[i]
+
+      if (message.type === AssetChannelMessageType.Acquire) {
+        this.acquire(message.assetId)
+      } else if (message.type === AssetChannelMessageType.Release) {
+        this.release(message.assetId)
+      }
+    }
+  }
+
+  /**
+   * @private
+   * @param {AssetId} assetId
+   */
+  acquire(assetId) {
+    const entry = this.getEntryByAssetId(assetId)
+
+    if (!entry) return
+
+    entry.refCount += 1
+  }
+
+  /**
+   * @private
+   * @param {AssetId} assetId
+   */
+  release(assetId) {
+    const entry = this.getEntryByAssetId(assetId)
+
+    if (!entry) return
+
+    entry.refCount -= 1
+
+    if (entry.refCount <= 0) {
+      const [index] = unpackFrom64Int(assetId)
+
+      entry.asset = undefined
+      this.assets.recycle(index)
+      this.events.push(new AssetDropped(this.type, assetId))
+    }
   }
 }
 
@@ -276,13 +342,11 @@ export class Handle {
   dropped = false
 
   /**
-   * This only exists as a channel for reference counting, do not use for any
-   * other purpose!
    * @private
    * @readonly
-   * @type {Assets<T>}
+   * @type {AssetChannel<T>}
    */
-  assets
+  channel
 
   /**
    * @readonly
@@ -297,21 +361,16 @@ export class Handle {
   generation = 0
 
   /**
-   * @param {Assets<T>} assets
+   * @param {AssetChannel<T>} channel
+   * @param {Constructor<T>} type
    * @param {number} index
    * @param {number} generation
    */
-  constructor(assets, index, generation) {
+  constructor(channel, type, index, generation) {
     this.index = index
     this.generation = generation
-    this.assets = assets
-    this.type = assets.type
-
-    const entry = assets.getEntry(this)
-
-    if (entry && entry.generation === generation) {
-      entry.refCount += 1
-    }
+    this.channel = channel
+    this.type = type
   }
 
   /**
@@ -322,9 +381,11 @@ export class Handle {
   }
 
   clone() {
-    const { assets, index, generation } = this
+    const { channel, index, generation } = this
 
-    return new Handle(assets, index, generation)
+    channel.acquire(this.id())
+
+    return new Handle(channel, this.type, index, generation)
   }
 
   /**
@@ -347,7 +408,7 @@ export class Handle {
   drop() {
     if (this.dropped) return
 
-    this.assets.drop(this)
+    this.channel.release(this.id())
     this.dropped = true
   }
 }
