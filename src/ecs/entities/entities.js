@@ -4,7 +4,7 @@ import { EntityLocation } from './location.js'
 
 /** @augments {DenseList<EntityLocation>} */
 export class Entities extends DenseList {
-    constructor(){
-        super(new IndexAllocator())
-    }
+  constructor() {
+    super(new IndexAllocator())
+  }
 }
