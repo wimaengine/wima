@@ -239,14 +239,13 @@ export class AssetServer {
     return /** @type {Handle<T>} */(this.loadUntyped(typeId, path, type.name))
   }
 
-  
   /**
    * @param {TypeId} typeId
    * @param {string} path
    * @param {string} [typeName]
    * @returns {import('../core/index.js').UntypedHandle}
    */
-  loadUntyped(typeId, path, typeName){
+  loadUntyped(typeId, path, typeName) {
     const baseUrl = this.basePaths.get(typeId) || ''
     const completePath = baseUrl + path
     const assets = this.assets.get(typeId)
