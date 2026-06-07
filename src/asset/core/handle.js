@@ -2,7 +2,7 @@
 /** @import {Assets} from '../resources/assets.js' */
 /** @import {Constructor} from '../../type/index.js'*/
 
-import { packInto64Int } from '../../algorithms/index.js'
+import { packInto64Int } from '../../datastructures/index.js'
 import { typeid } from '../../type/index.js'
 import { AssetServer } from '../resources/assetserver.js'
 import { AssetChannel } from './channel.js'

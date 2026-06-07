@@ -1,4 +1,4 @@
-import { packInto64Int, unpackFrom64Int } from '../../algorithms/packnumber.js'
+import { packInto64Int, unpackFrom64Int } from 'vifaa'
 
 export class Entity {
 

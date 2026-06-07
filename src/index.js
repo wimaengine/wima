@@ -1,4 +1,3 @@
-export * from './algorithms/index.js'
 export * from './ecs/index.js'
 export * from './app/index.js'
 export * from './animation/index.js'

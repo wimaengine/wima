@@ -2,7 +2,7 @@ import { World } from '../../ecs/index.js'
 import { EnumInfo, Field, OpaqueInfo, StructInfo } from '../../reflect/core/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { setTypeId, typeid, typeidGeneric } from '../../type/index.js'
-import { GraphList } from '../../datastructures/index.js'
+import { Graph } from '../../datastructures/index.js'
 import { Handle, HandleSnapshot } from '../../asset/index.js'
 import { Audio } from '../assets/index.js'
 import { AudioOscillator, AudioOscillatorType, AudioPlayer, AudioPlayerSnapshot } from '../components/index.js'
@@ -48,7 +48,7 @@ export function registerAudioTypes(world) {
   registry.get(AudioOscillator)?.setMethod(AudioOscillator.copy)
   registry.get(AudioOscillator)?.setMethod(AudioOscillator.clone)
   registry.register(AudioGraph, new StructInfo({
-    graph: new Field(typeid(GraphList))
+    graph: new Field(typeid(Graph))
   }))
   registry.register(AudioCommands, new StructInfo({}))
 }

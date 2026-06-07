@@ -1,5 +1,5 @@
 /** @import {NodeId} from '../../datastructures/index.js' */
-import { GraphList } from '../../datastructures/index.js'
+import { Graph } from '../../datastructures/index.js'
 
 export class AudioGraph {
 
@@ -10,9 +10,9 @@ export class AudioGraph {
   context
 
   /**
-   * @type {GraphList<AudioGraphNode,undefined>}
+   * @type {Graph<AudioGraphNode,undefined>}
    */
-  graph = new GraphList()
+  graph = new Graph(true)
 
   /**
    * @private
@@ -105,11 +105,11 @@ export class AudioGraph {
     }
 
     if (value) {
-      for (const neighbour of this.graph.getNeighbours(id)) {
+      this.graph.forEachNeighbour(id, (neighbour) => {
         const node = this.graph.getNodeWeight(neighbour)
 
         if (node) value.connect(node)
-      }
+      })
     }
 
     node.weight = value
