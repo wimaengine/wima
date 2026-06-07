@@ -108,7 +108,7 @@ export class HandleSnapshot {
 
   /**
    * @readonly
-   * @type {Constructor<T>}
+   * @type {import('../../type/index.js').TypeId}
    */
   type
 
@@ -123,7 +123,7 @@ export class HandleSnapshot {
    * @param {AssetId | string} asset
    */
   constructor(type, asset) {
-    this.type = type
+    this.type = typeid(type)
     this.asset = asset
   }
 
@@ -140,10 +140,10 @@ export class HandleSnapshot {
     const server = world.getResource(AssetServer)
 
     if (typeof this.asset === 'string') {
-      return /** @type {Handle<T>} */ (server.load(this.type, this.asset))
+      return /** @type {Handle<T>} */ (server.loadUntyped(this.type, this.asset))
     }
 
-    const assets = /** @type {Assets<T>} */ (server.getAssets(typeid(this.type)))
+    const assets = /** @type {Assets<T>} */ (server.getAssets(this.type))
 
     // TODO: This is inherently incorrect. When scene resources are added,
     // the assetid will point to the wrong asset in the scene due to desync between
@@ -155,3 +155,7 @@ export class HandleSnapshot {
     return /** @type {Handle<T>} */ (assets.upgrade(this.asset))
   }
 }
+
+/**
+ * @typedef {Handle<unknown>} UntypedHandle
+ */
