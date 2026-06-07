@@ -1,7 +1,7 @@
 /** @import { SystemFunc, World } from '../../ecs/index.js' */
 /** @import { Constructor } from '../../type/index.js' */
 /** @import { AssetEvents } from '../index.js' */
-import { Assets } from '../core/index.js'
+import { Assets as ResourceAssets } from '../resources/index.js'
 import { Events } from '../../event/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
 import { AssetAdded, AssetDropped, AssetModified, AssetLoadFail, AssetLoadOperation } from '../events/index.js'
@@ -14,14 +14,14 @@ import { error, warnOnce } from '../../logger/index.js'
  * @returns {SystemFunc}
  */
 export function updateAssetEvents(assetType, eventType) {
-  const assetsId = typeidGeneric(Assets, [assetType])
+  const assetsId = typeidGeneric(ResourceAssets, [assetType])
   const addEventsId = typeidGeneric(Events, [eventType.added])
   const modifiedEventsId = typeidGeneric(Events, [eventType.modified])
   const droppedEventsId = typeidGeneric(Events, [eventType.dropped])
 
   return function updateAssetEvents(world) {
 
-    /** @type {Assets<T>} */
+    /** @type {ResourceAssets<T>} */
     const assets = world.getResourceByTypeId(assetsId)
 
     /** @type {Events<AssetAdded<T>>} */

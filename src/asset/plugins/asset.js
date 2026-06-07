@@ -4,9 +4,9 @@ import { App, Plugin } from '../../app/index.js'
 import { AppSchedule, CoreSystems } from '../../core/index.js'
 import { EventPlugin } from '../../event/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
-import { Assets } from '../core/index.js'
+import { Assets } from '../resources/index.js'
 import { AssetAdded, AssetDropped, AssetModified } from '../events/index.js'
-import { registerAssetTypes, registerAssetOnAssetServer, unloadDroppedAssets, updateAssetEvents } from '../systems/index.js'
+import { registerAssetTypes, registerAssetOnAssetServer, unloadDroppedAssets, updateAssetChannel, updateAssetEvents } from '../systems/index.js'
 
 /**
  * @template T
@@ -43,6 +43,13 @@ export class AssetPlugin extends Plugin {
   register(app) {
     const { asset, events } = this
     const world = app.getWorld()
+
+    app.registerSystem({
+      label: `updateAssetChannel<${typeid(asset)}>`,
+      schedule: AppSchedule.Update,
+      systemGroup: CoreSystems.End,
+      system: updateAssetChannel(asset)
+    })
 
     if (events) {
       app

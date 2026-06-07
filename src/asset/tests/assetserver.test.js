@@ -1,6 +1,7 @@
 import { deepStrictEqual, notDeepStrictEqual } from "assert";
 import test, { describe } from "node:test";
-import { Assets, AssetServer, Exporter, Importer } from "../index.js";
+import { AssetServer, Exporter, Importer } from "../index.js";
+import { Assets } from "../resources/index.js";
 import { typeid, typeidGeneric } from "../../type/index.js";
 import { World } from "../../ecs/index.js";
 import { updateAssets } from "../systems/index.js";

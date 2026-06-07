@@ -1,6 +1,6 @@
 import { deepStrictEqual, strictEqual } from "assert";
 import test, { describe } from "node:test";
-import { Assets } from "../core/index.js";
+import { Assets } from "../resources/index.js";
 import { AssetServer } from "../resources/index.js";
 import { World } from "../../ecs/index.js";
 
@@ -59,6 +59,7 @@ describe('Testing `Handle`',()=>{
         const handle = assets.add(asset)
         handle.clone()
         handle.clone()
+        assets.update()
         const entry = assets.getEntry(handle)
 
         strictEqual(entry.refCount, 3)
@@ -90,6 +91,7 @@ describe('Testing `Handle`',()=>{
 
         const handle = assets.add(asset)
         handle.drop()
+        assets.update()
         const actual = assets.get(handle)
 
         deepStrictEqual(actual, undefined)
@@ -106,6 +108,7 @@ describe('Testing `Handle`',()=>{
         handle1.drop()
         handle2.drop()
         handle3.drop()
+        assets.update()
 
         const actual = assets.get(handle1)
 
@@ -122,6 +125,7 @@ describe('Testing `Handle`',()=>{
 
         handle2.drop()
         handle3.drop()
+        assets.update()
         
         const actual = assets.get(handle1)
 
@@ -137,6 +141,7 @@ describe('Testing `Handle`',()=>{
 
         handle2.drop()
         handle2.drop()
+        assets.update()
         
         const actual = assets.get(handle1)
 
@@ -169,8 +174,10 @@ describe('Testing `Handle`',()=>{
 
         const handle1 = assets.add(asset)
         handle1.drop()
+        assets.update()
         const handle2 = assets.add(asset)
         handle2.drop()
+        assets.update()
         const handle3 = assets.add(asset)
 
         deepStrictEqual(handle1.index, 0)

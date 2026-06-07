@@ -1,10 +1,11 @@
 /** @import {AssetId} from '../types/index.js' */
-/** @import {Constructor} from '../../type/index.js'*/
-import { packInto64Int, unpackFrom64Int } from '../../algorithms/index.js'
+/** @import {Constructor} from '../../type/index.js' */
+
+import { unpackFrom64Int } from '../../algorithms/index.js'
 import { DenseList } from '../../datastructures/index.js'
-import { typeid } from '../../type/index.js'
 import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events/assets.js'
-import { AssetServer } from '../resources/assetserver.js'
+import { AssetChannel, AssetChannelMessageType } from '../core/channel.js'
+import { Handle } from '../core/handle.js'
 
 /**
  * @template T
@@ -33,6 +34,12 @@ export class Assets {
    * @type {AssetEvent<T>[]}
    */
   events = []
+
+  /**
+   * @readonly
+   * @type {AssetChannel<T>}
+   */
+  channel = new AssetChannel()
 
   /**
    * @param {Constructor<T>} type
@@ -192,7 +199,6 @@ export class Assets {
    * @returns {Handle<T> | undefined}
    */
   getHandleByUUID(uuid) {
-
     return this.uuids.get(uuid)?.clone()
   }
 
@@ -213,6 +219,8 @@ export class Assets {
   drop(handle) {
     const entry = this.getEntry(handle)
 
+    if (!entry) return
+
     entry.refCount -= 1
 
     if (entry.refCount <= 0) {
@@ -224,11 +232,19 @@ export class Assets {
 
   /**
    * @param {AssetId} assetId
+   * @returns {Handle<T> | undefined}
    */
   upgrade(assetId) {
     const [index, generation] = unpackFrom64Int(assetId)
+    const entry = this.getEntryInternal(index, generation)
 
-    return new Handle(this, index, generation)
+    if (!entry) {
+      return
+    }
+
+    entry.refCount += 1
+
+    return new Handle(this.channel, this.type, index, generation)
   }
 
   /**
@@ -241,174 +257,71 @@ export class Assets {
 
     if (entry) {
       entry.generation += 1
+      entry.refCount = 1
 
-      return new Handle(this, index, entry.generation)
+      return new Handle(this.channel, this.type, index, entry.generation)
     }
 
     const newEntry = new AssetEntry(undefined)
 
     newEntry.generation += 1
+    newEntry.refCount = 1
     this.assets.set(index, newEntry)
 
-    return new Handle(this, index, newEntry.generation)
+    return new Handle(this.channel, this.type, index, newEntry.generation)
   }
 
   values() {
     return this.assets.values()
   }
-}
-
-/**
- * @template T
- */
-export class Handle {
 
   /**
-   * @readonly
-   * @type {Constructor<T>}
+   * Drain and apply queued handle lifecycle messages.
    */
-  type
+  update() {
+    const messages = this.channel.flush()
+
+    for (let i = 0; i < messages.length; i++) {
+      const message = messages[i]
+
+      if (message.type === AssetChannelMessageType.Acquire) {
+        this.acquire(message.assetId)
+      } else if (message.type === AssetChannelMessageType.Release) {
+        this.release(message.assetId)
+      }
+    }
+  }
 
   /**
    * @private
-   * @type {boolean}
+   * @param {AssetId} assetId
    */
-  dropped = false
+  acquire(assetId) {
+    const entry = this.getEntryByAssetId(assetId)
+
+    if (!entry) return
+
+    entry.refCount += 1
+  }
 
   /**
-   * This only exists as a channel for reference counting, do not use for any
-   * other purpose!
    * @private
-   * @readonly
-   * @type {Assets<T>}
+   * @param {AssetId} assetId
    */
-  assets
+  release(assetId) {
+    const entry = this.getEntryByAssetId(assetId)
 
-  /**
-   * @readonly
-   * @type {number}
-   */
-  index
+    if (!entry) return
 
-  /**
-   * @readonly
-   * @type {number}
-   */
-  generation = 0
+    entry.refCount -= 1
 
-  /**
-   * @param {Assets<T>} assets
-   * @param {number} index
-   * @param {number} generation
-   */
-  constructor(assets, index, generation) {
-    this.index = index
-    this.generation = generation
-    this.assets = assets
-    this.type = assets.type
+    if (entry.refCount <= 0) {
+      const [index] = unpackFrom64Int(assetId)
 
-    const entry = assets.getEntry(this)
-
-    if (entry && entry.generation === generation) {
-      entry.refCount += 1
+      entry.asset = undefined
+      this.assets.recycle(index)
+      this.events.push(new AssetDropped(this.type, assetId))
     }
-  }
-
-  /**
-   * @returns {AssetId}
-   */
-  id() {
-    return /** @type {AssetId}*/ (packInto64Int(this.index, this.generation))
-  }
-
-  clone() {
-    const { assets, index, generation } = this
-
-    return new Handle(assets, index, generation)
-  }
-
-  /**
-   * Snapshot the handle with the asset server path when available.
-   *
-   * @param {import('../../ecs/index.js').World} world
-   * @returns {HandleSnapshot<T>}
-   */
-  toSnapshot(world) {
-    const server = world.getResource(AssetServer)
-    const info = server?.getAssetInfo(this)
-
-    if (info?.path) {
-      return new HandleSnapshot(this.type, info.path)
-    }
-
-    return new HandleSnapshot(this.type, this.id())
-  }
-
-  drop() {
-    if (this.dropped) return
-
-    this.assets.drop(this)
-    this.dropped = true
-  }
-}
-
-/**
- * A snapshot of an asset handle.
- *
- * The snapshot preserves the asset type and id, and stores the asset server
- * path when one is registered so the handle can be reloaded by path.
- *
- * @template T
- */
-export class HandleSnapshot {
-
-  /**
-   * @readonly
-   * @type {Constructor<T>}
-   */
-  type
-
-  /**
-   * @readonly
-   * @type {AssetId | string}
-   */
-  asset
-
-  /**
-   * @param {Constructor<T>} type
-   * @param {AssetId | string} asset
-   */
-  constructor(type, asset) {
-    this.type = type
-    this.asset = asset
-  }
-
-  /**
-   * Restore the live handle from the asset server.
-   *
-   * If the asset server knows the path, we reload it by path. Otherwise we
-   * upgrade the stored asset id against the asset pool.
-   *
-   * @param {import('../../ecs/index.js').World} world
-   * @returns {Handle<T>}
-   */
-  fromSnapshot(world) {
-    const server = world.getResource(AssetServer)
-
-    if (typeof this.asset === 'string') {
-      return /** @type {Handle<T>} */ (server.load(this.type, this.asset))
-    }
-
-    const assets = /** @type {Assets<T>} */ (server.getAssets(typeid(this.type)))
-
-    // TODO: This is inherently incorrect. When scene resources are added,
-    // the assetid will point to the wrong asset in the scene due to desync between
-    // the scene and world when an assets are added/removed from the world or scene.
-    // Add a mapping between scene assets and world assets and use that to create
-    // the asset handle. Also ensure the assets are loaded into world before spawning
-    // the scene into the world.
-
-    return /** @type {Handle<T>} */ (assets.upgrade(this.asset))
   }
 }
 
