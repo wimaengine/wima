@@ -1,8 +1,8 @@
 /** @import {AssetId} from '../types/index.js' */
 /** @import {Constructor} from '../../type/index.js' */
 
-import { unpackFrom64Int } from '../../algorithms/index.js'
-import { DenseList } from '../../datastructures/index.js'
+import { unpackFrom64Int } from '../../datastructures/index.js'
+import { DenseList, IndexAllocator } from '../../datastructures/index.js'
 import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events/assets.js'
 import { AssetChannel, AssetChannelMessageType } from '../core/channel.js'
 import { Handle } from '../core/handle.js'
@@ -21,7 +21,7 @@ export class Assets {
    * @private
    * @type {DenseList<AssetEntry<T>>}
    */
-  assets = new DenseList()
+  assets = new DenseList(new IndexAllocator())
 
   /**
    * @private

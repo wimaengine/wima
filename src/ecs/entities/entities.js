@@ -1,6 +1,10 @@
 /** @import { ArchetypeId, TableRow } from '../typedef/index.js' */
-import { DenseList } from '../../datastructures/index.js'
+import { DenseList, IndexAllocator } from '../../datastructures/index.js'
 import { EntityLocation } from './location.js'
 
 /** @augments {DenseList<EntityLocation>} */
-export class Entities extends DenseList {}
+export class Entities extends DenseList {
+    constructor(){
+        super(new IndexAllocator())
+    }
+}
