@@ -235,22 +235,34 @@ export class AssetServer {
    */
   load(type, path) {
     const typeId = typeid(type)
+
+    return /** @type {Handle<T>} */(this.loadUntyped(typeId, path, type.name))
+  }
+
+  
+  /**
+   * @param {TypeId} typeId
+   * @param {string} path
+   * @param {string} [typeName]
+   * @returns {import('../core/index.js').UntypedHandle}
+   */
+  loadUntyped(typeId, path, typeName){
     const baseUrl = this.basePaths.get(typeId) || ''
     const completePath = baseUrl + path
     const assets = this.assets.get(typeId)
 
-    assert(assets, `No assets registered for the asset type \`${type.name}\` on \`AssetServer\``)
+    assert(assets, `No assets registered for the asset type \`${typeName || '<unknown>'}\` on \`AssetServer\``)
 
     const assetInfo = this.assetInfos.getByPath(completePath)
 
     if (assetInfo) {
 
-      // SAFETY: handle is generated from `Assets` backing `T`
-      return /** @type {Handle<T>} */ (assets.upgrade(assetInfo.id))
+      // SAFETY: handle is generated from `Assets` backing typeId
+      return assets.upgrade(assetInfo.id)
     }
 
-    // SAFETY: handle is generated from `Assets` backing `T`
-    const handle = /** @type {Handle<T>} */ (assets.reserve())
+    // SAFETY: handle is generated from `Assets` backing typeId
+    const handle = assets.reserve()
     const assetId = handle.id()
     const newAssetInfo = new AssetInfo(completePath, assetId)
 
