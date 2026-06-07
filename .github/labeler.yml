@@ -1,8 +1,3 @@
-mod:algorithm:
-  - changed-files:
-      - any-glob-to-any-file:
-          - 'src/algorithms/**'
-
 mod:animation:
   - changed-files:
       - any-glob-to-any-file:
