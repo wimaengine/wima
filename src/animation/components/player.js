@@ -41,6 +41,70 @@ export class AnimationPlayer {
   }
 
   /**
+   * @param {AnimationPlayer} value
+   */
+  static serialize(value) {
+    return {
+      animations: Array.from(value.animations.entries()).map(([id, playback]) => [
+        id,
+        Playback.serialize(playback)
+      ]),
+      current: value.current
+    }
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is AnimationPlayerSerial}
+   */
+  static validateSerial(value) {
+    if (typeof value !== 'object') {
+      return false
+    }
+
+    if (!('animations' in value) || !('current' in value)) {
+      return false
+    }
+
+    if (!Array.isArray(value.animations)) {
+      return false
+    }
+
+    if (value.current !== null && typeof value.current !== 'number') {
+      return false
+    }
+
+    for (let i = 0; i < value.animations.length; i++) {
+      const entry = value.animations[i]
+
+      if (!Array.isArray(entry) || entry.length !== 2) {
+        return false
+      }
+
+      const [id, playback] = entry
+
+      if (typeof id !== 'number' || !Playback.validateSerial(playback)) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  /**
+   * @param {AnimationPlayerSerial} value
+   * @param {AnimationPlayer} [out]
+   */
+  static deserialize(value, out = new AnimationPlayer()) {
+    out.animations = new Map(
+      value.animations.map(([id, playback]) => [id, Playback.deserialize(playback)])
+    )
+    out.current = value.current
+
+    return out
+  }
+
+  /**
    * @param {Handle<AnimationClip>} handle
    * @param {PlaybackSettings} settings
    */
@@ -152,3 +216,11 @@ export class AnimationPlayer {
     return this
   }
 }
+
+/**
+ * Serialized form of `AnimationPlayer`.
+ *
+ * @typedef AnimationPlayerSerial
+ * @property {[AssetId, any][]} animations
+ * @property {number | null} current
+ */
