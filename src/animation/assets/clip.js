@@ -1,3 +1,4 @@
+/** @import { AnimationTrackSerial } from '../core/track.js' */
 import { AnimationTrack } from '../core/index.js'
 
 export class AnimationClip {
@@ -74,4 +75,81 @@ export class AnimationClip {
   default() {
     return new AnimationClip()
   }
+
+  /**
+   * @param {AnimationClip} value
+   */
+  static serialize(value) {
+    return {
+      duration: value.duration,
+      tracks: Array.from(value.tracks.entries()).map(([name, tracks]) => [
+        name,
+        tracks.map((track) => AnimationTrack.serialize(track))
+      ])
+    }
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is AnimationClipSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('duration' in value) || !('tracks' in value)) {
+      return false
+    }
+
+    if (typeof value.duration !== 'number' || !Array.isArray(value.tracks)) {
+      return false
+    }
+
+    for (let i = 0; i < value.tracks.length; i++) {
+      const entry = value.tracks[i]
+
+      if (!Array.isArray(entry) || entry.length !== 2) {
+        return false
+      }
+
+      const [name, tracks] = entry
+
+      if (typeof name !== 'string' || !Array.isArray(tracks)) {
+        return false
+      }
+
+      for (let j = 0; j < tracks.length; j++) {
+        if (!AnimationTrack.validateSerial(tracks[j])) {
+          return false
+        }
+      }
+    }
+
+    return true
+  }
+
+  /**
+   * @param {AnimationClipSerial} value
+   * @param {AnimationClip} [out]
+   */
+  static deserialize(value, out = new AnimationClip()) {
+    out.duration = value.duration
+    out.tracks = new Map(
+      value.tracks.map(([name, tracks]) => [
+        name,
+        tracks.map((track) => AnimationTrack.deserialize(track))
+      ])
+    )
+
+    return out
+  }
 }
+
+/**
+ * Serialized form of `AnimationClip`.
+ *
+ * @typedef AnimationClipSerial
+ * @property {number} duration
+ * @property {[string, AnimationTrackSerial[]][]} tracks
+ */
