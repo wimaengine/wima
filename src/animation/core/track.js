@@ -49,6 +49,61 @@ export class AnimationTrack {
   }
 
   /**
+   * @param {AnimationTrack} value
+   */
+  static serialize(value) {
+    return {
+      times: value.times.slice(),
+      keyframes: value.keyframes.slice(),
+      effector: value.effector
+    }
+  }
+
+  /**
+   * @param {AnimationTrackSerial} value
+   * @param {AnimationTrack} [out]
+   */
+  static deserialize(value, out = new AnimationTrack(/** @type {any} */ (null))) {
+    out.times = value.times.slice()
+    out.keyframes = value.keyframes.slice()
+    out.effector = value.effector
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is AnimationTrackSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('times' in value) || !('keyframes' in value) || !('effector' in value)) {
+      return false
+    }
+
+    if (!Array.isArray(value.times) || !Array.isArray(value.keyframes)) {
+      return false
+    }
+
+    for (let i = 0; i < value.times.length; i++) {
+      if (typeof value.times[i] !== 'number') {
+        return false
+      }
+    }
+
+    for (let i = 0; i < value.keyframes.length; i++) {
+      if (typeof value.keyframes[i] !== 'number') {
+        return false
+      }
+    }
+
+    return value.effector !== undefined && value.effector !== null
+  }
+
+  /**
    * @param {any} delta
    */
   getCurrent(delta) {
@@ -101,3 +156,12 @@ export class AnimationTrack {
     return [timestamp - 1, timestamp, centage]
   }
 }
+
+/**
+ * Serialized form of `AnimationTrack`.
+ *
+ * @typedef AnimationTrackSerial
+ * @property {number[]} times
+ * @property {number[]} keyframes
+ * @property {any} effector
+ */
