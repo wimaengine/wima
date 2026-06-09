@@ -61,6 +61,58 @@ export class Playback {
     return Playback.copy(target)
   }
 
+  /**
+   * @param {Playback} value
+   */
+  static serialize(value) {
+    return {
+      speed: value.speed,
+      duration: value.duration,
+      elapsed: value.elapsed,
+      repeatMode: value.repeatMode,
+      paused: value.paused
+    }
+  }
+
+  /**
+   * @param {PlaybackSerial} value
+   * @param {Playback} [out]
+   */
+  static deserialize(value, out = new Playback()) {
+    out.speed = value.speed
+    out.duration = value.duration
+    out.elapsed = value.elapsed
+    out.repeatMode = value.repeatMode
+    out.paused = value.paused
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is PlaybackSerial}
+   */
+  static validateSerial(value) {
+    if (typeof value !== 'object') {
+      return false
+    }
+
+    if (!('speed' in value)
+      || !('duration' in value)
+      || !('elapsed' in value)
+      || !('repeatMode' in value)
+      || !('paused' in value)
+    ) {
+      return false
+    }
+
+    return typeof value.speed === 'number'
+      && typeof value.duration === 'number'
+      && typeof value.elapsed === 'number'
+      && typeof value.repeatMode === 'number'
+      && typeof value.paused === 'boolean'
+  }
+
   start() {
     this.elapsed = 0
     this.play()
@@ -99,6 +151,17 @@ export class Playback {
     }
   }
 }
+
+/**
+ * Serialized form of `Playback`.
+ *
+ * @typedef PlaybackSerial
+ * @property {number} speed
+ * @property {number} duration
+ * @property {number} elapsed
+ * @property {number} repeatMode
+ * @property {boolean} paused
+ */
 
 /**
  * @typedef PlaybackSettings
