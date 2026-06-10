@@ -38,4 +38,35 @@ export class Angle {
   static copy(angle) {
     this.value = angle.value
   }
+
+  /**
+   * @param {Angle} value
+   */
+  static serialize(value) {
+    return value.value
+  }
+
+  /**
+   * @param {AngleSerial} value
+   * @param {Angle} [out]
+   */
+  static deserialize(value, out = new Angle()) {
+    out.value = value
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is AngleSerial}
+   */
+  static validateSerial(value) {
+    return typeof value === 'number'
+  }
 }
+
+/**
+ * Serialized form of `Angle`.
+ *
+ * @typedef {number} AngleSerial
+ */
