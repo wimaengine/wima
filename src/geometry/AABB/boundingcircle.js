@@ -66,4 +66,49 @@ export class BoundingCircle {
 
     return out
   }
+
+  /**
+   * @param {BoundingCircle} value
+   */
+  static serialize(value) {
+    return {
+      r: value.r,
+      pos: Vector2.serialize(value.pos)
+    }
+  }
+
+  /**
+   * @param {BoundingCircleSerial} value
+   * @param {BoundingCircle} [out]
+   */
+  static deserialize(value, out = new BoundingCircle()) {
+    out.r = value.r
+    Vector2.deserialize(value.pos, out.pos)
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is BoundingCircleSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if ( !('r' in value) || !('pos' in value)) {
+      return false
+    }
+
+    return typeof value.r === 'number'
+      && Vector2.validateSerial(value.pos)
+  }
 }
+
+/**
+ * @typedef BoundingCircleSerial
+ * @property {number} type
+ * @property {number} r
+ * @property {import('../../math/core/vectors/float/vector2.js').Vector2Serial} pos
+ */
