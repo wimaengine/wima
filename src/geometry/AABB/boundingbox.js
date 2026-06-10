@@ -81,6 +81,44 @@ export class BoundingBox2D {
   }
 
   /**
+   * @param {BoundingBox2D} value
+   */
+  static serialize(value) {
+    return {
+      max: Vector2.serialize(value.max),
+      min: Vector2.serialize(value.min)
+    }
+  }
+
+  /**
+   * @param {BoundingBox2DSerial} value
+   * @param {BoundingBox2D} [out]
+   */
+  static deserialize(value, out = new BoundingBox2D()) {
+    out.max = Vector2.deserialize(value.max, out.max)
+    out.min = Vector2.deserialize(value.min, out.min)
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is BoundingBox2DSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('max' in value) || !('min' in value)) {
+      return false
+    }
+
+    return Vector2.validateSerial(value.max)
+      && Vector2.validateSerial(value.min)
+  }
+
+  /**
    * @param {BoundingBox2D} bound
    * @param {number} x
    * @param {number} y
@@ -112,3 +150,10 @@ export class BoundingBox2D {
     return out
   }
 }
+
+/**
+ * @typedef BoundingBox2DSerial
+ * @property {number} type
+ * @property {import('../../math/core/vectors/float/vector2.js').Vector2Serial} max
+ * @property {import('../../math/core/vectors/float/vector2.js').Vector2Serial} min
+ */
