@@ -1,5 +1,4 @@
-/** @import { Entity } from '../../ecs/index.js' */
-
+import { Entity } from '../../ecs/index.js'
 import { VisitEntities } from '../../relationship/index.js'
 
 /**
@@ -38,6 +37,41 @@ export class Children {
   }
 
   /**
+   * @param {Children} value
+   */
+  static serialize(value) {
+    return value.list.map((entity) => entity.id())
+  }
+
+  /**
+   * @param {ChildrenSerial} value
+   * @param {Children} [out]
+   */
+  static deserialize(value, out = new Children([])) {
+    out.list = value.map((entity) => Entity.deserialize(entity))
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is ChildrenSerial}
+   */
+  static validateSerial(value) {
+    if (!Array.isArray(value)) {
+      return false
+    }
+
+    for (let i = 0; i < value.length; i++) {
+      if (!Entity.validateSerial(value[i])) {
+        return false
+      }
+    }
+
+    return true
+  }
+
+  /**
    * @param {Entity} entity
    */
   add(entity) {
@@ -60,3 +94,7 @@ export class Children {
     this.list.length = 0
   }
 }
+
+/**
+ * @typedef {import('../../ecs/entities/entity.js').EntityId[]} ChildrenSerial
+ */
