@@ -299,6 +299,50 @@ export class Vector4 {
   }
 
   /**
+   * @param {Vector4} value
+   */
+  static serialize(value) {
+    return {
+      x: value.x,
+      y: value.y,
+      z: value.z,
+      w: value.w
+    }
+  }
+
+  /**
+   * @param {Vector4Serial} value
+   * @param {Vector4} [out]
+   */
+  static deserialize(value, out = new Vector4()) {
+    out.x = value.x
+    out.y = value.y
+    out.z = value.z
+    out.w = value.w
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is Vector4Serial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('x' in value) || !('y' in value) || !('z' in value) || !('w' in value)) {
+      return false
+    }
+
+    return typeof value.x === 'number'
+      && typeof value.y === 'number'
+      && typeof value.z === 'number'
+      && typeof value.w === 'number'
+  }
+
+  /**
    * @param {number} scalar
    * @param {Vector4} out
    */
@@ -662,3 +706,13 @@ export class Vector4 {
    */
   static NegW = new Vector4(0, 0, 0, -1)
 }
+
+/**
+ * Serialized form of `Vector4`.
+ *
+* @typedef Vector4Serial
+* @property {number} x
+* @property {number} y
+* @property {number} z
+* @property {number} w
+*/
