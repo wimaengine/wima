@@ -290,6 +290,52 @@ export class Matrix3 {
   }
 
   /**
+   * @param {Matrix3} value
+   * @returns {Matrix3Serial}
+   */
+  static serialize(value) {
+    return [value.a, value.b, value.c, value.d, value.e, value.f, value.g, value.h, value.i]
+  }
+
+  /**
+   * @param {Matrix3Serial} value
+   * @param {Matrix3} [out]
+   */
+  static deserialize(value, out = new Matrix3()) {
+    const serial = /** @type {Matrix3Serial} */ (value)
+
+    out.a = serial[0]
+    out.b = serial[1]
+    out.c = serial[2]
+    out.d = serial[3]
+    out.e = serial[4]
+    out.f = serial[5]
+    out.g = serial[6]
+    out.h = serial[7]
+    out.i = serial[8]
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is Matrix3Serial}
+   */
+  static validateSerial(value) {
+    return Array.isArray(value)
+      && value.length === 9
+      && typeof value[0] === 'number'
+      && typeof value[1] === 'number'
+      && typeof value[2] === 'number'
+      && typeof value[3] === 'number'
+      && typeof value[4] === 'number'
+      && typeof value[5] === 'number'
+      && typeof value[6] === 'number'
+      && typeof value[7] === 'number'
+      && typeof value[8] === 'number'
+  }
+
+  /**
    * @param {Matrix3} matrix
    * @param {Matrix3} [out=new Matrix3()]
    */
@@ -618,3 +664,8 @@ export class Matrix3 {
    */
   static Zero = Matrix3.zero()
 }
+
+/**
+ * @typedef Matrix3Serial
+ * @type {[number, number, number, number, number, number, number, number, number]}
+ */
