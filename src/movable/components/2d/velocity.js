@@ -16,4 +16,19 @@ export class Velocity2D extends Vector2 {
   static clone(target) {
     return Velocity2D.copy(target)
   }
+
+  /**
+   * @param {Velocity2D} value
+   */
+  static serialize(value) {
+    return super.serialize(value)
+  }
+
+  /**
+   * @param {import('../../../math/core/vectors/float/vector2.js').Vector2Serial} value
+   * @param {Velocity2D} [out]
+   */
+  static deserialize(value, out = new Velocity2D()) {
+    return super.deserialize(/** @type {any} */ (value), out)
+  }
 }
