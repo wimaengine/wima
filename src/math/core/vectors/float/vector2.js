@@ -281,6 +281,43 @@ export class Vector2 {
   }
 
   /**
+   * @param {Vector2} value
+   */
+  static serialize(value) {
+    return {
+      x: value.x,
+      y: value.y
+    }
+  }
+
+  /**
+   * @param {Vector2Serial} value
+   * @param {Vector2} [out]
+   */
+  static deserialize(value, out = new Vector2()) {
+    out.x = value.x
+    out.y = value.y
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is Vector2Serial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('x' in value) || !('y' in value)) {
+      return false
+    }
+
+    return typeof value.x === 'number' && typeof value.y === 'number'
+  }
+
+  /**
    * @param {number} scalar
    * @param {Vector2} out
    * @returns {Vector2}
@@ -310,7 +347,7 @@ export class Vector2 {
    * @param {Vector2} v2
    */
   static distanceToSquared(v1, v2) {
-    const temp = new this(v1.x - v2.x, v1.y - v2.y)
+    const temp = new Vector2(v1.x - v2.x, v1.y - v2.y)
 
     return this.magnitudeSquared(temp)
   }
@@ -320,7 +357,7 @@ export class Vector2 {
    * @param {Vector2} v2
    */
   static distanceTo(v1, v2) {
-    const temp = new this(v1.x - v2.x, v1.y - v2.y)
+    const temp = new Vector2(v1.x - v2.x, v1.y - v2.y)
 
     return this.magnitude(temp)
   }
@@ -677,3 +714,11 @@ export class Vector2 {
    */
   static NegY = new Vector2(0, -1)
 }
+
+/**
+ * Serialized form of `Vector2`.
+ *
+* @typedef Vector2Serial
+* @property {number} x
+* @property {number} y
+*/
