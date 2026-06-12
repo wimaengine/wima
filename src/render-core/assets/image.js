@@ -27,4 +27,48 @@ export class Image {
 
     return new Image(array, new Vector2(1, 1))
   }
+
+  /**
+   * @param {Image} value
+   */
+  static serialize(value) {
+    return {
+      raw: Array.from(value.raw),
+      dimensions: Vector2.serialize(value.dimensions)
+    }
+  }
+
+  /**
+   * @param {ImageSerial} value
+   * @param {Image} [out]
+   */
+  static deserialize(value, out = Image.default()) {
+    out.raw = new Uint8ClampedArray(value.raw)
+    out.dimensions = Vector2.deserialize(value.dimensions, out.dimensions)
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is ImageSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('raw' in value) || !('dimensions' in value)) {
+      return false
+    }
+
+    return Array.isArray(value.raw)
+      && Vector2.validateSerial(value.dimensions)
+  }
 }
+
+/**
+ * @typedef ImageSerial
+ * @property {number[]} raw
+ * @property {import('../../math/core/vectors/float/vector2.js').Vector2Serial} dimensions
+ */
