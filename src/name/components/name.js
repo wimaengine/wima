@@ -28,4 +28,35 @@ export class Name {
   static clone(target) {
     return Name.copy(target)
   }
+
+  /**
+   * @param {Name} value
+   * @returns {string}
+   */
+  static serialize(value) {
+    return value.value
+  }
+
+  /**
+   * @param {string} value
+   * @param {Name} [out]
+   */
+  static deserialize(value, out = new Name()) {
+    out.value = value
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is string}
+   */
+  static validateSerial(value) {
+    return  typeof value === 'string'
+  }
 }
+
+/**
+ * @typedef NameSerial
+ * @property {string} value
+ */
