@@ -16,4 +16,19 @@ export class Velocity3D extends Vector3 {
   static clone(target) {
     return Velocity3D.copy(target)
   }
+
+  /**
+   * @param {Velocity3D} value
+   */
+  static serialize(value) {
+    return super.serialize(value)
+  }
+
+  /**
+   * @param {import('../../../math/core/vectors/float/vector3.js').Vector3Serial} value
+   * @param {Velocity3D} [out]
+   */
+  static deserialize(value, out = new Velocity3D()) {
+    return super.deserialize(/** @type {any} */ (value), out)
+  }
 }
