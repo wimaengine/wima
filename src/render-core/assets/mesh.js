@@ -65,6 +65,32 @@ export class Mesh {
   }
 
   /**
+   * @param {Mesh} value
+   */
+  static serialize(value) {
+    return {
+      indices: value.indices ? Array.from(value.indices) : undefined,
+      attributes: Array.from(value.attributes.entries()).map(([name, attribute]) => [
+        name,
+        MeshAttributeData.serialize(attribute)
+      ])
+    }
+  }
+
+  /**
+   * @param {MeshSerial} value
+   * @param {Mesh} [out]
+   */
+  static deserialize(value, out = new Mesh()) {
+    out.indices = value.indices ? new Uint16Array(value.indices) : undefined
+    out.attributes = new Map(
+      value.attributes.map(([name, attribute]) => [name, MeshAttributeData.deserialize(attribute)])
+    )
+
+    return out
+  }
+
+  /**
    * @param {number} width
    * @param {number} height
    * @returns {Mesh}
@@ -820,3 +846,9 @@ export class Mesh {
     return new Mesh()
   }
 }
+
+/**
+ * @typedef MeshSerial
+ * @property {number[] | undefined} indices
+ * @property {[string, import('../core/attributedata.js').MeshAttributeDataSerial][]} attributes
+ */
