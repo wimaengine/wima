@@ -24,6 +24,21 @@ export class Projection {
   isOrthographic() {
     return false
   }
+
+  /**
+   * @param {unknown} _value
+   */
+  static serialize(_value) {
+    return {}
+  }
+
+  /**
+   * @param {unknown} _value
+   * @param {Projection} [out]
+   */
+  static deserialize(_value, out = new Projection()) {
+    return out
+  }
 }
 
 export class PerspectiveProjection extends Projection {
@@ -110,6 +125,46 @@ export class PerspectiveProjection extends Projection {
 
     return out
   }
+
+  /**
+   * @param {PerspectiveProjection} value
+   */
+  static serialize(value) {
+    return {
+      type: 'perspective',
+      fov: value.fov,
+      aspect: value.aspect
+    }
+  }
+
+  /**
+   * @param {PerspectiveProjectionSerial} value
+   * @param {PerspectiveProjection} [out]
+   */
+  static deserialize(value, out = new PerspectiveProjection()) {
+    out.fov = value.fov
+    out.aspect = value.aspect
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is PerspectiveProjectionSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('type' in value) || !('fov' in value) || !('aspect' in value)) {
+      return false
+    }
+
+    return value.type === 'perspective'
+      && typeof value.fov === 'number'
+      && typeof value.aspect === 'number'
+  }
 }
 
 export class OrthographicProjection extends Projection {
@@ -183,7 +238,69 @@ export class OrthographicProjection extends Projection {
 
     return out
   }
+
+  /**
+   * @param {OrthographicProjection} value
+   */
+  static serialize(value) {
+    return {
+      type: 'orthographic',
+      left: value.left,
+      right: value.right,
+      top: value.top,
+      bottom: value.bottom
+    }
+  }
+
+  /**
+   * @param {OrthographicProjectionSerial} value
+   * @param {OrthographicProjection} [out]
+   */
+  static deserialize(value, out = new OrthographicProjection()) {
+    out.left = value.left
+    out.right = value.right
+    out.top = value.top
+    out.bottom = value.bottom
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is OrthographicProjectionSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('type' in value) || !('left' in value) || !('right' in value) || !('top' in value) || !('bottom' in value)) {
+      return false
+    }
+
+    return value.type === 'orthographic'
+      && typeof value.left === 'number'
+      && typeof value.right === 'number'
+      && typeof value.top === 'number'
+      && typeof value.bottom === 'number'
+  }
 }
+
+/**
+ * @typedef PerspectiveProjectionSerial
+ * @property {'perspective'} type
+ * @property {number} fov
+ * @property {number} aspect
+ */
+
+/**
+ * @typedef OrthographicProjectionSerial
+ * @property {'orthographic'} type
+ * @property {number} left
+ * @property {number} right
+ * @property {number} top
+ * @property {number} bottom
+ */
 
 /**
  * @readonly
@@ -193,3 +310,7 @@ export const ProjectionType = {
   Perspective: 0,
   Orthographic: 1
 }
+
+/**
+ * @typedef {PerspectiveProjectionSerial | OrthographicProjectionSerial} ProjectionSerial
+ */
