@@ -1,4 +1,5 @@
 import { Handle, HandleSnapshot } from '../../asset/index.js'
+import { typeid } from '../../type/index.js'
 import { Mesh } from '../assets/index.js'
 
 export class Meshed {
@@ -47,12 +48,12 @@ export class Meshed {
 export class MeshedSnapshot {
 
   /**
-   * @type {HandleSnapshot<Mesh>}
+   * @type {HandleSnapshot}
    */
   handle
 
   /**
-   * @param {HandleSnapshot<Mesh>} handle
+   * @param {HandleSnapshot} handle
    */
   constructor(handle) {
     this.handle = handle
@@ -63,6 +64,30 @@ export class MeshedSnapshot {
    * @returns {Meshed}
    */
   fromSnapshot(world) {
-    return new Meshed(this.handle.fromSnapshot(world))
+    return new Meshed(/**@type {Handle<Mesh>} */(this.handle.fromSnapshot(world)))
+  }
+
+  /**
+   * @param {MeshedSnapshot} value
+   */
+  static serialize(value) {
+    return {
+      handle: HandleSnapshot.serialize(value.handle)
+    }
+  }
+
+  /**
+   * @param {MeshedSnapshotSerial} value
+   * @param {MeshedSnapshot} [out]
+   */
+  static deserialize(value, out = new MeshedSnapshot(new HandleSnapshot(typeid(Object),''))) {
+    out.handle = HandleSnapshot.deserialize(value.handle, out.handle)
+
+    return out
   }
 }
+
+/**
+ * @typedef MeshedSnapshotSerial
+ * @property {import('../../asset/core/handle.js').HandleSnapshotSerial} handle
+ */
