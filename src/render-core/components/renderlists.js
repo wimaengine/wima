@@ -91,6 +91,21 @@ export class RenderLists2D extends RenderLists {
   static clone(target) {
     return RenderLists2D.copy(target)
   }
+
+  /**
+   * @param {RenderLists2D} _value
+   */
+  static serialize(_value) {
+    return {}
+  }
+
+  /**
+   * @param {unknown} _value
+   * @param {RenderLists2D} [out]
+   */
+  static deserialize(_value, out = new RenderLists2D()) {
+    return out
+  }
 }
 
 /**
@@ -113,5 +128,20 @@ export class RenderLists3D extends RenderLists {
    */
   static clone(target) {
     return RenderLists3D.copy(target)
+  }
+
+  /**
+   * @param {RenderLists3D} _value
+   */
+  static serialize(_value) {
+    return {}
+  }
+
+  /**
+   * @param {unknown} _value
+   * @param {RenderLists3D} [out]
+   */
+  static deserialize(_value, out = new RenderLists3D()) {
+    return out
   }
 }
