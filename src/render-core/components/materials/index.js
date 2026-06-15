@@ -1,6 +1,7 @@
 import { BasicMaterial } from '../../assets/index.js'
 import { Material2D, Material3D } from '../material.js'
-import { HandleSnapshot } from '../../../asset/index.js'
+import { Handle, HandleSnapshot } from '../../../asset/index.js'
+import { typeid } from '../../../type/index.js'
 
 /**
  * @augments Material2D<BasicMaterial>
@@ -70,12 +71,12 @@ export class BasicMaterial3D extends Material3D {
 export class BasicMaterial2DSnapshot {
 
   /**
-   * @type {HandleSnapshot<BasicMaterial>}
+   * @type {HandleSnapshot}
    */
   handle
 
   /**
-   * @param {HandleSnapshot<BasicMaterial>} handle
+   * @param {HandleSnapshot} handle
    */
   constructor(handle) {
     this.handle = handle
@@ -86,7 +87,26 @@ export class BasicMaterial2DSnapshot {
    * @returns {BasicMaterial2D}
    */
   fromSnapshot(world) {
-    return new BasicMaterial2D(this.handle.fromSnapshot(world))
+    return new BasicMaterial2D(/**@type {Handle<BasicMaterial>} */(this.handle.fromSnapshot(world)))
+  }
+
+  /**
+   * @param {BasicMaterial2DSnapshot} value
+   */
+  static serialize(value) {
+    return {
+      handle: HandleSnapshot.serialize(value.handle)
+    }
+  }
+
+  /**
+   * @param {BasicMaterial2DSnapshotSerial} value
+   * @param {BasicMaterial2DSnapshot} [out]
+   */
+  static deserialize(value, out = new BasicMaterial2DSnapshot(new HandleSnapshot(typeid(Object),''))) {
+    out.handle = HandleSnapshot.deserialize(value.handle, out.handle)
+
+    return out
   }
 }
 
@@ -96,12 +116,12 @@ export class BasicMaterial2DSnapshot {
 export class BasicMaterial3DSnapshot {
 
   /**
-   * @type {HandleSnapshot<BasicMaterial>}
+   * @type {HandleSnapshot}
    */
   handle
 
   /**
-   * @param {HandleSnapshot<BasicMaterial>} handle
+   * @param {HandleSnapshot} handle
    */
   constructor(handle) {
     this.handle = handle
@@ -112,6 +132,35 @@ export class BasicMaterial3DSnapshot {
    * @returns {BasicMaterial3D}
    */
   fromSnapshot(world) {
-    return new BasicMaterial3D(this.handle.fromSnapshot(world))
+    return new BasicMaterial3D(/**@type {Handle<BasicMaterial>} */(this.handle.fromSnapshot(world)))
+  }
+
+  /**
+   * @param {BasicMaterial3DSnapshot} value
+   */
+  static serialize(value) {
+    return {
+      handle: HandleSnapshot.serialize(value.handle)
+    }
+  }
+
+  /**
+   * @param {BasicMaterial3DSnapshotSerial} value
+   * @param {BasicMaterial3DSnapshot} [out]
+   */
+  static deserialize(value, out = new BasicMaterial3DSnapshot(new HandleSnapshot(typeid(Object),''))) {
+    out.handle = HandleSnapshot.deserialize(value.handle, out.handle)
+
+    return out
   }
 }
+
+/**
+ * @typedef BasicMaterial2DSnapshotSerial
+ * @property {import('../../../asset/core/handle.js').HandleSnapshotSerial} handle
+ */
+
+/**
+ * @typedef BasicMaterial3DSnapshotSerial
+ * @property {import('../../../asset/core/handle.js').HandleSnapshotSerial} handle
+ */
