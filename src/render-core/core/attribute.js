@@ -39,6 +39,52 @@ export class MeshAttribute {
     this.size = size
   }
 
+  /**
+   * @param {MeshAttribute} value
+   */
+  static serialize(value) {
+    return {
+      name: value.name,
+      id: value.id,
+      type: value.type,
+      size: value.size
+    }
+  }
+
+  /**
+   * @param {MeshAttributeSerial} value
+   * @param {MeshAttribute} [out]
+   */
+  static deserialize(value, out = new MeshAttribute('', 0, 0, 0)) {
+    const target = /** @type {any} */ (out)
+
+    target.name = value.name
+    target.id = value.id
+    target.type = value.type
+    target.size = value.size
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is MeshAttributeSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('name' in value) || !('id' in value) || !('type' in value) || !('size' in value)) {
+      return false
+    }
+
+    return typeof value.name === 'string'
+      && typeof value.id === 'number'
+      && typeof value.type === 'number'
+      && typeof value.size === 'number'
+  }
+
   static Position2D = new MeshAttribute(
     'position2d',
     0,
@@ -102,3 +148,11 @@ export class MeshAttribute {
     4
   )
 }
+
+/**
+ * @typedef MeshAttributeSerial
+ * @property {string} name
+ * @property {number} id
+ * @property {number} type
+ * @property {number} size
+ */
