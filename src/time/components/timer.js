@@ -108,6 +108,82 @@ export class Timer {
     return Timer.copy(target)
   }
 
+  /**
+   * @param {Timer} value
+   */
+  static serialize(value) {
+    return {
+      mode: value.mode,
+      duration: value.duration,
+      speed: value.speed,
+      paused: value.paused,
+      elapsedCount: value.elapsedCount,
+      elapsedTime: value.elapsedTime,
+      finished: value.finished,
+      startTicks: value.startTicks,
+      endTicks: value.endTicks,
+      playbackRequested: value.playbackRequested,
+      playbackResolved: value.playbackResolved
+    }
+  }
+
+  /**
+   * @param {TimerSerial} value
+   * @param {Timer} [out]
+   */
+  static deserialize(value, out = new Timer()) {
+    out.mode = value.mode
+    out.duration = value.duration
+    out.speed = value.speed
+    out.paused = value.paused
+    out.elapsedCount = value.elapsedCount
+    out.elapsedTime = value.elapsedTime
+    out.finished = value.finished
+    out.startTicks = value.startTicks
+    out.endTicks = value.endTicks
+    out.playbackRequested = value.playbackRequested
+    out.playbackResolved = value.playbackResolved
+
+    return out
+  }
+
+  /**
+   * @param {TimerSerial} value
+   * @returns {value is TimerSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('mode' in value)
+      || !('duration' in value)
+      || !('speed' in value)
+      || !('paused' in value)
+      || !('elapsedCount' in value)
+      || !('elapsedTime' in value)
+      || !('finished' in value)
+      || !('startTicks' in value)
+      || !('endTicks' in value)
+      || !('playbackRequested' in value)
+      || !('playbackResolved' in value)
+    ) {
+      return false
+    }
+
+    return typeof value.mode === 'number'
+      && typeof value.duration === 'number'
+      && typeof value.speed === 'number'
+      && typeof value.paused === 'boolean'
+      && typeof value.elapsedCount === 'number'
+      && typeof value.elapsedTime === 'number'
+      && typeof value.finished === 'boolean'
+      && typeof value.startTicks === 'number'
+      && typeof value.endTicks === 'number'
+      && typeof value.playbackRequested === 'boolean'
+      && typeof value.playbackResolved === 'boolean'
+  }
+
   elapsed() {
     return this.elapsedTime
   }
@@ -233,6 +309,21 @@ export class Timer {
     return this.finished
   }
 }
+
+/**
+ * @typedef TimerSerial
+ * @property {TimerMode} mode
+ * @property {number} duration
+ * @property {number} speed
+ * @property {boolean} paused
+ * @property {number} elapsedCount
+ * @property {number} elapsedTime
+ * @property {boolean} finished
+ * @property {number} startTicks
+ * @property {number} endTicks
+ * @property {boolean} playbackRequested
+ * @property {boolean} playbackResolved
+ */
 
 /**
  * @readonly
