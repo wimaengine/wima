@@ -16,4 +16,19 @@ export class Position3D extends Vector3 {
   static clone(target) {
     return Position3D.copy(target)
   }
+
+  /**
+   * @param {Position3D} value
+   */
+  static serialize(value) {
+    return super.serialize(value)
+  }
+
+  /**
+   * @param {import('../../../math/index.js').Vector3Serial} value
+   * @param {Position3D} [out]
+   */
+  static deserialize(value, out = new Position3D()) {
+    return super.deserialize(value, out)
+  }
 }
