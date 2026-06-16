@@ -60,7 +60,7 @@ export class Tween {
    * @param {Tween<U>} source
    * @param {Tween<U>} target
    */
-  static copy(source, target = new this(source.to, source.from, source.duration, source.repeat, source.flip, source.easing)) {
+  static copy(source, target = new Tween(source.to, source.from, source.duration, source.repeat, source.flip, source.easing)) {
     const cloneValue = (/** @type {U} */ value) => {
       if (!value || typeof value !== 'object') {
         return value
