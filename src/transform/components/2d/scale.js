@@ -19,4 +19,19 @@ export class Scale2D extends Vector2 {
   static clone(target) {
     return Scale2D.copy(target)
   }
+
+  /**
+   * @param {Scale2D} value
+   */
+  static serialize(value) {
+    return super.serialize(value)
+  }
+
+  /**
+   * @param {import('../../../math/index.js').Vector2Serial} value
+   * @param {Scale2D} [out]
+   */
+  static deserialize(value, out = new Scale2D()) {
+    return super.deserialize(value, out)
+  }
 }
