@@ -46,6 +46,31 @@ export class Window {
   }
 
   /**
+   * @param {Window} value
+   */
+  static serialize(value) {
+    return {
+      width: value.width,
+      height: value.height,
+      selector: value.selector
+    }
+  }
+
+  /**
+   * @param {WindowSerial} value
+   * @param {Window} [out]
+   */
+  static deserialize(value, out = new Window()) {
+    const target = /** @type {any} */ (out)
+
+    target.width = value.width
+    target.height = value.height
+    target.selector = value.selector
+
+    return out
+  }
+
+  /**
    * Returns width of the window.
    *
    * @returns {number}
@@ -72,6 +97,13 @@ export class Window {
     this.height = height
   }
 }
+
+/**
+ * @typedef WindowSerial
+ * @property {number} width
+ * @property {number} height
+ * @property {string | undefined} selector
+ */
 
 /**
  * @typedef WindowOptions
