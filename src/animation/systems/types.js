@@ -42,16 +42,26 @@ export function registerAnimationTypes(world) {
   }))
   registry.get(Playback)?.setMethod(Playback.copy)
   registry.get(Playback)?.setMethod(Playback.clone)
+  registry.get(Playback)?.setMethod(Playback.serialize)
+  registry.get(Playback)?.setMethod(Playback.deserialize)
   registry.register(AnimationPlayer, new StructInfo({
     animations: new Field(playbackMapId),
     current: new Field(typeid(Number), true)
   }))
   registry.get(AnimationPlayer)?.setMethod(AnimationPlayer.copy)
   registry.get(AnimationPlayer)?.setMethod(AnimationPlayer.clone)
+  registry.get(AnimationPlayer)?.setMethod(AnimationPlayer.serialize)
+  registry.get(AnimationPlayer)?.setMethod(AnimationPlayer.deserialize)
   registry.register(AnimationTarget, new StructInfo({
     player: new Field(typeid(Entity)),
     id: new Field(typeid(String))
   }))
   registry.get(AnimationTarget)?.setMethod(AnimationTarget.copy)
   registry.get(AnimationTarget)?.setMethod(AnimationTarget.clone)
+  registry.get(AnimationTarget)?.setMethod(AnimationTarget.serialize)
+  registry.get(AnimationTarget)?.setMethod(AnimationTarget.deserialize)
+  registry.get(AnimationTrack)?.setMethod(AnimationTrack.serialize)
+  registry.get(AnimationTrack)?.setMethod(AnimationTrack.deserialize)
+  registry.get(AnimationClip)?.setMethod(AnimationClip.serialize)
+  registry.get(AnimationClip)?.setMethod(AnimationClip.deserialize)
 }
