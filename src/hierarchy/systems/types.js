@@ -19,9 +19,13 @@ export function registerHierarchyTypes(world) {
   }))
   registry.get(Children)?.setMethod(Children.copy)
   registry.get(Children)?.setMethod(Children.clone)
+  registry.get(Children)?.setMethod(Children.serialize)
+  registry.get(Children)?.setMethod(Children.deserialize)
   registry.register(Parent, new StructInfo({
     entity: new Field(typeid(Entity))
   }))
   registry.get(Parent)?.setMethod(Parent.copy)
   registry.get(Parent)?.setMethod(Parent.clone)
+  registry.get(Parent)?.setMethod(Parent.serialize)
+  registry.get(Parent)?.setMethod(Parent.deserialize)
 }
