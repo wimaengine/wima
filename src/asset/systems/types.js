@@ -32,6 +32,8 @@ export function registerAssetTypes(asset) {
       type: new Field(typeid(Function)),
       asset: new Field(typeid(Object))
     }))
+    registry.get(HandleSnapshot)?.setMethod(HandleSnapshot.serialize)
+    registry.get(HandleSnapshot)?.setMethod(HandleSnapshot.deserialize)
     registry.get(HandleSnapshot)?.setMethod(HandleSnapshot.prototype.fromSnapshot)
     registry.get(Handle)?.setMethod(Handle.prototype.toSnapshot)
   }
