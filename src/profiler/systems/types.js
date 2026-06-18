@@ -14,12 +14,16 @@ export function registerProfilerTypes(world) {
     lastTick: new Field(typeid(Number)),
     delta: new Field(typeid(Number))
   }))
+  registry.get(Profile)?.setMethod(Profile.serialize)
+  registry.get(Profile)?.setMethod(Profile.deserialize)
   const profileMapId = typeidGeneric(Map, [String, Profile])
 
   registry.registerTypeId(profileMapId, new MapInfo(typeid(String), typeid(Profile)))
   registry.register(Profiler, new StructInfo({
     profiles: new Field(profileMapId)
   }))
+  registry.get(Profiler)?.setMethod(Profiler.serialize)
+  registry.get(Profiler)?.setMethod(Profiler.deserialize)
   registry.register(ProfilerTimer, new StructInfo({
 
     // TODO: add a shared helper for enum type ids to avoid setTypeId string literals.
@@ -28,4 +32,6 @@ export function registerProfilerTypes(world) {
     speed: new Field(typeid(Number)),
     paused: new Field(typeid(Boolean))
   }))
+  registry.get(ProfilerTimer)?.setMethod(ProfilerTimer.serialize)
+  registry.get(ProfilerTimer)?.setMethod(ProfilerTimer.deserialize)
 }
