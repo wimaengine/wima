@@ -22,6 +22,26 @@ describe("Testing `Matrix2`", () => {
         deepStrictEqual(destination, source)
     })
 
+    test("`Matrix2.serialize` returns an array serial", () => {
+        const matrix = new Matrix2(
+            1, 2,
+            3, 4
+        )
+
+        deepStrictEqual(Matrix2.serialize(matrix), [1, 3, 2, 4])
+        strictEqual(Matrix2.validateSerial([1, 3, 2, 4]), true)
+    })
+
+    test("`Matrix2.deserialize` reads an array serial", () => {
+        const actual = Matrix2.deserialize([1, 3, 2, 4])
+        const expected = new Matrix2(
+            1, 2,
+            3, 4
+        )
+
+        deepStrictEqual(actual, expected)
+    })
+
     test("`Matrix2.set` sets values corrrectly", () => {
         const expected = new Matrix2(
             1, 2,
