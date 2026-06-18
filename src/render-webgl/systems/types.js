@@ -24,6 +24,8 @@ export function registerWebglTypes(world) {
     type: new Field(typeid(Number)),
     size: new Field(typeid(Number))
   }))
+  registry.get(MeshAttribute)?.setMethod(MeshAttribute.serialize)
+  registry.get(MeshAttribute)?.setMethod(MeshAttribute.deserialize)
   registry.register(WebglRenderPipeline, new StructInfo({
     program: new Field(webglProgramId)
   }))
@@ -37,6 +39,8 @@ export function registerWebglTypes(world) {
     b: new Field(typeid(Number)),
     a: new Field(typeid(Number))
   }))
+  registry.get(ClearColor)?.setMethod(ClearColor.serialize)
+  registry.get(ClearColor)?.setMethod(ClearColor.deserialize)
   registry.register(AttributeMap, new MapInfo(typeid(String), typeid(MeshAttribute)))
   registry.register(WebglProgramCache, new MapInfo(typeid(String), typeid(WebglRenderPipeline)))
 }
