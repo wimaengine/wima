@@ -43,10 +43,10 @@ function fromSnapshot(component, world, entry) {
     return method.method.call(component, world)
   }
 
-  const clone = entry?.getMethod('clone')
+  const clone = entry?.call('clone', [component])
 
   if (clone) {
-    return clone.method.call(component)
+    return clone
   }
 
   const { constructor } = component
