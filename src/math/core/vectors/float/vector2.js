@@ -718,7 +718,7 @@ export class Vector2 {
 /**
  * Serialized form of `Vector2`.
  *
-* @typedef Vector2Serial
-* @property {number} x
-* @property {number} y
-*/
+ * @typedef Vector2Serial
+ * @property {number} x
+ * @property {number} y
+ */

@@ -108,13 +108,13 @@ export class Emitter {
       return false
     }
 
-    return (value.prefab === undefined || typeof value.prefab === 'function')
-      && (value.patch === undefined || typeof value.patch === 'function')
-      && typeof value.burstCount === 'object'
-      && Range.validSerial(value.burstCount)
-      && typeof value.enabled === 'boolean'
-      && typeof value.lifetime === 'object'
-      && Range.validSerial(value.lifetime)
+    return (value.prefab === undefined || typeof value.prefab === 'function') &&
+      (value.patch === undefined || typeof value.patch === 'function') &&
+      typeof value.burstCount === 'object' &&
+      Range.validSerial(value.burstCount) &&
+      typeof value.enabled === 'boolean' &&
+      typeof value.lifetime === 'object' &&
+      Range.validSerial(value.lifetime)
   }
 }
 

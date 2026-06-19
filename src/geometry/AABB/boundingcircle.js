@@ -97,12 +97,12 @@ export class BoundingCircle {
       return false
     }
 
-    if ( !('r' in value) || !('pos' in value)) {
+    if (!('r' in value) || !('pos' in value)) {
       return false
     }
 
-    return typeof value.r === 'number'
-      && Vector2.validateSerial(value.pos)
+    return typeof value.r === 'number' &&
+      Vector2.validateSerial(value.pos)
   }
 }
 

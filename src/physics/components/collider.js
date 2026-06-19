@@ -113,10 +113,10 @@ export class Collider2D {
       return false
     }
 
-    return typeof value.type === 'number'
-      && typeof value.angle === 'number'
-      && value.vertices.every((vertex) => Vector2.validateSerial(vertex))
-      && Geometry.validateSerial(value.geometry)
+    return typeof value.type === 'number' &&
+      typeof value.angle === 'number' &&
+      value.vertices.every((vertex) => Vector2.validateSerial(vertex)) &&
+      Geometry.validateSerial(value.geometry)
   }
 
   /**
@@ -333,8 +333,8 @@ function getNearVertex(position, vertices) {
     if (min > a) {
       vertex = i
       min = a
+    }
   }
-}
 
   return vertex
 }

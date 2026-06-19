@@ -61,8 +61,8 @@ export class Shader {
       return false
     }
 
-    return typeof value.stage === 'number'
-      && typeof value.source === 'string'
+    return typeof value.stage === 'number' &&
+      typeof value.source === 'string'
   }
 }
 

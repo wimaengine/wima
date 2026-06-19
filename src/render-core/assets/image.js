@@ -62,8 +62,8 @@ export class Image {
       return false
     }
 
-    return Array.isArray(value.raw)
-      && Vector2.validateSerial(value.dimensions)
+    return Array.isArray(value.raw) &&
+      Vector2.validateSerial(value.dimensions)
   }
 }
 

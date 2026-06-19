@@ -165,7 +165,7 @@ export class HandleSnapshot {
    * @param {HandleSnapshotSerial} value
    * @param {HandleSnapshot} [out]
    */
-  static deserialize(value, out =  new HandleSnapshot(typeid(Object), "")) {
+  static deserialize(value, out = new HandleSnapshot(typeid(Object), '')) {
     out.type = value.type
     out.asset = value.asset
 
@@ -185,8 +185,8 @@ export class HandleSnapshot {
       return false
     }
 
-    return typeof value.type === 'string'
-      && (typeof value.asset === 'number' || typeof value.asset === 'string')
+    return typeof value.type === 'string' &&
+      (typeof value.asset === 'number' || typeof value.asset === 'string')
   }
 }
 

@@ -161,9 +161,9 @@ export class PerspectiveProjection extends Projection {
       return false
     }
 
-    return value.type === 'perspective'
-      && typeof value.fov === 'number'
-      && typeof value.aspect === 'number'
+    return value.type === 'perspective' &&
+      typeof value.fov === 'number' &&
+      typeof value.aspect === 'number'
   }
 }
 
@@ -278,11 +278,11 @@ export class OrthographicProjection extends Projection {
       return false
     }
 
-    return value.type === 'orthographic'
-      && typeof value.left === 'number'
-      && typeof value.right === 'number'
-      && typeof value.top === 'number'
-      && typeof value.bottom === 'number'
+    return value.type === 'orthographic' &&
+      typeof value.left === 'number' &&
+      typeof value.right === 'number' &&
+      typeof value.top === 'number' &&
+      typeof value.bottom === 'number'
   }
 }
 

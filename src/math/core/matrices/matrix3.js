@@ -322,17 +322,17 @@ export class Matrix3 {
    * @returns {value is Matrix3Serial}
    */
   static validateSerial(value) {
-    return Array.isArray(value)
-      && value.length === 9
-      && typeof value[0] === 'number'
-      && typeof value[1] === 'number'
-      && typeof value[2] === 'number'
-      && typeof value[3] === 'number'
-      && typeof value[4] === 'number'
-      && typeof value[5] === 'number'
-      && typeof value[6] === 'number'
-      && typeof value[7] === 'number'
-      && typeof value[8] === 'number'
+    return Array.isArray(value) &&
+      value.length === 9 &&
+      typeof value[0] === 'number' &&
+      typeof value[1] === 'number' &&
+      typeof value[2] === 'number' &&
+      typeof value[3] === 'number' &&
+      typeof value[4] === 'number' &&
+      typeof value[5] === 'number' &&
+      typeof value[6] === 'number' &&
+      typeof value[7] === 'number' &&
+      typeof value[8] === 'number'
   }
 
   /**

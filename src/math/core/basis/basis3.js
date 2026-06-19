@@ -62,9 +62,9 @@ export class Basis3 {
       return false
     }
 
-    return Vector3.validateSerial(value.x)
-      && Vector3.validateSerial(value.y)
-      && Vector3.validateSerial(value.z)
+    return Vector3.validateSerial(value.x) &&
+      Vector3.validateSerial(value.y) &&
+      Vector3.validateSerial(value.z)
   }
 }
 

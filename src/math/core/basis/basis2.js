@@ -55,8 +55,8 @@ export class Basis2 {
       return false
     }
 
-    return Vector2.validateSerial(value.x)
-      && Vector2.validateSerial(value.y)
+    return Vector2.validateSerial(value.x) &&
+      Vector2.validateSerial(value.y)
   }
 }
 

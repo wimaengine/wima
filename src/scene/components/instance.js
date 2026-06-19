@@ -70,7 +70,7 @@ export class SceneInstanceSnapshot {
    * @returns {SceneInstance}
    */
   fromSnapshot(world) {
-    return new SceneInstance(/**@type {Handle<Scene>} */(this.handle.fromSnapshot(world)))
+    return new SceneInstance(/** @type {Handle<Scene>} */(this.handle.fromSnapshot(world)))
   }
 
   /**
@@ -86,7 +86,7 @@ export class SceneInstanceSnapshot {
    * @param {SceneInstanceSnapshotSerial} value
    * @param {SceneInstanceSnapshot} [out]
    */
-  static deserialize(value, out = new SceneInstanceSnapshot(new HandleSnapshot(typeid(Object),''))) {
+  static deserialize(value, out = new SceneInstanceSnapshot(new HandleSnapshot(typeid(Object), ''))) {
     out.handle = HandleSnapshot.deserialize(value.handle, out.handle)
 
     return out

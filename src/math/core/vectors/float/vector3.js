@@ -313,9 +313,9 @@ export class Vector3 {
       return false
     }
 
-    return typeof value.x === 'number'
-      && typeof value.y === 'number'
-      && typeof value.z === 'number'
+    return typeof value.x === 'number' &&
+      typeof value.y === 'number' &&
+      typeof value.z === 'number'
   }
 
   /**
@@ -685,8 +685,8 @@ export class Vector3 {
 /**
  * Serialized form of `Vector3`.
  *
-* @typedef Vector3Serial
-* @property {number} x
-* @property {number} y
-* @property {number} z
-*/
+ * @typedef Vector3Serial
+ * @property {number} x
+ * @property {number} y
+ * @property {number} z
+ */

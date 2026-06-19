@@ -79,10 +79,10 @@ export class MeshAttribute {
       return false
     }
 
-    return typeof value.name === 'string'
-      && typeof value.id === 'number'
-      && typeof value.type === 'number'
-      && typeof value.size === 'number'
+    return typeof value.name === 'string' &&
+      typeof value.id === 'number' &&
+      typeof value.type === 'number' &&
+      typeof value.size === 'number'
   }
 
   static Position2D = new MeshAttribute(

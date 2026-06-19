@@ -247,12 +247,12 @@ export class Matrix2 {
    * @returns {value is Matrix2Serial}
    */
   static validateSerial(value) {
-    return Array.isArray(value)
-      && value.length === 4
-      && typeof value[0] === 'number'
-      && typeof value[1] === 'number'
-      && typeof value[2] === 'number'
-      && typeof value[3] === 'number'
+    return Array.isArray(value) &&
+      value.length === 4 &&
+      typeof value[0] === 'number' &&
+      typeof value[1] === 'number' &&
+      typeof value[2] === 'number' &&
+      typeof value[3] === 'number'
   }
 
   /**

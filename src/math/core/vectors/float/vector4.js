@@ -336,10 +336,10 @@ export class Vector4 {
       return false
     }
 
-    return typeof value.x === 'number'
-      && typeof value.y === 'number'
-      && typeof value.z === 'number'
-      && typeof value.w === 'number'
+    return typeof value.x === 'number' &&
+      typeof value.y === 'number' &&
+      typeof value.z === 'number' &&
+      typeof value.w === 'number'
   }
 
   /**
@@ -710,9 +710,9 @@ export class Vector4 {
 /**
  * Serialized form of `Vector4`.
  *
-* @typedef Vector4Serial
-* @property {number} x
-* @property {number} y
-* @property {number} z
-* @property {number} w
-*/
+ * @typedef Vector4Serial
+ * @property {number} x
+ * @property {number} y
+ * @property {number} z
+ * @property {number} w
+ */

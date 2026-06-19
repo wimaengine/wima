@@ -452,24 +452,24 @@ export class Matrix4 {
    * @returns {value is Matrix4Serial}
    */
   static validateSerial(value) {
-    return Array.isArray(value)
-      && value.length === 16
-      && typeof value[0] === 'number'
-      && typeof value[1] === 'number'
-      && typeof value[2] === 'number'
-      && typeof value[3] === 'number'
-      && typeof value[4] === 'number'
-      && typeof value[5] === 'number'
-      && typeof value[6] === 'number'
-      && typeof value[7] === 'number'
-      && typeof value[8] === 'number'
-      && typeof value[9] === 'number'
-      && typeof value[10] === 'number'
-      && typeof value[11] === 'number'
-      && typeof value[12] === 'number'
-      && typeof value[13] === 'number'
-      && typeof value[14] === 'number'
-      && typeof value[15] === 'number'
+    return Array.isArray(value) &&
+      value.length === 16 &&
+      typeof value[0] === 'number' &&
+      typeof value[1] === 'number' &&
+      typeof value[2] === 'number' &&
+      typeof value[3] === 'number' &&
+      typeof value[4] === 'number' &&
+      typeof value[5] === 'number' &&
+      typeof value[6] === 'number' &&
+      typeof value[7] === 'number' &&
+      typeof value[8] === 'number' &&
+      typeof value[9] === 'number' &&
+      typeof value[10] === 'number' &&
+      typeof value[11] === 'number' &&
+      typeof value[12] === 'number' &&
+      typeof value[13] === 'number' &&
+      typeof value[14] === 'number' &&
+      typeof value[15] === 'number'
   }
 
   /**

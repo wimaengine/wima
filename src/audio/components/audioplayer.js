@@ -99,7 +99,7 @@ export class AudioPlayerSnapshot {
   fromSnapshot(world) {
     const player = new AudioPlayer({
       attach: this.attach,
-      audio: /**@type {Handle<Audio>} */(this.audio?.fromSnapshot(world))
+      audio: /** @type {Handle<Audio>} */(this.audio?.fromSnapshot(world))
     })
 
     player.sourceNode = this.sourceNode
@@ -143,9 +143,9 @@ export class AudioPlayerSnapshot {
       return false
     }
 
-    return (value.sourceNode === undefined || typeof value.sourceNode === 'number')
-      && (value.attach === undefined || typeof value.attach === 'number')
-      && (value.audio === undefined || HandleSnapshot.validateSerial(value.audio))
+    return (value.sourceNode === undefined || typeof value.sourceNode === 'number') &&
+      (value.attach === undefined || typeof value.attach === 'number') &&
+      (value.audio === undefined || HandleSnapshot.validateSerial(value.audio))
   }
 }
 

@@ -70,24 +70,24 @@ export class PhysicsProperties {
       return false
     }
 
-    if (!('invinertia' in value)
-      || !('invmass' in value)
-      || !('mask' in value)
-      || !('group' in value)
-      || !('sleep' in value)
-      || !('restitution' in value)
-      || !('kineticFriction' in value)
+    if (!('invinertia' in value) ||
+      !('invmass' in value) ||
+      !('mask' in value) ||
+      !('group' in value) ||
+      !('sleep' in value) ||
+      !('restitution' in value) ||
+      !('kineticFriction' in value)
     ) {
       return false
     }
 
-    return typeof value.invinertia === 'number'
-      && typeof value.invmass === 'number'
-      && typeof value.mask === 'bigint'
-      && typeof value.group === 'bigint'
-      && typeof value.sleep === 'boolean'
-      && typeof value.restitution === 'number'
-      && typeof value.kineticFriction === 'number'
+    return typeof value.invinertia === 'number' &&
+      typeof value.invmass === 'number' &&
+      typeof value.mask === 'bigint' &&
+      typeof value.group === 'bigint' &&
+      typeof value.sleep === 'boolean' &&
+      typeof value.restitution === 'number' &&
+      typeof value.kineticFriction === 'number'
   }
 }
 

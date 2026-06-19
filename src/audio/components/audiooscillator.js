@@ -105,11 +105,11 @@ export class AudioOscillator {
       return false
     }
 
-    return (value.sourceNode === undefined || typeof value.sourceNode === 'number')
-      && (value.attach === undefined || typeof value.attach === 'number')
-      && typeof value.type === 'number'
-      && typeof value.detune === 'number'
-      && typeof value.frequency === 'number'
+    return (value.sourceNode === undefined || typeof value.sourceNode === 'number') &&
+      (value.attach === undefined || typeof value.attach === 'number') &&
+      typeof value.type === 'number' &&
+      typeof value.detune === 'number' &&
+      typeof value.frequency === 'number'
   }
 }
 

@@ -53,7 +53,7 @@ export class AnimationTarget {
    * @param {AnimationTargetSerial} value
    * @param {AnimationTarget} [out]
    */
-  static deserialize(value, out = new AnimationTarget(new Entity(0, 0) , '')) {
+  static deserialize(value, out = new AnimationTarget(new Entity(0, 0), '')) {
     out.player = Entity.deserialize(value.player, out.player)
     out.id = value.id
 

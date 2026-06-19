@@ -78,27 +78,27 @@ export class RemoteTransform3D {
       return false
     }
 
-    if (!('copyTranslation' in value)
-      || !('copyOrientation' in value)
-      || !('copyScale' in value)
-      || !('entity' in value)
-      || !('offsetTransform' in value)
+    if (!('copyTranslation' in value) ||
+      !('copyOrientation' in value) ||
+      !('copyScale' in value) ||
+      !('entity' in value) ||
+      !('offsetTransform' in value)
     ) {
       return false
     }
 
-    return typeof value.copyTranslation === 'boolean'
-      && typeof value.copyOrientation === 'boolean'
-      && typeof value.copyScale === 'boolean'
-      && Entity.validateSerial(value.entity)
-      && Affine3.validateSerial(value.offsetTransform)
+    return typeof value.copyTranslation === 'boolean' &&
+      typeof value.copyOrientation === 'boolean' &&
+      typeof value.copyScale === 'boolean' &&
+      Entity.validateSerial(value.entity) &&
+      Affine3.validateSerial(value.offsetTransform)
   }
 
   /**
    * @param {RemoteTransform3DSerial} value
    * @param {RemoteTransform3D} [out]
    */
-  static deserialize(value, out = new RemoteTransform3D(new Entity(0,0))) {
+  static deserialize(value, out = new RemoteTransform3D(new Entity(0, 0))) {
     out.copyTranslation = value.copyTranslation
     out.copyOrientation = value.copyOrientation
     out.copyScale = value.copyScale

@@ -52,7 +52,7 @@ export class Name {
    * @returns {value is string}
    */
   static validateSerial(value) {
-    return  typeof value === 'string'
+    return typeof value === 'string'
   }
 }
 

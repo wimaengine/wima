@@ -188,10 +188,10 @@ export class Color {
       return false
     }
 
-    return typeof value.r === 'number'
-      && typeof value.g === 'number'
-      && typeof value.b === 'number'
-      && typeof value.a === 'number'
+    return typeof value.r === 'number' &&
+      typeof value.g === 'number' &&
+      typeof value.b === 'number' &&
+      typeof value.a === 'number'
   }
 
   /**

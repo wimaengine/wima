@@ -87,7 +87,7 @@ export class BasicMaterial2DSnapshot {
    * @returns {BasicMaterial2D}
    */
   fromSnapshot(world) {
-    return new BasicMaterial2D(/**@type {Handle<BasicMaterial>} */(this.handle.fromSnapshot(world)))
+    return new BasicMaterial2D(/** @type {Handle<BasicMaterial>} */(this.handle.fromSnapshot(world)))
   }
 
   /**
@@ -103,7 +103,7 @@ export class BasicMaterial2DSnapshot {
    * @param {BasicMaterial2DSnapshotSerial} value
    * @param {BasicMaterial2DSnapshot} [out]
    */
-  static deserialize(value, out = new BasicMaterial2DSnapshot(new HandleSnapshot(typeid(Object),''))) {
+  static deserialize(value, out = new BasicMaterial2DSnapshot(new HandleSnapshot(typeid(Object), ''))) {
     out.handle = HandleSnapshot.deserialize(value.handle, out.handle)
 
     return out
@@ -132,7 +132,7 @@ export class BasicMaterial3DSnapshot {
    * @returns {BasicMaterial3D}
    */
   fromSnapshot(world) {
-    return new BasicMaterial3D(/**@type {Handle<BasicMaterial>} */(this.handle.fromSnapshot(world)))
+    return new BasicMaterial3D(/** @type {Handle<BasicMaterial>} */(this.handle.fromSnapshot(world)))
   }
 
   /**
@@ -148,7 +148,7 @@ export class BasicMaterial3DSnapshot {
    * @param {BasicMaterial3DSnapshotSerial} value
    * @param {BasicMaterial3DSnapshot} [out]
    */
-  static deserialize(value, out = new BasicMaterial3DSnapshot(new HandleSnapshot(typeid(Object),''))) {
+  static deserialize(value, out = new BasicMaterial3DSnapshot(new HandleSnapshot(typeid(Object), ''))) {
     out.handle = HandleSnapshot.deserialize(value.handle, out.handle)
 
     return out

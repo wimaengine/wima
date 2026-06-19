@@ -48,10 +48,11 @@ export class Camera {
    * @param {Camera} value
    */
   static serialize(value) {
-    const projection = value.projection instanceof OrthographicProjection?
-    OrthographicProjection.serialize(value.projection):
+    const projection = value.projection instanceof OrthographicProjection ?
+      OrthographicProjection.serialize(value.projection) :
+
     // @ts-ignore
-    PerspectiveProjection.serialize(value.projection)
+      PerspectiveProjection.serialize(value.projection)
 
     return {
       projection,

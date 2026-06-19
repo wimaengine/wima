@@ -156,32 +156,32 @@ export class Timer {
       return false
     }
 
-    if (!('mode' in value)
-      || !('duration' in value)
-      || !('speed' in value)
-      || !('paused' in value)
-      || !('elapsedCount' in value)
-      || !('elapsedTime' in value)
-      || !('finished' in value)
-      || !('startTicks' in value)
-      || !('endTicks' in value)
-      || !('playbackRequested' in value)
-      || !('playbackResolved' in value)
+    if (!('mode' in value) ||
+      !('duration' in value) ||
+      !('speed' in value) ||
+      !('paused' in value) ||
+      !('elapsedCount' in value) ||
+      !('elapsedTime' in value) ||
+      !('finished' in value) ||
+      !('startTicks' in value) ||
+      !('endTicks' in value) ||
+      !('playbackRequested' in value) ||
+      !('playbackResolved' in value)
     ) {
       return false
     }
 
-    return typeof value.mode === 'number'
-      && typeof value.duration === 'number'
-      && typeof value.speed === 'number'
-      && typeof value.paused === 'boolean'
-      && typeof value.elapsedCount === 'number'
-      && typeof value.elapsedTime === 'number'
-      && typeof value.finished === 'boolean'
-      && typeof value.startTicks === 'number'
-      && typeof value.endTicks === 'number'
-      && typeof value.playbackRequested === 'boolean'
-      && typeof value.playbackResolved === 'boolean'
+    return typeof value.mode === 'number' &&
+      typeof value.duration === 'number' &&
+      typeof value.speed === 'number' &&
+      typeof value.paused === 'boolean' &&
+      typeof value.elapsedCount === 'number' &&
+      typeof value.elapsedTime === 'number' &&
+      typeof value.finished === 'boolean' &&
+      typeof value.startTicks === 'number' &&
+      typeof value.endTicks === 'number' &&
+      typeof value.playbackRequested === 'boolean' &&
+      typeof value.playbackResolved === 'boolean'
   }
 
   elapsed() {

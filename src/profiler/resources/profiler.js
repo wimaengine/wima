@@ -36,8 +36,8 @@ export class Profile {
       return false
     }
 
-    return typeof value.lastTick === 'number'
-      && typeof value.delta === 'number'
+    return typeof value.lastTick === 'number' &&
+      typeof value.delta === 'number'
   }
 }
 

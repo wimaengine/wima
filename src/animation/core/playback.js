@@ -97,20 +97,20 @@ export class Playback {
       return false
     }
 
-    if (!('speed' in value)
-      || !('duration' in value)
-      || !('elapsed' in value)
-      || !('repeatMode' in value)
-      || !('paused' in value)
+    if (!('speed' in value) ||
+      !('duration' in value) ||
+      !('elapsed' in value) ||
+      !('repeatMode' in value) ||
+      !('paused' in value)
     ) {
       return false
     }
 
-    return typeof value.speed === 'number'
-      && typeof value.duration === 'number'
-      && typeof value.elapsed === 'number'
-      && typeof value.repeatMode === 'number'
-      && typeof value.paused === 'boolean'
+    return typeof value.speed === 'number' &&
+      typeof value.duration === 'number' &&
+      typeof value.elapsed === 'number' &&
+      typeof value.repeatMode === 'number' &&
+      typeof value.paused === 'boolean'
   }
 
   start() {

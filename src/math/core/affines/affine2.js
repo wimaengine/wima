@@ -275,14 +275,14 @@ export class Affine2 {
    * @returns {value is Affine2Serial}
    */
   static validateSerial(value) {
-    return Array.isArray(value)
-      && value.length === 6
-      && typeof value[0] === 'number'
-      && typeof value[1] === 'number'
-      && typeof value[2] === 'number'
-      && typeof value[3] === 'number'
-      && typeof value[4] === 'number'
-      && typeof value[5] === 'number'
+    return Array.isArray(value) &&
+      value.length === 6 &&
+      typeof value[0] === 'number' &&
+      typeof value[1] === 'number' &&
+      typeof value[2] === 'number' &&
+      typeof value[3] === 'number' &&
+      typeof value[4] === 'number' &&
+      typeof value[5] === 'number'
   }
 
   /**

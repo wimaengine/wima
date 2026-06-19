@@ -114,8 +114,8 @@ export class BoundingBox2D {
       return false
     }
 
-    return Vector2.validateSerial(value.max)
-      && Vector2.validateSerial(value.min)
+    return Vector2.validateSerial(value.max) &&
+      Vector2.validateSerial(value.min)
   }
 
   /**

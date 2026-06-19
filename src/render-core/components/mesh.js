@@ -64,7 +64,7 @@ export class MeshedSnapshot {
    * @returns {Meshed}
    */
   fromSnapshot(world) {
-    return new Meshed(/**@type {Handle<Mesh>} */(this.handle.fromSnapshot(world)))
+    return new Meshed(/** @type {Handle<Mesh>} */(this.handle.fromSnapshot(world)))
   }
 
   /**
@@ -80,7 +80,7 @@ export class MeshedSnapshot {
    * @param {MeshedSnapshotSerial} value
    * @param {MeshedSnapshot} [out]
    */
-  static deserialize(value, out = new MeshedSnapshot(new HandleSnapshot(typeid(Object),''))) {
+  static deserialize(value, out = new MeshedSnapshot(new HandleSnapshot(typeid(Object), ''))) {
     out.handle = HandleSnapshot.deserialize(value.handle, out.handle)
 
     return out
