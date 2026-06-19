@@ -52,11 +52,13 @@ function deserializeScene(serial, typeRegistry) {
 
       if (typeof component !== 'object' || component === null) {
         warn(`Failed to deserialize component with type id \`${typeId}\`.`)
+
         return undefined
       }
 
       return component
-    }).filter(Boolean)
+    })
+      .filter(Boolean)
 
     const numericEntityId = Number(entityId)
 
@@ -77,5 +79,6 @@ function deserializeScene(serial, typeRegistry) {
 function deserializeComponent(typeId, value, typeRegistry) {
   const entry = typeRegistry.getByTypeId(typeId)
   const component = entry?.call('deserialize', [value])
+
   return component
 }

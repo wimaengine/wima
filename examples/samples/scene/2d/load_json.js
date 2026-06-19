@@ -19,11 +19,12 @@ import {
 import { HackPlugin, setupViewport } from '../../utils.js'
 
 // NOTE: This is here because scenes dont support resources nor assets.
-// Also asset dependencies need to be supported too in order to load 
+// Also asset dependencies need to be supported too in order to load
 // the external dependencies from the server/disk.
 // when that lands, this example should support them natively.
 // TODO: Move this to use internal scene assets when the above land
 class SceneAssetHandles {
+
   /** @type {import('wima').Handle<Mesh> | undefined} */
   meshHandle
 

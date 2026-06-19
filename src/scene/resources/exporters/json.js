@@ -37,7 +37,8 @@ export class JSONSceneExporter extends Exporter {
  * @returns {Record<string, unknown>}
  */
 function serializeComponents(components, typeRegistry) {
-    /**@type {Record<import('../../../type/index.js').TypeId, unknown>} */
+
+  /** @type {Record<import('../../../type/index.js').TypeId, unknown>} */
   const serial = {}
 
   for (let i = 0; i < components.length; i++) {
