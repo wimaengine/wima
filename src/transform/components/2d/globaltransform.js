@@ -16,4 +16,19 @@ export class GlobalTransform2D extends Affine2 {
   static clone(target) {
     return GlobalTransform2D.copy(target)
   }
+
+  /**
+   * @param {GlobalTransform2D} value
+   */
+  static serialize(value) {
+    return super.serialize(value)
+  }
+
+  /**
+   * @param {import('../../../math/index.js').Affine2Serial} value
+   * @param {GlobalTransform2D} [out]
+   */
+  static deserialize(value, out = new GlobalTransform2D()) {
+    return super.deserialize(value, out)
+  }
 }

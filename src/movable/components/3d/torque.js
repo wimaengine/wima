@@ -16,4 +16,19 @@ export class Torque3D extends Vector3 {
   static clone(target) {
     return Torque3D.copy(target)
   }
+
+  /**
+   * @param {Torque3D} value
+   */
+  static serialize(value) {
+    return super.serialize(value)
+  }
+
+  /**
+   * @param {import('../../../math/core/vectors/float/vector3.js').Vector3Serial} value
+   * @param {Torque3D} [out]
+   */
+  static deserialize(value, out = new Torque3D()) {
+    return super.deserialize(/** @type {any} */ (value), out)
+  }
 }

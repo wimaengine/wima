@@ -25,14 +25,20 @@ export function registerTimeTypes(world) {
   }))
   registry.get(Timer)?.setMethod(Timer.copy)
   registry.get(Timer)?.setMethod(Timer.clone)
+  registry.get(Timer)?.setMethod(Timer.serialize)
+  registry.get(Timer)?.setMethod(Timer.deserialize)
   registry.register(Clock, new StructInfo({
     elapsed: new Field(typeid(Number)),
     lastTick: new Field(typeid(Number)),
     delta: new Field(typeid(Number))
   }))
+  registry.get(Clock)?.setMethod(Clock.serialize)
+  registry.get(Clock)?.setMethod(Clock.deserialize)
   registry.register(VirtualClock, new StructInfo({
     elapsed: new Field(typeid(Number)),
     lastTick: new Field(typeid(Number)),
     delta: new Field(typeid(Number))
   }))
+  registry.get(VirtualClock)?.setMethod(VirtualClock.serialize)
+  registry.get(VirtualClock)?.setMethod(VirtualClock.deserialize)
 }

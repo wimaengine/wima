@@ -29,21 +29,31 @@ export function registerRenderCoreTypes(world) {
   registry.register(MeshAttributeData, new StructInfo({
     data: new Field(typeid(Float32Array))
   }))
+  registry.get(MeshAttributeData)?.setMethod(MeshAttributeData.serialize)
+  registry.get(MeshAttributeData)?.setMethod(MeshAttributeData.deserialize)
   registry.register(Image, new StructInfo({
     raw: new Field(typeid(Uint8ClampedArray)),
     dimensions: new Field(typeid(Vector2))
   }))
+  registry.get(Image)?.setMethod(Image.serialize)
+  registry.get(Image)?.setMethod(Image.deserialize)
   registry.register(Mesh, new StructInfo({
     indices: new Field(typeid(Uint16Array), true),
     attributes: new Field(meshAttributeMapId)
   }))
+  registry.get(Mesh)?.setMethod(Mesh.serialize)
+  registry.get(Mesh)?.setMethod(Mesh.deserialize)
   registry.register(Shader, new StructInfo({
     stage: new Field(shaderStageId),
     source: new Field(typeid(String))
   }))
+  registry.get(Shader)?.setMethod(Shader.serialize)
+  registry.get(Shader)?.setMethod(Shader.deserialize)
   registry.register(BasicMaterial, new StructInfo({
     color: new Field(typeid(Color))
   }))
+  registry.get(BasicMaterial)?.setMethod(BasicMaterial.serialize)
+  registry.get(BasicMaterial)?.setMethod(BasicMaterial.deserialize)
   registry.register(Meshed, new StructInfo({
     handle: new Field(typeidGeneric(Handle, [Mesh]))
   }))
@@ -53,6 +63,8 @@ export function registerRenderCoreTypes(world) {
   registry.register(MeshedSnapshot, new StructInfo({
     handle: new Field(typeid(HandleSnapshot))
   }))
+  registry.get(MeshedSnapshot)?.setMethod(MeshedSnapshot.serialize)
+  registry.get(MeshedSnapshot)?.setMethod(MeshedSnapshot.deserialize)
   registry.get(MeshedSnapshot)?.setMethod(MeshedSnapshot.prototype.fromSnapshot)
   registry.register(BasicMaterial2D, new StructInfo({
     handle: new Field(basicMaterialHandleId)
@@ -63,6 +75,8 @@ export function registerRenderCoreTypes(world) {
   registry.register(BasicMaterial2DSnapshot, new StructInfo({
     handle: new Field(typeid(HandleSnapshot))
   }))
+  registry.get(BasicMaterial2DSnapshot)?.setMethod(BasicMaterial2DSnapshot.serialize)
+  registry.get(BasicMaterial2DSnapshot)?.setMethod(BasicMaterial2DSnapshot.deserialize)
   registry.get(BasicMaterial2DSnapshot)?.setMethod(BasicMaterial2DSnapshot.prototype.fromSnapshot)
   registry.register(BasicMaterial3D, new StructInfo({
     handle: new Field(basicMaterialHandleId)
@@ -73,6 +87,8 @@ export function registerRenderCoreTypes(world) {
   registry.register(BasicMaterial3DSnapshot, new StructInfo({
     handle: new Field(typeid(HandleSnapshot))
   }))
+  registry.get(BasicMaterial3DSnapshot)?.setMethod(BasicMaterial3DSnapshot.serialize)
+  registry.get(BasicMaterial3DSnapshot)?.setMethod(BasicMaterial3DSnapshot.deserialize)
   registry.get(BasicMaterial3DSnapshot)?.setMethod(BasicMaterial3DSnapshot.prototype.fromSnapshot)
   registry.register(Camera, new StructInfo({
     projection: new Field(typeid(Projection)),
@@ -81,14 +97,20 @@ export function registerRenderCoreTypes(world) {
   }))
   registry.get(Camera)?.setMethod(Camera.copy)
   registry.get(Camera)?.setMethod(Camera.clone)
+  registry.get(Camera)?.setMethod(Camera.serialize)
+  registry.get(Camera)?.setMethod(Camera.deserialize)
 
   registry.register(RenderLists2D, new OpaqueInfo())
   registry.get(RenderLists2D)?.setMethod(RenderLists2D.copy)
   registry.get(RenderLists2D)?.setMethod(RenderLists2D.clone)
+  registry.get(RenderLists2D)?.setMethod(RenderLists2D.serialize)
+  registry.get(RenderLists2D)?.setMethod(RenderLists2D.deserialize)
 
   registry.register(RenderLists3D, new OpaqueInfo())
   registry.get(RenderLists3D)?.setMethod(RenderLists3D.copy)
   registry.get(RenderLists3D)?.setMethod(RenderLists3D.clone)
+  registry.get(RenderLists3D)?.setMethod(RenderLists3D.serialize)
+  registry.get(RenderLists3D)?.setMethod(RenderLists3D.deserialize)
 }
 
 /**
@@ -118,6 +140,12 @@ export function registerMaterialTypes(component, material) {
     }
     if ('clone' in component && typeof component.clone === 'function') {
       registry.get(component)?.setMethod(component.clone)
+    }
+    if ('serialize' in component && typeof component.serialize === 'function') {
+      registry.get(component)?.setMethod(component.serialize)
+    }
+    if ('deserialize' in component && typeof component.deserialize === 'function') {
+      registry.get(component)?.setMethod(component.deserialize)
     }
   }
 }

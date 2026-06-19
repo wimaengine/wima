@@ -1,6 +1,7 @@
 /** @import { EntityId } from '../../ecs/index.js' */
 /** @import { Scene } from "../assets/scene.js" */
 import { Handle, HandleSnapshot } from '../../asset/index.js'
+import { typeid } from '../../type/index.js'
 
 export class SceneInstance {
 
@@ -53,12 +54,12 @@ export class SceneInstance {
 export class SceneInstanceSnapshot {
 
   /**
-   * @type {HandleSnapshot<Scene>}
+   * @type {HandleSnapshot}
    */
   handle
 
   /**
-   * @param {HandleSnapshot<Scene>} handle
+   * @param {HandleSnapshot} handle
    */
   constructor(handle) {
     this.handle = handle
@@ -69,6 +70,46 @@ export class SceneInstanceSnapshot {
    * @returns {SceneInstance}
    */
   fromSnapshot(world) {
-    return new SceneInstance(this.handle.fromSnapshot(world))
+    return new SceneInstance(/** @type {Handle<Scene>} */(this.handle.fromSnapshot(world)))
+  }
+
+  /**
+   * @param {SceneInstanceSnapshot} value
+   */
+  static serialize(value) {
+    return {
+      handle: HandleSnapshot.serialize(value.handle)
+    }
+  }
+
+  /**
+   * @param {SceneInstanceSnapshotSerial} value
+   * @param {SceneInstanceSnapshot} [out]
+   */
+  static deserialize(value, out = new SceneInstanceSnapshot(new HandleSnapshot(typeid(Object), ''))) {
+    out.handle = HandleSnapshot.deserialize(value.handle, out.handle)
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is SceneInstanceSnapshotSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('handle' in value)) {
+      return false
+    }
+
+    return HandleSnapshot.validateSerial(value.handle)
   }
 }
+
+/**
+ * @typedef SceneInstanceSnapshotSerial
+ * @property {import('../../asset/core/handle.js').HandleSnapshotSerial} handle
+ */

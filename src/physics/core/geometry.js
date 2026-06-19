@@ -30,6 +30,47 @@ export class Geometry {
   }
 
   /**
+   * @param {Geometry} value
+   */
+  static serialize(value) {
+    return {
+      vertices: value.vertices.map((vertex) => Vector2.serialize(vertex))
+    }
+  }
+
+  /**
+   * @param {GeometrySerial} value
+   * @param {Geometry} [out]
+   */
+  static deserialize(value, out = new Geometry([])) {
+    out.vertices = value.vertices.map((vertex) => Vector2.deserialize(vertex))
+    out.normals = Geometry.calcFaceNormals(out.vertices)
+    out.dynNormals = out.normals.map((vertex) => Vector2.copy(vertex))
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is GeometrySerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('vertices' in value)) {
+      return false
+    }
+
+    if (!Array.isArray(value.vertices)) {
+      return false
+    }
+
+    return value.vertices.every((vertex) => Vector2.validateSerial(vertex))
+  }
+
+  /**
    * @param {Geometry} geometry
    * @param {number} angle
    * @param {Vector2[]} out
@@ -89,6 +130,11 @@ export class Geometry {
     }
   }
 }
+
+/**
+ * @typedef GeometrySerial
+ * @property {import('../../math/core/vectors/float/vector2.js').Vector2Serial[]} vertices
+ */
 
 /**
  * @param {Vector2} axis

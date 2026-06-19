@@ -18,4 +18,19 @@ export class Torque2D extends Angle {
   static clone(target) {
     return Torque2D.copy(target)
   }
+
+  /**
+   * @param {Torque2D} value
+   */
+  static serialize(value) {
+    return super.serialize(value)
+  }
+
+  /**
+   * @param {import('../../../math/core/angles/angle.js').AngleSerial} value
+   * @param {Torque2D} [out]
+   */
+  static deserialize(value, out = new Torque2D()) {
+    return super.deserialize(/** @type {any} */ (value), out)
+  }
 }

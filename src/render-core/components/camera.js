@@ -43,7 +43,51 @@ export class Camera {
   static clone(target) {
     return Camera.copy(target)
   }
+
+  /**
+   * @param {Camera} value
+   */
+  static serialize(value) {
+    const projection = value.projection instanceof OrthographicProjection ?
+      OrthographicProjection.serialize(value.projection) :
+
+    // @ts-ignore
+      PerspectiveProjection.serialize(value.projection)
+
+    return {
+      projection,
+      near: value.near,
+      far: value.far
+    }
+  }
+
+  /**
+   * @param {CameraSerial} value
+   * @param {Camera} [out]
+   */
+  static deserialize(value, out = new Camera()) {
+    if (value.projection.type === 'perspective') {
+      out.projection = PerspectiveProjection.deserialize(value.projection)
+    } else if (value.projection.type === 'orthographic') {
+      out.projection = OrthographicProjection.deserialize(value.projection)
+    } else {
+      out.projection = new PerspectiveProjection()
+    }
+
+    out.near = value.near
+    out.far = value.far
+
+    return out
+  }
   projectionMatrix() {
     return this.projection.asProjectionMatrix(this.near, this.far)
   }
 }
+
+/**
+ * @typedef CameraSerial
+ * @property {import('../core/projection.js').ProjectionSerial} projection
+ * @property {number} near
+ * @property {number} far
+ * @property {string} projectionType
+ */

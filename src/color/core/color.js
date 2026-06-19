@@ -151,6 +151,50 @@ export class Color {
   }
 
   /**
+   * @param {Color} value
+   */
+  static serialize(value) {
+    return {
+      r: value.r,
+      g: value.g,
+      b: value.b,
+      a: value.a
+    }
+  }
+
+  /**
+   * @param {ColorSerial} value
+   * @param {Color} [out]
+   */
+  static deserialize(value, out = new Color()) {
+    out.r = value.r
+    out.g = value.g
+    out.b = value.b
+    out.a = value.a
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is ColorSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('r' in value) || !('g' in value) || !('b' in value) || !('a' in value)) {
+      return false
+    }
+
+    return typeof value.r === 'number' &&
+      typeof value.g === 'number' &&
+      typeof value.b === 'number' &&
+      typeof value.a === 'number'
+  }
+
+  /**
    * @param {Color} color1
    * @param {Color} color2
    * @param {Color} [out]
@@ -295,3 +339,11 @@ export class Color {
    */
   static CYAN = new Color(0, 1, 1)
 }
+
+/**
+ * @typedef ColorSerial
+ * @property {number} r
+ * @property {number} g
+ * @property {number} b
+ * @property {number} a
+ */

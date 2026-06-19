@@ -222,6 +222,40 @@ export class Matrix2 {
   }
 
   /**
+   * @param {Matrix2} value
+   * @returns {Matrix2Serial}
+   */
+  static serialize(value) {
+    return [value.a, value.b, value.c, value.d]
+  }
+
+  /**
+   * @param {Matrix2Serial} value
+   * @param {Matrix2} [out]
+   */
+  static deserialize(value, out = new Matrix2()) {
+    out.a = value[0]
+    out.b = value[1]
+    out.c = value[2]
+    out.d = value[3]
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is Matrix2Serial}
+   */
+  static validateSerial(value) {
+    return Array.isArray(value) &&
+      value.length === 4 &&
+      typeof value[0] === 'number' &&
+      typeof value[1] === 'number' &&
+      typeof value[2] === 'number' &&
+      typeof value[3] === 'number'
+  }
+
+  /**
    * @param {Matrix2} matrix
    * @param {Matrix2} out
    * @returns {Matrix2}
@@ -451,3 +485,10 @@ export class Matrix2 {
    */
   static Zero = Matrix2.zero()
 }
+
+/**
+ * Serialized form of `Matrix2`.
+ *
+ * @typedef Matrix2Serial
+ * @type {[number, number, number, number]}
+ */

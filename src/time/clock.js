@@ -108,4 +108,34 @@ export class Clock {
 
     return clock.delta
   }
+
+  /**
+   * @param {Clock} value
+   */
+  static serialize(value) {
+    return {
+      elapsed: value.elapsed,
+      lastTick: value.lastTick,
+      delta: value.delta
+    }
+  }
+
+  /**
+   * @param {ClockSerial} value
+   * @param {Clock} [out]
+   */
+  static deserialize(value, out = new Clock()) {
+    out.elapsed = value.elapsed
+    out.lastTick = value.lastTick
+    out.delta = value.delta
+
+    return out
+  }
 }
+
+/**
+ * @typedef ClockSerial
+ * @property {number} elapsed
+ * @property {number} lastTick
+ * @property {number} delta
+ */

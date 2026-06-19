@@ -28,6 +28,8 @@ export function registerPhysicsTypes(world) {
   }))
   registry.get(Collider2D)?.setMethod(Collider2D.copy)
   registry.get(Collider2D)?.setMethod(Collider2D.clone)
+  registry.get(Collider2D)?.setMethod(Collider2D.serialize)
+  registry.get(Collider2D)?.setMethod(Collider2D.deserialize)
   registry.register(PhysicsProperties, new StructInfo({
     invinertia: new Field(typeid(Number)),
     invmass: new Field(typeid(Number)),
@@ -39,10 +41,16 @@ export function registerPhysicsTypes(world) {
   }))
   registry.get(PhysicsProperties)?.setMethod(PhysicsProperties.copy)
   registry.get(PhysicsProperties)?.setMethod(PhysicsProperties.clone)
+  registry.get(PhysicsProperties)?.setMethod(PhysicsProperties.serialize)
+  registry.get(PhysicsProperties)?.setMethod(PhysicsProperties.deserialize)
   registry.register(SoftBody2D, new StructInfo({}))
   registry.get(SoftBody2D)?.setMethod(SoftBody2D.copy)
   registry.get(SoftBody2D)?.setMethod(SoftBody2D.clone)
+  registry.get(SoftBody2D)?.setMethod(SoftBody2D.serialize)
+  registry.get(SoftBody2D)?.setMethod(SoftBody2D.deserialize)
   registry.register(SoftBody3D, new StructInfo({}))
   registry.get(SoftBody3D)?.setMethod(SoftBody3D.copy)
   registry.get(SoftBody3D)?.setMethod(SoftBody3D.clone)
+  registry.get(SoftBody3D)?.setMethod(SoftBody3D.serialize)
+  registry.get(SoftBody3D)?.setMethod(SoftBody3D.deserialize)
 }

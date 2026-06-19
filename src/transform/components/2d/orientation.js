@@ -16,4 +16,19 @@ export class Orientation2D extends Rotary {
   static clone(target) {
     return Orientation2D.copy(target)
   }
+
+  /**
+   * @param {Orientation2D} value
+   */
+  static serialize(value) {
+    return super.serialize(value)
+  }
+
+  /**
+   * @param {import('../../../math/index.js').RotarySerial} value
+   * @param {Orientation2D} [out]
+   */
+  static deserialize(value, out = new Orientation2D()) {
+    return super.deserialize(value, out)
+  }
 }

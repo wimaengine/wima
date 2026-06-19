@@ -20,5 +20,7 @@ export function registerSceneTypes(world) {
   registry.register(SceneInstanceSnapshot, new StructInfo({
     handle: new Field(typeid(HandleSnapshot))
   }))
+  registry.get(SceneInstanceSnapshot)?.setMethod(SceneInstanceSnapshot.serialize)
+  registry.get(SceneInstanceSnapshot)?.setMethod(SceneInstanceSnapshot.deserialize)
   registry.get(SceneInstanceSnapshot)?.setMethod(SceneInstanceSnapshot.prototype.fromSnapshot)
 }

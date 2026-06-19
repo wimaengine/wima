@@ -278,6 +278,47 @@ export class Vector3 {
   }
 
   /**
+   * @param {Vector3} value
+   */
+  static serialize(value) {
+    return {
+      x: value.x,
+      y: value.y,
+      z: value.z
+    }
+  }
+
+  /**
+   * @param {Vector3Serial} value
+   * @param {Vector3} [out]
+   */
+  static deserialize(value, out = new Vector3()) {
+    out.x = value.x
+    out.y = value.y
+    out.z = value.z
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is Vector3Serial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('x' in value) || !('y' in value) || !('z' in value)) {
+      return false
+    }
+
+    return typeof value.x === 'number' &&
+      typeof value.y === 'number' &&
+      typeof value.z === 'number'
+  }
+
+  /**
    * @param {number} scalar
    * @param {Vector3} out
    */
@@ -640,3 +681,12 @@ export class Vector3 {
    */
   static NegZ = new Vector3(0, 0, -1)
 }
+
+/**
+ * Serialized form of `Vector3`.
+ *
+ * @typedef Vector3Serial
+ * @property {number} x
+ * @property {number} y
+ * @property {number} z
+ */

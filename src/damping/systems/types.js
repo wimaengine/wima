@@ -13,9 +13,13 @@ export function registerDamping2DTypes(world) {
   registry.register(Linear2DDamping, new StructInfo({
     value: new Field(typeid(Number))
   }))
+  registry.get(Linear2DDamping)?.setMethod(Linear2DDamping.serialize)
+  registry.get(Linear2DDamping)?.setMethod(Linear2DDamping.deserialize)
   registry.register(Angular2DDamping, new StructInfo({
     value: new Field(typeid(Number))
   }))
+  registry.get(Angular2DDamping)?.setMethod(Angular2DDamping.serialize)
+  registry.get(Angular2DDamping)?.setMethod(Angular2DDamping.deserialize)
 }
 
 /**
@@ -27,7 +31,11 @@ export function registerDamping3DTypes(world) {
   registry.register(Linear3DDamping, new StructInfo({
     value: new Field(typeid(Number))
   }))
+  registry.get(Linear3DDamping)?.setMethod(Linear3DDamping.serialize)
+  registry.get(Linear3DDamping)?.setMethod(Linear3DDamping.deserialize)
   registry.register(Angular3DDamping, new StructInfo({
     value: new Field(typeid(Number))
   }))
+  registry.get(Angular3DDamping)?.setMethod(Angular3DDamping.serialize)
+  registry.get(Angular3DDamping)?.setMethod(Angular3DDamping.deserialize)
 }

@@ -143,6 +143,50 @@ export class Quaternion {
   }
 
   /**
+   * @param {Quaternion} value
+   */
+  static serialize(value) {
+    return {
+      x: value.x,
+      y: value.y,
+      z: value.z,
+      w: value.w
+    }
+  }
+
+  /**
+   * @param {QuaternionSerial} value
+   * @param {Quaternion} [out]
+   */
+  static deserialize(value, out = new Quaternion()) {
+    out.x = value.x
+    out.y = value.y
+    out.z = value.z
+    out.w = value.w
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is QuaternionSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('x' in value) || !('y' in value) || !('z' in value) || !('w' in value)) {
+      return false
+    }
+
+    return typeof value.x === 'number' &&
+      typeof value.y === 'number' &&
+      typeof value.z === 'number' &&
+      typeof value.w === 'number'
+  }
+
+  /**
    * @param {Quaternion} out
    */
   static identity(out = new Quaternion()) {
@@ -582,3 +626,13 @@ export class Quaternion {
    */
   static Zero = Quaternion.zero()
 }
+
+/**
+ * Serialized form of `Quaternion`.
+ *
+ * @typedef QuaternionSerial
+ * @property {number} x
+ * @property {number} y
+ * @property {number} z
+ * @property {number} w
+ */

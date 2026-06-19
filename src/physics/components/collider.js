@@ -70,6 +70,56 @@ export class Collider2D {
   }
 
   /**
+   * @param {Collider2D} value
+   */
+  static serialize(value) {
+    return {
+      type: value.type,
+      angle: value.angle,
+      vertices: value.vertices.map((vertex) => Vector2.serialize(vertex)),
+      geometry: Geometry.serialize(value.geometry)
+    }
+  }
+
+  /**
+   * @param {Collider2DSerial} value
+   * @param {Collider2D} [out]
+   */
+  static deserialize(value, out = new Collider2D([])) {
+    const target = /** @type {any} */ (out)
+
+    target.type = value.type
+    target.angle = value.angle
+    target.vertices = value.vertices.map((vertex) => Vector2.deserialize(vertex))
+    target.geometry = Geometry.deserialize(value.geometry)
+
+    return out
+  }
+
+  /**
+   * @param {Collider2DSerial} value
+   * @returns {value is Collider2DSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('type' in value) || !('angle' in value) || !('vertices' in value) || !('geometry' in value)) {
+      return false
+    }
+
+    if (!Array.isArray(value.vertices)) {
+      return false
+    }
+
+    return typeof value.type === 'number' &&
+      typeof value.angle === 'number' &&
+      value.vertices.every((vertex) => Vector2.validateSerial(vertex)) &&
+      Geometry.validateSerial(value.geometry)
+  }
+
+  /**
    * @param {number} width
    * @param {number} height
    */
@@ -260,6 +310,14 @@ export class Collider2D {
   static Circle = 0
   static POLYGON = 1
 }
+
+/**
+ * @typedef Collider2DSerial
+ * @property {number} type
+ * @property {number} angle
+ * @property {import('../../math/core/vectors/float/vector2.js').Vector2Serial[]} vertices
+ * @property {import('../core/geometry.js').GeometrySerial} geometry
+ */
 
 /**
  * @param {Vector2} position

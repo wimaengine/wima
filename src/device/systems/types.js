@@ -24,9 +24,13 @@ export function registerDeviceTypes(world) {
     canvas: new Field(typeid(Boolean)),
     webAudio: new Field(typeid(Boolean))
   }))
+  registry.get(DeviceCapabilities)?.setMethod(DeviceCapabilities.serialize)
+  registry.get(DeviceCapabilities)?.setMethod(DeviceCapabilities.deserialize)
   registry.register(Device, new StructInfo({
     capabilities: new Field(typeid(DeviceCapabilities)),
     platform: new Field(platformOsId),
     browser: new Field(browserId)
   }))
+  registry.get(Device)?.setMethod(Device.serialize)
+  registry.get(Device)?.setMethod(Device.deserialize)
 }

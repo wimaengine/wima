@@ -77,14 +77,14 @@ export class AudioPlayerSnapshot {
   attach
 
   /**
-   * @type {HandleSnapshot<Audio> | undefined}
+   * @type {HandleSnapshot | undefined}
    */
   audio
 
   /**
    * @param {NodeId | undefined} sourceNode
    * @param {NodeId | undefined} attach
-   * @param {HandleSnapshot<Audio> | undefined} audio
+   * @param {HandleSnapshot | undefined} audio
    */
   constructor(sourceNode, attach, audio) {
     this.sourceNode = sourceNode
@@ -99,12 +99,53 @@ export class AudioPlayerSnapshot {
   fromSnapshot(world) {
     const player = new AudioPlayer({
       attach: this.attach,
-      audio: this.audio?.fromSnapshot(world)
+      audio: /** @type {Handle<Audio>} */(this.audio?.fromSnapshot(world))
     })
 
     player.sourceNode = this.sourceNode
 
     return player
+  }
+
+  /**
+   * @param {AudioPlayerSnapshot} value
+   */
+  static serialize(value) {
+    return {
+      sourceNode: value.sourceNode,
+      attach: value.attach,
+      audio: value.audio ? HandleSnapshot.serialize(value.audio) : undefined
+    }
+  }
+
+  /**
+   * @param {AudioPlayerSnapshotSerial} value
+   * @param {AudioPlayerSnapshot} [out]
+   */
+  static deserialize(value, out = new AudioPlayerSnapshot(undefined, undefined, undefined)) {
+    out.sourceNode = value.sourceNode
+    out.attach = value.attach
+    out.audio = value.audio ? HandleSnapshot.deserialize(value.audio, out.audio) : undefined
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is AudioPlayerSnapshotSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('sourceNode' in value) || !('attach' in value) || !('audio' in value)) {
+      return false
+    }
+
+    return (value.sourceNode === undefined || typeof value.sourceNode === 'number') &&
+      (value.attach === undefined || typeof value.attach === 'number') &&
+      (value.audio === undefined || HandleSnapshot.validateSerial(value.audio))
   }
 }
 
@@ -136,4 +177,11 @@ export function removeAudioPlayerSink(entity, world) {
  * @typedef AudioPlayerOptions
  * @property {NodeId} [attach]
  * @property {Handle<Audio>} [audio]
+ */
+
+/**
+ * @typedef AudioPlayerSnapshotSerial
+ * @property {NodeId | undefined} sourceNode
+ * @property {NodeId | undefined} attach
+ * @property {import('../../asset/core/handle.js').HandleSnapshotSerial | undefined} audio
  */

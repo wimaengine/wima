@@ -1,6 +1,6 @@
 /** @import {AssetId} from '../types/index.js' */
 /** @import {Assets} from '../resources/assets.js' */
-/** @import {Constructor} from '../../type/index.js'*/
+/** @import {Constructor, TypeId} from '../../type/index.js'*/
 
 import { packInto64Int } from '../../datastructures/index.js'
 import { typeid } from '../../type/index.js'
@@ -75,17 +75,17 @@ export class Handle {
    * Snapshot the handle with the asset server path when available.
    *
    * @param {import('../../ecs/index.js').World} world
-   * @returns {HandleSnapshot<T>}
+   * @returns {HandleSnapshot}
    */
   toSnapshot(world) {
     const server = world.getResource(AssetServer)
     const info = server?.getAssetInfo(this)
 
     if (info?.path) {
-      return new HandleSnapshot(this.type, info.path)
+      return new HandleSnapshot(typeid(this.type), info.path)
     }
 
-    return new HandleSnapshot(this.type, this.id())
+    return new HandleSnapshot(typeid(this.type), this.id())
   }
 
   drop() {
@@ -101,29 +101,25 @@ export class Handle {
  *
  * The snapshot preserves the asset type and id, and stores the asset server
  * path when one is registered so the handle can be reloaded by path.
- *
- * @template T
  */
 export class HandleSnapshot {
 
   /**
-   * @readonly
    * @type {import('../../type/index.js').TypeId}
    */
   type
 
   /**
-   * @readonly
    * @type {AssetId | string}
    */
   asset
 
   /**
-   * @param {Constructor<T>} type
+   * @param {TypeId} typeId
    * @param {AssetId | string} asset
    */
-  constructor(type, asset) {
-    this.type = typeid(type)
+  constructor(typeId, asset) {
+    this.type = typeId
     this.asset = asset
   }
 
@@ -134,16 +130,16 @@ export class HandleSnapshot {
    * upgrade the stored asset id against the asset pool.
    *
    * @param {import('../../ecs/index.js').World} world
-   * @returns {Handle<T>}
+   * @returns {UntypedHandle}
    */
   fromSnapshot(world) {
     const server = world.getResource(AssetServer)
 
     if (typeof this.asset === 'string') {
-      return /** @type {Handle<T>} */ (server.loadUntyped(this.type, this.asset))
+      return server.loadUntyped(this.type, this.asset)
     }
 
-    const assets = /** @type {Assets<T>} */ (server.getAssets(this.type))
+    const assets = server.getAssets(this.type)
 
     // TODO: This is inherently incorrect. When scene resources are added,
     // the assetid will point to the wrong asset in the scene due to desync between
@@ -152,10 +148,54 @@ export class HandleSnapshot {
     // the asset handle. Also ensure the assets are loaded into world before spawning
     // the scene into the world.
 
-    return /** @type {Handle<T>} */ (assets.upgrade(this.asset))
+    return assets.upgrade(this.asset)
+  }
+
+  /**
+   * @param {HandleSnapshot} value
+   */
+  static serialize(value) {
+    return {
+      type: value.type,
+      asset: value.asset
+    }
+  }
+
+  /**
+   * @param {HandleSnapshotSerial} value
+   * @param {HandleSnapshot} [out]
+   */
+  static deserialize(value, out = new HandleSnapshot(typeid(Object), '')) {
+    out.type = value.type
+    out.asset = value.asset
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is HandleSnapshotSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('type' in value) || !('asset' in value)) {
+      return false
+    }
+
+    return typeof value.type === 'string' &&
+      (typeof value.asset === 'number' || typeof value.asset === 'string')
   }
 }
 
 /**
  * @typedef {Handle<unknown>} UntypedHandle
+ */
+
+/**
+ * @typedef HandleSnapshotSerial
+ * @property {TypeId} type
+ * @property {AssetId | string} asset
  */

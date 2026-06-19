@@ -16,4 +16,19 @@ export class Orientation3D extends Quaternion {
   static clone(target) {
     return Orientation3D.copy(target)
   }
+
+  /**
+   * @param {Orientation3D} value
+   */
+  static serialize(value) {
+    return super.serialize(value)
+  }
+
+  /**
+   * @param {import('../../../math/index.js').QuaternionSerial} value
+   * @param {Orientation3D} [out]
+   */
+  static deserialize(value, out = new Orientation3D()) {
+    return super.deserialize(value, out)
+  }
 }

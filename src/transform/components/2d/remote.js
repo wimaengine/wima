@@ -55,4 +55,67 @@ export class RemoteTransform2D {
   static clone(target) {
     return RemoteTransform2D.copy(target)
   }
+
+  /**
+   * @param {RemoteTransform2D} value
+   */
+  static serialize(value) {
+    return {
+      copyTranslation: value.copyTranslation,
+      copyOrientation: value.copyOrientation,
+      copyScale: value.copyScale,
+      entity: Entity.serialize(value.entity),
+      offsetTransform: Affine2.serialize(value.offsetTransform)
+    }
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is RemoteTransform2DSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('copyTranslation' in value) ||
+      !('copyOrientation' in value) ||
+      !('copyScale' in value) ||
+      !('entity' in value) ||
+      !('offsetTransform' in value)
+    ) {
+      return false
+    }
+
+    return typeof value.copyTranslation === 'boolean' &&
+      typeof value.copyOrientation === 'boolean' &&
+      typeof value.copyScale === 'boolean' &&
+      Entity.validateSerial(value.entity) &&
+      Affine2.validateSerial(value.offsetTransform)
+  }
+
+  /**
+   * @param {RemoteTransform2DSerial} value
+   * @param {RemoteTransform2D} [out]
+   */
+  static deserialize(value, out = new RemoteTransform2D(new Entity(0, 0))) {
+    out.copyTranslation = value.copyTranslation
+    out.copyOrientation = value.copyOrientation
+    out.copyScale = value.copyScale
+    out.entity = Entity.deserialize(value.entity, out.entity)
+    out.offsetTransform = Affine2.deserialize(value.offsetTransform, out.offsetTransform)
+
+    return out
+  }
 }
+
+/**
+ * Serialized form of `RemoteTransform2D`.
+ *
+ * @typedef RemoteTransform2DSerial
+ * @property {boolean} copyTranslation
+ * @property {boolean} copyOrientation
+ * @property {boolean} copyScale
+ * @property {any} entity
+ * @property {any} offsetTransform
+ */

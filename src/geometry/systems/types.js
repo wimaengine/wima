@@ -22,10 +22,14 @@ export function registerGeometryTypes(world) {
     min: new Field(typeid(Vector2))
   }))
   registry.get(BoundingBox2D)?.setMethod(BoundingBox2D.copy)
+  registry.get(BoundingBox2D)?.setMethod(BoundingBox2D.serialize)
+  registry.get(BoundingBox2D)?.setMethod(BoundingBox2D.deserialize)
   registry.register(BoundingCircle, new StructInfo({
     type: new Field(boundTypeId),
     r: new Field(typeid(Number)),
     pos: new Field(typeid(Vector2))
   }))
   registry.get(BoundingCircle)?.setMethod(BoundingCircle.copy)
+  registry.get(BoundingCircle)?.setMethod(BoundingCircle.serialize)
+  registry.get(BoundingCircle)?.setMethod(BoundingCircle.deserialize)
 }

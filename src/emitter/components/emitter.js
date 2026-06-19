@@ -67,7 +67,65 @@ export class Emitter {
   static clone(target) {
     return Emitter.copy(target)
   }
+
+  /**
+   * @param {Emitter} value
+   */
+  static serialize(value) {
+    return {
+      prefab: value.prefab,
+      patch: value.patch,
+      burstCount: Range.serialize(value.burstCount),
+      enabled: value.enabled,
+      lifetime: Range.serialize(value.lifetime)
+    }
+  }
+
+  /**
+   * @param {EmitterSerial} value
+   * @param {Emitter} [out]
+   */
+  static deserialize(value, out = new Emitter()) {
+    out.prefab = value.prefab
+    out.patch = value.patch
+    out.lifetime = Range.deserialize(value.lifetime, out.lifetime)
+    out.burstCount = Range.deserialize(value.burstCount, out.burstCount)
+    out.enabled = value.enabled
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is EmitterSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('prefab' in value) || !('patch' in value) || !('burstCount' in value) || !('enabled' in value) || !('lifetime' in value)) {
+      return false
+    }
+
+    return (value.prefab === undefined || typeof value.prefab === 'function') &&
+      (value.patch === undefined || typeof value.patch === 'function') &&
+      typeof value.burstCount === 'object' &&
+      Range.validSerial(value.burstCount) &&
+      typeof value.enabled === 'boolean' &&
+      typeof value.lifetime === 'object' &&
+      Range.validSerial(value.lifetime)
+  }
 }
+
+/**
+ * @typedef EmitterSerial
+ * @property {(() => unknown[]) | undefined} [prefab]
+ * @property {((commands:EntityCommands,entity:Entity)=>void) | undefined} [patch]
+ * @property {{ start: number, end: number }} burstCount
+ * @property {boolean} enabled
+ * @property {{ start: number, end: number }} lifetime
+ */
 
 /**
  * @typedef EmitterOptions

@@ -16,4 +16,19 @@ export class Position2D extends Vector2 {
   static clone(target) {
     return Position2D.copy(target)
   }
+
+  /**
+   * @param {Position2D} value
+   */
+  static serialize(value) {
+    return super.serialize(value)
+  }
+
+  /**
+   * @param {import('../../../math/index.js').Vector2Serial} value
+   * @param {Position2D} [out]
+   */
+  static deserialize(value, out = new Position2D()) {
+    return super.deserialize(value, out)
+  }
 }

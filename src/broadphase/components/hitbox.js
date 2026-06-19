@@ -16,4 +16,19 @@ export class PhysicsHitbox extends BoundingBox2D {
   static clone(target) {
     return PhysicsHitbox.copy(target)
   }
+
+  /**
+   * @param {PhysicsHitbox} value
+   */
+  static serialize(value) {
+    return super.serialize(value)
+  }
+
+  /**
+   * @param {import('../../geometry/index.js').BoundingBox2DSerial} value
+   * @param {PhysicsHitbox} [out]
+   */
+  static deserialize(value, out = new PhysicsHitbox()) {
+    return super.deserialize(value, out)
+  }
 }

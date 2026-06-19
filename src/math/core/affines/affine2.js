@@ -247,6 +247,45 @@ export class Affine2 {
   }
 
   /**
+   * @param {Affine2} value
+   * @returns {Affine2Serial}
+   */
+  static serialize(value) {
+    return [value.a, value.b, value.c, value.d, value.x, value.y]
+  }
+
+  /**
+   * @param {Affine2Serial} value
+   * @param {Affine2} [out]
+   */
+  static deserialize(value, out = new Affine2()) {
+
+    out.a = value[0]
+    out.b = value[1]
+    out.c = value[2]
+    out.d = value[3]
+    out.x = value[4]
+    out.y = value[5]
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is Affine2Serial}
+   */
+  static validateSerial(value) {
+    return Array.isArray(value) &&
+      value.length === 6 &&
+      typeof value[0] === 'number' &&
+      typeof value[1] === 'number' &&
+      typeof value[2] === 'number' &&
+      typeof value[3] === 'number' &&
+      typeof value[4] === 'number' &&
+      typeof value[5] === 'number'
+  }
+
+  /**
    * @param {Affine2} out
    * @returns {Affine2}
    */
@@ -499,3 +538,10 @@ export class Affine2 {
    */
   static Zero = Affine2.zero()
 }
+
+/**
+ * Serialized form of `Affine2`.
+ *
+ * @typedef Affine2Serial
+ * @type {[number, number, number, number, number, number]}
+ */

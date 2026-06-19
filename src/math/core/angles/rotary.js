@@ -150,6 +150,43 @@ export class Rotary {
   }
 
   /**
+   * @param {Rotary} value
+   */
+  static serialize(value) {
+    return {
+      cos: value.cos,
+      sin: value.sin
+    }
+  }
+
+  /**
+   * @param {RotarySerial} value
+   * @param {Rotary} [out]
+   */
+  static deserialize(value, out = new Rotary()) {
+    out.cos = value.cos
+    out.sin = value.sin
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is RotarySerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('cos' in value) || !('sin' in value)) {
+      return false
+    }
+
+    return typeof value.cos === 'number' && typeof value.sin === 'number'
+  }
+
+  /**
    * @param {Rotary} out
    * @returns {Rotary}
    */
@@ -376,3 +413,11 @@ export class Rotary {
    */
   static Zero = Rotary.zero()
 }
+
+/**
+ * Serialized form of `Rotary`.
+ *
+ * @typedef RotarySerial
+ * @property {number} cos
+ * @property {number} sin
+ */

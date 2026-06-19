@@ -72,6 +72,6 @@
     "dist/*"
   ],
   "dependencies": {
-    "vifaa": "^0.3.0"
+    "vifaa": "^0.4.0"
   }
 }

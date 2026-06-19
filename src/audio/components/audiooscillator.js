@@ -64,6 +64,53 @@ export class AudioOscillator {
   static clone(target) {
     return AudioOscillator.copy(target)
   }
+
+  /**
+   * @param {AudioOscillator} value
+   */
+  static serialize(value) {
+    return {
+      sourceNode: value.sourceNode,
+      attach: value.attach,
+      type: value.type,
+      detune: value.detune,
+      frequency: value.frequency
+    }
+  }
+
+  /**
+   * @param {AudioOscillatorSerial} value
+   * @param {AudioOscillator} [out]
+   */
+  static deserialize(value, out = new AudioOscillator()) {
+    out.sourceNode = value.sourceNode
+    out.attach = value.attach
+    out.type = value.type
+    out.detune = value.detune
+    out.frequency = value.frequency
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is AudioOscillatorSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('sourceNode' in value) || !('attach' in value) || !('type' in value) || !('detune' in value) || !('frequency' in value)) {
+      return false
+    }
+
+    return (value.sourceNode === undefined || typeof value.sourceNode === 'number') &&
+      (value.attach === undefined || typeof value.attach === 'number') &&
+      typeof value.type === 'number' &&
+      typeof value.detune === 'number' &&
+      typeof value.frequency === 'number'
+  }
 }
 
 /**
@@ -101,4 +148,13 @@ export const AudioOscillatorType = {
  * @property {AudioOscillatorType} [type]
  * @property {number} [frequency]
  * @property {number} [detune]
+ */
+
+/**
+ * @typedef AudioOscillatorSerial
+ * @property {NodeId | undefined} sourceNode
+ * @property {NodeId | undefined} attach
+ * @property {AudioOscillatorType} type
+ * @property {number} detune
+ * @property {number} frequency
  */

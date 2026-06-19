@@ -12,4 +12,6 @@ export function registerCoreTypes(world) {
     index: new Field(typeid(Number)),
     generation: new Field(typeid(Number))
   }))
+  registry.get(Entity)?.setMethod(Entity.serialize)
+  registry.get(Entity)?.setMethod(Entity.deserialize)
 }

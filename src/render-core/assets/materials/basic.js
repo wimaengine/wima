@@ -25,9 +25,49 @@ export class BasicMaterial extends Material {
   static default() {
     return new BasicMaterial()
   }
+
+  /**
+   * @param {BasicMaterial} value
+   */
+  static serialize(value) {
+    return {
+      color: Color.serialize(value.color)
+    }
+  }
+
+  /**
+   * @param {BasicMaterialSerial} value
+   * @param {BasicMaterial} [out]
+   */
+  static deserialize(value, out = new BasicMaterial()) {
+    out.color = Color.deserialize(value.color, out.color)
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is BasicMaterialSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('color' in value)) {
+      return false
+    }
+
+    return Color.validateSerial(value.color)
+  }
 }
 
 /**
  * @typedef BasicMaterialOptions
  * @property {Color} [color]
+ */
+
+/**
+ * @typedef BasicMaterialSerial
+ * @property {import('../../../color/core/color.js').ColorSerial} color
  */

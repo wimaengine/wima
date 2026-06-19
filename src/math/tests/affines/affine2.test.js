@@ -36,6 +36,26 @@ describe("Testing `Affine2`", () => {
         deepStrictEqual(destination, source)
     })
 
+    test("`Affine2.serialize` returns an array serial", () => {
+        const affine = new Affine2(
+            1, 2, 5,
+            3, 4, 6
+        )
+
+        deepStrictEqual(Affine2.serialize(affine), [1, 3, 2, 4, 5, 6])
+        strictEqual(Affine2.validateSerial([1, 3, 2, 4, 5, 6]), true)
+    })
+
+    test("`Affine2.deserialize` reads an array serial", () => {
+        const actual = Affine2.deserialize([1, 3, 2, 4, 5, 6])
+        const expected = new Affine2(
+            1, 2, 5,
+            3, 4, 6
+        )
+
+        deepStrictEqual(actual, expected)
+    })
+
     test("`Affine2.set` sets values corrrectly", () => {
         const expected = new Affine2(
             1, 2, 5,

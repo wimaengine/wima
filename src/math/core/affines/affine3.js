@@ -311,6 +311,69 @@ export class Affine3 {
   }
 
   /**
+   * @param {Affine3} value
+   * @returns {Affine3Serial}
+   */
+  static serialize(value) {
+    return [
+      value.a,
+      value.b,
+      value.c,
+      value.d,
+      value.e,
+      value.f,
+      value.g,
+      value.h,
+      value.i,
+      value.x,
+      value.y,
+      value.z
+    ]
+  }
+
+  /**
+   * @param {Affine3Serial} value
+   * @param {Affine3} [out]
+   */
+  static deserialize(value, out = new Affine3()) {
+    out.a = value[0]
+    out.b = value[1]
+    out.c = value[2]
+    out.d = value[3]
+    out.e = value[4]
+    out.f = value[5]
+    out.g = value[6]
+    out.h = value[7]
+    out.i = value[8]
+    out.x = value[9]
+    out.y = value[10]
+    out.z = value[11]
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is Affine3Serial}
+   */
+  static validateSerial(value) {
+    return Array.isArray(value) &&
+      value.length === 12 &&
+      typeof value[0] === 'number' &&
+      typeof value[1] === 'number' &&
+      typeof value[2] === 'number' &&
+      typeof value[3] === 'number' &&
+      typeof value[4] === 'number' &&
+      typeof value[5] === 'number' &&
+      typeof value[6] === 'number' &&
+      typeof value[7] === 'number' &&
+      typeof value[8] === 'number' &&
+      typeof value[9] === 'number' &&
+      typeof value[10] === 'number' &&
+      typeof value[11] === 'number'
+  }
+
+  /**
    * @param {Affine3} out
    * @returns {Affine3}
    */
@@ -823,3 +886,10 @@ export class Affine3 {
    */
   static Zero = Affine3.zero()
 }
+
+/**
+ * Serialized form of `Affine3`.
+ *
+ * @typedef Affine3Serial
+ * @type {[number, number, number, number, number, number, number, number, number, number, number, number]}
+ */
