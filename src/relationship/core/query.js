@@ -1,11 +1,11 @@
 /** @import { QueryFilter,EntityId } from '../../ecs/index.js' */
 /** @import { Constructor, TupleConstructor } from '../../type/index.js' */
 import { Query, World, Entity } from '../../ecs/index.js'
-import { VisitEntities } from './visitentities.js'
+import { TraverseEntities } from './traverseentities.js'
 
 /**
- * @template {VisitEntities} Relationship
- * @template {VisitEntities} [Target = Relationship]
+ * @template {TraverseEntities} Relationship
+ * @template {TraverseEntities} [Target = Relationship]
  * @template {unknown[]} [Data = [Entity]]
  * @template {QueryFilter[]} [Filter = []]
  */

@@ -1,13 +1,13 @@
 /**@import { ComponentHook } from '../../ecs/index.js' */
 
 import { test, describe } from "node:test";
-import { RelationshipQuery, VisitEntities } from "../core/index.js";
+import { RelationshipQuery, TraverseEntities } from "../core/index.js";
 import { deepStrictEqual } from "node:assert";
 import { World } from "../../ecs/registry.js";
 import { ComponentHooks, Entity } from "../../ecs/index.js";
 
 /**
- * @implements {VisitEntities}
+ * @implements {TraverseEntities}
  */
 class Children {
   /**
@@ -23,10 +23,17 @@ class Children {
   visit() {
     return this.list
   }
+
+  /**
+   * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
+   */
+  map(entityMap){
+    this.list = this.list.map(e=>Entity.from(entityMap.get(e.id())))
+  }
 }
 
 /**
- * @implements {VisitEntities}
+ * @implements {TraverseEntities}
  */
 class Parent {
   /**
@@ -39,10 +46,17 @@ class Parent {
   visit() {
     return [this.entity]
   }
+
+    /**
+   * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
+   */
+  map(entityMap){
+    this.entity = Entity.from(entityMap.get(this.entity.id()))
+  }
 }
 
 /**
- * @implements {VisitEntities}
+ * @implements {TraverseEntities}
  */
 class Neighbour {
   /**
@@ -57,6 +71,12 @@ class Neighbour {
   }
   visit() {
     return this.list
+  }
+  /**
+   * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
+   */
+  map(entityMap){
+    this.list = this.list.map(e=>Entity.from(entityMap.get(e.id())))
   }
 }
 

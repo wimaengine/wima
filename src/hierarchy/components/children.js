@@ -1,8 +1,8 @@
 import { Entity } from '../../ecs/index.js'
-import { VisitEntities } from '../../relationship/index.js'
+import { TraverseEntities } from '../../relationship/index.js'
 
 /**
- * @implements {VisitEntities}
+ * @implements {TraverseEntities}
  */
 export class Children {
 
@@ -86,6 +86,13 @@ export class Children {
   }
   visit() {
     return this.list
+  }
+
+  /**
+   * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
+   */
+  map(entityMap) {
+    this.list = this.list.map((e) => Entity.from(entityMap.get(e.id())))
   }
 
   /**

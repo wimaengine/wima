@@ -1,8 +1,8 @@
 import { Entity } from '../../ecs/index.js'
-import { VisitEntities } from '../../relationship/index.js'
+import { TraverseEntities } from '../../relationship/index.js'
 
 /**
- * @implements {VisitEntities}
+ * @implements {TraverseEntities}
  */
 export class Parent {
 
@@ -17,6 +17,17 @@ export class Parent {
    */
   constructor(entity) {
     this.entity = entity
+  }
+
+  visit() {
+    return [this.entity]
+  }
+
+  /**
+   * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
+   */
+  map(entityMap) {
+    this.entity = Entity.from(entityMap.get(this.entity.id()))
   }
 
   /**
@@ -59,9 +70,6 @@ export class Parent {
    */
   static validateSerial(value) {
     return Entity.validateSerial(value)
-  }
-  visit() {
-    return [this.entity]
   }
 }
 
