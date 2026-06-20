@@ -1,5 +1,6 @@
 /** @import { PlaybackSettings } from '../core/index.js'*/
 /** @import { AssetId } from '../../asset/index.js'*/
+/** @import { ComponentHook } from '../../ecs/index.js' */
 import { Handle } from '../../asset/index.js'
 import { Playback } from '../core/index.js'
 import { AnimationClip } from '../assets/index.js'
@@ -245,3 +246,20 @@ export class AnimationPlayer {
  * @property {[AssetId, any][]} animations
  * @property {number | null} current
  */
+
+/**
+ * @type {ComponentHook}
+ */
+export function dropAnimationPlayer(entity, world) {
+  const player = world.get(entity, AnimationPlayer)
+
+  if (!player) {
+    return
+  }
+
+  player.handles.forEach((handle) => {
+    handle.drop()
+  })
+  player.handles.clear()
+  player.animations.clear()
+}
