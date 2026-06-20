@@ -19,6 +19,17 @@ export class Parent {
     this.entity = entity
   }
 
+  visit() {
+    return [this.entity]
+  }
+
+  /**
+   * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
+   */
+  map(entityMap) {
+    this.entity = Entity.from(entityMap.get(this.entity.id()))
+  }
+
   /**
    * @param {Parent} source
    * @param {Parent} target
@@ -59,9 +70,6 @@ export class Parent {
    */
   static validateSerial(value) {
     return Entity.validateSerial(value)
-  }
-  visit() {
-    return [this.entity]
   }
 }
 
