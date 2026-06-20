@@ -35,7 +35,11 @@ export class SceneSpawner {
 
     if (!list) return
 
-    list.splice(list.indexOf(entity.id()), 1)
+    const index = list.indexOf(entity.id())
+
+    if (index === -1) return
+
+    list.splice(index, 1)
   }
 
   /**
