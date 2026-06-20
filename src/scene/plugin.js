@@ -2,9 +2,9 @@ import { App, Plugin } from '../app/index.js'
 import { ComponentHooks } from '../ecs/index.js'
 import { Scene } from './assets/index.js'
 import { SceneInstance } from './components/index.js'
-import { SceneAssets, SceneSpawner } from './resources/index.js'
+import { JSONSceneExporter, JSONSceneImporter, SceneAssets, SceneSpawner } from './resources/index.js'
 import { initSceneInstance } from './hooks/index.js'
-import { AssetPlugin, Assets } from '../asset/index.js'
+import { AssetExporterPlugin, AssetImporterPlugin, AssetPlugin, Assets } from '../asset/index.js'
 import { SceneAdded, SceneDropped, SceneModified } from './events/index.js'
 import { typeidGeneric } from '../type/index.js'
 import { registerSceneTypes, spawnScenes } from './systems/index.js'
@@ -17,12 +17,20 @@ export class ScenePlugin extends Plugin {
    */
   register(app) {
     app
+      .registerPlugin(new AssetImporterPlugin({
+        asset: Scene,
+        importer: new JSONSceneImporter()
+      }))
+      .registerPlugin(new AssetExporterPlugin({
+        asset: Scene,
+        exporter: new JSONSceneExporter()
+      }))
       .registerPlugin(new AssetPlugin({
-        asset:Scene,
-        events:{
-          added:SceneAdded,
-          modified:SceneModified,
-          dropped:SceneDropped
+        asset: Scene,
+        events: {
+          added: SceneAdded,
+          modified: SceneModified,
+          dropped: SceneDropped
         }
       }))
       .registerType(SceneInstance)

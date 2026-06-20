@@ -1,0 +1,166 @@
+{
+  "entities": {
+    "1": {
+      "Position2D": { "x": 3, "y": 0 },
+      "Orientation2D": { "cos": 1, "sin": 0 },
+      "Scale2D": { "x": 1, "y": 1 },
+      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "MeshedSnapshot": {
+        "handle": {
+          "type": "Mesh",
+          "asset": 4294967296
+        }
+      },
+      "BasicMaterial2DSnapshot": {
+        "handle": {
+          "type": "BasicMaterial",
+          "asset": 4294967296
+        }
+      }
+    },
+    "2": {
+      "Position2D": { "x": 2.121320343559643, "y": 2.1213203435596424 },
+      "Orientation2D": { "cos": 1, "sin": 0 },
+      "Scale2D": { "x": 1, "y": 1 },
+      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "MeshedSnapshot": {
+        "handle": {
+          "type": "Mesh",
+          "asset": 4294967296
+        }
+      },
+      "BasicMaterial2DSnapshot": {
+        "handle": {
+          "type": "BasicMaterial",
+          "asset": 4294967296
+        }
+      }
+    },
+    "3": {
+      "Position2D": { "x": 0, "y": 3 },
+      "Orientation2D": { "cos": 1, "sin": 0 },
+      "Scale2D": { "x": 1, "y": 1 },
+      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "MeshedSnapshot": {
+        "handle": {
+          "type": "Mesh",
+          "asset": 4294967296
+        }
+      },
+      "BasicMaterial2DSnapshot": {
+        "handle": {
+          "type": "BasicMaterial",
+          "asset": 4294967296
+        }
+      }
+    },
+    "4": {
+      "Position2D": { "x": -2.1213203435596424, "y": 2.121320343559643 },
+      "Orientation2D": { "cos": 1, "sin": 0 },
+      "Scale2D": { "x": 1, "y": 1 },
+      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "MeshedSnapshot": {
+        "handle": {
+          "type": "Mesh",
+          "asset": 4294967296
+        }
+      },
+      "BasicMaterial2DSnapshot": {
+        "handle": {
+          "type": "BasicMaterial",
+          "asset": 4294967296
+        }
+      }
+    },
+    "5": {
+      "Position2D": { "x": -3, "y": 0 },
+      "Orientation2D": { "cos": 1, "sin": 0 },
+      "Scale2D": { "x": 1, "y": 1 },
+      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "MeshedSnapshot": {
+        "handle": {
+          "type": "Mesh",
+          "asset": 4294967296
+        }
+      },
+      "BasicMaterial2DSnapshot": {
+        "handle": {
+          "type": "BasicMaterial",
+          "asset": 4294967296
+        }
+      }
+    },
+    "6": {
+      "Position2D": { "x": -2.121320343559643, "y": -2.1213203435596424 },
+      "Orientation2D": { "cos": 1, "sin": 0 },
+      "Scale2D": { "x": 1, "y": 1 },
+      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "MeshedSnapshot": {
+        "handle": {
+          "type": "Mesh",
+          "asset": 4294967296
+        }
+      },
+      "BasicMaterial2DSnapshot": {
+        "handle": {
+          "type": "BasicMaterial",
+          "asset": 4294967296
+        }
+      }
+    },
+    "7": {
+      "Position2D": { "x": 0, "y": -3 },
+      "Orientation2D": { "cos": 1, "sin": 0 },
+      "Scale2D": { "x": 1, "y": 1 },
+      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "MeshedSnapshot": {
+        "handle": {
+          "type": "Mesh",
+          "asset": 4294967296
+        }
+      },
+      "BasicMaterial2DSnapshot": {
+        "handle": {
+          "type": "BasicMaterial",
+          "asset": 4294967296
+        }
+      }
+    },
+    "8": {
+      "Position2D": { "x": 2.1213203435596424, "y": -2.121320343559643 },
+      "Orientation2D": { "cos": 1, "sin": 0 },
+      "Scale2D": { "x": 1, "y": 1 },
+      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "MeshedSnapshot": {
+        "handle": {
+          "type": "Mesh",
+          "asset": 4294967296
+        }
+      },
+      "BasicMaterial2DSnapshot": {
+        "handle": {
+          "type": "BasicMaterial",
+          "asset": 4294967296
+        }
+      }
+    },
+    "9": {
+      "Position2D": { "x": 0, "y": 0 },
+      "Orientation2D": { "cos": 1, "sin": 0 },
+      "Scale2D": { "x": 1, "y": 1 },
+      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "Camera": {
+        "projection": {
+          "type": "orthographic",
+          "left": -6,
+          "right": 6,
+          "top": 4,
+          "bottom": -4
+        },
+        "near": 0.1,
+        "far": 1000
+      },
+      "RenderLists2D": {}
+    }
+  }
+}
