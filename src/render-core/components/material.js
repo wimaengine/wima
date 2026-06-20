@@ -36,4 +36,3 @@ export function dropMaterialInstance(type) {
     material.handle.drop()
   }
 }
-
