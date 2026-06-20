@@ -1,5 +1,6 @@
 /** @import { PlaybackSettings } from '../core/index.js'*/
 /** @import { AssetId } from '../../asset/index.js'*/
+/** @import { ComponentHook } from '../../ecs/index.js' */
 import { Handle } from '../../asset/index.js'
 import { Playback } from '../core/index.js'
 import { AnimationClip } from '../assets/index.js'
@@ -12,6 +13,11 @@ export class AnimationPlayer {
   animations = new Map()
 
   /**
+   * @type {Map<AssetId,Handle<AnimationClip>>}
+   */
+  handles = new Map()
+
+  /**
    * @type {number | null}
    */
   current = null
@@ -21,13 +27,17 @@ export class AnimationPlayer {
    * @param {AnimationPlayer} target
    */
   static copy(source, target = new AnimationPlayer()) {
-    const animations = new Map()
+    const { animations, handles } = target
 
+    animations.clear()
+    handles.clear()
     source.animations.forEach((playback, id) => {
       animations.set(id, Playback.copy(playback))
     })
+    source.handles.forEach((handle, id) => {
+      handles.set(id, handle.clone())
+    })
 
-    target.animations = animations
     target.current = source.current
 
     return target
@@ -110,8 +120,15 @@ export class AnimationPlayer {
    */
   set(handle, settings) {
     const playback = new Playback(settings)
+    const id = handle.id()
+    const existing = this.handles.get(id)
 
-    this.animations.set(handle.id(), playback)
+    if (existing && existing !== handle) {
+      existing.drop()
+    }
+
+    this.animations.set(id, playback)
+    this.handles.set(id, handle)
 
     return this
   }
@@ -127,7 +144,12 @@ export class AnimationPlayer {
    * @param {Handle<AnimationClip>} handle
    */
   delete(handle) {
-    this.animations.delete(handle.id())
+    const id = handle.id()
+    const existing = this.handles.get(id)
+
+    this.animations.delete(id)
+    this.handles.delete(id)
+    existing?.drop()
 
     return this
   }
@@ -224,3 +246,20 @@ export class AnimationPlayer {
  * @property {[AssetId, any][]} animations
  * @property {number | null} current
  */
+
+/**
+ * @type {ComponentHook}
+ */
+export function dropAnimationPlayer(entity, world) {
+  const player = world.get(entity, AnimationPlayer)
+
+  if (!player) {
+    return
+  }
+
+  player.handles.forEach((handle) => {
+    handle.drop()
+  })
+  player.handles.clear()
+  player.animations.clear()
+}

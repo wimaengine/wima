@@ -1,3 +1,4 @@
+/** @import { ComponentHook } from '../../ecs/index.js' */
 import { Handle, HandleSnapshot } from '../../asset/index.js'
 import { typeid } from '../../type/index.js'
 import { Mesh } from '../assets/index.js'
@@ -91,3 +92,16 @@ export class MeshedSnapshot {
  * @typedef MeshedSnapshotSerial
  * @property {import('../../asset/core/handle.js').HandleSnapshotSerial} handle
  */
+
+/**
+ * @type {ComponentHook}
+ */
+export function removeMeshedHandle(entity, world) {
+  const meshed = world.get(entity, Meshed)
+
+  if (!meshed) {
+    return
+  }
+
+  meshed.handle.drop()
+}
