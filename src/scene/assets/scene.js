@@ -69,25 +69,41 @@ export class Scene {
    * @param {Entity} [instanceEntity]
    */
   toWorld(world, instance, typeRegistry, instanceEntity) {
-    const { entityMap } = instance
+    const { entityMap: worldToSceneMap } = instance
+    const sceneToWorldMap = new Map()
+
+    for (const entity of this.entities.keys()) {
+      const worldEntity = world.spawn([])
+
+      worldToSceneMap.set(worldEntity.id(), entity)
+      sceneToWorldMap.set(entity, worldEntity.id())
+    }
 
     for (const [entity, components] of this.entities) {
-
+      const worldEntity = sceneToWorldMap.get(entity)
       const clonedComponents = components.map((component) => {
         const { constructor } = component
         const type = /** @type {import('../../type/index.js').Constructor} */ (constructor)
         const entry = typeRegistry.get(type)
+        const clonedComponent = fromSnapshot(component, world, entry)
 
-        return fromSnapshot(component, world, entry)
+        if (!clonedComponent) {
+          return undefined
+        }
+
+        entry
+          .getMethod('map')
+          ?.method
+          ?.call(clonedComponent, sceneToWorldMap)
+
+        return clonedComponent
       }).filter((e) => e !== undefined)
 
       if (!clonedComponents.some((c) => c.constructor === Parent)) {
         clonedComponents.push(new Parent(instanceEntity))
       }
 
-      const worldEntity = world.spawn(clonedComponents)
-
-      entityMap.set(worldEntity.id(), entity)
+      world.insert(Entity.from(worldEntity), clonedComponents)
     }
   }
 
@@ -111,7 +127,7 @@ export class Scene {
         const snapshot = toSnapshot(component, world, entry)
 
         if (snapshot) {
-          components.push(/** @type {object} */ (snapshot))
+          components.push(/** @type {object} */(snapshot))
         }
       }
 
