@@ -37,3 +37,41 @@ export class Material3D {
     this.handle = handle
   }
 }
+
+
+
+/**
+ * @template {Material} T
+ * @template {Material3D<T>} U
+ * @param {import("../../index.js").Constructor<U>} type
+ * @returns {import('../../ecs/index.js').ComponentHook}
+ */
+export function dropMaterial2D(type) {
+  return function dropMaterial2D(entity, world) {
+    const material = world.get(entity, type)
+
+    if (!material) {
+      return
+    }
+
+    material.handle.drop()
+  }
+}
+
+/**
+ * @template {Material} T
+ * @template {Material3D<T>} U
+ * @param {import("../../index.js").Constructor<U>} type
+ * @returns {import('../../ecs/index.js').ComponentHook}
+ */
+export function dropMaterial3D(type) {
+  return function dropMaterial3D(entity, world) {
+    const material = world.get(entity, type)
+
+    if (!material) {
+      return
+    }
+
+    material.handle.drop()
+  }
+}

@@ -1,10 +1,10 @@
 /** @import { Constructor, TypeId } from '../../type/index.js' */
-
 import { App, Plugin } from '../../app/index.js'
 import { AppSchedule, CoreSystems } from '../../core/index.js'
+import { ComponentHooks } from '../../ecs/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
 import { Material } from '../assets/index.js'
-import { Material2D, Material3D } from '../components/index.js'
+import { dropMaterial2D, dropMaterial3D, Material2D, Material3D } from '../components/index.js'
 import { genBinRenderables2D, genBinRenderables3D, registerMaterialTypes } from '../systems/index.js'
 
 /**
@@ -41,6 +41,10 @@ export class Material2DPlugin extends Plugin {
 
     app
       .registerType(component)
+      .setComponentHooks(component, new ComponentHooks(
+        null,
+        dropMaterial2D(component)
+      ))
       .registerSystem({
         schedule: AppSchedule.Startup,
         systemGroup: CoreSystems.Start,
@@ -97,6 +101,10 @@ export class Material3DPlugin extends Plugin {
 
     app
       .registerType(component)
+      .setComponentHooks(component, new ComponentHooks(
+        null,
+        dropMaterial3D(component)
+      ))
       .registerSystem({
         schedule: AppSchedule.Startup,
         systemGroup: CoreSystems.Start,
