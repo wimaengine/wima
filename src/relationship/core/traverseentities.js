@@ -1,17 +1,17 @@
 import { Entity } from '../../ecs/index.js'
-import { abstractMethod } from '../../utils/errors.js'
+import { abstractMethod } from '../../utils/index.js'
 
 /**
  * @interface
  */
-export class VisitEntities {
+export class TraverseEntities {
 
   /**
    * @returns {Entity[]}
    * @throws {string} Throws when the method is not implemented on implementing class.
    */
   visit() {
-    throw abstractMethod(this, VisitEntities, this.visit)
+    throw abstractMethod(this, TraverseEntities, this.visit)
   }
 
   /**
@@ -19,6 +19,6 @@ export class VisitEntities {
    * @throws {string} Throws when the method is not implemented on implementing class.
    */
   map(_entityMap) {
-    throw abstractMethod(this, VisitEntities, this.map)
+    throw abstractMethod(this, TraverseEntities, this.map)
   }
 }

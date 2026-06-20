@@ -1,2 +1,2 @@
-export * from './visitentities.js'
+export * from './traverseentities.js'
 export * from './query.js'

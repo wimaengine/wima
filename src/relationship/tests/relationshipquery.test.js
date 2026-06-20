@@ -1,13 +1,13 @@
 /**@import { ComponentHook } from '../../ecs/index.js' */
 
 import { test, describe } from "node:test";
-import { RelationshipQuery, VisitEntities } from "../core/index.js";
+import { RelationshipQuery, TraverseEntities } from "../core/index.js";
 import { deepStrictEqual } from "node:assert";
 import { World } from "../../ecs/registry.js";
 import { ComponentHooks, Entity } from "../../ecs/index.js";
 
 /**
- * @implements {VisitEntities}
+ * @implements {TraverseEntities}
  */
 class Children {
   /**
@@ -33,7 +33,7 @@ class Children {
 }
 
 /**
- * @implements {VisitEntities}
+ * @implements {TraverseEntities}
  */
 class Parent {
   /**
@@ -56,7 +56,7 @@ class Parent {
 }
 
 /**
- * @implements {VisitEntities}
+ * @implements {TraverseEntities}
  */
 class Neighbour {
   /**

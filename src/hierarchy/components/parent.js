@@ -1,8 +1,8 @@
 import { Entity } from '../../ecs/index.js'
-import { VisitEntities } from '../../relationship/index.js'
+import { TraverseEntities } from '../../relationship/index.js'
 
 /**
- * @implements {VisitEntities}
+ * @implements {TraverseEntities}
  */
 export class Parent {
 
