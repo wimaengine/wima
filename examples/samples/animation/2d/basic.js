@@ -1,6 +1,6 @@
 import {
   Mesh,
-  createTransform2D,
+  createBasicMesh2D,
   World,
   AnimationClip,
   AnimationTrack,
@@ -14,8 +14,6 @@ import {
   MeshAssets,
   BasicMaterialAssets,
   BasicMaterial,
-  Meshed,
-  BasicMaterial2D,
   HALF_PI,
   PI,
   TAU,
@@ -72,9 +70,7 @@ function init(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(0.3, 0.3),
-      new Meshed(mesh),
-      new BasicMaterial2D(material),
+      ...createBasicMesh2D(mesh, material, 0.3, 0.3),
       new AnimationTarget(player, targetname)])
     .build()
 }

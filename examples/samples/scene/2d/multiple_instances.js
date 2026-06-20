@@ -1,10 +1,10 @@
 import {
   Mesh,
+  createBasicMesh2D,
   createMovable2D,
   World,
   EntityCommands,
   BasicMaterial,
-  Meshed,
   Scene,
   SceneInstance,
   SceneAssets,
@@ -14,7 +14,6 @@ import {
   MeshAssets,
   BasicMaterialAssets,
   Color,
-  BasicMaterial2D,
   AppSchedule,
   Rotation2D,
   rand,
@@ -27,8 +26,7 @@ import {
   FPSDebugger,
   App,
   Angular2DDamping,
-  Torque2D,
-  createTransform2D
+  Torque2D
 } from 'wima'
 import { addDefaultCamera2D, HackPlugin, setupViewport } from '../../utils.js'
 
@@ -108,9 +106,7 @@ function createScene(meshes, materials) {
 
   for (let i = 0; i < offsets.length; i++) {
     scene.set(new Entity(i, 1), [
-      ...createTransform2D(offsets[i].x, offsets[i].y),
-      new Meshed(mesh.clone()),
-      new BasicMaterial2D(material.clone()),
+      ...createBasicMesh2D(mesh.clone(), material.clone(), offsets[i].x, offsets[i].y),
       new Rotation2D(),
       new Torque2D()
     ])

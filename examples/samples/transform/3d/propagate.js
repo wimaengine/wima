@@ -2,11 +2,9 @@ import {
   World,
   VirtualClock,
   BasicMaterial,
-  BasicMaterial3D,
-  createTransform3D,
+  createBasicMesh3D,
   EntityCommands,
   Mesh,
-  Meshed,
   Quaternion,
   Parent,
   Query,
@@ -54,26 +52,20 @@ function spawnMeshes(world) {
   const parent = commands
     .spawn()
     .insertPrefab([
-      ...createTransform3D(),
-      new Meshed(mesh),
-      new BasicMaterial3D(material)])
+      ...createBasicMesh3D(mesh, material)])
     .build()
 
   const child = commands
     .spawn()
     .insertPrefab([
-      ...createTransform3D(1, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5),
-      new Meshed(mesh),
-      new BasicMaterial3D(material),
+      ...createBasicMesh3D(mesh, material, 1, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5),
       new Parent(parent)])
     .build()
 
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform3D(0.5, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5),
-      new Meshed(mesh),
-      new BasicMaterial3D(material),
+      ...createBasicMesh3D(mesh, material, 0.5, 0, 0, 0, 0, 0, 0.5, 0.5, 0.5),
       new Parent(child)
     ])
     .build()

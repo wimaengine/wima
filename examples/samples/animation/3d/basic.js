@@ -10,12 +10,10 @@ import {
   MeshAssets,
   BasicMaterialAssets,
   BasicMaterial,
-  Meshed,
   HALF_PI,
   PI,
   TAU,
-  BasicMaterial3D,
-  createTransform3D,
+  createBasicMesh3D,
   Orientation3DAnimationEffector,
   Position3DAnimationEffector,
   Scale3DAnimationEffector,
@@ -74,9 +72,7 @@ export function init(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform3D(1, 1),
-      new Meshed(mesh),
-      new BasicMaterial3D(material),
+      ...createBasicMesh3D(mesh, material, 1, 1),
       new AnimationTarget(player, targetname)])
     .build()
 }

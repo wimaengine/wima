@@ -13,8 +13,9 @@ import {
   Meshed,
   MeshAssets,
   BasicMaterialAssets,
-  createMovable3D,
-  BasicMaterial3D,
+  createBasicMesh3D,
+  createRawMovable3D,
+  BasicMaterialInstance,
   Entity,
   Rotation3D,
   Velocity3D,
@@ -65,13 +66,12 @@ function init(world) {
   const material = materials.add(new BasicMaterial())
 
   /**
-   *@returns {[Position3D, Orientation3D, Scale3D, GlobalTransform3D, Velocity3D, Rotation3D, Acceleration3D, Torque3D, Meshed, BasicMaterial3D]}
+   *@returns {[Position3D, Orientation3D, Scale3D, GlobalTransform3D, Meshed, BasicMaterialInstance, Velocity3D, Rotation3D, Acceleration3D, Torque3D]}
    */
   function particle() {
     return [
-      ...createMovable3D(),
-      new Meshed(mesh),
-      new BasicMaterial3D(material)]
+      ...createBasicMesh3D(mesh, material),
+      ...createRawMovable3D()]
   }
 
   /**

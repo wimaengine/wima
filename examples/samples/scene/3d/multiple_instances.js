@@ -1,16 +1,15 @@
 import {
   Mesh,
   createRawMovable3D,
+  createBasicMesh3D,
   createTransform3D,
   World,
   EntityCommands,
   BasicMaterial,
-  Meshed,
   Scene,
   SceneInstance,
   SceneAssets,
   Assets,
-  BasicMaterial3D,
   Entity,
   Query,
   MeshAssets,
@@ -115,9 +114,7 @@ function createScene(meshes, materials) {
 
   for (let i = 0; i < offsets.length; i++) {
     scene.set(new Entity(i, 1), [
-      ...createTransform3D(offsets[i].x, offsets[i].y, offsets[i].z),
-      new Meshed(mesh.clone()),
-      new BasicMaterial3D(material.clone()),
+      ...createBasicMesh3D(mesh.clone(), material.clone(), offsets[i].x, offsets[i].y, offsets[i].z),
       new Rotation3D(),
       new Torque3D()
     ])

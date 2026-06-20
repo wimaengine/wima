@@ -1,6 +1,6 @@
 import {
   Mesh,
-  createTransform2D,
+  createBasicMesh2D,
   World,
   Color,
   Query,
@@ -9,8 +9,7 @@ import {
   KeyCode,
   Entity,
   BasicMaterial,
-  Meshed,
-  BasicMaterial2D,
+  BasicMaterialInstance,
   BasicMaterialAssets,
   MeshAssets,
   App,
@@ -54,7 +53,7 @@ function update(world) {
   const materials = world.getResource(BasicMaterialAssets)
   const keyboard = world.getResource(Keyboard)
   const map = world.getResource(KeytoEntityMap)
-  const entities = new Query(world, [Entity, BasicMaterial2D])
+  const entities = new Query(world, [Entity, BasicMaterialInstance])
 
   map.forEach((id, key) => {
     const entity = entities.get(id)
@@ -103,9 +102,7 @@ function spawnDigits(world) {
     const entity = commands
       .spawn()
       .insertPrefab([
-        ...createTransform2D(x, y),
-        new Meshed(mesh),
-        new BasicMaterial2D(materials.add(new BasicMaterial()))])
+        ...createBasicMesh2D(mesh, materials.add(new BasicMaterial()), x, y)])
       .build()
 
     map.set(digit, entity)
@@ -167,9 +164,7 @@ function spawnAlphabet(world) {
     const entity = commands
       .spawn()
       .insertPrefab([
-        ...createTransform2D(x, y),
-        new Meshed(mesh),
-        new BasicMaterial2D(materials.add(new BasicMaterial()))])
+        ...createBasicMesh2D(mesh, materials.add(new BasicMaterial()), x, y)])
       .build()
 
     map.set(digit, entity)

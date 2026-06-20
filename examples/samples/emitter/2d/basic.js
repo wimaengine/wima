@@ -12,10 +12,11 @@ import {
   MouseButton,
   BasicMaterial,
   Meshed,
-  BasicMaterial2D,
+  BasicMaterialInstance,
   MeshAssets,
   BasicMaterialAssets,
-  createMovable2D,
+  createBasicMesh2D,
+  createRawMovable2D,
   Position2D,
   Orientation2D,
   Acceleration2D,
@@ -66,13 +67,12 @@ function init(world) {
   const material = materials.add(new BasicMaterial())
 
   /**
-   *@returns {[Position2D, Orientation2D, Scale2D, GlobalTransform2D, Velocity2D, Rotation2D, Acceleration2D, Torque2D, Meshed, BasicMaterial2D]}
+   *@returns {[Position2D, Orientation2D, Scale2D, GlobalTransform2D, Meshed, BasicMaterialInstance, Velocity2D, Rotation2D, Acceleration2D, Torque2D]}
    */
   function particle() {
     return [
-      ...createMovable2D(),
-      new Meshed(mesh.clone()),
-      new BasicMaterial2D(material.clone())]
+      ...createBasicMesh2D(mesh.clone(), material.clone()),
+      ...createRawMovable2D()]
   }
 
   /**

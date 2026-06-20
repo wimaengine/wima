@@ -3,13 +3,11 @@ import {
   World,
   EntityCommands,
   BasicMaterial,
-  Meshed,
   Scene,
   SceneInstance,
   SceneAssets,
   Assets,
-  BasicMaterial3D,
-  createTransform3D,
+  createBasicMesh3D,
   Entity,
   createCamera3D,
   MeshAssets,
@@ -90,9 +88,7 @@ function createScene(meshes, materials) {
     for (let y = -halfHeight; y <= halfHeight; y += itemHeight) {
       for (let z = -halfDepth; z <= halfDepth; z += itemDepth) {
         scene.set(new Entity(index, 1), [
-          ...createTransform3D(x, y, z),
-          new Meshed(mesh.clone()),
-          new BasicMaterial3D(material.clone())])
+          ...createBasicMesh3D(mesh.clone(), material.clone(), x, y, z)])
         index += 1
       }
     }

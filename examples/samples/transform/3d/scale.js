@@ -7,8 +7,7 @@ import {
   EntityCommands,
   VirtualClock,
   Meshed,
-  BasicMaterial3D,
-  createTransform3D,
+  createBasicMesh3D,
   BasicMaterialAssets,
   MeshAssets,
   App,
@@ -48,9 +47,7 @@ function spawnMesh(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform3D(),
-      new Meshed(mesh),
-      new BasicMaterial3D(material)])
+      ...createBasicMesh3D(mesh, material)])
     .build()
 }
 

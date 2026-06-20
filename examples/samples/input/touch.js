@@ -1,6 +1,6 @@
 import {
   Mesh,
-  createTransform2D,
+  createBasicMesh2D,
   World,
   Color,
   Query,
@@ -10,8 +10,7 @@ import {
   Entity,
   Position2D,
   BasicMaterial,
-  BasicMaterial2D,
-  Meshed,
+  BasicMaterialInstance,
   BasicMaterialAssets,
   MeshAssets,
   App,
@@ -58,9 +57,7 @@ function init(world) {
     const entity = commands
       .spawn()
       .insertPrefab([
-        ...createTransform2D(0, 0),
-        new Meshed(mesh),
-        new BasicMaterial2D(materials.add(new BasicMaterial({
+        ...createBasicMesh2D(mesh, materials.add(new BasicMaterial({
           color: Color.WHITE.clone()
         })))])
       .build()
@@ -77,7 +74,7 @@ function update(world) {
   const materials = world.getResource(BasicMaterialAssets)
   const touches = world.getResource(Touches)
   const map = world.getResource(TouchtoEntityMap)
-  const entities = new Query(world, [Position2D, BasicMaterial2D])
+  const entities = new Query(world, [Position2D, BasicMaterialInstance])
 
   map.forEach((id, key) => {
     const touch = touches.get(key)
