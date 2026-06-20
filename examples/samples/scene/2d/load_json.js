@@ -6,6 +6,7 @@ import {
   BasicMaterialAssets,
   Canvas2DRendererPlugin,
   Color,
+  createTransform2D,
   DefaultPlugin,
   DOMWindowPlugin,
   EntityCommands,
@@ -65,6 +66,7 @@ function init(world) {
   commands
     .spawn()
     .insertPrefab([
+      ...createTransform2D(),
       new SceneInstance(sceneHandle)
     ])
     .build()
