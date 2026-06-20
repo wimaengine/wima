@@ -38,8 +38,6 @@ export class Material3D {
   }
 }
 
-
-
 /**
  * @template {Material} T
  * @template {Material3D<T>} U
