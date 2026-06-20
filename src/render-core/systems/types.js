@@ -7,8 +7,7 @@ import { setTypeId, typeid, typeidGeneric } from '../../type/index.js'
 import { Handle, HandleSnapshot } from '../../asset/index.js'
 import { Color } from '../../color/index.js'
 import { Vector2 } from '../../math/index.js'
-import { Camera, Meshed, MeshedSnapshot, RenderLists2D, RenderLists3D } from '../components/index.js'
-import { BasicMaterial2D, BasicMaterial2DSnapshot, BasicMaterial3D, BasicMaterial3DSnapshot } from '../components/materials/index.js'
+import { BasicMaterialInstance, BasicMaterialInstanceSnapshot, Camera, Meshed, MeshedSnapshot, RenderLists2D, RenderLists3D } from '../components/index.js'
 import { MeshAttributeData } from '../core/attributedata.js'
 import { Projection, ShaderStage } from '../core/index.js'
 import { BasicMaterial, Image, Material, Mesh, Shader } from '../assets/index.js'
@@ -66,30 +65,18 @@ export function registerRenderCoreTypes(world) {
   registry.get(MeshedSnapshot)?.setMethod(MeshedSnapshot.serialize)
   registry.get(MeshedSnapshot)?.setMethod(MeshedSnapshot.deserialize)
   registry.get(MeshedSnapshot)?.setMethod(MeshedSnapshot.prototype.fromSnapshot)
-  registry.register(BasicMaterial2D, new StructInfo({
+  registry.register(BasicMaterialInstance, new StructInfo({
     handle: new Field(basicMaterialHandleId)
   }))
-  registry.get(BasicMaterial2D)?.setMethod(BasicMaterial2D.copy)
-  registry.get(BasicMaterial2D)?.setMethod(BasicMaterial2D.clone)
-  registry.get(BasicMaterial2D)?.setMethod(BasicMaterial2D.prototype.toSnapshot)
-  registry.register(BasicMaterial2DSnapshot, new StructInfo({
+  registry.get(BasicMaterialInstance)?.setMethod(BasicMaterialInstance.copy)
+  registry.get(BasicMaterialInstance)?.setMethod(BasicMaterialInstance.clone)
+  registry.get(BasicMaterialInstance)?.setMethod(BasicMaterialInstance.prototype.toSnapshot)
+  registry.register(BasicMaterialInstanceSnapshot, new StructInfo({
     handle: new Field(typeid(HandleSnapshot))
   }))
-  registry.get(BasicMaterial2DSnapshot)?.setMethod(BasicMaterial2DSnapshot.serialize)
-  registry.get(BasicMaterial2DSnapshot)?.setMethod(BasicMaterial2DSnapshot.deserialize)
-  registry.get(BasicMaterial2DSnapshot)?.setMethod(BasicMaterial2DSnapshot.prototype.fromSnapshot)
-  registry.register(BasicMaterial3D, new StructInfo({
-    handle: new Field(basicMaterialHandleId)
-  }))
-  registry.get(BasicMaterial3D)?.setMethod(BasicMaterial3D.copy)
-  registry.get(BasicMaterial3D)?.setMethod(BasicMaterial3D.clone)
-  registry.get(BasicMaterial3D)?.setMethod(BasicMaterial3D.prototype.toSnapshot)
-  registry.register(BasicMaterial3DSnapshot, new StructInfo({
-    handle: new Field(typeid(HandleSnapshot))
-  }))
-  registry.get(BasicMaterial3DSnapshot)?.setMethod(BasicMaterial3DSnapshot.serialize)
-  registry.get(BasicMaterial3DSnapshot)?.setMethod(BasicMaterial3DSnapshot.deserialize)
-  registry.get(BasicMaterial3DSnapshot)?.setMethod(BasicMaterial3DSnapshot.prototype.fromSnapshot)
+  registry.get(BasicMaterialInstanceSnapshot)?.setMethod(BasicMaterialInstanceSnapshot.serialize)
+  registry.get(BasicMaterialInstanceSnapshot)?.setMethod(BasicMaterialInstanceSnapshot.deserialize)
+  registry.get(BasicMaterialInstanceSnapshot)?.setMethod(BasicMaterialInstanceSnapshot.prototype.fromSnapshot)
   registry.register(Camera, new StructInfo({
     projection: new Field(typeid(Projection)),
     near: new Field(typeid(Number)),

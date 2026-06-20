@@ -5,14 +5,14 @@ import { typeid } from '../../type/index.js'
 import { GlobalTransform2D, GlobalTransform3D } from '../../transform/index.js'
 import { Material } from '../assets/material.js'
 import { Camera } from '../components/camera.js'
-import { Material2D } from '../components/material.js'
+import { MaterialInstance } from '../components/material.js'
 import { Meshed } from '../components/mesh.js'
 import { RenderLists2D, RenderType, RenderLists3D } from '../components/index.js'
 
 /**
  * @template {Material} T
  * @param {Constructor<T>} assettype
- * @param {Constructor<Material2D<T>>} componenttype
+ * @param {Constructor<MaterialInstance<T>>} componenttype
  * @returns {SystemFunc}
  */
 export function genBinRenderables2D(assettype, componenttype) {
@@ -36,7 +36,7 @@ export function genBinRenderables2D(assettype, componenttype) {
 /**
  * @template {Material} T
  * @param {Constructor<T>} assettype
- * @param {Constructor<Material2D<T>>} componenttype
+ * @param {Constructor<MaterialInstance<T>>} componenttype
  * @returns {SystemFunc}
  */
 export function genBinRenderables3D(assettype, componenttype) {

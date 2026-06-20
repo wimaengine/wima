@@ -3,15 +3,14 @@ import { AppSchedule, CoreSystems } from '../core/index.js'
 import { AssetImporterPlugin, AssetPlugin, Assets } from '../asset/index.js'
 import { ComponentHooks } from '../ecs/index.js'
 import {
-  BasicMaterial2D,
-  BasicMaterial3D,
+  BasicMaterialInstance,
   Camera,
   Meshed,
   removeMeshedHandle
 } from './components/index.js'
 import { Mesh, Shader, Image, BasicMaterial } from './assets/index.js'
 import { BasicMaterialAssets, ImageAssets, ImageImporter, MeshAssets } from './resources/index.js'
-import { Material2DPlugin, Material3DPlugin } from './plugins/index.js'
+import { MaterialInstancePlugin } from './plugins/index.js'
 import {
   ImageAdded,
   ImageDropped,
@@ -81,13 +80,9 @@ export class RenderCorePlugin extends Plugin {
           dropped: BasicMaterialDropped
         }
       }))
-      .registerPlugin(new Material2DPlugin({
+      .registerPlugin(new MaterialInstancePlugin({
         asset: BasicMaterial,
-        component: BasicMaterial2D
-      }))
-      .registerPlugin(new Material3DPlugin({
-        asset: BasicMaterial,
-        component: BasicMaterial3D
+        component: BasicMaterialInstance
       }))
     world.setResourceAlias(typeidGeneric(Assets, [Image]), ImageAssets)
     world.setResourceAlias(typeidGeneric(Assets, [Mesh]), MeshAssets)
