@@ -23,6 +23,13 @@ class Children {
   visit() {
     return this.list
   }
+
+  /**
+   * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
+   */
+  map(entityMap){
+    this.list = this.list.map(e=>Entity.from(entityMap.get(e.id())))
+  }
 }
 
 /**
@@ -38,6 +45,13 @@ class Parent {
 
   visit() {
     return [this.entity]
+  }
+
+    /**
+   * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
+   */
+  map(entityMap){
+    this.entity = Entity.from(entityMap.get(this.entity.id()))
   }
 }
 
@@ -57,6 +71,12 @@ class Neighbour {
   }
   visit() {
     return this.list
+  }
+  /**
+   * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
+   */
+  map(entityMap){
+    this.list = this.list.map(e=>Entity.from(entityMap.get(e.id())))
   }
 }
 
