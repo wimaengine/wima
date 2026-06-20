@@ -89,6 +89,13 @@ export class Children {
   }
 
   /**
+   * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
+   */
+  map(entityMap) {
+    this.list = this.list.map((e) => Entity.from(entityMap.get(e.id())))
+  }
+
+  /**
    */
   clear() {
     this.list.length = 0
