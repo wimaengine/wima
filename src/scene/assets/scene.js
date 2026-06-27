@@ -6,12 +6,12 @@ import { TypeRegistry } from '../../reflect/index.js'
 import { SceneInstance } from '../components/index.js'
 
 /**
- * @param {unknown} component
+ * @param {object} component
  * @param {World} world
- * @param {import('../../reflect/resources/typeregistry.js').TypeEntry | undefined} entry
+ * @param {import('../../reflect/resources/typeregistry.js').TypeEntry} entry
  */
 function toSnapshot(component, world, entry) {
-  const method = entry?.getMethod('toSnapshot')
+  const method = entry.getMethod('toSnapshot')
 
   if (method) {
     return method.method.call(component, world)
@@ -26,18 +26,18 @@ function toSnapshot(component, world, entry) {
   const { constructor } = component
   const name = constructor.name || 'Unknown'
 
-  warn(`The component \`${name}\` has not been snapshotted as there is no toSnapshot or clone method registered in the \`TypeRegistry\``)
+  warn(`The component \`${name}\` has not been snapshotted as there is no \`toSnapshot\` or \`clone\` method registered in the \`TypeRegistry\``)
 
   return undefined
 }
 
 /**
- * @param {unknown} component
+ * @param {object} component
  * @param {World} world
- * @param {import('../../reflect/resources/typeregistry.js').TypeEntry | undefined} entry
+ * @param {import('../../reflect/resources/typeregistry.js').TypeEntry} entry
  */
 function fromSnapshot(component, world, entry) {
-  const method = entry?.getMethod('fromSnapshot')
+  const method = entry.getMethod('fromSnapshot')
 
   if (method) {
     return method.method.call(component, world)
@@ -52,7 +52,7 @@ function fromSnapshot(component, world, entry) {
   const { constructor } = component
   const name = constructor.name || 'Unknown'
 
-  warn(`The component \`${name}\` has not been restored as there is no fromSnapshot or clone method registered in the \`TypeRegistry\``)
+  warn(`The component \`${name}\` has not been restored as there is no \`fromSnapshot\` or \`clone\` method registered in the \`TypeRegistry\``)
 
   return undefined
 }
@@ -66,7 +66,7 @@ export class Scene {
    * @param {World} world
    * @param {SceneInstance} instance
    * @param {TypeRegistry} typeRegistry
-   * @param {Entity} [instanceEntity]
+   * @param {Entity} instanceEntity
    */
   toWorld(world, instance, typeRegistry, instanceEntity) {
     const { entityMap: worldToSceneMap } = instance
@@ -85,6 +85,11 @@ export class Scene {
         const { constructor } = component
         const type = /** @type {import('../../type/index.js').Constructor} */ (constructor)
         const entry = typeRegistry.get(type)
+
+        if(!entry){
+          warn(`The type \`${constructor.name}\` is not registered in the type registry`)
+          return undefined
+        }
         const clonedComponent = fromSnapshot(component, world, entry)
 
         if (!clonedComponent) {
@@ -121,9 +126,14 @@ export class Scene {
       const components = []
 
       for (let i = 0; i < typeIds.length; i++) {
-        const typeId = typeIds[i]
-        const component = cell.getTypeId(typeId)
+        const typeId = /**@type {import('../../type/index.js').TypeId}*/(typeIds[i])
+        const component = /**@type {object}*/(cell.getTypeId(typeId))
         const entry = typeRegistry.getByTypeId(typeId)
+
+        if(!entry){
+          warn(`The type \`${component.constructor.name}\` is not registered in the type registry`)
+          continue
+        }
         const snapshot = toSnapshot(component, world, entry)
 
         if (snapshot) {
