@@ -5,9 +5,8 @@ import {
   World,
   EntityCommands,
   BasicMaterial,
-  Meshed,
-  BasicMaterial3D,
-  createMovable3D,
+  createBasicMesh3D,
+  createRawMovable3D,
   Query,
   BasicMaterialAssets,
   MeshAssets,
@@ -65,9 +64,8 @@ function spawnMeshes(world) {
     commands
       .spawn()
       .insertPrefab([
-        ...createMovable3D(),
-        new Meshed(geometries[i]),
-        new BasicMaterial3D(material)])
+        ...createBasicMesh3D(geometries[i], material),
+        ...createRawMovable3D()])
       .insert(new Position3D(
         offsetX + width * (i % numX),
         offsetY - Math.floor(i / numX) * height,

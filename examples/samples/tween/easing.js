@@ -5,14 +5,12 @@ import {
   Easing,
   TweenRepeat,
   TweenFlip,
-  createTransform2D,
+  createBasicMesh2D,
   World,
   EntityCommands,
   Assets,
   typeidGeneric,
   BasicMaterial,
-  Meshed,
-  BasicMaterial2D,
   App,
   AppSchedule,
   Canvas2DRendererPlugin,
@@ -65,9 +63,7 @@ function init(world) {
     commands
       .spawn()
       .insertPrefab([
-        ...createTransform2D(x, y),
-        new Meshed(mesh),
-        new BasicMaterial2D(material),
+        ...createBasicMesh2D(mesh, material, x, y),
         new Position2DTween(
           new Vector2(x, y),
           new Vector2(x, endY),

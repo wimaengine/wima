@@ -3,10 +3,10 @@ import {
   Mesh,
   World,
   EntityCommands,
-  createMovable2D,
+  createBasicMesh2D,
+  createRawMovable2D,
   Rotation2D,
   Meshed,
-  BasicMaterial2D,
   PI,
   Query,
   BasicMaterialAssets,
@@ -48,9 +48,8 @@ function addmesh(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createMovable2D(),
-      new Meshed(mesh),
-      new BasicMaterial2D(material)])
+      ...createBasicMesh2D(mesh, material),
+      ...createRawMovable2D()])
     .insert(new Rotation2D(PI))
     .build()
 }

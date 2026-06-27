@@ -5,9 +5,7 @@ import {
   Query,
   EntityCommands,
   VirtualClock,
-  BasicMaterial2D,
-  Meshed,
-  createTransform2D,
+  createBasicMesh2D,
   Orientation2D,
   GlobalTransform2D,
   Vector2,
@@ -62,9 +60,7 @@ function spawnLookers(world) {
       commands
         .spawn()
         .insertPrefab([
-          ...createTransform2D(x, y),
-          new Meshed(mesh),
-          new BasicMaterial2D(material),
+          ...createBasicMesh2D(mesh, material, x, y),
           new Looker()])
         .build()
     }
@@ -88,9 +84,7 @@ function spawnTarget(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(),
-      new Meshed(mesh),
-      new BasicMaterial2D(material),
+      ...createBasicMesh2D(mesh, material),
       new Target()])
     .build()
 }

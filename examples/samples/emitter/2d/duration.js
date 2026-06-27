@@ -10,10 +10,11 @@ import {
   MeshAssets,
   BasicMaterialAssets,
   Meshed,
-  BasicMaterial2D,
+  BasicMaterialInstance,
   BasicMaterial,
   Acceleration2D,
-  createMovable2D,
+  createBasicMesh2D,
+  createRawMovable2D,
   GlobalTransform2D,
   Orientation2D,
   Rotation2D,
@@ -60,13 +61,12 @@ function init(world) {
   const material = materials.add(new BasicMaterial())
 
   /**
-   *@returns {[Position2D, Orientation2D, Scale2D, GlobalTransform2D, Velocity2D, Rotation2D, Acceleration2D, Torque2D, Meshed, BasicMaterial2D]}
+   *@returns {[Position2D, Orientation2D, Scale2D, GlobalTransform2D, Meshed, BasicMaterialInstance, Velocity2D, Rotation2D, Acceleration2D, Torque2D]}
    */
   function particle() {
     return [
-      ...createMovable2D(),
-      new Meshed(mesh),
-      new BasicMaterial2D(material)]
+      ...createBasicMesh2D(mesh, material),
+      ...createRawMovable2D()]
   }
 
   /**

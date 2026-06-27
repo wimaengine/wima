@@ -2,11 +2,9 @@ import {
   World,
   VirtualClock,
   BasicMaterial,
-  BasicMaterial2D,
-  createTransform2D,
+  createBasicMesh2D,
   EntityCommands,
   Mesh,
-  Meshed,
   Parent,
   Query,
   Children,
@@ -55,26 +53,20 @@ function addMeshes(world) {
   const parent = commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(),
-      new Meshed(mesh),
-      new BasicMaterial2D(material)])
+      ...createBasicMesh2D(mesh, material)])
     .build()
 
   const child = commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(0.4, 0, 0, 0.5, 0.5),
-      new Meshed(mesh),
-      new BasicMaterial2D(material),
+      ...createBasicMesh2D(mesh, material, 0.4, 0, 0, 0.5, 0.5),
       new Parent(parent)])
     .build()
 
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(0.4, 0, 0, 0.5, 0.5),
-      new Meshed(mesh),
-      new BasicMaterial2D(material),
+      ...createBasicMesh2D(mesh, material, 0.4, 0, 0, 0.5, 0.5),
       new Parent(child)
     ])
     .build()

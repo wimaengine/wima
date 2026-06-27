@@ -1,13 +1,11 @@
 import {
   Mesh,
-  createTransform2D,
+  createBasicMesh2D,
   World,
   Query,
   EntityCommands,
   Entity,
   BasicMaterial,
-  Meshed,
-  BasicMaterial2D,
   BasicMaterialAssets,
   MeshAssets,
   Canvas2DRendererPlugin,
@@ -61,9 +59,7 @@ function update(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(x, y),
-      new Meshed(mesh),
-      new BasicMaterial2D(material),
+      ...createBasicMesh2D(mesh, material, x, y),
       new Marker()])
     .build()
 }

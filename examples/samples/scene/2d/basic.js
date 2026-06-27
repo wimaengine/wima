@@ -1,11 +1,9 @@
 import {
   Mesh,
-  createTransform2D,
+  createBasicMesh2D,
   World,
   EntityCommands,
   BasicMaterial,
-  Meshed,
-  BasicMaterial2D,
   Scene,
   SceneInstance,
   SceneAssets,
@@ -84,9 +82,7 @@ function createScene(meshes, materials) {
   for (let y = -halfHeight; y <= halfHeight; y += itemHeight) {
     for (let x = -halfWidth; x < halfWidth; x += itemWidth) {
       scene.set(new Entity(index, 1), [
-        ...createTransform2D(x, y),
-        new Meshed(mesh.clone()),
-        new BasicMaterial2D(material.clone())])
+        ...createBasicMesh2D(mesh.clone(), material.clone(), x, y)])
       index += 1
     }
   }

@@ -2,10 +2,8 @@ import {
   Mesh,
   World,
   EntityCommands,
-  createTransform3D,
+  createBasicMesh3D,
   BasicMaterial,
-  Meshed,
-  BasicMaterial3D,
   BasicMaterialAssets,
   MeshAssets,
   App,
@@ -44,8 +42,6 @@ function spawnMesh(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform3D(),
-      new Meshed(mesh),
-      new BasicMaterial3D(material)])
+      ...createBasicMesh3D(mesh, material)])
     .build()
 }

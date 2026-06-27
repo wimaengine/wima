@@ -1,6 +1,6 @@
 import {
   Mesh,
-  createTransform2D,
+  createBasicMesh2D,
   World,
   Color,
   Query,
@@ -11,9 +11,8 @@ import {
   Entity,
   Mouse,
   MouseButtons,
-  Meshed,
   BasicMaterial,
-  BasicMaterial2D,
+  BasicMaterialInstance,
   BasicMaterialAssets,
   MeshAssets,
   App,
@@ -63,9 +62,7 @@ function spawnMouseFollower(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform2D(),
-      new Meshed(mesh),
-      new BasicMaterial2D(materials.add(new BasicMaterial({
+      ...createBasicMesh2D(mesh, materials.add(new BasicMaterial({
         color: Color.WHITE.clone()
       }))),
       new MouseEntity()
@@ -99,11 +96,9 @@ function spawnButtons(world) {
     const entity = commands
       .spawn()
       .insertPrefab([
-        ...createTransform2D(x, y),
-        new Meshed(mesh),
-        new BasicMaterial2D(materials.add(new BasicMaterial({
+        ...createBasicMesh2D(mesh, materials.add(new BasicMaterial({
           color: Color.WHITE.clone()
-        })))])
+        })), x, y)])
       .build()
 
     map.set(digit, entity)
@@ -132,7 +127,7 @@ function updateButtons(world) {
   const materials = world.getResource(BasicMaterialAssets)
   const mousebuttons = world.getResource(MouseButtons)
   const map = world.getResource(KeytoEntityMap)
-  const entities = new Query(world, [Entity, BasicMaterial2D])
+  const entities = new Query(world, [Entity, BasicMaterialInstance])
 
   map.forEach((id, key) => {
     const entity = entities.get(id)

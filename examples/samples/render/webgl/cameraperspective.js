@@ -6,9 +6,8 @@ import {
   createCamera3D,
   EntityCommands,
   BasicMaterial,
-  BasicMaterial3D,
-  Meshed,
-  createMovable3D,
+  createBasicMesh3D,
+  createRawMovable3D,
   Query,
   Rotation3D,
   BasicMaterialAssets,
@@ -64,9 +63,8 @@ function spawnMesh(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createMovable3D(),
-      new Meshed(mesh),
-      new BasicMaterial3D(material)])
+      ...createBasicMesh3D(mesh, material),
+      ...createRawMovable3D()])
     .build()
 }
 

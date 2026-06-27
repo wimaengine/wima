@@ -5,9 +5,7 @@ import {
   Query,
   EntityCommands,
   VirtualClock,
-  BasicMaterial3D,
-  Meshed,
-  createTransform3D,
+  createBasicMesh3D,
   Orientation3D,
   GlobalTransform3D,
   Vector3,
@@ -60,9 +58,7 @@ function spawnLookers(world) {
       commands
         .spawn()
         .insertPrefab([
-          ...createTransform3D(x, y),
-          new Meshed(mesh),
-          new BasicMaterial3D(material),
+          ...createBasicMesh3D(mesh, material, x, y),
           new Looker()])
         .build()
     }
@@ -86,9 +82,7 @@ function spawnTarget(world) {
   commands
     .spawn()
     .insertPrefab([
-      ...createTransform3D(),
-      new Meshed(mesh),
-      new BasicMaterial3D(material),
+      ...createBasicMesh3D(mesh, material),
       new Target()])
     .build()
 }
