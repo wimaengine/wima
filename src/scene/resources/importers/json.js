@@ -34,37 +34,47 @@ export class JSONSceneImporter extends Importer {
 function deserializeScene(serial, typeRegistry) {
   const scene = new Scene()
 
-  if (
-    typeof serial !== 'object' ||
-    serial === null ||
-    !('entities' in serial) ||
-    serial.entities === null ||
-    typeof serial.entities !== 'object'
-  ) {
+  if (typeof serial !== 'object' || serial === null) {
     return scene
   }
 
-  for (const [entityId, componentsSerial] of Object.entries(serial.entities)) {
-    if (!componentsSerial || typeof componentsSerial !== 'object') continue
+  if ('entities' in serial && serial.entities && typeof serial.entities === 'object') {
+    for (const [entityId, componentsSerial] of Object.entries(serial.entities)) {
+      if (!componentsSerial || typeof componentsSerial !== 'object') continue
 
-    const components = Object.entries(componentsSerial).map(([typeId, value]) => {
-      const component = deserializeComponent(/** @type {import('../../../type/index.js').TypeId} */ (typeId), value, typeRegistry)
+      const components = Object.entries(componentsSerial).map(([typeId, value]) => {
+        const component = deserializeComponent(/** @type {import('../../../type/index.js').TypeId} */ (typeId), value, typeRegistry)
 
-      if (typeof component !== 'object' || component === null) {
-        warn(`Failed to deserialize component with type id \`${typeId}\`.`)
+        if (typeof component !== 'object' || component === null) {
+          warn(`Failed to deserialize scene snapshot with type id \`${typeId}\`.`)
 
-        return undefined
+          return undefined
+        }
+
+        return component
+      })
+        .filter((component) => component !== undefined)
+
+      const numericEntityId = Number(entityId)
+
+      if (!Number.isFinite(numericEntityId)) continue
+
+      scene.entities.set(/** @type {import('../../../ecs/index.js').EntityId} */ (numericEntityId), components)
+    }
+  }
+
+  if ('resources' in serial && serial.resources && typeof serial.resources === 'object') {
+    for (const [typeId, value] of Object.entries(serial.resources)) {
+      const resource = deserializeComponent(/** @type {import('../../../type/index.js').TypeId} */ (typeId), value, typeRegistry)
+
+      if (typeof resource !== 'object' || resource === null) {
+        warn(`Failed to deserialize scene snapshot with type id \`${typeId}\`.`)
+
+        continue
       }
 
-      return component
-    })
-      .filter(Boolean)
-
-    const numericEntityId = Number(entityId)
-
-    if (!Number.isFinite(numericEntityId)) continue
-
-    scene.entities.set(/** @type {import('../../../ecs/index.js').EntityId} */ (numericEntityId), components)
+      scene.resources.set(/** @type {import('../../../type/index.js').TypeId} */ (typeId), resource)
+    }
   }
 
   return scene
