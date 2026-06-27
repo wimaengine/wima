@@ -15,7 +15,6 @@ import {
   WindowResize
 } from './events/index.js'
 import { App, Plugin } from '../app/index.js'
-import { World } from '../ecs/index.js'
 import { Window, MainWindow } from './components/index.js'
 import { Windows } from './resources/index.js'
 import { EventPlugin } from '../event/plugin.js'
@@ -97,23 +96,27 @@ export class WindowPlugin extends Plugin {
       }))
       .setResource(new Windows())
 
-    if (this.initPrimaryWindow) app.registerSystem({ schedule: AppSchedule.Startup, system: initPrimaryWindow })
+    if (this.initPrimaryWindow) app.registerSystem({ schedule: AppSchedule.Startup, system: initPrimaryWindow(this.primaryWindowOptions) })
   }
 }
 
 /**
- * @param {World} world
+ * @param {WindowOptions | undefined} settings
+ * @returns {import('../ecs/index.js').SystemFunc}
  */
-function initPrimaryWindow(world) {
-  const commands = new EntityCommands(world)
+function initPrimaryWindow(settings) {
+  return function initPrimaryWindow(world) {
 
-  commands
-    .spawn()
-    .insertPrefab([
-      new Window(),
-      new MainWindow()
-    ])
-    .build()
+    const commands = new EntityCommands(world)
+
+    commands
+      .spawn()
+      .insertPrefab([
+        new Window(settings),
+        new MainWindow()
+      ])
+      .build()
+  }
 }
 
 /**
