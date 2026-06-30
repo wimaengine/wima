@@ -3,7 +3,7 @@
 import { World } from '../../ecs/index.js'
 import { ArrayInfo, Field, StructInfo } from '../../reflect/core/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
-import { AssetServer, Assets } from '../resources/index.js'
+import { AssetServer, Assets, AssetsSnapshot } from '../resources/index.js'
 import { Handle, HandleSnapshot } from '../core/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
 import { AssetLoadFail, AssetSaveSuccess } from '../events/index.js'
@@ -28,13 +28,22 @@ export function registerAssetTypes(asset) {
         type: new Field(typeid(Function))
       })
     )
+    registry.registerTypeId(AssetsSnapshot.typeId(typeid(asset)), new StructInfo({
+      type: new Field(typeid(String)),
+      assets: new Field(typeid(Array))
+    }))
     registry.register(HandleSnapshot, new StructInfo({
       type: new Field(typeid(Function)),
       asset: new Field(typeid(Object))
     }))
+    registry.getByTypeId(AssetsSnapshot.typeId(typeid(asset)))?.setMethod(AssetsSnapshot.serialize)
+    registry.getByTypeId(AssetsSnapshot.typeId(typeid(asset)))?.setMethod(AssetsSnapshot.deserialize)
+    registry.getByTypeId(AssetsSnapshot.typeId(typeid(asset)))?.setMethod(AssetsSnapshot.patch)
+    registry.getByTypeId(AssetsSnapshot.typeId(typeid(asset)))?.setMethod(AssetsSnapshot.prototype.fromSnapshot)
     registry.get(HandleSnapshot)?.setMethod(HandleSnapshot.serialize)
     registry.get(HandleSnapshot)?.setMethod(HandleSnapshot.deserialize)
     registry.get(HandleSnapshot)?.setMethod(HandleSnapshot.prototype.fromSnapshot)
+    registry.getByTypeId(typeidGeneric(Assets, [asset]))?.setMethod(Assets.prototype.toSnapshot)
     registry.get(Handle)?.setMethod(Handle.prototype.toSnapshot)
   }
 }
