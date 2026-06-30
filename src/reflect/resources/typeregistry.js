@@ -18,15 +18,16 @@ export class TypeRegistry {
   register(type, info) {
     const typeId = typeid(type)
 
-    this.registerTypeId(typeId, info)
+    this.registerTypeId(typeId, info, type)
   }
 
   /**
    * @param {TypeId} typeId
    * @param {TypeInfo} info
+   * @param {Constructor | undefined} [constructorFn]
    */
-  registerTypeId(typeId, info) {
-    const entry = new TypeEntry(info)
+  registerTypeId(typeId, info, constructorFn) {
+    const entry = new TypeEntry(info, constructorFn)
 
     this.inner.set(typeId, entry)
   }
@@ -74,6 +75,11 @@ export class TypeEntry {
   info
 
   /**
+   * @type {Constructor | undefined}
+   */
+  constructorFn
+
+  /**
    * @private
    * @type {Map<string, MethodEntry>}
    */
@@ -81,9 +87,11 @@ export class TypeEntry {
 
   /**
    * @param {TypeInfo} info
+   * @param {Constructor | undefined} [constructorFn]
    */
-  constructor(info) {
+  constructor(info, constructorFn) {
     this.info = info
+    this.constructorFn = constructorFn
   }
 
   /**
