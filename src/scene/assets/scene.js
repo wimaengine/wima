@@ -42,6 +42,10 @@ export class Scene {
         continue
       }
 
+      if (patchResource(resource, world, entry)) {
+        continue
+      }
+
       const restoredResource = fromSnapshot(resource, world, entry)
 
       if (!restoredResource) {
@@ -220,4 +224,20 @@ function fromSnapshot(component, world, entry) {
   warn(`The component \`${name}\` has not been restored as there is no \`fromSnapshot\` or \`clone\` method registered in the \`TypeRegistry\``)
 
   return undefined
+}
+
+/**
+ * @param {object} resource
+ * @param {World} world
+ * @param {import('../../reflect/resources/typeregistry.js').TypeEntry} entry
+ * @returns {boolean}
+ */
+function patchResource(resource, world, entry) {
+  const method = entry.getMethod('patch')
+
+  if (!method) {
+    return false
+  }
+
+  return entry.call('patch', [resource, world]) === true
 }
