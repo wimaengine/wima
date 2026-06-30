@@ -1,154 +1,298 @@
 {
   "entities": {
     "1": {
-      "Position2D": { "x": 3, "y": 0 },
-      "Orientation2D": { "cos": 1, "sin": 0 },
-      "Scale2D": { "x": 1, "y": 1 },
-      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "Position2D": {
+        "x": 3,
+        "y": 0
+      },
+      "Orientation2D": {
+        "cos": 1,
+        "sin": 0
+      },
+      "Scale2D": {
+        "x": 1,
+        "y": 1
+      },
+      "GlobalTransform2D": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
       "MeshedSnapshot": {
         "handle": {
           "type": "Mesh",
-          "asset": 4294967296
+          "asset": 0
         }
       },
       "BasicMaterialInstanceSnapshot": {
         "handle": {
           "type": "BasicMaterial",
-          "asset": 4294967296
+          "asset": 0
         }
       }
     },
     "2": {
-      "Position2D": { "x": 2.121320343559643, "y": 2.1213203435596424 },
-      "Orientation2D": { "cos": 1, "sin": 0 },
-      "Scale2D": { "x": 1, "y": 1 },
-      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "Position2D": {
+        "x": 2.121320343559643,
+        "y": 2.1213203435596424
+      },
+      "Orientation2D": {
+        "cos": 1,
+        "sin": 0
+      },
+      "Scale2D": {
+        "x": 1,
+        "y": 1
+      },
+      "GlobalTransform2D": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
       "MeshedSnapshot": {
         "handle": {
           "type": "Mesh",
-          "asset": 4294967296
+          "asset": 0
         }
       },
       "BasicMaterialInstanceSnapshot": {
         "handle": {
           "type": "BasicMaterial",
-          "asset": 4294967296
+          "asset": 0
         }
       }
     },
     "3": {
-      "Position2D": { "x": 0, "y": 3 },
-      "Orientation2D": { "cos": 1, "sin": 0 },
-      "Scale2D": { "x": 1, "y": 1 },
-      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "Position2D": {
+        "x": 0,
+        "y": 3
+      },
+      "Orientation2D": {
+        "cos": 1,
+        "sin": 0
+      },
+      "Scale2D": {
+        "x": 1,
+        "y": 1
+      },
+      "GlobalTransform2D": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
       "MeshedSnapshot": {
         "handle": {
           "type": "Mesh",
-          "asset": 4294967296
+          "asset": 0
         }
       },
       "BasicMaterialInstanceSnapshot": {
         "handle": {
           "type": "BasicMaterial",
-          "asset": 4294967296
+          "asset": 0
         }
       }
     },
     "4": {
-      "Position2D": { "x": -2.1213203435596424, "y": 2.121320343559643 },
-      "Orientation2D": { "cos": 1, "sin": 0 },
-      "Scale2D": { "x": 1, "y": 1 },
-      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "Position2D": {
+        "x": -2.1213203435596424,
+        "y": 2.121320343559643
+      },
+      "Orientation2D": {
+        "cos": 1,
+        "sin": 0
+      },
+      "Scale2D": {
+        "x": 1,
+        "y": 1
+      },
+      "GlobalTransform2D": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
       "MeshedSnapshot": {
         "handle": {
           "type": "Mesh",
-          "asset": 4294967296
+          "asset": 0
         }
       },
       "BasicMaterialInstanceSnapshot": {
         "handle": {
           "type": "BasicMaterial",
-          "asset": 4294967296
+          "asset": 0
         }
       }
     },
     "5": {
-      "Position2D": { "x": -3, "y": 0 },
-      "Orientation2D": { "cos": 1, "sin": 0 },
-      "Scale2D": { "x": 1, "y": 1 },
-      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "Position2D": {
+        "x": -3,
+        "y": 0
+      },
+      "Orientation2D": {
+        "cos": 1,
+        "sin": 0
+      },
+      "Scale2D": {
+        "x": 1,
+        "y": 1
+      },
+      "GlobalTransform2D": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
       "MeshedSnapshot": {
         "handle": {
           "type": "Mesh",
-          "asset": 4294967296
+          "asset": 0
         }
       },
       "BasicMaterialInstanceSnapshot": {
         "handle": {
           "type": "BasicMaterial",
-          "asset": 4294967296
+          "asset": 0
         }
       }
     },
     "6": {
-      "Position2D": { "x": -2.121320343559643, "y": -2.1213203435596424 },
-      "Orientation2D": { "cos": 1, "sin": 0 },
-      "Scale2D": { "x": 1, "y": 1 },
-      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "Position2D": {
+        "x": -2.121320343559643,
+        "y": -2.1213203435596424
+      },
+      "Orientation2D": {
+        "cos": 1,
+        "sin": 0
+      },
+      "Scale2D": {
+        "x": 1,
+        "y": 1
+      },
+      "GlobalTransform2D": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
       "MeshedSnapshot": {
         "handle": {
           "type": "Mesh",
-          "asset": 4294967296
+          "asset": 0
         }
       },
       "BasicMaterialInstanceSnapshot": {
         "handle": {
           "type": "BasicMaterial",
-          "asset": 4294967296
+          "asset": 0
         }
       }
     },
     "7": {
-      "Position2D": { "x": 0, "y": -3 },
-      "Orientation2D": { "cos": 1, "sin": 0 },
-      "Scale2D": { "x": 1, "y": 1 },
-      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "Position2D": {
+        "x": 0,
+        "y": -3
+      },
+      "Orientation2D": {
+        "cos": 1,
+        "sin": 0
+      },
+      "Scale2D": {
+        "x": 1,
+        "y": 1
+      },
+      "GlobalTransform2D": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
       "MeshedSnapshot": {
         "handle": {
           "type": "Mesh",
-          "asset": 4294967296
+          "asset": 0
         }
       },
       "BasicMaterialInstanceSnapshot": {
         "handle": {
           "type": "BasicMaterial",
-          "asset": 4294967296
+          "asset": 0
         }
       }
     },
     "8": {
-      "Position2D": { "x": 2.1213203435596424, "y": -2.121320343559643 },
-      "Orientation2D": { "cos": 1, "sin": 0 },
-      "Scale2D": { "x": 1, "y": 1 },
-      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "Position2D": {
+        "x": 2.1213203435596424,
+        "y": -2.121320343559643
+      },
+      "Orientation2D": {
+        "cos": 1,
+        "sin": 0
+      },
+      "Scale2D": {
+        "x": 1,
+        "y": 1
+      },
+      "GlobalTransform2D": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
       "MeshedSnapshot": {
         "handle": {
           "type": "Mesh",
-          "asset": 4294967296
+          "asset": 0
         }
       },
       "BasicMaterialInstanceSnapshot": {
         "handle": {
           "type": "BasicMaterial",
-          "asset": 4294967296
+          "asset": 0
         }
       }
     },
     "9": {
-      "Position2D": { "x": 0, "y": 0 },
-      "Orientation2D": { "cos": 1, "sin": 0 },
-      "Scale2D": { "x": 1, "y": 1 },
-      "GlobalTransform2D": [1, 0, 0, 1, 0, 0],
+      "Position2D": {
+        "x": 0,
+        "y": 0
+      },
+      "Orientation2D": {
+        "cos": 1,
+        "sin": 0
+      },
+      "Scale2D": {
+        "x": 1,
+        "y": 1
+      },
+      "GlobalTransform2D": [
+        1,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
       "Camera": {
         "projection": {
           "type": "orthographic",
@@ -161,6 +305,69 @@
         "far": 1000
       },
       "RenderLists2D": {}
+    }
+  },
+  "resources": {
+    "AssetsSnapshot<Mesh>": {
+      "type": "Mesh",
+      "assets": [
+        {
+          "attributes": [
+            [
+              "position2d",
+              {
+                "data": [
+                  0,
+                  0,
+                  0.18000000715255737,
+                  0,
+                  0.16217440366744995,
+                  0.0780990719795227,
+                  0.112228162586689,
+                  0.14072966575622559,
+                  0.04005376994609833,
+                  0.17548702657222748,
+                  -0.04005376994609833,
+                  0.17548702657222748,
+                  -0.112228162586689,
+                  0.14072966575622559,
+                  -0.16217440366744995,
+                  0.0780990719795227,
+                  -0.18000000715255737,
+                  2.204364202304404e-17,
+                  -0.16217440366744995,
+                  -0.0780990719795227,
+                  -0.112228162586689,
+                  -0.14072966575622559,
+                  -0.04005376994609833,
+                  -0.17548702657222748,
+                  0.04005376994609833,
+                  -0.17548702657222748,
+                  0.112228162586689,
+                  -0.14072966575622559,
+                  0.16217440366744995,
+                  -0.0780990719795227,
+                  0.18000000715255737,
+                  -4.408728404608808e-17
+                ]
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    "AssetsSnapshot<BasicMaterial>": {
+      "type": "BasicMaterial",
+      "assets": [
+        {
+          "color": {
+            "r": 0.95,
+            "g": 0.8,
+            "b": 0.2,
+            "a": 1
+          }
+        }
+      ]
     }
   }
 }
