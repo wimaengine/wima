@@ -62,10 +62,11 @@ export class MeshedSnapshot {
 
   /**
    * @param {import('../../ecs/index.js').World} world
+   * @param {import('../../asset/index.js').AssetId} sceneAssetId
    * @returns {Meshed}
    */
-  fromSnapshot(world) {
-    return new Meshed(/** @type {Handle<Mesh>} */(this.handle.fromSnapshot(world)))
+  fromSnapshot(world, sceneAssetId) {
+    return new Meshed(/** @type {Handle<Mesh>} */(this.handle.fromSnapshot(world, sceneAssetId)))
   }
 
   /**

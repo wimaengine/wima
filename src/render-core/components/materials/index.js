@@ -53,10 +53,11 @@ export class BasicMaterialInstanceSnapshot {
 
   /**
    * @param {import('../../../ecs/index.js').World} world
+   * @param {import('../../../asset/index.js').AssetId} sceneAssetId
    * @returns {BasicMaterialInstance}
    */
-  fromSnapshot(world) {
-    return new BasicMaterialInstance(/** @type {Handle<BasicMaterial>} */(this.handle.fromSnapshot(world)))
+  fromSnapshot(world, sceneAssetId) {
+    return new BasicMaterialInstance(/** @type {Handle<BasicMaterial>} */(this.handle.fromSnapshot(world, sceneAssetId)))
   }
 
   /**

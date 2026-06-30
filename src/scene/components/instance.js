@@ -67,10 +67,11 @@ export class SceneInstanceSnapshot {
 
   /**
    * @param {import('../../ecs/index.js').World} world
+   * @param {import('../../asset/index.js').AssetId} sceneAssetId
    * @returns {SceneInstance}
    */
-  fromSnapshot(world) {
-    return new SceneInstance(/** @type {Handle<Scene>} */(this.handle.fromSnapshot(world)))
+  fromSnapshot(world, sceneAssetId) {
+    return new SceneInstance(/** @type {Handle<Scene>} */(this.handle.fromSnapshot(world, sceneAssetId)))
   }
 
   /**
