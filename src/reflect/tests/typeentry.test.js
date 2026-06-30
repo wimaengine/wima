@@ -4,6 +4,20 @@ import { StructInfo } from "../core/index.js";
 import { MethodEntry, TypeEntry } from "../resources/index.js";
 
 describe("Testing `TypeEntry` method registry", () => {
+  test("`TypeEntry` defaults constructorFn to undefined", () => {
+    const entry = new TypeEntry(StructInfo.default());
+
+    strictEqual(entry.constructorFn, undefined);
+  });
+
+  test("`TypeEntry` stores constructorFn when provided", () => {
+    class Test {}
+
+    const entry = new TypeEntry(StructInfo.default(), Test);
+
+    strictEqual(entry.constructorFn, Test);
+  });
+
   test("`TypeEntry` can set and get methods", () => {
     /**
      * @param {number} a

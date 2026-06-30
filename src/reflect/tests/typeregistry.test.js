@@ -1,6 +1,6 @@
 import { test, describe } from "node:test";
+import { deepStrictEqual, strictEqual } from "node:assert";
 import { Field, OpaqueInfo, StructInfo, EnumInfo, FunctionInfo } from "../core/index.js";
-import { deepStrictEqual } from "node:assert";
 import { setTypeId, typeid, typeidFunction } from "../../type/index.js";
 import { TypeRegistry } from "../resources/index.js";
 
@@ -36,6 +36,7 @@ describe("Testing `TypeRegistry`", () => {
     deepStrictEqual(registry.get(Test)?.info, new StructInfo({
       age: new Field(typeid(Number))
     }))
+    strictEqual(registry.get(Test)?.constructorFn, Test)
   })
 
   test('`TypeRegistry` registers enum types correctly', () => {
@@ -44,6 +45,7 @@ describe("Testing `TypeRegistry`", () => {
 
     registry.registerTypeId(typeid, new EnumInfo(TestEnum))
     deepStrictEqual(registry.getByTypeId(typeid)?.info, new EnumInfo(TestEnum))
+    strictEqual(registry.getByTypeId(typeid)?.constructorFn, undefined)
   })
 
   test('`TypeRegistry` registers function info by type id', () => {
