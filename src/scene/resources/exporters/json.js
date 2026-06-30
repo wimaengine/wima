@@ -20,7 +20,13 @@ export class JSONSceneExporter extends Exporter {
       entities: Object.fromEntries(
         [...asset.entities].map(([entity, components]) => [
           entity,
-          serializeComponents(components, typeRegistry)
+          serializeSnapshots(components, typeRegistry)
+        ])
+      ),
+      resources: Object.fromEntries(
+        [...asset.resources].map(([typeId, resource]) => [
+          typeId,
+          serializeSnapshot(resource, typeId, typeRegistry)
         ])
       )
     })
@@ -32,24 +38,34 @@ export class JSONSceneExporter extends Exporter {
 }
 
 /**
- * @param {unknown[]} components
+ * @param {unknown[]} snapshots
  * @param {import('../../../reflect/resources/index.js').TypeRegistry} typeRegistry
  * @returns {Record<string, unknown>}
  */
-function serializeComponents(components, typeRegistry) {
+function serializeSnapshots(snapshots, typeRegistry) {
 
   /** @type {Record<import('../../../type/index.js').TypeId, unknown>} */
   const serial = {}
 
-  for (let i = 0; i < components.length; i++) {
-    const component = components[i]
-    const type = /** @type {import('../../../type/index.js').Constructor} */ (component.constructor)
-    const typeId = typeid(type)
-    const entry = typeRegistry.getByTypeId(typeId)
-    const value = entry?.call('serialize', [component]) ?? component
+  for (let i = 0; i < snapshots.length; i++) {
+    const snapshot = /** @type {object}*/(snapshots[i])
+    const typeId = typeid(/** @type {import('../../../type/index.js').Constructor} */ (snapshot.constructor))
 
-    serial[typeId] = value
+    serial[typeId] = serializeSnapshot(snapshot, typeId, typeRegistry)
   }
 
   return serial
+}
+
+/**
+ * @param {unknown} snapshot
+ * @param {import('../../../type/index.js').TypeId} typeId
+ * @param {import('../../../reflect/resources/index.js').TypeRegistry} typeRegistry
+ * @returns {unknown}
+ */
+function serializeSnapshot(snapshot, typeId, typeRegistry) {
+  const entry = typeRegistry.getByTypeId(typeId)
+  const value = entry?.call('serialize', [snapshot]) ?? snapshot
+
+  return value
 }
