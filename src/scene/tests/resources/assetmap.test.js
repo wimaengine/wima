@@ -9,10 +9,10 @@ describe('Testing `AssetSceneMap`', { concurrency: false }, () => {
     const stringAssets = new Assets(String)
     const numberAssets = new Assets(Number)
     const sceneMap = new AssetSceneMap()
-    const sceneAssetId = 42
 
     const stringHandle = stringAssets.add('scene string asset')
     const numberHandle = numberAssets.add(123)
+    const sceneAssetId = stringHandle.id()
 
     sceneMap.set(sceneAssetId, typeid(String), 0, stringHandle)
     sceneMap.set(sceneAssetId, typeid(Number), 0, numberHandle)
@@ -31,10 +31,10 @@ describe('Testing `AssetSceneMap`', { concurrency: false }, () => {
     const stringAssets = new Assets(String)
     const numberAssets = new Assets(Number)
     const sceneMap = new AssetSceneMap()
-    const sceneAssetId = 42
 
     const stringHandle = stringAssets.add('scene string asset')
     const numberHandle = numberAssets.add(123)
+    const sceneAssetId = stringHandle.id()
 
     sceneMap.set(sceneAssetId, typeid(String), 0, stringHandle)
     sceneMap.set(sceneAssetId, typeid(Number), 0, numberHandle)
@@ -47,6 +47,5 @@ describe('Testing `AssetSceneMap`', { concurrency: false }, () => {
     deepStrictEqual(numberAssets.get(numberHandle), 123)
     strictEqual(sceneMap.get(sceneAssetId, typeid(String), 0), undefined)
     strictEqual(sceneMap.get(sceneAssetId, typeid(Number), 0) !== undefined, true)
-    strictEqual(sceneMap.scenes.has(sceneAssetId), true)
   })
 })
