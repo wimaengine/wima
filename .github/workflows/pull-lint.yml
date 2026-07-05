@@ -2,7 +2,11 @@ name: CI
 
 on:
   pull_request:
-    branches: ["main","dev"]
+    branches: ["dev"]
+
+permissions:
+  contents: read
+
 jobs:
   changes:
     runs-on: ubuntu-latest
@@ -10,10 +14,10 @@ jobs:
       source: ${{ steps.filter.outputs.source }}
       examples: ${{ steps.filter.outputs.examples }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@v4
         id: filter
         with:
           token: ''
@@ -29,8 +33,11 @@ jobs:
     if: needs.changes.outputs.source == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
       - run: npm ci
       - run: npm run lint:src-dry -- --max-warnings=0
   lint-examples:
@@ -38,24 +45,33 @@ jobs:
     if: needs.changes.outputs.examples == 'true'
     runs-on: ubuntu-latest
     steps: 
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
       - run: npm ci
       - run: npm run lint:examples-dry -- --max-warnings=0
   tests:
     needs: compiles
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
       - run: npm ci
       - run: npm run test
   builds:
     needs: compiles
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
       - run: npm ci
       - run: npm run build
   compiles:
@@ -63,7 +79,10 @@ jobs:
     if: needs.changes.outputs.source == 'true'
     runs-on: ubuntu-latest
     steps: 
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
       - run: npm ci
       - run: npm run tsc:lint
