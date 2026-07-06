@@ -1,7 +1,7 @@
 /** @import { TableId, TableRow } from '../typedef/index.js'*/
 /** @import { TypeId, TupleConstructor  } from '../../type/index.js'*/
 
-import { Entity } from '../entities/index.js'
+import { EntityHandle } from '../entities/index.js'
 import { World } from '../registry.js'
 import { typeid } from '../../type/index.js'
 import { Table } from '../tables/index.js'
@@ -101,7 +101,7 @@ export class Query {
   /**
    * Gets the components of a given entity.
    *
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @returns {T | null}
    */
   get(entity) {

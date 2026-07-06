@@ -1,9 +1,9 @@
-import { Entity } from '../../ecs/index.js'
+import { EntityHandle } from '../../ecs/index.js'
 
 export class AnimationTarget {
 
   /**
-   * @type {Entity}
+   * @type {EntityHandle}
    */
   player
 
@@ -13,7 +13,7 @@ export class AnimationTarget {
   id
 
   /**
-   * @param {Entity} player
+   * @param {EntityHandle} player
    * @param {string} id
    */
   constructor(player, id) {
@@ -44,7 +44,7 @@ export class AnimationTarget {
    */
   static serialize(value) {
     return {
-      player: Entity.serialize(value.player),
+      player: EntityHandle.serialize(value.player),
       id: value.id
     }
   }
@@ -53,8 +53,8 @@ export class AnimationTarget {
    * @param {AnimationTargetSerial} value
    * @param {AnimationTarget} [out]
    */
-  static deserialize(value, out = new AnimationTarget(new Entity(0, 0), '')) {
-    out.player = Entity.deserialize(value.player, out.player)
+  static deserialize(value, out = new AnimationTarget(new EntityHandle(0, 0), '')) {
+    out.player = EntityHandle.deserialize(value.player, out.player)
     out.id = value.id
 
     return out

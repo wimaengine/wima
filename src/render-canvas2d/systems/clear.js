@@ -1,5 +1,5 @@
 /** @import {SystemFunc} from '../../ecs/index.js' */
-import { Entity, Query } from '../../ecs/index.js'
+import { EntityHandle, Query } from '../../ecs/index.js'
 import { warn } from '../../logger/index.js'
 import { MainWindow, Windows, Window } from '../../window/index.js'
 
@@ -9,7 +9,7 @@ import { MainWindow, Windows, Window } from '../../window/index.js'
  * @type {SystemFunc}
  */
 export function clearCanvas2d(world) {
-  const windows = new Query(world, [Entity, Window, MainWindow])
+  const windows = new Query(world, [EntityHandle, Window, MainWindow])
   const canvases = world.getResource(Windows)
   const window = windows.single()
 

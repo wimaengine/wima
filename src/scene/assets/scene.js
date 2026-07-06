@@ -1,5 +1,5 @@
 /** @import {EntityId} from '../../ecs/index.js' */
-import { Entity, Query, World } from '../../ecs/index.js'
+import { EntityHandle, Query, World } from '../../ecs/index.js'
 import { Parent } from '../../hierarchy/index.js'
 import { warn } from '../../logger/index.js'
 import { TypeRegistry } from '../../reflect/index.js'
@@ -23,7 +23,7 @@ export class Scene {
    * @param {World} world
    * @param {SceneInstance} instance
    * @param {TypeRegistry} typeRegistry
-   * @param {Entity} instanceEntity
+   * @param {EntityHandle} instanceEntity
    */
   toWorld(world, instance, typeRegistry, instanceEntity) {
     const { entityMap: worldToSceneMap } = instance
@@ -72,7 +72,7 @@ export class Scene {
       const clonedComponents = components.map((component) => {
         const { constructor } = component
 
-        if (constructor === Entity) {
+        if (constructor === EntityHandle) {
           return undefined
         }
 
@@ -103,7 +103,7 @@ export class Scene {
         clonedComponents.push(new Parent(instanceEntity))
       }
 
-      world.insert(Entity.from(worldEntity), clonedComponents)
+      world.insert(EntityHandle.from(worldEntity), clonedComponents)
     }
   }
 
@@ -113,7 +113,7 @@ export class Scene {
    */
   static fromWorld(world, typeRegistry) {
     const scene = new Scene()
-    const entities = new Query(world, [Entity])
+    const entities = new Query(world, [EntityHandle])
 
     entities.each(([entity]) => {
       const cell = world.getEntity(entity)
@@ -171,7 +171,7 @@ export class Scene {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {{}[]} components
    */
   set(entity, components) {

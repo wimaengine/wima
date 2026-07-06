@@ -1,4 +1,4 @@
-/** @import { Entity } from "../../ecs/index.js"*/
+/** @import { EntityHandle } from "../../ecs/index.js"*/
 import { BoundingBox2D, BoundingCircle } from '../../geometry/index.js'
 import { Vector2 } from '../../math/index.js'
 
@@ -19,7 +19,7 @@ export class Broadphase2D {
 
   /**
    * @param {BoundingBox2D} bound
-   * @param {Entity[]} [target=[]]
+   * @param {EntityHandle[]} [target=[]]
    */
   queryBox(bound, target = []) {
     return this.inner.queryBox(bound, target)
@@ -27,7 +27,7 @@ export class Broadphase2D {
 
   /**
    * @param {BoundingCircle} bound
-   * @param {Entity[]} target
+   * @param {EntityHandle[]} target
    */
   queryCircle(bound, target = []) {
     return this.inner.queryCircle(bound, target)
@@ -35,7 +35,7 @@ export class Broadphase2D {
 
   /**
    * @param {Vector2} point
-   * @param {Entity[]} [target=[]]
+   * @param {EntityHandle[]} [target=[]]
    */
   queryPoint(point, target = []) {
     return this.inner.queryPoint(point, target)
@@ -45,7 +45,7 @@ export class Broadphase2D {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {BoundingBox2D} broadphase
    */
   push(entity, broadphase) {
@@ -55,9 +55,9 @@ export class Broadphase2D {
 
 /**
  * @typedef Broadphasable2D
- * @property {(bound:BoundingBox2D,target?:Entity[])=>Entity[]} queryBox
- * @property {(bound:BoundingCircle,target?:Entity[])=>Entity[]} queryCircle
- * @property {(bound:Vector2,target?:Entity[])=>Entity[]} queryPoint
- * @property {(entity:Entity,bound:BoundingBox2D)=>void} push
+ * @property {(bound:BoundingBox2D,target?:EntityHandle[])=>EntityHandle[]} queryBox
+ * @property {(bound:BoundingCircle,target?:EntityHandle[])=>EntityHandle[]} queryCircle
+ * @property {(bound:Vector2,target?:EntityHandle[])=>EntityHandle[]} queryPoint
+ * @property {(entity:EntityHandle,bound:BoundingBox2D)=>void} push
  * @property {()=>void} clear
  */

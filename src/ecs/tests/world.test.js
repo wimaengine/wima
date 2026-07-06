@@ -2,7 +2,7 @@ import { test, describe } from "node:test";
 import { deepStrictEqual, throws } from "node:assert";
 import { World } from "../registry.js";
 import { typeid } from "../../type/index.js";
-import { Entity } from "../entities/entity.js";
+import { EntityHandle } from "../entities/entity.js";
 class A {
   number = 0
 }
@@ -25,14 +25,14 @@ describe("Testing `World`", () => {
     const entityCell = world.getEntity(entity)
     const components = [...entityCell.components()]
 
-    deepStrictEqual(components, [typeid(A), typeid(B), typeid(C), typeid(Entity)])
+    deepStrictEqual(components, [typeid(A), typeid(B), typeid(C), typeid(EntityHandle)])
   })
 
   test('Entity generation starts at one.', () => {
     const world = new World()
     const entity = world.spawn([new A(), new B(), new C()])
 
-    deepStrictEqual(entity,new Entity(0,1))
+    deepStrictEqual(entity,new EntityHandle(0,1))
   })
 
   test('Entity generation is incremented.', () => {
@@ -43,9 +43,9 @@ describe("Testing `World`", () => {
     world.despawn(entity2)
     const entity3 = world.spawn([new A(), new B(), new C()])
 
-    deepStrictEqual(entity1,new Entity(0,1))
-    deepStrictEqual(entity2,new Entity(0,2))
-    deepStrictEqual(entity3,new Entity(0,3))
+    deepStrictEqual(entity1,new EntityHandle(0,1))
+    deepStrictEqual(entity2,new EntityHandle(0,2))
+    deepStrictEqual(entity3,new EntityHandle(0,3))
   })
 
   test('Entity is despawned correctly from a world.', () => {
@@ -67,8 +67,8 @@ describe("Testing `World`", () => {
     const cell1 = world.getEntity(entity1)
     const cell2 = world.getEntity(entity2)
   
-    deepStrictEqual(entity1,new Entity(0,1))
-    deepStrictEqual(entity2,new Entity(0,2))
+    deepStrictEqual(entity1,new EntityHandle(0,1))
+    deepStrictEqual(entity2,new EntityHandle(0,2))
     deepStrictEqual(cell1.exists(), false)
     deepStrictEqual(cell2.exists(), true)
   })
@@ -80,7 +80,7 @@ describe("Testing `World`", () => {
     const entityCell = world.getEntity(entity)
     const components = [...entityCell.components()]
 
-    deepStrictEqual(components, [typeid(Entity), typeid(A), typeid(B), typeid(C)])
+    deepStrictEqual(components, [typeid(EntityHandle), typeid(A), typeid(B), typeid(C)])
   })
 
   test('Components are removed from an entity.', () => {
@@ -90,7 +90,7 @@ describe("Testing `World`", () => {
     const entityCell = world.getEntity(entity)
     const components = [...entityCell.components()]
 
-    deepStrictEqual(components, [typeid(C), typeid(Entity)])
+    deepStrictEqual(components, [typeid(C), typeid(EntityHandle)])
   })
 
   test('Set and get correct resource on world.', () => {

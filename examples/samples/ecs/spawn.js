@@ -4,7 +4,7 @@ import {
   World,
   Query,
   EntityCommands,
-  Entity,
+  EntityHandle,
   BasicMaterial,
   BasicMaterialAssets,
   MeshAssets,
@@ -41,7 +41,7 @@ app
  */
 function update(world) {
   const commands = new EntityCommands(world)
-  const entities = new Query(world, [Entity, Marker])
+  const entities = new Query(world, [EntityHandle, Marker])
   const meshes = world.getResource(MeshAssets)
   const materials = world.getResource(BasicMaterialAssets)
 

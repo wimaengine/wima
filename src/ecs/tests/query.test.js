@@ -1,5 +1,5 @@
 import { test, describe } from "node:test";
-import { Entity, Query, has, without, World } from "../index.js";
+import { EntityHandle, Query, has, without, World } from "../index.js";
 import assert, { strictEqual } from "node:assert";
 import { typeid } from "../../type/index.js";
 
@@ -75,7 +75,7 @@ describe("Testing `Query`", () => {
   test('query for single component, specific entity', () => {
     const world = createWorld()
     const query = new Query(world, [A])
-    const entity = new Entity(0, 1)
+    const entity = new EntityHandle(0, 1)
     const components = query.get(entity)
     assert(components)
 
@@ -89,7 +89,7 @@ describe("Testing `Query`", () => {
   test('query for multiple components, specific entity', () => {
     const world = createWorld()
     const query = new Query(world, [A, B, C])
-    const entity = new Entity(0, 1)
+    const entity = new EntityHandle(0, 1)
     const components = query.get(entity)
 
     assert(components)

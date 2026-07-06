@@ -1,4 +1,4 @@
-/** @import {Entity, World} from '../../ecs/index.js' */
+/** @import {EntityHandle, World} from '../../ecs/index.js' */
 import { CommandQueue } from '../../command/index.js'
 import { assert } from '../../logger/index.js'
 import { Vector2 } from '../../math/index.js'
@@ -9,7 +9,7 @@ export class WindowCommands {
 
   /**
    * @private
-   * @type {Entity | undefined}
+   * @type {EntityHandle | undefined}
    */
   entity
 
@@ -27,7 +27,7 @@ export class WindowCommands {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   window(entity) {
     this.entity = entity

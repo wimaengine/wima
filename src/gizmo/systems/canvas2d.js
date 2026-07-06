@@ -1,6 +1,6 @@
 /** @import { Constructor } from '../../type/index.js' */
 /** @import { SystemFunc } from '../../ecs/index.js' */
-import { Entity, Query } from '../../ecs/index.js'
+import { EntityHandle, Query } from '../../ecs/index.js'
 import {
   Gizmo2D,
   Gizmo3D,
@@ -25,7 +25,7 @@ export function genenerateDrawGizmo2Dsystem(label) {
     /** @type {Gizmo2D<T>} */
     const gizmo = world.getResourceByTypeId(gizmotypeid)
     const canvases = world.getResource(Windows)
-    const window = new Query(world, [Entity, Window]).single()
+    const window = new Query(world, [EntityHandle, Window]).single()
 
     if (!window) return
 

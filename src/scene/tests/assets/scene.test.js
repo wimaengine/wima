@@ -1,6 +1,6 @@
 import { deepStrictEqual, strictEqual } from 'assert'
 import test, { describe } from 'node:test'
-import { Entity, Query, World } from '../../../ecs/index.js'
+import { EntityHandle, Query, World } from '../../../ecs/index.js'
 import { Parent } from '../../../hierarchy/index.js'
 import { Scene } from '../../assets/index.js'
 import { SceneInstance } from '../../components/index.js'
@@ -189,9 +189,9 @@ class DeferredPatchResourceSnapshot {
 function createRegistry() {
   const registry = new TypeRegistry()
 
-  registry.register(Entity, StructInfo.default())
-  registry.get(Entity)?.setMethod(/** @param {Entity} target */ function clone(target) {
-    return Entity.from(target.id())
+  registry.register(EntityHandle, StructInfo.default())
+  registry.get(EntityHandle)?.setMethod(/** @param {EntityHandle} target */ function clone(target) {
+    return EntityHandle.from(target.id())
   })
 
   registry.register(PureComponent, StructInfo.default())
@@ -222,20 +222,20 @@ describe('Testing `Scene`', { concurrency: false }, () => {
       strictEqual(scene.entities.size, 1)
       strictEqual(scene.resources.size, 0)
       deepStrictEqual(scene.entities.get(entity.id()), [
-        new Entity(entity.index, entity.generation)
+        new EntityHandle(entity.index, entity.generation)
       ])
     })
 
     test('`Scene.toWorld` restores pure entities', () => {
       const registry = createRegistry()
       const world = new World()
-      const entity = new Entity(42, 1)
+      const entity = new EntityHandle(42, 1)
       const scene = new Scene()
       const instance = new SceneInstance(/** @type {any} */ (null))
-      const instanceEntity = new Entity(99, 1)
+      const instanceEntity = new EntityHandle(99, 1)
 
       scene.entities.set(entity.id(), [
-        new Entity(entity.index, entity.generation)
+        new EntityHandle(entity.index, entity.generation)
       ])
 
       scene.toWorld(world, instance, registry, instanceEntity)
@@ -243,15 +243,15 @@ describe('Testing `Scene`', { concurrency: false }, () => {
       strictEqual(world.getResources().size, 0)
       strictEqual(instance.entityMap.size, 1)
 
-      const single = new Query(world, [Entity]).single()
+      const single = new Query(world, [EntityHandle]).single()
 
       strictEqual(single !== null, true)
 
       const [restoredEntity] = single
       const cell = world.getEntity(restoredEntity)
 
-      strictEqual(cell.hasTypeid([typeid(Entity), typeid(Parent)]), true)
-      deepStrictEqual(cell.get(Entity), restoredEntity)
+      strictEqual(cell.hasTypeid([typeid(EntityHandle), typeid(Parent)]), true)
+      deepStrictEqual(cell.get(EntityHandle), restoredEntity)
       deepStrictEqual(cell.get(Parent), new Parent(instanceEntity))
       strictEqual(instance.entityMap.get(restoredEntity.id()), entity.id())
     })
@@ -283,9 +283,9 @@ describe('Testing `Scene`', { concurrency: false }, () => {
         new PureResource('resource')
       )
 
-      scene.toWorld(world, instance, registry, new Entity(99, 1))
+      scene.toWorld(world, instance, registry, new EntityHandle(99, 1))
 
-      strictEqual(new Query(world, [Entity]).count(), 0)
+      strictEqual(new Query(world, [EntityHandle]).count(), 0)
       strictEqual(world.getResources().size, 1)
       strictEqual(instance.entityMap.size, 0)
       deepStrictEqual(world.getResource(PureResource), new PureResource('resource'))
@@ -301,7 +301,7 @@ describe('Testing `Scene`', { concurrency: false }, () => {
       strictEqual(scene.resources.size, 0)
       deepStrictEqual(scene.entities.get(entity.id()), [
         new ComponentSnapshot('component'),
-        new Entity(entity.index, entity.generation)
+        new EntityHandle(entity.index, entity.generation)
       ])
     })
 
@@ -312,14 +312,14 @@ describe('Testing `Scene`', { concurrency: false }, () => {
       const scene = Scene.fromWorld(world, registry)
       const targetWorld = new World()
       const instance = new SceneInstance(/** @type {any} */ (null))
-      const instanceEntity = new Entity(99, 1)
+      const instanceEntity = new EntityHandle(99, 1)
 
       scene.toWorld(targetWorld, instance, registry, instanceEntity)
 
       strictEqual(targetWorld.getResources().size, 0)
       strictEqual(instance.entityMap.size, 1)
 
-      const single = new Query(targetWorld, [Entity]).single()
+      const single = new Query(targetWorld, [EntityHandle]).single()
 
       strictEqual(single !== null, true)
 
@@ -327,10 +327,10 @@ describe('Testing `Scene`', { concurrency: false }, () => {
       const cell = targetWorld.getEntity(restoredEntity)
 
       strictEqual(
-        cell.hasTypeid([typeid(Entity), typeid(PureComponent), typeid(Parent)]),
+        cell.hasTypeid([typeid(EntityHandle), typeid(PureComponent), typeid(Parent)]),
         true
       )
-      deepStrictEqual(cell.get(Entity), restoredEntity)
+      deepStrictEqual(cell.get(EntityHandle), restoredEntity)
       deepStrictEqual(cell.get(PureComponent), new PureComponent('component'))
       deepStrictEqual(cell.get(Parent), new Parent(instanceEntity))
       strictEqual(instance.entityMap.get(restoredEntity.id()), entity.id())
@@ -347,20 +347,20 @@ describe('Testing `Scene`', { concurrency: false }, () => {
       strictEqual(scene.entities.size, 1)
       strictEqual(scene.resources.size, 0)
       deepStrictEqual(scene.entities.get(entity.id()), [
-        new Entity(entity.index, entity.generation)
+        new EntityHandle(entity.index, entity.generation)
       ])
     })
 
     test('`Scene.toWorld` restores pure entities', () => {
       const registry = createRegistry()
       const world = new World()
-      const entity = new Entity(42, 1)
+      const entity = new EntityHandle(42, 1)
       const scene = new Scene()
       const instance = new SceneInstance(/** @type {any} */ (null))
-      const instanceEntity = new Entity(99, 1)
+      const instanceEntity = new EntityHandle(99, 1)
 
       scene.entities.set(entity.id(), [
-        new Entity(entity.index, entity.generation)
+        new EntityHandle(entity.index, entity.generation)
       ])
 
       scene.toWorld(world, instance, registry, instanceEntity)
@@ -368,15 +368,15 @@ describe('Testing `Scene`', { concurrency: false }, () => {
       strictEqual(world.getResources().size, 0)
       strictEqual(instance.entityMap.size, 1)
 
-      const single = new Query(world, [Entity]).single()
+      const single = new Query(world, [EntityHandle]).single()
 
       strictEqual(single !== null, true)
 
       const [restoredEntity] = single
       const cell = world.getEntity(restoredEntity)
 
-      strictEqual(cell.hasTypeid([typeid(Entity), typeid(Parent)]), true)
-      deepStrictEqual(cell.get(Entity), restoredEntity)
+      strictEqual(cell.hasTypeid([typeid(EntityHandle), typeid(Parent)]), true)
+      deepStrictEqual(cell.get(EntityHandle), restoredEntity)
       deepStrictEqual(cell.get(Parent), new Parent(instanceEntity))
       strictEqual(instance.entityMap.get(restoredEntity.id()), entity.id())
     })
@@ -408,9 +408,9 @@ describe('Testing `Scene`', { concurrency: false }, () => {
         new ResourceSnapshot('resource')
       )
 
-      scene.toWorld(world, instance, registry, new Entity(99, 1))
+      scene.toWorld(world, instance, registry, new EntityHandle(99, 1))
 
-      strictEqual(new Query(world, [Entity]).count(), 0)
+      strictEqual(new Query(world, [EntityHandle]).count(), 0)
       strictEqual(world.getResources().size, 1)
       strictEqual(instance.entityMap.size, 0)
       deepStrictEqual(world.getResource(PureResource), new PureResource('resource'))
@@ -426,7 +426,7 @@ describe('Testing `Scene`', { concurrency: false }, () => {
       strictEqual(scene.resources.size, 0)
       deepStrictEqual(scene.entities.get(entity.id()), [
         new ComponentSnapshot('component'),
-        new Entity(entity.index, entity.generation)
+        new EntityHandle(entity.index, entity.generation)
       ])
     })
 
@@ -437,14 +437,14 @@ describe('Testing `Scene`', { concurrency: false }, () => {
       const scene = Scene.fromWorld(world, registry)
       const targetWorld = new World()
       const instance = new SceneInstance(/** @type {any} */ (null))
-      const instanceEntity = new Entity(99, 1)
+      const instanceEntity = new EntityHandle(99, 1)
 
       scene.toWorld(targetWorld, instance, registry, instanceEntity)
 
       strictEqual(targetWorld.getResources().size, 0)
       strictEqual(instance.entityMap.size, 1)
 
-      const single = new Query(targetWorld, [Entity]).single()
+      const single = new Query(targetWorld, [EntityHandle]).single()
 
       strictEqual(single !== null, true)
 
@@ -452,10 +452,10 @@ describe('Testing `Scene`', { concurrency: false }, () => {
       const cell = targetWorld.getEntity(restoredEntity)
 
       strictEqual(
-        cell.hasTypeid([typeid(Entity), typeid(PureComponent), typeid(Parent)]),
+        cell.hasTypeid([typeid(EntityHandle), typeid(PureComponent), typeid(Parent)]),
         true
       )
-      deepStrictEqual(cell.get(Entity), restoredEntity)
+      deepStrictEqual(cell.get(EntityHandle), restoredEntity)
       deepStrictEqual(cell.get(PureComponent), new PureComponent('component'))
       deepStrictEqual(cell.get(Parent), new Parent(instanceEntity))
       strictEqual(instance.entityMap.get(restoredEntity.id()), entity.id())
@@ -483,7 +483,7 @@ describe('Testing `Scene`', { concurrency: false }, () => {
 
       const instance = new SceneInstance(/** @type {any} */ (null))
 
-      scene.toWorld(world, instance, registry, new Entity(99, 1))
+      scene.toWorld(world, instance, registry, new EntityHandle(99, 1))
 
       strictEqual(world.getResource(PatchableResource), worldResource)
       strictEqual(world.getResources().size, 1)
@@ -507,7 +507,7 @@ describe('Testing `Scene`', { concurrency: false }, () => {
       const world = new World()
       const instance = new SceneInstance(/** @type {any} */ (null))
 
-      scene.toWorld(world, instance, registry, new Entity(99, 1))
+      scene.toWorld(world, instance, registry, new EntityHandle(99, 1))
 
       strictEqual(world.getResources().size, 1)
       strictEqual(instance.entityMap.size, 0)

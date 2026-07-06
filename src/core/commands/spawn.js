@@ -1,11 +1,11 @@
-import { World, Entity } from '../../ecs/index.js'
+import { World, EntityHandle } from '../../ecs/index.js'
 import { Command } from '../../command/index.js'
 
 export class SpawnCommand extends Command {
 
   /**
    * @readonly
-   * @type {Entity}
+   * @type {EntityHandle}
    */
   entity
 
@@ -15,7 +15,7 @@ export class SpawnCommand extends Command {
   components = []
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   constructor(entity) {
     super()

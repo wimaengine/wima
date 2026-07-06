@@ -10,7 +10,7 @@ import {
   SceneInstance,
   SceneAssets,
   Assets,
-  Entity,
+  EntityHandle,
   Query,
   MeshAssets,
   BasicMaterialAssets,
@@ -83,7 +83,7 @@ function init(world) {
  * @param {World} world
  */
 function applyRandomDescendantTorque(world) {
-  const roots = new Query(world, [Entity, SceneInstance])
+  const roots = new Query(world, [EntityHandle, SceneInstance])
   const descendants = new RelationshipQuery(world, Children, Parent, [Torque3D])
 
   roots.each(([entity]) => {
@@ -113,7 +113,7 @@ function createScene(meshes, materials) {
   ]
 
   for (let i = 0; i < offsets.length; i++) {
-    scene.set(new Entity(i, 1), [
+    scene.set(new EntityHandle(i, 1), [
       ...createBasicMesh3D(mesh.clone(), material.clone(), offsets[i].x, offsets[i].y, offsets[i].z),
       new Rotation3D(),
       new Torque3D()

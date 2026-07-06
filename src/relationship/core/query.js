@@ -1,12 +1,12 @@
 /** @import { QueryFilter,EntityId } from '../../ecs/index.js' */
 /** @import { Constructor, TupleConstructor } from '../../type/index.js' */
-import { Query, World, Entity } from '../../ecs/index.js'
+import { Query, World, EntityHandle } from '../../ecs/index.js'
 import { TraverseEntities } from './traverseentities.js'
 
 /**
  * @template {TraverseEntities} Relationship
  * @template {TraverseEntities} [Target = Relationship]
- * @template {unknown[]} [Data = [Entity]]
+ * @template {unknown[]} [Data = [EntityHandle]]
  * @template {QueryFilter[]} [Filter = []]
  */
 export class RelationshipQuery {
@@ -50,7 +50,7 @@ export class RelationshipQuery {
     target = /** @type {Constructor<Target>}*/ (/** @type {unknown} */ (relationship)),
 
     // SAFETY: matches the default `Data`.
-    data = /** @type {[...TupleConstructor<Data>]} */([Entity]),
+    data = /** @type {[...TupleConstructor<Data>]} */([EntityHandle]),
 
     // SAFETY: matches the default `Filter`.
     filter = /** @type {Filter}*/([])
@@ -65,7 +65,7 @@ export class RelationshipQuery {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param { (descendant: Data, ancestor: Data) => void } visit
    */
   treebfs(entity, visit) {
@@ -75,7 +75,7 @@ export class RelationshipQuery {
 
       // SAFETY: `stack` is dense and an element is guaranteed to exist
       // as we check the length above.
-      const ancestorEntity = /** @type {Entity}*/(queue.shift())
+      const ancestorEntity = /** @type {EntityHandle}*/(queue.shift())
       const ancestor = this.ancestors.get(ancestorEntity)
 
       if (!ancestor) continue
@@ -99,12 +99,12 @@ export class RelationshipQuery {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param { (descendant: Data, ancestor: Data) => void } visit
    */
   treedfs(entity, visit) {
 
-    /** @type {[Entity,Entity][]} */
+    /** @type {[EntityHandle,EntityHandle][]} */
     const stack = []
     const root = this.ancestors.get(entity)
 
@@ -114,7 +114,7 @@ export class RelationshipQuery {
 
     stack.push(
       ...relationship.visit()
-        .map((c) => /** @type {[Entity,Entity]} */([entity, c]))
+        .map((c) => /** @type {[EntityHandle,EntityHandle]} */([entity, c]))
         .reverse()
     )
 
@@ -134,14 +134,14 @@ export class RelationshipQuery {
 
       if (grand) stack.push(
         ...grand[0].visit()
-          .map((c) => /** @type {[Entity,Entity]} */([descendantEntity, c]))
+          .map((c) => /** @type {[EntityHandle,EntityHandle]} */([descendantEntity, c]))
           .reverse()
       )
     }
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param { (descendant: Data, ancestor: Data) => void } visit
    */
   graphbfs(entity, visit) {
@@ -154,7 +154,7 @@ export class RelationshipQuery {
 
       // SAFETY: `stack` is dense and an element is guaranteed to exist
       // as we check the length above.
-      const ancestorEntity = /** @type {Entity}*/(queue.shift())
+      const ancestorEntity = /** @type {EntityHandle}*/(queue.shift())
       const ancestorEntityId = ancestorEntity.id()
       const ancestor = this.ancestors.get(ancestorEntity)
 
@@ -181,12 +181,12 @@ export class RelationshipQuery {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param { (descendant: Data, ancestor: Data) => void } visit
    */
   graphdfs(entity, visit) {
 
-    /** @type {[Entity,Entity][]} */
+    /** @type {[EntityHandle,EntityHandle][]} */
     const stack = []
 
     /** @type {Set<EntityId>} */
@@ -199,7 +199,7 @@ export class RelationshipQuery {
 
     stack.push(
       ...rootRelationship.visit()
-        .map((c) => /** @type {[Entity,Entity]} */([entity, c]))
+        .map((c) => /** @type {[EntityHandle,EntityHandle]} */([entity, c]))
         .reverse()
     )
     while (stack.length) {
@@ -221,7 +221,7 @@ export class RelationshipQuery {
 
       if (grand) stack.push(
         ...grand[0].visit()
-          .map((c) => /** @type {[Entity,Entity]} */([descendantEntity, c]))
+          .map((c) => /** @type {[EntityHandle,EntityHandle]} */([descendantEntity, c]))
           .filter(([e]) => !visited.has(e.id()))
           .reverse()
       )

@@ -1,20 +1,20 @@
-/** @import { Entity } from '../../ecs/index.js'*/
+/** @import { EntityHandle } from '../../ecs/index.js'*/
 
 export class CollisionPair {
 
   /**
-   * @type {Entity}
+   * @type {EntityHandle}
    */
   a
 
   /**
-   * @type {Entity}
+   * @type {EntityHandle}
    */
   b
 
   /**
-   * @param {Entity} a
-   * @param {Entity} b
+   * @param {EntityHandle} a
+   * @param {EntityHandle} b
    */
   constructor(a, b) {
     this.a = a

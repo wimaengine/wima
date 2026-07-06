@@ -1,4 +1,4 @@
-import { Entity } from '../../ecs/index.js'
+import { EntityHandle } from '../../ecs/index.js'
 import { TraverseEntities } from '../../relationship/index.js'
 
 /**
@@ -8,12 +8,12 @@ export class Children {
 
   /**
    * @public
-   * @type {Entity[]}
+   * @type {EntityHandle[]}
    */
   list = []
 
   /**
-   * @param {Entity[]} children
+   * @param {EntityHandle[]} children
    */
   constructor(children = []) {
     this.list = children
@@ -48,7 +48,7 @@ export class Children {
    * @param {Children} [out]
    */
   static deserialize(value, out = new Children([])) {
-    out.list = value.map((entity) => Entity.deserialize(entity))
+    out.list = value.map((entity) => EntityHandle.deserialize(entity))
 
     return out
   }
@@ -63,7 +63,7 @@ export class Children {
     }
 
     for (let i = 0; i < value.length; i++) {
-      if (!Entity.validateSerial(value[i])) {
+      if (!EntityHandle.validateSerial(value[i])) {
         return false
       }
     }
@@ -72,14 +72,14 @@ export class Children {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   add(entity) {
     this.list.push(entity)
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   remove(entity) {
     this.list.splice(this.list.indexOf(entity), 1)
@@ -92,7 +92,7 @@ export class Children {
    * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
    */
   map(entityMap) {
-    this.list = this.list.map((e) => Entity.from(entityMap.get(e.id())))
+    this.list = this.list.map((e) => EntityHandle.from(entityMap.get(e.id())))
   }
 
   /**

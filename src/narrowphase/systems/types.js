@@ -1,4 +1,4 @@
-import { World, Entity } from '../../ecs/index.js'
+import { World, EntityHandle } from '../../ecs/index.js'
 import { ArrayInfo, Field, MapInfo, StructInfo } from '../../reflect/core/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
@@ -37,8 +37,8 @@ export function registerNarrowphase2DTypes(world) {
     contactNo: new Field(typeid(Number))
   }))
   registry.register(CollisionManifold, new StructInfo({
-    entityA: new Field(typeid(Entity)),
-    entityB: new Field(typeid(Entity)),
+    entityA: new Field(typeid(EntityHandle)),
+    entityB: new Field(typeid(EntityHandle)),
     velocityA: new Field(typeid(Vector2)),
     velocityB: new Field(typeid(Vector2)),
     rotationA: new Field(typeid(Angle)),

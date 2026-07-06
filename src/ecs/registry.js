@@ -5,7 +5,7 @@ import { Table, Tables } from './tables/index.js'
 import { TypeStore } from './typestore.js'
 import { assert } from '../logger/index.js'
 import { ComponentHooks } from './component/index.js'
-import { Entities, Entity } from './entities/index.js'
+import { Entities, EntityHandle } from './entities/index.js'
 import { Archetypes, Archetype } from './archetype/index.js'
 import { EntityLocation } from './entities/location.js'
 import { typeid } from '../type/index.js'
@@ -48,7 +48,7 @@ export class World {
    */
   entities = new Entities()
   constructor() {
-    this.typestore.set(Entity)
+    this.typestore.set(EntityHandle)
   }
 
   /**
@@ -60,7 +60,7 @@ export class World {
 
   /**
    * @private
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {readonly TypeId[]} newIds
    */
   callAddComponentHook(entity, newIds) {
@@ -73,7 +73,7 @@ export class World {
 
   /**
    * @private
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {readonly TypeId[]} newIds
    */
   callRemoveComponentHook(entity, newIds) {
@@ -86,7 +86,7 @@ export class World {
 
   /**
    * @private
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {readonly TypeId[]} newIds
    *
    */
@@ -129,7 +129,7 @@ export class World {
    *
    * @template {{}[]} T
    * @param {[...T]} components - The entity to add.
-   * @returns {Entity}
+   * @returns {EntityHandle}
    */
   spawn(components) {
     const entityIndex = this.entities.reserve()
@@ -146,9 +146,9 @@ export class World {
 
     // SAFETY:Object constructors can be casted from `Function` to `Constructor`
     const newIds = (components.map((c) => typeid(/** @type {Constructor} */(c.constructor))))
-    const entity = new Entity(entityIndex, location.generation)
+    const entity = new EntityHandle(entityIndex, location.generation)
 
-    newIds.push(typeid(Entity))
+    newIds.push(typeid(EntityHandle))
     components.push(entity)
 
     const [tableId, table, archetypeId] = this.resolve(newIds)
@@ -166,7 +166,7 @@ export class World {
    * Inserts components into an entity.
    *
    * @template {object[]} T
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {[...T]} components - The entity to add.
    */
   insert(entity, components) {
@@ -192,7 +192,7 @@ export class World {
       oldTable.insertUnchecked(index, newIds, components)
     } else {
       const newIndex = oldTable.moveTo(newTable, index)
-      const swapped = /** @type {Entity | null}*/ (oldTable.get(typeid(Entity), index))
+      const swapped = /** @type {EntityHandle | null}*/ (oldTable.get(typeid(EntityHandle), index))
 
       newTable.insertUnchecked(newIndex, newIds, components)
       location.tableId = newTableId
@@ -212,7 +212,7 @@ export class World {
 
   /**
    * @template {unknown[]} T
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {TupleConstructor<T>} components
    */
   remove(entity, components) {
@@ -236,7 +236,7 @@ export class World {
     this.callRemoveComponentHook(entity, removedIds)
 
     const newIndex = oldTable.moveTo(newTable, index)
-    const swapped = /** @type {Entity | null}*/ (oldTable.get(typeid(Entity), index))
+    const swapped = /** @type {EntityHandle | null}*/ (oldTable.get(typeid(EntityHandle), index))
 
     location.tableId = newTableId
     location.archetypeId = newArchetypeId
@@ -266,7 +266,7 @@ export class World {
    * Note that this doesn't destroy the entity, only removes it and its components from the manager.
    * To destroy the entity,use `Entity.destroy()` method.
    *
-   * @param {Entity} entity - The entity to remove.
+   * @param {EntityHandle} entity - The entity to remove.
    */
   despawn(entity) {
     const location = this.entities.get(entity.index)
@@ -285,7 +285,7 @@ export class World {
     table.remove(index)
 
     // SAFETY: The fetched component is an `Entity`.
-    const swapped = /** @type {Entity | null}*/ (table.get(typeid(Entity), index))
+    const swapped = /** @type {EntityHandle | null}*/ (table.get(typeid(EntityHandle), index))
 
     // SAFETY: -1 is the invalid identifier
     location.tableId = /** @type {TableId}*/ (-1)
@@ -304,7 +304,7 @@ export class World {
 
   /**
    * @template T
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param { Constructor<T>} type
    * @returns {T | null}
    */
@@ -324,7 +324,7 @@ export class World {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @returns {EntityCell}
    */
   getEntity(entity) {

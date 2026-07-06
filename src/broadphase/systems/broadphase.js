@@ -1,7 +1,7 @@
 import { Broadphase2D, CollisionPairs } from '../resources/index.js'
 import { PhysicsHitbox } from '../components/index.js'
 import { CollisionPair } from '../core/index.js'
-import { Entity, Query, World } from '../../ecs/index.js'
+import { EntityHandle, Query, World } from '../../ecs/index.js'
 import { intersectAABB2D } from '../../geometry/index.js'
 
 /**
@@ -9,7 +9,7 @@ import { intersectAABB2D } from '../../geometry/index.js'
  */
 export function getCollisionPairs(world) {
   const pairs = world.getResource(CollisionPairs)
-  const query = new Query(world, [Entity, PhysicsHitbox])
+  const query = new Query(world, [EntityHandle, PhysicsHitbox])
 
   pairs.clear()
 
@@ -23,7 +23,7 @@ export function getCollisionPairs(world) {
  */
 export function updateBroadphase2D(world) {
   const broadphase = world.getResource(Broadphase2D)
-  const query = new Query(world, [Entity, PhysicsHitbox])
+  const query = new Query(world, [EntityHandle, PhysicsHitbox])
 
   broadphase.clear()
 

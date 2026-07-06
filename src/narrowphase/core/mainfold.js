@@ -1,16 +1,16 @@
-/** @import { Entity } from '../../ecs/index.js'*/
+/** @import { EntityHandle } from '../../ecs/index.js'*/
 import { Vector2, Angle, clamp } from '../../math/index.js'
 import { PhysicsSettings } from '../../physics/settings.js'
 
 export class CollisionManifold {
 
   /**
-   * @type {Entity}
+   * @type {EntityHandle}
    */
   entityA
 
   /**
-   * @type {Entity}
+   * @type {EntityHandle}
    */
   entityB
 
@@ -125,8 +125,8 @@ export class CollisionManifold {
   invinertiaB = 0
 
   /**
-   * @param {Entity} a
-   * @param {Entity} b
+   * @param {EntityHandle} a
+   * @param {EntityHandle} b
    * @param {Vector2} pA
    * @param {Vector2} pB
    * @param {Vector2} vA

@@ -1,4 +1,4 @@
-import { Entity, World } from '../../ecs/index.js'
+import { EntityHandle, World } from '../../ecs/index.js'
 import { ArrayInfo, EnumInfo, Field, MapInfo, StructInfo } from '../../reflect/core/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { setTypeId, typeid, typeidGeneric } from '../../type/index.js'
@@ -53,7 +53,7 @@ export function registerAnimationTypes(world) {
   registry.get(AnimationPlayer)?.setMethod(AnimationPlayer.serialize)
   registry.get(AnimationPlayer)?.setMethod(AnimationPlayer.deserialize)
   registry.register(AnimationTarget, new StructInfo({
-    player: new Field(typeid(Entity)),
+    player: new Field(typeid(EntityHandle)),
     id: new Field(typeid(String))
   }))
   registry.get(AnimationTarget)?.setMethod(AnimationTarget.copy)

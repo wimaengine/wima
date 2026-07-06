@@ -1,4 +1,4 @@
-import { Query, Entity, World } from '../../ecs/index.js'
+import { Query, EntityHandle, World } from '../../ecs/index.js'
 import { Command } from '../../command/index.js'
 import { error } from '../../logger/index.js'
 import { WindowRequest } from '../core/index.js'
@@ -9,7 +9,7 @@ export class WindowCommand extends Command {
 
   /**
    * @readonly
-   * @type {Entity}
+   * @type {EntityHandle}
    */
   entity
 
@@ -26,7 +26,7 @@ export class WindowCommand extends Command {
   data
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {WindowRequest} type
    * @param {any} data
    */

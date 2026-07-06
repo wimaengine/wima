@@ -25,7 +25,7 @@ import {
   Scale2D,
   Torque2D,
   Velocity2D,
-  Entity,
+  EntityHandle,
   rand,
   HALF_PI,
   Timer,
@@ -77,7 +77,7 @@ function init(world) {
 
   /**
    * @param {EntityCommands} commands
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   function patch(commands, entity) {
     commands

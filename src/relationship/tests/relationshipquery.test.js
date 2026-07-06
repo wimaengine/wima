@@ -4,18 +4,18 @@ import { test, describe } from "node:test";
 import { RelationshipQuery, TraverseEntities } from "../core/index.js";
 import { deepStrictEqual } from "node:assert";
 import { World } from "../../ecs/registry.js";
-import { ComponentHooks, Entity } from "../../ecs/index.js";
+import { ComponentHooks, EntityHandle } from "../../ecs/index.js";
 
 /**
  * @implements {TraverseEntities}
  */
 class Children {
   /**
-   * @type {Entity[]}
+   * @type {EntityHandle[]}
    */
   list
   /**
-   * @param {Entity[]} list 
+   * @param {EntityHandle[]} list 
    */
   constructor(list = []) {
     this.list = list
@@ -28,7 +28,7 @@ class Children {
    * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
    */
   map(entityMap){
-    this.list = this.list.map(e=>Entity.from(entityMap.get(e.id())))
+    this.list = this.list.map(e=>EntityHandle.from(entityMap.get(e.id())))
   }
 }
 
@@ -37,7 +37,7 @@ class Children {
  */
 class Parent {
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   constructor(entity) {
     this.entity = entity
@@ -51,7 +51,7 @@ class Parent {
    * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
    */
   map(entityMap){
-    this.entity = Entity.from(entityMap.get(this.entity.id()))
+    this.entity = EntityHandle.from(entityMap.get(this.entity.id()))
   }
 }
 
@@ -60,11 +60,11 @@ class Parent {
  */
 class Neighbour {
   /**
-   * @type {Entity[]}
+   * @type {EntityHandle[]}
    */
   list
   /**
-   * @param {Entity[]} list 
+   * @param {EntityHandle[]} list 
    */
   constructor(list = []) {
     this.list = list
@@ -76,7 +76,7 @@ class Neighbour {
    * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
    */
   map(entityMap){
-    this.list = this.list.map(e=>Entity.from(entityMap.get(e.id())))
+    this.list = this.list.map(e=>EntityHandle.from(entityMap.get(e.id())))
   }
 }
 
@@ -167,8 +167,8 @@ describe("Testing `RelationshipQuery`", () => {
   const neighbour6 = world.spawn([new Neighbour([neighbour5,neighbour3])])
 
   test("`RelationshipQuery` correctly does tree bfs iteration.", () => {
-    const query = new RelationshipQuery(world, Children, Parent, [Entity])
-    /**@type {[Entity,Entity][]} */
+    const query = new RelationshipQuery(world, Children, Parent, [EntityHandle])
+    /**@type {[EntityHandle,EntityHandle][]} */
     const entities = []
 
     query.treebfs(parent1, ([child], [parent]) => {
@@ -189,7 +189,7 @@ describe("Testing `RelationshipQuery`", () => {
 
   test("`RelationshipQuery` correctly does tree dfs iteration.", () => {
     const query = new RelationshipQuery(world, Children, Parent)
-    /**@type {[Entity,Entity][]} */
+    /**@type {[EntityHandle,EntityHandle][]} */
     const entities = []
 
     query.treedfs(parent1, ([child], [parent]) => {
@@ -210,7 +210,7 @@ describe("Testing `RelationshipQuery`", () => {
 
   test("`RelationshipQuery` correctly does graph bfs iteration.", () => {
     const query = new RelationshipQuery(world, Neighbour)
-    /**@type {[Entity,Entity][]} */
+    /**@type {[EntityHandle,EntityHandle][]} */
     const entities = []
 
     query.graphbfs(neighbour1, ([child], [parent]) => {
@@ -231,7 +231,7 @@ describe("Testing `RelationshipQuery`", () => {
 
   test("`RelationshipQuery` correctly does graph dfs iteration.", () => {
     const query = new RelationshipQuery(world, Neighbour)
-    /**@type {[Entity,Entity][]} */
+    /**@type {[EntityHandle,EntityHandle][]} */
     const entities = []
 
     query.graphdfs(neighbour1, ([child], [parent]) => {

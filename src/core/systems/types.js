@@ -1,4 +1,4 @@
-import { Entity, World } from '../../ecs/index.js'
+import { EntityHandle, World } from '../../ecs/index.js'
 import { Field, StructInfo, TypeRegistry } from '../../reflect/index.js'
 import { typeid } from '../../type/index.js'
 
@@ -8,10 +8,10 @@ import { typeid } from '../../type/index.js'
 export function registerCoreTypes(world) {
   const registry = world.getResource(TypeRegistry)
 
-  registry.register(Entity, new StructInfo({
+  registry.register(EntityHandle, new StructInfo({
     index: new Field(typeid(Number)),
     generation: new Field(typeid(Number))
   }))
-  registry.get(Entity)?.setMethod(Entity.serialize)
-  registry.get(Entity)?.setMethod(Entity.deserialize)
+  registry.get(EntityHandle)?.setMethod(EntityHandle.serialize)
+  registry.get(EntityHandle)?.setMethod(EntityHandle.deserialize)
 }

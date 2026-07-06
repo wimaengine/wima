@@ -1,4 +1,4 @@
-import { Entity, Query, World } from '../../ecs/index.js'
+import { EntityHandle, Query, World } from '../../ecs/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { SceneInstance } from '../components/index.js'
 import { SceneAssets, SceneSpawner } from '../resources/index.js'
@@ -22,7 +22,7 @@ export function spawnScenes(world) {
     const list = spawner.get(assetId)
 
     for (let i = 0; i < list.length; i++) {
-      const entity = Entity.from(list[i])
+      const entity = EntityHandle.from(list[i])
       const instance = instances.get(entity)
 
       if (!instance) continue

@@ -1,6 +1,6 @@
 import { App, Plugin } from '../app/index.js'
 import { AppSchedule, CoreSystems } from '../core/index.js'
-import { Entity, Query, World } from '../ecs/index.js'
+import { EntityHandle, Query, World } from '../ecs/index.js'
 import { warn } from '../logger/index.js'
 import { MeshAttribute, ProgramCache, BasicMaterial } from '../render-core/index.js'
 import { MainWindow, Window, Windows } from '../window/index.js'
@@ -59,7 +59,7 @@ function registerDefaultAttributeLocs(attributeMap) {
 function registerBuffers(world) {
   const ubos = world.getResource(UBOCache)
   const canvases = world.getResource(Windows)
-  const windows = new Query(world, [Entity, Window, MainWindow])
+  const windows = new Query(world, [EntityHandle, Window, MainWindow])
 
   const window = windows.single()
 

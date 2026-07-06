@@ -3,7 +3,7 @@
 /** @import {UniformBind } from '../../render-core/index.js' */
 /** @import { AssetId } from '../../asset/index.js' */
 
-import { Entity, Query } from '../../ecs/index.js'
+import { EntityHandle, Query } from '../../ecs/index.js'
 import { assert, warn } from '../../logger/index.js'
 import { Windows, MainWindow, Window } from '../../window/index.js'
 import { typeid, typeidGeneric } from '../../type/index.js'
@@ -24,7 +24,7 @@ export function genRegisterBuffer(type) {
   return function registerBuffers(world) {
     const ubos = world.getResource(UBOCache)
     const canvases = world.getResource(Windows)
-    const windows = new Query(world, [Entity, Window, MainWindow])
+    const windows = new Query(world, [EntityHandle, Window, MainWindow])
 
     const window = windows.single()
 
@@ -56,7 +56,7 @@ export function genRenderPipeline(type, vertexSource, fragmentSource) {
     const attributeMap = world.getResource(AttributeMap)
     const ubos = world.getResource(UBOCache)
     const renderpipelines = world.getResource(WebglProgramCache)
-    const windows = new Query(world, [Entity, Window, MainWindow])
+    const windows = new Query(world, [EntityHandle, Window, MainWindow])
     const canvases = world.getResource(Windows)
 
     if (renderpipelines.has(materialid)) return
@@ -112,7 +112,7 @@ export function genRender(type) {
     const programs = world.getResource(WebglProgramCache)
     const ubos = world.getResource(UBOCache)
     const canvases = world.getResource(Windows)
-    const windows = new Query(world, [Entity, Window, MainWindow])
+    const windows = new Query(world, [EntityHandle, Window, MainWindow])
     const cameras = new Query(world, [GlobalTransform3D, RenderLists3D, Camera])
     const clearColor = world.getResource(ClearColor)
 
@@ -206,7 +206,7 @@ export function queueMeshes(world) {
   /** @type {MeshCache<WebGLVertexArrayObject>} */
   const cache = world.getResource(MeshCache)
   const attributes = world.getResource(AttributeMap)
-  const windows = new Query(world, [Entity, Window, MainWindow])
+  const windows = new Query(world, [EntityHandle, Window, MainWindow])
   const canvases = world.getResource(Windows)
 
   // TODO: Find a way to decouple to allow multi-window support.
@@ -249,7 +249,7 @@ export function disposeDroppedMeshes(world) {
 
   /** @type {MeshCache<WebGLVertexArrayObject>} */
   const cache = world.getResource(MeshCache)
-  const windows = new Query(world, [Entity, Window, MainWindow])
+  const windows = new Query(world, [EntityHandle, Window, MainWindow])
   const canvases = world.getResource(Windows)
 
   // TODO: Find a way to decouple to allow multi-window support.

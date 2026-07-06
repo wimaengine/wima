@@ -33,7 +33,7 @@ export function openWindow(entity, world) {
 
 /**
  * @param {import("../../ecs/registry.js").World} world
- * @param {import("../../ecs/index.js").Entity} entity
+ * @param {import("../../ecs/index.js").EntityHandle} entity
  * @param {HTMLCanvasElement} canvas
  * @param {Window} window
  */

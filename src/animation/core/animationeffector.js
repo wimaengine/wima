@@ -1,4 +1,4 @@
-/** @import { Entity } from '../../ecs/index.js' */
+/** @import { EntityHandle } from '../../ecs/index.js' */
 import { World } from '../../ecs/registry.js'
 import { Rotary } from '../../math/index.js'
 import { Position2D, Orientation2D, Scale2D, Position3D, Orientation3D, Scale3D } from '../../transform/index.js'
@@ -10,7 +10,7 @@ export class AnimationEffector {
 
   /**
    * @param {World} _world
-   * @param {Entity} _entity
+   * @param {EntityHandle} _entity
    * @param {number[]} _results
    */
   static apply(_world, _entity, _results) {}
@@ -24,7 +24,7 @@ export class Position2DAnimationEffector extends AnimationEffector {
 
   /**
    * @param {World} world
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {number[]} results
    */
   static apply(world, entity, results) {
@@ -42,7 +42,7 @@ export class Position3DAnimationEffector extends AnimationEffector {
 
   /**
    * @param {World} world
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {number[]} results
    */
   static apply(world, entity, results) {
@@ -60,7 +60,7 @@ export class Orientation2DAnimationEffector extends AnimationEffector {
 
   /**
    * @param {World} world
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {number[]} results
    */
   static apply(world, entity, results) {
@@ -78,7 +78,7 @@ export class Orientation3DAnimationEffector extends AnimationEffector {
 
   /**
    * @param {World} world
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {number[]} results
    */
   static apply(world, entity, results) {
@@ -96,7 +96,7 @@ export class Scale2DAnimationEffector extends AnimationEffector {
 
   /**
    * @param {World} world
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {number[]} results
    */
   static apply(world, entity, results) {
@@ -114,7 +114,7 @@ export class Scale3DAnimationEffector extends AnimationEffector {
 
   /**
    * @param {World} world
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {number[]} results
    */
   static apply(world, entity, results) {
@@ -129,6 +129,6 @@ export class Scale3DAnimationEffector extends AnimationEffector {
 
 /**
  * @typedef AnimationEffectorEnforcer
- * @property {(world:World,entity:Entity,results:number[])=>void} apply
+ * @property {(world:World,entity:EntityHandle,results:number[])=>void} apply
  * @property {()=>number} elementSize
  */

@@ -1,4 +1,4 @@
-import { Entity } from '../../ecs/index.js'
+import { EntityHandle } from '../../ecs/index.js'
 import { TraverseEntities } from '../../relationship/index.js'
 
 /**
@@ -8,12 +8,12 @@ export class Parent {
 
   /**
    * @public
-   * @type {Entity}
+   * @type {EntityHandle}
    */
   entity
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   constructor(entity) {
     this.entity = entity
@@ -27,7 +27,7 @@ export class Parent {
    * @param {Map<import('../../ecs/index.js').EntityId,import('../../ecs/index.js').EntityId>} entityMap
    */
   map(entityMap) {
-    this.entity = Entity.from(entityMap.get(this.entity.id()))
+    this.entity = EntityHandle.from(entityMap.get(this.entity.id()))
   }
 
   /**
@@ -58,8 +58,8 @@ export class Parent {
    * @param {ParentSerial} value
    * @param {Parent} [out]
    */
-  static deserialize(value, out = new Parent(new Entity(0, 0))) {
-    out.entity = Entity.deserialize(value, out.entity)
+  static deserialize(value, out = new Parent(new EntityHandle(0, 0))) {
+    out.entity = EntityHandle.deserialize(value, out.entity)
 
     return out
   }
@@ -69,7 +69,7 @@ export class Parent {
    * @returns {value is ParentSerial}
    */
   static validateSerial(value) {
-    return Entity.validateSerial(value)
+    return EntityHandle.validateSerial(value)
   }
 }
 
