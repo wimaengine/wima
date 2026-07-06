@@ -7,7 +7,7 @@ import {
   EntityCommands,
   warn,
   Touches,
-  Entity,
+  EntityHandle,
   Position2D,
   BasicMaterial,
   BasicMaterialInstance,
@@ -22,7 +22,7 @@ import {
 } from 'wima'
 import { addDefaultCamera2D, HackPlugin, setupViewport, pxToNdc } from '../utils.js'
 
-/** @type {Map<number,Entity>} */
+/** @type {Map<number,EntityHandle>} */
 class TouchtoEntityMap extends Map { }
 
 const app = new App()

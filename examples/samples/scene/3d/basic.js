@@ -8,7 +8,7 @@ import {
   SceneAssets,
   Assets,
   createBasicMesh3D,
-  Entity,
+  EntityHandle,
   createCamera3D,
   MeshAssets,
   BasicMaterialAssets,
@@ -87,14 +87,14 @@ function createScene(meshes, materials) {
   for (let x = -halfWidth; x <= halfWidth; x += itemWidth) {
     for (let y = -halfHeight; y <= halfHeight; y += itemHeight) {
       for (let z = -halfDepth; z <= halfDepth; z += itemDepth) {
-        scene.set(new Entity(index, 1), [
+        scene.set(new EntityHandle(index, 1), [
           ...createBasicMesh3D(mesh.clone(), material.clone(), x, y, z)])
         index += 1
       }
     }
   }
 
-  scene.set(new Entity(index, 1), [...createCamera3D(0, 0, 5)])
+  scene.set(new EntityHandle(index, 1), [...createCamera3D(0, 0, 5)])
 
   // We drop these since they are unused.
   mesh.drop()

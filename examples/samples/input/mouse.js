@@ -8,7 +8,7 @@ import {
   KeyCode,
   MouseButton,
   Position2D,
-  Entity,
+  EntityHandle,
   Mouse,
   MouseButtons,
   BasicMaterial,
@@ -24,7 +24,7 @@ import {
 } from 'wima'
 import { addDefaultCamera2D, HackPlugin, setupViewport, pxToNdc } from '../utils.js'
 
-/** @type {Map<KeyCode,Entity>} */
+/** @type {Map<KeyCode,EntityHandle>} */
 class KeytoEntityMap extends Map { }
 class MouseEntity {}
 
@@ -127,7 +127,7 @@ function updateButtons(world) {
   const materials = world.getResource(BasicMaterialAssets)
   const mousebuttons = world.getResource(MouseButtons)
   const map = world.getResource(KeytoEntityMap)
-  const entities = new Query(world, [Entity, BasicMaterialInstance])
+  const entities = new Query(world, [EntityHandle, BasicMaterialInstance])
 
   map.forEach((id, key) => {
     const entity = entities.get(id)

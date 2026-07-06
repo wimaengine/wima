@@ -15,7 +15,7 @@ import {
   BasicMaterialInstance,
   createBasicMesh3D,
   createRawMovable3D,
-  Entity,
+  EntityHandle,
   GlobalTransform3D,
   Orientation3D,
   Rotation3D,
@@ -74,7 +74,7 @@ function init(world) {
 
   /**
    * @param {EntityCommands} commands
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   function patch(commands, entity) {
     commands

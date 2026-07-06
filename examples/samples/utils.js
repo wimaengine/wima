@@ -9,7 +9,7 @@ import {
   typeidGeneric,
   Query,
   WindowCommands,
-  Entity,
+  EntityHandle,
   MainWindow,
   Vector2,
   warn,
@@ -45,7 +45,7 @@ export function addDefaultCamera2D(world) {
  */
 export function setupViewport(world) {
   const windowcommands = new WindowCommands(world)
-  const window = new Query(world, [Entity, MainWindow]).single()
+  const window = new Query(world, [EntityHandle, MainWindow]).single()
 
   if (!window) return warn('No main window defined.')
 
@@ -59,7 +59,7 @@ export function setupViewport(world) {
  */
 export function setupViewportWebgl(world) {
   const windowcommands = new WindowCommands(world)
-  const window = new Query(world, [Entity, MainWindow]).single()
+  const window = new Query(world, [EntityHandle, MainWindow]).single()
   const canvases = world.getResource(Windows)
   const width = innerWidth
   const height = innerHeight

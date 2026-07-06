@@ -4,7 +4,7 @@ import {
   World,
   Query,
   EntityCommands,
-  Entity,
+  EntityHandle,
   BasicMaterial,
   BasicMaterialAssets,
   MeshAssets,
@@ -72,7 +72,7 @@ function init(world) {
  */
 function update(world) {
   const commands = new EntityCommands(world)
-  const entities = new Query(world, [Entity, Marker])
+  const entities = new Query(world, [EntityHandle, Marker])
   const entity = entities.single()
 
   if (!entity) return

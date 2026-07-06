@@ -8,7 +8,7 @@ import {
   SceneInstance,
   SceneAssets,
   Assets,
-  Entity,
+  EntityHandle,
   createCamera2D,
   MeshAssets,
   BasicMaterialAssets,
@@ -81,13 +81,13 @@ function createScene(meshes, materials) {
   // Adds the entities to the scene
   for (let y = -halfHeight; y <= halfHeight; y += itemHeight) {
     for (let x = -halfWidth; x < halfWidth; x += itemWidth) {
-      scene.set(new Entity(index, 1), [
+      scene.set(new EntityHandle(index, 1), [
         ...createBasicMesh2D(mesh.clone(), material.clone(), x, y)])
       index += 1
     }
   }
 
-  scene.set(new Entity(index, 1), [...createCamera2D()])
+  scene.set(new EntityHandle(index, 1), [...createCamera2D()])
 
   // We drop these since they are unused.
   mesh.drop()
