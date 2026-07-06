@@ -1,3 +1,4 @@
+export * from './assetmap.js'
 export * from './aliases.js'
 export * from './exporters/index.js'
 export * from './importers/index.js'

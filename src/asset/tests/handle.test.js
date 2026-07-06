@@ -3,6 +3,8 @@ import test, { describe } from "node:test";
 import { Assets } from "../resources/index.js";
 import { AssetServer } from "../resources/index.js";
 import { World } from "../../ecs/index.js";
+import { AssetSceneMap } from "../../scene/resources/index.js";
+import { typeid } from "../../type/index.js";
 
 describe('Testing `Handle`',()=>{
     test('`Handle` clone is same as original', () => {
@@ -204,19 +206,25 @@ describe('Testing `Handle`',()=>{
         deepStrictEqual(restored.id(), handle.id())
     })
 
-    test('`Handle` snapshot restores from asset id when no path is registered.', () => {
+    test('`Handle` snapshot restores through the scene asset map when no path is registered.', () => {
         const world = new World()
         const assets = new Assets(String)
         const server = new AssetServer()
-
         world.setResource(server)
+        const sceneMap = new AssetSceneMap()
+        world.setResource(sceneMap)
         server.registerAsset(assets)
 
-        const handle = assets.add('Wima engine')
-        const snapshot = handle.toSnapshot(world)
-        const restored = snapshot.fromSnapshot(world)
+        const sourceHandle = assets.add('Wima engine')
+        const mappedHandle = assets.add('Mapped asset')
+        const sceneAssetId = sourceHandle.id()
+        const snapshot = sourceHandle.toSnapshot(world)
 
-        strictEqual(snapshot.asset, handle.id())
-        deepStrictEqual(restored.id(), handle.id())
+        sceneMap.set(sceneAssetId, typeid(String), sourceHandle.index, mappedHandle)
+
+        const restored = snapshot.fromSnapshot(world, sceneAssetId)
+
+        strictEqual(snapshot.asset, sourceHandle.index)
+        deepStrictEqual(restored.id(), mappedHandle.id())
     })
 })

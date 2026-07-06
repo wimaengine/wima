@@ -1,10 +1,15 @@
 /** @import {AssetId} from '../types/index.js' */
-/** @import {Constructor} from '../../type/index.js' */
+/** @import {Constructor, TypeId} from '../../type/index.js' */
 
 import { unpackFrom64Int, DenseList, IndexAllocator } from '../../datastructures/index.js'
 import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events/assets.js'
 import { AssetChannel, AssetChannelMessageType } from '../core/channel.js'
 import { Handle } from '../core/handle.js'
+import { setTypeId, typeid, typeidGeneric } from '../../type/index.js'
+import { TypeEntry, TypeRegistry } from '../../reflect/index.js'
+import { warn } from '../../logger/index.js'
+
+const assetSceneMapId = setTypeId('AssetSceneMap')
 
 /**
  * @template T
@@ -275,6 +280,27 @@ export class Assets {
   }
 
   /**
+   * @param {import('../../ecs/index.js').World} world
+   * @returns {AssetsSnapshot<unknown>}
+   */
+  toSnapshot(world) {
+    const typeRegistry = world.getResource(TypeRegistry)
+    const typeEntry = typeRegistry.get(this.type)
+    const assets = this.assets.values().map((entry) => {
+      if (
+        typeEntry &&
+        entry.asset !== undefined
+      ) {
+        return typeEntry.call('serialize', [entry.asset])
+      }
+
+      return entry.asset
+    })
+
+    return new AssetsSnapshot(typeid(this.type), assets)
+  }
+
+  /**
    * Drain and apply queued handle lifecycle messages.
    */
   update() {
@@ -351,3 +377,155 @@ export class AssetEntry {
     this.asset = asset
   }
 }
+
+/**
+ * @template T
+ */
+export class AssetsSnapshot {
+
+  /**
+   * @type {TypeId}
+   */
+  type
+
+  /**
+   * Dense, index-aligned snapshot of the source `Assets<T>` container.
+   * @type {(T | undefined)[]}
+   */
+  assets
+
+  /**
+   * @param {TypeId} type
+   * @param {(T | undefined)[]} assets
+   */
+  constructor(type, assets) {
+    this.type = type
+    this.assets = assets
+  }
+
+  /**
+   * @param {TypeId} assetType
+   * @returns {TypeId}
+   */
+  static typeId(assetType) {
+    return setTypeId(`AssetsSnapshot<${assetType}>`)
+  }
+
+  /**
+   * @param {import('../../ecs/index.js').World} world
+   * @param {AssetId} sceneAssetId
+   * @returns {Assets<unknown> | undefined}
+   */
+  fromSnapshot(world, sceneAssetId) {
+
+    /** @type {{ clear: Function, set: Function }} */
+    const sceneMap = world.getResourceByTypeId(assetSceneMapId)
+    const typeEntry = world.getResource(TypeRegistry).getByTypeId(this.type)
+
+    if (!typeEntry?.constructorFn) {
+      return undefined
+    }
+
+    const assets = new Assets(typeEntry.constructorFn)
+
+    patchInternal(this, sceneMap, assets, sceneAssetId, typeEntry)
+
+    return assets
+  }
+
+  /**
+   * @param {AssetsSnapshot<unknown>} snapshot
+   * @param {import('../../ecs/index.js').World} world
+   * @param {AssetId} sceneAssetId
+   * @returns {boolean}
+   */
+  static patch(snapshot, world, sceneAssetId) {
+    const typeEntry = world.getResource(TypeRegistry).getByTypeId(snapshot.type)
+
+    if (!typeEntry || !typeEntry.constructorFn) {
+      return false
+    }
+
+    const assets = world.getResourceByTypeId(typeidGeneric(Assets, [typeEntry.constructorFn]))
+
+    /** @type {{ clear: Function, set: Function }} */
+    const sceneMap = world.getResourceByTypeId(assetSceneMapId)
+
+    sceneMap.clear(sceneAssetId, snapshot.type)
+    patchInternal(snapshot, sceneMap, assets, sceneAssetId, typeEntry)
+
+    return true
+  }
+
+  /**
+   * @param {AssetsSnapshot<unknown>} value
+   */
+  static serialize(value) {
+    return {
+      type: value.type,
+      assets: value.assets
+    }
+  }
+
+  /**
+   * @param {AssetsSnapshotSerial} value
+   * @param {AssetsSnapshot<unknown>} [out]
+   */
+  static deserialize(value, out = new AssetsSnapshot(typeid(Object), [])) {
+    out.type = value.type
+    out.assets = value.assets
+
+    return out
+  }
+
+  /**
+   * @param {unknown} value
+   * @returns {value is AssetsSnapshotSerial}
+   */
+  static validateSerial(value) {
+    if (!value || typeof value !== 'object') {
+      return false
+    }
+
+    if (!('type' in value) || !('assets' in value)) {
+      return false
+    }
+
+    return typeof value.type === 'string' && Array.isArray(value.assets)
+  }
+}
+
+/**
+ * @template T
+ * @param {AssetsSnapshot<T>} snapshot
+ * @param {{ clear: Function, set: Function }} sceneMap
+ * @param {Assets<T>} assetContainer
+ * @param {AssetId} sceneAssetId
+ * @param {TypeEntry} typeEntry
+ */
+function patchInternal(snapshot, sceneMap, assetContainer, sceneAssetId, typeEntry) {
+  sceneMap.clear(sceneAssetId, snapshot.type)
+
+  for (let i = 0; i < snapshot.assets.length; i++) {
+    const asset = snapshot.assets[i]
+
+    if (asset === undefined) {
+      sceneMap.set(sceneAssetId, snapshot.type, i, assetContainer.reserve())
+    } else {
+
+      const actualAsset = /** @type {T | undefined} */(typeEntry.call('deserialize', [asset]))
+
+      if (actualAsset) {
+        sceneMap.set(sceneAssetId, snapshot.type, i, assetContainer.add(actualAsset))
+      } else {
+        warn(`No method to deserialize the asset type \`${snapshot.type}\``)
+      }
+    }
+  }
+}
+
+/**
+ * @typedef AssetsSnapshotSerial
+ * @property {TypeId} type
+ * @property {unknown[]} assets
+ */

@@ -94,12 +94,13 @@ export class AudioPlayerSnapshot {
 
   /**
    * @param {import('../../ecs/index.js').World} world
+   * @param {import('../../asset/index.js').AssetId} sceneAssetId
    * @returns {AudioPlayer}
    */
-  fromSnapshot(world) {
+  fromSnapshot(world, sceneAssetId) {
     const player = new AudioPlayer({
       attach: this.attach,
-      audio: /** @type {Handle<Audio>} */(this.audio?.fromSnapshot(world))
+      audio: /** @type {Handle<Audio>} */(this.audio?.fromSnapshot(world, sceneAssetId))
     })
 
     player.sourceNode = this.sourceNode

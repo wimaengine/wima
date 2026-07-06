@@ -3,9 +3,11 @@
 /** @import {Constructor, TypeId} from '../../type/index.js'*/
 
 import { packInto64Int } from '../../datastructures/index.js'
-import { typeid } from '../../type/index.js'
+import { setTypeId, typeid } from '../../type/index.js'
 import { AssetServer } from '../resources/assetserver.js'
 import { AssetChannel } from './channel.js'
+
+const assetSceneMapId = setTypeId('AssetSceneMap')
 
 /**
  * @template T
@@ -85,7 +87,7 @@ export class Handle {
       return new HandleSnapshot(typeid(this.type), info.path)
     }
 
-    return new HandleSnapshot(typeid(this.type), this.id())
+    return new HandleSnapshot(typeid(this.type), this.index)
   }
 
   drop() {
@@ -99,7 +101,7 @@ export class Handle {
 /**
  * A snapshot of an asset handle.
  *
- * The snapshot preserves the asset type and id, and stores the asset server
+ * The snapshot preserves the asset type and snapshot index, and stores the asset server
  * path when one is registered so the handle can be reloaded by path.
  */
 export class HandleSnapshot {
@@ -110,13 +112,13 @@ export class HandleSnapshot {
   type
 
   /**
-   * @type {AssetId | string}
+   * @type {number | string}
    */
   asset
 
   /**
    * @param {TypeId} typeId
-   * @param {AssetId | string} asset
+   * @param {number | string} asset
    */
   constructor(typeId, asset) {
     this.type = typeId
@@ -127,28 +129,31 @@ export class HandleSnapshot {
    * Restore the live handle from the asset server.
    *
    * If the asset server knows the path, we reload it by path. Otherwise we
-   * upgrade the stored asset id against the asset pool.
+   * upgrade the stored snapshot index against the asset pool.
    *
    * @param {import('../../ecs/index.js').World} world
-   * @returns {UntypedHandle}
+   * @param {AssetId} [sceneAssetId]
+   * @returns {UntypedHandle | undefined}
    */
-  fromSnapshot(world) {
+  fromSnapshot(world, sceneAssetId) {
     const server = world.getResource(AssetServer)
 
     if (typeof this.asset === 'string') {
       return server.loadUntyped(this.type, this.asset)
     }
 
-    const assets = server.getAssets(this.type)
+    if (sceneAssetId !== undefined && world.hasResourceByTypeId(assetSceneMapId)) {
 
-    // TODO: This is inherently incorrect. When scene resources are added,
-    // the assetid will point to the wrong asset in the scene due to desync between
-    // the scene and world when an assets are added/removed from the world or scene.
-    // Add a mapping between scene assets and world assets and use that to create
-    // the asset handle. Also ensure the assets are loaded into world before spawning
-    // the scene into the world.
+      /** @type {{ get: Function }} */
+      const sceneMap = world.getResourceByTypeId(assetSceneMapId)
+      const mapped = sceneMap.get(sceneAssetId, this.type, this.asset)
 
-    return assets.upgrade(this.asset)
+      if (mapped) {
+        return mapped
+      }
+    }
+
+    return undefined
   }
 
   /**
@@ -197,5 +202,5 @@ export class HandleSnapshot {
 /**
  * @typedef HandleSnapshotSerial
  * @property {TypeId} type
- * @property {AssetId | string} asset
+ * @property {number | string} asset
  */

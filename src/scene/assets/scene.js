@@ -4,7 +4,9 @@ import { Parent } from '../../hierarchy/index.js'
 import { warn } from '../../logger/index.js'
 import { TypeRegistry } from '../../reflect/index.js'
 import { typeid } from '../../type/index.js'
+import { AssetsSnapshot } from '../../asset/resources/assets.js'
 import { SceneInstance } from '../components/index.js'
+import { AssetSceneMap } from '../resources/assetmap.js'
 
 export class Scene {
 
@@ -26,6 +28,11 @@ export class Scene {
   toWorld(world, instance, typeRegistry, instanceEntity) {
     const { entityMap: worldToSceneMap } = instance
     const sceneToWorldMap = new Map()
+    const sceneAssetId = instance.handle?.id()
+
+    if (sceneAssetId !== undefined && !world.hasResource(AssetSceneMap)) {
+      world.setResource(new AssetSceneMap())
+    }
 
     for (const entity of this.entities.keys()) {
       const worldEntity = world.spawn([])
@@ -42,11 +49,11 @@ export class Scene {
         continue
       }
 
-      if (patchResource(resource, world, entry)) {
+      if (patchResource(resource, world, entry, sceneAssetId)) {
         continue
       }
 
-      const restoredResource = fromSnapshot(resource, world, entry)
+      const restoredResource = fromSnapshot(resource, world, entry, sceneAssetId)
 
       if (!restoredResource) {
         continue
@@ -78,7 +85,7 @@ export class Scene {
           return undefined
         }
 
-        const clonedComponent = fromSnapshot(component, world, entry)
+        const clonedComponent = fromSnapshot(component, world, entry, sceneAssetId)
 
         if (!clonedComponent) {
           return undefined
@@ -151,7 +158,7 @@ export class Scene {
       }
 
       scene.resources.set(
-        typeid(/** @type {import('../../type/index.js').Constructor} */ (snapshot.constructor)),
+        getSnapshotTypeId(/** @type {object} */ (snapshot)),
         /** @type {object} */ (snapshot)
       )
     }
@@ -174,6 +181,17 @@ export class Scene {
   * [Symbol.iterator]() {
     return this.entities
   }
+}
+
+/**
+ * @param {object} snapshot
+ */
+function getSnapshotTypeId(snapshot) {
+  if (snapshot instanceof AssetsSnapshot) {
+    return AssetsSnapshot.typeId(snapshot.type)
+  }
+
+  return typeid(/** @type {import('../../type/index.js').Constructor} */ (snapshot.constructor))
 }
 
 /**
@@ -205,12 +223,13 @@ function toSnapshot(component, world, entry) {
  * @param {object} component
  * @param {World} world
  * @param {import('../../reflect/resources/typeregistry.js').TypeEntry} entry
+ * @param {import('../../asset/index.js').AssetId} [sceneAssetId]
  */
-function fromSnapshot(component, world, entry) {
+function fromSnapshot(component, world, entry, sceneAssetId) {
   const method = entry.getMethod('fromSnapshot')
 
   if (method) {
-    return method.method.call(component, world)
+    return method.method.call(component, world, sceneAssetId)
   }
 
   const clone = entry.call('clone', [component])
@@ -230,14 +249,15 @@ function fromSnapshot(component, world, entry) {
  * @param {object} resource
  * @param {World} world
  * @param {import('../../reflect/resources/typeregistry.js').TypeEntry} entry
+ * @param {import('../../asset/index.js').AssetId} [sceneAssetId]
  * @returns {boolean}
  */
-function patchResource(resource, world, entry) {
+function patchResource(resource, world, entry, sceneAssetId) {
   const method = entry.getMethod('patch')
 
   if (!method) {
     return false
   }
 
-  return entry.call('patch', [resource, world]) === true
+  return entry.call('patch', [resource, world, sceneAssetId]) === true
 }
