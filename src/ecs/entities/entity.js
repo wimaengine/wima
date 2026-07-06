@@ -1,6 +1,6 @@
 import { packInto64Int, unpackFrom64Int } from 'vifaa'
 
-export class Entity {
+export class EntityHandle {
 
   /**
    * @readonly
@@ -24,7 +24,7 @@ export class Entity {
   }
 
   /**
-   * @param {Entity} other
+   * @param {EntityHandle} other
    */
   equals(other) {
     return (
@@ -48,11 +48,11 @@ export class Entity {
   static from(id) {
     const [index, generation] = unpackFrom64Int(id)
 
-    return new Entity(index, generation)
+    return new EntityHandle(index, generation)
   }
 
   /**
-   * @param {Entity} value
+   * @param {EntityHandle} value
    */
   static serialize(value) {
     return {
@@ -63,9 +63,9 @@ export class Entity {
 
   /**
    * @param {EntityId} value
-   * @param {Entity} [out]
+   * @param {EntityHandle} [out]
    */
-  static deserialize(value, out = new Entity(0, 0)) {
+  static deserialize(value, out = new EntityHandle(0, 0)) {
     const [index, generation] = unpackFrom64Int(value)
     const target = /** @type {any} */ (out)
 
