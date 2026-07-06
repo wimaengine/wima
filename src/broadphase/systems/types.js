@@ -1,4 +1,4 @@
-import { Entity, World } from '../../ecs/index.js'
+import { EntityHandle, World } from '../../ecs/index.js'
 import { ArrayInfo, Field, StructInfo } from '../../reflect/core/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { typeid } from '../../type/index.js'
@@ -14,8 +14,8 @@ export function registerBroadphaseTypes2D(world) {
   const registry = world.getResource(TypeRegistry)
 
   registry.register(CollisionPair, new StructInfo({
-    a: new Field(typeid(Entity)),
-    b: new Field(typeid(Entity))
+    a: new Field(typeid(EntityHandle)),
+    b: new Field(typeid(EntityHandle))
   }))
   registry.register(PhysicsHitbox, new StructInfo({
     type: new Field(typeid(Number)),

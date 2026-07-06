@@ -1,4 +1,4 @@
-import { World, Entity } from '../../ecs/index.js'
+import { World, EntityHandle } from '../../ecs/index.js'
 import { Field, StructInfo } from '../../reflect/core/index.js'
 import { TypeRegistry } from '../../reflect/resources/index.js'
 import { typeid } from '../../type/index.js'
@@ -124,7 +124,7 @@ export function registerRemoteTransform2DTypes(world) {
     copyTranslation: new Field(typeid(Boolean)),
     copyOrientation: new Field(typeid(Boolean)),
     copyScale: new Field(typeid(Boolean)),
-    entity: new Field(typeid(Entity)),
+    entity: new Field(typeid(EntityHandle)),
     offsetTransform: new Field(typeid(Affine2))
   }))
   registry.get(RemoteTransform2D)?.setMethod(RemoteTransform2D.copy)
@@ -143,7 +143,7 @@ export function registerRemoteTransform3DTypes(world) {
     copyTranslation: new Field(typeid(Boolean)),
     copyOrientation: new Field(typeid(Boolean)),
     copyScale: new Field(typeid(Boolean)),
-    entity: new Field(typeid(Entity)),
+    entity: new Field(typeid(EntityHandle)),
     offsetTransform: new Field(typeid(Affine3))
   }))
   registry.get(RemoteTransform3D)?.setMethod(RemoteTransform3D.copy)

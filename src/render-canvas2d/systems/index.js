@@ -2,7 +2,7 @@
 /** @import {Canvas2DFunction} from '../types/index.js' */
 /** @import {SystemFunc} from '../../ecs/index.js' */
 import { Assets } from '../../asset/index.js'
-import { Entity, Query } from '../../ecs/index.js'
+import { EntityHandle, Query } from '../../ecs/index.js'
 import { warn } from '../../logger/index.js'
 import { typeidGeneric, typeid } from '../../type/index.js'
 import { Material, Mesh, TextureCache, RenderLists2D, Camera, OrthographicProjection } from '../../render-core/index.js'
@@ -30,7 +30,7 @@ export function genrender(type, renderMaterial) {
     /** @type {TextureCache<HTMLImageElement>} */
     const textures = world.getResourceByTypeId(typeid(TextureCache))
     const cameras = new Query(world, [GlobalTransform2D, RenderLists2D, Camera])
-    const windows = new Query(world, [Entity, Window, MainWindow])
+    const windows = new Query(world, [EntityHandle, Window, MainWindow])
     const canvases = world.getResource(Windows)
     const window = windows.single()
 

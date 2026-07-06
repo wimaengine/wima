@@ -1,4 +1,4 @@
-/** @import {Entity,EntityId} from '../../ecs/index.js'*/
+/** @import {EntityHandle,EntityId} from '../../ecs/index.js'*/
 
 export class Windows {
 
@@ -9,7 +9,7 @@ export class Windows {
   entities = new Map()
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @returns {HTMLCanvasElement | undefined}
    */
   getWindow(entity) {
@@ -19,7 +19,7 @@ export class Windows {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    * @param {HTMLCanvasElement} window
    */
   setWindow(entity, window) {
@@ -27,7 +27,7 @@ export class Windows {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   delete(entity) {
     this.entities.delete(entity.id())

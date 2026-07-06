@@ -3,7 +3,7 @@
 import { typeid } from '../../type/index.js'
 import { Archetypes } from '../archetype/index.js'
 import { Tables } from '../tables/index.js'
-import { Entity } from './entity.js'
+import { EntityHandle } from './entity.js'
 import { EntityLocation } from './location.js'
 
 // TODO: This currently does not work with adding or removing components,
@@ -13,7 +13,7 @@ export class EntityCell {
 
   /**
    * @private
-   * @type {Entity}
+   * @type {EntityHandle}
    */
   entity
 
@@ -34,7 +34,7 @@ export class EntityCell {
 
   /**
    * @param {World} world
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   constructor(world, entity) {
     const entities = world.getEntities()
@@ -120,7 +120,7 @@ export class EntityCell {
   }
 
   /**
-   * @returns {Entity}
+   * @returns {EntityHandle}
    */
   id() {
     return this.entity

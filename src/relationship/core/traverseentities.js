@@ -1,4 +1,4 @@
-import { Entity } from '../../ecs/index.js'
+import { EntityHandle } from '../../ecs/index.js'
 import { abstractMethod } from '../../utils/index.js'
 
 /**
@@ -7,7 +7,7 @@ import { abstractMethod } from '../../utils/index.js'
 export class TraverseEntities {
 
   /**
-   * @returns {Entity[]}
+   * @returns {EntityHandle[]}
    * @throws {string} Throws when the method is not implemented on implementing class.
    */
   visit() {

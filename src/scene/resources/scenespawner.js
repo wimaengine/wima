@@ -1,4 +1,4 @@
-/** @import {Entity, EntityId} from '../../ecs/index.js' */
+/** @import {EntityHandle, EntityId} from '../../ecs/index.js' */
 /** @import {AssetId} from '../../asset/index.js' */
 
 /**
@@ -14,7 +14,7 @@ export class SceneSpawner {
 
   /**
    * @param {AssetId} id
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   add(id, entity) {
     const list = this.map.get(id)
@@ -28,7 +28,7 @@ export class SceneSpawner {
 
   /**
    * @param {AssetId} id
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   remove(id, entity) {
     const list = this.map.get(id)

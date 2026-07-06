@@ -1,4 +1,4 @@
-/** @import { Entity } from '../../ecs/index.js' */
+/** @import { EntityHandle } from '../../ecs/index.js' */
 import { CommandQueue } from '../../command/resources/queue.js'
 import { SpawnCommand, DespawnCommand } from '../commands/index.js'
 import { assert } from '../../logger/index.js'
@@ -29,7 +29,7 @@ export class EntityCommands {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   entity(entity) {
     this.buffered = new SpawnCommand(entity)
@@ -51,7 +51,7 @@ export class EntityCommands {
   /**
    * @template {unknown[]} T
    * @param {[...T][]} batch
-   * @returns {Entity[]}
+   * @returns {EntityHandle[]}
    */
   spawnBatch(batch) {
     const entities = []
@@ -71,7 +71,7 @@ export class EntityCommands {
   /**
    * Builds an entity with the components previously passed to
    * {@link EntityCommands.insert} and {@link EntityCommands.insertPrefab}.
-   * @returns {Entity}
+   * @returns {EntityHandle}
    */
   build() {
     assert(this.buffered, `${entityerror}\`EntityCommands.build()\`.`)
@@ -111,7 +111,7 @@ export class EntityCommands {
   }
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   despawn(entity) {
     this.queue.add(new DespawnCommand(entity))

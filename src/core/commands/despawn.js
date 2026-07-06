@@ -1,16 +1,16 @@
-/** @import { Entity } from '../../ecs/index.js' */
+/** @import { EntityHandle } from '../../ecs/index.js' */
 import { Command } from '../../command/index.js'
 import { World } from '../../ecs/registry.js'
 
 export class DespawnCommand extends Command {
 
   /**
-   * @type {Entity}
+   * @type {EntityHandle}
    */
   entity
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   constructor(entity) {
     super()

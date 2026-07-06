@@ -1,6 +1,6 @@
 import { EntityCommands } from '../../core/index.js'
 import { Range } from '../../datastructures/index.js'
-import { Entity } from '../../ecs/index.js'
+import { EntityHandle } from '../../ecs/index.js'
 
 export class Emitter {
 
@@ -11,7 +11,7 @@ export class Emitter {
   prefab
 
   /**
-   * @type {((commands:EntityCommands,entity:Entity)=>void) | undefined}
+   * @type {((commands:EntityCommands,entity:EntityHandle)=>void) | undefined}
    */
   patch
 
@@ -121,7 +121,7 @@ export class Emitter {
 /**
  * @typedef EmitterSerial
  * @property {(() => unknown[]) | undefined} [prefab]
- * @property {((commands:EntityCommands,entity:Entity)=>void) | undefined} [patch]
+ * @property {((commands:EntityCommands,entity:EntityHandle)=>void) | undefined} [patch]
  * @property {{ start: number, end: number }} burstCount
  * @property {boolean} enabled
  * @property {{ start: number, end: number }} lifetime
@@ -130,7 +130,7 @@ export class Emitter {
 /**
  * @typedef EmitterOptions
  * @property {()=>unknown[]} [prefab]
- * @property {(commands:EntityCommands,entity:Entity)=>void} [patch]
+ * @property {(commands:EntityCommands,entity:EntityHandle)=>void} [patch]
  * @property {Range} [burstCount]
  * @property {Range} [lifetime]
  * @property {boolean} [enabled]

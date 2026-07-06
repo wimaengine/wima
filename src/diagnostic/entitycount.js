@@ -1,6 +1,6 @@
 import { App } from '../app/index.js'
 import { AppSchedule, CoreSystems } from '../core/index.js'
-import { World, Entity, Query } from '../ecs/index.js'
+import { World, EntityHandle, Query } from '../ecs/index.js'
 
 export class EntityCountDiagnosticPlugin {
 
@@ -35,7 +35,7 @@ function setUpUI() {
  * @param {World} world
  */
 function updateEntityCount(world) {
-  const entities = new Query(world, [Entity])
+  const entities = new Query(world, [EntityHandle])
   const num = entities.count()
   const container = document.querySelector('#entity-count-container')
 

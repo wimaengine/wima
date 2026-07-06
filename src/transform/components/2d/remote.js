@@ -1,4 +1,4 @@
-import { Entity } from '../../../ecs/index.js'
+import { EntityHandle } from '../../../ecs/index.js'
 import { Affine2 } from '../../../math/index.js'
 
 export class RemoteTransform2D {
@@ -19,7 +19,7 @@ export class RemoteTransform2D {
   copyScale = true
 
   /**
-   * @type {Entity}
+   * @type {EntityHandle}
    */
   entity
 
@@ -29,7 +29,7 @@ export class RemoteTransform2D {
   offsetTransform = new Affine2()
 
   /**
-   * @param {Entity} entity
+   * @param {EntityHandle} entity
    */
   constructor(entity) {
     this.entity = entity
@@ -64,7 +64,7 @@ export class RemoteTransform2D {
       copyTranslation: value.copyTranslation,
       copyOrientation: value.copyOrientation,
       copyScale: value.copyScale,
-      entity: Entity.serialize(value.entity),
+      entity: EntityHandle.serialize(value.entity),
       offsetTransform: Affine2.serialize(value.offsetTransform)
     }
   }
@@ -90,7 +90,7 @@ export class RemoteTransform2D {
     return typeof value.copyTranslation === 'boolean' &&
       typeof value.copyOrientation === 'boolean' &&
       typeof value.copyScale === 'boolean' &&
-      Entity.validateSerial(value.entity) &&
+      EntityHandle.validateSerial(value.entity) &&
       Affine2.validateSerial(value.offsetTransform)
   }
 
@@ -98,11 +98,11 @@ export class RemoteTransform2D {
    * @param {RemoteTransform2DSerial} value
    * @param {RemoteTransform2D} [out]
    */
-  static deserialize(value, out = new RemoteTransform2D(new Entity(0, 0))) {
+  static deserialize(value, out = new RemoteTransform2D(new EntityHandle(0, 0))) {
     out.copyTranslation = value.copyTranslation
     out.copyOrientation = value.copyOrientation
     out.copyScale = value.copyScale
-    out.entity = Entity.deserialize(value.entity, out.entity)
+    out.entity = EntityHandle.deserialize(value.entity, out.entity)
     out.offsetTransform = Affine2.deserialize(value.offsetTransform, out.offsetTransform)
 
     return out

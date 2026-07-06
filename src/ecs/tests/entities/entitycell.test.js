@@ -1,5 +1,5 @@
 import { test, describe } from "node:test";
-import { Entity, World } from "../../index.js";
+import { EntityHandle, World } from "../../index.js";
 import { deepStrictEqual } from "assert";
 import { typeid } from "../../../type/index.js";
 
@@ -8,7 +8,7 @@ describe("Testing `EntityCell`", () => {
     const world = new World()
     const entity = world.spawn([new A(), new B(), new C()])
     const cell = world.getEntity(entity)
-    deepStrictEqual(cell.components(), [typeid(A), typeid(B), typeid(C), typeid(Entity)])
+    deepStrictEqual(cell.components(), [typeid(A), typeid(B), typeid(C), typeid(EntityHandle)])
   })
 
   test('`EntityCell` gets correct component', () => {
@@ -28,8 +28,8 @@ describe("Testing `EntityCell`", () => {
     const cell1 = world.getEntity(entity1)
     const cell2 = world.getEntity(entity2)
 
-    deepStrictEqual(cell1.id(), new Entity(0, 1))
-    deepStrictEqual(cell2.id(), new Entity(1, 1))
+    deepStrictEqual(cell1.id(), new EntityHandle(0, 1))
+    deepStrictEqual(cell2.id(), new EntityHandle(1, 1))
   })
 
   test('`EntityCell` tests entity existence correctly.', () => {

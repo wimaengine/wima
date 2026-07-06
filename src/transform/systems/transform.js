@@ -1,4 +1,4 @@
-import { Entity, has, Query, without, World } from '../../ecs/index.js'
+import { EntityHandle, has, Query, without, World } from '../../ecs/index.js'
 import { Children, Parent } from '../../hierarchy/index.js'
 import { Affine2, Affine3 } from '../../math/index.js'
 import { RelationshipQuery } from '../../relationship/index.js'
@@ -31,7 +31,7 @@ export function synctransform3D(world) {
  */
 export function propagateTransform2D(world) {
   const hierachyTransforms = new RelationshipQuery(world, Children, Parent, [GlobalTransform2D])
-  const roots = new Query(world, [Entity], [has(Children), without(Parent)])
+  const roots = new Query(world, [EntityHandle], [has(Children), without(Parent)])
 
   roots.each(([entity]) => {
     hierachyTransforms.treebfs(entity, ([childTransform], [parentTransform]) => {
@@ -47,7 +47,7 @@ export function propagateTransform2D(world) {
  */
 export function propagateTransform3D(world) {
   const hierachyTransforms = new RelationshipQuery(world, Children, Parent, [GlobalTransform3D])
-  const roots = new Query(world, [Entity], [has(Children), without(Parent)])
+  const roots = new Query(world, [EntityHandle], [has(Children), without(Parent)])
 
   roots.each(([entity]) => {
     hierachyTransforms.treebfs(entity, ([childTransform], [parentTransform]) => {

@@ -1,4 +1,4 @@
-import { Entity, has, Query, World } from '../../ecs/index.js'
+import { EntityHandle, has, Query, World } from '../../ecs/index.js'
 import { Timer } from '../../time/index.js'
 import { EntityCommands } from '../../core/index.js'
 import { Position2D, Orientation2D, GlobalTransform2D, GlobalTransform3D, Orientation3D, Position3D, Scale3D } from '../../transform/index.js'
@@ -95,7 +95,7 @@ export function emitParticles3D(world) {
  * @param {World} world
  */
 export function despawnParticles(world) {
-  const particles = new Query(world, [Entity, Timer], [has(Particle)])
+  const particles = new Query(world, [EntityHandle, Timer], [has(Particle)])
   const commands = new EntityCommands(world)
 
   particles.each(([entity, timer]) => {

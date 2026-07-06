@@ -1,4 +1,4 @@
-/** @import {Entity} from '../../ecs/index.js' */
+/** @import {EntityHandle} from '../../ecs/index.js' */
 import { App, Plugin } from '../../app/index.js'
 import { AppSchedule } from '../../core/index.js'
 import {

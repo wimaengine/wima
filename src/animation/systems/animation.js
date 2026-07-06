@@ -1,4 +1,4 @@
-import { Entity, Query, World } from '../../ecs/index.js'
+import { EntityHandle, Query, World } from '../../ecs/index.js'
 import { VirtualClock } from '../../time/index.js'
 import { AnimationPlayer, AnimationTarget } from '../components/index.js'
 import { AnimationClipAssets } from '../resources/index.js'
@@ -23,7 +23,7 @@ export function advanceAnimationPlayers(world) {
 export function applyAnimations(world) {
   const clips = world.getResource(AnimationClipAssets)
   const players = new Query(world, [AnimationPlayer])
-  const targets = new Query(world, [Entity, AnimationTarget])
+  const targets = new Query(world, [EntityHandle, AnimationTarget])
 
   targets.each(([entity, target]) => {
     const play = players.get(target.player)
