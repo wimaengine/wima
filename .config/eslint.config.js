@@ -1,6 +1,6 @@
 import jsdoc from "eslint-plugin-jsdoc"
 import style from "@stylistic/eslint-plugin"
-import imports from "eslint-plugin-import"
+import imports from "eslint-plugin-import-x"
 
 export default [
     {
@@ -85,7 +85,38 @@ export default [
             "no-dupe-class-members": "error",
             "class-methods-use-this": "off",
             "no-func-assign": "error",
-            "no-duplicate-imports": "error",
+            "imports/no-unresolved": "error",
+            "imports/named": "error",
+            "imports/namespace": "error",
+            "imports/default": "error",
+            "imports/export": "error",
+            "imports/no-named-as-default": "warn",
+            "imports/no-named-as-default-member": "warn",
+            "imports/no-empty-named-blocks": "error",
+            "imports/no-mutable-exports": "error",
+            "imports/no-amd": "error",
+            "imports/unambiguous": "error",
+            "imports/no-commonjs": "error",
+            "imports/no-cycle": "error",
+            "imports/no-self-import": "error",
+            "imports/no-useless-path-segments": "error",
+            "imports/no-webpack-loader-syntax": "error",
+            "imports/consistent-type-specifier-style": ["error", "prefer-top-level"],
+            "imports/exports-last": "error",
+            "imports/first": "error",
+            "imports/no-default-export": "error",
+            "imports/no-duplicates": "error",
+            "imports/no-namespace": "error",
+            "imports/order": [
+                "error",
+                {
+                    groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
+                    alphabetize: {
+                        order: "asc",
+                        caseInsensitive: true
+                    }
+                }
+            ],
             "no-class-assign": "error",
             "no-iterator": "error",
             "no-debugger": "error",
