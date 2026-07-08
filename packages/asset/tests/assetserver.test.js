@@ -1,5 +1,5 @@
 import { deepStrictEqual, notDeepStrictEqual } from "assert";
-import test, { describe } from "node:test";
+import { test, describe } from "vitest";
 import { AssetServer, Exporter, Importer } from "..";
 import { Assets } from "..";
 import { typeid, typeidGeneric } from "@wimaengine/type";

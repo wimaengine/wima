@@ -1,10 +1,10 @@
 import { deepStrictEqual, strictEqual } from 'assert'
-import test, { describe } from 'node:test'
+import { test, describe } from 'vitest'
 import { Assets } from '@wimaengine/asset'
 import { AssetSceneMap } from '../../src/resources'
 import { typeid } from '@wimaengine/type'
 
-describe('Testing `AssetSceneMap`', { concurrency: false }, () => {
+describe.sequential('Testing `AssetSceneMap`', () => {
   test('`AssetSceneMap.clear` drops handles for an entire scene', () => {
     const stringAssets = new Assets(String)
     const numberAssets = new Assets(Number)

@@ -1,5 +1,5 @@
 import { deepStrictEqual, strictEqual } from "assert";
-import test, { describe } from "node:test";
+import { test, describe } from "vitest";
 import { Assets } from "../src/resources";
 import { AssetServer } from "../src/resources";
 import { World } from "@wimaengine/ecs";

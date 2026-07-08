@@ -32,7 +32,7 @@
     "typedoc": "typedoc -options .config/typedoc.json --tsconfig .config/tsc.lint.json",
     "types": "tsc -p .config/tsc.type.json",
     "changelog": "node scripts/changelog.js",
-    "test": "node --test",
+    "test": "vitest run",
     "build": "npm run build:lib && npm run build:docs",
     "build:lib": "npm run clean:build && npm run types && vite build --config .config/vite.config.js",
     "build:docs": "npm run typedoc",
@@ -65,13 +65,13 @@
     "rollup-plugin-dts": "^6.2.1",
     "typedoc": "^0.28.7",
     "typescript": "^5.8.3",
-    "vite": "^7.0.0"
+    "vite": "^7.0.0",
+    "vitest": "^4.1.10"
   },
   "files": [
     "dist/**/*"
   ],
   "dependencies": {
-    "vifaa": "^0.4.0",
-    "vitest": "^4.1.10"
+    "vifaa": "^0.4.0"
   }
 }

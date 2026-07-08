@@ -1,4 +1,4 @@
-import { test, describe } from "node:test";
+import { test, describe } from "vitest";
 import { has, without } from "..";
 import { strictEqual } from "node:assert";
 import { typeid } from "@wimaengine/type";

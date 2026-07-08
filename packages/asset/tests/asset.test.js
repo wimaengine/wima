@@ -1,4 +1,4 @@
-import { test, describe } from "node:test";
+import { test, describe } from "vitest";
 import { deepStrictEqual, strictEqual } from "node:assert";
 import { Handle } from "../src";
 import { Assets } from "../src";

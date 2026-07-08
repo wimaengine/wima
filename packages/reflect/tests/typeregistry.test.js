@@ -1,4 +1,4 @@
-import { test, describe } from "node:test";
+import { test, describe } from "vitest";
 import { deepStrictEqual, strictEqual } from "node:assert";
 import { Field, OpaqueInfo, StructInfo, EnumInfo, FunctionInfo } from "../src/core";
 import { setTypeId, typeid, typeidFunction } from "@wimaengine/type";

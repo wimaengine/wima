@@ -1,6 +1,6 @@
 /**@import { ComponentHook } from '@wimaengine/ecs' */
 
-import { test, describe } from "node:test";
+import { test, describe } from "vitest";
 import { RelationshipQuery, TraverseEntities } from "../src/core";
 import { deepStrictEqual } from "node:assert";
 import { World } from "@wimaengine/ecs";

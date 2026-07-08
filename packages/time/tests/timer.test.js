@@ -1,4 +1,4 @@
-import { test, describe } from "node:test";
+import { test, describe } from "vitest";
 import { Timer, TimerMode } from "..";
 import { strictEqual } from "node:assert";
 

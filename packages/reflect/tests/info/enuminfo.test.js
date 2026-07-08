@@ -1,4 +1,4 @@
-import { test, describe } from "node:test";
+import { test, describe } from "vitest";
 import { EnumInfo } from "../../src/core";
 import { deepStrictEqual } from "assert";
 

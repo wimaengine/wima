@@ -1,5 +1,5 @@
 import { deepStrictEqual, strictEqual } from 'assert'
-import test, { describe } from 'node:test'
+import { test, describe } from 'vitest'
 import { EntityHandle, Query, World } from '@wimaengine/ecs'
 import { Parent } from '@wimaengine/hierarchy'
 import { Scene } from '../../src/assets'
@@ -211,8 +211,8 @@ function createRegistry() {
   return registry
 }
 
-describe('Testing `Scene`', { concurrency: false }, () => {
-  describe('with pure types', { concurrency: false }, () => {
+describe.sequential('Testing `Scene`', () => {
+  describe.sequential('with pure types', () => {
     test('`Scene.fromWorld` restores pure entities', () => {
       const registry = createRegistry()
       const world = new World()
@@ -337,7 +337,7 @@ describe('Testing `Scene`', { concurrency: false }, () => {
     })
   })
 
-  describe('with snapshots', { concurrency: false }, () => {
+  describe.sequential('with snapshots', () => {
     test('`Scene.fromWorld` restores pure entities', () => {
       const registry = createRegistry()
       const world = new World()
@@ -462,7 +462,7 @@ describe('Testing `Scene`', { concurrency: false }, () => {
     })
   })
 
-  describe('with patching', { concurrency: false }, () => {
+  describe.sequential('with patching', () => {
     test('`Scene.toWorld` patches existing world resources', () => {
       const registry = new TypeRegistry()
       registry.register(PatchableResource, StructInfo.default())

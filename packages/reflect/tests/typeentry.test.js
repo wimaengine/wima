@@ -1,4 +1,4 @@
-import { test, describe } from "node:test";
+import { test, describe } from "vitest";
 import { strictEqual } from "node:assert";
 import { StructInfo } from "../src/core";
 import { MethodEntry, TypeEntry } from "../src/resources";

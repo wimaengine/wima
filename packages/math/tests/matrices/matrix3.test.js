@@ -1,4 +1,4 @@
-import { test, describe } from "node:test";
+import { test, describe } from "vitest";
 import { deepStrictEqual, strictEqual } from "node:assert";
 import { Matrix3 } from "../../src/core";
 

@@ -1,4 +1,4 @@
-import { test, describe } from "node:test";
+import { test, describe } from "vitest";
 import { Rotary,HALF_PI, PI } from "../../src/core";
 import { deepStrictEqual, strictEqual } from "node:assert";
 

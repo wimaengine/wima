@@ -1,4 +1,4 @@
-import { describe, test } from 'node:test'
+import { describe, test } from 'vitest'
 import { deepStrictEqual, throws } from 'node:assert'
 import { World } from '@wimaengine/ecs'
 import { Executable, Scheduler, SchedulerBuilder } from '..'

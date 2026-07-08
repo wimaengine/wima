@@ -1,4 +1,4 @@
-import { test, describe } from "node:test";
+import { test, describe } from "vitest";
 import { Affine2,Vector2,Rotary } from "../../src/core";
 import { deepStrictEqual, strictEqual } from "node:assert";
 

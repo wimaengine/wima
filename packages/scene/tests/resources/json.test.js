@@ -1,5 +1,5 @@
 import { deepStrictEqual, strictEqual } from 'assert'
-import test, { describe } from 'node:test'
+import { test, describe } from 'vitest'
 import { Scene } from '../../src/assets'
 import { JSONSceneExporter } from '../../src/resources/exporters'
 import { JSONSceneImporter } from '../../src/resources/importers'
