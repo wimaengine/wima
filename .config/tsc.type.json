@@ -1,17 +1,17 @@
 {
-  "extends": "./tsc.lint.json",
+  "extends": "./tsc.type.base.json",
   "include": [
-    "../src/index.js",
-    "../packages/**/*"
+    "../src/index.js"
   ],
   "exclude": [
-    "../packages/**/tests/**"
+    "../dist/**",
+    "../types/**",
+    "../packages/*/dist/**",
+    "../packages/*/types/**",
+    "../packages/*/tests/**"
   ],
   "compilerOptions": {
-    "allowJs": true,
-    "declaration": true,
     "declarationDir": "../types",
-    "emitDeclarationOnly": true,
-    "noEmit": false
+    "rootDir": "../"
   }
 }

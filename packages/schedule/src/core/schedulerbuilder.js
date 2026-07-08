@@ -1,4 +1,5 @@
-/** @import { Scheduler, SystemConfig, SystemGroupConfig } from '../..' */
+/** @import { SystemConfig, SystemGroupConfig } from './systemconfig' */
+/** @import { Scheduler } from './scheduler' */
 /** @import { SystemFunc } from '@wimaengine/ecs' */
 /** @import { Constructor, TypeId } from '@wimaengine/type' */
 import { assert, throws } from '@wimaengine/logger'

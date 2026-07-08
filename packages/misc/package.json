@@ -16,11 +16,51 @@
   "private": true,
   "main": "./index.js",
   "exports": {
-    ".": "./index.js",
-    "./src": "./src/index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./index.js"
+    },
+    "./src": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./src/index.js"
+    }
   },
   "files": [
     "index.js",
     "src"
-  ]
+  ],
+  "scripts": {
+    "build": "vite build --config ../../.config/vite.config.js",
+    "test": "vitest run --dir tests --passWithNoTests",
+    "types": "tsc -p ./tsc.type.json"
+  },
+  "dependencies": {
+    "@wimaengine/app": "0.3.0",
+    "@wimaengine/asset": "0.3.0",
+    "@wimaengine/audio": "0.3.0",
+    "@wimaengine/color": "0.3.0",
+    "@wimaengine/command": "0.3.0",
+    "@wimaengine/core": "0.3.0",
+    "@wimaengine/damping": "0.3.0",
+    "@wimaengine/device": "0.3.0",
+    "@wimaengine/geometry": "0.3.0",
+    "@wimaengine/gravity": "0.3.0",
+    "@wimaengine/hierarchy": "0.3.0",
+    "@wimaengine/input": "0.3.0",
+    "@wimaengine/integrator": "0.3.0",
+    "@wimaengine/math": "0.3.0",
+    "@wimaengine/movable": "0.3.0",
+    "@wimaengine/name": "0.3.0",
+    "@wimaengine/physics": "0.3.0",
+    "@wimaengine/profiler": "0.3.0",
+    "@wimaengine/reflect": "0.3.0",
+    "@wimaengine/render-core": "0.3.0",
+    "@wimaengine/scene": "0.3.0",
+    "@wimaengine/storage": "0.3.0",
+    "@wimaengine/time": "0.3.0",
+    "@wimaengine/transform": "0.3.0",
+    "@wimaengine/tween": "0.3.0",
+    "@wimaengine/window": "0.3.0"
+  },
+  "types": "./dist/index.d.ts"
 }

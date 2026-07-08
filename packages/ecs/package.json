@@ -16,14 +16,30 @@
   "private": true,
   "main": "./index.js",
   "exports": {
-    ".": "./index.js",
-    "./src": "./src/index.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./index.js"
+    },
+    "./src": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./src/index.js"
+    }
   },
   "files": [
     "index.js",
     "src"
   ],
   "dependencies": {
+    "@wimaengine/datastructures": "0.3.0",
+    "@wimaengine/logger": "0.3.0",
+    "@wimaengine/type": "0.3.0",
+    "@wimaengine/utils": "0.3.0",
     "vifaa": "^0.4.0"
-  }
+  },
+  "scripts": {
+    "build": "vite build --config ../../.config/vite.config.js",
+    "test": "vitest run --dir tests --passWithNoTests",
+    "types": "tsc -p ./tsc.type.json"
+  },
+  "types": "./dist/index.d.ts"
 }

@@ -1,0 +1,15 @@
+{
+  "extends": "../../.config/tsc.type.base.json",
+  "include": [
+    "index.js"
+  ],
+  "exclude": [
+    "dist/**",
+    "types/**",
+    "tests/**"
+  ],
+  "compilerOptions": {
+    "declarationDir": "./types",
+    "rootDir": "."
+  }
+}
