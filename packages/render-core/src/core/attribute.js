@@ -1,4 +1,4 @@
-import { GlDataType } from '@wimaengine/render-webgl'
+import { GlDataType } from './gldatatype'
 
 export class MeshAttribute {
 

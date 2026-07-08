@@ -1,5 +1,8 @@
 import { App, Plugin } from '@wimaengine/app'
 import { AppSchedule } from '@wimaengine/core'
+import { ComponentHooks } from '@wimaengine/ecs'
+import { Collider2D, PhysicsProperties, SoftBody2D, SoftBody3D } from './components'
+import { physicspropertiesAddHook } from './hooks'
 import { Contacts, SATNarrowphase2D } from './resources'
 import { getSATContacts, registerNarrowphase2DTypes } from './systems'
 
@@ -14,6 +17,18 @@ export class NarrowPhase2DPlugin extends Plugin {
    */
   register(app) {
     app
+      .registerType(Collider2D)
+      .registerType(PhysicsProperties)
+      .registerType(SoftBody2D)
+      .registerType(SoftBody3D)
+      .setComponentHooks(
+        PhysicsProperties,
+        new ComponentHooks(
+          physicspropertiesAddHook,
+          null,
+          physicspropertiesAddHook
+        )
+      )
       .setResource(new Contacts())
       .setResource(new SATNarrowphase2D())
       .registerSystem({ schedule: AppSchedule.Startup, system: registerNarrowphase2DTypes })

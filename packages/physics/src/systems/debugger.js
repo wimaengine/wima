@@ -2,11 +2,10 @@ import { PhysicsHitbox } from '@wimaengine/broadphase'
 import { Query, World, EntityHandle } from '@wimaengine/ecs'
 import { Vector2 } from '@wimaengine/math'
 import { Velocity2D } from '@wimaengine/movable'
-import { Contacts } from '@wimaengine/narrowphase'
+import { Contacts, Collider2D } from '@wimaengine/narrowphase'
 import { vertices } from '@wimaengine/render-canvas2d'
 import { Position2D } from '@wimaengine/transform'
 import { MainWindow, Windows } from '@wimaengine/window'
-import { Collider2D } from '../components'
 
 /**
  * @param {World} world

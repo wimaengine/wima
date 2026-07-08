@@ -1,7 +1,7 @@
 import { Query, World } from '@wimaengine/ecs'
 import { Vector2, Vector3 } from '@wimaengine/math'
 import { Acceleration2D, Acceleration3D } from '@wimaengine/movable'
-import { PhysicsProperties } from '@wimaengine/physics'
+import { PhysicsProperties } from '@wimaengine/narrowphase'
 import { Gravity2D, Gravity3D } from '../resources/gravity'
 
 /**

@@ -2,10 +2,11 @@ import { CollisionPairs } from '@wimaengine/broadphase'
 import { Query, World } from '@wimaengine/ecs'
 import { Vector2, clamp } from '@wimaengine/math'
 import { Rotation2D, Velocity2D } from '@wimaengine/movable'
-import { Collider2D, PhysicsProperties, PhysicsSettings } from '@wimaengine/physics'
 import { Position2D } from '@wimaengine/transform'
+import { Collider2D, PhysicsProperties } from '../components'
 import { canCollide, shapeContains, generatePairID, CollisionData, CollisionManifold } from '../core'
 import { Contacts, SATNarrowphase2D } from '../resources'
+import { PhysicsSettings } from '../settings'
 
 const
   tmp2 = {

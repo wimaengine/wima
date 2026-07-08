@@ -1,9 +1,11 @@
 import { World, EntityHandle } from '@wimaengine/ecs'
 import { Angle, Vector2 } from '@wimaengine/math'
-import { ArrayInfo, Field, MapInfo, StructInfo, TypeRegistry } from '@wimaengine/reflect'
-import { typeid, typeidGeneric } from '@wimaengine/type'
-import { CollisionData, CollisionManifold, Jacobian } from '../core'
+import { ArrayInfo, EnumInfo, Field, MapInfo, StructInfo, TypeRegistry } from '@wimaengine/reflect'
+import { setTypeId, typeid, typeidGeneric } from '@wimaengine/type'
+import { Collider2D, PhysicsProperties, SoftBody2D, SoftBody3D } from '../components'
+import { CollisionData, CollisionManifold, Geometry, Jacobian } from '../core'
 import { Contacts, SATNarrowphase2D } from '../resources'
+import { ShapeType } from '../settings'
 
 /**
  * @param {World} world
@@ -66,4 +68,44 @@ export function registerNarrowphase2DTypes(world) {
   registry.register(SATNarrowphase2D, new StructInfo({
     clmdrecord: new Field(collisionManifoldMapId)
   }))
+
+  const shapeTypeId = setTypeId('ShapeType')
+  const bigIntId = setTypeId('BigInt')
+
+  registry.registerTypeId(shapeTypeId, new EnumInfo(ShapeType))
+  registry.registerTypeId(vector2ArrayId, new ArrayInfo(typeid(Vector2)))
+
+  registry.register(Collider2D, new StructInfo({
+    type: new Field(shapeTypeId),
+    angle: new Field(typeid(Number)),
+    vertices: new Field(vector2ArrayId),
+    geometry: new Field(typeid(Geometry))
+  }))
+  registry.get(Collider2D)?.setMethod(Collider2D.copy)
+  registry.get(Collider2D)?.setMethod(Collider2D.clone)
+  registry.get(Collider2D)?.setMethod(Collider2D.serialize)
+  registry.get(Collider2D)?.setMethod(Collider2D.deserialize)
+  registry.register(PhysicsProperties, new StructInfo({
+    invinertia: new Field(typeid(Number)),
+    invmass: new Field(typeid(Number)),
+    mask: new Field(bigIntId),
+    group: new Field(bigIntId),
+    sleep: new Field(typeid(Boolean)),
+    restitution: new Field(typeid(Number)),
+    kineticFriction: new Field(typeid(Number))
+  }))
+  registry.get(PhysicsProperties)?.setMethod(PhysicsProperties.copy)
+  registry.get(PhysicsProperties)?.setMethod(PhysicsProperties.clone)
+  registry.get(PhysicsProperties)?.setMethod(PhysicsProperties.serialize)
+  registry.get(PhysicsProperties)?.setMethod(PhysicsProperties.deserialize)
+  registry.register(SoftBody2D, new StructInfo({}))
+  registry.get(SoftBody2D)?.setMethod(SoftBody2D.copy)
+  registry.get(SoftBody2D)?.setMethod(SoftBody2D.clone)
+  registry.get(SoftBody2D)?.setMethod(SoftBody2D.serialize)
+  registry.get(SoftBody2D)?.setMethod(SoftBody2D.deserialize)
+  registry.register(SoftBody3D, new StructInfo({}))
+  registry.get(SoftBody3D)?.setMethod(SoftBody3D.copy)
+  registry.get(SoftBody3D)?.setMethod(SoftBody3D.clone)
+  registry.get(SoftBody3D)?.setMethod(SoftBody3D.serialize)
+  registry.get(SoftBody3D)?.setMethod(SoftBody3D.deserialize)
 }

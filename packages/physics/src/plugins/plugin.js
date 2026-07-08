@@ -1,12 +1,9 @@
 import { App, Plugin } from '@wimaengine/app'
 import { Broadphase2DPlugin, NaiveBroadphase2D } from '@wimaengine/broadphase'
 import { AppSchedule } from '@wimaengine/core'
-import { ComponentHooks } from '@wimaengine/ecs'
 import { EulerIntegrator2DPlugin } from '@wimaengine/integrator'
 import { NarrowPhase2DPlugin } from '@wimaengine/narrowphase'
-import { Collider2D, PhysicsProperties, SoftBody2D, SoftBody3D } from '../components'
-import { physicspropertiesAddHook } from '../hooks'
-import { collisionResponse, registerPhysicsTypes, updateBodies, updateBounds } from '../systems'
+import { collisionResponse, updateBodies, updateBounds } from '../systems'
 
 // TODO: Convert to a plugin group
 export class Physics2DPlugin extends Plugin {
@@ -36,19 +33,6 @@ export class Physics2DPlugin extends Plugin {
    */
   register(app) {
     app
-      .registerType(Collider2D)
-      .registerType(PhysicsProperties)
-      .registerType(SoftBody2D)
-      .registerType(SoftBody3D)
-      .registerSystem({ schedule: AppSchedule.Startup, system: registerPhysicsTypes })
-      .setComponentHooks(
-        PhysicsProperties,
-        new ComponentHooks(
-          physicspropertiesAddHook,
-          null,
-          physicspropertiesAddHook
-        )
-      )
     app.registerSystem({ schedule: AppSchedule.Update, system: updateBodies })
 
     if (this.autoUpdateBounds) app.registerSystem({ schedule: AppSchedule.Update, system: updateBounds })

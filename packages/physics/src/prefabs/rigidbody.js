@@ -1,8 +1,7 @@
 import { PhysicsHitbox } from '@wimaengine/broadphase'
 import { createMovable2D, Velocity2D, Rotation2D, Acceleration2D, Torque2D } from '@wimaengine/movable'
+import { PhysicsProperties, PhysicsSettings } from '@wimaengine/narrowphase'
 import { GlobalTransform2D, Orientation2D, Position2D, Scale2D } from '@wimaengine/transform'
-import { PhysicsProperties } from '../components'
-import { PhysicsSettings } from '../settings'
 
 /**
  * @param {number} x

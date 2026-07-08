@@ -1,6 +1,6 @@
 /** @import { EntityHandle } from '@wimaengine/ecs'*/
 import { Vector2, Angle, clamp } from '@wimaengine/math'
-import { PhysicsSettings } from '@wimaengine/physics'
+import { PhysicsSettings } from '../settings'
 
 export class CollisionManifold {
 

@@ -1,5 +1,5 @@
 import { Vector2 } from '@wimaengine/math'
-import { PhysicsProperties, Collider2D } from '@wimaengine/physics'
+import { PhysicsProperties, Collider2D } from '../components'
 
 /**
  * @param {PhysicsProperties} propA

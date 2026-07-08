@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "@wimaengine/app": "0.3.0",
-    "@wimaengine/core": "0.3.0",
     "@wimaengine/ecs": "0.3.0",
     "@wimaengine/type": "0.3.0"
   },

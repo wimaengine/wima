@@ -1,1 +1,2 @@
-export { registerCoreTypes } from './types'
+export * from './types'
+export * from './commands'

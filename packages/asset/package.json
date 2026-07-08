@@ -42,7 +42,6 @@
     "@wimaengine/event": "0.3.0",
     "@wimaengine/logger": "0.3.0",
     "@wimaengine/reflect": "0.3.0",
-    "@wimaengine/scene": "0.3.0",
     "@wimaengine/type": "0.3.0",
     "@wimaengine/utils": "0.3.0"
   },
