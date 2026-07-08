@@ -28,18 +28,18 @@
   "scripts": {
     "start": "vite --config .config/vite.config.js",
     "dev": "vite --config .config/vite.config.js",
-
     "eslint": "eslint --config .config/eslint.config.js --ignore-pattern '**/*.test.js'",
     "typedoc": "typedoc -options .config/typedoc.json --tsconfig .config/tsc.lint.json",
     "types:root": "tsc -p .config/tsc.type.json",
     "build:root": "vite build --config .config/vite.config.js",
     "build:docs": "npm run typedoc",
-
     "types": "turbo run types //#types:root",
     "test": "turbo run test",
     "build": "npm run clean:build && turbo run build && turbo run //#build:root //#build:docs",
     "lint": "npm run lint:src && npm run lint:examples",
-    
+    "version": "changeset version",
+    "check:release-version": "node scripts/check-release-version.js",
+    "release": "npm run build && changeset publish",
     "build:lib": "npm run types && turbo run //#build:root",
     "lint:dry": "npm run lint:src-dry && npm run lint:examples-dry",
     "lint:src-dry": "npm run eslint -- src packages",
@@ -59,6 +59,7 @@
     "3D"
   ],
   "devDependencies": {
+    "@changesets/cli": "^2.31.0",
     "@stylistic/eslint-plugin": "^5.1.0",
     "@types/node": "^24.0.12",
     "eslint": "^9.30.1",

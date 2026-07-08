@@ -18,17 +18,13 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: npm
       - run: npm ci
+      - run: npm run check:release-version
       - run: npm run build
-      - name: Check version
-        run: |
-          VERSION_TAG="${GITHUB_REF_NAME#v}"
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          if [ "$VERSION_TAG" != "$PACKAGE_VERSION" ]; then
-            echo "Error: Git tag (${GITHUB_REF_NAME}) does not match package.json version (${PACKAGE_VERSION})"
-            exit 1
-          fi
-      - name: Publish check
-        run: npm publish --dry-run
 
-      - name: Publish to npm
+      - name: Publish workspaces to npm
+        run: npx changeset publish
+        env:
+          NPM_CONFIG_PROVENANCE: true
+
+      - name: Publish root package to npm
         run: npm publish --provenance

@@ -13,7 +13,6 @@
   "bugs": {
     "url": "https://github.com/wimaengine/wima/issues"
   },
-  "private": true,
   "main": "./index.js",
   "exports": {
     ".": {
