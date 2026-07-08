@@ -1,7 +1,7 @@
 import { World, EntityHandle } from '@wimaengine/ecs'
+import { Angle, Vector2 } from '@wimaengine/math'
 import { ArrayInfo, Field, MapInfo, StructInfo, TypeRegistry } from '@wimaengine/reflect'
 import { typeid, typeidGeneric } from '@wimaengine/type'
-import { Angle, Vector2 } from '@wimaengine/math'
 import { CollisionData, CollisionManifold, Jacobian } from '../core'
 import { Contacts, SATNarrowphase2D } from '../resources'
 

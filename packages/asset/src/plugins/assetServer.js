@@ -1,9 +1,9 @@
 import { App, Plugin } from '@wimaengine/app'
-import { EventPlugin } from '@wimaengine/event'
-import { AssetServer } from '../resources'
-import { AssetLoadFail, AssetLoadSuccess, AssetSaveSuccess } from '../events'
-import { updateAssets, logFailedLoads, registerAssetServerTypes } from '../systems'
 import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { EventPlugin } from '@wimaengine/event'
+import { AssetLoadFail, AssetLoadSuccess, AssetSaveSuccess } from '../events'
+import { AssetServer } from '../resources'
+import { updateAssets, logFailedLoads, registerAssetServerTypes } from '../systems'
 
 export class AssetServerPlugin extends Plugin {
 

@@ -1,6 +1,6 @@
 /** @import { ComponentHook } from '@wimaengine/ecs'*/
-import { Collider2D, PhysicsProperties } from '../components'
 import { warn } from '@wimaengine/logger'
+import { Collider2D, PhysicsProperties } from '../components'
 
 /**
  * @type {ComponentHook}

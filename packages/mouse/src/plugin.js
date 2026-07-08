@@ -1,12 +1,12 @@
 import { App, Plugin } from '@wimaengine/app'
-import { Mouse, MouseButtons } from './resources'
-import { MouseButton } from './core'
+import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { World } from '@wimaengine/ecs'
 import { Events } from '@wimaengine/event'
-import { PointerDown, PointerMove, PointerUp } from '@wimaengine/window'
 import { Vector2 } from '@wimaengine/math'
 import { typeidGeneric } from '@wimaengine/type'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { PointerDown, PointerMove, PointerUp } from '@wimaengine/window'
+import { MouseButton } from './core'
+import { Mouse, MouseButtons } from './resources'
 import { registerMouseTypes } from './systems'
 
 export class MousePlugin extends Plugin {

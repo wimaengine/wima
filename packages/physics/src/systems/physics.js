@@ -1,10 +1,10 @@
 import { PhysicsHitbox } from '@wimaengine/broadphase'
 import { Query, World } from '@wimaengine/ecs'
-import { CollisionManifold, Contacts } from '@wimaengine/narrowphase'
-import { PhysicsSettings } from '../settings'
-import { Collider2D } from '../components'
-import { Orientation2D, Position2D, Scale2D } from '@wimaengine/transform'
 import { Rotary } from '@wimaengine/math'
+import { CollisionManifold, Contacts } from '@wimaengine/narrowphase'
+import { Orientation2D, Position2D, Scale2D } from '@wimaengine/transform'
+import { Collider2D } from '../components'
+import { PhysicsSettings } from '../settings'
 
 /**
  * @param {World} world

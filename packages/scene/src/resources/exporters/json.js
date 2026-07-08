@@ -1,6 +1,6 @@
 import { Exporter } from '@wimaengine/asset'
-import { Scene } from '../../assets'
 import { typeid } from '@wimaengine/type'
+import { Scene } from '../../assets'
 
 /**
  * @augments {Exporter<Scene>}

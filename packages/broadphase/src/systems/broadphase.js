@@ -1,8 +1,8 @@
-import { Broadphase2D, CollisionPairs } from '../resources'
-import { PhysicsHitbox } from '../components'
-import { CollisionPair } from '../core'
 import { EntityHandle, Query, World } from '@wimaengine/ecs'
 import { intersectAABB2D } from '@wimaengine/geometry'
+import { PhysicsHitbox } from '../components'
+import { CollisionPair } from '../core'
+import { Broadphase2D, CollisionPairs } from '../resources'
 
 /**
  * @param {World} world

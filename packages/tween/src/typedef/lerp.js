@@ -6,4 +6,4 @@
  * @param {number} t
  * @param {T} out
  */
-export default {}
+export {}

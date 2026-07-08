@@ -24,4 +24,4 @@
  * @property {SystemOrderReference[] | undefined} [after]
  */
 
-export default {}
+export {}

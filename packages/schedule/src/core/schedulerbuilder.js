@@ -1,9 +1,9 @@
 /** @import { Scheduler, SystemConfig, SystemGroupConfig } from '../..' */
 /** @import { SystemFunc } from '@wimaengine/ecs' */
 /** @import { Constructor, TypeId } from '@wimaengine/type' */
-import { Graph, kahnTopologySort } from 'vifaa'
 import { assert, throws } from '@wimaengine/logger'
 import { typeid } from '@wimaengine/type'
+import { Graph, kahnTopologySort } from 'vifaa'
 import { Executable } from './executable'
 
 export class ScheduleContext {

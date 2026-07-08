@@ -1,5 +1,4 @@
-import { Browser } from '../core'
-import { PlatformOS } from '../core'
+import { Browser, PlatformOS } from '../core'
 
 /**
  * Contains values showing which features are supported,general model of the device and browser used.

@@ -1,7 +1,7 @@
 /** @import { TypeId, Constructor } from '@wimaengine/type' */
 /** @import { AssetId } from '../types' */
-import { typeid } from '@wimaengine/type'
 import { assert, warn } from '@wimaengine/logger'
+import { typeid } from '@wimaengine/type'
 import { getFileExtension, swapRemove } from '@wimaengine/utils'
 import { Handle, Importer, Exporter } from '../core'
 import { Assets } from './assets'

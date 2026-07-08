@@ -1,11 +1,10 @@
 /** @import { Constructor } from '@wimaengine/type' */
 
-import { ArrayInfo, EnumInfo, Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
-import { setTypeId, typeid, typeidGeneric } from '@wimaengine/type'
 import { Color } from '@wimaengine/color'
 import { Vector2, Vector3 } from '@wimaengine/math'
-import { Gizmo2D, Gizmo3D, GizmoBuffer } from '../core'
-import { GizmoLineCap, GizmoLineJoin, GizmoLineStyle, GizmoSettings } from '../core'
+import { ArrayInfo, EnumInfo, Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
+import { setTypeId, typeid, typeidGeneric } from '@wimaengine/type'
+import { Gizmo2D, Gizmo3D, GizmoBuffer, GizmoLineCap, GizmoLineJoin, GizmoLineStyle, GizmoSettings } from '../core'
 
 /**
  * @template T

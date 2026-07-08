@@ -2,12 +2,12 @@
 /** @import { Constructor } from '@wimaengine/type' */
 /** @import { AssetDropped } from '../events' */
 import { Events } from '@wimaengine/event'
-import { typeidGeneric } from '@wimaengine/type'
-import { TypeRegistry } from '@wimaengine/reflect'
-import { AssetServer, Assets, LoadState } from '../resources'
-import { AssetLoadFail, AssetLoadOperation, AssetLoadSuccess, AssetSaveSuccess } from '../events'
 import { assert } from '@wimaengine/logger'
+import { TypeRegistry } from '@wimaengine/reflect'
+import { typeidGeneric } from '@wimaengine/type'
 import { Exporter, Importer } from '../core'
+import { AssetLoadFail, AssetLoadOperation, AssetLoadSuccess, AssetSaveSuccess } from '../events'
+import { AssetServer, Assets, LoadState } from '../resources'
 
 /**
  * @template T

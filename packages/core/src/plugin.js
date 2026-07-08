@@ -1,6 +1,6 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems, defaultRunner } from './core'
 import { SchedulerBuilder } from '@wimaengine/schedule'
+import { AppSchedule, CoreSystems, defaultRunner } from './core'
 import { registerCoreTypes } from './systems'
 
 export class CorePlugin extends Plugin {

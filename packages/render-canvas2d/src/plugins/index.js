@@ -2,10 +2,10 @@
 /** @import { Canvas2DFunction } from '../types' */
 
 import { App, Plugin } from '@wimaengine/app'
+import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { Material } from '@wimaengine/render-core'
 import { typeid, typeidGeneric } from '@wimaengine/type'
 import { genrender } from '../systems'
-import { Material } from '@wimaengine/render-core'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
 
 /**
  * @template {Material} T

@@ -1,8 +1,8 @@
 import { World } from '@wimaengine/ecs'
 import { EnumInfo, Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
+import { TimerMode } from '@wimaengine/time'
 import { setTypeId, typeid } from '@wimaengine/type'
 import { RAFTimer } from '../resources'
-import { TimerMode } from '@wimaengine/time'
 
 /**
  * @param {World} world

@@ -2,10 +2,9 @@
 /** @import {UniformBind} from '@wimaengine/render-core' */
 
 import { App } from '@wimaengine/app'
-import { AppSchedule } from '@wimaengine/core'
-import { CoreSystems } from '@wimaengine/core'
-import { typeid, typeidGeneric } from '@wimaengine/type'
+import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { Material } from '@wimaengine/render-core'
+import { typeid, typeidGeneric } from '@wimaengine/type'
 import { genRegisterBuffer, genRender, genRenderPipeline } from '../systems'
 
 /**

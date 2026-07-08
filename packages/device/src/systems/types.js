@@ -1,9 +1,8 @@
 import { World } from '@wimaengine/ecs'
 import { EnumInfo, Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
 import { setTypeId, typeid } from '@wimaengine/type'
+import { Browser, PlatformOS } from '../core'
 import { Device, DeviceCapabilities } from '../resources'
-import { Browser } from '../core'
-import { PlatformOS } from '../core'
 
 /**
  * @param {World} world

@@ -1,7 +1,6 @@
 import { Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
-import { TweenFlip, TweenRepeat } from '../components'
-import { Tween } from '../components'
 import { typeid } from '@wimaengine/type'
+import { TweenFlip, TweenRepeat, Tween } from '../components'
 
 /**
  * @template T

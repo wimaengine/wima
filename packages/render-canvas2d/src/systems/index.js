@@ -4,9 +4,9 @@
 import { Assets } from '@wimaengine/asset'
 import { EntityHandle, Query } from '@wimaengine/ecs'
 import { warn } from '@wimaengine/logger'
-import { typeidGeneric, typeid } from '@wimaengine/type'
 import { Material, Mesh, TextureCache, RenderLists2D, Camera, OrthographicProjection } from '@wimaengine/render-core'
 import { GlobalTransform2D } from '@wimaengine/transform'
+import { typeidGeneric, typeid } from '@wimaengine/type'
 import { MainWindow, Windows, Window } from '@wimaengine/window'
 
 /**

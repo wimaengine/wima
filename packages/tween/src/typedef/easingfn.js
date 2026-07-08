@@ -3,4 +3,4 @@
  * @param {number} t
  * @returns {number}
  */
-export default {}
+export {}

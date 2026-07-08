@@ -5,4 +5,4 @@
 import { World } from '@wimaengine/ecs'
 import { Scheduler } from './scheduler'
 
-export default {}
+export {}

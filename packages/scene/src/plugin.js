@@ -1,14 +1,14 @@
 import { App, Plugin } from '@wimaengine/app'
+import { AssetExporterPlugin, AssetImporterPlugin, AssetPlugin, Assets } from '@wimaengine/asset'
+import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
+import { typeidGeneric } from '@wimaengine/type'
 import { Scene } from './assets'
 import { SceneInstance } from './components'
-import { JSONSceneExporter, JSONSceneImporter, SceneAssets, SceneSpawner } from './resources'
-import { initSceneInstance, dropSceneInstance } from './hooks'
-import { AssetExporterPlugin, AssetImporterPlugin, AssetPlugin, Assets } from '@wimaengine/asset'
 import { SceneAdded, SceneDropped, SceneModified } from './events'
-import { typeidGeneric } from '@wimaengine/type'
+import { initSceneInstance, dropSceneInstance } from './hooks'
+import { JSONSceneExporter, JSONSceneImporter, SceneAssets, SceneSpawner } from './resources'
 import { registerSceneTypes, spawnScenes } from './systems'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
 
 export class ScenePlugin extends Plugin {
 

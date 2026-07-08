@@ -1,11 +1,11 @@
 import { App, Plugin } from '@wimaengine/app'
-import { Keyboard } from './resources'
-import { KeyUp, KeyDown } from '@wimaengine/window'
-import { Events } from '@wimaengine/event'
-import { World } from '@wimaengine/ecs'
-import { KeyCode } from './core'
-import { typeidGeneric } from '@wimaengine/type'
 import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { World } from '@wimaengine/ecs'
+import { Events } from '@wimaengine/event'
+import { typeidGeneric } from '@wimaengine/type'
+import { KeyUp, KeyDown } from '@wimaengine/window'
+import { KeyCode } from './core'
+import { Keyboard } from './resources'
 import { registerKeyboardTypes } from './systems'
 
 export class KeyboardPlugin extends Plugin {

@@ -1,6 +1,6 @@
-import { BoundType } from './boundtype'
-import { Vector2 } from '@wimaengine/math'
 import { deprecate } from '@wimaengine/logger'
+import { Vector2 } from '@wimaengine/math'
+import { BoundType } from './boundtype'
 
 /**
  * A 2d axis aligned bounding box.

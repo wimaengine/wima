@@ -1,5 +1,5 @@
-import { Affine3 } from '@wimaengine/math'
 import { EntityHandle } from '@wimaengine/ecs'
+import { Affine3 } from '@wimaengine/math'
 
 export class RemoteTransform3D {
 

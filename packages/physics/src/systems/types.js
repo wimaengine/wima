@@ -1,7 +1,7 @@
 import { World } from '@wimaengine/ecs'
+import { Vector2 } from '@wimaengine/math'
 import { ArrayInfo, EnumInfo, Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
 import { setTypeId, typeid, typeidGeneric } from '@wimaengine/type'
-import { Vector2 } from '@wimaengine/math'
 import { Collider2D, PhysicsProperties, SoftBody2D, SoftBody3D } from '../components'
 import { Geometry } from '../core'
 import { ShapeType } from '../settings'

@@ -3,17 +3,17 @@
 /** @import {UniformBind } from '@wimaengine/render-core' */
 /** @import { AssetId } from '@wimaengine/asset' */
 
-import { EntityHandle, Query } from '@wimaengine/ecs'
-import { assert, warn } from '@wimaengine/logger'
-import { Windows, MainWindow, Window } from '@wimaengine/window'
-import { typeid, typeidGeneric } from '@wimaengine/type'
-import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from '../resources'
-import { Camera, Material, Mesh, MeshAdded, MeshModified, MeshDropped, RenderLists3D, ShaderStage } from '@wimaengine/render-core'
-import { WebglRenderPipeline, createShader, validateShader, createProgram, validateProgram, createVAO } from '../core'
 import { Assets } from '@wimaengine/asset'
-import { GlobalTransform3D } from '@wimaengine/transform'
-import { Affine3 } from '@wimaengine/math'
+import { EntityHandle, Query } from '@wimaengine/ecs'
 import { Events } from '@wimaengine/event'
+import { assert, warn } from '@wimaengine/logger'
+import { Affine3 } from '@wimaengine/math'
+import { Camera, Material, Mesh, MeshAdded, MeshModified, MeshDropped, RenderLists3D, ShaderStage } from '@wimaengine/render-core'
+import { GlobalTransform3D } from '@wimaengine/transform'
+import { typeid, typeidGeneric } from '@wimaengine/type'
+import { Windows, MainWindow, Window } from '@wimaengine/window'
+import { WebglRenderPipeline, createShader, validateShader, createProgram, validateProgram, createVAO } from '../core'
+import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from '../resources'
 
 /**
  * @template T

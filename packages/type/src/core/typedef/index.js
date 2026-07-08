@@ -21,4 +21,4 @@
  * @template T
  * @typedef {{ clone(value: T): T }} Clone
  */
-export default {}
+export {}

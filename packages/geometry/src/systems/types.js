@@ -1,9 +1,8 @@
 import { World } from '@wimaengine/ecs'
+import { Vector2 } from '@wimaengine/math'
 import { EnumInfo, Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
 import { setTypeId, typeid } from '@wimaengine/type'
-import { BoundingBox2D, BoundingCircle } from '../AABB'
-import { BoundType } from '../AABB'
-import { Vector2 } from '@wimaengine/math'
+import { BoundingBox2D, BoundingCircle, BoundType } from '../AABB'
 
 /**
  * @param {World} world

@@ -1,10 +1,10 @@
-import { World } from '@wimaengine/ecs'
 import { App, Plugin } from '@wimaengine/app'
-import { registerTimeTypes, updateTimers } from './systems'
-import { VirtualClock } from './resource'
+import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { World } from '@wimaengine/ecs'
 import { Clock } from './clock'
 import { Timer } from './components'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { VirtualClock } from './resource'
+import { registerTimeTypes, updateTimers } from './systems'
 
 export class TimePlugin extends Plugin {
 

@@ -1,15 +1,13 @@
 /** @import { Constructor, TypeId, TupleConstructor } from '@wimaengine/type'*/
 /** @import { ArchetypeId, TableId, TableRow } from './typedef'*/
 
+import { assert } from '@wimaengine/logger'
+import { typeid } from '@wimaengine/type'
+import { Archetypes, Archetype } from './archetype'
+import { ComponentHooks } from './component'
+import { Entities, EntityHandle, EntityLocation, EntityCell } from './entities'
 import { Table, Tables } from './tables'
 import { TypeStore } from './typestore'
-import { assert } from '@wimaengine/logger'
-import { ComponentHooks } from './component'
-import { Entities, EntityHandle } from './entities'
-import { Archetypes, Archetype } from './archetype'
-import { EntityLocation } from './entities'
-import { typeid } from '@wimaengine/type'
-import { EntityCell } from './entities'
 
 export class World {
 

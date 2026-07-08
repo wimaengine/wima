@@ -1,9 +1,9 @@
 /** @import {EmitterOptions} from "../components" */
-import { Emitter } from '../components'
-import { createTransform3D, GlobalTransform3D, Orientation3D, Position3D, Scale3D } from '@wimaengine/transform'
-import { Vector3 } from '@wimaengine/math'
 import { Children } from '@wimaengine/hierarchy'
+import { Vector3 } from '@wimaengine/math'
 import { Timer } from '@wimaengine/time'
+import { createTransform3D, GlobalTransform3D, Orientation3D, Position3D, Scale3D } from '@wimaengine/transform'
+import { Emitter } from '../components'
 
 /**
  * @param {EmitterOptions} [prefab]

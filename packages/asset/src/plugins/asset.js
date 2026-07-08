@@ -5,7 +5,6 @@ import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { EventPlugin } from '@wimaengine/event'
 import { typeid, typeidGeneric } from '@wimaengine/type'
 import { Assets } from '../resources'
-import { AssetAdded, AssetDropped, AssetModified } from '../events'
 import { registerAssetTypes, registerAssetOnAssetServer, unloadDroppedAssets, updateAssetChannel, updateAssetEvents } from '../systems'
 
 /**
@@ -106,4 +105,3 @@ export class AssetPlugin extends Plugin {
  * @property {Constructor<T>} asset
  * @property {import('../systems').AssetEvents<T>} [events]
  */
-

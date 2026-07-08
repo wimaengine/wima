@@ -1,9 +1,9 @@
 import { World } from '@wimaengine/ecs'
 import { MapInfo, StructInfo, Field, OpaqueInfo, TypeRegistry } from '@wimaengine/reflect'
-import { setTypeId, typeid } from '@wimaengine/type'
-import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from '../resources'
 import { ProgramCache, MeshAttribute } from '@wimaengine/render-core'
+import { setTypeId, typeid } from '@wimaengine/type'
 import { WebglRenderPipeline } from '../core'
+import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from '../resources'
 
 /**
  * @param {World} world

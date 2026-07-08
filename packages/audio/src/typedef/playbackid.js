@@ -1,4 +1,4 @@
 /**
  * @typedef {number} PlaybackId
  */
-export default {}
+export {}

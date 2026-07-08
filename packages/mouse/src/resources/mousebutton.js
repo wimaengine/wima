@@ -1,5 +1,5 @@
-import { MouseButton } from '../core'
 import { Buttons } from '@wimaengine/input-core'
+import { MouseButton } from '../core'
 
 /**
  * @augments {Buttons<MouseButton>}

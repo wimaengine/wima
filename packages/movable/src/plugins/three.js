@@ -1,11 +1,11 @@
+import { App, Plugin } from '@wimaengine/app'
+import { AppSchedule } from '@wimaengine/core'
 import {
   Velocity3D,
   Rotation3D,
   Acceleration3D,
   Torque3D
 } from '../components'
-import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule } from '@wimaengine/core'
 import { registerMovable3DTypes } from '../systems'
 
 export class Movable3DPlugin extends Plugin {

@@ -1,7 +1,7 @@
 import { Query, World } from '@wimaengine/ecs'
 import { Timer, TimerMode } from '@wimaengine/time'
-import { AudioAssets, AudioGraph } from '../resources'
 import { AudioPlayer, AudioOscillator, AudioOscillatorType } from '../components'
+import { AudioAssets, AudioGraph } from '../resources'
 
 /**
  * @param {World} world

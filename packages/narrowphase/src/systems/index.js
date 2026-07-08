@@ -1,12 +1,11 @@
-import { Vector2, clamp } from '@wimaengine/math'
-import { Collider2D, PhysicsProperties } from '@wimaengine/physics'
-import { PhysicsSettings } from '@wimaengine/physics'
-import { canCollide, shapeContains, generatePairID, CollisionData, CollisionManifold } from '../core'
-import { Query, World } from '@wimaengine/ecs'
-import { Contacts, SATNarrowphase2D } from '../resources'
-import { Position2D } from '@wimaengine/transform'
-import { Rotation2D, Velocity2D } from '@wimaengine/movable'
 import { CollisionPairs } from '@wimaengine/broadphase'
+import { Query, World } from '@wimaengine/ecs'
+import { Vector2, clamp } from '@wimaengine/math'
+import { Rotation2D, Velocity2D } from '@wimaengine/movable'
+import { Collider2D, PhysicsProperties, PhysicsSettings } from '@wimaengine/physics'
+import { Position2D } from '@wimaengine/transform'
+import { canCollide, shapeContains, generatePairID, CollisionData, CollisionManifold } from '../core'
+import { Contacts, SATNarrowphase2D } from '../resources'
 
 const
   tmp2 = {

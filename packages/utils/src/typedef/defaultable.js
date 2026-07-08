@@ -3,4 +3,4 @@
  * @typedef Defaultable
  * @property {()=>T} default
  */
-export default {}
+export {}

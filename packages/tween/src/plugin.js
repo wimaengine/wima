@@ -1,5 +1,9 @@
 /** @import {TweenLerp} from './typedef' */
 import { App, Plugin } from '@wimaengine/app'
+import { AppSchedule } from '@wimaengine/core'
+import { Vector2, Quaternion, Vector3, Rotary } from '@wimaengine/math'
+import { Orientation2D, Orientation3D, Position2D, Position3D, Scale2D, Scale3D } from '@wimaengine/transform'
+import { typeid, typeidGeneric } from '@wimaengine/type'
 import {
   Position2DTween,
   Orientation2DTween,
@@ -11,11 +15,7 @@ import {
   TweenRepeat,
   Tween
 } from './components'
-import { Vector2, Quaternion, Vector3, Rotary } from '@wimaengine/math'
 import { generateTweenFlipSystem, generateTweenRepeatTween, generateTweenTimerSystem, generateTweenUpdateSystem } from './systems'
-import { Orientation2D, Orientation3D, Position2D, Position3D, Scale2D, Scale3D } from '@wimaengine/transform'
-import { typeid, typeidGeneric } from '@wimaengine/type'
-import { AppSchedule } from '@wimaengine/core'
 
 // TODO: Convert this into a plugin group
 export class DefaultTweenPlugin extends Plugin {

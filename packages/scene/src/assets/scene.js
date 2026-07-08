@@ -1,10 +1,10 @@
 /** @import {EntityId} from '@wimaengine/ecs' */
+import { AssetsSnapshot } from '@wimaengine/asset'
 import { EntityHandle, Query, World } from '@wimaengine/ecs'
 import { Parent } from '@wimaengine/hierarchy'
 import { warn } from '@wimaengine/logger'
 import { TypeRegistry } from '@wimaengine/reflect'
 import { typeid } from '@wimaengine/type'
-import { AssetsSnapshot } from '@wimaengine/asset'
 import { SceneInstance } from '../components'
 import { AssetSceneMap } from '../resources'
 

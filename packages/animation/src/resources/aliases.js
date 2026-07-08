@@ -1,5 +1,5 @@
-import { AnimationClip } from '../assets'
 import { Assets } from '@wimaengine/asset'
+import { AnimationClip } from '../assets'
 
 /**
  * @augments {Assets<AnimationClip>}

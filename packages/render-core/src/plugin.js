@@ -1,16 +1,15 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { AssetImporterPlugin, AssetPlugin, Assets } from '@wimaengine/asset'
+import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
+import { typeidGeneric } from '@wimaengine/type'
+import { Mesh, Shader, Image, BasicMaterial } from './assets'
 import {
   BasicMaterialInstance,
   Camera,
   Meshed,
   removeMeshedHandle
 } from './components'
-import { Mesh, Shader, Image, BasicMaterial } from './assets'
-import { BasicMaterialAssets, ImageAssets, ImageImporter, MeshAssets } from './resources'
-import { MaterialInstancePlugin } from './plugins'
 import {
   ImageAdded,
   ImageDropped,
@@ -25,7 +24,8 @@ import {
   MeshDropped,
   MeshModified
 } from './events'
-import { typeidGeneric } from '@wimaengine/type'
+import { MaterialInstancePlugin } from './plugins'
+import { BasicMaterialAssets, ImageAssets, ImageImporter, MeshAssets } from './resources'
 import { registerRenderCoreTypes } from './systems'
 
 export class RenderCorePlugin extends Plugin {

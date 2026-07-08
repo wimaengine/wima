@@ -8,4 +8,4 @@
  * @param {World} registry
  * @returns {void}
  */
-export default {}
+export {}

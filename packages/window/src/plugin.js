@@ -1,4 +1,8 @@
 /** @import {WindowOptions} from './components' */
+import { App, Plugin } from '@wimaengine/app'
+import { AppSchedule, CoreSystems, EntityCommands } from '@wimaengine/core'
+import { EventPlugin } from '@wimaengine/event'
+import { Window, MainWindow } from './components'
 import {
   FileDrag,
   FileDrop,
@@ -14,11 +18,7 @@ import {
   WindowMove,
   WindowResize
 } from './events'
-import { App, Plugin } from '@wimaengine/app'
-import { Window, MainWindow } from './components'
 import { Windows } from './resources'
-import { EventPlugin } from '@wimaengine/event'
-import { AppSchedule, CoreSystems, EntityCommands } from '@wimaengine/core'
 import { registerWindowTypes } from './systems'
 
 export class WindowPlugin extends Plugin {

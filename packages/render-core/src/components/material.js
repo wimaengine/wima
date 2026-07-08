@@ -1,5 +1,5 @@
-import { Material } from '../assets'
 import { Handle } from '@wimaengine/asset'
+import { Material } from '../assets'
 
 /**
  * @abstract

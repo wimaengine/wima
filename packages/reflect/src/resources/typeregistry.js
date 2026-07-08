@@ -1,6 +1,6 @@
 /** @import { TypeId, Constructor } from '@wimaengine/type' */
-import { TypeInfo } from '../core'
 import { typeid } from '@wimaengine/type'
+import { TypeInfo } from '../core'
 
 export class TypeRegistry {
 

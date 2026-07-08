@@ -34,4 +34,4 @@ export class Material {
   }
 }
 
-export default {}
+export {}

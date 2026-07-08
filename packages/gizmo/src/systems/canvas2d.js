@@ -1,6 +1,9 @@
 /** @import { Constructor } from '@wimaengine/type' */
 /** @import { SystemFunc } from '@wimaengine/ecs' */
 import { EntityHandle, Query } from '@wimaengine/ecs'
+import { warn } from '@wimaengine/logger'
+import { typeidGeneric } from '@wimaengine/type'
+import { Windows, Window } from '@wimaengine/window'
 import {
   Gizmo2D,
   Gizmo3D,
@@ -8,9 +11,6 @@ import {
   GizmoLineJoin,
   GizmoLineCap
 } from '../core'
-import { warn } from '@wimaengine/logger'
-import { typeidGeneric } from '@wimaengine/type'
-import { Windows, Window } from '@wimaengine/window'
 
 /**
  * @template T

@@ -2,8 +2,8 @@
 /** @import { AssetId } from '@wimaengine/asset'*/
 /** @import { ComponentHook } from '@wimaengine/ecs' */
 import { Handle } from '@wimaengine/asset'
-import { Playback } from '../core'
 import { AnimationClip } from '../assets'
+import { Playback } from '../core'
 
 export class AnimationPlayer {
 

@@ -1,7 +1,7 @@
 import { EntityHandle, World } from '@wimaengine/ecs'
+import { Vector2 } from '@wimaengine/math'
 import { ArrayInfo, Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
 import { typeid } from '@wimaengine/type'
-import { Vector2 } from '@wimaengine/math'
 import { PhysicsHitbox } from '../components'
 import { CollisionPair } from '../core'
 import { Broadphase2D, CollisionPairs } from '../resources'

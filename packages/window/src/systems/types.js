@@ -1,8 +1,8 @@
 import { World } from '@wimaengine/ecs'
 import { EnumInfo, Field, MapInfo, OpaqueInfo, StructInfo, TypeRegistry } from '@wimaengine/reflect'
 import { setTypeId, typeid } from '@wimaengine/type'
+import { WindowRequest } from '../commands'
 import { MainWindow, Window } from '../components'
-import { WindowRequest } from '../core'
 import { Windows } from '../resources'
 
 /**

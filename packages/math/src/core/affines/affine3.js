@@ -1,7 +1,7 @@
-import { Vector3 } from '../vectors'
 import { Quaternion } from '../angles'
-import { Matrix3, Matrix4 } from '../matrices'
 import { invert } from '../functions'
+import { Matrix3, Matrix4 } from '../matrices'
+import { Vector3 } from '../vectors'
 
 /**
  * Represents a 3x4 affine.

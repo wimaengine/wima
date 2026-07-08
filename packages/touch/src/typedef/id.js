@@ -1,4 +1,4 @@
 /**
  * @typedef {number} TouchId
  */
-export default {}
+export {}

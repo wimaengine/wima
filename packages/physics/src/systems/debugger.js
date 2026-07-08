@@ -1,12 +1,12 @@
-import { Collider2D } from '../components'
-import { Vector2 } from '@wimaengine/math'
-import { vertices } from '@wimaengine/render-canvas2d'
-import { Query, World, EntityHandle } from '@wimaengine/ecs'
-import { Position2D } from '@wimaengine/transform'
 import { PhysicsHitbox } from '@wimaengine/broadphase'
-import { MainWindow, Windows } from '@wimaengine/window'
+import { Query, World, EntityHandle } from '@wimaengine/ecs'
+import { Vector2 } from '@wimaengine/math'
 import { Velocity2D } from '@wimaengine/movable'
 import { Contacts } from '@wimaengine/narrowphase'
+import { vertices } from '@wimaengine/render-canvas2d'
+import { Position2D } from '@wimaengine/transform'
+import { MainWindow, Windows } from '@wimaengine/window'
+import { Collider2D } from '../components'
 
 /**
  * @param {World} world

@@ -2,8 +2,7 @@
 import { CommandQueue } from '@wimaengine/command'
 import { assert } from '@wimaengine/logger'
 import { Vector2 } from '@wimaengine/math'
-import { WindowCommand } from '../commands'
-import { WindowRequest } from './request'
+import { WindowCommand, WindowRequest } from '../commands'
 
 export class WindowCommands {
 

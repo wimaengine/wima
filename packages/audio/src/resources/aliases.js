@@ -1,5 +1,5 @@
-import { Audio } from '../assets'
 import { Assets } from '@wimaengine/asset'
+import { Audio } from '../assets'
 
 /**
  * @augments {Assets<Audio>}

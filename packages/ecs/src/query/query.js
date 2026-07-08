@@ -1,11 +1,11 @@
 /** @import { TableId, TableRow } from '../typedef'*/
 /** @import { TypeId, TupleConstructor  } from '@wimaengine/type'*/
 
-import { EntityHandle } from '../entities'
-import { World } from '../world'
 import { typeid } from '@wimaengine/type'
-import { Table } from '../tables'
 import { Archetype } from '../archetype'
+import { EntityHandle } from '../entities'
+import { Table } from '../tables'
+import { World } from '../world'
 import { QueryFilter } from './filters'
 
 /**

@@ -1,8 +1,8 @@
 /** @import { World } from '@wimaengine/ecs' */
 
+import { HandleSnapshot } from '@wimaengine/asset'
 import { Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
 import { typeid } from '@wimaengine/type'
-import { HandleSnapshot } from '@wimaengine/asset'
 import { SceneInstance, SceneInstanceSnapshot } from '../components'
 
 /**

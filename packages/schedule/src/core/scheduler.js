@@ -1,6 +1,6 @@
+import { typeid } from '@wimaengine/type'
 import { Executable } from './executable'
 import { Schedule } from './schedule'
-import { typeid } from '@wimaengine/type'
 
 /**
  * Stores labeled {@link Executable executables}.

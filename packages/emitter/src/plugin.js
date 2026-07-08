@@ -1,7 +1,7 @@
 import { App, Plugin } from '@wimaengine/app'
-import { despawnParticles, emitParticles2D, emitParticles3D } from './systems'
-import { Particle, Emitter } from './components'
 import { AppSchedule } from '@wimaengine/core'
+import { Particle, Emitter } from './components'
+import { despawnParticles, emitParticles2D, emitParticles3D } from './systems'
 
 export class Emitter2DPlugin extends Plugin {
 

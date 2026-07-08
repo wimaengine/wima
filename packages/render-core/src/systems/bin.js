@@ -1,13 +1,10 @@
 /** @import { SystemFunc } from '@wimaengine/ecs' */
 /** @import { Constructor } from '@wimaengine/type' */
 import { Query } from '@wimaengine/ecs'
-import { typeid } from '@wimaengine/type'
 import { GlobalTransform2D, GlobalTransform3D } from '@wimaengine/transform'
+import { typeid } from '@wimaengine/type'
 import { Material } from '../assets'
-import { Camera } from '../components'
-import { MaterialInstance } from '../components'
-import { Meshed } from '../components'
-import { RenderLists2D, RenderType, RenderLists3D } from '../components'
+import { Camera, MaterialInstance, Meshed, RenderLists2D, RenderType, RenderLists3D } from '../components'
 
 /**
  * @template {Material} T

@@ -1,8 +1,8 @@
 /** @import { Constructor } from '@wimaengine/type' */
 
 import { OpaqueInfo, StructInfo, TypeRegistry } from '@wimaengine/reflect'
-import { Events } from '../core'
 import { typeidGeneric } from '@wimaengine/type'
+import { Events } from '../core'
 
 /**
  * @template T

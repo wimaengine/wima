@@ -3,4 +3,4 @@
  * @property {()=>ArrayBufferLike} asUniformBind
  */
 
-export default {}
+export {}

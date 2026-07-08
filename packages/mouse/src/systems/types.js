@@ -1,7 +1,7 @@
 import { World } from '@wimaengine/ecs'
+import { Vector2 } from '@wimaengine/math'
 import { Field, OpaqueInfo, StructInfo, TypeRegistry } from '@wimaengine/reflect'
 import { typeid } from '@wimaengine/type'
-import { Vector2 } from '@wimaengine/math'
 import { Mouse, MouseButtons } from '../resources'
 
 /**

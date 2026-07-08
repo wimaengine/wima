@@ -1,11 +1,11 @@
 /** @import { SystemFunc, World } from '@wimaengine/ecs' */
 /** @import { Constructor } from '@wimaengine/type' */
 
-import { Assets as ResourceAssets } from '../resources'
 import { Events } from '@wimaengine/event'
+import { error, warnOnce } from '@wimaengine/logger'
 import { typeid, typeidGeneric } from '@wimaengine/type'
 import { AssetAdded, AssetDropped, AssetModified, AssetLoadFail, AssetLoadOperation } from '../events'
-import { error, warnOnce } from '@wimaengine/logger'
+import { Assets as ResourceAssets } from '../resources'
 
 /**
  * @template T

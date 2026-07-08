@@ -2,9 +2,9 @@
 
 import { App, Plugin } from '@wimaengine/app'
 import { AppSchedule, CoreSystems } from '@wimaengine/core'
-import { makeEventClear, registerEventTypes } from './systems'
-import { Events } from './core'
 import { typeid, typeidGeneric } from '@wimaengine/type'
+import { Events } from './core'
+import { makeEventClear, registerEventTypes } from './systems'
 
 /**
  * @template T

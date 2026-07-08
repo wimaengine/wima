@@ -1,10 +1,9 @@
 import { World } from '@wimaengine/ecs'
 import { Field, StructInfo, EnumInfo, TypeRegistry } from '@wimaengine/reflect'
 import { setTypeId, typeid } from '@wimaengine/type'
-import { Timer } from '../components'
 import { Clock } from '../clock'
+import { Timer, TimerMode } from '../components'
 import { VirtualClock } from '../resource'
-import { TimerMode } from '../components'
 
 /**
  * @param {World} world

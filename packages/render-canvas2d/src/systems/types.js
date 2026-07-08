@@ -1,7 +1,7 @@
 import { World } from '@wimaengine/ecs'
 import { MapInfo, StructInfo, TypeRegistry } from '@wimaengine/reflect'
-import { setTypeId, typeid } from '@wimaengine/type'
 import { TextureCache } from '@wimaengine/render-core'
+import { setTypeId, typeid } from '@wimaengine/type'
 
 /**
  * @param {World} world

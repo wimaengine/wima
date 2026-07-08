@@ -1,7 +1,7 @@
 /** @import { TypeRegistry } from '@wimaengine/reflect' */
 import { Importer } from '@wimaengine/asset'
-import { Image } from '../assets'
 import { Vector2 } from '@wimaengine/math'
+import { Image } from '../assets'
 
 /**
  * @augments {Importer<Image>}

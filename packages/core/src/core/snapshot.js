@@ -37,5 +37,3 @@ export class FromSnapshot {
     throw abstractMethod(this, FromSnapshot, FromSnapshot.prototype.fromSnapshot)
   }
 }
-
-export default {}

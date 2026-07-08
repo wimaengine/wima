@@ -21,4 +21,4 @@
 /**
  * @typedef {number & {__brand: "TableRow"}} TableRow
  */
-export default {}
+export {}

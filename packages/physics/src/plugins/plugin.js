@@ -1,12 +1,12 @@
-import { Broadphase2DPlugin, NaiveBroadphase2D } from '@wimaengine/broadphase'
 import { App, Plugin } from '@wimaengine/app'
+import { Broadphase2DPlugin, NaiveBroadphase2D } from '@wimaengine/broadphase'
+import { AppSchedule } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
-import { NarrowPhase2DPlugin } from '@wimaengine/narrowphase'
 import { EulerIntegrator2DPlugin } from '@wimaengine/integrator'
+import { NarrowPhase2DPlugin } from '@wimaengine/narrowphase'
 import { Collider2D, PhysicsProperties, SoftBody2D, SoftBody3D } from '../components'
 import { physicspropertiesAddHook } from '../hooks'
 import { collisionResponse, registerPhysicsTypes, updateBodies, updateBounds } from '../systems'
-import { AppSchedule } from '@wimaengine/core'
 
 // TODO: Convert to a plugin group
 export class Physics2DPlugin extends Plugin {

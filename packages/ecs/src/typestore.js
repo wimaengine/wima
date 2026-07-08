@@ -1,8 +1,8 @@
 /** @import { ComponentId } from './typedef'*/
 /** @import { Constructor,TypeId } from '@wimaengine/type'*/
 
-import { ComponentInfo } from './component'
 import { typeid } from '@wimaengine/type'
+import { ComponentInfo } from './component'
 
 export class TypeStore {
 

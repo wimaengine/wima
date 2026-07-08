@@ -1,4 +1,3 @@
-import { UBOCache } from '../resources'
 import { assert } from '@wimaengine/logger'
 import {
   Vector2,
@@ -10,6 +9,7 @@ import {
   Affine2,
   Affine3
 } from '@wimaengine/math'
+import { UBOCache } from '../resources'
 
 export class WebglRenderPipeline {
 

@@ -1,5 +1,5 @@
-import { BoundType } from './boundtype'
 import { Vector2 } from '@wimaengine/math'
+import { BoundType } from './boundtype'
 
 /**
  * A circular 2d bound.

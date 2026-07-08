@@ -1,7 +1,7 @@
 import { World, EntityHandle } from '@wimaengine/ecs'
+import { Affine2, Affine3 } from '@wimaengine/math'
 import { Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
 import { typeid } from '@wimaengine/type'
-import { Affine2, Affine3 } from '@wimaengine/math'
 import {
   GlobalTransform2D,
   GlobalTransform3D,

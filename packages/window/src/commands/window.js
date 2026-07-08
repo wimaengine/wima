@@ -1,9 +1,8 @@
-import { Query, EntityHandle, World } from '@wimaengine/ecs'
 import { Command } from '@wimaengine/command'
+import { Query, EntityHandle, World } from '@wimaengine/ecs'
 import { error } from '@wimaengine/logger'
-import { WindowRequest } from '../core'
-import { Windows } from '../resources'
 import { Window } from '../components'
+import { Windows } from '../resources'
 
 export class WindowCommand extends Command {
 
@@ -95,4 +94,17 @@ function execute(command, canvas, window) {
     default:
       error('A `WindowRequest` variant has not been implemented')
   }
+}
+
+/**
+ * @readonly
+ * @enum {number}
+ */
+export const WindowRequest = {
+  FullScreen:0,
+  PointerLock:1,
+  PointerCapture:2,
+  PointerRelease:3,
+  Resize:4,
+  Reposition:5
 }

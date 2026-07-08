@@ -1,6 +1,18 @@
 import jsdoc from "eslint-plugin-jsdoc"
 import style from "@stylistic/eslint-plugin"
-import imports from "eslint-plugin-import-x"
+import imports, { createNodeResolver } from "eslint-plugin-import-x"
+import { fileURLToPath } from "node:url"
+
+const rootEntry = fileURLToPath(new URL("../src/index.js", import.meta.url))
+const wimaResolver = {
+    interfaceVersion: 3,
+    name: "wima-root",
+    resolve(modulePath) {
+        if (modulePath === "wima") return { found: true, path: rootEntry }
+
+        return { found: false }
+    }
+}
 
 export default [
     {
@@ -9,9 +21,17 @@ export default [
             style,
             imports
         },
+        settings: {
+            "import-x/resolver-next": [
+                wimaResolver,
+                createNodeResolver()
+            ]
+        },
         ignores: [
             "**/*.config.js",
             "**/test/**/*.js",
+            "**/dist/**/*",
+            "packages/*/types/**/*",
             "**/*.test.js",
             "**/*.spec.js",
             "node_modules"

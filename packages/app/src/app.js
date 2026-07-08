@@ -2,8 +2,8 @@
 /** @import { Constructor,TypeId } from '@wimaengine/type'*/
 
 import { World, ComponentHooks } from '@wimaengine/ecs'
-import { Scheduler, SchedulerBuilder } from '@wimaengine/schedule'
 import { assert } from '@wimaengine/logger'
+import { Scheduler, SchedulerBuilder } from '@wimaengine/schedule'
 import { typeid } from '@wimaengine/type'
 
 const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'

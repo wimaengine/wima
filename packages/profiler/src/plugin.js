@@ -1,9 +1,9 @@
-import { Profiler, ProfilerTimer } from './resources'
-import { TimerMode, VirtualClock } from '@wimaengine/time'
 import { App, Plugin } from '@wimaengine/app'
+import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { World } from '@wimaengine/ecs'
 import { warn } from '@wimaengine/logger'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { TimerMode, VirtualClock } from '@wimaengine/time'
+import { Profiler, ProfilerTimer } from './resources'
 import { registerProfilerTypes } from './systems'
 
 export class ProfilerPlugin extends Plugin {

@@ -2,12 +2,11 @@
 /** @import {Constructor, TypeId} from '@wimaengine/type' */
 
 import { unpackFrom64Int, DenseList, IndexAllocator } from '@wimaengine/datastructures'
-import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events'
-import { AssetChannel, AssetChannelMessageType } from '../core'
-import { Handle } from '../core'
-import { setTypeId, typeid, typeidGeneric } from '@wimaengine/type'
-import { TypeEntry, TypeRegistry } from '@wimaengine/reflect'
 import { warn } from '@wimaengine/logger'
+import { TypeEntry, TypeRegistry } from '@wimaengine/reflect'
+import { setTypeId, typeid, typeidGeneric } from '@wimaengine/type'
+import { AssetChannel, AssetChannelMessageType, Handle } from '../core'
+import { AssetAdded, AssetDropped, AssetEvent, AssetModified } from '../events'
 
 const assetSceneMapId = setTypeId('AssetSceneMap')
 

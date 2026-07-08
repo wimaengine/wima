@@ -1,15 +1,14 @@
 /** @import { Constructor } from '@wimaengine/type' */
 
-import { World } from '@wimaengine/ecs'
-import { EnumInfo, Field, MapInfo, OpaqueInfo, StructInfo, TypeRegistry } from '@wimaengine/reflect'
-import { setTypeId, typeid, typeidGeneric } from '@wimaengine/type'
 import { Handle, HandleSnapshot } from '@wimaengine/asset'
 import { Color } from '@wimaengine/color'
+import { World } from '@wimaengine/ecs'
 import { Vector2 } from '@wimaengine/math'
-import { BasicMaterialInstance, BasicMaterialInstanceSnapshot, Camera, Meshed, MeshedSnapshot, RenderLists2D, RenderLists3D } from '../components'
-import { MeshAttributeData } from '../core'
-import { Projection, ShaderStage } from '../core'
+import { EnumInfo, Field, MapInfo, OpaqueInfo, StructInfo, TypeRegistry } from '@wimaengine/reflect'
+import { setTypeId, typeid, typeidGeneric } from '@wimaengine/type'
 import { BasicMaterial, Image, Material, Mesh, Shader } from '../assets'
+import { BasicMaterialInstance, BasicMaterialInstanceSnapshot, Camera, Meshed, MeshedSnapshot, RenderLists2D, RenderLists3D } from '../components'
+import { MeshAttributeData, Projection, ShaderStage } from '../core'
 
 /**
  * @param {World} world

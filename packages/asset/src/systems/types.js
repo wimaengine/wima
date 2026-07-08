@@ -2,10 +2,10 @@
 
 import { World } from '@wimaengine/ecs'
 import { ArrayInfo, Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
-import { AssetServer, Assets, AssetsSnapshot } from '../resources'
-import { Handle, HandleSnapshot } from '../core'
 import { typeid, typeidGeneric } from '@wimaengine/type'
+import { Handle, HandleSnapshot } from '../core'
 import { AssetLoadFail, AssetSaveSuccess } from '../events'
+import { AssetServer, Assets, AssetsSnapshot } from '../resources'
 
 /**
  * @template T

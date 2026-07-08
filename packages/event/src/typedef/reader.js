@@ -5,4 +5,4 @@
  * @param {CEvent<T>} event
  * @returns {void}
  */
-export default {}
+export {}

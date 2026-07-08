@@ -5,4 +5,4 @@
  * @returns {void}
  */
 
-export default {}
+export {}

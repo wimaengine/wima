@@ -1,7 +1,7 @@
-import { BasicMaterial } from '../../assets'
-import { MaterialInstance } from '../material'
 import { Handle, HandleSnapshot } from '@wimaengine/asset'
 import { typeid } from '@wimaengine/type'
+import { BasicMaterial } from '../../assets'
+import { MaterialInstance } from '../material'
 
 /**
  * @augments MaterialInstance<BasicMaterial>
