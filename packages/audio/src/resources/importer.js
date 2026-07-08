@@ -1,0 +1,59 @@
+/** @import { TypeRegistry } from '@wimaengine/reflect' */
+import { Importer } from '@wimaengine/asset'
+import { Audio } from '../assets'
+
+/**
+ * @augments {Importer<Audio>}
+ */
+export class AudioImporter extends Importer {
+
+  /**
+   * @private
+   * @type {OfflineAudioContext}
+   */
+  decoder
+
+  /**
+   * @param {OfflineAudioContextOptions} options
+   */
+  constructor(options = {
+    sampleRate: 44100,
+    length: 512
+  }) {
+    super(Audio)
+    this.decoder = new OfflineAudioContext(options)
+  }
+
+  /**
+   * @param {Response} response
+   * @param {TypeRegistry} _typeRegistry
+   */
+  async deserialize(response, _typeRegistry) {
+    const raw = await response.arrayBuffer()
+    const audiobuffer = await this.decoder.decodeAudioData(raw)
+
+    return new Audio(audiobuffer)
+  }
+
+  getExtensions() {
+
+    // audio capabilities
+    const audio = document.createElement('audio')
+    const extensions = []
+
+    if (audio.canPlayType('audio/ogg; codecs="vorbis"').replace(/^no$/, '')) {
+      extensions.push('ogg')
+    }
+    if (audio.canPlayType('audio/mpeg;').replace(/^no$/, '')) {
+      extensions.push('mp3')
+    }
+    if (audio.canPlayType('audio/wav; codecs="1"').replace(/^no$/, '')) {
+      extensions.push('wav')
+    }
+    if (audio.canPlayType('audio/x-m4a;').replace(/^no$/, '') || audio.canPlayType('audio/aac;').replace(/^no$/, '')) {
+      extensions.push('m4a')
+    }
+
+    return extensions
+  }
+}

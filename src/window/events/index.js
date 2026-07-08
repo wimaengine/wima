@@ -1,4 +1,0 @@
-export * from './window/index.js'
-export * from './pointer/index.js'
-export * from './keyboard/index.js'
-export * from './file/index.js'

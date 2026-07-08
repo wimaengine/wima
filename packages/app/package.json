@@ -1,0 +1,26 @@
+{
+  "name": "@wimaengine/app",
+  "description": "Wima engine app package.",
+  "version": "0.3.0",
+  "type": "module",
+  "license": "SEE LICENSE in LICENSE.txt",
+  "author": "Wima engine contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wimaengine/wima.git"
+  },
+  "homepage": "https://wimaengine.github.io/wima/",
+  "bugs": {
+    "url": "https://github.com/wimaengine/wima/issues"
+  },
+  "private": true,
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./src": "./src/index.js"
+  },
+  "files": [
+    "index.js",
+    "src"
+  ]
+}

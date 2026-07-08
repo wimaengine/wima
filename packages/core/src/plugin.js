@@ -1,0 +1,79 @@
+import { App, Plugin } from '@wimaengine/app'
+import { AppSchedule, CoreSystems, defaultRunner } from './core'
+import { SchedulerBuilder } from '@wimaengine/schedule'
+import { registerCoreTypes } from './systems'
+
+export class CorePlugin extends Plugin {
+
+  /**
+   * @param {App} app
+   */
+  register(app) {
+    app
+      .setResource(SchedulerBuilder.Instance)
+      .setRunner(defaultRunner)
+      .createSchedule({
+        label: AppSchedule.Startup,
+        repeat: false,
+        defaultSystemGroup: CoreSystems.Main
+      })
+      .createSchedule({
+        label: AppSchedule.Update,
+        repeat: true,
+        defaultSystemGroup: CoreSystems.Main
+      })
+      .registerSystemGroup({
+        label: CoreSystems.Start,
+        schedule: AppSchedule.Startup,
+        before: [CoreSystems.PreMain]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.PreMain,
+        schedule: AppSchedule.Startup,
+        before: [CoreSystems.Main]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.Main,
+        schedule: AppSchedule.Startup,
+        before: [CoreSystems.PostMain]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.PostMain,
+        schedule: AppSchedule.Startup,
+        before: [CoreSystems.End]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.End,
+        schedule: AppSchedule.Startup
+      })
+
+      .registerSystemGroup({
+        label: CoreSystems.Start,
+        schedule: AppSchedule.Update,
+        before: [CoreSystems.PreMain]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.PreMain,
+        schedule: AppSchedule.Update,
+        before: [CoreSystems.Main]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.Main,
+        schedule: AppSchedule.Update,
+        before: [CoreSystems.PostMain]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.PostMain,
+        schedule: AppSchedule.Update,
+        before: [CoreSystems.End]
+      })
+      .registerSystemGroup({
+        label: CoreSystems.End,
+        schedule: AppSchedule.Update
+      })
+      .registerSystem({
+        schedule: AppSchedule.Startup,
+        system: registerCoreTypes
+      })
+  }
+}
