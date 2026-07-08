@@ -1,11 +1,17 @@
 {
-    "include": [
-        "../src/index.js"
-    ],
-    "compilerOptions": {
-        "declaration": true,
-        "emitDeclarationOnly": true,
-        "declarationDir":"../types",
-        "allowJs": true
-    }
+  "extends": "./tsc.lint.json",
+  "include": [
+    "../src/index.js",
+    "../packages/**/*"
+  ],
+  "exclude": [
+    "../packages/**/tests/**"
+  ],
+  "compilerOptions": {
+    "allowJs": true,
+    "declaration": true,
+    "declarationDir": "../types",
+    "emitDeclarationOnly": true,
+    "noEmit": false
+  }
 }
