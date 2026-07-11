@@ -171,15 +171,6 @@ export class App {
   }
 
   /**
-   * @param {Constructor} type
-   */
-  registerType(type) {
-    this.world.registerType(type)
-
-    return this
-  }
-
-  /**
    * @template T
    * @param {new (...args:any[])=>T} component
    * @param {ComponentHooks} hooks
