@@ -42,7 +42,6 @@ export class EventPlugin extends Plugin {
     const name = typeidGeneric(Events, [event])
 
     app
-      .registerType(event)
       .registerSystem({
         label: `registerEventTypes<${typeid(event)}>`,
         schedule: AppSchedule.Startup,

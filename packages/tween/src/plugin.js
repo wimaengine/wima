@@ -11,8 +11,6 @@ import {
   Position3DTween,
   Orientation3DTween,
   Scale3DTween,
-  TweenFlip,
-  TweenRepeat,
   Tween
 } from './components'
 import { generateTweenFlipSystem, generateTweenRepeatTween, generateTweenTimerSystem, generateTweenUpdateSystem } from './systems'
@@ -62,13 +60,9 @@ export class DefaultTweenPlugin extends Plugin {
 export class CoreTweenPlugin extends Plugin {
 
   /**
-   * @param {App} app
+   * @param {App} _app
    */
-  register(app) {
-    app
-      .registerType(TweenFlip)
-      .registerType(TweenRepeat)
-  }
+  register(_app) { }
 
 }
 
@@ -113,7 +107,6 @@ export class TweenPlugin extends Plugin {
    */
   register(app) {
     app
-      .registerType(this.tween)
       .registerSystem({
         schedule: AppSchedule.Update,
         label: `flipTween<${typeid(this.component)}>`,

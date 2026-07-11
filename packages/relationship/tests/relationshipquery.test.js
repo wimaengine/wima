@@ -82,7 +82,6 @@ class Neighbour {
 
 function createWorld() {
   const world = new World()
-  world.registerType(Parent)
   world.setComponentHooks(Parent, new ComponentHooks(
     addSelfToParent
   ))

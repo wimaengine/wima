@@ -1,7 +1,6 @@
 /** @import {Broadphasable2D} from './resources'*/
 import { App, Plugin } from '@wimaengine/app'
 import { AppSchedule } from '@wimaengine/core'
-import { PhysicsHitbox } from './components'
 import { CollisionPairs, Broadphase2D } from './resources'
 import { getCollisionPairs, registerBroadphaseTypes2D, updateBroadphase2D } from './systems'
 
@@ -26,7 +25,6 @@ export class Broadphase2DPlugin extends Plugin {
    */
   register(app) {
     app
-      .registerType(PhysicsHitbox)
       .registerSystem({ schedule: AppSchedule.Startup, system: registerBroadphaseTypes2D })
       .setResource(new Broadphase2D(this.innerBroadphase))
       .setResource(new CollisionPairs())

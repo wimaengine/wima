@@ -473,14 +473,6 @@ export class World {
 
   /**
    * @template T
-   * @param {Constructor<T>} type
-   */
-  registerType(type) {
-    this.typestore.set(type)
-  }
-
-  /**
-   * @template T
    * @param {Constructor<T>} component
    * @param {ComponentHooks} hooks
    */

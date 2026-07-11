@@ -33,7 +33,6 @@ export class ScenePlugin extends Plugin {
           dropped: SceneDropped
         }
       }))
-      .registerType(SceneInstance)
       .setResource(new SceneSpawner())
       .setComponentHooks(SceneInstance, new ComponentHooks(
         initSceneInstance,

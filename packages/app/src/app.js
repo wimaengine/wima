@@ -67,6 +67,12 @@ export class App {
 
   /**
    * @private
+   * @type {Map<TypeId, unknown>}
+   */
+  resources = new Map()
+
+  /**
+   * @private
    * @type {Scheduler}
    */
   scheduler = new Scheduler()
@@ -114,16 +120,18 @@ export class App {
    * Starts up the {@link App}.
    * Prevents calls to {@link App.registerSystem},
    * {@link App.registerPlugin} and {@link App.setResource}.
+   * Flushes any resources staged through {@link App.setResource} into the world before the runner starts.
    *
    * @returns {this}
    */
   run() {
     this.plugins.register(this)
+    this.flushResources()
 
     SchedulerBuilder.Instance.pushToScheduler(this.scheduler)
     assert(this.runner, 'App runner is not set. Call `app.setRunner(...)` before `app.run()`.')
-    this.runner(this.scheduler, this.world)
     this.initialized = true
+    this.runner(this.scheduler, this.world)
 
     return this
   }
@@ -163,15 +171,6 @@ export class App {
   }
 
   /**
-   * @param {Constructor} type
-   */
-  registerType(type) {
-    this.world.registerType(type)
-
-    return this
-  }
-
-  /**
    * @template T
    * @param {new (...args:any[])=>T} component
    * @param {ComponentHooks} hooks
@@ -188,10 +187,24 @@ export class App {
    */
   setResource(resource) {
     assert(!this.initialized, registererror)
-    this
-      .world.setResource(resource)
+
+    // SAFETY: An object's constructor is constructible.
+    const id = typeid(/** @type {Constructor} */(resource.constructor))
+
+    this.resources.set(id, resource)
 
     return this
+  }
+
+  /**
+   * @private
+   */
+  flushResources() {
+    for (const [id, resource] of this.resources) {
+      this.world.setResourceByTypeId(id, resource)
+    }
+
+    this.resources.clear()
   }
 }
 

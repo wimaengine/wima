@@ -9,20 +9,16 @@ import { World } from '../world'
 import { QueryFilter } from './filters'
 
 /**
- * Enables operations to be performed on specified set
- * of components components on a {@link World}.
- * Ensure that the component types matches up with the
- * component names given in the second parameter of
- * the query in lower case.
+ * Enables operations to be performed on entities matching the
+ * given component constructors on a {@link World}.
+ * The world does not need the component types to be pre-registered.
  * @example
  * ```ts
  * class A {}
  * class B {}
  *
  * const world = new World()
- *   .registerType(A)
- *   .registerType(B)
- * const query = new Query<[A, B]>(world, ['a','b'])
+ * const query = new Query(world, [A, B])
  *
  * // you can now use the query to perform operations
  * // on entities with components `A` and `B`

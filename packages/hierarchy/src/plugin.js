@@ -12,13 +12,11 @@ export class HierarchyPlugin extends Plugin {
    */
   register(app) {
     app
-      .registerType(Children)
       .setComponentHooks(Children, new ComponentHooks(
         addSelfToChildren,
         despawnChildren,
         null
       ))
-      .registerType(Parent)
       .setComponentHooks(Parent, new ComponentHooks(
         addSelfToParent,
         removeSelfFromParent,

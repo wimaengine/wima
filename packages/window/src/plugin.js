@@ -52,8 +52,6 @@ export class WindowPlugin extends Plugin {
    */
   register(app) {
     app
-      .registerType(Window)
-      .registerType(MainWindow)
       .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerWindowTypes })
       .registerPlugin(new EventPlugin({
         event:WindowMove
