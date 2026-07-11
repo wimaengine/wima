@@ -64,6 +64,17 @@ export function assert(test, message) {
 }
 
 /**
+ * Throws an error if the supplied test is false.
+ *
+ * @param {boolean} test
+ * @param {string} message
+ * @returns {asserts test}
+ */
+export function assertTrue(test, message) {
+  if (!test) throws(message)
+}
+
+/**
  * Logs out a warning to the console.
  *
  * @param {string} original
