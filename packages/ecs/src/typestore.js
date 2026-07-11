@@ -36,7 +36,7 @@ export class TypeStore {
   setByTypeId(id) {
     const hasid = this.map.get(id)
 
-    if (hasid) return hasid
+    if (hasid !== undefined) return hasid
 
     const compId = this.list.length
 
@@ -119,10 +119,14 @@ export class TypeStore {
   }
 
   /**
-   * @param {TypeId} typeid
+   * @param {TypeId} typeId
    */
-  getOrSetByTypeId(typeid) {
-    return this.getIdByTypeId(typeid) || this.setByTypeId(typeid)
+  getOrSetByTypeId(typeId) {
+    const id = this.getIdByTypeId(typeId)
+
+    if (id !== undefined) return id
+
+    return this.setByTypeId(typeId)
   }
 
   /**
