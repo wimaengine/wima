@@ -1,8 +1,11 @@
+import { typeid } from '@wimaengine/type'
+import { assert } from '@wimaengine/logger'
+
 /**
- * Default runner: drives all schedules from a single animation frame loop.
+ * Default runner: drives all schedules from a single animation frame loop and resolves each executable's world on demand.
  * @type {import('@wimaengine/schedule').Runner}
  */
-export function defaultRunner(scheduler, world) {
+export function defaultRunner(scheduler, worlds) {
 
   /** @type {Map<string, { active: boolean, nextRunAt: number }>} */
   const state = new Map()
@@ -23,6 +26,11 @@ export function defaultRunner(scheduler, world) {
       if (!execState || !execState.active) continue
 
       if (time >= execState.nextRunAt) {
+        const typeId = typeid(executable.world)
+        const world = worlds.get(typeId)
+
+        assert(world, `The world \`${typeId}\` does not exist.`)
+
         executable.schedule.run(world, executable.errorHandler)
 
         if (executable.repeat) {

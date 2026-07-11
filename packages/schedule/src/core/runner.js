@@ -1,8 +1,11 @@
-/**
- * @typedef {(scheduler: Scheduler, world: World) => void} Runner
- */
+/** @import { Scheduler } from './scheduler' */
+/** @import { World } from '@wimaengine/ecs' */
+/** @import { TypeId } from '@wimaengine/type' */
 
-import { World } from '@wimaengine/ecs'
-import { Scheduler } from './scheduler'
+/**
+ * @typedef {Map<TypeId, World>} WorldRegistry
+ *
+ * @typedef {(scheduler: Scheduler, worlds: WorldRegistry) => void} Runner
+ */
 
 export {}

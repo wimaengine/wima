@@ -1,4 +1,5 @@
 /** @import { SystemConfig, SystemGroupConfig } from './systemconfig' */
+/** @import { ExecutableConfig, ScheduleConfig } from './executable' */
 /** @import { Scheduler } from './scheduler' */
 /** @import { SystemFunc } from '@wimaengine/ecs' */
 /** @import { Constructor, TypeId } from '@wimaengine/type' */
@@ -336,7 +337,7 @@ export class ScheduleContext {
     if (node.kind === ScheduleNodeKind.System) {
       const graphId = graphIdsBySystemId.get(node.id)
 
-      assert(graphId !== undefined, `Internal error: Could not resolve graph node for system ${node.id} on schedule "${this.label.name}".`)
+      assert(graphId, `Internal error: Could not resolve graph node for system ${node.id} on schedule "${this.label.name}".`)
 
       return [graphId]
     }
@@ -351,7 +352,7 @@ export class ScheduleContext {
       for (let i = 0; i < systems.length; i++) {
         const graphId = graphIdsBySystemId.get(systems[i])
 
-        assert(graphId !== undefined, `Internal error: Could not resolve graph node for system ${systems[i]} on schedule "${this.label.name}".`)
+        assert(graphId, `Internal error: Could not resolve graph node for system ${systems[i]} on schedule "${this.label.name}".`)
         graphIds.push(graphId)
       }
 
@@ -370,7 +371,7 @@ export class ScheduleContext {
   expandGroupToGraphNode(groupId) {
     const graphId = this.graphIdsByGroupId?.get(groupId)
 
-    assert(graphId !== undefined, `Internal error: Could not resolve graph node for system group ${groupId} on schedule "${this.label.name}".`)
+    assert(graphId, `Internal error: Could not resolve graph node for system group ${groupId} on schedule "${this.label.name}".`)
 
     return graphId
   }
@@ -476,7 +477,7 @@ export class SchedulerBuilder {
 
   /**
    * @private
-   * @type {{label: Constructor, delay?: number, repeat?: boolean, errorHandler?: (error: Error, world: import('@wimaengine/ecs').World) => void, defaultSystemGroup?: Constructor}[]}
+   * @type {ScheduleConfig[]}
    */
   scheduleConfigs = []
 
@@ -505,7 +506,7 @@ export class SchedulerBuilder {
   }
 
   /**
-   * @param {{label: Constructor, delay?: number, repeat?: boolean, errorHandler?: (error: Error, world: import('@wimaengine/ecs').World) => void, defaultSystemGroup?: Constructor}} config
+   * @param {ScheduleConfig} config
    */
   addSchedule(config) {
     this.scheduleConfigs.push(config)
@@ -527,10 +528,21 @@ export class SchedulerBuilder {
 
   /**
    * @param {Scheduler} scheduler
+   * @param {Constructor | undefined} defaultWorld
    */
-  pushToScheduler(scheduler) {
+  pushToScheduler(scheduler, defaultWorld) {
     for (let i = 0; i < this.scheduleConfigs.length; i++) {
-      scheduler.set(new Executable(this.scheduleConfigs[i]))
+      const config = this.scheduleConfigs[i]
+      const world = config.world || defaultWorld
+
+      assert(world, `The world for schedule "${config.label.name}" is not set.`)
+
+      const executableConfig = /** @type {ExecutableConfig} */ ({
+        ...config,
+        world
+      })
+
+      scheduler.set(new Executable(executableConfig))
     }
 
     /** @type {Map<string,  Constructor>} */
