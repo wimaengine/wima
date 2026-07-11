@@ -41,7 +41,6 @@ export class AssetPlugin extends Plugin {
    */
   register(app) {
     const { asset, events } = this
-    const world = app.getWorld()
 
     app.registerSystem({
       label: `updateAssetChannel<${typeid(asset)}>`,
@@ -49,7 +48,22 @@ export class AssetPlugin extends Plugin {
       systemGroup: CoreSystems.End,
       system: updateAssetChannel(asset)
     })
-
+    .registerSystem({
+      label: `registerAssetOnAssetServer<${typeid(asset)}>`,
+      schedule: AppSchedule.Startup,
+      systemGroup: CoreSystems.Start,
+      system: registerAssetOnAssetServer(asset)
+    })
+    .registerSystem({
+      label: `registerAssetTypes<${typeid(asset)}>`,
+      schedule: AppSchedule.Startup,
+      systemGroup: CoreSystems.Start,
+      system: registerAssetTypes(asset)
+    })
+    .setResourceByTypeId(
+      typeidGeneric(Assets, [asset]),
+      new Assets(asset)
+    )
     if (events) {
       app
         .registerPlugin(new EventPlugin({
@@ -74,23 +88,6 @@ export class AssetPlugin extends Plugin {
           system: unloadDroppedAssets(events.dropped)
         })
     }
-
-    app.registerSystem({
-      label: `registerAssetOnAssetServer<${typeid(asset)}>`,
-      schedule: AppSchedule.Startup,
-      systemGroup: CoreSystems.Start,
-      system: registerAssetOnAssetServer(asset)
-    })
-    app.registerSystem({
-      label: `registerAssetTypes<${typeid(asset)}>`,
-      schedule: AppSchedule.Startup,
-      systemGroup: CoreSystems.Start,
-      system: registerAssetTypes(asset)
-    })
-    world.setResourceByTypeId(
-      typeidGeneric(Assets, [asset]),
-      new Assets(asset)
-    )
   }
 
   name() {

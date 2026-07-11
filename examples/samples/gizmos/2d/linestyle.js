@@ -31,10 +31,10 @@ class Demo2Gizmo2D extends Gizmo2D { }
 const app = new App()
 
 // We have to alias the gizmo resource manually
-app.getWorld().setResourceAlias(typeidGeneric(Gizmo2D, [Demo1]), Demo1Gizmo2D)
-app.getWorld().setResourceAlias(typeidGeneric(Gizmo2D, [Demo2]), Demo2Gizmo2D)
 
 app
+.setResourceAlias(typeidGeneric(Gizmo2D, [Demo1]), Demo1Gizmo2D)
+.setResourceAlias(typeidGeneric(Gizmo2D, [Demo2]), Demo2Gizmo2D)
   .registerPlugin(new HackPlugin())
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())
