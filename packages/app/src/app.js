@@ -220,6 +220,24 @@ export class App {
   }
 
   /**
+   * Stores a resource alias to be applied to every world during `run()`.
+   *
+   * @template T
+   * @param {TypeId} id
+   * @param {Constructor<T>} alias
+   * @returns {this}
+   */
+  setResourceAlias(id, alias) {
+    assertTrue(!this.initialized, registererror)
+
+    const aliasId = typeid(alias)
+
+    this.resourceAliases.set(aliasId, { id, alias })
+
+    return this
+  }
+
+  /**
    * @private
    */
   flushResources() {
