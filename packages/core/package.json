@@ -1,0 +1,47 @@
+{
+  "name": "@wimaengine/core",
+  "description": "Wima engine core package.",
+  "version": "0.3.0",
+  "type": "module",
+  "license": "SEE LICENSE in LICENSE.txt",
+  "author": "Wima engine contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wimaengine/wima.git"
+  },
+  "homepage": "https://wimaengine.github.io/wima/",
+  "bugs": {
+    "url": "https://github.com/wimaengine/wima/issues"
+  },
+  "main": "./index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./index.js"
+    },
+    "./src": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./src/index.js"
+    }
+  },
+  "files": [
+    "index.js",
+    "src"
+  ],
+  "scripts": {
+    "build": "vite build --config ../../.config/vite.config.js",
+    "test": "vitest run --dir tests --passWithNoTests",
+    "types": "tsc -p ./tsc.type.json"
+  },
+  "dependencies": {
+    "@wimaengine/app": "0.3.0",
+    "@wimaengine/command": "0.3.0",
+    "@wimaengine/ecs": "0.3.0",
+    "@wimaengine/logger": "0.3.0",
+    "@wimaengine/reflect": "0.3.0",
+    "@wimaengine/schedule": "0.3.0",
+    "@wimaengine/type": "0.3.0",
+    "@wimaengine/utils": "0.3.0"
+  },
+  "types": "./dist/index.d.ts"
+}

@@ -1,11 +1,17 @@
 {
-    "include": [
-        "../src/index.js"
-    ],
-    "compilerOptions": {
-        "declaration": true,
-        "emitDeclarationOnly": true,
-        "declarationDir":"../types",
-        "allowJs": true
-    }
+  "extends": "./tsc.type.base.json",
+  "include": [
+    "../src/index.js"
+  ],
+  "exclude": [
+    "../dist/**",
+    "../types/**",
+    "../packages/*/dist/**",
+    "../packages/*/types/**",
+    "../packages/*/tests/**"
+  ],
+  "compilerOptions": {
+    "declarationDir": "../types",
+    "rootDir": "../"
+  }
 }

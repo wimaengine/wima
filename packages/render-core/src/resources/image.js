@@ -1,0 +1,49 @@
+/** @import { TypeRegistry } from '@wimaengine/reflect' */
+import { Importer } from '@wimaengine/asset'
+import { Vector2 } from '@wimaengine/math'
+import { Image } from '../assets'
+
+/**
+ * @augments {Importer<Image>}
+ */
+export class ImageImporter extends Importer {
+
+  constructor() {
+    super(Image)
+  }
+
+  getExtensions() {
+
+    // TODO: Actually get the supported image formats
+    return ['png', 'jpeg']
+  }
+
+  /**
+   * @param {Response} response
+   * @param {TypeRegistry} _typeRegistry
+   */
+  async deserialize(response, _typeRegistry) {
+    const raw = await response.arrayBuffer()
+    const dimensions = await getDimensions(raw)
+
+    return new Image(new Uint8ClampedArray(raw), dimensions)
+  }
+}
+
+/**
+ * @param {BlobPart} raw
+ * @returns {Promise<Vector2>}
+ */
+function getDimensions(raw) {
+  return new Promise((resolve) => {
+    const url = URL.createObjectURL(new Blob([raw]))
+    const img = document.createElement('img')
+
+    img.onload = () => {
+      resolve(new Vector2(img.width, img.height))
+      URL.revokeObjectURL(url)
+    }
+    img.src = url
+
+  })
+}

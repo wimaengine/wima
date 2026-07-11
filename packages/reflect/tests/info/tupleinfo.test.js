@@ -1,0 +1,19 @@
+import { test, describe } from "vitest";
+import { TupleInfo } from "../../src/core";
+import { typeid } from "@wimaengine/type";
+import { deepStrictEqual, strictEqual } from "assert";
+
+describe("Testing `TupleInfo`", () => {
+  test("`TupleInfo` stores element types", () => {
+    const info = new TupleInfo([typeid(Number), typeid(String)])
+
+    deepStrictEqual(info.getElements(), [typeid(Number), typeid(String)])
+  })
+
+  test("`TupleInfo` gets element by index", () => {
+    const info = new TupleInfo([typeid(Number), typeid(String)])
+
+    strictEqual(info.getElement(0), typeid(Number))
+    strictEqual(info.getElement(1), typeid(String))
+  })
+})

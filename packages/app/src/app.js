@@ -1,0 +1,268 @@
+/** @import { SystemConfig, SystemGroupConfig } from '@wimaengine/schedule' */
+/** @import { Constructor,TypeId } from '@wimaengine/type'*/
+
+import { World, ComponentHooks } from '@wimaengine/ecs'
+import { assert } from '@wimaengine/logger'
+import { Scheduler, SchedulerBuilder } from '@wimaengine/schedule'
+import { typeid } from '@wimaengine/type'
+
+const registererror = 'Systems, plugins or resources should be registered or set before `App().run()`'
+
+export class PluginRegistry {
+
+  /**
+   * @type {Plugin[]}
+   */
+  list = []
+
+  /**
+   * @type {Set<TypeId>}
+   */
+  names = new Set()
+
+  /**
+   * @param {Plugin} plugin
+   */
+  add(plugin) {
+    this.list.push(plugin)
+    this.names.add(plugin.name())
+  }
+
+  /**
+   * @param {TypeId} plugin
+   */
+  hasTypeId(plugin) {
+    this.names.has(plugin)
+  }
+
+  /**
+   * @param {Plugin} plugin
+   */
+  has(plugin) {
+    this.hasTypeId(plugin.name())
+  }
+
+  /**
+   * @param {App} app
+   */
+  register(app) {
+    for (let i = 0; i < this.list.length; i++) {
+      this.list[i].register(app)
+    }
+  }
+}
+export class App {
+
+  /**
+   * @private
+   * @type {PluginRegistry}
+   */
+  plugins = new PluginRegistry()
+
+  /**
+   * @private
+   * @type {World}
+   */
+  world = new World()
+
+  /**
+   * @private
+   * @type {Scheduler}
+   */
+  scheduler = new Scheduler()
+
+  /**
+   * @private
+   * @type {import('@wimaengine/schedule').Runner}
+   */
+  runner = null
+
+  /**
+   * @private
+   * @type {boolean}
+   */
+  initialized = false
+
+  /**
+   * Return the world of the app.
+   *
+   * @returns {World}
+   */
+  getWorld() {
+    return this.world
+  }
+
+  /**
+   * @param {{label: import('@wimaengine/type').Constructor, delay?: number, repeat?: boolean, errorHandler?: (error: Error, world: World) => void, defaultSystemGroup?: import('@wimaengine/type').Constructor}} config
+   */
+  createSchedule(config) {
+    SchedulerBuilder.Instance.addSchedule(config)
+
+    return this
+  }
+
+  /**
+   * @param {import('@wimaengine/schedule').Runner} runner
+   */
+  setRunner(runner) {
+    this.runner = runner
+
+    return this
+  }
+
+  /**
+   * Starts up the {@link App}.
+   * Prevents calls to {@link App.registerSystem},
+   * {@link App.registerPlugin} and {@link App.setResource}.
+   *
+   * @returns {this}
+   */
+  run() {
+    this.plugins.register(this)
+
+    SchedulerBuilder.Instance.pushToScheduler(this.scheduler)
+    assert(this.runner, 'App runner is not set. Call `app.setRunner(...)` before `app.run()`.')
+    this.runner(this.scheduler, this.world)
+    this.initialized = true
+
+    return this
+  }
+
+  /**
+   * @param {Plugin} plugin
+   */
+  registerPlugin(plugin) {
+    this.plugins.add(plugin)
+
+    return this
+  }
+
+  /**
+   * @param {Plugin} debug
+   */
+  registerDebugger(debug) {
+    return this.registerPlugin(debug)
+  }
+
+  /**
+   * @param {SystemConfig} config
+   */
+  registerSystem(config) {
+    SchedulerBuilder.Instance.add(config)
+
+    return this
+  }
+
+  /**
+   * @param {SystemGroupConfig} config
+   */
+  registerSystemGroup(config) {
+    SchedulerBuilder.Instance.addGroup(config)
+
+    return this
+  }
+
+  /**
+   * @param {Constructor} type
+   */
+  registerType(type) {
+    this.world.registerType(type)
+
+    return this
+  }
+
+  /**
+   * @template T
+   * @param {new (...args:any[])=>T} component
+   * @param {ComponentHooks} hooks
+   */
+  setComponentHooks(component, hooks) {
+    this.world.setComponentHooks(component, hooks)
+
+    return this
+  }
+
+  /**
+   * @template {object} T
+   * @param {T} resource
+   */
+  setResource(resource) {
+    assert(!this.initialized, registererror)
+    this
+      .world.setResource(resource)
+
+    return this
+  }
+}
+
+export class Plugin {
+
+  /**
+   * @param {App} _app
+   */
+  register(_app) { }
+
+  /**
+   * @returns {TypeId}
+   */
+  name() {
+
+    // SAFETY: `this.constructor` can be casted into a `Contructor`
+    return typeid(/** @type {Constructor}*/(this.constructor))
+  }
+}
+
+/**
+ * @abstract
+ */
+export class PluginGroup extends Plugin {
+
+  /**
+   * @private
+   * @type {Map<TypeId,Plugin>}
+   */
+  plugins = new Map()
+
+  /**
+   * @template {Plugin} T
+   * @param {T} plugin
+   * @returns {this}
+   */
+  add(plugin) {
+    this.plugins.set(plugin.name(), plugin)
+
+    return this
+  }
+
+  /**
+   * @param {TypeId} id
+   */
+  remove(id) {
+    this.plugins.delete(id)
+
+    return this
+  }
+
+  /**
+   * @template {Plugin} T
+   * @param {T} plugin
+   */
+  replace(plugin) {
+    const typeId = plugin.name()
+
+    this
+      .remove(typeId)
+      .add(plugin)
+
+    return this
+  }
+
+  /**
+   * @param {App} app
+   */
+  register(app) {
+    for (const plugin of this.plugins.values()) {
+      app.registerPlugin(plugin)
+    }
+  }
+}

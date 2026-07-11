@@ -1,5 +1,7 @@
 node_modules
-types
+.turbo
+/types/
+/packages/*/types
 dist
 docs
 

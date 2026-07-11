@@ -1,0 +1,77 @@
+import { App, Plugin } from '@wimaengine/app'
+import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { EntityHandle, Query, World } from '@wimaengine/ecs'
+import { warn } from '@wimaengine/logger'
+import { MeshAttribute, ProgramCache, BasicMaterial } from '@wimaengine/render-core'
+import { MainWindow, Window, Windows } from '@wimaengine/window'
+import { WebglMaterialPlugin } from './plugins'
+import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from './resources'
+import { basicMaterial3DFragment, basicMaterial3DVertex } from './shaders'
+import { disposeDroppedMeshes, queueMeshes, registerWebglTypes } from './systems'
+
+export class WebglRendererPlugin extends Plugin {
+
+  /**
+   * @param {App} app
+   */
+  register(app) {
+    const attribute = new AttributeMap()
+
+    registerDefaultAttributeLocs(attribute)
+    app
+      .setResource(new ProgramCache())
+      .setResource(new MeshCache())
+      .setResource(new UBOCache())
+      .setResource(new ClearColor())
+      .setResource(attribute)
+      .setResource(new WebglProgramCache())
+      .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerWebglTypes })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.Start, system: registerBuffers })
+      .registerPlugin(new WebglMaterialPlugin({
+        material: BasicMaterial,
+        vertex3d: basicMaterial3DVertex,
+        fragment3d: basicMaterial3DFragment
+      }))
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.PostMain, system: disposeDroppedMeshes })
+      .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.PostMain, system: queueMeshes })
+  }
+}
+
+/**
+ * @param {AttributeMap} attributeMap
+ */
+function registerDefaultAttributeLocs(attributeMap) {
+  attributeMap
+    .set(MeshAttribute.Position2D.name, MeshAttribute.Position2D)
+    .set(MeshAttribute.Position3D.name, MeshAttribute.Position3D)
+    .set(MeshAttribute.Normal2D.name, MeshAttribute.Normal2D)
+    .set(MeshAttribute.Normal3D.name, MeshAttribute.Normal3D)
+    .set(MeshAttribute.Tangent2D.name, MeshAttribute.Tangent2D)
+    .set(MeshAttribute.Tangent3D.name, MeshAttribute.Tangent3D)
+    .set(MeshAttribute.UV.name, MeshAttribute.UV)
+    .set(MeshAttribute.UVB.name, MeshAttribute.UVB)
+    .set(MeshAttribute.Color.name, MeshAttribute.Color)
+}
+
+/**
+ * @param {World} world
+ */
+function registerBuffers(world) {
+  const ubos = world.getResource(UBOCache)
+  const canvases = world.getResource(Windows)
+  const windows = new Query(world, [EntityHandle, Window, MainWindow])
+
+  const window = windows.single()
+
+  if (!window) return warn('Please define the main window for rendering.')
+
+  const canvas = canvases.getWindow(window[0])
+
+  if (!canvas) return
+
+  const gl = canvas.getContext('webgl2')
+
+  if (!gl) return warn('WebGL 2.0 context is not created or is lost.')
+
+  if (!ubos.get('Camera')) ubos.create(gl, 'Camera', 128)
+}

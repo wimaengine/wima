@@ -1,5 +1,0 @@
-export * from './plugin.js'
-export * from '../mouse/index.js'
-export * from '../touch/index.js'
-export * from '../keyboard/index.js'
-export * from '../input-core/index.js'

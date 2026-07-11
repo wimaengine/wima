@@ -1,0 +1,69 @@
+import { App, Plugin } from '@wimaengine/app'
+import { AppSchedule } from '@wimaengine/core'
+import { Vector2, Vector3 } from '@wimaengine/math'
+import { Gravity2D, Gravity3D } from './resources'
+import { applyGravity2D, applyGravity3D, registerGravity2DTypes, registerGravity3DTypes } from './systems'
+
+export class Gravity2DPlugin extends Plugin {
+
+  /**
+   * @readonly
+   * @type {Vector2}
+   */
+  gravity
+
+  /**
+   * @param {Gravity2DPluginOptions} options
+   */
+  constructor({ gravity = new Vector2(0, -980) } = {}) {
+    super()
+    this.gravity = gravity
+  }
+
+  /**
+   * @param {App} app
+   */
+  register(app) {
+    app
+      .setResource(new Gravity2D().copy(this.gravity))
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerGravity2DTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: applyGravity2D })
+  }
+}
+
+export class Gravity3DPlugin extends Plugin {
+
+  /**
+   * @readonly
+   * @type {Vector3}
+   */
+  gravity
+
+  /**
+   * @param {Gravity3DPluginOptions} options
+   */
+  constructor({ gravity = new Vector3(0, -980, 0) } = {}) {
+    super()
+    this.gravity = gravity
+  }
+
+  /**
+   * @param {App} app
+   */
+  register(app) {
+    app
+      .setResource(new Gravity3D().copy(this.gravity))
+      .registerSystem({ schedule: AppSchedule.Startup, system: registerGravity3DTypes })
+      .registerSystem({ schedule: AppSchedule.Update, system: applyGravity3D })
+  }
+}
+
+/**
+ * @typedef Gravity3DPluginOptions
+ * @property {Vector3} [gravity]
+ */
+
+/**
+ * @typedef Gravity2DPluginOptions
+ * @property {Vector2} [gravity]
+ */

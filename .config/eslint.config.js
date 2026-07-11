@@ -1,6 +1,18 @@
 import jsdoc from "eslint-plugin-jsdoc"
 import style from "@stylistic/eslint-plugin"
-import imports from "eslint-plugin-import"
+import imports, { createNodeResolver } from "eslint-plugin-import-x"
+import { fileURLToPath } from "node:url"
+
+const rootEntry = fileURLToPath(new URL("../src/index.js", import.meta.url))
+const wimaResolver = {
+    interfaceVersion: 3,
+    name: "wima-root",
+    resolve(modulePath) {
+        if (modulePath === "wima") return { found: true, path: rootEntry }
+
+        return { found: false }
+    }
+}
 
 export default [
     {
@@ -9,9 +21,17 @@ export default [
             style,
             imports
         },
+        settings: {
+            "import-x/resolver-next": [
+                wimaResolver,
+                createNodeResolver()
+            ]
+        },
         ignores: [
             "**/*.config.js",
             "**/test/**/*.js",
+            "**/dist/**/*",
+            "packages/*/types/**/*",
             "**/*.test.js",
             "**/*.spec.js",
             "node_modules"
@@ -85,7 +105,46 @@ export default [
             "no-dupe-class-members": "error",
             "class-methods-use-this": "off",
             "no-func-assign": "error",
-            "no-duplicate-imports": "error",
+            "imports/no-unresolved": "error",
+            "imports/named": "error",
+            "imports/namespace": "error",
+            "imports/default": "error",
+
+            // TODO: Enable when migrated to typescript
+            "imports/export": "off",
+
+            // TODO: Turn on when migrating to typescript
+            "imports/no-named-as-default": "off",
+            "imports/no-named-as-default-member": "off",
+            "imports/no-empty-named-blocks": "off",
+
+            "imports/no-mutable-exports": "error",
+            "imports/no-amd": "error",
+            "imports/unambiguous": "error",
+            "imports/no-commonjs": "error",
+
+            // TODO: Turn on when cycles are resolved
+            "imports/no-cycle": "off",
+            "imports/no-self-import": "error",
+            "imports/no-useless-path-segments": "error",
+            "imports/no-webpack-loader-syntax": "error",
+            "imports/consistent-type-specifier-style": ["error", "prefer-top-level"],
+            "imports/first": "error",
+
+            // TODO: Return when examples dont default export
+            "imports/no-default-export": "off",
+            "imports/no-duplicates": "error",
+            "imports/no-namespace": "error",
+            "imports/order": [
+                "error",
+                {
+                    groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
+                    alphabetize: {
+                        order: "asc",
+                        caseInsensitive: true
+                    }
+                }
+            ],
             "no-class-assign": "error",
             "no-iterator": "error",
             "no-debugger": "error",

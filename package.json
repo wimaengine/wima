@@ -8,13 +8,12 @@
   },
   "type": "module",
   "license": "SEE LICENSE in LICENSE.txt",
-  "main": "./dist/index.umd.js",
+  "main": "./dist/index.module.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.module.js",
-      "require": "./dist/index.umd.js"
+      "import": "./dist/index.module.js"
     }
   },
   "author": "Wima engine contributors",
@@ -22,31 +21,35 @@
     "type": "git",
     "url": "https://github.com/wimaengine/wima.git"
   },
+  "packageManager": "npm@11.12.1",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "start": "vite --config .config/vite.config.js",
     "dev": "vite --config .config/vite.config.js",
-    "init": "husky .husky",
-    "rollup": "rollup --config .config/rollup.config.js",
     "eslint": "eslint --config .config/eslint.config.js --ignore-pattern '**/*.test.js'",
     "typedoc": "typedoc -options .config/typedoc.json --tsconfig .config/tsc.lint.json",
-    "types": "tsc -p .config/tsc.type.json",
-    "changelog": "node scripts/changelog.js",
-    "test": "node --test",
-    "build": "npm run build:lib && npm run build:docs",
-    "build:lib": "npm run types && npm run rollup && npm run clean:types",
+    "types:root": "tsc -p .config/tsc.type.json",
+    "build:root": "vite build --config .config/vite.config.js",
     "build:docs": "npm run typedoc",
+    "types": "turbo run types //#types:root",
+    "test": "turbo run test",
+    "build": "npm run clean:build && turbo run build && turbo run //#build:root //#build:docs",
     "lint": "npm run lint:src && npm run lint:examples",
+    "version": "changeset version",
+    "check:release-version": "node scripts/check-release-version.js",
+    "release": "npm run build && changeset publish",
+    "build:lib": "npm run types && turbo run //#build:root",
     "lint:dry": "npm run lint:src-dry && npm run lint:examples-dry",
-    "lint:src-dry": "npm run eslint -- src",
+    "lint:src-dry": "npm run eslint -- src packages",
     "lint:examples-dry": "npm run eslint -- examples",
     "lint:src": "npm run lint:src-dry -- --fix",
     "lint:examples": "npm run lint:examples-dry -- --fix",
     "tsc:lint": "tsc -p .config/tsc.lint.json",
-    "watch:src": "npm run rollup -- --watch",
+    "watch:src": "vite build --watch --config .config/vite.config.js",
     "watch:docs": "npm run typedoc -- --watch",
-    "clean:types": "rm -r types",
-    "pre-commit": "lint-staged --config .config/lint.config.js",
-    "pre-push": "npm run test"
+    "clean:build": "rm -rf dist types packages/*/types"
   },
   "keywords": [
     "game",
@@ -56,20 +59,21 @@
     "3D"
   ],
   "devDependencies": {
-    "@rollup/plugin-terser": "^1.0.0",
+    "@changesets/cli": "^2.31.0",
     "@stylistic/eslint-plugin": "^5.1.0",
     "@types/node": "^24.0.12",
     "eslint": "^9.30.1",
-    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-import-x": "^4.17.1",
     "eslint-plugin-jsdoc": "^51.3.3",
-    "rollup": "^4.12.0",
     "rollup-plugin-dts": "^6.2.1",
+    "turbo": "^2.10.4",
     "typedoc": "^0.28.7",
     "typescript": "^5.8.3",
-    "vite": "^7.0.0"
+    "vite": "^7.0.0",
+    "vitest": "^4.1.10"
   },
   "files": [
-    "dist/*"
+    "dist/**/*"
   ],
   "dependencies": {
     "vifaa": "^0.4.0"

@@ -1,0 +1,178 @@
+/** @import { SystemFunc, World } from '@wimaengine/ecs' */
+/** @import { Constructor } from '@wimaengine/type' */
+/** @import { AssetDropped } from '../events' */
+import { Events } from '@wimaengine/event'
+import { assert } from '@wimaengine/logger'
+import { TypeRegistry } from '@wimaengine/reflect'
+import { typeidGeneric } from '@wimaengine/type'
+import { Exporter, Importer } from '../core'
+import { AssetLoadFail, AssetLoadOperation, AssetLoadSuccess, AssetSaveSuccess } from '../events'
+import { AssetServer, Assets, LoadState } from '../resources'
+
+/**
+ * @template T
+ * @param {Constructor<T>} type
+ * @returns {SystemFunc}
+ */
+export function registerAssetOnAssetServer(type) {
+  return function registerAssetOnAssetServer(world) {
+    const server = world.getResource(AssetServer)
+    const assets = world.getResourceByTypeId(typeidGeneric(Assets, [type]))
+
+    server.registerAsset(assets)
+  }
+}
+
+/**
+ * @template T
+ * @param {Constructor<T>} type
+ * @param {Importer<T>} importer
+ * @returns {SystemFunc}
+ */
+export function registerAssetImporterOnAssetServer(type, importer) {
+  return function registerAssetImporterOnAssetServer(world) {
+    const server = world.getResource(AssetServer)
+
+    server.registerImporter(type, importer)
+  }
+}
+
+/**
+ * @template T
+ * @param {Constructor<T>} type
+ * @param {Exporter<T>} exporter
+ * @returns {SystemFunc}
+ */
+export function registerAssetExporterOnAssetServer(type, exporter) {
+  return function registerAssetExportedOnAssetServer(world) {
+    const server = world.getResource(AssetServer)
+
+    server.registerExporter(type, exporter)
+  }
+}
+
+/**
+ * @param {World} world
+ */
+export async function updateAssets(world) {
+  const server = world.getResource(AssetServer)
+
+  /** @type {Events<AssetLoadSuccess>} */
+  const loadSuccessEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadSuccess]))
+
+  /** @type {Events<AssetSaveSuccess>} */
+  const saveSuccessEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetSaveSuccess]))
+
+  /** @type {Events<AssetLoadFail>} */
+  const loadFailEvents = world.getResourceByTypeId(typeidGeneric(Events, [AssetLoadFail]))
+  const typeRegistry = world.getResource(TypeRegistry)
+
+  const loadRequests = server.flushLoadRequests()
+  const saveRequests = server.flushSaveRequests()
+
+  for (let i = 0; i < loadRequests.length; i++) {
+    const { assetId, info, path, typeId } = loadRequests[i]
+
+    try {
+      const importer = server.getImporter(typeId, path)
+      const response = await fetch(path)
+
+      if (!response.ok) {
+        throw response.statusText
+      }
+
+      const asset = await importer.deserialize(response, typeRegistry)
+
+      if (!asset) {
+        throw 'Could not deserialize the asset.'
+      }
+
+      const assets = server.getAssets(typeId)
+
+      assert(assets, `No assets registered for the asset type \`${typeId}\` on \`AssetServer\``)
+
+      assets.setUsingAssetId(assetId, asset)
+      server.setLoadState(info, LoadState.Loaded)
+      loadSuccessEvents.write(new AssetLoadSuccess(typeId, assetId, path))
+    } catch(error) {
+      server.setLoadState(info, LoadState.Failed)
+      let message = 'Could not load the asset.'
+
+      if (typeof error === 'string') {
+        message = error
+      } else if (error instanceof Error) {
+        const { message: errorMessage } = error
+
+        message = errorMessage
+      }
+
+      loadFailEvents.write(new AssetLoadFail(typeId, assetId, path, message))
+    }
+  }
+
+  for (let i = 0; i < saveRequests.length; i++) {
+    const { assetId, path, reason, typeId } = saveRequests[i]
+
+    if (reason) {
+      loadFailEvents.write(new AssetLoadFail(typeId, assetId, path, reason, AssetLoadOperation.Saving))
+      continue
+    }
+
+    try {
+      const assets = server.getAssets(typeId)
+
+      assert(assets, `No assets registered for the asset type \`${typeId}\` on \`AssetServer\``)
+
+      const asset = assets.getByAssetId(assetId)
+
+      if (asset === undefined) {
+        throw 'Could not find the asset to export.'
+      }
+
+      const exporter = server.getExporter(typeId, path)
+      const response = await fetch(path, {
+        method: 'POST',
+        body: await exporter.serialize(asset, typeRegistry)
+      })
+
+      if (!response.ok) {
+        throw response.statusText
+      }
+
+      saveSuccessEvents.write(new AssetSaveSuccess(typeId, assetId, path))
+    } catch(error) {
+      let message = 'Could not export the asset.'
+
+      if (typeof error === 'string') {
+        message = error
+      } else if (error instanceof Error) {
+        const { message: errorMessage } = error
+
+        message = errorMessage
+      }
+
+      loadFailEvents.write(new AssetLoadFail(typeId, assetId, path, message, AssetLoadOperation.Saving))
+    }
+  }
+}
+
+/**
+ * @template T
+ * @template {AssetDropped<T>} U
+ * @param {Constructor<U>} dropEvent
+ * @returns {SystemFunc}
+ */
+export function unloadDroppedAssets(dropEvent) {
+  return function unloadDroppedAssets(world) {
+
+    /** @type {Events<U>} */
+    const events = world.getResourceByTypeId(typeidGeneric(Events, [dropEvent]))
+    const server = world.getResource(AssetServer)
+
+    events.each((event) => {
+      const { data } = event
+
+      server.dropAssetInfo(data.id)
+    })
+  }
+}
