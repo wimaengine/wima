@@ -187,6 +187,7 @@ export class App {
    */
   setResource(resource) {
     assert(!this.initialized, registererror)
+
     // SAFETY: An object's constructor is constructible.
     const id = typeid(/** @type {Constructor} */(resource.constructor))
 

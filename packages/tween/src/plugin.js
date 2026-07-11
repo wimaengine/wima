@@ -60,9 +60,9 @@ export class DefaultTweenPlugin extends Plugin {
 export class CoreTweenPlugin extends Plugin {
 
   /**
-   * @param {App} app
+   * @param {App} _app
    */
-  register(app) { }
+  register(_app) { }
 
 }
 

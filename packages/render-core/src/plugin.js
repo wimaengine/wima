@@ -6,7 +6,6 @@ import { typeidGeneric } from '@wimaengine/type'
 import { Mesh, Shader, Image, BasicMaterial } from './assets'
 import {
   BasicMaterialInstance,
-  Camera,
   Meshed,
   removeMeshedHandle
 } from './components'
