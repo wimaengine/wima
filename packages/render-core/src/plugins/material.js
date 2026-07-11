@@ -40,7 +40,6 @@ export class MaterialInstancePlugin extends Plugin {
     const { asset, component } = this
 
     app
-      .registerType(component)
       .setComponentHooks(component, new ComponentHooks(
         null,
         dropMaterialInstance(component)

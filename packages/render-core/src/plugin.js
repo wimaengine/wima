@@ -37,12 +37,10 @@ export class RenderCorePlugin extends Plugin {
     const world = app.getWorld()
 
     app
-      .registerType(Meshed)
       .setComponentHooks(Meshed, new ComponentHooks(
         null,
         removeMeshedHandle
       ))
-      .registerType(Camera)
       .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerRenderCoreTypes })
       .registerPlugin(new AssetPlugin({
         asset: Image,

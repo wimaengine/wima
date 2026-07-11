@@ -4,7 +4,7 @@ import { AppSchedule } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
 import { typeidGeneric } from '@wimaengine/type'
 import { AnimationClip } from './assets'
-import { AnimationPlayer, AnimationTarget, dropAnimationPlayer } from './components'
+import { AnimationPlayer, dropAnimationPlayer } from './components'
 import { AnimationClipAssets } from './resources'
 import { advanceAnimationPlayers, applyAnimations, registerAnimationTypes } from './systems'
 
@@ -17,12 +17,10 @@ export class AnimationPlugin extends Plugin {
     const world = app.getWorld()
 
     app
-      .registerType(AnimationPlayer)
       .setComponentHooks(AnimationPlayer, new ComponentHooks(
         null,
         dropAnimationPlayer
       ))
-      .registerType(AnimationTarget)
       .registerSystem({ schedule: AppSchedule.Startup, system: registerAnimationTypes })
       .registerPlugin(new AssetPlugin({
         asset:AnimationClip

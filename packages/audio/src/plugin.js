@@ -19,12 +19,10 @@ export class AudioPlugin extends Plugin {
     const handler = new AudioCommands()
 
     app
-      .registerType(AudioPlayer)
       .setComponentHooks(AudioPlayer, new ComponentHooks(
         null,
         removeAudioPlayerSink
       ))
-      .registerType(AudioOscillator)
       .setComponentHooks(AudioOscillator, new ComponentHooks(
         null,
         removeOscillatorSink

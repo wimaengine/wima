@@ -2,9 +2,9 @@
 
 /**
  * Sets the functional hooks for listening on the lifecycle of
- *  a component i.e addition, insertion and removal.
- * The component needs to be {@link World.registerType registered}
- *  on a {@link World world} before its hooks can be set.
+ * a component i.e addition, insertion and removal.
+ * The component is registered automatically when hooks are attached
+ * or when it first appears in a {@link World world}.
  * @example
  * ```ts
  * //a component
@@ -25,9 +25,7 @@
  * const world = new World()
  * const hooks = new ComponentHooks(added,inserted,removed)
  *
- * world
- *   .registerType(A)
- *   .setComponentHooks(A,hooks)
+ * world.setComponentHooks(A, hooks)
  * ```
  *
  */
