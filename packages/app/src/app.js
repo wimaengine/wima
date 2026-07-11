@@ -191,7 +191,30 @@ export class App {
     // SAFETY: An object's constructor is constructible.
     const id = typeid(/** @type {Constructor} */(resource.constructor))
 
-    this.resources.set(id, resource)
+    this.setResourceByTypeId(id, resource, world)
+
+    return this
+  }
+
+  /**
+   * @template T
+   * @param {TypeId} id
+   * @param {T} resource
+   * @param {Constructor | undefined} [world]
+   * @returns {this}
+   */
+  setResourceByTypeId(id, resource, world) {
+    assertTrue(!this.initialized, registererror)
+
+    const worldId = world === undefined ? undefined : typeid(world)
+    let worldResources = this.resources.get(worldId)
+
+    if (!worldResources) {
+      worldResources = new Map()
+      this.resources.set(worldId, worldResources)
+    }
+
+    worldResources.set(id, resource)
 
     return this
   }
