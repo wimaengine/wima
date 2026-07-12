@@ -41,9 +41,7 @@ export class Gizmo3DPlugin extends Plugin {
     const { label, settings } = this
 
     app
-      .getWorld()
       .setResourceByTypeId(typeidGeneric(Gizmo3D, [label]), new Gizmo3D(label, settings))
-    app
       .registerSystem({ schedule: AppSchedule.Startup, system: registerGizmo3DTypes(label) })
       .registerSystem({ schedule: AppSchedule.Update, system: genenerateDrawGizmo3Dsystem(label) })
   }

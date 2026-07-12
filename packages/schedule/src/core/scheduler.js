@@ -9,9 +9,10 @@ import { Schedule } from './schedule'
  * ```ts
  * class PrimarySchedule {}
  * class SecondarySchedule {}
+ * class MainWorld {}
  *
- * scheduler.set(new Executable({ label: PrimarySchedule }))
- * scheduler.set(new Executable({ label: SecondarySchedule }))
+ * scheduler.set(new Executable({ label: PrimarySchedule, world: MainWorld }))
+ * scheduler.set(new Executable({ label: SecondarySchedule, world: MainWorld }))
  *
  * const primarySchedule = scheduler.get(PrimarySchedule)
  * ```

@@ -33,8 +33,6 @@ export class RenderCorePlugin extends Plugin {
    * @param {App} app
    */
   register(app) {
-    const world = app.getWorld()
-
     app
       .setComponentHooks(Meshed, new ComponentHooks(
         null,
@@ -81,9 +79,8 @@ export class RenderCorePlugin extends Plugin {
         asset: BasicMaterial,
         component: BasicMaterialInstance
       }))
-    world.setResourceAlias(typeidGeneric(Assets, [Image]), ImageAssets)
-    world.setResourceAlias(typeidGeneric(Assets, [Mesh]), MeshAssets)
-    world.setResourceAlias(typeidGeneric(Assets, [BasicMaterial]), BasicMaterialAssets)
-
+      .setResourceAlias(typeidGeneric(Assets, [Image]), ImageAssets)
+      .setResourceAlias(typeidGeneric(Assets, [Mesh]), MeshAssets)
+      .setResourceAlias(typeidGeneric(Assets, [BasicMaterial]), BasicMaterialAssets)
   }
 }

@@ -1,6 +1,6 @@
 import { App, Plugin } from '@wimaengine/app'
 import { SchedulerBuilder } from '@wimaengine/schedule'
-import { AppSchedule, CoreSystems, defaultRunner } from './core'
+import { AppSchedule, CoreSystems, MainWorld, defaultRunner } from './core'
 import { executeCommands, registerCoreTypes, registerPrimitiveTypes } from './systems'
 
 export class CorePlugin extends Plugin {
@@ -10,6 +10,8 @@ export class CorePlugin extends Plugin {
    */
   register(app) {
     app
+      .setWorld(MainWorld)
+      .defaultWorld(MainWorld)
       .setResource(SchedulerBuilder.Instance)
       .setRunner(defaultRunner)
       .createSchedule({

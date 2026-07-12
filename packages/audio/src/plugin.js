@@ -15,7 +15,6 @@ export class AudioPlugin extends Plugin {
    * @param {App} app
    */
   register(app) {
-    const world = app.getWorld()
     const handler = new AudioCommands()
 
     app
@@ -44,10 +43,9 @@ export class AudioPlugin extends Plugin {
       }))
       .registerSystem({ schedule: AppSchedule.Update, system: playAudio })
       .registerSystem({ schedule: AppSchedule.Update, system: playOscillators })
+      .setResourceAlias(typeidGeneric(Assets, [Audio]), AudioAssets)
 
     window.addEventListener('pointerdown', resumeAudio)
-
-    world.setResourceAlias(typeidGeneric(Assets, [Audio]), AudioAssets)
 
     /** */
     function resumeAudio() {

@@ -40,9 +40,6 @@ export class ScenePlugin extends Plugin {
       ))
       .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerSceneTypes })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: spawnScenes })
-
-    const world = app.getWorld()
-
-    world.setResourceAlias(typeidGeneric(Assets, [Scene]), SceneAssets)
+      .setResourceAlias(typeidGeneric(Assets, [Scene]), SceneAssets)
   }
 }

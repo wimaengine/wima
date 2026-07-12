@@ -48,7 +48,6 @@ export class EventPlugin extends Plugin {
         systemGroup: CoreSystems.Start,
         system: registerEventTypes(event)
       })
-      .getWorld()
       .setResourceByTypeId(name, new Events())
 
     if (this.autoClearEvent) {

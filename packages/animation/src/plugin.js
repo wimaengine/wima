@@ -14,8 +14,6 @@ export class AnimationPlugin extends Plugin {
    * @param {App} app
    */
   register(app) {
-    const world = app.getWorld()
-
     app
       .setComponentHooks(AnimationPlayer, new ComponentHooks(
         null,
@@ -27,6 +25,6 @@ export class AnimationPlugin extends Plugin {
       }))
       .registerSystem({ schedule: AppSchedule.Update, system: advanceAnimationPlayers })
       .registerSystem({ schedule: AppSchedule.Update, system: applyAnimations })
-    world.setResourceAlias(typeidGeneric(Assets, [AnimationClip]), AnimationClipAssets)
+      .setResourceAlias(typeidGeneric(Assets, [AnimationClip]), AnimationClipAssets)
   }
 }
