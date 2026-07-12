@@ -7,7 +7,7 @@ import { typeid } from '@wimaengine/type'
 /**
  * A map of worlds keyed by `TypeId`, with default-world lookup.
  *
- * @extends {Map<TypeId, World>}
+ * @augments {Map<TypeId, World>}
  */
 export class Worlds extends Map {
 
@@ -15,13 +15,6 @@ export class Worlds extends Map {
    * @type {TypeId | undefined}
    */
   defaultWorldId = undefined
-
-  /**
-   * @param {Iterable<readonly [TypeId, World]> | undefined} [entries]
-   */
-  constructor(entries) {
-    super(entries)
-  }
 
   /**
    * Return the default world or a world by label.

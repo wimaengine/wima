@@ -1,5 +1,5 @@
-import { typeid } from '@wimaengine/type'
 import { assert } from '@wimaengine/logger'
+import { typeid } from '@wimaengine/type'
 
 /**
  * Default runner: drives all schedules from a single animation frame loop and resolves each executable's world on demand.

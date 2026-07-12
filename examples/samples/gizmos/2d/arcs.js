@@ -29,7 +29,7 @@ const app = new App()
 // We have to alias the gizmo resource manually
 
 app
-.setResourceAlias(typeidGeneric(Gizmo2D, [Demo]), DemoGizmo2D)
+  .setResourceAlias(typeidGeneric(Gizmo2D, [Demo]), DemoGizmo2D)
   .registerPlugin(new HackPlugin())
   .registerPlugin(new DefaultPlugin())
   .registerPlugin(new DOMWindowPlugin())

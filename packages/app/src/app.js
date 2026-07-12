@@ -108,8 +108,6 @@ export class App {
    */
   initialized = false
 
-  constructor() { }
-
   /**
    * Return the default world of the app or a world by label.
    *
@@ -322,9 +320,9 @@ export class App {
    */
   flushResources() {
     for (const [worldId, resources] of this.resources) {
-      const world = worldId === undefined
-        ? this.worlds.getWorld()
-        : this.worlds.get(worldId)
+      const world = worldId === undefined ?
+        this.worlds.getWorld() :
+        this.worlds.get(worldId)
 
       assert(world, `The world "${worldId}" is not set.`)
 
@@ -345,6 +343,7 @@ export class App {
         world.setComponentHooks(hooks.component, hooks.hooks)
       }
     }
+
     this.componentHooks.clear()
   }
 

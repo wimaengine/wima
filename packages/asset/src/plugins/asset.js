@@ -48,22 +48,23 @@ export class AssetPlugin extends Plugin {
       systemGroup: CoreSystems.End,
       system: updateAssetChannel(asset)
     })
-    .registerSystem({
-      label: `registerAssetOnAssetServer<${typeid(asset)}>`,
-      schedule: AppSchedule.Startup,
-      systemGroup: CoreSystems.Start,
-      system: registerAssetOnAssetServer(asset)
-    })
-    .registerSystem({
-      label: `registerAssetTypes<${typeid(asset)}>`,
-      schedule: AppSchedule.Startup,
-      systemGroup: CoreSystems.Start,
-      system: registerAssetTypes(asset)
-    })
-    .setResourceByTypeId(
-      typeidGeneric(Assets, [asset]),
-      new Assets(asset)
-    )
+      .registerSystem({
+        label: `registerAssetOnAssetServer<${typeid(asset)}>`,
+        schedule: AppSchedule.Startup,
+        systemGroup: CoreSystems.Start,
+        system: registerAssetOnAssetServer(asset)
+      })
+      .registerSystem({
+        label: `registerAssetTypes<${typeid(asset)}>`,
+        schedule: AppSchedule.Startup,
+        systemGroup: CoreSystems.Start,
+        system: registerAssetTypes(asset)
+      })
+      .setResourceByTypeId(
+        typeidGeneric(Assets, [asset]),
+        new Assets(asset)
+      )
+
     if (events) {
       app
         .registerPlugin(new EventPlugin({
