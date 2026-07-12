@@ -12,6 +12,7 @@ class MissingPhase { }
 class DefaultPhase { }
 class AlternatePhase { }
 class FencePhase { }
+class MainWorld { }
 
 describe('Testing `SchedulerBuilder`', () => {
   test('creates schedule executables from builder configs', () => {
@@ -25,7 +26,8 @@ describe('Testing `SchedulerBuilder`', () => {
 
     builder.addSchedule({
       label: Update,
-      repeat: false
+      repeat: false,
+      world: MainWorld
     })
     builder.add({
       schedule: Update,
@@ -57,7 +59,7 @@ describe('Testing `SchedulerBuilder`', () => {
     })
     builder.add({
       schedule: Update,
-      before: ['middle'],
+      before: [middle],
       system: early
     })
     builder.add({
