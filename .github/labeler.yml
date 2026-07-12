@@ -1,174 +1,199 @@
 mod:animation:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/animation/**'
+          - 'packages/animation/**'
 
 mod:app:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/app/**'
+          - 'packages/app/**'
 
 mod:asset:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/asset/**'
+          - 'packages/asset/**'
 
 mod:audio:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/audio/**'
+          - 'packages/audio/**'
 
 mod:color:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/color/**'
+          - 'packages/color/**'
 
 mod:command:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/command/**'
+          - 'packages/command/**'
+
+mod:core:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'packages/core/**'
 
 mod:datastructure:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/datastructures/**'
+          - 'packages/datastructures/**'
 
 mod:device:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/device/**'
+          - 'packages/device/**'
 
 mod:diagnostic:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/diagnostic/**'
+          - 'packages/diagnostic/**'
 
 mod:ecs:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/ecs/**'
+          - 'packages/ecs/**'
 
 mod:emitter:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/emitter/**'
+          - 'packages/emitter/**'
 
 mod:event:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/event/**'
+          - 'packages/event/**'
 
 mod:geometry:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/geometry/**'
+          - 'packages/geometry/**'
 
 mod:gizmos:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/gizmo/**'
+          - 'packages/gizmo/**'
 
 mod:hierarchy:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/hierarchy/**'
+          - 'packages/hierarchy/**'
 
 mod:input:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/input/**'
-          - 'src/input-core/**'
-          - 'src/keyboard/**'
-          - 'src/mouse/**'
-          - 'src/touch/**'
+          - 'packages/input/**'
+          - 'packages/input-core/**'
+          - 'packages/keyboard/**'
+          - 'packages/mouse/**'
+          - 'packages/touch/**'
 
 mod:logger:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/logger/**'
+          - 'packages/logger/**'
 
 mod:math:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/math/**'
+          - 'packages/math/**'
 
 mod:misc:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/misc/**'
+          - 'packages/misc/**'
 
 mod:movable:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/movable/**'
+          - 'packages/movable/**'
+
+mod:name:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'packages/name/**'
 
 mod:noise:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/noise/**'
+          - 'packages/noise/**'
 
 mod:physics:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/physics/**'
-          - 'src/broadphase/**'
-          - 'src/narrowphase/**'
-          - 'src/gravity/**'
-          - 'src/damping/**'
-          - 'src/integrator/**'
+          - 'packages/broadphase/**'
+          - 'packages/damping/**'
+          - 'packages/gravity/**'
+          - 'packages/integrator/**'
+          - 'packages/narrowphase/**'
+          - 'packages/physics/**'
+
+mod:profiler:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'packages/profiler/**'
 
 mod:reflect:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/reflect/**'
+          - 'packages/reflect/**'
 
 mod:relationship:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/relationship/**'
+          - 'packages/relationship/**'
 
 mod:render:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/render-canvas2d/**'
-          - 'src/render-core/**'
-          - 'src/render-webgl/**'
+          - 'packages/render-canvas2d/**'
+          - 'packages/render-core/**'
+          - 'packages/render-webgl/**'
 
 mod:scene:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/scene/**'
+          - 'packages/scene/**'
 
 mod:schedule:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/schedule/**'
+          - 'packages/schedule/**'
+
+mod:storage:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'packages/storage/**'
 
 mod:time:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/time/**'
+          - 'packages/time/**'
 
 mod:transform:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/transform/**'
+          - 'packages/transform/**'
 
 mod:tween:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/tween/**'
+          - 'packages/tween/**'
 
 mod:type:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/type/**'
+          - 'packages/type/**'
+
+mod:utils:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'packages/utils/**'
 
 mod:window:
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/window/**'
-          - 'src/window-dom/**'
+          - 'packages/window/**'
+          - 'packages/window-dom/**'
 
 scope:documentation:
   - changed-files:
