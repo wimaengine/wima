@@ -1,32 +1,32 @@
-import { Events } from "@wimaengine/event"
-import { typeidGeneric } from "@wimaengine/type"
-import { EntityHandle, Query, World } from "@wimaengine/ecs"
-import { Window, Windows, WindowResize } from "@wimaengine/window"
-
+import { EntityHandle, Query, World } from '@wimaengine/ecs'
+import { Events } from '@wimaengine/event'
+import { typeidGeneric } from '@wimaengine/type'
+import { Window, Windows, WindowResize } from '@wimaengine/window'
 
 /**
- * @param {World} world 
+ * @param {World} world
  */
 export function resizeWindow(world) {
-    const windows = new Query(world, [EntityHandle, Window])
-    const canvases = world.getResource(Windows)
-    /** @type {Events<WindowResize>} */
-    const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [WindowResize]))
+  const windows = new Query(world, [EntityHandle, Window])
+  const canvases = world.getResource(Windows)
 
-    windows.each(([entity, window]) => {
-        const canvas = canvases.getWindow(entity)
+  /** @type {Events<WindowResize>} */
+  const dispatch = world.getResourceByTypeId(typeidGeneric(Events, [WindowResize]))
 
-        if (!(canvas instanceof HTMLCanvasElement)) {
-            return
-        }
+  windows.each(([entity, window]) => {
+    const canvas = canvases.getWindow(entity)
 
-        const rect = canvas.getBoundingClientRect()
+    if (!(canvas instanceof HTMLCanvasElement)) {
+      return
+    }
 
-        if (rect.width === window.getWidth() || rect.height === window.getHeight()) {
-            return
-        }
+    const rect = canvas.getBoundingClientRect()
 
-        window.set(rect.width, rect.height)
-        dispatch.write(new WindowResize(rect.width, rect.height))
-    })
+    if (rect.width === window.getWidth() || rect.height === window.getHeight()) {
+      return
+    }
+
+    window.set(rect.width, rect.height)
+    dispatch.write(new WindowResize(rect.width, rect.height))
+  })
 }
