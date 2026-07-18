@@ -1,5 +1,6 @@
 export * from './schedule'
 export * from './crossworldsystem'
+export * from './crossworldschedule'
 export * from './scheduler'
 export * from './executable'
 export * from './schedulerbuilder'
