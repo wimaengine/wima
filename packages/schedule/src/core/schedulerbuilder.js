@@ -6,8 +6,8 @@
 import { assert, throws } from '@wimaengine/logger'
 import { typeid } from '@wimaengine/type'
 import { Graph, kahnTopologySort } from 'vifaa'
-import { Executable } from './executable'
 import { CrossWorldSchedule } from './crossworldschedule'
+import { Executable } from './executable'
 import { Schedule } from './schedule'
 
 export class ScheduleContext {
