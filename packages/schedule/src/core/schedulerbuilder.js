@@ -1,4 +1,4 @@
-/** @import { SystemConfig, SystemGroupConfig } from './systemconfig' */
+/** @import { CrossWorldScheduleConfig, CrossWorldSystemConfig, CrossWorldSystemOrderReference, SystemConfig, SystemGroupConfig } from './systemconfig' */
 /** @import { ExecutableConfig, ScheduleConfig } from './executable' */
 /** @import { Scheduler } from './scheduler' */
 /** @import { SystemFunc } from '@wimaengine/ecs' */
@@ -7,6 +7,8 @@ import { assert, throws } from '@wimaengine/logger'
 import { typeid } from '@wimaengine/type'
 import { Graph, kahnTopologySort } from 'vifaa'
 import { Executable } from './executable'
+import { CrossWorldSchedule } from './crossworldschedule'
+import { Schedule } from './schedule'
 
 export class ScheduleContext {
 
@@ -467,6 +469,201 @@ export class ScheduleContext {
   }
 }
 
+/**
+ * Crossworld schedules keep the same ordering semantics as normal schedules
+ * but they do not use system groups.
+ */
+export class CrossWorldScheduleContext {
+
+  /**
+   * @param {Constructor} label
+   */
+  constructor(label) {
+    this.label = label
+  }
+
+  /**
+   * @type {Constructor}
+   */
+  label
+
+  /**
+   * @type {CrossWorldSystemRegistration[]}
+   */
+  systems = []
+
+  /**
+   * @type {Map<string, ScheduleNodeRef>}
+   */
+  nodesByLabel = new Map()
+
+  /**
+   * @param {CrossWorldSystemConfig} config
+   */
+  addSystem(config) {
+    const systemLabel = config.label || config.system.name
+
+    const system = {
+      id: this.systems.length,
+      config
+    }
+
+    this.systems.push(system)
+
+    if (systemLabel !== '') {
+      const existing = this.nodesByLabel.get(systemLabel)
+
+      if (existing) {
+        throws(`Duplicate system label "${systemLabel}" on schedule "${config.schedule.name}". Use a unique label or direct function references in ordering.`)
+      }
+
+      this.nodesByLabel.set(systemLabel, { kind: ScheduleNodeKind.System, id: system.id })
+    }
+
+    return system
+  }
+
+  /**
+   * @returns {CrossWorldSystemRegistration[]}
+   */
+  sortSystems() {
+    const { graph, systemsByGraphId } = this.expandScheduleGraph()
+    const sorted = kahnTopologySort(graph)
+
+    if (!sorted) {
+      throws(`Schedule "${this.label.name}" contains cyclic system ordering constraints.`)
+    }
+
+    /** @type {CrossWorldSystemRegistration[]} */
+    const ordered = []
+
+    for (let i = 0; i < sorted.length; i++) {
+      const system = systemsByGraphId.get(sorted[i])
+
+      if (!system) continue
+
+      ordered.push(system)
+    }
+
+    return ordered
+  }
+
+  /**
+   * @returns {{ graph: Graph<CrossWorldSystemRegistration, undefined>, systemsByGraphId: Map<number, CrossWorldSystemRegistration> }}
+   */
+  expandScheduleGraph() {
+    const graph = /** @type {Graph<CrossWorldSystemRegistration, undefined>} */ (new Graph(true))
+
+    /** @type {Map<number, number>} */
+    const graphIdsBySystemId = new Map()
+
+    /** @type {Map<number, CrossWorldSystemRegistration>} */
+    const systemsByGraphId = new Map()
+
+    /** @type {Set<string>} */
+    const edges = new Set()
+
+    for (let i = 0; i < this.systems.length; i++) {
+      const system = this.systems[i]
+      const graphId = graph.addNode(system)
+
+      graphIdsBySystemId.set(system.id, graphId)
+      systemsByGraphId.set(graphId, system)
+    }
+
+    for (let i = 0; i < this.systems.length; i++) {
+      const system = this.systems[i]
+
+      this.addNodeOrdering(graph, graphIdsBySystemId, edges, {
+        kind: ScheduleNodeKind.System,
+        id: system.id
+      }, system.config.before, system.config.after)
+    }
+
+    return {
+      graph,
+      systemsByGraphId
+    }
+  }
+
+  /**
+   * @param {Graph<CrossWorldSystemRegistration, undefined>} graph
+   * @param {Map<number, number>} graphIdsBySystemId
+   * @param {Set<string>} edges
+   * @param {ScheduleNodeRef} source
+   * @param {CrossWorldSystemOrderReference[] | undefined} before
+   * @param {CrossWorldSystemOrderReference[] | undefined} after
+   */
+  addNodeOrdering(graph, graphIdsBySystemId, edges, source, before, after) {
+    if (before) {
+      for (let i = 0; i < before.length; i++) {
+        const label = describeReference(before[i])
+
+        this.addExpandedEdge(graph, graphIdsBySystemId, edges, source, this.resolveNode(label), before[i])
+      }
+    }
+
+    if (after) {
+      for (let i = 0; i < after.length; i++) {
+        const label = describeReference(after[i])
+
+        this.addExpandedEdge(graph, graphIdsBySystemId, edges, this.resolveNode(label), source, after[i])
+      }
+    }
+  }
+
+  /**
+   * @param {string} label
+   * @returns {ScheduleNodeRef}
+   */
+  resolveNode(label) {
+    const node = this.nodesByLabel.get(label)
+
+    if (!node) {
+      throws(`Could not resolve the system label "${label}" on schedule "${this.label.name}".`)
+    }
+
+    return node
+  }
+
+  /**
+   * @param {Graph<CrossWorldSystemRegistration, undefined>} graph
+   * @param {Map<number, number>} graphIdsBySystemId
+   * @param {Set<string>} edges
+   * @param {ScheduleNodeRef} from
+   * @param {ScheduleNodeRef} to
+   * @param {CrossWorldSystemOrderReference} targetLabel
+   */
+  addExpandedEdge(graph, graphIdsBySystemId, edges, from, to, targetLabel) {
+    const fromNodeId = this.expandNodeToOrderingNode(from, graphIdsBySystemId)
+    const toNodeId = this.expandNodeToOrderingNode(to, graphIdsBySystemId)
+
+    if (fromNodeId === toNodeId) {
+      throws(`The reference "${describeReference(targetLabel)}" creates a self-referential system ordering on schedule "${this.label.name}".`)
+    }
+
+    const key = `${fromNodeId}:${toNodeId}`
+
+    if (edges.has(key)) return
+
+    edges.add(key)
+    graph.addEdge(fromNodeId, toNodeId, undefined)
+  }
+
+  /**
+   * @param {ScheduleNodeRef} node
+   * @param {Map<number, number>} graphIdsBySystemId
+   * @returns {number}
+   */
+  expandNodeToOrderingNode(node, graphIdsBySystemId) {
+    const graphId = graphIdsBySystemId.get(node.id)
+
+    assert(graphId, `Internal error: Could not resolve graph node for system ${node.id} on schedule "${this.label.name}".`)
+
+    return graphId
+  }
+}
+
 export class SchedulerBuilder {
 
   /**
@@ -477,15 +674,33 @@ export class SchedulerBuilder {
 
   /**
    * @private
+   * @type {Map<string, CrossWorldScheduleContext>}
+   */
+  crossWorldSchedules = new Map()
+
+  /**
+   * @private
    * @type {ScheduleConfig[]}
    */
   scheduleConfigs = []
 
   /**
    * @private
+   * @type {CrossWorldScheduleConfig[]}
+   */
+  crossWorldScheduleConfigs = []
+
+  /**
+   * @private
    * @type {SystemConfig[]}
    */
   systems = []
+
+  /**
+   * @private
+   * @type {CrossWorldSystemConfig[]}
+   */
+  crossWorldSystems = []
 
   /**
    * @private
@@ -498,9 +713,12 @@ export class SchedulerBuilder {
    */
   clear() {
     this.scheduleConfigs = []
+    this.crossWorldScheduleConfigs = []
     this.systems = []
+    this.crossWorldSystems = []
     this.systemGroups = []
     this.schedules = new Map()
+    this.crossWorldSchedules = new Map()
 
     return this
   }
@@ -513,10 +731,24 @@ export class SchedulerBuilder {
   }
 
   /**
+   * @param {CrossWorldScheduleConfig} config
+   */
+  addCrossWorldSchedule(config) {
+    this.crossWorldScheduleConfigs.push(config)
+  }
+
+  /**
    * @param {SystemConfig} config
    */
   add(config) {
     this.systems.push(config)
+  }
+
+  /**
+   * @param {CrossWorldSystemConfig} config
+   */
+  addCrossworldSystem(config) {
+    this.crossWorldSystems.push(config)
   }
 
   /**
@@ -537,12 +769,29 @@ export class SchedulerBuilder {
 
       assert(world, `The world for schedule "${config.label.name}" is not set.`)
 
-      const executableConfig = /** @type {ExecutableConfig} */ ({
+      const executableConfig = /** @type {ExecutableConfig<Schedule, undefined>} */ ({
         ...config,
-        world
+        world,
+        schedule: new Schedule()
       })
 
-      scheduler.set(new Executable(executableConfig))
+      scheduler.set(/** @type {Executable<Schedule, undefined>} */ (new Executable(executableConfig)))
+    }
+
+    for (let i = 0; i < this.crossWorldScheduleConfigs.length; i++) {
+      const config = this.crossWorldScheduleConfigs[i]
+      const world = config.world || defaultWorld
+
+      assert(world, `The world for crossworld schedule "${config.label.name}" is not set.`)
+      assert(config.sourceWorld, `The source world for crossworld schedule "${config.label.name}" is not set.`)
+
+      const executableConfig = /** @type {ExecutableConfig<CrossWorldSchedule, Constructor>} */ ({
+        ...config,
+        world,
+        schedule: new CrossWorldSchedule()
+      })
+
+      scheduler.setCrossWorld(/** @type {Executable<CrossWorldSchedule, Constructor>} */ (new Executable(executableConfig)))
     }
 
     /** @type {Map<string,  Constructor>} */
@@ -560,6 +809,18 @@ export class SchedulerBuilder {
       const schedule = scheduler.get(context.label)
 
       assert(schedule, `The schedule label "${context.label.name}" is not set in the provided \`Scheduler\`.`)
+
+      for (const system of context.sortSystems()) {
+        schedule.add(system.config.system)
+      }
+    }
+
+    const crossWorldSchedules = this.createCrossWorldScheduleContexts()
+
+    for (const [, context] of crossWorldSchedules) {
+      const schedule = scheduler.getCrossWorld(context.label)
+
+      assert(schedule, `The crossworld schedule label "${context.label.name}" is not set in the provided \`Scheduler\`.`)
 
       for (const system of context.sortSystems()) {
         schedule.add(system.config.system)
@@ -596,6 +857,21 @@ export class SchedulerBuilder {
     return this.schedules
   }
 
+  /**
+   * @private
+   * @returns {Map<string, CrossWorldScheduleContext>}
+   */
+  createCrossWorldScheduleContexts() {
+    for (let i = 0; i < this.crossWorldSystems.length; i++) {
+      const config = this.crossWorldSystems[i]
+      const context = getOrCreateCrossWorldScheduleContext(this.crossWorldSchedules, config.schedule)
+
+      context.addSystem(config)
+    }
+
+    return this.crossWorldSchedules
+  }
+
   static Instance = new SchedulerBuilder()
 }
 
@@ -618,7 +894,25 @@ function getOrCreateScheduleContext(schedules, label) {
 }
 
 /**
- * @param {SystemFunc | Constructor | string} reference
+ * @param {Map<string, CrossWorldScheduleContext>} schedules
+ * @param {Constructor} label
+ * @returns {CrossWorldScheduleContext}
+ */
+function getOrCreateCrossWorldScheduleContext(schedules, label) {
+  const scheduleTypeId = typeid(label)
+  const existing = schedules.get(scheduleTypeId)
+
+  if (existing) return existing
+
+  const created = new CrossWorldScheduleContext(label)
+
+  schedules.set(scheduleTypeId, created)
+
+  return created
+}
+
+/**
+ * @param {Function | Constructor | string} reference
  */
 function describeReference(reference) {
   if (typeof reference === 'string') return reference
@@ -644,6 +938,12 @@ const ScheduleNodeKind = Object.freeze({
  * @property {SystemGroupConfig} config
  * @property {number | undefined} parentId
  * @property {number[]} systems
+ */
+
+/**
+ * @typedef CrossWorldSystemRegistration
+ * @property {number} id
+ * @property {CrossWorldSystemConfig} config
  */
 
 /**
