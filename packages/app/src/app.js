@@ -244,6 +244,17 @@ export class App {
   }
 
   /**
+   * @param {CrossWorldSystemConfig} config
+   */
+  registerCrossworldSystem(config) {
+    assertTrue(!this.initialized, registererror)
+
+    SchedulerBuilder.Instance.addCrossworldSystem(config)
+
+    return this
+  }
+
+  /**
    * @param {SystemGroupConfig} config
    */
   registerSystemGroup(config) {
