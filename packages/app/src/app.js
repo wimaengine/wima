@@ -1,4 +1,4 @@
-/** @import { SystemConfig, SystemGroupConfig, ScheduleConfig } from '@wimaengine/schedule' */
+/** @import { CrossWorldScheduleConfig, CrossWorldSystemConfig, ScheduleConfig, SystemConfig, SystemGroupConfig } from '@wimaengine/schedule' */
 /** @import { Constructor,TypeId } from '@wimaengine/type'*/
 
 import { World, ComponentHooks } from '@wimaengine/ecs'
@@ -7,7 +7,7 @@ import { Scheduler, SchedulerBuilder } from '@wimaengine/schedule'
 import { typeid } from '@wimaengine/type'
 import { Worlds } from './worlds'
 
-const registererror = 'Schedules, system groups, systems, plugins, worlds, resource aliases or resources should be registered or set before `App().run()`'
+const registererror = 'Schedules, crossworld schedules, system groups, systems, crossworld systems, plugins, worlds, resource aliases or resources should be registered or set before `App().run()`'
 
 export class PluginRegistry {
 
@@ -162,6 +162,17 @@ export class App {
     assertTrue(!this.initialized, registererror)
 
     SchedulerBuilder.Instance.addSchedule(config)
+
+    return this
+  }
+
+  /**
+   * @param {CrossWorldScheduleConfig} config
+   */
+  registerCrossWorldSchedule(config) {
+    assertTrue(!this.initialized, registererror)
+
+    SchedulerBuilder.Instance.addCrossWorldSchedule(config)
 
     return this
   }
