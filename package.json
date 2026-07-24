@@ -2,7 +2,7 @@
   "name": "wima",
   "version": "0.3.0",
   "description": "An ECS driven modular game engine.",
-  "homepage": "https://wimaengine.github.io/wima/",
+  "homepage": "https://wimaengine.org",
   "bugs": {
     "url": "https://github.com/wimaengine/wima/issues"
   },
