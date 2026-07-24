@@ -66,8 +66,16 @@ function execute(command, canvas, window) {
 
       canvas.width = command.data.x
       canvas.height = command.data.y
-      window.set(canvas.width, canvas.height)
-      canvas.dispatchEvent(new Event('resize'))
+      canvas.style.width = `${canvas.width}px`
+      canvas.style.height = `${canvas.height}px`
+
+      const rect = canvas.getBoundingClientRect()
+      const width = Math.round(rect.width) || canvas.width
+      const height = Math.round(rect.height) || canvas.height
+
+      canvas.width = width
+      canvas.height = height
+      window.set(width, height)
       break
 
     case WindowRequest.Reposition:

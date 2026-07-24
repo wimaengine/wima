@@ -2,7 +2,7 @@
 /** @import {ComponentHook} from '@wimaengine/ecs' */
 import { warn } from '@wimaengine/logger'
 import { Window, Windows } from '@wimaengine/window'
-import { setUpKeyboardEvents, setupPointerEvents, setUpWindowEvents, setUpFileEvents } from '../core'
+import { setUpKeyboardEvents, setupPointerEvents, setUpFileEvents } from '../core'
 
 /**
  * @type {ComponentHook}
@@ -32,6 +32,25 @@ export function openWindow(entity, world) {
 }
 
 /**
+ * @param {HTMLCanvasElement} canvas
+ * @param {Window} window
+ */
+function syncWindowSize(canvas, window) {
+  canvas.width = window.getWidth()
+  canvas.height = window.getHeight()
+  canvas.style.width = `${canvas.width}px`
+  canvas.style.height = `${canvas.height}px`
+
+  const rect = canvas.getBoundingClientRect()
+  const width = Math.round(rect.width) || canvas.width
+  const height = Math.round(rect.height) || canvas.height
+
+  canvas.width = width
+  canvas.height = height
+  window.set(width, height)
+}
+
+/**
  * @param {import("@wimaengine/ecs").World} world
  * @param {import("@wimaengine/ecs").EntityHandle} entity
  * @param {HTMLCanvasElement} canvas
@@ -40,8 +59,7 @@ export function openWindow(entity, world) {
 function registerWindow(world, entity, canvas, window) {
   const windows = world.getResource(Windows)
 
-  canvas.width = window.getWidth()
-  canvas.height = window.getHeight()
+  syncWindowSize(canvas, window)
   windows.setWindow(entity, canvas)
 
   // setting tabindex and focus to enable keyboard events
@@ -51,7 +69,6 @@ function registerWindow(world, entity, canvas, window) {
 
   setupPointerEvents(world, canvas)
   setUpKeyboardEvents(world, canvas)
-  setUpWindowEvents(world, canvas)
   setUpFileEvents(world, canvas)
 }
 
