@@ -13,20 +13,16 @@
   "bugs": {
     "url": "https://github.com/wimaengine/wima/issues"
   },
-  "main": "./index.js",
+  "main": "./dist/index.umd.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./index.js"
-    },
-    "./src": {
-      "types": "./dist/src/index.d.ts",
-      "import": "./src/index.js"
+      "import": "./dist/index.module.js",
+      "require": "./dist/index.umd.js"
     }
   },
   "files": [
-    "index.js",
-    "src"
+    "dist"
   ],
   "scripts": {
     "build": "vite build --config ../../.config/vite.config.js",
