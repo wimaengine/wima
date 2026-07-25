@@ -2,18 +2,19 @@
   "name": "wima",
   "version": "0.3.0",
   "description": "An ECS driven modular game engine.",
-  "homepage": "https://wimaengine.github.io/wima/",
+  "homepage": "https://wimaengine.org",
   "bugs": {
     "url": "https://github.com/wimaengine/wima/issues"
   },
   "type": "module",
   "license": "SEE LICENSE in LICENSE.txt",
-  "main": "./dist/index.module.js",
+  "main": "./dist/index.umd.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.module.js"
+      "import": "./dist/index.module.js",
+      "require": "./dist/index.umd.js"
     }
   },
   "author": "Wima engine contributors",
@@ -35,7 +36,7 @@
     "build:docs": "npm run typedoc",
     "types": "turbo run types //#types:root",
     "test": "turbo run test",
-    "build": "npm run clean:build && turbo run build && turbo run //#build:root //#build:docs",
+    "build": "turbo run build && turbo run //#build:root //#build:docs",
     "lint": "npm run lint:src && npm run lint:examples",
     "version": "changeset version",
     "check:release-version": "node scripts/check-release-version.js",
@@ -49,7 +50,7 @@
     "tsc:lint": "tsc -p .config/tsc.lint.json",
     "watch:src": "vite build --watch --config .config/vite.config.js",
     "watch:docs": "npm run typedoc -- --watch",
-    "clean:build": "rm -rf dist types packages/*/types"
+    "clean:build": "rm -rf dist types packages/*/types packages/*/dist"
   },
   "keywords": [
     "game",

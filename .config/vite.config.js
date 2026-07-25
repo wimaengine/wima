@@ -1,7 +1,8 @@
-import { readFileSync, readdirSync, rmSync } from 'node:fs'
+import { readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { parse } from 'acorn'
 import { rollup } from 'rollup'
 import dts from 'rollup-plugin-dts'
 import { defineConfig } from 'vite'
@@ -11,7 +12,8 @@ const packageJsonPath = process.env.npm_package_json || resolve(root, 'package.j
 const packageRoot = dirname(packageJsonPath)
 const pkg = JSON.parse(readFileSync(packageJsonPath).toString())
 const isRootPackage = packageRoot === root
-const packageName = pkg.name.split('/').at(-1)
+const libraryName = toLibraryName(pkg.name)
+const packageGlobals = getPackageGlobals()
 const entry = isRootPackage
   ? resolve(root, 'src/index.js')
   : resolve(packageRoot, 'index.js')
@@ -47,17 +49,19 @@ export default defineConfig({
     }
   } : {}),
   plugins: [
+    jsCommentStripPlugin(),
     declarationBundlePlugin()
   ],
   build: {
     outDir: resolve(packageRoot, 'dist'),
     lib: {
       entry,
-      formats: ['es'],
-      fileName: () => 'index.module.js'
+      name: libraryName,
+      formats: ['es', 'umd'],
+      fileName: (format) => `index.${format === 'es' ? 'module' : format}.js`
     },
-    target: 'es2020',
-    minify: 'esbuild',
+    target: 'esnext',
+    minify: false,
     esbuild: {
       keepNames: true
     },
@@ -65,11 +69,28 @@ export default defineConfig({
       external: isPackageExternal,
       output: {
         banner,
-        exports: 'named'
+        exports: 'named',
+        globals: packageGlobals
       }
     }
   }
 })
+
+function jsCommentStripPlugin() {
+  return {
+    name: 'js-comment-strip',
+    apply: 'build',
+    /**
+     * @param {string} code
+     */
+    async renderChunk(code) {
+      const bannerPrefix = code.startsWith(banner) ? banner : ''
+      const body = bannerPrefix ? code.slice(bannerPrefix.length) : code
+
+      return `${bannerPrefix}${stripJsComments(body)}`
+    }
+  }
+}
 
 function declarationBundlePlugin() {
   return {
@@ -104,11 +125,74 @@ function declarationBundlePlugin() {
         file: resolve(packageRoot, 'dist/index.d.ts'),
         format: 'es'
       })
+      stripImportJsdocComments(resolve(packageRoot, 'dist/index.d.ts'))
       await bundle.close()
       if (isRootPackage) {
         rmSync(resolve(packageRoot, 'types'), { recursive: true, force: true })
       }
     }
+  }
+}
+
+/**
+ * Removes line and block comments from generated JavaScript chunks.
+ * The bundle banner is injected after renderChunk, so it stays intact.
+ *
+ * @param {string} code
+ * @returns {string}
+ */
+function stripJsComments(code) {
+  /** @type {{ block: boolean, start: number, end: number }[]} */
+  const comments = []
+
+  parse(code, {
+    ecmaVersion: 'latest',
+    onComment(block, _text, start, end) {
+      comments.push({ block, start, end })
+    },
+    sourceType: 'module'
+  })
+
+  if (!comments.length) {
+    return code
+  }
+
+  let stripped = ''
+  let cursor = 0
+
+  for (const comment of comments) {
+    stripped += code.slice(cursor, comment.start)
+
+    if (comment.block) {
+      const left = code[comment.start - 1]
+      const right = code[comment.end]
+
+      if (left && right && !/\s/.test(left) && !/\s/.test(right)) {
+        stripped += ' '
+      }
+    }
+
+    cursor = comment.end
+  }
+
+  stripped += code.slice(cursor)
+
+  return stripped
+}
+
+/**
+ * Removes JSDoc import-only comment blocks from generated declaration files.
+ *
+ * @param {string} filePath
+ */
+function stripImportJsdocComments(filePath) {
+  const contents = readFileSync(filePath, 'utf8')
+  const stripped = contents.replace(/\/\*\*[\s\S]*?\*\//g, (block) => (
+    block.includes('@import') ? '' : block
+  ))
+
+  if (stripped !== contents) {
+    writeFileSync(filePath, stripped)
   }
 }
 
@@ -121,4 +205,34 @@ function getPackageDeclarationPaths() {
         [`packages/${name}/types/index.d.ts`]
       ])
   )
+}
+
+/**
+ * Returns the UMD global names for workspace packages.
+ *
+ * @returns {Record<string, string>}
+ */
+function getPackageGlobals() {
+  return Object.fromEntries(
+    readdirSync(resolve(root, 'packages'), { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .map(({ name }) => [
+        `@wimaengine/${name}`,
+        toLibraryName(`@wimaengine/${name}`)
+      ])
+  )
+}
+
+/**
+ * Converts a package name to a valid UMD global identifier.
+ *
+ * @param {string} name
+ * @returns {string}
+ */
+function toLibraryName(name) {
+  return name
+    .replace(/^@/, '')
+    .replace(/\//g, '_')
+    .replace(/-/g, '_')
+    .toUpperCase()
 }

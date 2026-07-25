@@ -11,9 +11,15 @@
       ]
     },
     "test": {
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": []
     },
     "types": {
+      "dependsOn": [
+        "^build"
+      ],
       "outputs": [
         "types/**"
       ]
