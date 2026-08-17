@@ -1,7 +1,7 @@
 /** @import { EntityHandle, World } from '@wimaengine/ecs' */
 import { CommandQueue } from '@wimaengine/command'
 import { assert } from '@wimaengine/logger'
-import { SpawnCommand, DespawnCommand } from '../commands'
+import { SpawnCommand, DespawnCommand, ReparentCommand } from '../commands'
 
 const entityerror = 'Spawn an entity using `Entity.spawn()` before using '
 
@@ -114,5 +114,15 @@ export class EntityCommands {
    */
   despawn(entity) {
     this.queue.add(new DespawnCommand(entity))
+  }
+
+  /**
+   * Reparents an entity while preserving its world transform.
+   *
+   * @param {EntityHandle} entity
+   * @param {EntityHandle | undefined} [parent=undefined]
+   */
+  reparent(entity, parent = undefined) {
+    this.queue.add(new ReparentCommand(entity, parent))
   }
 }

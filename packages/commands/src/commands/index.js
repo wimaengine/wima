@@ -1,5 +1,6 @@
 export * from './addresource'
 export * from './despawn'
+export * from './reparent'
 export * from './removeresource'
 export * from './setresourcealias'
 export * from './spawn'
