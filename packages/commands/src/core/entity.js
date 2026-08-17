@@ -1,7 +1,8 @@
 /** @import { EntityHandle, World } from '@wimaengine/ecs' */
+/** @import { TupleConstructor } from '@wimaengine/type' */
 import { CommandQueue } from '@wimaengine/command'
 import { assert } from '@wimaengine/logger'
-import { SpawnCommand, DespawnCommand, ReparentCommand } from '../commands'
+import { SpawnCommand, DespawnCommand, RemoveCommand, ReparentCommand } from '../commands'
 
 const entityerror = 'Spawn an entity using `Entity.spawn()` before using '
 
@@ -107,6 +108,17 @@ export class EntityCommands {
     this.buffered.insertPrefab(components)
 
     return this
+  }
+
+  /**
+   * Removes components from a given entity.
+   *
+   * @template {unknown[]} T
+   * @param {EntityHandle} entity
+   * @param {TupleConstructor<T>} components
+   */
+  remove(entity, components) {
+    this.queue.add(new RemoveCommand(entity, components))
   }
 
   /**
