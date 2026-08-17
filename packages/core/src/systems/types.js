@@ -1,4 +1,5 @@
-import { EntityHandle, World } from '@wimaengine/ecs'
+/** @import { World } from '@wimaengine/ecs' */
+import { EntityHandle } from '@wimaengine/ecs'
 import { ArrayInfo, Field, MapInfo, MethodEntry, OpaqueInfo, StructInfo, TypeEntry, TypeRegistry } from '@wimaengine/reflect'
 import { setTypeId, typeid, typeidGeneric } from '@wimaengine/type'
 

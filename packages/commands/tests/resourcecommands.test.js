@@ -1,6 +1,6 @@
 import { strictEqual } from 'node:assert'
 import { describe, test } from 'vitest'
-import { CommandQueue } from '@wimaengine/command'
+import { CommandQueue, executeCommands } from '@wimaengine/command'
 import { World } from '@wimaengine/ecs'
 import { typeid } from '@wimaengine/type'
 import { executeCommands, ResourceCommands } from '../src/index.js'

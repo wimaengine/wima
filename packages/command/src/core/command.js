@@ -1,4 +1,4 @@
-import { World } from '@wimaengine/ecs'
+/** @import { World } from '@wimaengine/ecs' */
 
 export class Command {
 
