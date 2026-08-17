@@ -1,2 +1,5 @@
-export * from './spawn'
+export * from './addresource'
 export * from './despawn'
+export * from './removeresource'
+export * from './setresourcealias'
+export * from './spawn'
