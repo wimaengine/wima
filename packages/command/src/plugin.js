@@ -1,5 +1,8 @@
-import { App, Plugin } from '@wimaengine/app'
+/** @import { App } from '@wimaengine/app' */
+import { Plugin } from '@wimaengine/app'
+import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { CommandQueue } from './resources'
+import { executeCommands } from './systems'
 
 export class CommandsPlugin extends Plugin {
 
@@ -9,5 +12,15 @@ export class CommandsPlugin extends Plugin {
   register(app) {
     app
       .setResource(new CommandQueue())
+      .registerSystem({
+        schedule: AppSchedule.Startup,
+        systemGroup: CoreSystems.End,
+        system: executeCommands
+      })
+      .registerSystem({
+        schedule: AppSchedule.Update,
+        systemGroup: CoreSystems.End,
+        system: executeCommands
+      })
   }
 }

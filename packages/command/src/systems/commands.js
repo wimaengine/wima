@@ -1,5 +1,5 @@
-import { CommandQueue } from '@wimaengine/command'
-import { World } from '@wimaengine/ecs'
+/** @import { World } from '@wimaengine/ecs' */
+import { CommandQueue } from '../resources'
 
 /**
  * @param {World} world

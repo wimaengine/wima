@@ -1,6 +1,7 @@
 /** @import {WindowOptions} from './components' */
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems, EntityCommands } from '@wimaengine/core'
+import { EntityCommands } from '@wimaengine/commands'
+import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { EventPlugin } from '@wimaengine/event'
 import { Window, MainWindow } from './components'
 import {

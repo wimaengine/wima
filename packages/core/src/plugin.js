@@ -1,7 +1,8 @@
-import { App, Plugin } from '@wimaengine/app'
+/** @import { App } from '@wimaengine/app' */
+import { Plugin } from '@wimaengine/app'
 import { SchedulerBuilder } from '@wimaengine/schedule'
 import { AppSchedule, CoreSystems, MainWorld, defaultRunner } from './core'
-import { executeCommands, registerCoreTypes, registerPrimitiveTypes } from './systems'
+import { registerCoreTypes, registerPrimitiveTypes } from './systems'
 
 export class CorePlugin extends Plugin {
 
@@ -80,16 +81,6 @@ export class CorePlugin extends Plugin {
       .registerSystem({
         schedule: AppSchedule.Startup,
         system: registerPrimitiveTypes
-      })
-      .registerSystem({
-        schedule: AppSchedule.Startup,
-        systemGroup: CoreSystems.End,
-        system: executeCommands
-      })
-      .registerSystem({
-        schedule: AppSchedule.Update,
-        systemGroup: CoreSystems.End,
-        system: executeCommands
       })
   }
 }

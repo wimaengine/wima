@@ -1,6 +1,5 @@
-/** @import { EntityHandle } from '@wimaengine/ecs' */
+/** @import { EntityHandle, World } from '@wimaengine/ecs' */
 import { Command } from '@wimaengine/command'
-import { World } from '@wimaengine/ecs'
 
 export class DespawnCommand extends Command {
 

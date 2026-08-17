@@ -1,6 +1,5 @@
 /** @import {Constructor, TypeId} from '@wimaengine/type' */
 import { Command } from '@wimaengine/command'
-import { World } from '@wimaengine/ecs'
 
 export class SetResourceAliasCommand extends Command {
 
@@ -27,7 +26,7 @@ export class SetResourceAliasCommand extends Command {
   }
 
   /**
-   * @param {World} world
+   * @param {import('@wimaengine/ecs').World} world
    */
   execute(world) {
     world.setResourceAlias(this.id, this.alias)

@@ -1,6 +1,5 @@
-/** @import { EntityHandle } from '@wimaengine/ecs' */
+/** @import { EntityHandle, World } from '@wimaengine/ecs' */
 import { CommandQueue } from '@wimaengine/command'
-import { World } from '@wimaengine/ecs'
 import { assert } from '@wimaengine/logger'
 import { SpawnCommand, DespawnCommand } from '../commands'
 

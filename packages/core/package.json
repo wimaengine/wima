@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "@wimaengine/app": "0.3.0",
-    "@wimaengine/command": "0.3.0",
     "@wimaengine/ecs": "0.3.0",
     "@wimaengine/logger": "0.3.0",
     "@wimaengine/reflect": "0.3.0",
