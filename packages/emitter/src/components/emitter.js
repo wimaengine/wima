@@ -1,4 +1,4 @@
-import { EntityCommands } from '@wimaengine/core'
+/** @import { EntityCommands } from '@wimaengine/commands' */
 import { Range } from '@wimaengine/datastructures'
 import { EntityHandle } from '@wimaengine/ecs'
 
