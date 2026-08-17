@@ -1,5 +1,5 @@
+/** @import { EntityHandle, World } from '@wimaengine/ecs' */
 import { Command } from '@wimaengine/command'
-import { World, EntityHandle } from '@wimaengine/ecs'
 
 export class SpawnCommand extends Command {
 

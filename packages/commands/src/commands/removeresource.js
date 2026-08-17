@@ -1,6 +1,5 @@
 /** @import {Constructor} from '@wimaengine/type' */
 import { Command } from '@wimaengine/command'
-import { World } from '@wimaengine/ecs'
 
 export class RemoveResourceCommand extends Command {
 
@@ -19,7 +18,7 @@ export class RemoveResourceCommand extends Command {
   }
 
   /**
-   * @param {World} world
+   * @param {import('@wimaengine/ecs').World} world
    */
   execute(world) {
     world.removeResource(this.resourceType)

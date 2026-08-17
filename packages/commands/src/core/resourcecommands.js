@@ -1,6 +1,5 @@
 /** @import {Constructor, TypeId} from '@wimaengine/type' */
 import { CommandQueue } from '@wimaengine/command'
-import { World } from '@wimaengine/ecs'
 import { AddResourceCommand, RemoveResourceCommand, SetResourceAliasCommand } from '../commands'
 
 export class ResourceCommands {
@@ -12,7 +11,7 @@ export class ResourceCommands {
   buffer
 
   /**
-   * @param {World} world
+   * @param {import('@wimaengine/ecs').World} world
    */
   constructor(world) {
     this.buffer = world.getResource(CommandQueue)

@@ -1,0 +1,39 @@
+{
+  "name": "@wimaengine/commands",
+  "description": "Wima engine high-level commands package.",
+  "version": "0.3.0",
+  "type": "module",
+  "license": "SEE LICENSE in LICENSE.txt",
+  "author": "Wima engine contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wimaengine/wima.git"
+  },
+  "homepage": "https://wimaengine.org",
+  "bugs": {
+    "url": "https://github.com/wimaengine/wima/issues"
+  },
+  "main": "./dist/index.umd.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.module.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build --config ../../.config/vite.config.js",
+    "test": "vitest run --dir tests --passWithNoTests",
+    "types": "tsc -p ./tsc.type.json"
+  },
+  "dependencies": {
+    "@wimaengine/command": "0.3.0",
+    "@wimaengine/ecs": "0.3.0",
+    "@wimaengine/logger": "0.3.0",
+    "@wimaengine/type": "0.3.0"
+  },
+  "types": "./dist/index.d.ts"
+}

@@ -1,5 +1,5 @@
+/** @import { World } from '@wimaengine/ecs' */
 import { Command } from '@wimaengine/command'
-import { World } from '@wimaengine/ecs'
 
 export class AddResourceCommand extends Command {
 
