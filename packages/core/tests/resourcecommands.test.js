@@ -3,8 +3,7 @@ import { describe, test } from 'vitest'
 import { CommandQueue } from '@wimaengine/command'
 import { World } from '@wimaengine/ecs'
 import { typeid } from '@wimaengine/type'
-import { ResourceCommands } from '../src/index.js'
-import { executeCommands } from '../src/systems/index.js'
+import { executeCommands, ResourceCommands } from '../src/index.js'
 
 class TestResource { }
 class TestAlias extends TestResource { }
