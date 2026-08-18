@@ -25,7 +25,7 @@ export class Position2D extends Vector2 {
   }
 
   /**
-   * @param {import('@wimaengine/math').Vector2Serial} value
+   * @param {import('@wimaengine/math').Vector2Like} value
    * @param {Position2D} [out]
    */
   static deserialize(value, out = new Position2D()) {

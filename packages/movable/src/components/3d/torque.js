@@ -25,7 +25,7 @@ export class Torque3D extends Vector3 {
   }
 
   /**
-   * @param {import('@wimaengine/math').Vector3Serial} value
+   * @param {import('@wimaengine/math').Vector3Like} value
    * @param {Torque3D} [out]
    */
   static deserialize(value, out = new Torque3D()) {

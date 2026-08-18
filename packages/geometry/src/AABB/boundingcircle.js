@@ -110,5 +110,5 @@ export class BoundingCircle {
  * @typedef BoundingCircleSerial
  * @property {number} type
  * @property {number} r
- * @property {import('@wimaengine/math').Vector2Serial} pos
+ * @property {import('@wimaengine/math').Vector2Like} pos
  */

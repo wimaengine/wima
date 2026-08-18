@@ -10,7 +10,7 @@ export class Gravity2D extends Vector2 {
   }
 
   /**
-   * @param {import('@wimaengine/math').Vector2Serial} value
+   * @param {import('@wimaengine/math').Vector2Like} value
    * @param {Gravity2D} [out]
    */
   static deserialize(value, out = new Gravity2D()) {
@@ -28,7 +28,7 @@ export class Gravity3D extends Vector3 {
   }
 
   /**
-   * @param {import('@wimaengine/math').Vector3Serial} value
+   * @param {import('@wimaengine/math').Vector3Like} value
    * @param {Gravity3D} [out]
    */
   static deserialize(value, out = new Gravity3D()) {

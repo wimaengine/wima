@@ -315,7 +315,7 @@ export class Collider2D {
  * @typedef Collider2DSerial
  * @property {number} type
  * @property {number} angle
- * @property {import('@wimaengine/math').Vector2Serial[]} vertices
+ * @property {import('@wimaengine/math').Vector2Like[]} vertices
  * @property {import('../core').GeometrySerial} geometry
  */
 

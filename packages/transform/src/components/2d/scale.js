@@ -28,7 +28,7 @@ export class Scale2D extends Vector2 {
   }
 
   /**
-   * @param {import('@wimaengine/math').Vector2Serial} value
+   * @param {import('@wimaengine/math').Vector2Like} value
    * @param {Scale2D} [out]
    */
   static deserialize(value, out = new Scale2D()) {

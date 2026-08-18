@@ -70,5 +70,5 @@ export class Image {
 /**
  * @typedef ImageSerial
  * @property {number[]} raw
- * @property {import('@wimaengine/math').Vector2Serial} dimensions
+ * @property {import('@wimaengine/math').Vector2Like} dimensions
  */

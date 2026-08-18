@@ -25,7 +25,7 @@ export class Position3D extends Vector3 {
   }
 
   /**
-   * @param {import('@wimaengine/math').Vector3Serial} value
+   * @param {import('@wimaengine/math').Vector3Like} value
    * @param {Position3D} [out]
    */
   static deserialize(value, out = new Position3D()) {

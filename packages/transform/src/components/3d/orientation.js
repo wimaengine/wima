@@ -25,7 +25,7 @@ export class Orientation3D extends Quaternion {
   }
 
   /**
-   * @param {import('@wimaengine/math').QuaternionSerial} value
+   * @param {import('@wimaengine/math').QuaternionLike} value
    * @param {Orientation3D} [out]
    */
   static deserialize(value, out = new Orientation3D()) {

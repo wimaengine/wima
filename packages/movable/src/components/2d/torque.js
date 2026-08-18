@@ -27,7 +27,7 @@ export class Torque2D extends Angle {
   }
 
   /**
-   * @param {import('@wimaengine/math').AngleSerial} value
+   * @param {import('@wimaengine/math').AngleLike} value
    * @param {Torque2D} [out]
    */
   static deserialize(value, out = new Torque2D()) {
