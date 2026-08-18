@@ -26,7 +26,6 @@
   ],
   "scripts": {
     "build": "vite build --config ../../.config/vite.config.js",
-    "test": "vitest run --dir tests --passWithNoTests",
     "types": "tsc -p ./tsc.type.json"
   },
   "dependencies": {
@@ -34,7 +33,8 @@
     "@wimaengine/core": "0.3.0",
     "@wimaengine/ecs": "0.3.0",
     "@wimaengine/reflect": "0.3.0",
-    "@wimaengine/type": "0.3.0"
+    "@wimaengine/type": "0.3.0",
+    "hisabati": "^0.2.0"
   },
   "types": "./dist/index.d.ts"
 }
