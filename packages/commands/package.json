@@ -32,7 +32,12 @@
   "dependencies": {
     "@wimaengine/command": "0.3.0",
     "@wimaengine/ecs": "0.3.0",
+    "@wimaengine/hierarchy": "0.3.0",
     "@wimaengine/logger": "0.3.0",
+    "@wimaengine/math": "0.3.0",
+    "@wimaengine/reflect": "0.3.0",
+    "@wimaengine/relationship": "0.3.0",
+    "@wimaengine/transform": "0.3.0",
     "@wimaengine/type": "0.3.0"
   },
   "types": "./dist/index.d.ts"

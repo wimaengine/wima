@@ -1,7 +1,8 @@
 /** @import { EntityHandle, World } from '@wimaengine/ecs' */
+/** @import { TupleConstructor } from '@wimaengine/type' */
 import { CommandQueue } from '@wimaengine/command'
 import { assert } from '@wimaengine/logger'
-import { SpawnCommand, DespawnCommand } from '../commands'
+import { CloneCommand, SpawnCommand, DespawnCommand, RemoveCommand, ReparentCommand } from '../commands'
 
 const entityerror = 'Spawn an entity using `Entity.spawn()` before using '
 
@@ -110,9 +111,44 @@ export class EntityCommands {
   }
 
   /**
+   * Clones an entity and its descendants.
+   *
+   * @param {EntityHandle} entity
+   * @returns {EntityHandle}
+   */
+  clone(entity) {
+    const command = CloneCommand.create(this.world, entity)
+
+    this.queue.add(command)
+
+    return command.entity
+  }
+
+  /**
+   * Removes components from a given entity.
+   *
+   * @template {unknown[]} T
+   * @param {EntityHandle} entity
+   * @param {TupleConstructor<T>} components
+   */
+  remove(entity, components) {
+    this.queue.add(new RemoveCommand(entity, components))
+  }
+
+  /**
    * @param {EntityHandle} entity
    */
   despawn(entity) {
     this.queue.add(new DespawnCommand(entity))
+  }
+
+  /**
+   * Reparents an entity while preserving its world transform.
+   *
+   * @param {EntityHandle} entity
+   * @param {EntityHandle | undefined} [parent=undefined]
+   */
+  reparent(entity, parent = undefined) {
+    this.queue.add(new ReparentCommand(entity, parent))
   }
 }
