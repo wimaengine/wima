@@ -1,8 +1,8 @@
 /** @import { World } from '@wimaengine/ecs' */
-import { EntityHandle } from '@wimaengine/ecs'
 import { Command } from '@wimaengine/command'
-import { assert, warn } from '@wimaengine/logger'
+import { EntityHandle } from '@wimaengine/ecs'
 import { Children, Parent } from '@wimaengine/hierarchy'
+import { assert, warn } from '@wimaengine/logger'
 import { TypeRegistry } from '@wimaengine/reflect'
 import { RelationshipQuery } from '@wimaengine/relationship'
 import { typeid } from '@wimaengine/type'
@@ -62,10 +62,13 @@ export class CloneCommand extends Command {
     assert(cell.exists(), `The entity ${entity.id()} cannot be cloned because it does not exist.`)
 
     const registry = world.getResource(TypeRegistry)
+
     /** @type {EntityHandle[]} */
     const ordered = []
+
     /** @type {SpawnCommand[]} */
     const cloneCommands = []
+
     /** @type {Map<number, number>} */
     const entityMap = new Map()
 
@@ -82,6 +85,7 @@ export class CloneCommand extends Command {
       for (let i = 0; i < ordered.length; i++) {
         const source = ordered[i]
         const sourceCell = world.getEntity(source)
+
         /** @type {object[]} */
         const clonedComponents = []
         const typeIds = sourceCell.components()
@@ -124,12 +128,10 @@ export class CloneCommand extends Command {
 
         cloneCommands[i].insertPrefab(clonedComponents)
       }
-    } catch (error) {
+    } catch {
       for (let i = 0; i < cloneCommands.length; i++) {
         world.despawn(cloneCommands[i].entity)
       }
-
-      throw error
     }
 
     return new CloneCommand(cloneCommands)
