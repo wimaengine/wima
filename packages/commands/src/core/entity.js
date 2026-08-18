@@ -2,7 +2,7 @@
 /** @import { TupleConstructor } from '@wimaengine/type' */
 import { CommandQueue } from '@wimaengine/command'
 import { assert } from '@wimaengine/logger'
-import { SpawnCommand, DespawnCommand, RemoveCommand, ReparentCommand } from '../commands'
+import { CloneCommand, SpawnCommand, DespawnCommand, RemoveCommand, ReparentCommand } from '../commands'
 
 const entityerror = 'Spawn an entity using `Entity.spawn()` before using '
 
@@ -108,6 +108,20 @@ export class EntityCommands {
     this.buffered.insertPrefab(components)
 
     return this
+  }
+
+  /**
+   * Clones an entity and its descendants.
+   *
+   * @param {EntityHandle} entity
+   * @returns {EntityHandle}
+   */
+  clone(entity) {
+    const command = CloneCommand.create(this.world, entity)
+
+    this.queue.add(command)
+
+    return command.entity
   }
 
   /**

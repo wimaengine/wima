@@ -1,4 +1,5 @@
 export * from './addresource'
+export * from './clone'
 export * from './despawn'
 export * from './remove'
 export * from './reparent'
