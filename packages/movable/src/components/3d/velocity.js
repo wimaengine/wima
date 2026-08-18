@@ -25,7 +25,7 @@ export class Velocity3D extends Vector3 {
   }
 
   /**
-   * @param {import('@wimaengine/math').Vector3Serial} value
+   * @param {import('@wimaengine/math').Vector3Like} value
    * @param {Velocity3D} [out]
    */
   static deserialize(value, out = new Velocity3D()) {

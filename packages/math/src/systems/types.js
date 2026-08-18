@@ -18,7 +18,7 @@ import {
   Vector2,
   Vector3,
   Vector4
-} from '../core'
+} from 'hisabati'
 
 /**
  * @param {World} world

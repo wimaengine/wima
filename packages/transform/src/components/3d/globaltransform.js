@@ -25,7 +25,7 @@ export class GlobalTransform3D extends Affine3 {
   }
 
   /**
-   * @param {import('@wimaengine/math').Affine3Serial} value
+   * @param {import('@wimaengine/math').Affine3Like} value
    * @param {GlobalTransform3D} [out]
    */
   static deserialize(value, out = new GlobalTransform3D()) {

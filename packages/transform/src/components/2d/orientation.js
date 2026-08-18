@@ -25,7 +25,7 @@ export class Orientation2D extends Rotary {
   }
 
   /**
-   * @param {import('@wimaengine/math').RotarySerial} value
+   * @param {import('@wimaengine/math').RotaryLike} value
    * @param {Orientation2D} [out]
    */
   static deserialize(value, out = new Orientation2D()) {

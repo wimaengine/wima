@@ -27,7 +27,7 @@ export class Rotation2D extends Angle {
   }
 
   /**
-   * @param {import('@wimaengine/math').AngleSerial} value
+   * @param {import('@wimaengine/math').AngleLike} value
    * @param {Rotation2D} [out]
    */
   static deserialize(value, out = new Rotation2D()) {

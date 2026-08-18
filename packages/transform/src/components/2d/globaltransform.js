@@ -25,7 +25,7 @@ export class GlobalTransform2D extends Affine2 {
   }
 
   /**
-   * @param {import('@wimaengine/math').Affine2Serial} value
+   * @param {import('@wimaengine/math').Affine2Like} value
    * @param {GlobalTransform2D} [out]
    */
   static deserialize(value, out = new GlobalTransform2D()) {

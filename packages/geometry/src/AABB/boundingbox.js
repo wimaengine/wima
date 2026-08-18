@@ -154,6 +154,6 @@ export class BoundingBox2D {
 /**
  * @typedef BoundingBox2DSerial
  * @property {number} type
- * @property {import('@wimaengine/math').Vector2Serial} max
- * @property {import('@wimaengine/math').Vector2Serial} min
+ * @property {import('@wimaengine/math').Vector2Like} max
+ * @property {import('@wimaengine/math').Vector2Like} min
  */

@@ -133,7 +133,7 @@ export class Geometry {
 
 /**
  * @typedef GeometrySerial
- * @property {import('@wimaengine/math').Vector2Serial[]} vertices
+ * @property {import('@wimaengine/math').Vector2Like[]} vertices
  */
 
 /**
