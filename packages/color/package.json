@@ -35,7 +35,8 @@
     "@wimaengine/ecs": "0.3.0",
     "@wimaengine/math": "0.3.0",
     "@wimaengine/reflect": "0.3.0",
-    "@wimaengine/type": "0.3.0"
+    "@wimaengine/type": "0.3.0",
+    "marangi": "^0.2.0"
   },
   "types": "./dist/index.d.ts"
 }
