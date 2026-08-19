@@ -69,5 +69,5 @@ export class BasicMaterial extends Material {
 
 /**
  * @typedef BasicMaterialSerial
- * @property {import('@wimaengine/color').ColorSerial} color
+ * @property {import('@wimaengine/color').ColorLike} color
  */
