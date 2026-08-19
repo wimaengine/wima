@@ -13,7 +13,7 @@ export class ClearColor extends Color {
   }
 
   /**
-   * @param {import('@wimaengine/color').ColorSerial} value
+   * @param {import('@wimaengine/color').ColorLike} value
    * @param {ClearColor} [out]
    */
   static deserialize(value, out = new ClearColor()) {
