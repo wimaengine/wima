@@ -381,9 +381,23 @@ export class World {
    * @returns {T}
    */
   getResourceByTypeId(id) {
+    const resource = this.getOptionalResourceByTypeId(id)
+
+    assert(resource, `The resource or resource alias \`${id}\` is non existent.`)
+
+    // SAFETY: The typeid should match the type, caller's responsibility
+    return /** @type {T}*/(resource)
+  }
+
+  /**
+   * @template T
+   * @param {TypeId} id
+   * @returns {T | undefined}
+   */
+  getOptionalResourceByTypeId(id) {
     const resource = this.resources.get(id)
 
-    if (resource) {
+    if (resource !== undefined) {
 
       // SAFETY: The typeid should match the type, caller's responsibility
       return /** @type {T}*/(resource)
@@ -391,11 +405,11 @@ export class World {
 
     const aliasedid = this.resourceAliases.get(id)
 
-    assert(aliasedid, `The resource or resource alias \`${id}\` is non existent.`)
+    if (aliasedid === undefined) return undefined
 
     const aliasedResource = this.resources.get(aliasedid)
 
-    assert(aliasedResource, `The resource alias \`${id}\` points to a non-existent resource \`${aliasedid}\`.`)
+    if (aliasedResource === undefined) return undefined
 
     // SAFETY: The aliased typeid should match the type, caller's responsibility
     return /** @type {T}*/(aliasedResource)
