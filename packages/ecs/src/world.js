@@ -368,6 +368,15 @@ export class World {
 
   /**
    * @template T
+   * @param {Constructor<T>} resourceType
+   * @returns {T | undefined}
+   */
+  getOptionalResource(resourceType) {
+    return this.getOptionalResourceByTypeId(typeid(resourceType))
+  }
+
+  /**
+   * @template T
    * @param {TypeId} id
    * @returns {T}
    */
