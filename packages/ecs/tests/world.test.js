@@ -1,5 +1,5 @@
 import { test, describe } from "vitest";
-import { deepStrictEqual, throws } from "node:assert";
+import { deepStrictEqual, strictEqual, throws } from "node:assert";
 import { World } from "../src";
 import { typeid } from "@wimaengine/type";
 import { EntityHandle } from "../src/entities";
@@ -107,6 +107,30 @@ describe("Testing `World`", () => {
     const resource = world.getResourceByTypeId(typeid(TestResource))
 
     deepStrictEqual(resource, new TestResource())
+  })
+
+  test('Get optional correct resource on world.', () => {
+    const world = new World()
+    world.setResource(new TestResource())
+    const resource = world.getOptionalResource(TestResource)
+
+    deepStrictEqual(resource, new TestResource())
+  })
+
+  test('Optional resource lookup on world returns aliased resources.', () => {
+    const world = new World()
+    world.setResource(new TestResource())
+    world.setResourceAlias(typeid(TestResource), TestAlias)
+    const resource = world.getOptionalResource(TestAlias)
+
+    deepStrictEqual(resource, new TestResource())
+  })
+
+  test('Optional resource lookup on world returns undefined when missing.', () => {
+    const world = new World()
+
+    strictEqual(world.getOptionalResource(TestResource), undefined)
+    strictEqual(world.getOptionalResource(TestAlias), undefined)
   })
 
   test('World has resource.', () => {
