@@ -1,13 +1,16 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { World } from '@wimaengine/ecs'
 import { Events } from '@wimaengine/event'
-import { Vector2 } from '@wimaengine/math'
+import { MathPlugin, Vector2 } from '@wimaengine/math'
+import { ReflectPlugin } from '@wimaengine/reflect'
 import { typeidGeneric } from '@wimaengine/type'
 import { PointerDown, PointerMove, PointerUp } from '@wimaengine/window'
+import { WindowPlugin } from '@wimaengine/window'
 import { MouseButton } from './core'
 import { Mouse, MouseButtons } from './resources'
 import { registerMouseTypes } from './systems'
+import { typeid } from '@wimaengine/type'
 
 export class MousePlugin extends Plugin {
 
@@ -22,6 +25,10 @@ export class MousePlugin extends Plugin {
       .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerMouseTypes })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.Start, system: updateMouse })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.Start, system: updateMouseButtons })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin), typeid(MathPlugin), typeid(WindowPlugin)]
   }
 }
 

@@ -1,8 +1,9 @@
 /** @import {Constructor} from '@wimaengine/type' */
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { typeid, typeidGeneric } from '@wimaengine/type'
 import { Importer } from '../core'
+import { AssetServerPlugin } from './assetServer'
 import { registerAssetImporterOnAssetServer } from '../systems'
 
 /**
@@ -47,6 +48,10 @@ export class AssetImporterPlugin extends Plugin {
         systemGroup: CoreSystems.Start,
         system: registerAssetImporterOnAssetServer(asset, importer)
       })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(AssetServerPlugin)]
   }
 
   name() {

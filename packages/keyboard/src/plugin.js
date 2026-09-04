@@ -1,12 +1,15 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { World } from '@wimaengine/ecs'
 import { Events } from '@wimaengine/event'
+import { ReflectPlugin } from '@wimaengine/reflect'
 import { typeidGeneric } from '@wimaengine/type'
 import { KeyUp, KeyDown } from '@wimaengine/window'
+import { WindowPlugin } from '@wimaengine/window'
 import { KeyCode } from './core'
 import { Keyboard } from './resources'
 import { registerKeyboardTypes } from './systems'
+import { typeid } from '@wimaengine/type'
 
 export class KeyboardPlugin extends Plugin {
 
@@ -18,6 +21,10 @@ export class KeyboardPlugin extends Plugin {
       .setResource(new Keyboard())
       .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerKeyboardTypes })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.Start, system: updateKeyBoard })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin), typeid(WindowPlugin)]
   }
 }
 

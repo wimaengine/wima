@@ -1,9 +1,13 @@
 import { App, Plugin } from '@wimaengine/app'
+import { CorePlugin } from '@wimaengine/core'
 import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { World } from '@wimaengine/ecs'
+import { ReflectPlugin } from '@wimaengine/reflect'
 import { TimerMode, VirtualClock } from '@wimaengine/time'
 import { RAFTimer } from './resources'
 import { registerFpsDebuggerTypes } from './systems'
+import { typeid } from '@wimaengine/type'
+import { TimePlugin } from '@wimaengine/time'
 
 export class FPSDebugger extends Plugin {
 
@@ -17,6 +21,10 @@ export class FPSDebugger extends Plugin {
       .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: setUpUI })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateFPSCounter })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateRAFTimer })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin), typeid(TimePlugin)]
   }
 }
 

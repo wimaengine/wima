@@ -1,6 +1,8 @@
 /** @import { Constructor } from '@wimaengine/type'*/
 
 import { App, Plugin } from '@wimaengine/app'
+import { CorePlugin } from '@wimaengine/core'
+import { ReflectPlugin } from '@wimaengine/reflect'
 import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { typeid, typeidGeneric } from '@wimaengine/type'
 import { Events } from './core'
@@ -59,6 +61,10 @@ export class EventPlugin extends Plugin {
           system: makeEventClear(name)
         })
     }
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin)]
   }
 
   name() {

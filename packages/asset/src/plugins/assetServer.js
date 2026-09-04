@@ -1,6 +1,8 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { EventPlugin } from '@wimaengine/event'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeid } from '@wimaengine/type'
 import { AssetLoadFail, AssetLoadSuccess, AssetSaveSuccess } from '../events'
 import { AssetServer } from '../resources'
 import { updateAssets, logFailedLoads, registerAssetServerTypes } from '../systems'
@@ -33,5 +35,9 @@ export class AssetServerPlugin extends Plugin {
         system: updateAssets
       })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: logFailedLoads })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin)]
   }
 }

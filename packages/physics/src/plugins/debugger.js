@@ -1,6 +1,11 @@
 /** @import {EntityHandle} from '@wimaengine/ecs' */
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule } from '@wimaengine/core'
+import { AppSchedule, CorePlugin } from '@wimaengine/core'
+import { Broadphase2DPlugin } from '@wimaengine/broadphase'
+import { Movable2DPlugin } from '@wimaengine/movable'
+import { NarrowPhase2DPlugin } from '@wimaengine/narrowphase'
+import { Transform2DPlugin } from '@wimaengine/transform'
+import { WindowPlugin } from '@wimaengine/window'
 import {
   drawArms,
   drawBounds,
@@ -9,6 +14,7 @@ import {
   drawShapes,
   drawVelocity
 } from '../systems'
+import { typeid } from '@wimaengine/type'
 
 export class Physics2DDebuggerPlugin extends Plugin {
 
@@ -39,6 +45,17 @@ export class Physics2DDebuggerPlugin extends Plugin {
     if (options.drawContacts) app.registerSystem({ schedule: AppSchedule.Update, system: drawContacts })
     if (options.drawPosition) app.registerSystem({ schedule: AppSchedule.Update, system: drawPosition })
     if (options.drawVelocity) app.registerSystem({ schedule: AppSchedule.Update, system: drawVelocity })
+  }
+
+  requires() {
+    return [
+      typeid(CorePlugin),
+      typeid(WindowPlugin),
+      typeid(Broadphase2DPlugin),
+      typeid(NarrowPhase2DPlugin),
+      typeid(Transform2DPlugin),
+      typeid(Movable2DPlugin)
+    ]
   }
 }
 

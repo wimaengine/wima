@@ -1,16 +1,20 @@
 /** @import {Constructor} from '@wimaengine/type' */
 /** @import {UniformBind} from '@wimaengine/render-core' */
 
-import { App } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { App, Plugin } from '@wimaengine/app'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { Material } from '@wimaengine/render-core'
+import { RenderCorePlugin } from '@wimaengine/render-core'
+import { WindowPlugin } from '@wimaengine/window'
+import { Transform3DPlugin } from '@wimaengine/transform'
 import { typeid, typeidGeneric } from '@wimaengine/type'
+import { WebglRendererPlugin } from '../plugin'
 import { genRegisterBuffer, genRender, genRenderPipeline } from '../systems'
 
 /**
  * @template {Material & UniformBind} T
  */
-export class WebglMaterialPlugin {
+export class WebglMaterialPlugin extends Plugin {
 
   /**
    * @readonly
@@ -38,6 +42,7 @@ export class WebglMaterialPlugin {
     vertex3d,
     material
   }) {
+    super()
     this.vertex3d = vertex3d
     this.fragment3d = fragment3d
     this.material = material
@@ -68,6 +73,16 @@ export class WebglMaterialPlugin {
         label: `renderToWebgl<${typeid(material)}>`,
         system: genRender(material)
       })
+  }
+
+  requires() {
+    return [
+      typeid(CorePlugin),
+      typeid(WebglRendererPlugin),
+      typeid(RenderCorePlugin),
+      typeid(Transform3DPlugin),
+      typeid(WindowPlugin)
+    ]
   }
 
   name() {

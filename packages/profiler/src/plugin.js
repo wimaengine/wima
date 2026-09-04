@@ -1,10 +1,14 @@
 import { App, Plugin } from '@wimaengine/app'
+import { CorePlugin } from '@wimaengine/core'
 import { AppSchedule, CoreSystems } from '@wimaengine/core'
 import { World } from '@wimaengine/ecs'
 import { warn } from '@wimaengine/logger'
+import { ReflectPlugin } from '@wimaengine/reflect'
 import { TimerMode, VirtualClock } from '@wimaengine/time'
 import { Profiler, ProfilerTimer } from './resources'
 import { registerProfilerTypes } from './systems'
+import { typeid } from '@wimaengine/type'
+import { TimePlugin } from '@wimaengine/time'
 
 export class ProfilerPlugin extends Plugin {
 
@@ -18,6 +22,10 @@ export class ProfilerPlugin extends Plugin {
     setupProfileViewer(document.body)
     app.registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateProfileViewer })
     app.registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateProfileTimer })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin), typeid(TimePlugin)]
   }
 }
 
