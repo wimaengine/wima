@@ -53,6 +53,15 @@ export class PluginRegistry {
   }
 
   /**
+   * @param {App} app
+   */
+  finish(app) {
+    for (let i = 0; i < this.list.length; i++) {
+      this.list[i].finish(app)
+    }
+  }
+
+  /**
    * Validates that registered plugins only require plugins that already exist.
    *
    * @param {App} app
@@ -226,6 +235,7 @@ export class App {
    * {@link App.defaultWorld}, {@link App.setComponentHooks},
    * {@link App.setResourceAlias},
    * {@link App.setResource} and {@link App.setResourceByTypeId}.
+   * Invokes registered plugin finish callbacks after dependency validation and before queued hooks and resources are applied.
    * Applies queued resource aliases to every world before the runner starts.
    * Applies queued component hooks to every world before the runner starts.
    * Flushes any resources staged through {@link App.setResource} into their target worlds before the runner starts.
@@ -235,6 +245,7 @@ export class App {
   run() {
     this.plugins.register(this)
     this.plugins.assertDependencies(this)
+    this.plugins.finish(this)
     this.applyComponentHooks()
     this.applyResourceAliases()
     this.flushResources()
@@ -422,6 +433,11 @@ export class Plugin {
    * @param {App} _app
    */
   register(_app) { }
+
+  /**
+   * @param {App} _app
+   */
+  finish(_app) { }
 
   /**
    * Returns the type ids of plugins required by this plugin.
