@@ -119,6 +119,16 @@ export class App {
   }
 
   /**
+   * Checks whether a plugin has been registered.
+   *
+   * @param {TypeId} pluginId
+   * @returns {boolean}
+   */
+  hasPlugin(pluginId) {
+    return this.plugins.hasTypeId(pluginId)
+  }
+
+  /**
    * Creates a world by label.
    *
    * @param {Constructor} label
