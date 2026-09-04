@@ -30,17 +30,17 @@ export class PluginRegistry {
   }
 
   /**
-   * @param {TypeId} plugin
+   * @param {TypeId} pluginId
    */
-  hasTypeId(plugin) {
-    this.names.has(plugin)
+  hasTypeId(pluginId) {
+    return this.names.has(pluginId)
   }
 
   /**
-   * @param {Plugin} plugin
+   * @param {TypeId} pluginId
    */
-  has(plugin) {
-    this.hasTypeId(plugin.name())
+  has(pluginId) {
+    return this.hasTypeId(pluginId)
   }
 
   /**
@@ -49,6 +49,28 @@ export class PluginRegistry {
   register(app) {
     for (let i = 0; i < this.list.length; i++) {
       this.list[i].register(app)
+    }
+  }
+
+  /**
+   * Validates that registered plugins only require plugins that already exist.
+   *
+   * @param {App} app
+   */
+  assertDependencies(app) {
+    for (let i = 0; i < this.list.length; i++) {
+      const plugin = this.list[i]
+      const pluginId = plugin.name()
+      const requires = plugin.requires()
+
+      for (let j = 0; j < requires.length; j++) {
+        const requiredId = requires[j]
+
+        assertTrue(
+          app.hasPlugin(requiredId),
+          `The plugin \`${pluginId}\` requires \`${requiredId}\`, but it is not registered.`
+        )
+      }
     }
   }
 }
@@ -212,6 +234,7 @@ export class App {
    */
   run() {
     this.plugins.register(this)
+    this.plugins.assertDependencies(this)
     this.applyComponentHooks()
     this.applyResourceAliases()
     this.flushResources()
@@ -399,6 +422,15 @@ export class Plugin {
    * @param {App} _app
    */
   register(_app) { }
+
+  /**
+   * Returns the type ids of plugins required by this plugin.
+   *
+   * @returns {TypeId[]}
+   */
+  requires() {
+    return []
+  }
 
   /**
    * @returns {TypeId}
