@@ -81,6 +81,7 @@ export class TypeRegistry {
    * @returns {TypeRegistrySerial}
    */
   static serialize(value) {
+
     /** @type {TypeRegistrySerial} */
     const serial = {}
 
@@ -162,6 +163,7 @@ export class TypeEntry {
   /**
    * @param {TypeInfo} value
    * @returns {TypeInfoSerial}
+   * @throws {TypeError} If `value` is not a supported `TypeInfo` subtype.
    */
   static serialize(value) {
     if (value instanceof OpaqueInfo) {
@@ -203,6 +205,7 @@ export class TypeEntry {
    * @param {TypeInfoSerial} value
    * @param {TypeInfo} [out]
    * @returns {TypeInfo}
+   * @throws {TypeError} If `value` is not a supported `TypeInfoSerial` kind.
    */
   static deserialize(value, out) {
     if (typeof value !== 'object' || value === null || Array.isArray(value) || !('kind' in value)) {
@@ -211,37 +214,45 @@ export class TypeEntry {
 
     switch (value.kind) {
       case 'opaque':
-        return out instanceof OpaqueInfo
-          ? OpaqueInfo.deserialize(value, out)
-          : OpaqueInfo.deserialize(value)
+        return out instanceof OpaqueInfo ?
+          OpaqueInfo.deserialize(value, out) :
+          OpaqueInfo.deserialize(value)
+
       case 'struct':
-        return out instanceof StructInfo
-          ? StructInfo.deserialize(value, out)
-          : StructInfo.deserialize(value)
+        return out instanceof StructInfo ?
+          StructInfo.deserialize(value, out) :
+          StructInfo.deserialize(value)
+
       case 'enum':
-        return out instanceof EnumInfo
-          ? EnumInfo.deserialize(value, out)
-          : EnumInfo.deserialize(value)
+        return out instanceof EnumInfo ?
+          EnumInfo.deserialize(value, out) :
+          EnumInfo.deserialize(value)
+
       case 'function':
-        return out instanceof FunctionInfo
-          ? FunctionInfo.deserialize(value, out)
-          : FunctionInfo.deserialize(value)
+        return out instanceof FunctionInfo ?
+          FunctionInfo.deserialize(value, out) :
+          FunctionInfo.deserialize(value)
+
       case 'array':
-        return out instanceof ArrayInfo
-          ? ArrayInfo.deserialize(value, out)
-          : ArrayInfo.deserialize(value)
+        return out instanceof ArrayInfo ?
+          ArrayInfo.deserialize(value, out) :
+          ArrayInfo.deserialize(value)
+
       case 'set':
-        return out instanceof SetInfo
-          ? SetInfo.deserialize(value, out)
-          : SetInfo.deserialize(value)
+        return out instanceof SetInfo ?
+          SetInfo.deserialize(value, out) :
+          SetInfo.deserialize(value)
+
       case 'map':
-        return out instanceof MapInfo
-          ? MapInfo.deserialize(value, out)
-          : MapInfo.deserialize(value)
+        return out instanceof MapInfo ?
+          MapInfo.deserialize(value, out) :
+          MapInfo.deserialize(value)
+
       case 'tuple':
-        return out instanceof TupleInfo
-          ? TupleInfo.deserialize(value, out)
-          : TupleInfo.deserialize(value)
+        return out instanceof TupleInfo ?
+          TupleInfo.deserialize(value, out) :
+          TupleInfo.deserialize(value)
+
       default:
         throw new TypeError('Unsupported TypeInfo serial kind')
     }
@@ -259,20 +270,28 @@ export class TypeEntry {
     switch (value.kind) {
       case 'opaque':
         return OpaqueInfo.validateSerial(value)
+
       case 'struct':
         return StructInfo.validateSerial(value)
+
       case 'enum':
         return EnumInfo.validateSerial(value)
+
       case 'function':
         return FunctionInfo.validateSerial(value)
+
       case 'array':
         return ArrayInfo.validateSerial(value)
+
       case 'set':
         return SetInfo.validateSerial(value)
+
       case 'map':
         return MapInfo.validateSerial(value)
+
       case 'tuple':
         return TupleInfo.validateSerial(value)
+
       default:
         return false
     }

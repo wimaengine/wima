@@ -6,12 +6,12 @@ export class TypeInfo {
    * @returns {TypeInfoSerial}
    */
   serialize() {
-    return TypeInfo.serialize(this)
+    return /** @type {TypeInfoSerial} */ (/** @type {unknown} */ (TypeInfo.serialize(this)))
   }
 
   /**
    * @param {TypeInfo} _value
-   * @returns {TypeInfoSerial}
+   * @throws {TypeError} Always throws because `TypeInfo` is abstract.
    */
   static serialize(_value) {
     throw new TypeError('TypeInfo is abstract and cannot be serialized directly')
@@ -20,7 +20,7 @@ export class TypeInfo {
   /**
    * @param {TypeInfoSerial} _value
    * @param {TypeInfo} [_out]
-   * @returns {TypeInfo}
+   * @throws {TypeError} Always throws because `TypeInfo` is abstract.
    */
   static deserialize(_value, _out) {
     throw new TypeError('TypeInfo is abstract and cannot be deserialized directly')
@@ -28,7 +28,7 @@ export class TypeInfo {
 
   /**
    * @param {unknown} _value
-   * @returns {boolean}
+   * @throws {TypeError} Always throws because `TypeInfo` is abstract.
    */
   static validateSerial(_value) {
     throw new TypeError('TypeInfo is abstract and cannot validate serials directly')
@@ -36,7 +36,7 @@ export class TypeInfo {
 
   /**
    * @param {unknown} _value
-   * @returns {boolean}
+   * @throws {TypeError} Always throws because `TypeInfo` is abstract.
    */
   static validSerial(_value) {
     throw new TypeError('TypeInfo is abstract and cannot validate serials directly')
@@ -225,6 +225,7 @@ export class StructInfo extends TypeInfo {
    * @returns {StructInfoSerial}
    */
   static serialize(value) {
+
     /** @type {Record<string, FieldSerial>} */
     const fields = {}
 
@@ -322,9 +323,9 @@ export class EnumInfo extends TypeInfo {
   }
 
   /**
-   * @yields {MapIterator<[string,number]>}
+   * @returns {MapIterator<[string,number]>}
    */
-  * [Symbol.iterator]() {
+  [Symbol.iterator]() {
     return this.variants.entries()
   }
 
