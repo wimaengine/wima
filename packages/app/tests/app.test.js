@@ -1,5 +1,5 @@
 import { test, describe } from "vitest";
-import { strictEqual, throws } from "node:assert";
+import { ok, strictEqual, throws } from "node:assert";
 import { App, Plugin } from "../src";
 import { typeid } from "@wimaengine/type";
 
@@ -71,6 +71,38 @@ describe("Testing `App` plugin registry behavior", () => {
     strictEqual(app.hasPlugin(typeid(ChildPlugin)), true)
   })
 
+  test("`App.registerPlugin` reports a duplicate plugin registered by another plugin", () => {
+    const app = new App()
+    const parent = new ParentPlugin()
+
+    parent.register = (app) => {
+      app.registerPlugin(new ChildPlugin())
+      app.registerPlugin(new ChildPlugin())
+    }
+
+    let error
+
+    try {
+      app
+        .registerPlugin(parent)
+        .setRunner(() => {})
+        .run()
+    } catch (caught) {
+      error = caught
+    }
+
+    ok(error instanceof Error)
+
+    const message = error.message
+    const parentId = typeid(ParentPlugin)
+    const childId = typeid(ChildPlugin)
+
+    ok(message.includes(`The plugin \`${childId}\` is already registered.`))
+    ok(message.includes("Plugin registration stack:"))
+    ok(message.includes(`- \`${parentId}\` registered directly on the app`))
+    ok(message.includes(`- \`${childId}\` registered by \`${parentId}\``))
+  })
+
   test("`App.run` throws when a plugin dependency is missing", () => {
     const app = new App()
 
@@ -79,6 +111,29 @@ describe("Testing `App` plugin registry behavior", () => {
       .setRunner(() => {})
 
     throws(() => app.run(), /requires .* but it is not registered/)
+  })
+
+  test("`App.registerPlugin` reports a duplicate plugin registered on app", () => {
+    const app = new App()
+
+    let error
+
+    try {
+      app
+        .registerPlugin(new ChildPlugin())
+        .registerPlugin(new ChildPlugin())
+    } catch (caught) {
+      error = caught
+    }
+
+    ok(error instanceof Error)
+
+    const message = error.message
+    const childId = typeid(ChildPlugin)
+
+    ok(message.includes(`The plugin \`${childId}\` is already registered.`))
+    ok(message.includes("Plugin registration stack:"))
+    ok(message.includes(`- \`${childId}\` registered directly on the app`))
   })
 
   test("`Plugin.finish` runs after dependencies are checked and before resources are flushed", () => {

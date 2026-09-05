@@ -22,11 +22,39 @@ export class PluginRegistry {
   names = new Set()
 
   /**
+   * Tracks the parent plugin for nested registrations.
+   *
+   * @type {Map<TypeId, TypeId>}
+   */
+  parents = new Map()
+
+  /**
+   * Tracks the active plugin registration stack.
+   *
+   * @type {TypeId[]}
+   */
+  stack = []
+
+  /**
    * @param {Plugin} plugin
    */
   add(plugin) {
+    const pluginId = plugin.name()
+
+    if (this.names.has(pluginId)) {
+      throw new Error(`The plugin \`${pluginId}\` is already registered.${formatRegistrationTrace(this, pluginId)}`)
+    }
+
+    const parentId = this.stack[this.stack.length - 1]
+
     this.list.push(plugin)
-    this.names.add(plugin.name())
+    this.names.add(pluginId)
+
+    if (parentId === undefined) {
+      this.parents.delete(pluginId)
+    } else {
+      this.parents.set(pluginId, parentId)
+    }
   }
 
   /**
@@ -44,11 +72,26 @@ export class PluginRegistry {
   }
 
   /**
+   * @param {TypeId} pluginId
+   */
+  enter(pluginId) {
+    this.stack.push(pluginId)
+  }
+
+  leave() {
+    this.stack.pop()
+  }
+
+  /**
    * @param {App} app
    */
   register(app) {
     for (let i = 0; i < this.list.length; i++) {
-      this.list[i].register(app)
+      const plugin = this.list[i]
+
+      this.enter(plugin.name())
+      plugin.register(app)
+      this.leave()
     }
   }
 
@@ -57,7 +100,11 @@ export class PluginRegistry {
    */
   finish(app) {
     for (let i = 0; i < this.list.length; i++) {
-      this.list[i].finish(app)
+      const plugin = this.list[i]
+
+      this.enter(plugin.name())
+      plugin.finish(app)
+      this.leave()
     }
   }
 
@@ -511,4 +558,42 @@ export class PluginGroup extends Plugin {
       app.registerPlugin(plugin)
     }
   }
+}
+
+/**
+ * Formats the registration chain for error output.
+ *
+ * @param {PluginRegistry} registry
+ * @param {TypeId} pluginId
+ * @returns {string}
+ */
+function formatRegistrationTrace(registry, pluginId) {
+  const chain = []
+  let current = pluginId
+
+  while (current !== undefined) {
+    chain.push(current)
+    current = registry.parents.get(current)
+  }
+
+  chain.reverse()
+
+  if (!chain.length) {
+    return ''
+  }
+
+  const lines = ['Plugin registration stack:']
+
+  for (let i = 0; i < chain.length; i++) {
+    const currentId = chain[i]
+    const parentId = chain[i - 1]
+
+    if (parentId === undefined) {
+      lines.push(`- \`${currentId}\` registered directly on the app`)
+    } else {
+      lines.push(`- \`${currentId}\` registered by \`${parentId}\``)
+    }
+  }
+
+  return `\n\n${lines.join('\n')}`
 }
