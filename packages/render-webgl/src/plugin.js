@@ -1,9 +1,11 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { EntityHandle, Query, World } from '@wimaengine/ecs'
 import { warn } from '@wimaengine/logger'
-import { MeshAttribute, ProgramCache, BasicMaterial } from '@wimaengine/render-core'
-import { MainWindow, Window, Windows } from '@wimaengine/window'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { MeshAttribute, ProgramCache, BasicMaterial, RenderCorePlugin } from '@wimaengine/render-core'
+import { typeid } from '@wimaengine/type'
+import { MainWindow, Window, Windows, WindowPlugin } from '@wimaengine/window'
 import { WebglMaterialPlugin } from './plugins'
 import { AttributeMap, ClearColor, MeshCache, UBOCache, WebglProgramCache } from './resources'
 import { basicMaterial3DFragment, basicMaterial3DVertex } from './shaders'
@@ -34,6 +36,15 @@ export class WebglRendererPlugin extends Plugin {
       }))
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.PostMain, system: disposeDroppedMeshes })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.PostMain, system: queueMeshes })
+  }
+
+  requires() {
+    return [
+      typeid(CorePlugin),
+      typeid(ReflectPlugin),
+      typeid(RenderCorePlugin),
+      typeid(WindowPlugin)
+    ]
   }
 }
 

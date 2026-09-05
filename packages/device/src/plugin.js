@@ -1,5 +1,7 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule } from '@wimaengine/core'
+import { CorePlugin, AppSchedule } from '@wimaengine/core'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeid } from '@wimaengine/type'
 import { Browser, PlatformOS } from './core'
 import { Device } from './resources'
 import { registerDeviceTypes } from './systems'
@@ -50,5 +52,9 @@ export class DevicePlugin extends Plugin {
     } else if (/Safari/.test(ua)) {
       device.browser = Browser.Safari
     }
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin)]
   }
 }

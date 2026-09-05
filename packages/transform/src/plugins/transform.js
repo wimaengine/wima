@@ -1,5 +1,8 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule } from '@wimaengine/core'
+import { AppSchedule, CorePlugin } from '@wimaengine/core'
+import { HierarchyPlugin } from '@wimaengine/hierarchy'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeid } from '@wimaengine/type'
 import { propagateTransform2D, propagateTransform3D, registerTransform2DTypes, registerTransform3DTypes, synctransform2D, synctransform3D } from '../systems'
 
 export class TransformSystems { }
@@ -30,6 +33,10 @@ export class Transform2DPlugin extends Plugin {
         after: [synctransform2D]
       })
   }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin), typeid(HierarchyPlugin)]
+  }
 }
 
 export class Transform3DPlugin extends Plugin {
@@ -54,5 +61,9 @@ export class Transform3DPlugin extends Plugin {
         system: propagateTransform3D,
         after: [synctransform3D]
       })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin), typeid(HierarchyPlugin)]
   }
 }

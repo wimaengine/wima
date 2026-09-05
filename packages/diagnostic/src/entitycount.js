@@ -1,8 +1,9 @@
-import { App } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { App, Plugin } from '@wimaengine/app'
+import { CorePlugin, AppSchedule, CoreSystems } from '@wimaengine/core'
 import { World, EntityHandle, Query } from '@wimaengine/ecs'
+import { typeid } from '@wimaengine/type'
 
-export class EntityCountDiagnosticPlugin {
+export class EntityCountDiagnosticPlugin extends Plugin {
 
   /**
    * @param {App} app
@@ -11,6 +12,10 @@ export class EntityCountDiagnosticPlugin {
     app
       .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: setUpUI })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: updateEntityCount })
+  }
+
+  requires() {
+    return [typeid(CorePlugin)]
   }
 }
 

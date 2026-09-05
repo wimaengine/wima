@@ -1,8 +1,10 @@
 import { App, Plugin } from '@wimaengine/app'
 import { Broadphase2DPlugin, NaiveBroadphase2D } from '@wimaengine/broadphase'
-import { AppSchedule } from '@wimaengine/core'
+import { AppSchedule, CorePlugin } from '@wimaengine/core'
 import { EulerIntegrator2DPlugin } from '@wimaengine/integrator'
 import { NarrowPhase2DPlugin } from '@wimaengine/narrowphase'
+import { Transform2DPlugin } from '@wimaengine/transform'
+import { typeid } from '@wimaengine/type'
 import { collisionResponse, updateBodies, updateBounds } from '../systems'
 
 // TODO: Convert to a plugin group
@@ -41,6 +43,10 @@ export class Physics2DPlugin extends Plugin {
       .registerPlugin(this.broadphase)
       .registerPlugin(this.narrowphase)
       .registerSystem({ schedule: AppSchedule.Update, system: collisionResponse })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(Transform2DPlugin)]
   }
 }
 

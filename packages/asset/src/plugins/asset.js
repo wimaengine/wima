@@ -1,8 +1,9 @@
 /** @import { Constructor } from '@wimaengine/type' */
 
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { EventPlugin } from '@wimaengine/event'
+import { ReflectPlugin } from '@wimaengine/reflect'
 import { typeid, typeidGeneric } from '@wimaengine/type'
 import { Assets } from '../resources'
 import { registerAssetTypes, registerAssetOnAssetServer, unloadDroppedAssets, updateAssetChannel, updateAssetEvents } from '../systems'
@@ -89,6 +90,10 @@ export class AssetPlugin extends Plugin {
           system: unloadDroppedAssets(events.dropped)
         })
     }
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin)]
   }
 
   name() {

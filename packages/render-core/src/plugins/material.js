@@ -1,10 +1,13 @@
 /** @import { Constructor, TypeId } from '@wimaengine/type' */
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { Transform2DPlugin, Transform3DPlugin } from '@wimaengine/transform'
 import { typeid, typeidGeneric } from '@wimaengine/type'
 import { Material } from '../assets'
 import { dropMaterialInstance, MaterialInstance } from '../components'
+import { RenderCorePlugin } from '../plugin'
 import { genBinRenderables2D, genBinRenderables3D, registerMaterialTypes } from '../systems'
 
 /**
@@ -62,6 +65,16 @@ export class MaterialInstancePlugin extends Plugin {
         label: `binRenders3D<${typeid(asset)}>`,
         system: genBinRenderables3D(asset, component)
       })
+  }
+
+  requires() {
+    return [
+      typeid(CorePlugin),
+      typeid(ReflectPlugin),
+      typeid(RenderCorePlugin),
+      typeid(Transform2DPlugin),
+      typeid(Transform3DPlugin)
+    ]
   }
 
   /**

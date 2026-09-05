@@ -1,6 +1,8 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule } from '@wimaengine/core'
+import { CorePlugin, AppSchedule } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeid } from '@wimaengine/type'
 import { Children, Parent } from './components'
 import { addSelfToChildren, despawnChildren, addSelfToParent, removeSelfFromParent } from './hooks'
 import { registerHierarchyTypes } from './systems'
@@ -23,5 +25,9 @@ export class HierarchyPlugin extends Plugin {
         null
       ))
       .registerSystem({ schedule: AppSchedule.Startup, system: registerHierarchyTypes })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin)]
   }
 }

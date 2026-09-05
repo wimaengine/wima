@@ -22,25 +22,65 @@ export class PluginRegistry {
   names = new Set()
 
   /**
+   * Tracks the parent plugin for nested registrations.
+   *
+   * @type {Map<TypeId, TypeId>}
+   */
+  parents = new Map()
+
+  /**
+   * Tracks the active plugin registration stack.
+   *
+   * @type {TypeId[]}
+   */
+  stack = []
+
+  /**
    * @param {Plugin} plugin
+   * @throws When a dublicate plugin is registered.
    */
   add(plugin) {
+    const pluginId = plugin.name()
+
+    if (this.names.has(pluginId)) {
+      throw new Error(`The plugin \`${pluginId}\` is already registered.${formatRegistrationTrace(this, pluginId)}`)
+    }
+
+    const parentId = this.stack[this.stack.length - 1]
+
     this.list.push(plugin)
-    this.names.add(plugin.name())
+    this.names.add(pluginId)
+
+    if (parentId === undefined) {
+      this.parents.delete(pluginId)
+    } else {
+      this.parents.set(pluginId, parentId)
+    }
   }
 
   /**
-   * @param {TypeId} plugin
+   * @param {TypeId} pluginId
    */
-  hasTypeId(plugin) {
-    this.names.has(plugin)
+  hasTypeId(pluginId) {
+    return this.names.has(pluginId)
   }
 
   /**
-   * @param {Plugin} plugin
+   * @param {TypeId} pluginId
    */
-  has(plugin) {
-    this.hasTypeId(plugin.name())
+  has(pluginId) {
+    return this.hasTypeId(pluginId)
+  }
+
+  /**
+   * @param {TypeId} pluginId
+   */
+  enter(pluginId) {
+    this.stack.push(pluginId)
+  }
+
+  leave() {
+    this.stack.pop()
   }
 
   /**
@@ -48,7 +88,46 @@ export class PluginRegistry {
    */
   register(app) {
     for (let i = 0; i < this.list.length; i++) {
-      this.list[i].register(app)
+      const plugin = this.list[i]
+
+      this.enter(plugin.name())
+      plugin.register(app)
+      this.leave()
+    }
+  }
+
+  /**
+   * @param {App} app
+   */
+  finish(app) {
+    for (let i = 0; i < this.list.length; i++) {
+      const plugin = this.list[i]
+
+      this.enter(plugin.name())
+      plugin.finish(app)
+      this.leave()
+    }
+  }
+
+  /**
+   * Validates that registered plugins only require plugins that already exist.
+   *
+   * @param {App} app
+   */
+  assertDependencies(app) {
+    for (let i = 0; i < this.list.length; i++) {
+      const plugin = this.list[i]
+      const pluginId = plugin.name()
+      const requires = plugin.requires()
+
+      for (let j = 0; j < requires.length; j++) {
+        const requiredId = requires[j]
+
+        assertTrue(
+          app.hasPlugin(requiredId),
+          `The plugin \`${pluginId}\` requires \`${requiredId}\`, but it is not registered.`
+        )
+      }
     }
   }
 }
@@ -116,6 +195,16 @@ export class App {
    */
   getWorld(label) {
     return this.worlds.getWorld(label)
+  }
+
+  /**
+   * Checks whether a plugin has been registered.
+   *
+   * @param {TypeId} pluginId
+   * @returns {boolean}
+   */
+  hasPlugin(pluginId) {
+    return this.plugins.hasTypeId(pluginId)
   }
 
   /**
@@ -194,6 +283,7 @@ export class App {
    * {@link App.defaultWorld}, {@link App.setComponentHooks},
    * {@link App.setResourceAlias},
    * {@link App.setResource} and {@link App.setResourceByTypeId}.
+   * Invokes registered plugin finish callbacks after dependency validation and before queued hooks and resources are applied.
    * Applies queued resource aliases to every world before the runner starts.
    * Applies queued component hooks to every world before the runner starts.
    * Flushes any resources staged through {@link App.setResource} into their target worlds before the runner starts.
@@ -202,6 +292,8 @@ export class App {
    */
   run() {
     this.plugins.register(this)
+    this.plugins.assertDependencies(this)
+    this.plugins.finish(this)
     this.applyComponentHooks()
     this.applyResourceAliases()
     this.flushResources()
@@ -391,6 +483,20 @@ export class Plugin {
   register(_app) { }
 
   /**
+   * @param {App} _app
+   */
+  finish(_app) { }
+
+  /**
+   * Returns the type ids of plugins required by this plugin.
+   *
+   * @returns {TypeId[]}
+   */
+  requires() {
+    return []
+  }
+
+  /**
    * @returns {TypeId}
    */
   name() {
@@ -453,4 +559,42 @@ export class PluginGroup extends Plugin {
       app.registerPlugin(plugin)
     }
   }
+}
+
+/**
+ * Formats the registration chain for error output.
+ *
+ * @param {PluginRegistry} registry
+ * @param {TypeId} pluginId
+ * @returns {string}
+ */
+function formatRegistrationTrace(registry, pluginId) {
+  const chain = []
+  let current = pluginId
+
+  while (current !== undefined) {
+    chain.push(current)
+    current = registry.parents.get(current)
+  }
+
+  chain.reverse()
+
+  if (!chain.length) {
+    return ''
+  }
+
+  const lines = ['Plugin registration stack:']
+
+  for (let i = 0; i < chain.length; i++) {
+    const currentId = chain[i]
+    const parentId = chain[i - 1]
+
+    if (parentId === undefined) {
+      lines.push(`- \`${currentId}\` registered directly on the app`)
+    } else {
+      lines.push(`- \`${currentId}\` registered by \`${parentId}\``)
+    }
+  }
+
+  return `\n\n${lines.join('\n')}`
 }

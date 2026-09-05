@@ -1,9 +1,10 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { World } from '@wimaengine/ecs'
 import { Events } from '@wimaengine/event'
-import { typeidGeneric } from '@wimaengine/type'
-import { PointerCancel, PointerDown, PointerMove, PointerUp } from '@wimaengine/window'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeidGeneric, typeid } from '@wimaengine/type'
+import { PointerCancel, PointerDown, PointerMove, PointerUp, WindowPlugin } from '@wimaengine/window'
 import { TouchPointer } from './core'
 import { Touches } from './resources'
 import { registerTouchTypes } from './systems'
@@ -18,6 +19,10 @@ export class TouchPlugin extends Plugin {
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.Start, system: updateTouch })
       .setResource(new Touches())
       .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerTouchTypes })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin), typeid(WindowPlugin)]
   }
 }
 

@@ -1,8 +1,11 @@
 /** @import {WindowOptions} from './components' */
 import { App, Plugin } from '@wimaengine/app'
+import { CommandsPlugin } from '@wimaengine/command'
 import { EntityCommands } from '@wimaengine/commands'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { EventPlugin } from '@wimaengine/event'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeid } from '@wimaengine/type'
 import { Window, MainWindow } from './components'
 import {
   FileDrag,
@@ -96,6 +99,16 @@ export class WindowPlugin extends Plugin {
       .setResource(new Windows())
 
     if (this.initPrimaryWindow) app.registerSystem({ schedule: AppSchedule.Startup, system: initPrimaryWindow(this.primaryWindowOptions) })
+  }
+
+  requires() {
+    const requires = [typeid(CorePlugin), typeid(ReflectPlugin)]
+
+    if (this.initPrimaryWindow) {
+      requires.push(typeid(CommandsPlugin))
+    }
+
+    return requires
   }
 }
 

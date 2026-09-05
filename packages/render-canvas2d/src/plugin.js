@@ -1,6 +1,9 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
+import { ReflectPlugin } from '@wimaengine/reflect'
 import { TextureCache, BasicMaterial } from '@wimaengine/render-core'
+import { typeid } from '@wimaengine/type'
+import { WindowPlugin } from '@wimaengine/window'
 import { renderBasicMaterial } from './core'
 import { Canvas2DMaterialPlugin } from './plugins'
 import { clearCanvas2d, registerCanvas2DTypes } from './systems'
@@ -23,5 +26,9 @@ export class Canvas2DRendererPlugin extends Plugin {
         material:BasicMaterial,
         update:renderBasicMaterial
       }))
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin), typeid(WindowPlugin)]
   }
 }

@@ -1,6 +1,8 @@
 /** @import { App } from '@wimaengine/app' */
 import { Plugin } from '@wimaengine/app'
+import { ReflectPlugin } from '@wimaengine/reflect'
 import { SchedulerBuilder } from '@wimaengine/schedule'
+import { typeid } from '@wimaengine/type'
 import { AppSchedule, CoreSystems, MainWorld, defaultRunner } from './core'
 import { registerCoreTypes, registerPrimitiveTypes } from './systems'
 
@@ -82,5 +84,9 @@ export class CorePlugin extends Plugin {
         schedule: AppSchedule.Startup,
         system: registerPrimitiveTypes
       })
+  }
+
+  requires() {
+    return [typeid(ReflectPlugin)]
   }
 }

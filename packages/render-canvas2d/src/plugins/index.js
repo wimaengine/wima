@@ -2,9 +2,12 @@
 /** @import { Canvas2DFunction } from '../types' */
 
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
-import { Material } from '@wimaengine/render-core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
+import { Material, RenderCorePlugin } from '@wimaengine/render-core'
+import { Transform2DPlugin } from '@wimaengine/transform'
 import { typeid, typeidGeneric } from '@wimaengine/type'
+import { WindowPlugin } from '@wimaengine/window'
+import { Canvas2DRendererPlugin } from '../plugin'
 import { genrender } from '../systems'
 
 /**
@@ -45,6 +48,16 @@ export class Canvas2DMaterialPlugin extends Plugin {
       systemGroup: CoreSystems.PostMain,
       system: genrender(material, update)
     })
+  }
+
+  requires() {
+    return [
+      typeid(CorePlugin),
+      typeid(Canvas2DRendererPlugin),
+      typeid(RenderCorePlugin),
+      typeid(Transform2DPlugin),
+      typeid(WindowPlugin)
+    ]
   }
 
   name() {

@@ -1,8 +1,11 @@
 import { App, Plugin } from '@wimaengine/app'
 import { AssetImporterPlugin, AssetPlugin, Assets } from '@wimaengine/asset'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { ColorPlugin } from '@wimaengine/color'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
-import { typeidGeneric } from '@wimaengine/type'
+import { MathPlugin } from '@wimaengine/math'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeidGeneric, typeid } from '@wimaengine/type'
 import { Mesh, Shader, Image, BasicMaterial } from './assets'
 import {
   BasicMaterialInstance,
@@ -82,5 +85,14 @@ export class RenderCorePlugin extends Plugin {
       .setResourceAlias(typeidGeneric(Assets, [Image]), ImageAssets)
       .setResourceAlias(typeidGeneric(Assets, [Mesh]), MeshAssets)
       .setResourceAlias(typeidGeneric(Assets, [BasicMaterial]), BasicMaterialAssets)
+  }
+
+  requires() {
+    return [
+      typeid(CorePlugin),
+      typeid(ReflectPlugin),
+      typeid(ColorPlugin),
+      typeid(MathPlugin)
+    ]
   }
 }

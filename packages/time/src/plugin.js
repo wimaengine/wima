@@ -1,6 +1,8 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { CorePlugin, AppSchedule, CoreSystems } from '@wimaengine/core'
 import { World } from '@wimaengine/ecs'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeid } from '@wimaengine/type'
 import { Clock } from './clock'
 import { VirtualClock } from './resource'
 import { registerTimeTypes, updateTimers } from './systems'
@@ -16,6 +18,10 @@ export class TimePlugin extends Plugin {
       .setResource(new VirtualClock())
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.Start, system: updateVirtualClock })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.Start, system: updateTimers })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin)]
   }
 }
 

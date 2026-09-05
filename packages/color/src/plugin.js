@@ -1,5 +1,7 @@
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule } from '@wimaengine/core'
+import { CorePlugin, AppSchedule } from '@wimaengine/core'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeid } from '@wimaengine/type'
 import { registerColorTypes } from './systems'
 
 export class ColorPlugin extends Plugin {
@@ -9,5 +11,9 @@ export class ColorPlugin extends Plugin {
    */
   register(app) {
     app.registerSystem({ schedule: AppSchedule.Startup, system: registerColorTypes })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin)]
   }
 }

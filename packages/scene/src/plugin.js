@@ -1,8 +1,10 @@
 import { App, Plugin } from '@wimaengine/app'
 import { AssetExporterPlugin, AssetImporterPlugin, AssetPlugin, Assets } from '@wimaengine/asset'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
-import { typeidGeneric } from '@wimaengine/type'
+import { HierarchyPlugin } from '@wimaengine/hierarchy'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeidGeneric, typeid } from '@wimaengine/type'
 import { Scene } from './assets'
 import { SceneInstance } from './components'
 import { SceneAdded, SceneDropped, SceneModified } from './events'
@@ -41,5 +43,9 @@ export class ScenePlugin extends Plugin {
       .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerSceneTypes })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: spawnScenes })
       .setResourceAlias(typeidGeneric(Assets, [Scene]), SceneAssets)
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin), typeid(HierarchyPlugin)]
   }
 }

@@ -1,8 +1,10 @@
 import { App, Plugin } from '@wimaengine/app'
 import { AssetImporterPlugin, AssetPlugin, Assets } from '@wimaengine/asset'
-import { AppSchedule } from '@wimaengine/core'
+import { AppSchedule, CorePlugin } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
-import { typeidGeneric } from '@wimaengine/type'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { TimePlugin } from '@wimaengine/time'
+import { typeidGeneric, typeid } from '@wimaengine/type'
 import { Audio } from './assets'
 import { AudioPlayer, AudioOscillator, removeAudioPlayerSink, removeOscillatorSink } from './components'
 import { AudioAdded, AudioDropped, AudioModified } from './events'
@@ -57,5 +59,9 @@ export class AudioPlugin extends Plugin {
         removeEventListener('pointerdown', resumeAudio)
       }
     }
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin), typeid(TimePlugin)]
   }
 }

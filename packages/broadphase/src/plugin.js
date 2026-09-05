@@ -1,6 +1,9 @@
 /** @import {Broadphasable2D} from './resources'*/
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule } from '@wimaengine/core'
+import { AppSchedule, CorePlugin } from '@wimaengine/core'
+import { MathPlugin } from '@wimaengine/math'
+import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeid } from '@wimaengine/type'
 import { CollisionPairs, Broadphase2D } from './resources'
 import { getCollisionPairs, registerBroadphaseTypes2D, updateBroadphase2D } from './systems'
 
@@ -30,6 +33,10 @@ export class Broadphase2DPlugin extends Plugin {
       .setResource(new CollisionPairs())
       .registerSystem({ schedule: AppSchedule.Update, system: getCollisionPairs })
       .registerSystem({ schedule: AppSchedule.Update, system: updateBroadphase2D })
+  }
+
+  requires() {
+    return [typeid(CorePlugin), typeid(ReflectPlugin), typeid(MathPlugin)]
   }
 }
 
