@@ -4,14 +4,13 @@ import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
 import { HierarchyPlugin } from '@wimaengine/hierarchy'
 import { ReflectPlugin } from '@wimaengine/reflect'
-import { typeidGeneric } from '@wimaengine/type'
+import { typeidGeneric, typeid } from '@wimaengine/type'
 import { Scene } from './assets'
 import { SceneInstance } from './components'
 import { SceneAdded, SceneDropped, SceneModified } from './events'
 import { initSceneInstance, dropSceneInstance } from './hooks'
 import { JSONSceneExporter, JSONSceneImporter, SceneAssets, SceneSpawner } from './resources'
 import { registerSceneTypes, spawnScenes } from './systems'
-import { typeid } from '@wimaengine/type'
 
 export class ScenePlugin extends Plugin {
 

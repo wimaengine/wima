@@ -4,13 +4,11 @@ import { World } from '@wimaengine/ecs'
 import { Events } from '@wimaengine/event'
 import { MathPlugin, Vector2 } from '@wimaengine/math'
 import { ReflectPlugin } from '@wimaengine/reflect'
-import { typeidGeneric } from '@wimaengine/type'
-import { PointerDown, PointerMove, PointerUp } from '@wimaengine/window'
-import { WindowPlugin } from '@wimaengine/window'
+import { typeidGeneric, typeid } from '@wimaengine/type'
+import { PointerDown, PointerMove, PointerUp, WindowPlugin } from '@wimaengine/window'
 import { MouseButton } from './core'
 import { Mouse, MouseButtons } from './resources'
 import { registerMouseTypes } from './systems'
-import { typeid } from '@wimaengine/type'
 
 export class MousePlugin extends Plugin {
 

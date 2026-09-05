@@ -1,10 +1,10 @@
 /** @import { App } from '@wimaengine/app' */
 import { Plugin } from '@wimaengine/app'
-import { SchedulerBuilder } from '@wimaengine/schedule'
 import { ReflectPlugin } from '@wimaengine/reflect'
+import { SchedulerBuilder } from '@wimaengine/schedule'
+import { typeid } from '@wimaengine/type'
 import { AppSchedule, CoreSystems, MainWorld, defaultRunner } from './core'
 import { registerCoreTypes, registerPrimitiveTypes } from './systems'
-import { typeid } from '@wimaengine/type'
 
 export class CorePlugin extends Plugin {
 

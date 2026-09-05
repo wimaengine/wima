@@ -1,10 +1,11 @@
 /** @import {EntityHandle} from '@wimaengine/ecs' */
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CorePlugin } from '@wimaengine/core'
 import { Broadphase2DPlugin } from '@wimaengine/broadphase'
+import { AppSchedule, CorePlugin } from '@wimaengine/core'
 import { Movable2DPlugin } from '@wimaengine/movable'
 import { NarrowPhase2DPlugin } from '@wimaengine/narrowphase'
 import { Transform2DPlugin } from '@wimaengine/transform'
+import { typeid } from '@wimaengine/type'
 import { WindowPlugin } from '@wimaengine/window'
 import {
   drawArms,
@@ -14,7 +15,6 @@ import {
   drawShapes,
   drawVelocity
 } from '../systems'
-import { typeid } from '@wimaengine/type'
 
 export class Physics2DDebuggerPlugin extends Plugin {
 

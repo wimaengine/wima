@@ -1,14 +1,12 @@
 import { App, Plugin } from '@wimaengine/app'
-import { CorePlugin } from '@wimaengine/core'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { CorePlugin, AppSchedule, CoreSystems } from '@wimaengine/core'
 import { World } from '@wimaengine/ecs'
 import { warn } from '@wimaengine/logger'
 import { ReflectPlugin } from '@wimaengine/reflect'
-import { TimerMode, VirtualClock } from '@wimaengine/time'
+import { TimerMode, VirtualClock, TimePlugin } from '@wimaengine/time'
+import { typeid } from '@wimaengine/type'
 import { Profiler, ProfilerTimer } from './resources'
 import { registerProfilerTypes } from './systems'
-import { typeid } from '@wimaengine/type'
-import { TimePlugin } from '@wimaengine/time'
 
 export class ProfilerPlugin extends Plugin {
 

@@ -3,12 +3,12 @@ import { App, Plugin } from '@wimaengine/app'
 import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
 import { ReflectPlugin } from '@wimaengine/reflect'
+import { Transform2DPlugin, Transform3DPlugin } from '@wimaengine/transform'
 import { typeid, typeidGeneric } from '@wimaengine/type'
 import { Material } from '../assets'
 import { dropMaterialInstance, MaterialInstance } from '../components'
-import { genBinRenderables2D, genBinRenderables3D, registerMaterialTypes } from '../systems'
 import { RenderCorePlugin } from '../plugin'
-import { Transform2DPlugin, Transform3DPlugin } from '@wimaengine/transform'
+import { genBinRenderables2D, genBinRenderables3D, registerMaterialTypes } from '../systems'
 
 /**
  * @template {Material} T

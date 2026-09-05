@@ -1,13 +1,12 @@
 /** @import { Constructor } from '@wimaengine/type' */
 import { App, Plugin } from '@wimaengine/app'
-import { AppSchedule, CorePlugin } from '@wimaengine/core'
 import { ColorPlugin } from '@wimaengine/color'
+import { AppSchedule, CorePlugin } from '@wimaengine/core'
 import { MathPlugin } from '@wimaengine/math'
 import { ReflectPlugin } from '@wimaengine/reflect'
-import { typeidGeneric } from '@wimaengine/type'
+import { typeidGeneric, typeid } from '@wimaengine/type'
 import { Gizmo3D, GizmoSettings } from '../core'
 import { genenerateDrawGizmo3Dsystem, registerGizmo3DTypes } from '../systems'
-import { typeid } from '@wimaengine/type'
 
 /**
  * @template T

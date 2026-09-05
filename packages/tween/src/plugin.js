@@ -2,8 +2,8 @@
 import { App, Plugin } from '@wimaengine/app'
 import { AppSchedule, CorePlugin } from '@wimaengine/core'
 import { Vector2, Quaternion, Vector3, Rotary } from '@wimaengine/math'
-import { Orientation2D, Orientation3D, Position2D, Position3D, Scale2D, Scale3D } from '@wimaengine/transform'
 import { TimePlugin } from '@wimaengine/time'
+import { Orientation2D, Orientation3D, Position2D, Position3D, Scale2D, Scale3D } from '@wimaengine/transform'
 import { typeid, typeidGeneric } from '@wimaengine/type'
 import {
   Position2DTween,

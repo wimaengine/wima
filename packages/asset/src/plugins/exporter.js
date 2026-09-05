@@ -3,8 +3,8 @@ import { App, Plugin } from '@wimaengine/app'
 import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { typeid, typeidGeneric } from '@wimaengine/type'
 import { Exporter } from '../core'
-import { AssetServerPlugin } from './assetServer'
 import { registerAssetExporterOnAssetServer } from '../systems'
+import { AssetServerPlugin } from './assetServer'
 
 /**
  * @template T

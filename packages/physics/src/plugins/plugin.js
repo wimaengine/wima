@@ -4,8 +4,8 @@ import { AppSchedule, CorePlugin } from '@wimaengine/core'
 import { EulerIntegrator2DPlugin } from '@wimaengine/integrator'
 import { NarrowPhase2DPlugin } from '@wimaengine/narrowphase'
 import { Transform2DPlugin } from '@wimaengine/transform'
-import { collisionResponse, updateBodies, updateBounds } from '../systems'
 import { typeid } from '@wimaengine/type'
+import { collisionResponse, updateBodies, updateBounds } from '../systems'
 
 // TODO: Convert to a plugin group
 export class Physics2DPlugin extends Plugin {

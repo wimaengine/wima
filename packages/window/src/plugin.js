@@ -1,10 +1,11 @@
 /** @import {WindowOptions} from './components' */
 import { App, Plugin } from '@wimaengine/app'
-import { EntityCommands } from '@wimaengine/commands'
 import { CommandsPlugin } from '@wimaengine/command'
+import { EntityCommands } from '@wimaengine/commands'
 import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { EventPlugin } from '@wimaengine/event'
 import { ReflectPlugin } from '@wimaengine/reflect'
+import { typeid } from '@wimaengine/type'
 import { Window, MainWindow } from './components'
 import {
   FileDrag,
@@ -23,7 +24,6 @@ import {
 } from './events'
 import { Windows } from './resources'
 import { registerWindowTypes } from './systems'
-import { typeid } from '@wimaengine/type'
 
 export class WindowPlugin extends Plugin {
 

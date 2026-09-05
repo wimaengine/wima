@@ -3,8 +3,8 @@ import { AppSchedule, CorePlugin } from '@wimaengine/core'
 import { MathPlugin } from '@wimaengine/math'
 import { ReflectPlugin } from '@wimaengine/reflect'
 import { typeid } from '@wimaengine/type'
-import { Transform2DPlugin, Transform3DPlugin } from './transform'
 import { registerRemoteTransform2DTypes, registerRemoteTransform3DTypes, transformRemote2D, transformRemote3D } from '../systems'
+import { Transform2DPlugin, Transform3DPlugin } from './transform'
 
 export class RemoteTransform2DPlugin extends Plugin {
 

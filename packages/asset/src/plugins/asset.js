@@ -6,7 +6,6 @@ import { EventPlugin } from '@wimaengine/event'
 import { ReflectPlugin } from '@wimaengine/reflect'
 import { typeid, typeidGeneric } from '@wimaengine/type'
 import { Assets } from '../resources'
-import { AssetServerPlugin } from './assetServer'
 import { registerAssetTypes, registerAssetOnAssetServer, unloadDroppedAssets, updateAssetChannel, updateAssetEvents } from '../systems'
 
 /**

@@ -1,7 +1,6 @@
 import { App, Plugin } from '@wimaengine/app'
-import { CorePlugin } from '@wimaengine/core'
+import { CorePlugin, AppSchedule } from '@wimaengine/core'
 import { ReflectPlugin } from '@wimaengine/reflect'
-import { AppSchedule } from '@wimaengine/core'
 import { typeid } from '@wimaengine/type'
 import { Browser, PlatformOS } from './core'
 import { Device } from './resources'

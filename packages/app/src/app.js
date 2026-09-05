@@ -37,6 +37,7 @@ export class PluginRegistry {
 
   /**
    * @param {Plugin} plugin
+   * @throws When a dublicate plugin is registered.
    */
   add(plugin) {
     const pluginId = plugin.name()

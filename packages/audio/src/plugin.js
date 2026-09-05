@@ -3,14 +3,13 @@ import { AssetImporterPlugin, AssetPlugin, Assets } from '@wimaengine/asset'
 import { AppSchedule, CorePlugin } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
 import { ReflectPlugin } from '@wimaengine/reflect'
-import { typeidGeneric } from '@wimaengine/type'
 import { TimePlugin } from '@wimaengine/time'
+import { typeidGeneric, typeid } from '@wimaengine/type'
 import { Audio } from './assets'
 import { AudioPlayer, AudioOscillator, removeAudioPlayerSink, removeOscillatorSink } from './components'
 import { AudioAdded, AudioDropped, AudioModified } from './events'
 import { AudioCommands, AudioImporter, AudioAssets, AudioGraph } from './resources'
 import { playAudio, playOscillators, registerAudioTypes } from './systems'
-import { typeid } from '@wimaengine/type'
 
 export class AudioPlugin extends Plugin {
 

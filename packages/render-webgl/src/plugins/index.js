@@ -3,11 +3,10 @@
 
 import { App, Plugin } from '@wimaengine/app'
 import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
-import { Material } from '@wimaengine/render-core'
-import { RenderCorePlugin } from '@wimaengine/render-core'
-import { WindowPlugin } from '@wimaengine/window'
+import { Material, RenderCorePlugin } from '@wimaengine/render-core'
 import { Transform3DPlugin } from '@wimaengine/transform'
 import { typeid, typeidGeneric } from '@wimaengine/type'
+import { WindowPlugin } from '@wimaengine/window'
 import { WebglRendererPlugin } from '../plugin'
 import { genRegisterBuffer, genRender, genRenderPipeline } from '../systems'
 

@@ -1,11 +1,10 @@
 import { App, Plugin } from '@wimaengine/app'
 import { AppSchedule, CoreSystems, CorePlugin } from '@wimaengine/core'
 import { ComponentHooks } from '@wimaengine/ecs'
-import { Window } from '@wimaengine/window'
-import { WindowPlugin } from '@wimaengine/window'
+import { typeid } from '@wimaengine/type'
+import { Window, WindowPlugin } from '@wimaengine/window'
 import { closeWindow, openWindow } from './hooks'
 import { resizeWindow } from './systems'
-import { typeid } from '@wimaengine/type'
 
 export class DOMWindowPlugin extends Plugin {
 

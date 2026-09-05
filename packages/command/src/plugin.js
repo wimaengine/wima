@@ -1,10 +1,9 @@
 /** @import { App } from '@wimaengine/app' */
 import { Plugin } from '@wimaengine/app'
-import { CorePlugin } from '@wimaengine/core'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { CorePlugin, AppSchedule, CoreSystems } from '@wimaengine/core'
+import { typeid } from '@wimaengine/type'
 import { CommandQueue } from './resources'
 import { executeCommands } from './systems'
-import { typeid } from '@wimaengine/type'
 
 export class CommandsPlugin extends Plugin {
 

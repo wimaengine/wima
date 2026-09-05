@@ -1,6 +1,5 @@
 import { App, Plugin } from '@wimaengine/app'
-import { CorePlugin } from '@wimaengine/core'
-import { AppSchedule, CoreSystems } from '@wimaengine/core'
+import { CorePlugin, AppSchedule, CoreSystems } from '@wimaengine/core'
 import { World, EntityHandle, Query } from '@wimaengine/ecs'
 import { typeid } from '@wimaengine/type'
 
