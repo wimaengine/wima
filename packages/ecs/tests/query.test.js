@@ -1,5 +1,5 @@
 import { test, describe } from "vitest";
-import { EntityHandle, Query, has, without, World } from "..";
+import { EntityHandle, Query, has, optional, without, World } from "..";
 import assert, { strictEqual } from "node:assert";
 import { typeid } from "@wimaengine/type";
 
@@ -121,6 +121,28 @@ describe("Testing `Query`", () => {
     const query = new Query(world, [A],[has(B),without(C)])
 
     strictEqual(query.count(), 10)
+  })
+
+  test('query with an optional component.', () => {
+    const world = createWorld()
+    const query = new Query(world, [A, B], [optional(B)])
+    let missing = 0
+    let present = 0
+
+    query.each(([componentA, componentB]) => {
+      strictEqual(componentA instanceof A, true)
+
+      if (componentB) {
+        strictEqual(componentB instanceof B, true)
+        present += 1
+      } else {
+        missing += 1
+      }
+    })
+
+    strictEqual(missing, 10)
+    strictEqual(present, 20)
+    strictEqual(query.count(), 30)
   })
 
   test('query for combination of entities', () => {

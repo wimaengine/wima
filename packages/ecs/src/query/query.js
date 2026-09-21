@@ -1,5 +1,6 @@
 /** @import { TableId, TableRow } from '../typedef'*/
 /** @import { TypeId, TupleConstructor  } from '@wimaengine/type'*/
+/** @import { ApplyFilters } from './filters' */
 
 import { typeid } from '@wimaengine/type'
 import { Archetype } from '../archetype'
@@ -7,6 +8,12 @@ import { EntityHandle } from '../entities'
 import { Table } from '../tables'
 import { World } from '../world'
 import { QueryFilter } from './filters'
+
+/**
+ * @template {unknown[]} T
+ * @template {QueryFilter[]} U
+ * @typedef {ApplyFilters<T, U>} QueryComponents
+ */
 
 /**
  * Enables operations to be performed on entities matching the
@@ -45,6 +52,12 @@ export class Query {
 
   /**
    * @readonly
+   * @type {TypeId[]}
+   */
+  requiredDescriptors = []
+
+  /**
+   * @readonly
    * @type {U}
    */
   filters
@@ -70,6 +83,9 @@ export class Query {
     this.world = world
     this.descriptors = componentTypes.map((c) => typeid(c))
     this.filters = filters
+    this.requiredDescriptors = this.descriptors.filter((descriptor) => {
+      return this.filters.every((entry) => entry.isRequired(descriptor))
+    })
     this.update()
   }
 
@@ -81,7 +97,7 @@ export class Query {
     const archetypes = world.getArchetypes()
 
     const tableIds = filterMap(archetypes.values(), (archetype) => {
-      if (!archetype.has(this.descriptors)) {
+      if (!archetype.has(this.requiredDescriptors)) {
         return undefined
       }
       if (!filter(archetype, this.filters)) {
@@ -98,7 +114,7 @@ export class Query {
    * Gets the components of a given entity.
    *
    * @param {EntityHandle} entity
-   * @returns {T | null}
+   * @returns {QueryComponents<T,U> | null}
    */
   get(entity) {
     const { world, descriptors, tableIds } = this
@@ -120,18 +136,18 @@ export class Query {
     mapComponents(table, descriptors, index, components)
 
     // SAFETY: Components are fetched in same order and types as the generic.
-    return /** @type {T}*/ (components)
+    return /** @type {QueryComponents<T,U>}*/ (components)
   }
 
   /**
-   * @param {EachFunc<T>} callback
+   * @param {EachFunc<QueryComponents<T,U>>} callback
    */
   each(callback) {
     const { tableIds, descriptors } = this
     const tables = this.world.getTables()
 
     // SAFETY: Components are fetched below.
-    const components = /** @type {T}*/(new Array(this.descriptors.length))
+    const components = /** @type {[...QueryComponents<T,U>]}*/(new Array(this.descriptors.length))
 
     for (let i = 0; i < tableIds.length; i++) {
       const table = tables.get(tableIds[i])
@@ -148,15 +164,15 @@ export class Query {
   }
 
   /**
-   * @param {EachCombinationFunc<T>} callback
+   * @param {EachCombinationFunc<QueryComponents<T,U>>} callback
    */
   eachCombination(callback) {
     const { tableIds, descriptors } = this
     const tables = this.world.getTables()
 
     // SAFETY: Components are filled below
-    const components1 = /** @type {T}*/(new Array(this.descriptors.length))
-    const components2 = /** @type {T}*/(new Array(this.descriptors.length))
+    const components1 = /** @type {[...QueryComponents<T,U>]}*/(new Array(this.descriptors.length))
+    const components2 = /** @type {[...QueryComponents<T,U>]}*/(new Array(this.descriptors.length))
 
     for (let i = 0; i < tableIds.length; i++) {
       const table1 = tables.get(tableIds[i])
@@ -188,7 +204,7 @@ export class Query {
   }
 
   /**
-   * @returns {T | null}
+   * @returns {QueryComponents<T,U> | null}
    */
   single() {
     const { descriptors, world, tableIds } = this
@@ -201,7 +217,7 @@ export class Query {
       if (table.size() < 1) continue
 
       // SAFETY: Components are fetched below.
-      const components = /** @type {T}*/(new Array(this.descriptors.length))
+      const components = /** @type {[...QueryComponents<T,U>]}*/(new Array(this.descriptors.length))
 
       // SAFETY: Table row is in bounds as checked above.
       mapComponents(table, descriptors, 0, components)
@@ -282,7 +298,7 @@ function mapComponents(table, descriptor, row, list) {
  */
 function filter(archetype, filters) {
   for (let i = 0; i < filters.length; i++) {
-    if (!filters[i].archetype(archetype.types)) {
+    if (!filters[i]?.archetype(archetype.types)) {
       return false
     }
   }

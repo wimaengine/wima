@@ -1,10 +1,33 @@
 /** @import { TypeId, Constructor } from '@wimaengine/type'*/
+/** @import { FilterTransform, IdentityTransform, OptionalTransform } from './types' */
 import { typeid } from '@wimaengine/type'
 
 /**
- * @interface
+ * @abstract
+ * @template {FilterTransform} [Transform = FilterTransform]
  */
 export class QueryFilter {
+
+  /** @type {Transform} */
+  // @ts-ignore
+  typeTransform
+
+  constructor() {
+    if (new.target === QueryFilter) {
+      throw new TypeError('QueryFilter is abstract')
+    }
+  }
+
+  /**
+   * Returns whether a descriptor must be present for this filter to be
+   * applicable to an archetype.
+   *
+   * @param {TypeId} _type
+   * @returns {boolean}
+   */
+  isRequired(_type) {
+    return true
+  }
 
   /**
    * @param {readonly TypeId[]} _types
@@ -12,15 +35,15 @@ export class QueryFilter {
    * @returns {boolean}
    */
   archetype(_types) {
-    throw `Implement ${this.constructor.name}.archetype`
+    return true
   }
 }
 
 /**
  * @template T
- * @implements {QueryFilter}
+ * @augments {QueryFilter<IdentityTransform>}
  */
-export class Has {
+export class Has extends QueryFilter {
 
   /**
    * @type {TypeId}
@@ -31,6 +54,7 @@ export class Has {
    * @param {Constructor<T>} component
    */
   constructor(component) {
+    super()
     this.typeid = typeid(component)
   }
 
@@ -53,10 +77,51 @@ export function has(component) {
 }
 
 /**
+ * Marks a component in a query as optional. Optional components do not affect
+ * archetype matching and are returned as `undefined` when absent.
+ *
  * @template T
- * @implements {QueryFilter}
+ * @augments {QueryFilter<OptionalTransform<T>>}
  */
-export class Without {
+export class Optional extends QueryFilter {
+
+  /** @type {TypeId} */
+  typeid
+
+  /** @param {Constructor<T>} component */
+  constructor(component) {
+    super()
+    this.typeid = typeid(component)
+  }
+
+  /**
+   * @param {TypeId} type
+   * @returns {boolean}
+   */
+  isRequired(type) {
+    return this.typeid !== type
+  }
+
+  /** @param {readonly TypeId[]} _types */
+  archetype(_types) {
+    return true
+  }
+}
+
+/**
+ * @template T
+ * @param {Constructor<T>} component
+ * @returns {Optional<T>}
+ */
+export function optional(component) {
+  return new Optional(component)
+}
+
+/**
+ * @template T
+ * @augments {QueryFilter<IdentityTransform>}
+ */
+export class Without extends QueryFilter {
 
   /**
    * @type {TypeId}
@@ -67,6 +132,7 @@ export class Without {
    * @param {Constructor<T>} component
    */
   constructor(component) {
+    super()
     this.typeid = typeid(component)
   }
 

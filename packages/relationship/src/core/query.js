@@ -1,4 +1,4 @@
-/** @import { QueryFilter,EntityId } from '@wimaengine/ecs' */
+/** @import { ApplyFilters, QueryFilter,EntityId } from '@wimaengine/ecs' */
 /** @import { Constructor, TupleConstructor } from '@wimaengine/type' */
 import { Query, World, EntityHandle } from '@wimaengine/ecs'
 import { TraverseEntities } from './traverseentities'
@@ -66,7 +66,10 @@ export class RelationshipQuery {
 
   /**
    * @param {EntityHandle} entity
-   * @param { (descendant: Data, ancestor: Data) => void } visit
+   * @param {(
+   *   descendant: ApplyFilters<Data, Filter>,
+   *   ancestor: ApplyFilters<Data, Filter>
+   * ) => void} visit
    */
   treebfs(entity, visit) {
     const queue = [entity]
@@ -76,7 +79,7 @@ export class RelationshipQuery {
       // SAFETY: `stack` is dense and an element is guaranteed to exist
       // as we check the length above.
       const ancestorEntity = /** @type {EntityHandle}*/(queue.shift())
-      const ancestor = this.ancestors.get(ancestorEntity)
+      const ancestor = /** @type {[Relationship, ...Data] | null} */ (this.ancestors.get(ancestorEntity))
 
       if (!ancestor) continue
 
@@ -87,26 +90,32 @@ export class RelationshipQuery {
 
       for (let i = 0; i < descendants.length; i++) {
 
-        const descendant = this.descendants.get(descendants[i])
+        const descendant = /** @type {[Target, ...Data] | null} */ (this.descendants.get(descendants[i]))
 
         if (!descendant) continue
 
         const [, ...descendantData] = descendant
 
-        visit(descendantData, ancestorData)
+        visit(
+          /** @type {ApplyFilters<Data, Filter>} */ (descendantData),
+          /** @type {ApplyFilters<Data, Filter>} */ (ancestorData)
+        )
       }
     }
   }
 
   /**
    * @param {EntityHandle} entity
-   * @param { (descendant: Data, ancestor: Data) => void } visit
+   * @param {(
+   *   descendant: ApplyFilters<Data, Filter>,
+   *   ancestor: ApplyFilters<Data, Filter>
+   * ) => void} visit
    */
   treedfs(entity, visit) {
 
     /** @type {[EntityHandle,EntityHandle][]} */
     const stack = []
-    const root = this.ancestors.get(entity)
+    const root = /** @type {[Relationship, ...Data] | null} */ (this.ancestors.get(entity))
 
     if (!root) return
 
@@ -120,17 +129,20 @@ export class RelationshipQuery {
 
     while (stack.length) {
       const [ancestorEntity, descendantEntity] = stack.pop()
-      const ancestor = this.ancestors.get(ancestorEntity)
-      const descendant = this.descendants.get(descendantEntity)
+      const ancestor = /** @type {[Relationship, ...Data] | null} */ (this.ancestors.get(ancestorEntity))
+      const descendant = /** @type {[Target, ...Data] | null} */ (this.descendants.get(descendantEntity))
 
       if (!ancestor || !descendant) continue
 
       const [, ...descendantData] = descendant
       const [, ...ancestorData] = ancestor
 
-      visit(descendantData, ancestorData)
+      visit(
+        /** @type {ApplyFilters<Data, Filter>} */ (descendantData),
+        /** @type {ApplyFilters<Data, Filter>} */ (ancestorData)
+      )
 
-      const grand = this.ancestors.get(descendantEntity)
+      const grand = /** @type {[Relationship, ...Data] | null} */ (this.ancestors.get(descendantEntity))
 
       if (grand) stack.push(
         ...grand[0].visit()
@@ -142,7 +154,10 @@ export class RelationshipQuery {
 
   /**
    * @param {EntityHandle} entity
-   * @param { (descendant: Data, ancestor: Data) => void } visit
+   * @param {(
+   *   descendant: ApplyFilters<Data, Filter>,
+   *   ancestor: ApplyFilters<Data, Filter>
+   * ) => void} visit
    */
   graphbfs(entity, visit) {
     const queue = [entity]
@@ -156,7 +171,7 @@ export class RelationshipQuery {
       // as we check the length above.
       const ancestorEntity = /** @type {EntityHandle}*/(queue.shift())
       const ancestorEntityId = ancestorEntity.id()
-      const ancestor = this.ancestors.get(ancestorEntity)
+      const ancestor = /** @type {[Relationship, ...Data] | null} */ (this.ancestors.get(ancestorEntity))
 
       if (visited.has(ancestorEntityId)) continue
       if (!ancestor) continue
@@ -169,20 +184,26 @@ export class RelationshipQuery {
 
       for (let i = 0; i < descendants.length; i++) {
         const descendantEntity = descendants[i]
-        const descendant = this.descendants.get(descendantEntity)
+        const descendant = /** @type {[Target, ...Data] | null} */ (this.descendants.get(descendantEntity))
 
         if (!descendant) continue
 
         const [, ...descendantData] = descendant
 
-        visit(descendantData, ancestorData)
+        visit(
+          /** @type {ApplyFilters<Data, Filter>} */ (descendantData),
+          /** @type {ApplyFilters<Data, Filter>} */ (ancestorData)
+        )
       }
     }
   }
 
   /**
    * @param {EntityHandle} entity
-   * @param { (descendant: Data, ancestor: Data) => void } visit
+   * @param {(
+   *   descendant: ApplyFilters<Data, Filter>,
+   *   ancestor: ApplyFilters<Data, Filter>
+   * ) => void} visit
    */
   graphdfs(entity, visit) {
 
@@ -191,7 +212,7 @@ export class RelationshipQuery {
 
     /** @type {Set<EntityId>} */
     const visited = new Set()
-    const root = this.ancestors.get(entity)
+    const root = /** @type {[Relationship, ...Data] | null} */ (this.ancestors.get(entity))
 
     if (!root) return
 
@@ -207,17 +228,20 @@ export class RelationshipQuery {
 
       if (visited.has(descendantEntity.id())) continue
 
-      const ancestor = this.ancestors.get(ancestorEntity)
-      const descendant = this.descendants.get(descendantEntity)
+      const ancestor = /** @type {[Relationship, ...Data] | null} */ (this.ancestors.get(ancestorEntity))
+      const descendant = /** @type {[Target, ...Data] | null} */ (this.descendants.get(descendantEntity))
 
       if (!ancestor || !descendant) continue
 
       const [, ...descendantData] = descendant
       const [, ...ancestorData] = ancestor
 
-      visit(descendantData, ancestorData)
+      visit(
+        /** @type {ApplyFilters<Data, Filter>} */ (descendantData),
+        /** @type {ApplyFilters<Data, Filter>} */ (ancestorData)
+      )
       visited.add(ancestorEntity.id())
-      const grand = this.ancestors.get(descendantEntity)
+      const grand = /** @type {[Relationship, ...Data] | null} */ (this.ancestors.get(descendantEntity))
 
       if (grand) stack.push(
         ...grand[0].visit()
