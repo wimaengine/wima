@@ -8,6 +8,7 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "alwaysStrict": true,
+    "allowImportingTsExtensions": true,
     "checkJs": true,
     "module": "esnext",
     "moduleResolution": "bundler",
