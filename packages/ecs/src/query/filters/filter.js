@@ -1,10 +1,32 @@
 /** @import { TypeId, Constructor } from '@wimaengine/type'*/
+/** @import { FilterTransform, IdentityTransform, OptionalTransform } from './types' */
 import { typeid } from '@wimaengine/type'
 
 /**
- * @interface
+ * @abstract
+ * @template {FilterTransform} [Transform = FilterTransform]
  */
 export class QueryFilter {
+
+  /** @type {Transform} */
+  typeTransform
+
+  constructor() {
+    if (new.target === QueryFilter) {
+      throw new TypeError('QueryFilter is abstract')
+    }
+  }
+
+  /**
+   * Returns whether a descriptor must be present for this filter to be
+   * applicable to an archetype.
+   *
+   * @param {TypeId} _type
+   * @returns {boolean}
+   */
+  isRequired(_type) {
+    return true
+  }
 
   /**
    * @param {readonly TypeId[]} _types
@@ -18,9 +40,9 @@ export class QueryFilter {
 
 /**
  * @template T
- * @implements {QueryFilter}
+ * @extends {QueryFilter<IdentityTransform>}
  */
-export class Has {
+export class Has extends QueryFilter {
 
   /**
    * @type {TypeId}
@@ -31,6 +53,7 @@ export class Has {
    * @param {Constructor<T>} component
    */
   constructor(component) {
+    super()
     this.typeid = typeid(component)
   }
 
@@ -54,9 +77,9 @@ export function has(component) {
 
 /**
  * @template T
- * @implements {QueryFilter}
+ * @extends {QueryFilter<IdentityTransform>}
  */
-export class Without {
+export class Without extends QueryFilter {
 
   /**
    * @type {TypeId}
@@ -67,6 +90,7 @@ export class Without {
    * @param {Constructor<T>} component
    */
   constructor(component) {
+    super()
     this.typeid = typeid(component)
   }
 
