@@ -35,7 +35,7 @@ export class QueryFilter {
    * @returns {boolean}
    */
   archetype(_types) {
-    throw `Implement ${this.constructor.name}.archetype`
+    return true
   }
 }
 
