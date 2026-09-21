@@ -93,7 +93,7 @@ export class Query {
    * @returns {void}
    */
   update() {
-    const { world, filters } = this
+    const { world } = this
     const archetypes = world.getArchetypes()
 
     const tableIds = filterMap(archetypes.values(), (archetype) => {
@@ -298,7 +298,7 @@ function mapComponents(table, descriptor, row, list) {
  */
 function filter(archetype, filters) {
   for (let i = 0; i < filters.length; i++) {
-    if (!filters[i].archetype(archetype.types)) {
+    if (!filters[i]?.archetype(archetype.types)) {
       return false
     }
   }

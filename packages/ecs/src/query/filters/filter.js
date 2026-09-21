@@ -9,6 +9,7 @@ import { typeid } from '@wimaengine/type'
 export class QueryFilter {
 
   /** @type {Transform} */
+  // @ts-ignore
   typeTransform
 
   constructor() {
@@ -40,7 +41,7 @@ export class QueryFilter {
 
 /**
  * @template T
- * @extends {QueryFilter<IdentityTransform>}
+ * @augments {QueryFilter<IdentityTransform>}
  */
 export class Has extends QueryFilter {
 
@@ -80,7 +81,7 @@ export function has(component) {
  * archetype matching and are returned as `undefined` when absent.
  *
  * @template T
- * @extends {QueryFilter<OptionalTransform<T>>}
+ * @augments {QueryFilter<OptionalTransform<T>>}
  */
 export class Optional extends QueryFilter {
 
@@ -118,7 +119,7 @@ export function optional(component) {
 
 /**
  * @template T
- * @extends {QueryFilter<IdentityTransform>}
+ * @augments {QueryFilter<IdentityTransform>}
  */
 export class Without extends QueryFilter {
 
