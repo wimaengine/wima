@@ -36,11 +36,6 @@ export function openWindow(entity, world) {
  * @param {Window} window
  */
 function syncWindowSize(canvas, window) {
-  canvas.width = window.getWidth()
-  canvas.height = window.getHeight()
-  canvas.style.width = `${canvas.width}px`
-  canvas.style.height = `${canvas.height}px`
-
   const rect = canvas.getBoundingClientRect()
   const width = Math.round(rect.width) || canvas.width
   const height = Math.round(rect.height) || canvas.height
