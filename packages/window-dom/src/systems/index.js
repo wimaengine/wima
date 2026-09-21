@@ -22,7 +22,7 @@ export function resizeWindow(world) {
 
     const rect = canvas.getBoundingClientRect()
 
-    if (rect.width === window.getWidth() || rect.height === window.getHeight()) {
+    if (rect.width === window.getWidth() && rect.height === window.getHeight()) {
       return
     }
 
