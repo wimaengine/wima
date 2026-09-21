@@ -76,6 +76,47 @@ export function has(component) {
 }
 
 /**
+ * Marks a component in a query as optional. Optional components do not affect
+ * archetype matching and are returned as `undefined` when absent.
+ *
+ * @template T
+ * @extends {QueryFilter<OptionalTransform<T>>}
+ */
+export class Optional extends QueryFilter {
+
+  /** @type {TypeId} */
+  typeid
+
+  /** @param {Constructor<T>} component */
+  constructor(component) {
+    super()
+    this.typeid = typeid(component)
+  }
+
+  /**
+   * @param {TypeId} type
+   * @returns {boolean}
+   */
+  isRequired(type) {
+    return this.typeid !== type
+  }
+
+  /** @param {readonly TypeId[]} _types */
+  archetype(_types) {
+    return true
+  }
+}
+
+/**
+ * @template T
+ * @param {Constructor<T>} component
+ * @returns {Optional<T>}
+ */
+export function optional(component) {
+  return new Optional(component)
+}
+
+/**
  * @template T
  * @extends {QueryFilter<IdentityTransform>}
  */
