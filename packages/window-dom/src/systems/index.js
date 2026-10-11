@@ -21,12 +21,16 @@ export function resizeWindow(world) {
     }
 
     const rect = canvas.getBoundingClientRect()
+    const width = Math.round(rect.width)
+    const height = Math.round(rect.height)
 
-    if (rect.width === window.getWidth() && rect.height === window.getHeight()) {
+    if (width === window.getWidth() && height === window.getHeight()) {
       return
     }
 
-    window.set(rect.width, rect.height)
-    dispatch.write(new WindowResize(rect.width, rect.height))
+    canvas.width = width
+    canvas.height = height
+    window.set(width, height)
+    dispatch.write(new WindowResize(width, height))
   })
 }
