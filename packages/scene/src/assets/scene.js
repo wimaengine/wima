@@ -6,6 +6,7 @@ import { warn } from '@wimaengine/logger'
 import { TypeRegistry } from '@wimaengine/reflect'
 import { typeid } from '@wimaengine/type'
 import { SceneInstance } from '../components'
+import { SceneFilter } from './filter'
 import { AssetSceneMap } from '../resources'
 
 export class Scene {
@@ -24,8 +25,9 @@ export class Scene {
    * @param {SceneInstance} instance
    * @param {TypeRegistry} typeRegistry
    * @param {EntityHandle} instanceEntity
+   * @param {SceneFilter} [filter]
    */
-  toWorld(world, instance, typeRegistry, instanceEntity) {
+  toWorld(world, instance, typeRegistry, instanceEntity, filter) {
     const { entityMap: worldToSceneMap } = instance
     const sceneToWorldMap = new Map()
     const sceneAssetId = instance.handle?.id()
@@ -42,6 +44,10 @@ export class Scene {
     }
 
     for (const [typeId, resource] of this.resources) {
+      if (filter && !filter.allows(typeId)) {
+        continue
+      }
+
       const entry = typeRegistry.getByTypeId(typeId)
 
       if (!entry) {
@@ -71,12 +77,17 @@ export class Scene {
       const worldEntity = sceneToWorldMap.get(entity)
       const clonedComponents = components.map((component) => {
         const { constructor } = component
+        const componentType = /** @type {import('@wimaengine/type').Constructor} */ (constructor)
+        const typeId = typeid(componentType)
 
         if (constructor === EntityHandle) {
           return undefined
         }
 
-        const componentType = /** @type {import('@wimaengine/type').Constructor} */ (constructor)
+        if (filter && !filter.allows(typeId)) {
+          return undefined
+        }
+
         const entry = typeRegistry.get(componentType)
 
         if (!entry) {
@@ -99,7 +110,10 @@ export class Scene {
         return clonedComponent
       }).filter((e) => e !== undefined)
 
-      if (!clonedComponents.some((c) => c.constructor === Parent)) {
+      if (
+        !clonedComponents.some((c) => c.constructor === Parent) &&
+        (!filter || filter.allows(typeid(Parent)))
+      ) {
         clonedComponents.push(new Parent(instanceEntity))
       }
 

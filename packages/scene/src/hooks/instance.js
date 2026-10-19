@@ -26,4 +26,5 @@ export function dropSceneInstance(entity, world) {
 
   spawner.remove(sceneInstance.handle.id(), entity)
   sceneInstance.handle.drop()
+  sceneInstance.filter?.drop()
 }
