@@ -5,11 +5,11 @@ import { ComponentHooks } from '@wimaengine/ecs'
 import { HierarchyPlugin } from '@wimaengine/hierarchy'
 import { ReflectPlugin } from '@wimaengine/reflect'
 import { typeidGeneric, typeid } from '@wimaengine/type'
-import { Scene } from './assets'
+import { Scene, SceneFilter } from './assets'
 import { SceneInstance } from './components'
 import { SceneAdded, SceneDropped, SceneModified } from './events'
 import { initSceneInstance, dropSceneInstance } from './hooks'
-import { JSONSceneExporter, JSONSceneImporter, SceneAssets, SceneSpawner } from './resources'
+import { JSONSceneExporter, JSONSceneImporter, SceneAssets, SceneFilterAssets, SceneSpawner } from './resources'
 import { registerSceneTypes, spawnScenes } from './systems'
 
 export class ScenePlugin extends Plugin {
@@ -35,6 +35,9 @@ export class ScenePlugin extends Plugin {
           dropped: SceneDropped
         }
       }))
+      .registerPlugin(new AssetPlugin({
+        asset: SceneFilter
+      }))
       .setResource(new SceneSpawner())
       .setComponentHooks(SceneInstance, new ComponentHooks(
         initSceneInstance,
@@ -43,6 +46,7 @@ export class ScenePlugin extends Plugin {
       .registerSystem({ schedule: AppSchedule.Startup, systemGroup: CoreSystems.Start, system: registerSceneTypes })
       .registerSystem({ schedule: AppSchedule.Update, systemGroup: CoreSystems.End, system: spawnScenes })
       .setResourceAlias(typeidGeneric(Assets, [Scene]), SceneAssets)
+      .setResourceAlias(typeidGeneric(Assets, [SceneFilter]), SceneFilterAssets)
   }
 
   requires() {
