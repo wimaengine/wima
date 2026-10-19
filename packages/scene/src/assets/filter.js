@@ -6,9 +6,9 @@
  * @readonly
  * @enum {number}
  */
-export const SceneFilterMode = /**@type {const} */({
-  AllowList: 0,
-  DenyList: 1
+export const SceneFilterMode = /** @type {const} */({
+  Allow: 0,
+  Deny: 1
 })
 
 /**
@@ -28,9 +28,9 @@ export class SceneFilter {
 
   /**
    * @param {TypeId[]} [typeIds=[]]
-   * @param {number} [mode=SceneFilterMode.AllowList]
+   * @param {number} [mode=SceneFilterMode.Allow]
    */
-  constructor(typeIds = [], mode = SceneFilterMode.AllowList) {
+  constructor(typeIds = [], mode = SceneFilterMode.Allow) {
     this.typeIds = typeIds
     this.mode = mode
   }
@@ -41,6 +41,6 @@ export class SceneFilter {
   allows(typeId) {
     const contains = this.typeIds.includes(typeId)
 
-    return this.mode === SceneFilterMode.AllowList ? contains : !contains
+    return this.mode === SceneFilterMode.Allow ? contains : !contains
   }
 }

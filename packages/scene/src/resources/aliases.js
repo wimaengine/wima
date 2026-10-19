@@ -1,6 +1,5 @@
 import { Assets } from '@wimaengine/asset'
-import { Scene } from '../assets'
-import { SceneFilter } from '../assets'
+import { Scene, SceneFilter } from '../assets'
 
 /**
  * @augments {Assets<Scene>}

@@ -6,8 +6,8 @@ import { warn } from '@wimaengine/logger'
 import { TypeRegistry } from '@wimaengine/reflect'
 import { typeid } from '@wimaengine/type'
 import { SceneInstance } from '../components'
-import { SceneFilter } from './filter'
 import { AssetSceneMap } from '../resources'
+import { SceneFilter } from './filter'
 
 export class Scene {
 

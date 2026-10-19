@@ -5,7 +5,6 @@ import { Parent } from '@wimaengine/hierarchy'
 import { Scene, SceneFilter, SceneFilterMode } from '../../src/assets'
 import { SceneInstance } from '../../src/components'
 import { StructInfo, TypeRegistry } from '@wimaengine/reflect'
-
 import { typeid } from '@wimaengine/type'
 
 class PureComponent {
@@ -308,7 +307,7 @@ describe.sequential('Testing `Scene`', () => {
         new SceneInstance(/** @type {any} */ (null)),
         registry,
         new EntityHandle(99, 1),
-        new SceneFilter([typeid(ComponentSnapshot)], SceneFilterMode.AllowList)
+        new SceneFilter([typeid(ComponentSnapshot)], SceneFilterMode.Allow)
       )
 
       const [restoredEntity] = new Query(world, [EntityHandle]).single()
@@ -335,7 +334,7 @@ describe.sequential('Testing `Scene`', () => {
         new SceneInstance(/** @type {any} */ (null)),
         registry,
         new EntityHandle(99, 1),
-        new SceneFilter([typeid(ResourceSnapshot)], SceneFilterMode.DenyList)
+        new SceneFilter([typeid(ResourceSnapshot)], SceneFilterMode.Deny)
       )
 
       const [restoredEntity] = new Query(world, [EntityHandle]).single()

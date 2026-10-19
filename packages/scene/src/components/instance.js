@@ -112,9 +112,9 @@ export class SceneInstanceSnapshot {
    */
   static deserialize(value, out = new SceneInstanceSnapshot(new HandleSnapshot(typeid(Object), ''))) {
     out.handle = HandleSnapshot.deserialize(value.handle, out.handle)
-    out.filter = value.filter
-      ? HandleSnapshot.deserialize(value.filter, out.filter)
-      : undefined
+    out.filter = value.filter ?
+      HandleSnapshot.deserialize(value.filter, out.filter) :
+      undefined
 
     return out
   }

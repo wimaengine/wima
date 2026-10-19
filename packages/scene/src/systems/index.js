@@ -28,9 +28,9 @@ export function spawnScenes(world) {
 
       if (!instance) continue
 
-      const filter = instance[0].filter
-        ? sceneFilters.get(instance[0].filter)
-        : undefined
+      const filter = instance[0].filter ?
+        sceneFilters.get(instance[0].filter) :
+        undefined
 
       scene.toWorld(world, instance[0], typeRegistry, entity, filter)
     }
