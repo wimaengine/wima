@@ -1,7 +1,7 @@
 import { EntityHandle, Query, World } from '@wimaengine/ecs'
 import { TypeRegistry } from '@wimaengine/reflect'
 import { SceneInstance } from '../components'
-import { SceneAssets, SceneSpawner } from '../resources'
+import { SceneAssets, SceneFilterAssets, SceneSpawner } from '../resources'
 
 export * from './types'
 
@@ -13,6 +13,7 @@ export function spawnScenes(world) {
   const instances = new Query(world, [SceneInstance])
   const spawner = world.getResource(SceneSpawner)
   const typeRegistry = world.getResource(TypeRegistry)
+  const sceneFilters = world.getResource(SceneFilterAssets)
 
   for (const assetId of spawner.assets()) {
     const scene = scenes.getByAssetId(assetId)
@@ -27,7 +28,11 @@ export function spawnScenes(world) {
 
       if (!instance) continue
 
-      scene.toWorld(world, instance[0], typeRegistry, entity)
+      const filter = instance[0].filter ?
+        sceneFilters.get(instance[0].filter) :
+        undefined
+
+      scene.toWorld(world, instance[0], typeRegistry, entity, filter)
     }
 
     spawner.clear(assetId)

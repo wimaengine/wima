@@ -1,5 +1,6 @@
 /** @import { EntityId } from '@wimaengine/ecs' */
 /** @import { Scene } from "../assets" */
+/** @import { SceneFilter } from '../assets' */
 import { Handle, HandleSnapshot } from '@wimaengine/asset'
 import { typeid } from '@wimaengine/type'
 
@@ -16,18 +17,26 @@ export class SceneInstance {
   handle
 
   /**
-   * @param {Handle<Scene>} handle
+   * @type {Handle<SceneFilter> | undefined}
    */
-  constructor(handle) {
+  filter
+
+  /**
+   * @param {Handle<Scene>} handle
+   * @param {Handle<SceneFilter>} [filter]
+   */
+  constructor(handle, filter) {
     this.handle = handle
+    this.filter = filter
   }
 
   /**
    * @param {SceneInstance} source
    * @param {SceneInstance} target
    */
-  static copy(source, target = new SceneInstance(source.handle)) {
+  static copy(source, target = new SceneInstance(source.handle, source.filter)) {
     target.handle = source.handle.clone()
+    target.filter = source.filter?.clone()
 
     return target
   }
@@ -44,7 +53,10 @@ export class SceneInstance {
    * @returns {SceneInstanceSnapshot}
    */
   toSnapshot(world) {
-    return new SceneInstanceSnapshot(this.handle.toSnapshot(world))
+    return new SceneInstanceSnapshot(
+      this.handle.toSnapshot(world),
+      this.filter?.toSnapshot(world)
+    )
   }
 }
 
@@ -59,10 +71,17 @@ export class SceneInstanceSnapshot {
   handle
 
   /**
-   * @param {HandleSnapshot} handle
+   * @type {HandleSnapshot | undefined}
    */
-  constructor(handle) {
+  filter
+
+  /**
+   * @param {HandleSnapshot} handle
+   * @param {HandleSnapshot} [filter]
+   */
+  constructor(handle, filter) {
     this.handle = handle
+    this.filter = filter
   }
 
   /**
@@ -71,7 +90,10 @@ export class SceneInstanceSnapshot {
    * @returns {SceneInstance}
    */
   fromSnapshot(world, sceneAssetId) {
-    return new SceneInstance(/** @type {Handle<Scene>} */(this.handle.fromSnapshot(world, sceneAssetId)))
+    return new SceneInstance(
+      /** @type {Handle<Scene>} */(this.handle.fromSnapshot(world, sceneAssetId)),
+      /** @type {Handle<SceneFilter> | undefined} */(this.filter?.fromSnapshot(world, sceneAssetId))
+    )
   }
 
   /**
@@ -79,7 +101,8 @@ export class SceneInstanceSnapshot {
    */
   static serialize(value) {
     return {
-      handle: HandleSnapshot.serialize(value.handle)
+      handle: HandleSnapshot.serialize(value.handle),
+      filter: value.filter && HandleSnapshot.serialize(value.filter)
     }
   }
 
@@ -89,6 +112,9 @@ export class SceneInstanceSnapshot {
    */
   static deserialize(value, out = new SceneInstanceSnapshot(new HandleSnapshot(typeid(Object), ''))) {
     out.handle = HandleSnapshot.deserialize(value.handle, out.handle)
+    out.filter = value.filter ?
+      HandleSnapshot.deserialize(value.filter, out.filter) :
+      undefined
 
     return out
   }
@@ -106,11 +132,18 @@ export class SceneInstanceSnapshot {
       return false
     }
 
-    return HandleSnapshot.validateSerial(value.handle)
+    if (!HandleSnapshot.validateSerial(value.handle)) {
+      return false
+    }
+
+    return !('filter' in value) ||
+      value.filter === undefined ||
+      HandleSnapshot.validateSerial(value.filter)
   }
 }
 
 /**
  * @typedef SceneInstanceSnapshotSerial
  * @property {import('@wimaengine/asset').HandleSnapshotSerial} handle
+ * @property {import('@wimaengine/asset').HandleSnapshotSerial} [filter]
  */

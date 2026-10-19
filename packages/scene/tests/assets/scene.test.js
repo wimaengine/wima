@@ -2,10 +2,9 @@ import { deepStrictEqual, strictEqual } from 'assert'
 import { test, describe } from 'vitest'
 import { EntityHandle, Query, World } from '@wimaengine/ecs'
 import { Parent } from '@wimaengine/hierarchy'
-import { Scene } from '../../src/assets'
+import { Scene, SceneFilter, SceneFilterMode } from '../../src/assets'
 import { SceneInstance } from '../../src/components'
 import { StructInfo, TypeRegistry } from '@wimaengine/reflect'
-
 import { typeid } from '@wimaengine/type'
 
 class PureComponent {
@@ -289,6 +288,59 @@ describe.sequential('Testing `Scene`', () => {
       strictEqual(world.getResources().size, 1)
       strictEqual(instance.entityMap.size, 0)
       deepStrictEqual(world.getResource(PureResource), new PureResource('resource'))
+    })
+
+    test('`Scene.toWorld` applies allow-list filters to components and resources', () => {
+      const registry = createRegistry()
+      const scene = new Scene()
+      const world = new World()
+      const entity = new EntityHandle(42, 1)
+
+      scene.entities.set(entity.id(), [
+        new EntityHandle(entity.index, entity.generation),
+        new ComponentSnapshot('component')
+      ])
+      scene.resources.set(typeid(ResourceSnapshot), new ResourceSnapshot('resource'))
+
+      scene.toWorld(
+        world,
+        new SceneInstance(/** @type {any} */ (null)),
+        registry,
+        new EntityHandle(99, 1),
+        new SceneFilter([typeid(ComponentSnapshot)], SceneFilterMode.Allow)
+      )
+
+      const [restoredEntity] = new Query(world, [EntityHandle]).single()
+
+      deepStrictEqual(world.get(restoredEntity, PureComponent), new PureComponent('component'))
+      strictEqual(world.getEntity(restoredEntity).hasTypeid([typeid(Parent)]), false)
+      strictEqual(world.hasResource(PureResource), false)
+    })
+
+    test('`Scene.toWorld` applies deny-list filters to components and resources', () => {
+      const registry = createRegistry()
+      const scene = new Scene()
+      const world = new World()
+      const entity = new EntityHandle(42, 1)
+
+      scene.entities.set(entity.id(), [
+        new EntityHandle(entity.index, entity.generation),
+        new ComponentSnapshot('component')
+      ])
+      scene.resources.set(typeid(ResourceSnapshot), new ResourceSnapshot('resource'))
+
+      scene.toWorld(
+        world,
+        new SceneInstance(/** @type {any} */ (null)),
+        registry,
+        new EntityHandle(99, 1),
+        new SceneFilter([typeid(ResourceSnapshot)], SceneFilterMode.Deny)
+      )
+
+      const [restoredEntity] = new Query(world, [EntityHandle]).single()
+
+      deepStrictEqual(world.get(restoredEntity, PureComponent), new PureComponent('component'))
+      strictEqual(world.hasResource(PureResource), false)
     })
 
     test('`Scene.fromWorld` restores entities and components', () => {
