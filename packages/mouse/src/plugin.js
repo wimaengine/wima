@@ -36,15 +36,23 @@ export class MousePlugin extends Plugin {
 function updateMouse(world) {
   const mouse = world.getResource(Mouse)
   const moves = /** @type {Events<PointerMove>} */(world.getResourceByTypeId(typeidGeneric(Events, [PointerMove])))
-  const move = moves.readLast()
+
+  /** @type {PointerMove | undefined} */
+  let move
+
+  moves.each((event) => {
+    if (event.data.pointerType !== 'mouse') return
+
+    move = event.data
+  })
 
   mouse.delta.copy(Vector2.Zero)
   mouse.lastPosition.copy(mouse.position)
 
   if (!move) return
 
-  mouse.delta.copy(move.data.delta)
-  mouse.position.copy(move.data.position)
+  mouse.delta.copy(move.delta)
+  mouse.position.copy(move.position)
 }
 
 /**
