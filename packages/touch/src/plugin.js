@@ -64,7 +64,7 @@ function updateTouch(world) {
 
     const id = touch.getId(data.id)
 
-    if (!id) return
+    if (id === undefined) return
 
     const pointer = touch.get(id)
 
