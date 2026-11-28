@@ -71,7 +71,7 @@ export class Importers {
     const typeId = typeid(importer.asset)
     const extensions = importer.getExtensions()
 
-    this.importers.push(importer)
+    this.importers.push(/** @type {Importer<unknown>} */ (importer))
 
     for (let i = 0; i < extensions.length; i++) {
       const extension = extensions[i]
@@ -124,7 +124,7 @@ export class Importers {
 
     assert(importer, 'Internal error: The givk&en importer index is invalid.')
 
-    return /** @type {Importer<T>} */(importer)
+    return /** @type {Importer<T>} */(/** @type {unknown} */ (importer))
   }
 }
 
@@ -189,7 +189,7 @@ export class Exporters {
     const typeId = typeid(exporter.asset)
     const extensions = exporter.getExtensions()
 
-    this.exporters.push(exporter)
+    this.exporters.push(/** @type {Exporter<unknown>} */ (exporter))
 
     for (let i = 0; i < extensions.length; i++) {
       const extension = extensions[i]
@@ -242,7 +242,7 @@ export class Exporters {
 
     assert(exporter, 'Internal error: The givk&en exporter index is invalid.')
 
-    return /** @type {Exporter<T>} */(exporter)
+    return /** @type {Exporter<T>} */(/** @type {unknown} */ (exporter))
   }
 }
 
@@ -375,7 +375,7 @@ export class AssetServer {
   registerAsset(assets) {
     const typeId = typeid(assets.type)
 
-    this.assets.set(typeId, assets)
+    this.assets.set(typeId, /** @type {Assets<unknown>} */ (assets))
   }
 
   /**

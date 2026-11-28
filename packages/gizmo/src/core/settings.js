@@ -74,6 +74,25 @@ export const GizmoLineJoin = {
 }
 
 /**
+ * Provides the horizontal text-justification choices used by
+ * {@linkcode Gizmo2D#text} and {@linkcode Gizmo2D#fillText}.
+ *
+ * @readonly
+ * @enum {number}
+ */
+export const GizmoTextAlign = Object.freeze({
+
+  /** Aligns text by its left edge (`0`). */
+  Left: 0,
+
+  /** Aligns text by its center (`1`). */
+  Center: 1,
+
+  /** Aligns text by its right edge (`2`). */
+  Right: 2
+})
+
+/**
  * Mutable line-drawing configuration shared by a {@linkcode Gizmo2DPlugin} or
  * {@linkcode Gizmo3DPlugin} and the gizmo resource it installs.
  *

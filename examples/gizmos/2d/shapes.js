@@ -71,7 +71,7 @@ function update(world) {
 
   gizmo
     .translate(100, 150)
-    .aabb(50, 50, new Color(1, 1, 1, 1))
+    .rect(50, 50, new Color(1, 1, 1, 1))
     .axes(20)
     .translate(150, 0)
     .ellipse(60, 40, new Color(1, 1, 1, 1))

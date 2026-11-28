@@ -11,7 +11,8 @@ import {
   Gizmo3D,
   GizmoLineStyle,
   GizmoLineJoin,
-  GizmoLineCap
+  GizmoLineCap,
+  GizmoTextAlign
 } from '../core'
 
 /**
@@ -44,9 +45,16 @@ import {
  * line width, cap, join, dash pattern, and dash offset. Entries in
  * {@linkcode GizmoBuffer#positions} and {@linkcode GizmoBuffer#colors} are consumed in
  * pairs as independent gradient lines. Entries in
- * {@linkcode GizmoBuffer#stripPositions} and {@linkcode GizmoBuffer#stripColors} are
+ * {@linkcode GizmoBuffer#polylinePositions} and {@linkcode GizmoBuffer#polylineColors} are
  * consumed as adjacent pairs; the NaN sentinel written by
- * {@linkcode Gizmo2D#lineStrip} and {@linkcode Gizmo2D#lineStripGradient} prevents a segment from connecting separate strips.
+ * {@linkcode Gizmo2D#polyline} and {@linkcode Gizmo2D#polylineGradient} prevents a segment from connecting separate polylines.
+ * Entries in {@linkcode GizmoBuffer#fillPositions} are consumed as
+ * sentinel-delimited triangle strips. The first corresponding color in
+ * {@linkcode GizmoBuffer#fillColors} is used for the entire strip.
+ * Entries in {@linkcode GizmoBuffer#texts} and
+ * {@linkcode GizmoBuffer#fillTexts} are rendered with their corresponding affine
+ * transforms, colors, and horizontal alignments after all shape geometry.
+ * Each entry also supplies its font size.
  * After a successful draw, the buffer is cleared and the canvas state is
  * restored. The returned {@linkcode SystemFunc} accepts a world and returns
  * `undefined`.
@@ -133,6 +141,35 @@ export function genenerateDrawGizmo2Dsystem(label) {
     context.setLineDash(mapStyle(lineStyle, lineWidth))
     context.lineDashOffset = lineDashOffset
 
+    // Render filled triangle strips.
+    let fillStart = 0
+    for (let i = 0; i <= gizmo.buffer.fillPositions.length; i += 1) {
+      const position = gizmo.buffer.fillPositions[i]
+      const isEnd = i === gizmo.buffer.fillPositions.length || isNaN(position.x)
+      if (!isEnd) continue
+
+      const color = gizmo.buffer.fillColors[fillStart]
+      if (color && i - fillStart >= 3) {
+        context.fillStyle = `rgba(${color.r * 255},${color.g * 255},${color.b * 255},${color.a})`
+        context.beginPath()
+
+        for (let j = fillStart + 2; j < i; j += 1) {
+          const first = gizmo.buffer.fillPositions[j - 2]
+          const second = gizmo.buffer.fillPositions[j - 1]
+          const third = gizmo.buffer.fillPositions[j]
+
+          context.moveTo(first.x, first.y)
+          context.lineTo(second.x, second.y)
+          context.lineTo(third.x, third.y)
+          context.closePath()
+        }
+
+        context.fill()
+      }
+
+      fillStart = i + 1
+    }
+
     // Render Lines
     for (let i = 0; i < gizmo.buffer.positions.length; i += 2) {
       context.beginPath()
@@ -153,13 +190,13 @@ export function genenerateDrawGizmo2Dsystem(label) {
       context.closePath()
     }
 
-    // Render strips.
-    for (let i = 1; i < gizmo.buffer.stripPositions.length; i += 1) {
+    // Render polylines.
+    for (let i = 1; i < gizmo.buffer.polylinePositions.length; i += 1) {
       context.beginPath()
-      const startPos = gizmo.buffer.stripPositions[i - 1]
-      const endPos = gizmo.buffer.stripPositions[i]
-      const startColor = gizmo.buffer.stripColors[i - 1]
-      const endColor = gizmo.buffer.stripColors[i]
+      const startPos = gizmo.buffer.polylinePositions[i - 1]
+      const endPos = gizmo.buffer.polylinePositions[i]
+      const startColor = gizmo.buffer.polylineColors[i - 1]
+      const endColor = gizmo.buffer.polylineColors[i]
 
       if (isNaN(endPos.x) || isNaN(startPos.x)) continue
 
@@ -172,6 +209,36 @@ export function genenerateDrawGizmo2Dsystem(label) {
       context.strokeStyle = colorGradient
       context.stroke()
       context.closePath()
+    }
+
+    // Render stroked text.
+    for (let i = 0; i < gizmo.buffer.texts.length; i += 1) {
+      const affine = gizmo.buffer.textAffines[i]
+      const color = gizmo.buffer.textColors[i]
+
+      context.save()
+      context.transform(affine.a, affine.b, affine.c, affine.d, affine.x, affine.y)
+      context.scale(1, -1)
+      context.textAlign = mapTextAlign(gizmo.buffer.textAlignments[i])
+      context.font = `${gizmo.buffer.textSizes[i]}px sans-serif`
+      context.strokeStyle = `rgba(${color.r * 255},${color.g * 255},${color.b * 255},${color.a})`
+      context.strokeText(gizmo.buffer.texts[i], 0, 0)
+      context.restore()
+    }
+
+    // Render filled text.
+    for (let i = 0; i < gizmo.buffer.fillTexts.length; i += 1) {
+      const affine = gizmo.buffer.fillTextAffines[i]
+      const color = gizmo.buffer.fillTextColors[i]
+
+      context.save()
+      context.transform(affine.a, affine.b, affine.c, affine.d, affine.x, affine.y)
+      context.scale(1, -1)
+      context.textAlign = mapTextAlign(gizmo.buffer.fillTextAlignments[i])
+      context.font = `${gizmo.buffer.fillTextSizes[i]}px sans-serif`
+      context.fillStyle = `rgba(${color.r * 255},${color.g * 255},${color.b * 255},${color.a})`
+      context.fillText(gizmo.buffer.fillTexts[i], 0, 0)
+      context.restore()
     }
 
     gizmo.buffer.clear()
@@ -273,4 +340,23 @@ function mapStyle(style, width = 1, spacing = width) {
   }
 
   return []
+}
+
+/**
+ * @param {GizmoTextAlign} align
+ * @returns {CanvasTextAlign}
+ */
+function mapTextAlign(align) {
+  switch (align) {
+    case GizmoTextAlign.Center:
+      return 'center'
+
+    case GizmoTextAlign.Right:
+      return 'right'
+
+    case GizmoTextAlign.Left:
+      return 'left'
+  }
+
+  return 'left'
 }

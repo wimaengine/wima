@@ -1,7 +1,7 @@
 /** @import { Constructor } from '@wimaengine/type' */
 import { Color } from '@wimaengine/color'
 import { Affine2, Affine3, Vector2, Vector3, BVector2, TAU, Rotary } from '@wimaengine/math'
-import { GizmoSettings } from './settings'
+import { GizmoSettings, GizmoTextAlign } from './settings'
 
 /**
  * Collects positions and colors for immediate-mode drawing.
@@ -13,14 +13,25 @@ import { GizmoSettings } from './settings'
  * Positions are stored in {@linkcode GizmoBuffer#positions}, and matching colors
  * are stored in {@linkcode GizmoBuffer#colors}. The renderer reads
  * these arrays in pairs. Strip positions and colors are stored in
- * {@linkcode GizmoBuffer#stripPositions} and {@linkcode GizmoBuffer#stripColors}; a
- * strip is ended by the NaN sentinel that the gizmo helpers append.
+ * {@linkcode GizmoBuffer#polylinePositions} and {@linkcode GizmoBuffer#polylineColors}; a
+ * polyline is ended by the NaN sentinel that the gizmo helpers append.
+ * Filled triangle-strip positions and colors are stored in
+ * {@linkcode GizmoBuffer#fillPositions} and {@linkcode GizmoBuffer#fillColors}; a
+ * strip is ended by the same NaN sentinel convention.
+ * Text, text transforms, and text colors are stored in
+ * {@linkcode GizmoBuffer#texts}, {@linkcode GizmoBuffer#textAffines}, and
+ * {@linkcode GizmoBuffer#textColors}, and {@linkcode GizmoBuffer#textAlignments};
+ * text sizes are stored in {@linkcode GizmoBuffer#textSizes};
+ * filled text uses the corresponding {@linkcode GizmoBuffer#fillTexts},
+ * {@linkcode GizmoBuffer#fillTextAffines}, {@linkcode GizmoBuffer#fillTextColors},
+ * {@linkcode GizmoBuffer#fillTextAlignments}, and {@linkcode GizmoBuffer#fillTextSizes}
+ * arrays.
  *
  * A gizmo resource owns its buffer, so application code normally adds drawing
  * through methods such as {@linkcode Gizmo2D#line} or
- * {@linkcode Gizmo2D#lineStrip} rather than pushing directly. Call
+ * {@linkcode Gizmo2D#polyline} rather than pushing directly. Call
  * {@linkcode GizmoBuffer#clear} to discard the current drawing data. It sets the
- * length of all four arrays to `0`, preserving the array instances and
+ * length of all twelve arrays to `0`, preserving the array instances and
  * returning `undefined`.
  *
  * @template T
@@ -30,7 +41,7 @@ import { GizmoSettings } from './settings'
  * const buffer = gizmo.buffer
  * buffer.positions.push(start, end)
  * buffer.colors.push(Color.WHITE, Color.WHITE)
- * buffer.clear() // empties all four arrays
+ * buffer.clear() // empties all six arrays
  * ```
  */
 export class GizmoBuffer {
@@ -48,19 +59,109 @@ export class GizmoBuffer {
   /**
    * @type {T[]}
    */
-  stripPositions = []
+  polylinePositions = []
 
   /**
    * @type {Color[]}
    */
-  stripColors = []
+  polylineColors = []
+
+  /**
+   * Vertex positions for filled triangle strips.
+   *
+   * @type {T[]}
+   */
+  fillPositions = []
+
+  /**
+   * Colors corresponding to {@linkcode GizmoBuffer#fillPositions}.
+   *
+   * @type {Color[]}
+   */
+  fillColors = []
+
+  /**
+   * Text strings rendered with the canvas stroke-text operation.
+   *
+   * @type {string[]}
+   */
+  texts = []
+
+  /**
+   * Affine transforms corresponding to {@linkcode GizmoBuffer#texts}.
+   *
+   * @type {Affine2[]}
+   */
+  textAffines = []
+
+  /**
+   * Colors corresponding to {@linkcode GizmoBuffer#texts}.
+   *
+   * @type {Color[]}
+   */
+  textColors = []
+
+  /**
+   * Horizontal alignments corresponding to {@linkcode GizmoBuffer#texts}.
+   *
+   * @type {GizmoTextAlign[]}
+   */
+  textAlignments = []
+
+  /**
+   * Font sizes corresponding to {@linkcode GizmoBuffer#texts}.
+   *
+   * @type {number[]}
+   */
+  textSizes = []
+
+  /**
+   * Text strings rendered with the canvas fill-text operation.
+   *
+   * @type {string[]}
+   */
+  fillTexts = []
+
+  /**
+   * Affine transforms corresponding to {@linkcode GizmoBuffer#fillTexts}.
+   *
+   * @type {Affine2[]}
+   */
+  fillTextAffines = []
+
+  /**
+   * Colors corresponding to {@linkcode GizmoBuffer#fillTexts}.
+   *
+   * @type {Color[]}
+   */
+  fillTextColors = []
+
+  /**
+   * Horizontal alignments corresponding to {@linkcode GizmoBuffer#fillTexts}.
+   *
+   * @type {GizmoTextAlign[]}
+   */
+  fillTextAlignments = []
+
+  /**
+   * Font sizes corresponding to {@linkcode GizmoBuffer#fillTexts}.
+   *
+   * @type {number[]}
+   */
+  fillTextSizes = []
 
   /**
    * Removes all submitted drawing data from the buffer.
    *
    * This sets the length of {@linkcode GizmoBuffer#positions},
-   * {@linkcode GizmoBuffer#colors}, {@linkcode GizmoBuffer#stripPositions}, and
-   * {@linkcode GizmoBuffer#stripColors} to `0`. The four array
+   * {@linkcode GizmoBuffer#colors}, {@linkcode GizmoBuffer#polylinePositions},
+   * {@linkcode GizmoBuffer#polylineColors}, {@linkcode GizmoBuffer#fillPositions},
+   * {@linkcode GizmoBuffer#fillColors}, {@linkcode GizmoBuffer#texts},
+   * {@linkcode GizmoBuffer#textAffines}, {@linkcode GizmoBuffer#textColors},
+   * {@linkcode GizmoBuffer#textAlignments}, {@linkcode GizmoBuffer#fillTexts},
+   * {@linkcode GizmoBuffer#fillTextAffines}, {@linkcode GizmoBuffer#fillTextColors}, and
+   * {@linkcode GizmoBuffer#fillTextAlignments}, {@linkcode GizmoBuffer#textSizes}, and
+   * {@linkcode GizmoBuffer#fillTextSizes} to `0`. The sixteen array
    * instances keep their identity and remain usable after the call.
    *
    * @returns {void}
@@ -68,8 +169,20 @@ export class GizmoBuffer {
   clear() {
     this.positions.length = 0
     this.colors.length = 0
-    this.stripPositions.length = 0
-    this.stripColors.length = 0
+    this.polylinePositions.length = 0
+    this.polylineColors.length = 0
+    this.fillPositions.length = 0
+    this.fillColors.length = 0
+    this.texts.length = 0
+    this.textAffines.length = 0
+    this.textColors.length = 0
+    this.textAlignments.length = 0
+    this.textSizes.length = 0
+    this.fillTexts.length = 0
+    this.fillTextAffines.length = 0
+    this.fillTextColors.length = 0
+    this.fillTextAlignments.length = 0
+    this.fillTextSizes.length = 0
   }
 }
 
@@ -84,7 +197,7 @@ export class GizmoBuffer {
  * that needs to inspect the label.
  *
  * The resource keeps its current drawing transform, collects transformed line
- * and strip vertices in {@linkcode Gizmo2D#buffer}, and uses
+ * and polyline vertices in {@linkcode Gizmo2D#buffer}, and uses
  * {@linkcode Gizmo2D#settings} for line width, cap, join, and dash behavior. Use
  * {@linkcode Gizmo2D#reset}, {@linkcode Gizmo2D#setTransform}, and the transform
  * helpers to position subsequent shapes; use primitive helpers such as
@@ -157,9 +270,12 @@ export class Gizmo2D {
 
   /**
    * @param {Affine2} matrix
+   * @returns {this}
    */
   setTransform(matrix) {
     this.transformation.copy(matrix)
+
+    return this
   }
 
   /**
@@ -167,7 +283,7 @@ export class Gizmo2D {
    * @returns {this}
    */
   transform(matrix) {
-    this.transformation.multiply(matrix)
+    Affine2.multiply(this.transformation, matrix, this.transformation)
 
     return this
   }
@@ -178,7 +294,7 @@ export class Gizmo2D {
    * @returns {this}
    */
   translate(x, y) {
-    this.transformation.translate(new Vector2(x, y))
+    Affine2.translate(this.transformation, new Vector2(x, y), this.transformation)
 
     return this
   }
@@ -188,7 +304,7 @@ export class Gizmo2D {
    * @returns {this}
    */
   rotate(angle) {
-    this.transformation.rotate(Rotary.fromAngle(angle))
+    Affine2.rotate(this.transformation, Rotary.fromAngle(angle), this.transformation)
 
     return this
   }
@@ -199,7 +315,38 @@ export class Gizmo2D {
    * @returns {this}
    */
   scale(x, y) {
-    this.transformation.scale(new Vector2(x, y))
+    Affine2.scale(this.transformation, new Vector2(x, y), this.transformation)
+
+    return this
+  }
+
+  /**
+   * @param {Vector2} translation
+   * @param {Rotary} orientation
+   * @param {Vector2} scale
+   * @returns {this}
+   */
+  compose(translation, orientation, scale) {
+    Affine2.compose(translation, orientation, scale, this.transformation)
+
+    return this
+  }
+
+  /**
+   * Draws stroked text at the current transform's origin.
+   *
+   * @param {string} value
+   * @param {Color} color
+   * @param {GizmoTextAlign} align
+   * @param {number} size
+   * @returns {this}
+   */
+  text(value, color = Color.WHITE, align = GizmoTextAlign.Left, size = 16) {
+    this.buffer.texts.push(value)
+    this.buffer.textAffines.push(Affine2.copy(this.transformation, new Affine2()))
+    this.buffer.textColors.push(color)
+    this.buffer.textAlignments.push(align)
+    this.buffer.textSizes.push(size)
 
     return this
   }
@@ -238,34 +385,53 @@ export class Gizmo2D {
   }
 
   /**
-   * @param {Vector2[]} strips
+   * Draws filled text at the current transform's origin.
+   *
+   * @param {string} value
    * @param {Color} color
+   * @param {GizmoTextAlign} align
+   * @param {number} size
    * @returns {this}
    */
-  lineStrip(strips, color) {
-    for (let i = 0; i < strips.length; i++) {
-      this.buffer.stripPositions.push(this.transformation.transform(strips[i]))
-      this.buffer.stripColors.push(color)
-    }
-
-    this.buffer.stripPositions.push(new Vector2(NaN, NaN))
-    this.buffer.stripColors.push(new Color(NaN, NaN, NaN, NaN))
+  fillText(value, color = Color.WHITE, align = GizmoTextAlign.Left, size = 16) {
+    this.buffer.fillTexts.push(value)
+    this.buffer.fillTextAffines.push(Affine2.copy(this.transformation, new Affine2()))
+    this.buffer.fillTextColors.push(color)
+    this.buffer.fillTextAlignments.push(align)
+    this.buffer.fillTextSizes.push(size)
 
     return this
   }
 
   /**
-   * @param {[Vector2,Color][]} strips
+   * @param {Vector2[]} points
+   * @param {Color} color
    * @returns {this}
    */
-  lineStripGradient(strips) {
-    for (let i = 0; i < strips.length; i++) {
-      this.buffer.stripPositions.push(this.transformation.transform(strips[i][0]))
-      this.buffer.stripColors.push(strips[i][1])
+  polyline(points, color) {
+    for (let i = 0; i < points.length; i++) {
+      this.buffer.polylinePositions.push(this.transformation.transform(points[i]))
+      this.buffer.polylineColors.push(color)
     }
 
-    this.buffer.stripPositions.push(new Vector2(NaN, NaN))
-    this.buffer.stripColors.push(new Color(NaN, NaN, NaN, NaN))
+    this.buffer.polylinePositions.push(new Vector2(NaN, NaN))
+    this.buffer.polylineColors.push(new Color(NaN, NaN, NaN, NaN))
+
+    return this
+  }
+
+  /**
+   * @param {[Vector2,Color][]} points
+   * @returns {this}
+   */
+  polylineGradient(points) {
+    for (let i = 0; i < points.length; i++) {
+      this.buffer.polylinePositions.push(this.transformation.transform(points[i][0]))
+      this.buffer.polylineColors.push(points[i][1])
+    }
+
+    this.buffer.polylinePositions.push(new Vector2(NaN, NaN))
+    this.buffer.polylineColors.push(new Color(NaN, NaN, NaN, NaN))
 
     return this
   }
@@ -290,9 +456,197 @@ export class Gizmo2D {
       positions.push(position)
     }
 
-    this.lineStrip(positions, color)
+    this.polyline(positions, color)
 
     return this
+  }
+
+  /**
+   * Draws a sector outline from the origin.
+   *
+   * @param {number} arcStart
+   * @param {number} arcEnd
+   * @param {number} radiusX
+   * @param {number} radiusY
+   * @param {Color} color
+   * @param {number} resolution
+   * @returns {this}
+   */
+  sector(arcStart, arcEnd, radiusX = 1, radiusY = 1, color = Color.WHITE.clone(), resolution = 32) {
+    const spacing = (arcEnd - arcStart) / resolution
+    const radii = new Vector2(radiusX, radiusY)
+    const positions = [Vector2.Zero.clone()]
+
+    for (let i = 0; i <= resolution; i++) {
+      positions.push(Vector2.fromAngle(arcStart + spacing * i).multiply(radii))
+    }
+
+    positions.push(Vector2.Zero.clone())
+    this.polyline(positions, color)
+
+    return this
+  }
+
+  /**
+   * Draws a filled sector from the origin.
+   *
+   * @param {number} arcStart
+   * @param {number} arcEnd
+   * @param {number} radiusX
+   * @param {number} radiusY
+   * @param {Color} color
+   * @param {number} resolution
+   * @returns {this}
+   */
+  fillSector(arcStart, arcEnd, radiusX = 1, radiusY = 1, color = Color.WHITE.clone(), resolution = 32) {
+    const spacing = (arcEnd - arcStart) / resolution
+    const radii = new Vector2(radiusX, radiusY)
+    const boundary = []
+
+    for (let i = 0; i <= resolution; i++) {
+      boundary.push(Vector2.fromAngle(arcStart + spacing * i).multiply(radii))
+    }
+
+    return this.fillPolygon([Vector2.Zero.clone(), ...boundary], color)
+  }
+
+  /**
+   * Draws a closed polygon outline.
+   *
+   * @param {Vector2[]} vertices
+   * @param {Color} color
+   * @returns {this}
+   */
+  polygon(vertices, color = Color.WHITE) {
+    if (!vertices[0]) return this
+
+    this.polyline([...vertices, vertices[0]], color)
+
+    return this
+  }
+
+  /**
+   * Draws a filled convex polygon.
+   *
+   * @param {Vector2[]} vertices
+   * @param {Color} color
+   * @returns {this}
+   */
+  fillPolygon(vertices, color = Color.WHITE) {
+    if (vertices.length < 3) return this
+
+    const positions = [vertices[0], vertices[1], vertices[2]]
+    for (let i = 1; i < vertices.length - 2; i++) {
+      positions.push(vertices[i + 1], vertices[0], vertices[i + 1], vertices[i + 2])
+    }
+
+    for (let i = 0; i < positions.length; i++) {
+      this.buffer.fillPositions.push(this.transformation.transform(positions[i]))
+      this.buffer.fillColors.push(color)
+    }
+
+    this.buffer.fillPositions.push(new Vector2(NaN, NaN))
+    this.buffer.fillColors.push(new Color(NaN, NaN, NaN, NaN))
+
+    return this
+  }
+
+  /**
+   * Draws a capsule centered on the origin and aligned to the local Y axis.
+   *
+   * @param {number} radius
+   * @param {number} halfLength
+   * @param {Color} color
+   * @param {number} resolution
+   * @returns {this}
+   */
+  capsule(radius = 1, halfLength = 1, color = Color.WHITE, resolution = 16) {
+    const positions = [
+      new Vector2(radius, -halfLength),
+      new Vector2(radius, halfLength),
+    ]
+
+    for (let i = 1; i <= resolution; i++) {
+      const angle = Math.PI * i / resolution
+      positions.push(Vector2.fromAngle(angle).multiplyScalar(radius).add(new Vector2(0, halfLength)))
+    }
+
+    positions.push(new Vector2(-radius, -halfLength))
+    for (let i = 1; i <= resolution; i++) {
+      const angle = Math.PI + Math.PI * i / resolution
+      positions.push(Vector2.fromAngle(angle).multiplyScalar(radius).add(new Vector2(0, -halfLength)))
+    }
+
+    this.polyline(positions, color)
+
+    return this
+  }
+
+  /**
+   * Draws a filled capsule centered on the origin and aligned to the local Y axis.
+   *
+   * @param {number} radius
+   * @param {number} halfLength
+   * @param {Color} color
+   * @param {number} resolution
+   * @returns {this}
+   */
+  fillCapsule(radius = 1, halfLength = 1, color = Color.WHITE, resolution = 16) {
+    const boundary = [
+      new Vector2(radius, -halfLength),
+      new Vector2(radius, halfLength),
+    ]
+
+    for (let i = 1; i <= resolution; i++) {
+      const angle = Math.PI * i / resolution
+      boundary.push(Vector2.fromAngle(angle).multiplyScalar(radius).add(new Vector2(0, halfLength)))
+    }
+
+    boundary.push(new Vector2(-radius, -halfLength))
+    for (let i = 1; i < resolution; i++) {
+      const angle = Math.PI + Math.PI * i / resolution
+      boundary.push(Vector2.fromAngle(angle).multiplyScalar(radius).add(new Vector2(0, -halfLength)))
+    }
+
+    return this.fillPolygon([Vector2.Zero.clone(), ...boundary, boundary[0]], color)
+  }
+
+  /**
+   * @param {number} base
+   * @param {number} height
+   * @param {number} [baseRatio=0]
+   * @param {Color} color
+   * @returns {this}
+   */
+  triangle(base = 1, height = 1, baseRatio = 0, color = Color.WHITE) {
+    this.polyline(
+      [
+        new Vector2(-base / 2, -height / 2),
+        new Vector2(base / 2, -height / 2),
+        new Vector2(base / 2 * baseRatio, height / 2),
+        new Vector2(-base / 2, -height / 2),
+      ],
+      color,
+    )
+
+    return this
+  }
+
+  /**
+   * Draws a filled triangle.
+   *
+   * @param {number} base
+   * @param {number} height
+   * @param {number} [baseRatio=0]
+   * @param {Color} color
+   * @returns {this}
+   */
+  fillTriangle(base = 1, height = 1, baseRatio = 0, color = Color.WHITE) {
+    return this.fillPolygon([
+      new Vector2(-base / 2, -height / 2),
+      new Vector2(base / 2, -height / 2),
+      new Vector2(base / 2 * baseRatio, height / 2),
+    ], color)
   }
 
   /**
@@ -306,11 +660,30 @@ export class Gizmo2D {
     length = 1,
     color = Color.RED.clone()
   ) {
-    this.line(
-      Vector2.Zero.clone(),
-      direction.multiplyScalar(length),
-      color
+    const directionLength = direction.magnitude()
+    if (directionLength === 0 || length === 0) return this
+
+    const normalizedDirection = Vector2.normalize(direction)
+    const tip = Vector2.multiplyScalar(normalizedDirection, length)
+    const headLength = Math.abs(length) * 0.25
+    const headWidth = headLength * 0.6
+    const headBase = Vector2.multiplyScalar(
+      normalizedDirection,
+      length - Math.sign(length) * headLength,
     )
+    const headOffset = new Vector2(
+      -normalizedDirection.y * headWidth,
+      normalizedDirection.x * headWidth,
+    )
+
+    this.polyline([
+      Vector2.Zero.clone(),
+      headBase,
+      Vector2.add(headBase, headOffset),
+      tip,
+      Vector2.subtract(headBase, headOffset),
+      headBase,
+    ], color)
 
     return this
   }
@@ -386,13 +759,27 @@ export class Gizmo2D {
   }
 
   /**
+   * Draws a filled circle.
+   *
+   * @param {number} radius
+   * @param {Color} color
+   * @param {number} resolution
+   * @returns {this}
+   */
+  fillCircle(radius, color, resolution = 32) {
+    this.fillEllipse(radius, radius, color, resolution)
+
+    return this
+  }
+
+  /**
    * @param {number} halfWidth
    * @param {number} halfHeight
    * @param {Color} color
    * @returns {this}
    */
-  aabb(halfWidth, halfHeight, color) {
-    this.lineStrip(
+  rect(halfWidth, halfHeight, color) {
+    this.polyline(
       [
         new Vector2(-halfWidth, -halfHeight),
         new Vector2(-halfWidth, halfHeight),
@@ -407,6 +794,23 @@ export class Gizmo2D {
   }
 
   /**
+   * Draws a filled rectangle centered on the origin.
+   *
+   * @param {number} halfWidth
+   * @param {number} halfHeight
+   * @param {Color} color
+   * @returns {this}
+   */
+  fillRect(halfWidth, halfHeight, color) {
+    return this.fillPolygon([
+      new Vector2(-halfWidth, -halfHeight),
+      new Vector2(-halfWidth, halfHeight),
+      new Vector2(halfWidth, halfHeight),
+      new Vector2(halfWidth, -halfHeight),
+    ], color)
+  }
+
+  /**
    * @param {number} radiusX
    * @param {number} radiusY
    * @param {Color} color
@@ -417,6 +821,27 @@ export class Gizmo2D {
     this.arc(0, TAU, radiusX, radiusY, color, resolution)
 
     return this
+  }
+
+  /**
+   * Draws a filled ellipse.
+   *
+   * @param {number} radiusX
+   * @param {number} radiusY
+   * @param {Color} color
+   * @param {number} resolution
+   * @returns {this}
+   */
+  fillEllipse(radiusX, radiusY, color, resolution = 32) {
+    const spacing = TAU / resolution
+    const radii = new Vector2(radiusX, radiusY)
+    const boundary = []
+
+    for (let i = 0; i < resolution; i++) {
+      boundary.push(Vector2.fromAngle(spacing * i).multiply(radii))
+    }
+
+    return this.fillPolygon([Vector2.Zero.clone(), ...boundary, boundary[0]], color)
   }
 }
 

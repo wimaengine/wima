@@ -2,10 +2,10 @@
 /** @import {SystemFunc} from '@wimaengine/ecs' */
 
 import { Color } from '@wimaengine/color'
-import { Vector2, Vector3 } from '@wimaengine/math'
+import { Affine2, Vector2, Vector3 } from '@wimaengine/math'
 import { ArrayInfo, EnumInfo, Field, StructInfo, TypeRegistry } from '@wimaengine/reflect'
 import { setTypeId, typeid, typeidGeneric } from '@wimaengine/type'
-import { Gizmo2D, Gizmo3D, GizmoBuffer, GizmoLineCap, GizmoLineJoin, GizmoLineStyle, GizmoSettings } from '../core'
+import { Gizmo2D, Gizmo3D, GizmoBuffer, GizmoLineCap, GizmoLineJoin, GizmoLineStyle, GizmoSettings, GizmoTextAlign } from '../core'
 
 /**
  * Creates the Startup system that registers reflection metadata for 2D gizmos.
@@ -19,7 +19,9 @@ import { Gizmo2D, Gizmo3D, GizmoBuffer, GizmoLineCap, GizmoLineJoin, GizmoLineSt
  * `GizmoLineJoin`, and `GizmoLineStyle` (created with `setTypeId`) with
  * {@linkcode EnumInfo}. It registers `GizmoBuffer<Vector2>` with fields
  * `positions: Array<Vector2>`, `colors: Array<Color>`,
- * `stripPositions: Array<Vector2>`, and `stripColors: Array<Color>`. It
+ * `polylinePositions: Array<Vector2>`, `polylineColors: Array<Color>`,
+ * `fillPositions: Array<Vector2>`, `fillColors: Array<Color>`, text arrays,
+ * text affine arrays, text color arrays, and text alignment arrays. It
  * registers {@linkcode GizmoSettings} with numeric `lineWidth` and
  * `lineDashOffset` fields plus enum-typed `lineCap`, `lineJoin`, and
  * `lineStyle` fields. Finally, it registers the generic ID produced by
@@ -52,22 +54,42 @@ export function registerGizmo2DTypes(label) {
 
     const vector2ArrayId = typeidGeneric(Array, [Vector2])
     const colorArrayId = typeidGeneric(Array, [Color])
+    const stringArrayId = typeidGeneric(Array, [String])
+    const affine2ArrayId = typeidGeneric(Array, [Affine2])
+    const numberArrayId = typeidGeneric(Array, [Number])
     const gizmoBuffer2DId = typeidGeneric(GizmoBuffer, [Vector2])
     const gizmoLineCapId = setTypeId('GizmoLineCap')
     const gizmoLineJoinId = setTypeId('GizmoLineJoin')
     const gizmoLineStyleId = setTypeId('GizmoLineStyle')
+    const gizmoTextAlignId = setTypeId('GizmoTextAlign')
 
     registry.registerTypeId(vector2ArrayId, new ArrayInfo(typeid(Vector2)))
     registry.registerTypeId(colorArrayId, new ArrayInfo(typeid(Color)))
+    registry.registerTypeId(stringArrayId, new ArrayInfo(typeid(String)))
+    registry.registerTypeId(affine2ArrayId, new ArrayInfo(typeid(Affine2)))
+    registry.registerTypeId(numberArrayId, new ArrayInfo(typeid(Number)))
     registry.registerTypeId(gizmoLineCapId, new EnumInfo(GizmoLineCap))
     registry.registerTypeId(gizmoLineJoinId, new EnumInfo(GizmoLineJoin))
     registry.registerTypeId(gizmoLineStyleId, new EnumInfo(GizmoLineStyle))
+    registry.registerTypeId(gizmoTextAlignId, new EnumInfo(GizmoTextAlign))
 
     registry.registerTypeId(gizmoBuffer2DId, new StructInfo({
       positions: new Field(vector2ArrayId),
       colors: new Field(colorArrayId),
-      stripPositions: new Field(vector2ArrayId),
-      stripColors: new Field(colorArrayId)
+      polylinePositions: new Field(vector2ArrayId),
+      polylineColors: new Field(colorArrayId),
+      fillPositions: new Field(vector2ArrayId),
+      fillColors: new Field(colorArrayId),
+      texts: new Field(stringArrayId),
+      textAffines: new Field(affine2ArrayId),
+      textColors: new Field(colorArrayId),
+      textAlignments: new Field(numberArrayId),
+      textSizes: new Field(numberArrayId),
+      fillTexts: new Field(stringArrayId),
+      fillTextAffines: new Field(affine2ArrayId),
+      fillTextColors: new Field(colorArrayId),
+      fillTextAlignments: new Field(numberArrayId),
+      fillTextSizes: new Field(numberArrayId)
     }))
     registry.register(GizmoSettings, new StructInfo({
       lineWidth: new Field(typeid(Number)),
@@ -97,7 +119,9 @@ export function registerGizmo2DTypes(label) {
  * `GizmoLineJoin`, and `GizmoLineStyle` (created with `setTypeId`) with
  * {@linkcode EnumInfo}. It registers `GizmoBuffer<Vector3>` with fields
  * `positions: Array<Vector3>`, `colors: Array<Color>`,
- * `stripPositions: Array<Vector3>`, and `stripColors: Array<Color>`. It
+ * `polylinePositions: Array<Vector3>`, `polylineColors: Array<Color>`,
+ * `fillPositions: Array<Vector3>`, `fillColors: Array<Color>`, text arrays,
+ * text affine arrays, text color arrays, and text alignment arrays. It
  * registers {@linkcode GizmoSettings} with numeric `lineWidth` and
  * `lineDashOffset` fields plus enum-typed `lineCap`, `lineJoin`, and
  * `lineStyle` fields. Finally, it registers the generic ID produced by
@@ -130,22 +154,42 @@ export function registerGizmo3DTypes(label) {
 
     const vector3ArrayId = typeidGeneric(Array, [Vector3])
     const colorArrayId = typeidGeneric(Array, [Color])
+    const stringArrayId = typeidGeneric(Array, [String])
+    const affine2ArrayId = typeidGeneric(Array, [Affine2])
+    const numberArrayId = typeidGeneric(Array, [Number])
     const gizmoBuffer3DId = typeidGeneric(GizmoBuffer, [Vector3])
     const gizmoLineCapId = setTypeId('GizmoLineCap')
     const gizmoLineJoinId = setTypeId('GizmoLineJoin')
     const gizmoLineStyleId = setTypeId('GizmoLineStyle')
+    const gizmoTextAlignId = setTypeId('GizmoTextAlign')
 
     registry.registerTypeId(vector3ArrayId, new ArrayInfo(typeid(Vector3)))
     registry.registerTypeId(colorArrayId, new ArrayInfo(typeid(Color)))
+    registry.registerTypeId(stringArrayId, new ArrayInfo(typeid(String)))
+    registry.registerTypeId(affine2ArrayId, new ArrayInfo(typeid(Affine2)))
+    registry.registerTypeId(numberArrayId, new ArrayInfo(typeid(Number)))
     registry.registerTypeId(gizmoLineCapId, new EnumInfo(GizmoLineCap))
     registry.registerTypeId(gizmoLineJoinId, new EnumInfo(GizmoLineJoin))
     registry.registerTypeId(gizmoLineStyleId, new EnumInfo(GizmoLineStyle))
+    registry.registerTypeId(gizmoTextAlignId, new EnumInfo(GizmoTextAlign))
 
     registry.registerTypeId(gizmoBuffer3DId, new StructInfo({
       positions: new Field(vector3ArrayId),
       colors: new Field(colorArrayId),
-      stripPositions: new Field(vector3ArrayId),
-      stripColors: new Field(colorArrayId)
+      polylinePositions: new Field(vector3ArrayId),
+      polylineColors: new Field(colorArrayId),
+      fillPositions: new Field(vector3ArrayId),
+      fillColors: new Field(colorArrayId),
+      texts: new Field(stringArrayId),
+      textAffines: new Field(affine2ArrayId),
+      textColors: new Field(colorArrayId),
+      textAlignments: new Field(numberArrayId),
+      textSizes: new Field(numberArrayId),
+      fillTexts: new Field(stringArrayId),
+      fillTextAffines: new Field(affine2ArrayId),
+      fillTextColors: new Field(colorArrayId),
+      fillTextAlignments: new Field(numberArrayId),
+      fillTextSizes: new Field(numberArrayId)
     }))
     registry.register(GizmoSettings, new StructInfo({
       lineWidth: new Field(typeid(Number)),
