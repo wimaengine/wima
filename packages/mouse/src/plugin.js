@@ -132,7 +132,7 @@ function updateMouse(world) {
   }
 
   wheels.each((event) => {
-    if (event.data.pointerType === 'mouse') mouse.wheelDelta.add(event.data.delta)
+    if (event.data.pointerType === 'mouse') Vector3.add(mouse.wheelDelta, event.data.delta, mouse.wheelDelta)
   })
 }
 
