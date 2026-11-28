@@ -2,7 +2,7 @@
 /** @import { TupleConstructor } from '@wimaengine/type' */
 import { CommandQueue } from '@wimaengine/command'
 import { assert } from '@wimaengine/logger'
-import { CloneCommand, SpawnCommand, DespawnCommand, RemoveCommand, ReparentCommand } from '../commands'
+import { CloneCommand, SpawnCommand, DespawnCommand, RemoveCommand, ReparentCommand, SetComponentCommand } from '../commands'
 
 const entityerror = 'Spawn an entity using `Entity.spawn()` before using '
 
@@ -162,6 +162,25 @@ export class EntityCommands {
   insert(component) {
     assert(this.buffered, `${entityerror}\`EntityCommands.insert()\`.`)
     this.buffered.insert(component)
+
+    return this
+  }
+
+  /**
+   * Sets a component or one value inside an existing component.
+   *
+   * An empty path replaces the component. Non-empty paths address nested live
+   * values, for example `['x']` or `['transform', 'position', 'x']`.
+   *
+   * @param {import('@wimaengine/type').Constructor} componentType
+   * @param {unknown} value
+   * @param {(number|string)[]} [path=[]]
+   * @returns {this}
+   */
+  set(componentType, value, path = []) {
+    assert(this.buffered, `${entityerror}\`EntityCommands.set()\`.`)
+    this.queue.add(new SetComponentCommand(this.buffered.entity, componentType, value, path))
+    this.buffered = null
 
     return this
   }

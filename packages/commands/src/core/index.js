@@ -1,2 +1,2 @@
 export * from './entity'
-export * from './resourcecommands'
+export * from './resource'

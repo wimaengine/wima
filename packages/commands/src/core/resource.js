@@ -1,7 +1,8 @@
 /** @import { Constructor, TypeId } from '@wimaengine/type' */
 /** @import { World } from '@wimaengine/ecs' */
 import { CommandQueue } from '@wimaengine/command'
-import { AddResourceCommand, RemoveResourceCommand, SetResourceAliasCommand } from '../commands'
+import { typeid } from '@wimaengine/type'
+import { AddResourceCommand, RemoveResourceCommand, SetResourceAliasCommand, SetResourceCommand } from '../commands'
 
 /**
  * Builds resource changes for deferred application to a world.
@@ -58,6 +59,38 @@ export class ResourceCommands {
    */
   add(resource) {
     this.buffer.add(new AddResourceCommand(resource))
+
+    return this
+  }
+
+  /**
+   * Sets a resource or one value inside an existing resource.
+   *
+   * An empty path replaces the resource. Non-empty paths address nested live
+   * values, for example `['enabled']` or `['display', 'theme']`.
+   *
+   * @param {Constructor} resourceType
+   * @param {unknown} value
+   * @param {(number|string)[]} [path=[]]
+   * @returns {this}
+   */
+  set(resourceType, value, path = []) {
+    return this.setByTypeId(typeid(resourceType), value, path)
+  }
+
+  /**
+   * Sets a resource or one value inside an existing resource by type ID.
+   *
+   * An empty path replaces the resource. Non-empty paths address nested live
+   * values.
+   *
+   * @param {TypeId} resourceType
+   * @param {unknown} value
+   * @param {(number|string)[]} [path=[]]
+   * @returns {this}
+   */
+  setByTypeId(resourceType, value, path = []) {
+    this.buffer.add(new SetResourceCommand(resourceType, value, path))
 
     return this
   }
