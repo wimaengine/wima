@@ -35,8 +35,7 @@ export function setTypeId(name) {
  * differ after minification or if a constructor's name is changed. Use
  * {@linkcode setTypeId} for types without a runtime constructor.
  *
- * @template T
- * @param {Constructor<T>} type - The constructor whose runtime name identifies the type.
+ * @param {Constructor} type - The constructor whose runtime name identifies the type.
  * @returns {TypeId} The constructor's `.name` value marked as a `TypeId`.
  *
  * @example

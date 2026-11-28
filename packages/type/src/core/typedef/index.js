@@ -6,12 +6,26 @@
  */
 
 /**
- * Generic constructable-value alias whose `new` expression returns `T`.
- * The constructor accepts any number of arguments, and `T` defaults to
- * `unknown` when omitted.
+ * Runtime constructable function shape. Primitive constructor factories are
+ * selected by {@linkcode Constructor} for the corresponding primitive type.
+ * The constructor accepts any number of arguments.
+ *
+ * @typedef {{new (...args:any[]):any, prototype:any}} ConstructorFn
+ */
+
+/**
+ * Runtime constructor type for values of `T`. `T` defaults to `unknown` when
+ * omitted.
  *
  * @template [T = unknown]
- * @typedef {new (...args:any[])=>T} Constructor
+ * @typedef {unknown extends T ? ConstructorFn : [T] extends [number] ? [number] extends [T] ? NumberConstructor : {new (...args:any[]):T, prototype:T} : [T] extends [string] ? [string] extends [T] ? StringConstructor : {new (...args:any[]):T, prototype:T} : [T] extends [boolean] ? [boolean] extends [T] ? BooleanConstructor : {new (...args:any[]):T, prototype:T} : [T] extends [bigint] ? [bigint] extends [T] ? any : {new (...args:any[]):T, prototype:T} : {new (...args:any[]):T, prototype:T}} Constructor
+ */
+
+/**
+ * Extracts the instance type produced by a runtime constructor.
+ *
+ * @template {ConstructorFn} T
+ * @typedef {unknown extends T ? never : T extends {prototype:infer U} ? U : never} ConstructorInstanceType
  */
 
 /**
