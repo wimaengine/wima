@@ -34,10 +34,12 @@ export function addSelfToParent(entity, world) {
   const children = world.get(parent.entity, Children)
 
   if (parent.entity.equals(entity)) {
-    throws(`THe entity ${entity.id()} cannot be its own parent!`)
+    throws(`The entity ${entity.id()} cannot be its own parent!`)
   }
   if (children) {
-    children?.add(entity)
+    if (!children.list.some((child) => child.equals(entity))) {
+      children.add(entity)
+    }
   } else {
 
     // Immediate insertion as insert commands on
